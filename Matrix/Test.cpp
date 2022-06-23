@@ -60,10 +60,11 @@ int main()
 	
  	std::cout<<"Multiplication Scalar: \n"<<std::endl;
 	
-	auto s = T::int_<-1>();
-	std::cout<<"Get m3 (1,1): "<<s.Value<<std::endl;
-	auto m11 = s  * m1;
-	std::cout<<"Get m3 (1,1): "<<m10->Get(0,1)<<std::endl;
+	//~ auto s = T::int_<-1>();
+	auto s = Scalar<M>(-5);
+	std::cout<<"Scalar (1,1): "<<s.Get()<<std::endl;
+	auto m11 = s * m1;
+	std::cout<<"Get mS (1,1): "<<m11->Get(0,1)<<std::endl;
 	std::cout<<"END"<<std::endl;
 
     return 0;

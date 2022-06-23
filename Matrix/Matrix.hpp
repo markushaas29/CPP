@@ -227,7 +227,6 @@ public:
 	template<class A>
 	Matrix& operator=(const Matrix<A>& m)
 	{ 
-		Logger::Log<Debug>()<<"Matrix& operator=(const Matrix<A>& m)"<<std::endl;
 		MATRIX_ASSIGMENT<A>::RET::assign(this, &m);
 		return *this; 
 	}
@@ -266,7 +265,7 @@ public:
 	using ElementType = Config::ElementType;
 	using CommaInitializer = Config::CommaInitializer;
 	
-	Scalar(): CheckedMatrix(1, 1), n(0) {  }
+	Scalar(ElementType n_ = 0): CheckedMatrix(1, 1), n(n_) {  }
 	
 	template<class A>
 	Scalar(const Scalar<A>& m){ 	}
@@ -283,10 +282,12 @@ public:
 	
 	std::ostream& Display(std::ostream& out) const	{	return out<<n<<std::endl;	}
 	ElementType Get(const IndexType& i, const IndexType& j) const 
-	{
-		checkBounds(i, j);
+	{	
+		this->checkBounds(i, j);
 		return n;
 	}
+	
+	ElementType Get() const {	return n;	}
 private:	
 	int  n;
 };

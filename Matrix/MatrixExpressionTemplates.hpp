@@ -133,16 +133,14 @@ public:
 	using LeftType = A;
 	using RightType = B;
 	
-	using LeftMatrixType = LeftType::Config::MatrixType;
-	using RightMatrixType = RightType::Config::MatrixType;
-	
 	using Config = MULTIPLY_RESULT_TYPE<LeftType,RightType>::RET::Config;
 	using ElementType = Config::ElementType;
-	using IndexType = Config::IndexType;
-	
+	using IndexType = Config::IndexType;	
 private:
 	const LeftType& left_;
 	const RightType& right_;
+	//~ const T::int_<B> scalar_;
+	const int scalar_ = 0;
 	
 	template<class C, class D>
 	MultiplicationExpression(const MultiplicationExpression<C,D>& expr)	{ 	}
@@ -158,6 +156,9 @@ public:
 	template<class M1, class M2>
 	MultiplicationExpression(const Matrix<M1>& m1, const Matrix<M2>& m2): left_(m1),right_(m2), rows_(m1.Rows()), cols_(m2.Cols()){ ParameterCheck(m1, m2); }
 	
+	template<class S, class M2>
+	MultiplicationExpression(const S& m1, const Matrix<M2>& m2): scalar_(m1.Get()), left_(m1),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
+	
 	template<class Expr, class M2>
 	MultiplicationExpression(const BinaryExpression<Expr>& expr, const Matrix<M2>& m2): left_(expr), right_(m2), rows_(expr.Rows()), cols_(m2.Cols()){ ParameterCheck(expr, m2); }
 	
@@ -166,7 +167,13 @@ public:
 	
 	template<class Expr1, class Expr2>
 	MultiplicationExpression(const BinaryExpression<Expr1>& expr1, const BinaryExpression<Expr2> expr2): left_(expr1), right_(expr2), rows_(expr1.Rows()), cols_(expr2.Cols()){	ParameterCheck(expr1, expr2); }
-	ElementType Get(const IndexType& i, const IndexType& j) const {	return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
+	
+	ElementType Get(const IndexType& i, const IndexType& j) const 
+	{	
+		if (scalar_)
+			return scalar_ * right_.Get(i,j);
+		return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
+	}
 	
 	IndexType Rows() const { return rows_ ;}
 	IndexType Cols() const { return cols_ ;}
