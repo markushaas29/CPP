@@ -255,4 +255,40 @@ private:
 	Matrix& operator=(const AdditionExpression<C,D> expr) {	return *this; }
 };
 
+//--------------------------------Matrix------------------------------------------------
+
+template<class CheckedMatrix>
+class Scalar: public CheckedMatrix
+{
+public:
+	using Config = CheckedMatrix::Config;
+	using IndexType = Config::IndexType;
+	using ElementType = Config::ElementType;
+	using CommaInitializer = Config::CommaInitializer;
+	
+	Scalar(): CheckedMatrix(1, 1), n(0) {  }
+	
+	template<class A>
+	Scalar(const Scalar<A>& m){ 	}
+	
+	~Scalar()	{ 	}
+	
+	template<class Expr>
+	Scalar(const BinaryExpression<Expr>& expr): CheckedMatrix(1, 1)	{	expr.Assign(this);}
+	
+	CommaInitializer operator=(const ElementType& v){	return CommaInitializer(*this,v); }	
+	
+	template<class A>
+	Scalar& operator=(const Scalar<A>& m)	{	return *this; 	}
+	
+	std::ostream& Display(std::ostream& out) const	{	return out<<n<<std::endl;	}
+	ElementType Get(const IndexType& i, const IndexType& j) const 
+	{
+		checkBounds(i, j);
+		return n;
+	}
+private:	
+	int  n;
+};
+
 #endif
