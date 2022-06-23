@@ -139,7 +139,6 @@ public:
 private:
 	const LeftType& left_;
 	const RightType& right_;
-	//~ const T::int_<B> scalar_;
 	const int scalar_ = 0;
 	
 	template<class C, class D>
@@ -157,7 +156,10 @@ public:
 	MultiplicationExpression(const Matrix<M1>& m1, const Matrix<M2>& m2): left_(m1),right_(m2), rows_(m1.Rows()), cols_(m2.Cols()){ ParameterCheck(m1, m2); }
 	
 	template<class S, class M2>
-	MultiplicationExpression(const S& m1, const Matrix<M2>& m2): scalar_(m1.Get()), left_(m1),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
+	MultiplicationExpression(const S& s, const Matrix<M2>& m2): scalar_(s.Get()), left_(s),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
+	
+	template<class M1, class S>
+	MultiplicationExpression(const Matrix<M1>& m1, const S& s): scalar_(s.Get()), left_(m1),right_(s), rows_(m1.Rows()), cols_(m1.Cols()){  }
 	
 	template<class Expr, class M2>
 	MultiplicationExpression(const BinaryExpression<Expr>& expr, const Matrix<M2>& m2): left_(expr), right_(m2), rows_(expr.Rows()), cols_(m2.Cols()){ ParameterCheck(expr, m2); }
@@ -170,6 +172,8 @@ public:
 	
 	ElementType Get(const IndexType& i, const IndexType& j) const 
 	{	
+		//~ if (std::is_same<Scalar<A>,LeftType>::value)
+			//~ std::cout<<"A"<<std::endl;
 		if (scalar_)
 			return scalar_ * right_.Get(i,j);
 		return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	

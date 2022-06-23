@@ -49,9 +49,13 @@ inline decltype(auto) operator*(const Matrix<M1>& m1, const Matrix<M2>& m2)
 template<class M1, class M2> 
 inline decltype(auto) operator*(const Scalar<M1>& s, const Matrix<M2>& m2)
 {
-	//~ auto m1 = Matrix<M2>(m2.Rows(), m2.Cols());
-	//~ m1.InitElements(s.Value);
 	return std::make_shared<BinaryExpression<MultiplicationExpression<Scalar<M1>, Matrix<M2>>>>(s, m2);
+}
+
+template<class M1, class M2> 
+inline decltype(auto) operator*(const Matrix<M1>& m1, const Scalar<M2>& s)
+{
+	return std::make_shared<BinaryExpression<MultiplicationExpression<Matrix<M1>, Scalar<M2>>>>(m1,s);
 }
 
 template<class Expr, class M> 

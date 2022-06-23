@@ -63,8 +63,13 @@ int main()
 	//~ auto s = T::int_<-1>();
 	auto s = Scalar<M>(-5);
 	std::cout<<"Scalar (1,1): "<<s.Get()<<std::endl;
+	
 	auto m11 = s * m1;
-	std::cout<<"Get mS (1,1): "<<m11->Get(0,1)<<std::endl;
+	std::cout<<"Get s * m: "<<m11->Get(0,0)<<std::endl;
+	
+	auto m12 = m1 * s;
+	std::cout<<"Get m * s: "<<m12->Get(0,0)<<std::endl;
+	
 	std::cout<<"END"<<std::endl;
 
     return 0;
