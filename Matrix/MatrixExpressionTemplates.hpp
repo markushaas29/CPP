@@ -157,6 +157,9 @@ public:
 	
 	template<class S, class M2>
 	MultiplicationExpression(const S& s, const Matrix<M2>& m2): scalar_(s.Get()), left_(s),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
+
+	template<class S, class Expr>
+	MultiplicationExpression(const S& s, const BinaryExpression<Expr>& expr): left_(s), right_(expr), rows_(expr.Rows()), cols_(expr.Cols()){  std::cout<<"CTOR Binary";}
 	
 	template<class M1, class S>
 	MultiplicationExpression(const Matrix<M1>& m1, const S& s): scalar_(s.Get()), left_(m1),right_(s), rows_(m1.Rows()), cols_(m1.Cols()){  }

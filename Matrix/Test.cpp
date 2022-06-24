@@ -67,8 +67,13 @@ int main()
 	auto m11 = s * m1;
 	std::cout<<"Get s * m: "<<m11->Get(0,0)<<std::endl;
 	
+	s = Scalar<M>(-4);
 	auto m12 = m1 * s;
 	std::cout<<"Get m * s: "<<m12->Get(0,0)<<std::endl;
+	
+	s = Scalar<M>(-10);
+	auto m13 = s * m7;
+	std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m13->Get(0,1)<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
 
