@@ -34,7 +34,7 @@ protected:
 	Row rows;
 
 public:
-	Array(const IndexType& row, const IndexType& col): row(row), col( col) 
+	Array(const IndexType row, const IndexType col): row{row}, col{col} 
 	{ 
 		assert(row > 0);
 		assert(col > 0);
@@ -54,8 +54,8 @@ public:
 	
 	~Array(){	}
 	
-	const IndexType& Rows() const { return row; }
-	const IndexType& Cols() const { return col; }
+	constexpr IndexType Rows() const { return row; }
+	constexpr IndexType Cols() const { return col; }
 	
 	void Set(const IndexType& i, const IndexType& j, const ElementType& v)
 	{
@@ -74,8 +74,7 @@ public:
 	{
 		for(IndexType i = 0;i < Rows() ; ++i)
 			for(IndexType j = 0; j < Cols() ; ++j)
-				Set(i,j,v);
-	
+				Set(i,j,v);	
 	}
 	
 private:
@@ -98,7 +97,7 @@ public:
 	using ElementType = Config::ElementType;
 	using MatrixType = Config::MatrixType;
 private:
-	Array elemnts_;
+	Array elements_;
 	
 protected:
 	void checkBounds(const IndexType& i, const IndexType& j) const
@@ -112,25 +111,25 @@ protected:
 		return FORMAT_NON_ZERO<MatrixType>::Type::Value;
 	}
 	
-	ArrayFormat(const IndexType& rows, const IndexType& cols): elemnts_(rows, cols) { }
+	ArrayFormat(const IndexType& rows, const IndexType& cols): elements_(rows, cols) { }
 	
-	const IndexType& rows() const { return elemnts_.rows(); }
-	const IndexType& cols() const { return elemnts_.cols(); }
+	const IndexType& rows() const { return elements_.rows(); }
+	const IndexType& cols() const { return elements_.cols(); }
 	
 	void Set(const IndexType& i, const IndexType& j, const ElementType& v)
 	{
 		checkBounds(i, j);
-		if(nonZero(i,j)) elemnts_.Set(i,j,v);
+		if(nonZero(i,j)) elements_.Set(i,j,v);
 		else assert(v == ElementType(0));
 	}
 	
-	ElementType Get(const IndexType& i, const IndexType& j) const 
+	ElementType Get(const IndexType& i = 0, const IndexType& j = 0) const 
 	{
 		checkBounds(i, j);
-		return nonZero(i,j) ? elemnts_.Get(i,j) : ElementType(0);
+		return nonZero(i,j) ? elements_.Get(i,j) : ElementType(0);
 	}
 	
-	void InitElements(const ElementType& v){elemnts_.InitElements(v);}
+	void InitElements(const ElementType& v){elements_.InitElements(v);}
 };
 
 //--------------------------------BoundsChecker------------------------------------------------
@@ -151,7 +150,7 @@ public:
 		OptMatrix::Set(i,j,v);
 	}
 	
-	ElementType Get(const IndexType& i, const IndexType& j) const 
+	ElementType Get(const IndexType& i = 0, const IndexType& j = 0) const 
 	{
 		checkBounds(i, j);
 		return OptMatrix::Get(i,j);
@@ -220,7 +219,7 @@ public:
 	~Matrix()	{ 	}
 	
 	template<class Expr>
-	Matrix(const BinaryExpression<Expr>& expr): CheckedMatrix(expr.Rows(), expr.Cols())	{ 		expr.Assign(this);}
+	Matrix(const BinaryExpression<Expr>& expr): CheckedMatrix(expr.Rows(), expr.Cols())	{ 	expr.Assign(this);}
 	
 	CommaInitializer operator=(const ElementType& v){	return CommaInitializer(*this,v); }	
 	
@@ -265,7 +264,7 @@ public:
 	using ElementType = Config::ElementType;
 	using CommaInitializer = Config::CommaInitializer;
 	
-	Scalar(ElementType n_ = 0): CheckedMatrix(1, 1), n(n_) {  }
+	Scalar(ElementType n_ = 0): CheckedMatrix(1, 1) { this->InitElements(n_); }
 	
 	template<class A>
 	Scalar(const Scalar<A>& m){ 	}
@@ -273,23 +272,10 @@ public:
 	~Scalar()	{ 	}
 	
 	template<class Expr>
-	Scalar(const BinaryExpression<Expr>& expr): CheckedMatrix(1, 1)	{	expr.Assign(this);}
-	
-	CommaInitializer operator=(const ElementType& v){	return CommaInitializer(*this,v); }	
+	Scalar(const BinaryExpression<Expr>& expr): CheckedMatrix(1, 1)	{ expr.Assign(this);}
 	
 	template<class A>
-	Scalar& operator=(const Scalar<A>& m)	{	return *this; 	}
-	
-	std::ostream& Display(std::ostream& out) const	{	return out<<n<<std::endl;	}
-	ElementType Get(const IndexType& i, const IndexType& j) const 
-	{	
-		this->checkBounds(i, j);
-		return n;
-	}
-	
-	ElementType Get() const {	return n;	}
-private:	
-	int  n;
+	Scalar& operator=(const Scalar<A>& m)	{	return *this; 	}	
 };
 
 #endif
