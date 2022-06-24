@@ -72,8 +72,18 @@ int main()
 	std::cout<<"Get m * s: "<<m12->Get(0,0)<<std::endl;
 	
 	s = Scalar<M>(-10);
+	auto s2 = Scalar<M>(-11);
 	auto m13 = s * m7;
 	std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m13->Get(0,1)<<std::endl;
+	
+	auto s12 = s * s2;
+	std::cout<<"Get s * s: "<<s<<"+"<<s2<<"="<<s12->Get(0,0)<<std::endl;
+	
+	auto m14 = m7 * s;
+	std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m14->Get(0,1)<<std::endl;
+	
+	auto e1 = m7 * s12;
+	std::cout<<"Get m * s: "<<*s12<<"+"<<*m7<<"="<<e1->Get(0,0)<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
 

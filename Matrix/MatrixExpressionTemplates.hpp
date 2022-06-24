@@ -155,6 +155,9 @@ public:
 	template<class M1, class M2>
 	MultiplicationExpression(const Matrix<M1>& m1, const Matrix<M2>& m2): left_(m1),right_(m2), rows_(m1.Rows()), cols_(m2.Cols()){ ParameterCheck(m1, m2); }
 	
+	template<class S1, class S2>
+	MultiplicationExpression(const S1& m1, const S2& m2): left_(m1),right_(m2), rows_(1), cols_(1){  }
+	
 	template<class S, class M2>
 	MultiplicationExpression(const S& s, const Matrix<M2>& m2): scalar_(s.Get()), left_(s),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
 
@@ -167,14 +170,20 @@ public:
 	template<class Expr, class M2>
 	MultiplicationExpression(const BinaryExpression<Expr>& expr, const Matrix<M2>& m2): left_(expr), right_(m2), rows_(expr.Rows()), cols_(m2.Cols()){ ParameterCheck(expr, m2); }
 	
+	template<class Expr, class S>
+	MultiplicationExpression(const BinaryExpression<Expr>& expr, const S& m2): left_(expr), right_(m2), rows_(expr.Rows()), cols_(expr.Cols()){  }
+
 	template<class M1, class Expr>
 	MultiplicationExpression(const Matrix<M1>& m1, const BinaryExpression<Expr> expr): left_(m1), right_(expr), rows_(m1.Rows()), cols_(expr.Cols()){ ParameterCheck(m1, expr); }
 	
 	template<class Expr1, class Expr2>
-	MultiplicationExpression(const BinaryExpression<Expr1>& expr1, const BinaryExpression<Expr2> expr2): left_(expr1), right_(expr2), rows_(expr1.Rows()), cols_(expr2.Cols()){	ParameterCheck(expr1, expr2); }
+	MultiplicationExpression(const BinaryExpression<Expr1>& expr1, const BinaryExpression<Expr2> expr2): left_(expr1), right_(expr2), rows_(expr1.Rows()), cols_(expr2.Cols())
+	{	//ParameterCheck(expr1, expr2); 
+		}
 	
 	ElementType Get(const IndexType& i, const IndexType& j) const 
 	{	
+		std::cout<<left_.Rows() << left_.Cols() << 1 << right_.Rows() <<  right_.Cols() <<std::endl;
 		if (left_.Rows() > 1 && left_.Cols() > 1 && right_.Rows() > 1 && right_.Cols() > 1)
 			return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
 		if (left_.Rows() == 1 && left_.Cols() == 1)
