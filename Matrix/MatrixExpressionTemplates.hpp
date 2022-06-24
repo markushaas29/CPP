@@ -88,8 +88,8 @@ public:
 	
 	ElementType Get(const IndexType& i, const IndexType& j) const {	return MATRIX_ADD_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
 	
-	IndexType Rows() const { return rows_ ;}
-	IndexType Cols() const { return cols_ ;}
+	constexpr IndexType Rows() const { return rows_ ;}
+	constexpr IndexType Cols() const { return cols_ ;}
 	
 	~AdditionExpression(){	}
 };
@@ -113,14 +113,14 @@ struct RectMultiplyGetElement
 		ElementType result = ElementType(0);
 		
 		for(IndexType k = 0; k < leftType.Cols(); ++k)
-			result += getCachedElement(i,k,leftType) * getCachedElement(k,j,rightType);
+			result += getElement(i,k,leftType) * getElement(k,j,rightType);
 		
 		return result;
 	}
 	
 private:
 	template<class IndexType_, class MatrixType>
-	static typename MatrixType::ElementType getCachedElement(const IndexType_& i, const IndexType_& j, const MatrixType& matrix){	return matrix.Get(i,j); }	
+	static typename MatrixType::ElementType getElement(const IndexType_& i, const IndexType_& j, const MatrixType& matrix){	return matrix.Get(i,j); }	
 };
 
 template<class A, class B>
@@ -172,15 +172,18 @@ public:
 	
 	ElementType Get(const IndexType& i, const IndexType& j) const 
 	{	
-		//~ if (std::is_same<Scalar<A>,LeftType>::value)
-			//~ std::cout<<"A"<<std::endl;
-		if (scalar_)
-			return scalar_ * right_.Get(i,j);
-		return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
+		if (left_.Rows() > 1 && left_.Cols() > 1 && right_.Rows() > 1 && right_.Cols() > 1)
+			return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
+		if (left_.Rows() == 1 && left_.Cols() == 1)
+			return left_.Get(0,0) * right_.Get(i,j);
+		if (right_.Rows() == 1 && right_.Cols() == 1)
+			return left_.Get(i,j) * right_.Get(0,0);
+
+		return left_.Get(0,0) * right_.Get(0,0);
 	}
 	
-	IndexType Rows() const { return rows_ ;}
-	IndexType Cols() const { return cols_ ;}
+	constexpr IndexType Rows() const { return rows_ ;}
+	constexpr IndexType Cols() const { return cols_ ;}
 	
 private:
 	void ParameterCheck(const A& m1, const B& m2)

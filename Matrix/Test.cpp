@@ -62,7 +62,7 @@ int main()
 	
 	//~ auto s = T::int_<-1>();
 	auto s = Scalar<M>(-5);
-	std::cout<<"Scalar (1,1): "<<s.Get()<<std::endl;
+	std::cout<<"Scalar (1,1): "<<s.Get(0,0)<<std::endl;
 	
 	auto m11 = s * m1;
 	std::cout<<"Get s * m: "<<m11->Get(0,0)<<std::endl;
