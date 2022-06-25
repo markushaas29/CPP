@@ -2,6 +2,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "MatrixExpressionTemplates.hpp"
+#include "MatrixProxy.hpp"
 #include "Generator.hpp"
 #include <cassert>
 
@@ -18,16 +19,20 @@ struct FORMAT_NON_ZERO
 
 //--------------------------------Array------------------------------------------------
 
+template<class Array> class ArrayFormat; 
+
 template<class Generator>
 class Array 
 {
 public:
+	using Type = Array<Generator>;
+	using Proxy = MatrixProxy<Type>;
 	using Config = Generator::Config;
 	using IndexType = Config::IndexType;
 	using ElementType = Config::ElementType;
 	using Container = Config::Container;
 	using Row = Config::Row;
-
+	friend class ArrayFormat<Type>;
 protected:
 	IndexType row, col;
 	Container elements;
@@ -46,11 +51,19 @@ public:
 		}
 	}
 	
+	Proxy operator[](size_t r) const { return Proxy{*this,r}; }
+	
+	auto& operator()(IndexType r, IndexType c) const
+	{ 
+		checkBounds(r, c);
+		return elements.at(r).at(c); 
+	}
+	
 	template<class A>
 	Array(const Array<A>& a){ 	}
 	
 	template<class A>
-	Array& operator=(const Array<A>& a){ 		return *this; 	}
+	Array& operator=(const Array<A>& a)	{	return this;	}
 	
 	~Array(){	}
 	
@@ -61,14 +74,7 @@ public:
 	{
 		checkBounds(i, j);
 		elements.at(i).at(j) = v; 
-	}
-	
-	ElementType Get(const IndexType& i, const IndexType& j) const 
-	{
-		checkBounds(i, j);
-		return elements.at(i).at(j);
-	}
-	
+	}	
 	
 	void InitElements(const ElementType& v)
 	{
@@ -83,6 +89,8 @@ private:
 		assert(i < Rows());
 		assert(j < Cols());
 	}
+	
+
 };
 
 //--------------------------------Format------------------------------------------------
@@ -122,13 +130,7 @@ protected:
 		if(nonZero(i,j)) elements_.Set(i,j,v);
 		else assert(v == ElementType(0));
 	}
-	
-	ElementType Get(const IndexType& i = 0, const IndexType& j = 0) const 
-	{
-		checkBounds(i, j);
-		return nonZero(i,j) ? elements_.Get(i,j) : ElementType(0);
-	}
-	
+		
 	void InitElements(const ElementType& v){elements_.InitElements(v);}
 };
 
@@ -153,7 +155,8 @@ public:
 	ElementType Get(const IndexType& i = 0, const IndexType& j = 0) const 
 	{
 		checkBounds(i, j);
-		return OptMatrix::Get(i,j);
+		//~ return OptMatrix::get(i,j);
+		return (*this)(i,j);
 	}
 	
 protected:

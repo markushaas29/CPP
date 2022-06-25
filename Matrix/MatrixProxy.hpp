@@ -11,7 +11,7 @@ template<typename Arr>
 class MatrixProxy
 {
 public:
-	MatrixProxy(Arr& a, size_t r): A{a}, r{r} {}
+	MatrixProxy(const Arr& a, size_t r): A{a}, r{r} {}
 	auto& operator[](size_t c) { return A(r,c); }
 private:
 	const Arr& A;
