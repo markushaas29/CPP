@@ -140,6 +140,8 @@ template<class OptMatrix>
 class BoundsChecker: public OptMatrix
 {
 public:
+	using Type = BoundsChecker<OptMatrix>;
+	using Proxy = MatrixProxy<Type>;
 	using Config = OptMatrix::Config;
 	using IndexType = Config::IndexType;
 	using ElementType = Config::ElementType;
@@ -155,9 +157,16 @@ public:
 	ElementType Get(const IndexType& i = 0, const IndexType& j = 0) const 
 	{
 		checkBounds(i, j);
-		//~ return OptMatrix::get(i,j);
 		return (*this)(i,j);
 	}
+	
+	//~ Proxy operator[](size_t r) const { return Proxy{*this,r}; }
+	
+	//~ ElementType& operator()(size_t r, size_t c) const
+	//~ { 
+		//~ checkBounds(r, c);
+		//~ return (*this)(r,c); 
+	//~ }
 	
 protected:
 	void checkBounds(const IndexType& i, const IndexType& j) const

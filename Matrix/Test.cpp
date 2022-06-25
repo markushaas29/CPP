@@ -37,6 +37,7 @@ int main()
 	m4.InitElements(4);
 	
  	std::cout<<"M1: \n"<<m1<<std::endl;
+ 	std::cout<<"M1[][]]:"<<m1[0][1]<<std::endl;
  	std::cout<<"M2: \n"<<m2<<std::endl;
  	std::cout<<"M3: \n"<<m3<<std::endl;
  	std::cout<<"M4: \n"<<m4<<std::endl;
