@@ -71,9 +71,9 @@ public:
 private:
 	const LeftType& left_;
 	const RightType& right_;
-	decltype(auto) Get(const IndexType& i, const IndexType& j) const {	return MATRIX_ADD_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
 	
 protected:
+	decltype(auto) Get(const IndexType& i, const IndexType& j) const {	return MATRIX_ADD_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
 	const IndexType rows_, cols_;
 	
 public:
@@ -110,8 +110,6 @@ struct RectMultiplyGetElement
 	template<class IndexType_, class ResultType, class LeftType, class RightType>
 	static decltype(auto) Get(const IndexType_& i, const IndexType_& j, const ResultType* res, const LeftType& leftType, const RightType& rightType)
 	{
-		//~ std::cout<<"left "<<leftType[0][1]<<std::endl;
-		//~ std::cout<<"right "<<rightType[0][0]<<std::endl;
 		using Config = ResultType::Config;
 		using ElementType = Config::ElementType;
 		using IndexType = Config::IndexType;
@@ -125,7 +123,7 @@ struct RectMultiplyGetElement
 	
 private:
 	template<class IndexType_, class MatrixType>
-	static typename MatrixType::ElementType getElement(const IndexType_& i, const IndexType_& j, const MatrixType& matrix){	return matrix[i][j]; }	
+	static typename MatrixType::ElementType getElement(const IndexType_& i, const IndexType_& j, const MatrixType& matrix){	return matrix(i,j); }	
 };
 
 template<class A, class B>
@@ -187,19 +185,17 @@ public:
 	
 	constexpr IndexType Rows() const { return rows_ ;}
 	constexpr IndexType Cols() const { return cols_ ;}
-	
+protected:
 	ElementType Get(const IndexType& i, const IndexType& j) const 
 	{
-		std::cout<<"left "<<left_[0][0]<<std::endl;
-		std::cout<<"right "<<right_[0][0]<<std::endl;	
 		if (left_.Rows() > 1 && left_.Cols() > 1 && right_.Rows() > 1 && right_.Cols() > 1)
 			return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
 		if (left_.Rows() == 1 && left_.Cols() == 1)
-			return left_[0][0] * right_[i][j];
+			return left_(0,0) * right_(i,j);
 		if (right_.Rows() == 1 && right_.Cols() == 1)
-			return left_[i][j] * right_[0][0];
+			return left_(i,j) * right_(0,0);
 
-		return left_[0][0] * right_[0][0];
+		return left_(0,0) * right_(0,0);
 	}
 private:
 	void ParameterCheck(const A& m1, const B& m2)
