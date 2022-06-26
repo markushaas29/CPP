@@ -22,7 +22,7 @@ struct FORMAT_NON_ZERO
 template<class Array> class ArrayFormat; 
 
 template<class Generator>
-class Array 
+class Array : public OperatorProxy<Array<Generator>>
 {
 public:
 	using Type = Array<Generator>;
@@ -51,7 +51,7 @@ public:
 		}
 	}
 	
-	Proxy operator[](size_t r) const { return Proxy{*this,r}; }
+	//~ Proxy operator[](size_t r) const { return Proxy{*this,r}; }
 	
 	auto& operator()(IndexType r, IndexType c) const
 	{ 

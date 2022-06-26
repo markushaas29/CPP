@@ -18,4 +18,12 @@ private:
 	size_t r;
 };
 
+template<typename T>
+class OperatorProxy
+{
+public:
+	using Type = MatrixProxy<const T>;
+	Type operator[](size_t c) const { return {static_cast<const T&>(*this),c}; }
+};
+
 #endif
