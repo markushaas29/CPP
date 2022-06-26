@@ -141,7 +141,7 @@ class BoundsChecker: public OptMatrix
 {
 public:
 	using Type = BoundsChecker<OptMatrix>;
-	using Proxy = MatrixProxy<Type>;
+	using Proxy = MatrixProxy<OptMatrix>;
 	using Config = OptMatrix::Config;
 	using IndexType = Config::IndexType;
 	using ElementType = Config::ElementType;
@@ -154,20 +154,13 @@ public:
 		OptMatrix::Set(i,j,v);
 	}
 	
-	ElementType Get(const IndexType& i = 0, const IndexType& j = 0) const 
+	auto Get(const IndexType& i = 0, const IndexType& j = 0) const 
 	{
 		checkBounds(i, j);
-		return (*this)(i,j);
+		return OptMatrix::operator[](i)[j];
 	}
 	
-	//~ Proxy operator[](size_t r) const { return Proxy{*this,r}; }
-	
-	//~ ElementType& operator()(size_t r, size_t c) const
-	//~ { 
-		//~ checkBounds(r, c);
-		//~ return (*this)(r,c); 
-	//~ }
-	
+	Proxy operator[](size_t r) const { return Proxy{*this,r}; }	
 protected:
 	void checkBounds(const IndexType& i, const IndexType& j) const
 	{
@@ -247,7 +240,7 @@ public:
 		for(IndexType i = 0;i < this->Rows() ; ++i)
 		{
 			for(IndexType j = 0; j < this->Cols() ; ++j)
-				out<<this->Get(i,j)<<" ";
+				out<<(*this)[i][j]<<" ";
 			out<<std::endl;
 		}
 
