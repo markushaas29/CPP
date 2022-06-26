@@ -47,6 +47,7 @@ struct RectAddGetElement
 	{
 		return leftType.Get(i,j) + rightType.Get(i,j);
 	}
+	
 };
 
 template<class A, class B>
@@ -87,6 +88,7 @@ public:
 	AdditionExpression<C,D> operator=(const AdditionExpression<C,D> expr)	{ 	return *this; 	}
 	
 	ElementType Get(const IndexType& i, const IndexType& j) const {	return MATRIX_ADD_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
+	auto& operator()(IndexType r, IndexType c) const {	return this->Get(r,c); }
 	
 	constexpr IndexType Rows() const { return rows_ ;}
 	constexpr IndexType Cols() const { return cols_ ;}
@@ -190,6 +192,7 @@ public:
 
 		return left_.Get(0,0) * right_.Get(0,0);
 	}
+	auto& operator()(IndexType r, IndexType c) const {	return this->Get(r,c); }
 	
 	constexpr IndexType Rows() const { return rows_ ;}
 	constexpr IndexType Cols() const { return cols_ ;}
