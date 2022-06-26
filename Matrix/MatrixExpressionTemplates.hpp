@@ -108,8 +108,10 @@ struct MULTIPLY_RESULT_TYPE
 struct RectMultiplyGetElement
 {
 	template<class IndexType_, class ResultType, class LeftType, class RightType>
-	static typename ResultType::ElementType Get(const IndexType_& i, const IndexType_& j, const ResultType* res, const LeftType& leftType, const RightType& rightType)
+	static decltype(auto) Get(const IndexType_& i, const IndexType_& j, const ResultType* res, const LeftType& leftType, const RightType& rightType)
 	{
+		//~ std::cout<<"left "<<leftType[0][1]<<std::endl;
+		//~ std::cout<<"right "<<rightType[0][0]<<std::endl;
 		using Config = ResultType::Config;
 		using ElementType = Config::ElementType;
 		using IndexType = Config::IndexType;
@@ -142,7 +144,6 @@ public:
 private:
 	const LeftType& left_;
 	const RightType& right_;
-	const int scalar_ = 0;
 	
 	template<class C, class D>
 	MultiplicationExpression(const MultiplicationExpression<C,D>& expr)	{ 	}
@@ -162,13 +163,13 @@ public:
 	MultiplicationExpression(const S1& m1, const S2& m2): left_(m1),right_(m2), rows_(1), cols_(1){  }
 	
 	template<class S, class M2>
-	MultiplicationExpression(const S& s, const Matrix<M2>& m2): scalar_(s.Get()), left_(s),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
+	MultiplicationExpression(const S& s, const Matrix<M2>& m2): left_(s),right_(m2), rows_(m2.Rows()), cols_(m2.Cols()){  }
 
 	template<class S, class Expr>
 	MultiplicationExpression(const S& s, const BinaryExpression<Expr>& expr): left_(s), right_(expr), rows_(expr.Rows()), cols_(expr.Cols()){  }
 	
 	template<class M1, class S>
-	MultiplicationExpression(const Matrix<M1>& m1, const S& s): scalar_(s.Get()), left_(m1),right_(s), rows_(m1.Rows()), cols_(m1.Cols()){  }
+	MultiplicationExpression(const Matrix<M1>& m1, const S& s): left_(m1),right_(s), rows_(m1.Rows()), cols_(m1.Cols()){  }
 	
 	template<class Expr, class M2>
 	MultiplicationExpression(const BinaryExpression<Expr>& expr, const Matrix<M2>& m2): left_(expr), right_(m2), rows_(expr.Rows()), cols_(m2.Cols()){ ParameterCheck(expr, m2); }
@@ -187,9 +188,10 @@ public:
 	constexpr IndexType Rows() const { return rows_ ;}
 	constexpr IndexType Cols() const { return cols_ ;}
 	
-private:
 	ElementType Get(const IndexType& i, const IndexType& j) const 
-	{	
+	{
+		std::cout<<"left "<<left_[0][0]<<std::endl;
+		std::cout<<"right "<<right_[0][0]<<std::endl;	
 		if (left_.Rows() > 1 && left_.Cols() > 1 && right_.Rows() > 1 && right_.Cols() > 1)
 			return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
 		if (left_.Rows() == 1 && left_.Cols() == 1)
@@ -199,6 +201,7 @@ private:
 
 		return left_[0][0] * right_[0][0];
 	}
+private:
 	void ParameterCheck(const A& m1, const B& m2)
 	{
 		if(m1.Cols() != m2.Rows())
