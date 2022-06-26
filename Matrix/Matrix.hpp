@@ -51,8 +51,6 @@ public:
 		}
 	}
 	
-	//~ Proxy operator[](size_t r) const { return Proxy{*this,r}; }
-	
 	auto& operator()(IndexType r, IndexType c) const
 	{ 
 		checkBounds(r, c);

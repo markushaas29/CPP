@@ -44,11 +44,11 @@ int main()
 	
  	std::cout<<"Additiom: \n"<<std::endl;
 	auto m5 = (m1 + m1)  + (m1 + m1);
-	std::cout<<"Get m3 (1,1): "<<m5->Get(0,0)<<std::endl;
+	std::cout<<"Get m3 (1,1): "<<(*m5)[0][0]<<std::endl;
 	auto m6 = m1  + (m1 + m1);
-	std::cout<<"Get m3 (1,1): "<<m6->Get(0,1)<<std::endl;
+	std::cout<<"Get m3 (1,1): "<<(*m6)[0][0]<<std::endl;
 	auto m7 = m1 + m1 + m1 + m1;
-	std::cout<<"Get m3 (1,1): "<<m7->Get(0,1)<<std::endl;
+	std::cout<<"Get m3 (1,1): "<<(*m7)[0][0]<<std::endl;
 	
  	std::cout<<"Multiplication: \n"<<std::endl;
 	
@@ -59,32 +59,32 @@ int main()
 	auto m10 = m1 * m1 * m1 * m1;
 	std::cout<<"Get m3 (1,1): "<<m10->Get(0,1)<<std::endl;
 	
- 	std::cout<<"Multiplication Scalar: \n"<<std::endl;
+ 	//~ std::cout<<"Multiplication Scalar: \n"<<std::endl;
 	
-	//~ auto s = T::int_<-1>();
-	auto s = Scalar<M>(-5);
-	std::cout<<"Scalar (1,1): "<<s.Get(0,0)<<std::endl;
+	auto s = T::int_<-1>();
+	//~ auto s = Scalar<M>(-5);
+	//~ std::cout<<"Scalar (1,1): "<<s.Get(0,0)<<std::endl;
 	
-	auto m11 = s * m1;
-	std::cout<<"Get s * m: "<<m11->Get(0,0)<<std::endl;
+	//~ auto m11 = s * m1;
+	//~ std::cout<<"Get s * m: "<<m11->Get(0,0)<<std::endl;
 	
-	s = Scalar<M>(-4);
-	auto m12 = m1 * s;
-	std::cout<<"Get m * s: "<<m12->Get(0,0)<<std::endl;
+	//~ s = Scalar<M>(-4);
+	//~ auto m12 = m1 * s;
+	//~ std::cout<<"Get m * s: "<<m12->Get(0,0)<<std::endl;
 	
-	s = Scalar<M>(-10);
-	auto s2 = Scalar<M>(-11);
-	auto m13 = s * m7;
-	std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m13->Get(0,1)<<std::endl;
+	//~ s = Scalar<M>(-10);
+	//~ auto s2 = Scalar<M>(-11);
+	//~ auto m13 = s * m7;
+	//~ std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m13->Get(0,1)<<std::endl;
 	
-	auto s12 = s * s2;
-	std::cout<<"Get s * s: "<<s<<"+"<<s2<<"="<<s12->Get(0,0)<<std::endl;
+	//~ auto s12 = s * s2;
+	//~ std::cout<<"Get s * s: "<<s<<"+"<<s2<<"="<<s12->Get(0,0)<<std::endl;
 	
-	auto m14 = m7 * s;
-	std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m14->Get(0,1)<<std::endl;
+	//~ auto m14 = m7 * s;
+	//~ std::cout<<"Get m * s: "<<s<<"+"<<*m7<<"="<<m14->Get(0,1)<<std::endl;
 	
-	auto e1 = m7 * s12;
-	std::cout<<"Get m * s: "<<*s12<<"+"<<*m7<<"="<<e1->Get(0,0)<<std::endl;
+	//~ auto e1 = m7 * s12;
+	//~ std::cout<<"Get m * s: "<<*s12<<"+"<<*m7<<"="<<e1->Get(0,0)<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
 

@@ -12,7 +12,7 @@ class MatrixProxy
 {
 public:
 	MatrixProxy(const Arr& a, size_t r): A{a}, r{r} {}
-	auto& operator[](size_t c) { return A(r,c); }
+	auto operator[](size_t c) { return A(r,c); }
 private:
 	const Arr& A;
 	size_t r;

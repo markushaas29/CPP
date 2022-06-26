@@ -1,6 +1,7 @@
 #include "../Logger/Logger.hpp"
 #include "Generator.hpp"
 #include "MatrixCache.hpp"
+#include "MatrixProxy.hpp"
 
 #ifndef MATRIXEXPRESSIONTEMPLATES_H
 #define MATRIXEXPRESSIONTEMPLATES_H
@@ -43,9 +44,9 @@ struct MATRIX_ASSIGMENT
 struct RectAddGetElement
 {
 	template<class IndexType, class ResultType, class LeftType, class RightType>
-	static typename ResultType::ElementType Get(const IndexType& i, const IndexType& j, const ResultType* res, const LeftType& leftType, const RightType& rightType)
+	static decltype(auto) Get(const IndexType& i, const IndexType& j, const ResultType* res, const LeftType& leftType, const RightType& rightType)
 	{
-		return leftType.Get(i,j) + rightType.Get(i,j);
+		return leftType[i][j] + rightType[i][j];
 	}
 	
 };
@@ -57,7 +58,7 @@ struct MATRIX_ADD_GET_ELEMENT
 };
 
 template<class A, class B>
-class AdditionExpression
+class AdditionExpression: public OperatorProxy<AdditionExpression<A,B>>
 {
 public: 
 	using LeftType = A;
@@ -70,6 +71,7 @@ public:
 private:
 	const LeftType& left_;
 	const RightType& right_;
+	decltype(auto) Get(const IndexType& i, const IndexType& j) const {	return MATRIX_ADD_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
 	
 protected:
 	const IndexType rows_, cols_;
@@ -87,8 +89,7 @@ public:
 	template<class C, class D>
 	AdditionExpression<C,D> operator=(const AdditionExpression<C,D> expr)	{ 	return *this; 	}
 	
-	ElementType Get(const IndexType& i, const IndexType& j) const {	return MATRIX_ADD_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	}
-	auto& operator()(IndexType r, IndexType c) const {	return this->Get(r,c); }
+	auto operator()(IndexType r, IndexType c) const {	return this->Get(r,c); }
 	
 	constexpr IndexType Rows() const { return rows_ ;}
 	constexpr IndexType Cols() const { return cols_ ;}
@@ -129,7 +130,7 @@ template<class A, class B>
 struct MATRIX_MULTIPLY_GET_ELEMENT{	using RET = RectMultiplyGetElement; };
 
 template<class A, class B>
-class MultiplicationExpression
+class MultiplicationExpression:  public OperatorProxy<MultiplicationExpression<A,B>>
 {
 public: 
 	using LeftType = A;
