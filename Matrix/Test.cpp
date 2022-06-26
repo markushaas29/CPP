@@ -52,12 +52,12 @@ int main()
 	
  	std::cout<<"Multiplication: \n"<<std::endl;
 	
-	auto m8 = (m1 * m1) *(m1 * m1);
-	std::cout<<"Get m3 (1,1): "<<m8->Get(0,0)<<std::endl;
+	auto m8 = (m1 * m1);// *(m1 * m1);
+	std::cout<<"Get m3 (1,1): "<<(*m8)[0][0]<<std::endl;
 	auto m9 = m1 *(m1 * m1);
-	std::cout<<"Get m3 (1,1): "<<m9->Get(0,1)<<std::endl;
-	auto m10 = m1 * m1 * m1 * m1;
-	std::cout<<"Get m3 (1,1): "<<m10->Get(0,1)<<std::endl;
+	//~ std::cout<<"Get m3 (1,1): "<<(*m9)[0][0]<<std::endl;
+	//~ auto m10 = m1 * m1 * m1 * m1;
+	//~ std::cout<<"Get m3 (1,1): "<<m10->Get(0,1)<<std::endl;
 	
  	//~ std::cout<<"Multiplication Scalar: \n"<<std::endl;
 	

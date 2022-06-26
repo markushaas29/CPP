@@ -123,7 +123,7 @@ struct RectMultiplyGetElement
 	
 private:
 	template<class IndexType_, class MatrixType>
-	static typename MatrixType::ElementType getElement(const IndexType_& i, const IndexType_& j, const MatrixType& matrix){	return matrix.Get(i,j); }	
+	static typename MatrixType::ElementType getElement(const IndexType_& i, const IndexType_& j, const MatrixType& matrix){	return matrix[i][j]; }	
 };
 
 template<class A, class B>
@@ -182,23 +182,23 @@ public:
 	template<class Expr1, class Expr2>
 	MultiplicationExpression(const BinaryExpression<Expr1>& expr1, const BinaryExpression<Expr2> expr2): left_(expr1), right_(expr2), rows_(expr1.Rows()), cols_(expr2.Cols()) {		}
 	
-	ElementType Get(const IndexType& i, const IndexType& j) const 
-	{	
-		if (left_.Rows() > 1 && left_.Cols() > 1 && right_.Rows() > 1 && right_.Cols() > 1)
-			return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
-		if (left_.Rows() == 1 && left_.Cols() == 1)
-			return left_.Get(0,0) * right_.Get(i,j);
-		if (right_.Rows() == 1 && right_.Cols() == 1)
-			return left_.Get(i,j) * right_.Get(0,0);
-
-		return left_.Get(0,0) * right_.Get(0,0);
-	}
-	auto& operator()(IndexType r, IndexType c) const {	return this->Get(r,c); }
+	decltype(auto) operator()(IndexType r, IndexType c) const {	return this->Get(r,c); }
 	
 	constexpr IndexType Rows() const { return rows_ ;}
 	constexpr IndexType Cols() const { return cols_ ;}
 	
 private:
+	ElementType Get(const IndexType& i, const IndexType& j) const 
+	{	
+		if (left_.Rows() > 1 && left_.Cols() > 1 && right_.Rows() > 1 && right_.Cols() > 1)
+			return MATRIX_MULTIPLY_GET_ELEMENT<LeftType, RightType>::RET::Get(i, j, this, left_, right_);	
+		if (left_.Rows() == 1 && left_.Cols() == 1)
+			return left_[0][0] * right_[i][j];
+		if (right_.Rows() == 1 && right_.Cols() == 1)
+			return left_[i][j] * right_[0][0];
+
+		return left_[0][0] * right_[0][0];
+	}
 	void ParameterCheck(const A& m1, const B& m2)
 	{
 		if(m1.Cols() != m2.Rows())
