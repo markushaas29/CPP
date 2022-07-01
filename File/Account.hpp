@@ -1,21 +1,11 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
-#include <fstream>
-#include <chrono>
 #include <string>
-#include <ctime>
 #include <iterator>
 #include <vector>
-#include <cstdlib>
 #include <tuple>
 #include <exception>
-#include <unordered_map>
-#include <boost/mpl/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <filesystem>
 #include "TransferItemContainer.hpp"
 #include "JSONParser.hpp"
 #include "Direction.hpp"
@@ -44,7 +34,7 @@ namespace Bank
 		IBAN iban;
 		BIC bic;
 		
-		inline static const std::string  KeysFilename = Derived::Name + ".keys";
+		inline static const std::string KeysFilename = std::string(Derived::Name) + ".keys";
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferT>;
 	public:
 		using Type = Account<Derived,TransferT> ;
@@ -96,14 +86,11 @@ namespace Bank
 						Derived::cont.Display(std::cout);
 						
 						return;
-						//~ Derived::ProcessValues(values.cbegin(), values.cend());					
 					}
 					else
 					{
 			 			Logger::Log<Error>()<<Derived::Name<<": KeyLine not found"<<std::endl;
 					}
-					//~ if (values.size() < MaxIdx)
-						//~ continue;										
 				}
 			}
 

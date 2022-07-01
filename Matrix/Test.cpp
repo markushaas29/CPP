@@ -43,7 +43,7 @@ int main()
  	std::cout<<"M4: \n"<<m4<<std::endl;
 	
  	std::cout<<"Additiom: \n"<<std::endl;
-	auto m5 = (m1 + m1)  + (m1 + m1);
+	auto m5 = (m1 + m1)  + (m1 + m1) + (m1 + m1);
 	std::cout<<"Get m3 (1,1): "<<(*m5)[0][0]<<std::endl;
 	auto m6 = m1  + (m1 + m1);
 	std::cout<<"Get m3 (1,1): "<<(*m6)[0][0]<<std::endl;
@@ -52,21 +52,23 @@ int main()
 	
  	std::cout<<"Multiplication: \n"<<std::endl;
 	
-	auto m8 = (m1 * m1);// *(m1 * m1);
-	std::cout<<"Get m3 (1,1): "<<(*m8)[0][0]<<std::endl;
+	auto m8 = (m1 * m1);
+	std::cout<<"\nGet m8 (1,1): "<<(*m8)(1,0)<<std::endl;
 	auto m9 = m1 *(m1 * m1);
-	//~ std::cout<<"Get m3 (1,1): "<<(*m9)[0][0]<<std::endl;
-	//~ auto m10 = m1 * m1 * m1 * m1;
-	//~ std::cout<<"Get m3 (1,1): "<<m10->Get(0,1)<<std::endl;
+	std::cout<<"Get m3 (1,1): "<<(*m9)(1,0)<<std::endl;
+	auto m9_ = (m1 *m1) * m1 ;
+	std::cout<<"Get m9_ (1,1): "<<(*m9_)(1,0)<<std::endl;
+	auto m10 = (m1 * m1) * (m1 * m1);
+	std::cout<<"Get m10 (1,1): "<<(*m10)(1,0)<<std::endl;
 	
  	//~ std::cout<<"Multiplication Scalar: \n"<<std::endl;
 	
-	auto s = T::int_<-1>();
-	//~ auto s = Scalar<M>(-5);
-	//~ std::cout<<"Scalar (1,1): "<<s.Get(0,0)<<std::endl;
+	//~ auto s = T::int_<-1>();
+	auto s = Scalar<M>(-5);
+	std::cout<<"Scalar (1,1): "<<s.Get(0,0)<<std::endl;
 	
-	//~ auto m11 = s * m1;
-	//~ std::cout<<"Get s * m: "<<m11->Get(0,0)<<std::endl;
+	auto m11 = s * m1;
+	std::cout<<"Get s * m: "<<(*m11)(0,0)<<std::endl;
 	
 	//~ s = Scalar<M>(-4);
 	//~ auto m12 = m1 * s;

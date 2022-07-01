@@ -1,18 +1,8 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
-#include <fstream>
-#include <chrono>
-#include <ctime>
 #include <iterator>
 #include <vector>
-#include <cstdlib>
-#include <unordered_map>
-#include <boost/mpl/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <filesystem>
 #include "Account.hpp"
 #include "Direction.hpp"
 #include "../Logger/Logger.hpp"
@@ -42,8 +32,8 @@ namespace Bank
 		friend class Account<Raiba, TransferTypes>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
-		inline static const std::string Name = "Raiba";
-		inline static const std::string Filename = "Umsaetze_DE19660623660009232702";
+		inline static constexpr const char* Name = "Raiba";
+		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
 				
 		Raiba(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : Base(k,c,v, d, i, b) {};
 		

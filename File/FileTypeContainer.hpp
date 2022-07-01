@@ -7,7 +7,6 @@
 #include <iterator>
 #include <vector>
 #include <cstdlib>
-#include <unordered_map>
 #include <filesystem>
 #include "../Logger/Logger.hpp"
 #include "../Typelist/Typelist.h"
