@@ -148,6 +148,15 @@ public:
        Entry* DoCreate(){return this;};
 };
 
+class Name: public Element
+{
+public:
+       inline static const std::string Identifier = "Name";
+       Name(std::string s): Element(s){};
+       Name(): Element(""){};
+       Name* DoCreate(){return this;};
+};
+
 //Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben
 
 
