@@ -42,7 +42,6 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 		template<typename T, typename Cont = T::KeyIndexContainerType::ContainerType>
 		auto Create(const std::string& sourcePath, Cont ret)
 		{
-			Logger::Log()<<"CREATE: "<<Type::Identifier<<"_"<<Index<<std::endl;
 			ret->push_back(typename T::KeyIndexContainerType::KeyIndexType(Type::Identifier));
 			return Base::template Create<T>(sourcePath, std::move(ret));	
 		}
@@ -73,7 +72,6 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 		auto Create(const std::string& sourcePath = ".")
 		{
 			auto ret = std::make_unique<typename T::KeyIndexContainerType::ContainerType>();
-			Logger::Log()<<"CREATE: "<<Type::Identifier<<"_"<<Index<<std::endl;
 			ret->push_back(typename T::KeyIndexContainerType::KeyIndexType(Type::Identifier));
 			return Base::template Create<T>(sourcePath, std::move(ret));		
 		}
@@ -100,7 +98,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 		KeyIndexContainerPtrType keyIndices;
 		auto createTransfer(InputIterator begin, InputIterator end) 
 		{ 
-			return TupleType(Type(Type::Identifier));
+			return TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier])));
 		}
 		
 		template<typename T, typename Cont = T::KeyIndexContainerType::ContainerType>
