@@ -21,7 +21,7 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {	
-	template<unsigned int N = 0, typename TransferT = std::tuple<IBAN,BIC,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>>
+	template<unsigned int N = 0, typename TransferT = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>>
 	struct Raiba: public Account<Raiba<N>, TransferT>
 	{
 		enum{ Num = N };

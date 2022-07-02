@@ -39,7 +39,7 @@ namespace Bank
 		using ContainerType = Transfers<DataType>;
 		using Iterator = ContainerType::Iterator;
 		
-		Key<std::string> owner;
+		Name owner;
 		IBAN iban;
 		BIC bic;
 		Quantity<Sum> total;
@@ -53,14 +53,14 @@ namespace Bank
 		using QunatityType = Quantity<Sum>;
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : owner(ownerKey), iban(i), bic(b) { };
-		TransferEndpoint(const DataType t) : iban(Bank::Get<IBAN>(*t)), bic(Bank::Get<BIC>(*t)), total(Bank::Get<Quantity<Sum>>(*t)) //,owner(t->GetOwner())
+		TransferEndpoint(const DataType t) : iban(Bank::Get<IBAN>(*t)),owner(Bank::Get<Name>(*t)), bic(Bank::Get<BIC>(*t)), total(Bank::Get<Quantity<Sum>>(*t)) //,owner(t->GetOwner())
 		{ 
 			this->transactions = ContainerType();
 			this->transactions.Add(t);
 		};
 		TransferEndpoint():owner("ownerKey"), iban("i"), bic("b"), total(0) { };
 		
-		const KeyType& GetOwner() const { return owner; }
+		const Name& GetOwner() const { return owner; }
 		const IBAN& GetIBAN() const { return iban; }
 		const BIC& GetBIC() const { return bic; }
 		const Quantity<Sum>& GetTotal() const { return total; }
@@ -74,7 +74,8 @@ namespace Bank
 		
 		std::ostream& Display(std::ostream& out)
 		{
-			out<<"Owner: "<<owner<<"\tIBAN: "<<iban<<"\tBIC: "<<bic<<std::endl;
+			out<<"Owner: "<<owner<<std::endl;
+			out<<"\tIBAN: "<<iban<<"\tBIC: "<<bic<<std::endl;
 			for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
 			{
 				out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;

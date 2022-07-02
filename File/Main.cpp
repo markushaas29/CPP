@@ -53,6 +53,7 @@ using namespace FS;
 
 int main()
 {
+	std::locale::global( std::locale( "" ) );
 	std::ofstream outFile2 ("//home//markus//Downloads//Out.txt");
 // 	std::ofstream inFile ("//home//markus//Downloads//In.txt");
 	auto keyFileN = std::string("//home//markus//Downloads//Keys.txt");

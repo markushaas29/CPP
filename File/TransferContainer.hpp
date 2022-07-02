@@ -61,8 +61,6 @@ namespace Bank
 		{
 			for(auto p : this->transfers)
 			{
-				out<<p.first<<":"<<std::endl;
-				
 				p.second.Display(out);
 				
 				out<<"\nTotal: "<<std::setprecision(2)<<std::fixed<<p.second.GetTotal()<<std::endl;
