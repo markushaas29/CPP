@@ -77,9 +77,8 @@ namespace Bank
 					 			Logger::Log<Error>()<<Derived::Name<<": Not enough values to create a transfer in line"<<*it<<std::endl;
 					 			continue;
 							}
-							
+							Logger::Log(values.cbegin(),values.cend());
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
-							std::cout<<*tt<<std::endl;
 							Derived::cont.Insert(Key(Bank::Get<IBAN>(*tt).Value), tt);
 						}
 						
