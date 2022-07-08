@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include <typeinfo>
+#include <locale>
+#include <codecvt>
 #include "../Wrapper/Wrapper.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Traits/Traits.h"
@@ -54,9 +56,32 @@ namespace String_
 		return result;
 	};
 	
-	bool Contains(std::string s, std::string sub)
+	bool Contains(const std::string& s, const std::string& sub)
 	{
 		return s.find(sub) != std::string::npos; 
+	}
+	
+	std::wstring utf8_to_wstring(const std::string& s)
+	{
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+		return conv.from_bytes(s);
+	}
+	
+	std::wstring to_wstring(const std::string& s, const std::locale& loc= std::locale())
+	{
+		std::vector<wchar_t> buf(s.size());
+		std::use_facet<std::ctype<wchar_t>>(loc).widen(s.data(), s.data() + s.size(), buf.data());
+		return std::wstring(buf.data(),buf.size());
+	}
+	
+	template<typename T = char>
+	bool Compare(const std::string& s1, const std::string& s2)
+	{
+		std::locale loc("de_DE.UTF-8");
+		const std::collate<T>& col = std::use_facet<std::collate<T>>(loc);		
+		auto w1 = std::wstring(s1.begin(), s1.end());
+		
+		return s1 == s2; 
 	}
 	
 	template<typename T>
