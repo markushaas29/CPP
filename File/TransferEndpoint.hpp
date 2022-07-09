@@ -99,17 +99,17 @@ namespace Bank
 			{ 
 				auto current = Bank::Get<T>(*c);
 								
-				bool in = false;
+				bool found = false;
 				if(result.size() > 0)
 				{
 					for(const auto& t : result)
 					{
-						if(*(t.Year()) == *(current.Year()))
-							in = true;
+						if(!found && *(t.Year()) == *(current.Year()))
+							found = true;
 					}
 				}			
 						
-				if(in || result.size() == 0)
+				if(!found || result.size() == 0)
 					result.push_back(current);
 			});
 

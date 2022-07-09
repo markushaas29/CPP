@@ -76,6 +76,15 @@ namespace DateTimes
 	inline static std::shared_ptr<Month> December= std::make_shared<Month>(12);
 	
 	using TP = std::chrono::system_clock::time_point;
+	
+	class Date;
+	
+	template<typename ItemT>
+	const ItemT& Get(Date const& d)
+	{
+		return std::get<ItemT>(d.tt);
+	};
+	
 
 	class Date: public Element
 	{
@@ -84,10 +93,16 @@ namespace DateTimes
 		using MonthType = std::shared_ptr<DateTimes::Month>;
 		using YearType = std::shared_ptr<DateTimes::Year>;
 		using DateType = std::shared_ptr<DateTimes::Date>;
+		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
+		
+		template<typename ItemT>
+		friend const ItemT& Get(Date const& t);
+		
 		inline static const std::string Identifier = "Date";
 						
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): 
-						Element(s)
+						Element{s},
+						tt{Extract(s)}
 						{	
 							auto dt = Extract(s);
 							day = std::make_shared<DateTimes::Day>(std::get<0>(dt));
@@ -107,7 +122,7 @@ namespace DateTimes
 			return ts;
 		}
 		
-		static std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year> Extract(std::string s)
+		static TupleType Extract(std::string s)
 		{
 			uint d, m, y;
 			
@@ -139,6 +154,7 @@ namespace DateTimes
 		bool operator==(Date date) const{ return *(this->year)== *(date.Year()) && *(this->month)== *(date.Month()) && *(this->day)== *(date.Day());};
 		bool operator==(DateType date) const{ return *(this->year)== date->Year() && *(this->month)== date->Month() && *(this->day)== date->Day();};
 	private:
+		TupleType tt;
 		TP tp;
 		MonthType month;
 		YearType year;
