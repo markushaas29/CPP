@@ -81,8 +81,39 @@ namespace Bank
 				out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;
 				out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
 			}
+			
+			auto result = All<DateTimes::Date>();
+			
+			for(const auto& t : result)
+				out<<t<<std::endl;
 
 			return out<<std::endl;
+		}
+		
+		template<typename T>
+		decltype(auto) All()
+		{
+			auto result = std::vector<T>();
+						
+			std::for_each(this->transactions.Begin(),this->transactions.End(), [&result](const auto& c) 
+			{ 
+				auto current = Bank::Get<T>(*c);
+								
+				bool in = false;
+				if(result.size() > 0)
+				{
+					for(const auto& t : result)
+					{
+						if(*(t.Year()) == *(current.Year()))
+							in = true;
+					}
+				}			
+						
+				if(in || result.size() == 0)
+					result.push_back(current);
+			});
+
+			return result;
 		}
 		
 		ResultContainer GetCause(std::string name = "")
