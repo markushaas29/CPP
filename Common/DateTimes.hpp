@@ -1,6 +1,7 @@
 #include <memory>
 #include <ratio>
 #include <chrono>
+#include <tuple>
 #include "../CSV/CSV.hpp"
 
 #ifndef DATETIMES_HPP
@@ -86,10 +87,13 @@ namespace DateTimes
 		inline static const std::string Identifier = "Date";
 						
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): 
-						Element(s),
-						day(std::make_shared<DateTimes::Day>(d)),
-						month{std::make_shared<DateTimes::Month>(m)},
-						year{std::make_shared<DateTimes::Year>(y)} 		{						}; 
+						Element(s)
+						{	
+							auto dt = Extract(s);
+							day = std::make_shared<DateTimes::Day>(std::get<0>(dt));
+							month = std::make_shared<DateTimes::Month>(std::get<1>(dt));
+							year = std::make_shared<DateTimes::Year>(std::get<2>(dt));					
+						}; 
 						
 		Date(uint d, uint m, uint y): Date(std::string(), d,m, y) { };
 		Date(): Date(std::string(), 0,0, 0) { };
@@ -101,6 +105,25 @@ namespace DateTimes
 			std::string ts = ctime(&t);
 			ts.resize(ts.size()-1);
 			return ts;
+		}
+		
+		static std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year> Extract(std::string s)
+		{
+			uint d, m, y;
+			
+			std::string res;
+			for(auto c : s)
+				if(isdigit(c))
+					res += c;
+			
+			if(res.size() > 0)
+			{
+				d = std::stoul(std::string(res.begin(),res.begin()+2));
+				m = std::stoul(std::string(res.begin()+3,res.begin()+4));
+				y = std::stoul(std::string(res.begin()+4,res.begin()+8));
+			}
+			
+			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y));
 		}
 		
 		MonthType Month() const { return this->month; };
