@@ -18,6 +18,7 @@ namespace DateTimes
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
 		constexpr DateTimeBase(uint v):value{v} {}
+		operator uint() { return this->value; }
 		bool operator==(uint i){ return this->value == i;};
 		bool operator==(int i){ return this->value == i;};
 		bool operator==(T t){ return this->value == t.Value();};
@@ -62,56 +63,38 @@ namespace DateTimes
 	};
 	
 	
-	inline static std::shared_ptr<Month> January = std::make_shared<Month>(1);
-	inline static std::shared_ptr<Month> February= std::make_shared<Month>(2);
-	inline static std::shared_ptr<Month> March= std::make_shared<Month>(3);
-	inline static std::shared_ptr<Month> April= std::make_shared<Month>(4);
-	inline static std::shared_ptr<Month> May= std::make_shared<Month>(5);
-	inline static std::shared_ptr<Month> June= std::make_shared<Month>(6);
-	inline static std::shared_ptr<Month> July= std::make_shared<Month>(7);
-	inline static std::shared_ptr<Month> August= std::make_shared<Month>(8);
-	inline static std::shared_ptr<Month> September= std::make_shared<Month>(9);
-	inline static std::shared_ptr<Month> October= std::make_shared<Month>(10);
-	inline static std::shared_ptr<Month> November= std::make_shared<Month>(11);
-	inline static std::shared_ptr<Month> December= std::make_shared<Month>(12);
+	inline static Month January = Month(1);
+	inline static Month February= Month(2);
+	inline static Month March= Month(3);
+	inline static Month April= Month(4);
+	inline static Month May= Month(5);
+	inline static Month June= Month(6);
+	inline static Month July= Month(7);
+	inline static Month August= Month(8);
+	inline static Month September= Month(9);
+	inline static Month October= Month(10);
+	inline static Month November= Month(11);
+	inline static Month December= Month(12);
 	
 	using TP = std::chrono::system_clock::time_point;
 	
-	class Date;
-	
-	template<typename ItemT>
-	const ItemT& Get(Date const& d)
-	{
-		return std::get<ItemT>(d.tt);
-	};
-	
-
 	class Date: public Element
 	{
 	public:
-		using DayType = std::shared_ptr<DateTimes::Day>;
-		using MonthType = std::shared_ptr<DateTimes::Month>;
-		using YearType = std::shared_ptr<DateTimes::Year>;
-		using DateType = std::shared_ptr<DateTimes::Date>;
+		using DayType = DateTimes::Day;
+        using MonthType = DateTimes::Month;
+        using YearType = DateTimes::Year;
 		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
+		using Type = DateTimes::Date;
 		
 		template<typename ItemT>
 		friend const ItemT& Get(Date const& t);
 		
 		inline static const std::string Identifier = "Date";
 						
-		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): 
-						Element{s},
-						tt{Extract(s)}
-						{	
-							auto dt = Extract(s);
-							day = std::make_shared<DateTimes::Day>(std::get<0>(dt));
-							month = std::make_shared<DateTimes::Month>(std::get<1>(dt));
-							year = std::make_shared<DateTimes::Year>(std::get<2>(dt));					
-						}; 
-						
-		Date(uint d, uint m, uint y): Date(std::string(), d,m, y) { };
+		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s}, tt{Extract(s)}{	}; 
 		Date(const std::string& s, const TupleType& t): Date(s,  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
+		Date(uint d, uint m, uint y): Date(std::string(), d,m, y) { };
 		Date(): Date(std::string(), 0,0, 0) { };
 		Date* DoCreate(){return this;};
 
@@ -142,27 +125,18 @@ namespace DateTimes
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y));
 		}
 		
-		MonthType Month() const { return this->month; };
-		YearType Year() const { return this->year; };
-		DayType Day() const { return this->day; };
-		
-		bool operator==(DayType m) const{ return *(this->day) == m;};
-		bool operator==(DateTimes::Day m) const{ return *(this->day) == m;};
-		bool operator==(MonthType m) const{ return *(this->month) == m;};
-		bool operator==(DateTimes::Month m) const{ return *(this->month) == m;};
-		bool operator==(YearType y) const{ return *(this->year) == y;};
-		bool operator==(DateTimes::Year y) const{ return *(this->year)== y;};
-		bool operator==(Date date) const{ return *(this->year)== *(date.Year()) && *(this->month)== *(date.Month()) && *(this->day)== *(date.Day());};
-		bool operator==(DateType date) const{ return *(this->year)== date->Year() && *(this->month)== date->Month() && *(this->day)== date->Day();};
+		//~ bool operator==(Date date) const{ return *(this->year)== *(date.Year()) && *(this->month)== *(date.Month()) && *(this->day)== *(date.Day());};
+		//~ bool operator==(DateType date) const{ return *(this->year)== date->Year() && *(this->month)== date->Month() && *(this->day)== date->Day();};
 	private:
 		TupleType tt;
 		TP tp;
-		MonthType month;
-		YearType year;
-		DayType day;
 	};
 
-
+	template<typename ItemT>
+	const ItemT& Get(Date const& d)
+	{
+		return std::get<ItemT>(d.tt);
+	};
 }
 
 namespace Parsers

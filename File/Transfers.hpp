@@ -16,7 +16,7 @@ namespace Bank
 	using DayType = DateTimes::Date::DayType;
 	using MonthType = DateTimes::Date::MonthType;
 	using YearType = DateTimes::Date::YearType;
-	using DateType = DateTimes::Date::DateType;
+	using DateType = DateTimes::Date::Type;
 	
 	template<typename T>
 	class Transfers

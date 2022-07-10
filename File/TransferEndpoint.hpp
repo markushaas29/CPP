@@ -98,13 +98,16 @@ namespace Bank
 			std::for_each(this->transactions.Begin(),this->transactions.End(), [&result](const auto& c) 
 			{ 
 				auto current = Bank::Get<T>(*c);
+				
+				auto y = DateTimes::Get<DateTimes::Year>(current);
+				std::cout<<y.Value()<<std::endl;
 								
 				bool found = false;
 				if(result.size() > 0)
 				{
 					for(const auto& t : result)
 					{
-						if(!found && *(t.Year()) == *(current.Year()))
+						if(!found && DateTimes::Get<DateTimes::Year>(t).Value() == DateTimes::Get<DateTimes::Year>(current).Value())
 							found = true;
 					}
 				}			
