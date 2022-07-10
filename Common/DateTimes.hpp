@@ -19,13 +19,7 @@ namespace DateTimes
 		uint Value() const { return this->value; }
 		constexpr DateTimeBase(uint v):value{v} {}
 		operator uint() { return this->value; }
-		bool operator==(uint i){ return this->value == i;};
-		bool operator==(int i){ return this->value == i;};
-		bool operator==(T t){ return this->value == t.Value();};
-		bool operator==(Derived d){ return this->value == d->Value();};
 
-		bool operator<(T t) const{ return this->value < t.Value();};
-		bool operator>(T t) const{ return this->value > t.Value();};
 	protected:
 		const uint value;
 	};
@@ -36,6 +30,7 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return std::make_shared<Month>(i);}
 		constexpr Month(uint v): DateTimeBase<Month>(c(v)){};
 		constexpr Month(int v): DateTimeBase<Month>(c((uint)v)){};
+		bool operator==(const DateTimes::Month& d) const{ return this->value == d.value; };
 	private:
 		constexpr uint c(uint i)
 		{
@@ -51,6 +46,7 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return std::make_shared<Year>(i);}
 		static Base::Derived Get(int i) { return std::make_shared<Year>((uint)i);}
 		Year(uint v): DateTimeBase<Year>(v){};
+		bool operator==(const DateTimes::Year& d) const{ return this->value == d.value; };
 		
 	};
 	
@@ -60,6 +56,7 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return std::make_shared<Day>(i);}
 		static Base::Derived Get(int i) { return std::make_shared<Day>((uint)i);}
 		Day(uint v): DateTimeBase<Day>(v){};
+		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
 	};
 	
 	
@@ -125,8 +122,9 @@ namespace DateTimes
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y));
 		}
 		
-		//~ bool operator==(Date date) const{ return *(this->year)== *(date.Year()) && *(this->month)== *(date.Month()) && *(this->day)== *(date.Day());};
-		//~ bool operator==(DateType date) const{ return *(this->year)== date->Year() && *(this->month)== date->Month() && *(this->day)== date->Day();};
+		bool operator==(const Date& date) const{ return std::get<DateTimes::Day>(date.tt) == std::get<DateTimes::Day>(this->tt) 
+			&& std::get<DateTimes::Month>(date.tt) == std::get<DateTimes::Month>(this->tt) 
+			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
 	private:
 		TupleType tt;
 		TP tp;
