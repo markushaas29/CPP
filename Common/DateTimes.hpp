@@ -111,6 +111,7 @@ namespace DateTimes
 						}; 
 						
 		Date(uint d, uint m, uint y): Date(std::string(), d,m, y) { };
+		Date(const std::string& s, const TupleType& t): Date(s,  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date(std::string(), 0,0, 0) { };
 		Date* DoCreate(){return this;};
 
@@ -172,19 +173,7 @@ namespace Parsers
 	template<>
 	struct Parser<std::string, DateTimes::Date,std::string>
 	{
-		static DateTimes::Date Parse(std::string s) 
-		{ 
-			std::string res;
-			for(auto c : s)
-				if(isdigit(c))
-					res += c;
-						
-			uint d = std::stoul(std::string(res.begin(),res.begin()+2));
-			uint m = std::stoul(std::string(res.begin()+3,res.begin()+4));
-			uint y = std::stoul(std::string(res.begin()+4,res.begin()+8));
-		
-			return DateTimes::Date(s, d, m, y); 		
-		}
+		static DateTimes::Date Parse(std::string s) { return DateTimes::Date(s, DateTimes::Date::Extract(s)); }
 	};
 }
 
