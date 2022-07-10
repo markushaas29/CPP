@@ -76,20 +76,31 @@ namespace Bank
 		{
 			out<<"Owner: "<<owner<<std::endl;
 			out<<"\tIBAN: "<<iban<<"\tBIC: "<<bic<<std::endl;
-			for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
+			auto years = All<DateTimes::Date>();
+			
+			for(const auto y : years)
 			{
-				out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;
-				out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
+				for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
+				{
+					auto date = Bank::Get<DateTimes::Date>(*(*it));
+		
+					if(DateTimes::Get<DateTimes::Year>(date) == DateTimes::Get<DateTimes::Year>(y))
+					{
+						out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;
+						out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
+					}
+				}
 			}
 			
-			auto result = All<DateTimes::Date>();
+			//~ for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
+			//~ {
+				//~ out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;
+				//~ out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
+			//~ }
 			
-			for(const auto& t : result)
-				out<<t<<std::endl;
-
 			return out<<std::endl;
 		}
-		
+				
 		template<typename T>
 		decltype(auto) All()
 		{
@@ -99,15 +110,12 @@ namespace Bank
 			{ 
 				auto current = Bank::Get<T>(*c);
 				
-				auto y = DateTimes::Get<DateTimes::Year>(current);
-				std::cout<<y.Value()<<std::endl;
-								
 				bool found = false;
 				if(result.size() > 0)
 				{
 					for(const auto& t : result)
 					{
-						if(!found && DateTimes::Get<DateTimes::Year>(t).Value() == DateTimes::Get<DateTimes::Year>(current).Value())
+						if(!found && DateTimes::Get<DateTimes::Year>(t) == DateTimes::Get<DateTimes::Year>(current))
 							found = true;
 					}
 				}			

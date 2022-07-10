@@ -12,9 +12,9 @@ namespace DateTimes
 	template<typename T>
 	struct DateTimeBase
 	{
-		using Derived = std::shared_ptr<T>;
-		Derived Next() const { return std::make_shared<T>(this->value + 1); };
-		Derived Prev() const { return std::make_shared<T>(this->value - 1); };
+		using Derived = T;
+		Derived Next() const { return T{this->value + 1}; };
+		Derived Prev() const { return T{this->value - 1}; };
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
 		constexpr DateTimeBase(uint v):value{v} {}
@@ -27,12 +27,12 @@ namespace DateTimes
 	struct Month: DateTimeBase<Month>
 	{
 		using Base = DateTimeBase<Month>;
-		static Base::Derived Get(uint i) { return std::make_shared<Month>(i);}
-		constexpr Month(uint v): DateTimeBase<Month>(c(v)){};
-		constexpr Month(int v): DateTimeBase<Month>(c((uint)v)){};
+		static Base::Derived Get(uint i) { return Month{i};}
+		constexpr Month(uint v): DateTimeBase<Month>(check(v)){};
+		constexpr Month(int v): DateTimeBase<Month>(check((uint)v)){};
 		bool operator==(const DateTimes::Month& d) const{ return this->value == d.value; };
 	private:
-		constexpr uint c(uint i)
+		static constexpr uint check(uint i)
 		{
 			if( i > 12) return 1;
 			if( i < 1) return 12;
@@ -43,18 +43,26 @@ namespace DateTimes
 	struct Year: DateTimeBase<Year>
 	{
 		using Base = DateTimeBase<Year>;
-		static Base::Derived Get(uint i) { return std::make_shared<Year>(i);}
-		static Base::Derived Get(int i) { return std::make_shared<Year>((uint)i);}
-		Year(uint v): DateTimeBase<Year>(v){};
+		static Base::Derived Get(uint i) { return Year{i};}
+		static Base::Derived Get(int i) { return Year((uint)i);}
+		Year(uint v): DateTimeBase<Year>(v), IsLeapYear(isLeapYear(v)){};
 		bool operator==(const DateTimes::Year& d) const{ return this->value == d.value; };
-		
+		bool IsLeapYear;
+	private:
+		static constexpr bool isLeapYear(uint year)
+		{
+			if (year % 400 == 0) 	return true;
+			if (year % 100 == 0)	return false;
+			if (year % 4 == 0)		return true;
+			return false;
+		}
 	};
 	
 	struct Day: DateTimeBase<Day>
 	{
 		using Base = DateTimeBase<Day>;
-		static Base::Derived Get(uint i) { return std::make_shared<Day>(i);}
-		static Base::Derived Get(int i) { return std::make_shared<Day>((uint)i);}
+		static Base::Derived Get(uint i) { return Day{i};}
+		static Base::Derived Get(int i) { return Day((uint)i);}
 		Day(uint v): DateTimeBase<Day>(v){};
 		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
 	};
