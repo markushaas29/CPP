@@ -1,0 +1,4 @@
+Bezeichnung Auftragskonto;IBAN Auftragskonto;BICAuftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz
+Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;04.05.2022;04.05.2022;Marco Zieger;DE10660501011022126625;KARSDE66XXX;GUTSCHRIFT;Miete;750,00;EUR;1228,63;;;;;
+Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;04.05.2022;04.05.2022;Marco Zieger;DE10660501011022126625;KARSDE66XXX;GUTSCHRIFT;Miete;750,00;EUR;1228,63;;;;;
+Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;04.05.2022;04.05.2022;Marco Zieger;DE10660501011022126625;KARSDE66XXX;GUTSCHRIFT;Miete;750,00;EUR;1228,63;;;;;
