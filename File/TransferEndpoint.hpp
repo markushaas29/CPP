@@ -22,12 +22,8 @@
 #ifndef ACCOUNTENDPOINT_HPP
 #define ACCOUNTENDPOINT_HPP
 
-namespace fs = std::filesystem;
-
 namespace Bank
 {
-	//-----------------------------------------------------------------------------------------------TranferEndpoint-----------------------------------------------------------------------
-	
 	template<typename Account, template<typename> class Cont = std::vector>
 	class TransferEndpoint
 	{
@@ -44,8 +40,7 @@ namespace Bank
 		BIC bic;
 		Quantity<Sum> total;
 		Direction direction;
-		ContainerType transactions;
-
+		std::shared_ptr<ContainerType> transactions = std::make_shared<ContainerType>();
 	protected:
 		using CSVSeparator = T::char_<';'> ;
 	public:
@@ -53,12 +48,8 @@ namespace Bank
 		using QunatityType = Quantity<Sum>;
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : owner(ownerKey), iban(i), bic(b) { };
-		TransferEndpoint(const DataType t) : iban(Bank::Get<IBAN>(*t)),owner(Bank::Get<Name>(*t)), bic(Bank::Get<BIC>(*t)), total(Bank::Get<Quantity<Sum>>(*t)) //,owner(t->GetOwner())
-		{ 
-			this->transactions = ContainerType();
-			this->transactions.Add(t);
-		};
-		TransferEndpoint():owner("ownerKey"), iban("i"), bic("b"), total(0) { };
+		TransferEndpoint(const DataType t) : iban(Bank::Get<IBAN>(*t)),owner(Bank::Get<Name>(*t)), bic(Bank::Get<BIC>(*t)), total(Bank::Get<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
+		TransferEndpoint():owner("ownerKey"), iban("iban"), bic("bic"), total(0) { };
 		
 		const Name& GetOwner() const { return owner; }
 		const IBAN& GetIBAN() const { return iban; }
@@ -68,7 +59,7 @@ namespace Bank
 		
 		void Add(DataType t)
 		{
-			this->transactions.Add(t);
+			this->transactions->Add(t);
 			this->total = this->total + Bank::Get<Quantity<Sum>>(*t);
 		}
 		
@@ -80,7 +71,7 @@ namespace Bank
 			
 			for(const auto y : years)
 			{
-				for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
+				for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
 				{
 					auto date = Bank::Get<DateTimes::Date>(*(*it));
 		
@@ -106,7 +97,7 @@ namespace Bank
 		{
 			auto result = std::vector<T>();
 						
-			std::for_each(this->transactions.Begin(),this->transactions.End(), [&result](const auto& c) 
+			std::for_each(this->transactions->Begin(),this->transactions->End(), [&result](const auto& c) 
 			{ 
 				auto current = Bank::Get<T>(*c);
 				
@@ -137,9 +128,7 @@ namespace Bank
 			}
 			
 			return result;
-		}
-		
-		const ContainerType& Transactions() const { return this->transactions; }
+		}		
 	};
 }
 
