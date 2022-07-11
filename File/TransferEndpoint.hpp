@@ -6,6 +6,7 @@
 #include <chrono>
 #include <ctime>
 #include <iterator>
+#include <tuple>
 #include <vector>
 #include <filesystem>
 #include "Transfers.hpp"
@@ -24,10 +25,16 @@
 
 namespace Bank
 {
-	template<typename Account, template<typename> class Cont = std::vector>
+	template<typename AccountT, typename TupleT,template<typename> class ContT> class TransferEndpoint;
+	
+	template<typename ItemT, typename AccountT, typename TupleT,template<typename> class Cont>
+	const ItemT& GetT(TransferEndpoint<AccountT,TupleT,Cont>const& t)	{ return std::get<ItemT>(t.types);	};
+	
+	template<typename Account, typename TupleType = std::tuple<Name,IBAN,BIC,Quantity<Sum>>,template<typename> class Cont = std::vector>
 	class TransferEndpoint
 	{
 		using TransferTypes = Account::TupleType;
+		using EnpointTypes = TupleType;
 		using Type = TransferEndpoint<Account> ;
 		using TransferType = Transfer<Account,TransferTypes> ;
 		using DataType = std::shared_ptr<TransferType>;
@@ -35,38 +42,31 @@ namespace Bank
 		using ContainerType = Transfers<DataType>;
 		using Iterator = ContainerType::Iterator;
 		
-		Name owner;
-		IBAN iban;
-		BIC bic;
-		Quantity<Sum> total;
-		Direction direction;
+		TupleType types;
 		std::shared_ptr<ContainerType> transactions = std::make_shared<ContainerType>();
 	protected:
 		using CSVSeparator = T::char_<';'> ;
 	public:
 		using KeyType = Key<std::string>;
-		using QunatityType = Quantity<Sum>;
+		using QuantityType = Quantity<Sum>;
 		
-		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : owner(ownerKey), iban(i), bic(b) { };
-		TransferEndpoint(const DataType t) : iban(Bank::Get<IBAN>(*t)),owner(Bank::Get<Name>(*t)), bic(Bank::Get<BIC>(*t)), total(Bank::Get<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
-		TransferEndpoint():owner("ownerKey"), iban("iban"), bic("bic"), total(0) { };
+		template<typename ItemT, typename AccountT, typename TupleT,template<typename> class C>
+		friend const ItemT& GetT(TransferEndpoint<AccountT,TupleT,C>const& t);
 		
-		const Name& GetOwner() const { return owner; }
-		const IBAN& GetIBAN() const { return iban; }
-		const BIC& GetBIC() const { return bic; }
-		const Quantity<Sum>& GetTotal() const { return total; }
-		const auto& GetDirection() const { return direction.Id(); }		
-		
+		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : types(ownerKey, i, b) { };
+		TransferEndpoint(const DataType t) : types( Bank::Get<Name>(*t), Bank::Get<IBAN>(*t), Bank::Get<BIC>(*t), Bank::Get<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
+		TransferEndpoint():types("ownerKey", "iban", "bic", 0) { };
+				
 		void Add(DataType t)
 		{
 			this->transactions->Add(t);
-			this->total = this->total + Bank::Get<Quantity<Sum>>(*t);
+			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::Get<Quantity<Sum>>(*t);
 		}
 		
 		std::ostream& Display(std::ostream& out)
 		{
-			out<<"Owner: "<<owner<<std::endl;
-			out<<"\tIBAN: "<<iban<<"\tBIC: "<<bic<<std::endl;
+			out<<"Owner: "<<std::get<Name>(types)<<std::endl;
+			out<<"\tIBAN: "<<std::get<IBAN>(types)<<"\tBIC: "<<std::get<BIC>(types)<<std::endl;
 			auto years = All<DateTimes::Date>();
 			
 			for(const auto y : years)

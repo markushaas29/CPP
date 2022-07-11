@@ -63,7 +63,7 @@ namespace Bank
 			{
 				p.second.Display(out);
 				
-				out<<"\nTotal: "<<std::setprecision(2)<<std::fixed<<p.second.GetTotal()<<std::endl;
+				out<<"\nTotal: "<<std::setprecision(2)<<std::fixed<<GetT<Quantity<Sum>>(p.second)<<std::endl;
 				
 				out<<std::endl;
 			}
@@ -82,7 +82,7 @@ namespace Bank
 				auto p = this->transfers[key];				
 				p.Display(out);
 				
-				out<<"\nTotal: "<<std::setprecision(2)<<std::fixed<<p.GetTotal()<<std::endl;
+				out<<"\nTotal: "<<std::setprecision(2)<<std::fixed<<GetT<Quantity<Sum>>(p.second)<<std::endl;
 				out<<std::endl;
 			}
 			

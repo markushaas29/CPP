@@ -24,7 +24,6 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {	
-	//-----------------------------------------------------------------------------------------------Transfer-----------------------------------------------------------------------
 	template<typename Account, typename TupleT>	class Transfer;
 	
 	template<typename ItemT, typename Account, typename TupleT>
