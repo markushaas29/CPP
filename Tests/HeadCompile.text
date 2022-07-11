@@ -1,4 +1,0 @@
-g++ -c -g -std=c++2a *.cpp
-g++ -c -g -std=c++2a *.cpp
-rm *.o && make Debug 2>&1 | head
-
