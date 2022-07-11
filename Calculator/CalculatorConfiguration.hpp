@@ -22,10 +22,10 @@
 template<typename Derived, typename Q>
 struct CalculatorConfiguration
 {
-	inline static const Key AccountKey = Key(Derived::KeyString);
+	inline static const Key AccountKey = Key("");
 	using Type = Derived;
 	using QuantityType = Q;
-	constexpr static const char* Name = Derived::Name; 
+	constexpr static const char* Name = "";//Derived::Name; 
 };
 
 struct BuildingInsurance: CalculatorConfiguration<BuildingInsurance, IndividualUnit> 
