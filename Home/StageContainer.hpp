@@ -37,11 +37,11 @@ public:
 	using StageTypes = Typelist<Head>;
 	using ContainerType = StageContainer<Typelist<Head>>;
 private:
-	inline static const std::string DestinationPath = "//home//markus//Downloads//";
-	inline static const std::string Name = "Stages";
+	inline static constexpr const char* DestinationPath = "//home//markus//Downloads//CSV_Files//";
+	inline static constexpr const char* Name = "Stages";
 protected:
 	inline static std::unique_ptr<StagesMap, DebugDeleter<StagesMap>> stages = std::unique_ptr<StagesMap, DebugDeleter<StagesMap>>(new StagesMap(),DebugDeleter<StagesMap>());
-	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(DestinationPath + Name)));
+	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(DestinationPath) + std::string(Name))));
 	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using CsvValuesIterator = std::vector<std::vector<std::string>>::const_iterator;
@@ -54,25 +54,13 @@ protected:
 		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
 	};
 public:
-	static std::ostream& Display(std::ostream& os) 
-	{
-		return Type::Instance().Display(os);
-	}
+	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }
 	
-	void Write(const std::string sourcePath = ".")
-	{
-		Type::Write(sourcePath);
-	}
+	void Write(const std::string sourcePath = ".")	{ Type::Write(sourcePath); }
 
-	static std::string GetName()
-	{
-		return Name;
-	}
+	static constexpr const char* GetName(){ return Name; }
 	
-	static std::string GetFileName()
-	{
-		return Name + ".csv";
-	}
+	static constexpr const char* GetFileName(){ return (std::string(Name) + ".csv").c_str(); }
 	
 	static void Parse(InputIterator begin, InputIterator end)
 	{
@@ -87,16 +75,10 @@ public:
 	}
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont)
-	{
-		cont.insert(std::make_pair(GetFileName(),  &Parse));
-	}
+	static void RegisterTo(Cont& cont)	{	cont.insert(std::make_pair(GetFileName(),  &Parse)); }
 	
 	template<typename T>
-	static Quantity<typename T::Unit> GetTotal()
-	{
-		return GetQuantity<Head,T>::Value();
-	}
+	static Quantity<typename T::Unit> GetTotal() {	return GetQuantity<Head,T>::Value(); }
 
 	static StageContainer& Instance()
 	{
@@ -141,7 +123,7 @@ private:
 	
 	void Read(const std::string sourcePath = ".")
 	{
-		auto lines =  FS::ReadLines(DestinationPath + Name +".csv");
+		auto lines =  FS::ReadLines(DestinationPath + std::string(Name) +".csv");
 		std::vector<std::vector<std::string>> values;
 		for(auto line : lines)
 			values.push_back(FS::CSV::ExtractValues(line));
@@ -166,10 +148,7 @@ protected:
 		Type::Instance(); 			
 	};
 public:
-	static std::ostream& Display(std::ostream& os) 
-	{
-		return Base::Display(Type::Instance().Display(os));		
-	}
+	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Instance().Display(os));	}
 
 	static StageContainer& Instance()
 	{
@@ -192,23 +171,14 @@ public:
 		Base::template CalculateInternal<AllT>();
 	}
 	
-	void Calculate()
-	{
-		CalculateInternal<ContainerType>();
-	}
+	void Calculate(){	CalculateInternal<ContainerType>();	}
 	
 	template<typename T>
-	Quantity<typename T::Unit> GetTotal()
-	{
-		return GetQuantity<Head,T>::Value() + Base::template GetTotal<T>();
-	}
+	Quantity<typename T::Unit> GetTotal(){	return GetQuantity<Head,T>::Value() + Base::template GetTotal<T>();	}
 };
 
 template<typename Head, typename... Tail>
-std::ostream& operator<<(std::ostream& strm, const StageContainer<Head,Tail...> c)
-{
-	return c.Display(strm);
-}
+std::ostream& operator<<(std::ostream& strm, const StageContainer<Head,Tail...> c){	return c.Display(strm);}
 
 using StageContainerType = StageContainer<Typelist<Top,Middle,Bottom>>::ContainerType;
 
