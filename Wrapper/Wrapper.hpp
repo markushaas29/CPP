@@ -182,30 +182,30 @@ struct Front<Valuelist<T, Head, Tail...>> {
 	static constexpr T Value = Head;
 };
 
-template<typename List>
-struct PopFront {	};
+//~ template<typename List>
+//~ struct PopFront {	};
 
-template<typename T, T Head, T... Tail>
-struct PopFront<Valuelist<T, Head, Tail...>> {
-	using Type = Valuelist<T, Tail...>;
-	static constexpr T Value = Head;
-};
+//~ template<typename T, T Head, T... Tail>
+//~ struct PopFront<Valuelist<T, Head, Tail...>> {
+	//~ using Type = Valuelist<T, Tail...>;
+	//~ static constexpr T Value = Head;
+//~ };
 
-template<typename List, typename List::ValueType Head>
-struct PushFront {	};
+//~ template<typename List, typename List::ValueType Head>
+//~ struct PushFront {	};
 
-template<typename T, T Head, T... Tail>
-struct PushFront<Valuelist<T, Tail...>, Head> {
-	using Type = Valuelist<T, Head ,Tail...>;
-};
+//~ template<typename T, T Head, T... Tail>
+//~ struct PushFront<Valuelist<T, Tail...>, Head> {
+	//~ using Type = Valuelist<T, Head ,Tail...>;
+//~ };
 
-template<typename List, typename List::ValueType End>
-struct PushBack {	};
+//~ template<typename List, typename List::ValueType End>
+//~ struct PushBack {	};
 
-template<typename T, T End, T... Tail>
-struct PushBack<Valuelist<T, Tail...>, End> {
-	using Type = Valuelist<T, Tail..., End>;
-};
+//~ template<typename T, T End, T... Tail>
+//~ struct PushBack<Valuelist<T, Tail...>, End> {
+	//~ using Type = Valuelist<T, Tail..., End>;
+//~ };
 
 
 }
