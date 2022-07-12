@@ -67,28 +67,31 @@ namespace Bank
 		{
 			out<<"Owner: "<<std::get<Name>(types)<<std::endl;
 			out<<"\tIBAN: "<<std::get<IBAN>(types)<<"\tBIC: "<<std::get<BIC>(types)<<std::endl;
-			auto years = All<DateTimes::Date>();
+			auto allDates = All<DateTimes::Date>();
 			
-			for(const auto y : years)
+			for(const auto y : allDates)
 			{
+				QuantityType sum = QuantityType{0};
+				auto year = DateTimes::Get<DateTimes::Year>(y);
+				
 				for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
 				{
 					auto date = Bank::Get<DateTimes::Date>(*(*it));
 		
-					if(DateTimes::Get<DateTimes::Year>(date) == DateTimes::Get<DateTimes::Year>(y))
+					if(DateTimes::Get<DateTimes::Year>(date) == year)
 					{
-						out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;
+						auto s = Bank::Get<Quantity<Sum>>(**it);
+						out<<"\tDate: "<<date<<"\tSum: "<<std::setprecision(2)<<std::fixed<<s<<std::endl;
 						out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
+						sum = sum + s;
 					}
 				}
+				
+				out<<"\n\tTotal "<<year<<"\t:"<<std::setprecision(2)<<std::fixed<<sum<<"\n"<<std::endl;
 			}
 			
-			//~ for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
-			//~ {
-				//~ out<<"\tDate: "<<Bank::Get<DateTimes::Date>(*(*it))<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(**it)<<std::endl;
-				//~ out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
-			//~ }
-			
+			out<<"\nTotal: "<<std::setprecision(2)<<std::fixed<<std::get<QuantityType>(types)<<std::endl;
+
 			return out<<std::endl;
 		}
 				
