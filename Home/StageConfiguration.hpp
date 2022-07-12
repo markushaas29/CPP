@@ -22,7 +22,11 @@
 
 using StageMap = std::map<std::string, std::string>;
 
-template<typename Derived, typename TColdWaterCounter, typename THotWaterCounter, typename TEnergyCounter,int N, unsigned A, unsigned R, unsigned I = 1>
+struct TOP{ inline  static constexpr const char* Name = "Top"; };
+struct MIDDLE{ inline  static constexpr const char* Name = "Middle"; };
+struct BOTTOM{ inline  static constexpr const char* Name = "Bottom"; };
+
+template<typename Derived, typename TColdWaterCounter, typename THotWaterCounter, typename TEnergyCounter,int N, unsigned A, unsigned R, typename T = TOP, unsigned I = 1>
 struct StageConfiguration
 {
 	using Type = Derived;
@@ -33,15 +37,11 @@ struct StageConfiguration
 	static constexpr int Number = N;
 	static constexpr unsigned Area = A;
 	static constexpr unsigned Rooms = R;
-	static const char* Name;
+	static constexpr const char* Name = T::Name;
 };
 
-struct TopConfiguration:StageConfiguration<TopConfiguration, CTCW, CTHW, CVat,2,58,5> { };
-struct MiddleConfiguration:StageConfiguration<MiddleConfiguration,CMCW, CMHW, CE1,1,101,7> { };
-struct BottomConfiguration:StageConfiguration<BottomConfiguration,CBCW, CBHW, CE1,0,101,7> { };
-
-template<> const char* StageConfiguration<TopConfiguration, TopConfiguration::ColdWaterCounter, TopConfiguration::HotWaterCounter ,TopConfiguration::EnergyCounter , TopConfiguration::Number, TopConfiguration::Area, TopConfiguration::Rooms, TopConfiguration::Units>::Name = "Top";
-template<> const char* StageConfiguration<MiddleConfiguration, MiddleConfiguration::ColdWaterCounter, MiddleConfiguration::HotWaterCounter, MiddleConfiguration::EnergyCounter, MiddleConfiguration::Number, MiddleConfiguration::Area, MiddleConfiguration::Rooms>::Name = "Middle";
-template<> const char* StageConfiguration<BottomConfiguration, BottomConfiguration::ColdWaterCounter, BottomConfiguration::HotWaterCounter,BottomConfiguration::EnergyCounter, BottomConfiguration::Number, BottomConfiguration::Area, BottomConfiguration::Rooms>::Name = "Bottom";
+struct TopConfiguration:StageConfiguration<TopConfiguration, CTCW, CTHW, CVat,2,58,5,TOP> { };
+struct MiddleConfiguration:StageConfiguration<MiddleConfiguration,CMCW, CMHW, CE1,1,101,7,MIDDLE> { };
+struct BottomConfiguration:StageConfiguration<BottomConfiguration,CBCW, CBHW, CE1,0,101,7,BOTTOM> { };
 
 #endif
