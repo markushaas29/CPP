@@ -21,17 +21,15 @@
 #include "../String/String_.hpp"
 
 
-#ifndef TRANSFERCONTAINER_HPP
-#define TRANSFERCONTAINER_HPP
+#ifndef ACCOUNTCONTAINER_HPP
+#define ACCOUNTCONTAINER_HPP
 
 namespace fs = std::filesystem;
 
 namespace Bank
 {
-	//-----------------------------------------------------------------------------------------------TranferContainer-----------------------------------------------------------------------
-		
 	template<typename T, template<typename, typename> class TCont = std::map, template<typename> class Cont = std::vector>
-	class TransferContainer
+	class AccountContainer
 	{
 	public:
 		using KeyType = typename T::KeyType;

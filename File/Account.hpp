@@ -41,7 +41,7 @@ namespace Bank
 		using TransferType = Transfer<Derived, TransferT>;
 		using TupleType = TransferT;
 		using KeyType = Key<std::string>;
-		using ParseContainer = TransferContainer<TransferType>;
+		using ParseContainer = AccountContainer<TransferType>;
 		using QuantityType = Quantity<Sum>;
 		using InputIterator = std::vector<std::string>::const_iterator;
 		using KeyIndexType = CSV::KeyIndex<KeyType,uint>;
