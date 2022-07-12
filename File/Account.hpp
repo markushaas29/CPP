@@ -41,7 +41,7 @@ namespace Bank
 		using TransferType = Transfer<Derived, TransferT>;
 		using TupleType = TransferT;
 		using KeyType = Key<std::string>;
-		using ParseContainer = AccountContainer<TransferType>;
+		using AccountContainerType = AccountContainer<TransferType>;
 		using QuantityType = Quantity<Sum>;
 		using InputIterator = std::vector<std::string>::const_iterator;
 		using KeyIndexType = CSV::KeyIndex<KeyType,uint>;
@@ -137,10 +137,7 @@ namespace Bank
 		
 	protected:
 		Account(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : owner(k), iban(i), bic(b) { };
-		
-		static constexpr unsigned int Indices[4] = {Derived::OwnerIdx, Derived::DateIdx, Derived::TranactionIdx, Derived::QuantityIdx};
-		static const unsigned int MaxIdx = *std::max_element(Indices,Indices+4);
-		inline static KeyIndexContainerPtrType keyIndices = std::make_unique<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
+		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
 		
 		static std::string GetNumericValue(std::string s)
 		{

@@ -62,7 +62,7 @@ namespace Bank
 			;
 		}
 	private:
-		inline static Base::ParseContainer cont = typename Base::ParseContainer();
+		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static String_::Parser parser = String_::Parser();
 	};
 }
