@@ -8,8 +8,8 @@
 #include "../String/String_.hpp"
 #include "../CSV/CSV.hpp"
 
-#ifndef ACCOUNTTRANSFERSCONTAINER_HPP
-#define ACCOUNTTRANSFERSCONTAINER_HPP
+#ifndef TRANSFERSCONTAINER_HPP
+#define TRANSFERSCONTAINER_HPP
 
 namespace Bank
 {
@@ -19,16 +19,16 @@ namespace Bank
 	using DateType = DateTimes::Date::Type;
 	
 	template<typename T>
-	class Transfers
+	class TransferContainer
 	{
 	public:
-		using Type = Transfers<T> ;
+		using Type = TransferContainer<T> ;
 		using ContainerType = std::vector<T>;
 		using ContainerPtr = std::unique_ptr<ContainerType>;
 		using TypePtr = std::shared_ptr<Type>;
 		using Iterator = ContainerType::const_iterator;
 
-		Transfers(): transactions{std::make_unique<ContainerType>()}{}
+		TransferContainer(): transactions{std::make_unique<ContainerType>()}{}
 		
 // 		Type operator[](std::string s) { return Type(ContainerType(this->Begin()+1, this->End()-1)); }
 		
@@ -48,8 +48,34 @@ namespace Bank
 		
 	private:
 		ContainerPtr transactions;
-		Transfers(ContainerPtr c): transactions(c){ }
+		TransferContainer(ContainerPtr c): transactions(c){ }
 	};
+	
+	//~ template<typename ItemT, typename AccountT>
+	//~ const ItemT& GetAll(TransferContainer<AccountT> const& tc)
+	//~ {
+			//~ auto result = std::vector<T>();
+						
+			//~ std::for_each(tc->Begin(),tc->End(), [&result](const auto& c) 
+			//~ { 
+				//~ auto current = Bank::Get<T>(*c);
+				
+				//~ bool found = false;
+				//~ if(result.size() > 0)
+				//~ {
+					//~ for(const auto& t : result)
+					//~ {
+						//~ if(!found && DateTimes::Get<DateTimes::Year>(t) == DateTimes::Get<DateTimes::Year>(current))
+							//~ found = true;
+					//~ }
+				//~ }			
+						
+				//~ if(!found || result.size() == 0)
+					//~ result.push_back(current);
+			//~ });
+
+			//~ return result;
+	//~ };
 }
 
 

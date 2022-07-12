@@ -9,7 +9,7 @@
 #include <tuple>
 #include <vector>
 #include <filesystem>
-#include "Transfers.hpp"
+#include "TransferContainer.hpp"
 #include "Transfer.hpp"
 #include "Direction.hpp"
 #include "../Logger/Logger.hpp"
@@ -39,7 +39,7 @@ namespace Bank
 		using TransferType = Transfer<Account,TransferTypes> ;
 		using DataType = std::shared_ptr<TransferType>;
 		using ResultContainer = Cont<DataType> ;
-		using ContainerType = Transfers<DataType>;
+		using ContainerType = TransferContainer<DataType>;
 		using Iterator = ContainerType::Iterator;
 		
 		TupleType types;
