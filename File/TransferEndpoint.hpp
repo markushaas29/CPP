@@ -26,9 +26,9 @@
 namespace Bank
 {
 	template<typename AccountT, typename TupleT,template<typename> class ContT> class TransferEndpoint;
-	
+		
 	template<typename ItemT, typename AccountT, typename TupleT,template<typename> class Cont>
-	const ItemT& GetT(TransferEndpoint<AccountT,TupleT,Cont>const& t)	{ return std::get<ItemT>(t.types);	};
+	const ItemT& GetTransferEndpoint(TransferEndpoint<AccountT,TupleT,Cont>const& t)	{ return std::get<ItemT>(t.types);	};
 	
 	template<typename Account, typename TupleType = std::tuple<Name,IBAN,BIC,Quantity<Sum>>,template<typename> class Cont = std::vector>
 	class TransferEndpoint
