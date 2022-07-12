@@ -57,6 +57,8 @@ namespace DateTimes
 			return false;
 		}
 	};
+		
+	bool operator<(const Year& y1, const Year& y2) { return y1.Value() < y2.Value(); };
 	
 	struct Day: DateTimeBase<Day>
 	{

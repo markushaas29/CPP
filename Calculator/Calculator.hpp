@@ -71,21 +71,21 @@ namespace Calculator
 		{
 			auto total = AllStages::Instance().template GetTotal<typename Config::QuantityType>();
 			
-			auto raiba = Get<Bank::Raiba<0>, Bank::Out>();
+			auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
 			auto account = raiba(Config::AccountKey);
 			account.Display(std::cout);
 			
 			if(T::IsSame<Config,BuildingInsurance>::Value)
 			{
 				if(T::IsSame<Stage,Top>::Value)
-					Ratio::Calculate(IndividualUnit(2).Get(), IndividualUnit(4).Get(), account.GetTotal());
+					Ratio::Calculate(IndividualUnit(2).Get(), IndividualUnit(4).Get(), Bank::GetTransferEndpoint<Quantity<Sum>>(account));
 				else
-					Ratio::Calculate(IndividualUnit(1).Get(), IndividualUnit(4).Get(), account.GetTotal());
+					Ratio::Calculate(IndividualUnit(1).Get(), IndividualUnit(4).Get(), Bank::GetTransferEndpoint<Quantity<Sum>>(account));
 				
 				return std::make_shared<Result<ConfigT>>();
 			}
 			
-			auto result = Ratio::Calculate(GetQuantity<Stage, typename Config::QuantityType>::Value(), total, account.GetTotal());
+			auto result = Ratio::Calculate(GetQuantity<Stage, typename Config::QuantityType>::Value(), total, Bank::GetTransferEndpoint<Quantity<Sum>>(account));
 			
 			std::cout<<"CALC: "<<result<<std::endl;
 			
@@ -102,7 +102,7 @@ namespace Calculator
 		{
 			auto totalQ = AllStages::Instance().template GetTotal<typename PropertyTax::QuantityType>();
 			
-			auto raiba = Get<Bank::Raiba<0>, Bank::Out>();
+			auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
 			auto account = raiba(PropertyTax::AccountKey);
 			account.Display(std::cout);
 			auto water = account.GetCause(PropertyTax::CauseString);
@@ -128,7 +128,7 @@ namespace Calculator
 		template<typename Stage, typename AllStages, typename ConfigT = Configuration<Sewage, Stage, AllStages>>
 		static std::shared_ptr<Result<ConfigT>> Calculate()
 		{
-			auto raiba = Get<Bank::Raiba<0>, Bank::Out>();
+			auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
 			auto account = raiba(Sewage::AccountKey);
 			account.Display(std::cout);
 			auto sewage = account.GetCause(Sewage::CauseString);

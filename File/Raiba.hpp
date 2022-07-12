@@ -62,6 +62,9 @@ namespace Bank
 			;
 		}
 	private:
+		template<typename A, typename DirectionT>
+		friend struct Get;
+	
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static String_::Parser parser = String_::Parser();
 	};

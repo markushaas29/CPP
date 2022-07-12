@@ -42,8 +42,8 @@ namespace Bank
 		using ContainerType = TransferContainer<DataType>;
 		using Iterator = ContainerType::Iterator;
 		
-		TupleType types;
 		std::shared_ptr<ContainerType> transactions = std::make_shared<ContainerType>();
+		TupleType types;
 	protected:
 		using CSVSeparator = T::char_<';'> ;
 	public:
@@ -51,7 +51,7 @@ namespace Bank
 		using QuantityType = Quantity<Sum>;
 		
 		template<typename ItemT, typename AccountT, typename TupleT,template<typename> class C>
-		friend const ItemT& GetT(TransferEndpoint<AccountT,TupleT,C>const& t);
+		friend const ItemT& GetTransferEndpoint(TransferEndpoint<AccountT,TupleT,C> const& t);
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : types(ownerKey, i, b) { };
 		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
@@ -124,7 +124,7 @@ namespace Bank
 		ResultContainer GetCause(std::string name = "")
 		{
 			ResultContainer result;
-			for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
+			for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
 			{
 				if(String_::Contains(Bank::GetTransfer<Entry>(*(*it)).Value, name))
 					result.push_back(*it);

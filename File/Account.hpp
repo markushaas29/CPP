@@ -25,6 +25,13 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
+	template<typename A, typename DirectionT>
+	struct Get
+	{
+		decltype(auto) operator()(typename A::KeyType k){ return A::cont[k]; }
+		
+	};
+	
 	template<typename Derived, typename TransferT>
 	class Account
 	{
@@ -159,26 +166,5 @@ namespace Bank
 		
 	};
 }
-
-template<typename A, typename DirectionT>
-struct Get{};
-
-template<typename A>
-struct Get<A, Bank::Out>
-{
-	Bank::TransferEndpoint<A> operator()(typename A::KeyType k)
-	{
-		return A::Cont[k];
-	}
-};
-
-template<typename A>
-struct Get<A, Bank::In>
-{
-	Bank::TransferEndpoint<A> operator()(typename A::KeyType k)
-	{
-		return A::Cont[k];
-	}
-};
 
 #endif
