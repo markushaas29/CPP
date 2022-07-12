@@ -110,7 +110,7 @@ namespace Calculator
 			auto totalSum = Quantity<Sum>(0); 
 			
 			for(auto w : water)
-				totalSum = totalSum + Bank::Get<QuantityType>(*w);
+				totalSum = totalSum + Bank::GetTransfer<QuantityType>(*w);
 			
 			Logger::Log()<<totalSum;
 			
@@ -136,10 +136,10 @@ namespace Calculator
 			auto totalSum = Quantity<Sum>(0); 
 			
 			for(auto s : sewage)
-				totalSum = totalSum + Bank::Get<QuantityType>(*s);
+				totalSum = totalSum + Bank::GetTransfer<QuantityType>(*s);
 			
 			auto invoice = account.GetCause(Sewage::InvoiceString);
-			totalSum= totalSum + Bank::Get<QuantityType>(*(invoice.at(0)));
+			totalSum= totalSum + Bank::GetTransfer<QuantityType>(*(invoice.at(0)));
 			
 			Logger::Log()<<"WATER sum"<<totalSum<<std::endl;
 			auto cwb = Stage::ColdWaterCounter::Instance().ConsumptionssBegin();

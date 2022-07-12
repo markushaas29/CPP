@@ -79,7 +79,7 @@ namespace Bank
 							}
 							Logger::Log(values.cbegin(),values.cend());
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
-							Derived::cont.Insert(Key(Bank::Get<IBAN>(*tt).Value), tt);
+							Derived::cont.Insert(Key(Bank::GetTransfer<IBAN>(*tt).Value), tt);
 						}
 						
 						Derived::cont.Display(std::cout);

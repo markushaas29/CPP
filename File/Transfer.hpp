@@ -27,7 +27,7 @@ namespace Bank
 	template<typename Account, typename TupleT>	class Transfer;
 	
 	template<typename ItemT, typename Account, typename TupleT>
-	const ItemT& Get(Transfer<Account,TupleT>const& t)
+	const ItemT& GetTransfer(Transfer<Account,TupleT>const& t)
 	{
 		return std::get<ItemT>(t.transferItems);
 	};
@@ -54,14 +54,14 @@ namespace Bank
 		
 		std::ostream& Display(std::ostream& os) const 
 		{
-			os<<"\tDate: "<<Bank::Get<DateTimes::Date>(*this)<<"\tSum: "<<std::setprecision(2)<<std::fixed<<Bank::Get<Quantity<Sum>>(*this)<<std::endl;
-			os<<"\t"<<"\t"<<Bank::Get<Entry>(*this)<<std::endl;
+			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum>>(transferItems)<<std::endl;
+			os<<"\t"<<"\t"<<std::get<Entry>(transferItems)<<std::endl;
 			
 			return os;
 		}
 	private:
 		template<typename ItemT, typename A, typename T>
-		friend const ItemT& Get(Transfer<A,T>const& t);
+		friend const ItemT& GetTransfer(Transfer<A,T>const& t);
 		
 		TupleType transferItems;
 	};

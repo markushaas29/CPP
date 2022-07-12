@@ -54,13 +54,13 @@ namespace Bank
 		friend const ItemT& GetT(TransferEndpoint<AccountT,TupleT,C>const& t);
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : types(ownerKey, i, b) { };
-		TransferEndpoint(const DataType t) : types( Bank::Get<Name>(*t), Bank::Get<IBAN>(*t), Bank::Get<BIC>(*t), Bank::Get<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
+		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
 		TransferEndpoint():types("ownerKey", "iban", "bic", 0) { };
 				
 		void Add(DataType t)
 		{
 			this->transactions->Add(t);
-			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::Get<Quantity<Sum>>(*t);
+			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::GetTransfer<Quantity<Sum>>(*t);
 		}
 		
 		std::ostream& Display(std::ostream& out)
@@ -76,13 +76,13 @@ namespace Bank
 				
 				for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
 				{
-					auto date = Bank::Get<DateTimes::Date>(*(*it));
+					auto date = Bank::GetTransfer<DateTimes::Date>(*(*it));
 		
 					if(DateTimes::Get<DateTimes::Year>(date) == year)
 					{
-						auto s = Bank::Get<Quantity<Sum>>(**it);
+						auto s = Bank::GetTransfer<Quantity<Sum>>(**it);
 						out<<"\tDate: "<<date<<"\tSum: "<<std::setprecision(2)<<std::fixed<<s<<std::endl;
-						out<<"\t"<<"\t"<<Bank::Get<Entry>(**it)<<std::endl;
+						out<<"\t"<<"\t"<<Bank::GetTransfer<Entry>(**it)<<std::endl;
 						sum = sum + s;
 					}
 				}
@@ -102,7 +102,7 @@ namespace Bank
 						
 			std::for_each(this->transactions->Begin(),this->transactions->End(), [&result](const auto& c) 
 			{ 
-				auto current = Bank::Get<T>(*c);
+				auto current = Bank::GetTransfer<T>(*c);
 				
 				bool found = false;
 				if(result.size() > 0)
@@ -126,7 +126,7 @@ namespace Bank
 			ResultContainer result;
 			for(auto it = this->transactions.Begin(); it != this->transactions.End(); ++it)
 			{
-				if(String_::Contains(Bank::Get<Entry>(*(*it)).Value, name))
+				if(String_::Contains(Bank::GetTransfer<Entry>(*(*it)).Value, name))
 					result.push_back(*it);
 			}
 			
