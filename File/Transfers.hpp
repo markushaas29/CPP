@@ -24,11 +24,11 @@ namespace Bank
 	public:
 		using Type = Transfers<T> ;
 		using ContainerType = std::vector<T>;
-		using ContainerPtr = std::shared_ptr<ContainerType>;
+		using ContainerPtr = std::unique_ptr<ContainerType>;
 		using TypePtr = std::shared_ptr<Type>;
 		using Iterator = ContainerType::const_iterator;
 
-		Transfers(): transactions{std::make_shared<ContainerType>()}{}
+		Transfers(): transactions{std::make_unique<ContainerType>()}{}
 		
 // 		Type operator[](std::string s) { return Type(ContainerType(this->Begin()+1, this->End()-1)); }
 		
@@ -45,10 +45,7 @@ namespace Bank
 		const Iterator End() const { return this->transactions->cend(); }
 		const size_t Size() const { return this->transactions->size(); }
 		void Add(T t){ this->transactions->push_back(t); }
-		void Display()
-		{ 
-			
-		}
+		
 	private:
 		ContainerPtr transactions;
 		Transfers(ContainerPtr c): transactions(c){ }
