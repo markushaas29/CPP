@@ -19,25 +19,6 @@
 #ifndef STAGEQUANTITIES_HPP
 #define STAGEQUANTITIES_HPP
 
-template<typename D, typename U, typename T = double>
-class CSVValue: public Element
-{
-	using Derived = D;
-public:
-	using Unit = U;
-	using TQuantity = Quantity<Unit>;
-	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
-	CSVValue(T t): Element(std::to_string(t)), quantity(t) {};
-	const Quantity<U>& Get() { return this->quantity; }
-	const T& GetValue() { return this->val; }
-	static const char* Key;
-	Element* DoCreate() { return this; };
-private:
-	Quantity<U> quantity;
-	T val;
-	String_::To<T> to;
-};
-
 class IndividualUnit: public CSVValue<IndividualUnit, Scalar, unsigned>
 {
 public:

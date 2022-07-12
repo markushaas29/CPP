@@ -1,5 +1,6 @@
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
+#include "../Quantity/Quantity.h"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
 #include <map>
@@ -155,6 +156,25 @@ public:
        Name(std::string s): Element(s){};
        Name(): Element(""){};
        Name* DoCreate(){return this;};
+};
+
+template<typename D, typename U, typename T = double>
+class CSVValue: public Element
+{
+	using Derived = D;
+public:
+	using Unit = U;
+	using TQuantity = Quantity<Unit>;
+	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
+	CSVValue(T t): Element(std::to_string(t)), quantity(t) {};
+	const Quantity<U>& Get() { return this->quantity; }
+	const T& GetValue() { return this->val; }
+	static const char* Key;
+	Element* DoCreate() { return this; };
+private:
+	Quantity<U> quantity;
+	T val;
+	String_::To<T> to;
 };
 
 //Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben
