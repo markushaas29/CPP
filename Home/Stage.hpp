@@ -15,6 +15,7 @@
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
 #include <map>
+#include <tuple>
 #include <chrono>
 #include <ctime>
 #include <memory>
@@ -61,10 +62,7 @@ public:
 		return instance;
 	}
 	
-	static void Set(const StageMap& m)
-	{
-		Map = m;
-	}
+	static void Set(const StageMap& m)	{	Map = m;	}
 	
 	std::ostream& Display(std::ostream& os) 
 	{
@@ -74,14 +72,12 @@ public:
 	
 private:
 	inline static StageMap Map = StageMap();
-	static constexpr unsigned AreaValue = Configuration::Area;
-	static constexpr unsigned RoomsValue = Configuration::Rooms;
-	static constexpr unsigned UnitsValue = Configuration::Units;
 	inline static YearDataMapPtrType yearData = YearDataMapPtrType(new YearDataMapType()); 
+	std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons,Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental> quantities;
 	
-	ApartmentArea area = ApartmentArea(AreaValue);
-	Rooms rooms = Rooms(RoomsValue);
-	IndividualUnit individualUnit = IndividualUnit(UnitsValue);
+	ApartmentArea area = ApartmentArea(Configuration::Area);
+	Rooms rooms = Rooms(Configuration::Rooms);
+	IndividualUnit individualUnit = IndividualUnit(Configuration::Units);
 	Persons persons;
 	Advance advance;
 	IncidentalHeatingCosts incidentalHeatingCosts;
@@ -90,6 +86,7 @@ private:
 	
 	Stage(){ Logger::Log()<<"CTOR: "<<Number<<std::endl;}
 	Stage(const StageMap& m): 
+		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key)),
 		persons(m.at(Persons::Key)),
 		advance(m.at(Advance::Key)),
 		monthlyRent(m.at(MonthlyRent::Key)),
@@ -107,10 +104,7 @@ private:
 };
 
 template<typename C, typename S = T::char_<'\t'>>
-std::ostream& operator<<(std::ostream& strm, const Stage<C> c)
-{
-	return c.Display(strm);
-}
+std::ostream& operator<<(std::ostream& strm, const Stage<C> c){	return c.Display(strm);}
 
 template<typename T, typename Q>
 struct GetQuantity{};
