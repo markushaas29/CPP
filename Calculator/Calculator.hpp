@@ -11,7 +11,7 @@
 #ifndef CALCULATOR_HPP
 #define CALCULATOR_HPP
 
-namespace Calculator
+namespace Calculation
 {
 	//-------------------------------------------------------------------------------------------------CalculatorOperation----------------------------------------------------------
 	template<class Derived>

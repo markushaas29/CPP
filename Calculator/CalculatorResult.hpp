@@ -4,7 +4,7 @@
 #ifndef CALCULATORRESULT_HPP
 #define CALCULATORRESULT_HPP
 
-namespace Calculator
+namespace Calculation
 {
 	template<typename Config>
 	struct Result			
