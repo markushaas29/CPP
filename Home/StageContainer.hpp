@@ -48,7 +48,7 @@ protected:
 	
 	StageContainer() 
 	{ 
-// 		Read();
+ 		Read();
 		Head::Set(stages->at(Head::Name)); 
 		Head::Instance(); 			
 		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
@@ -95,9 +95,9 @@ public:
 			using All = AllT;
 		};
 		
-		using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
-		StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
-		StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
+		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
+		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
+		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
 	}
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
@@ -123,6 +123,7 @@ private:
 	
 	void Read(const std::string sourcePath = ".")
 	{
+		Logger::Log()<<"Read"<<std::endl;
 		auto lines =  FS::ReadLines(DestinationPath + std::string(Name) +".csv");
 		std::vector<std::vector<std::string>> values;
 		for(auto line : lines)
@@ -165,9 +166,9 @@ public:
 			using All = AllT;
 		};
 		
-		using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
-		StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
-		StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
+		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
+		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
+		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
 		Base::template CalculateInternal<AllT>();
 	}
 	

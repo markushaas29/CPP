@@ -39,6 +39,7 @@ public:
 		return statements->at(year);
 	}
 	
+private:
 	UtilitiesStatement(YearType y): year(y), items(std::make_shared<ItemsType>()) 
 	{ 
 		this->items->insert({"TEST",std::make_shared<Item>()});
@@ -62,7 +63,6 @@ public:
 		return os;
 	}
 	
-private:
 	UtilitiesStatement(): year(2000), items(std::make_shared<ItemsType>()) { 
 		this->items->insert({"TEST",std::make_shared<Item>()});
 		Logger::Log()<<"CTOR: "<<"UtilitiesStatement"<<year.Value()<<std::endl;
