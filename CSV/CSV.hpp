@@ -167,7 +167,7 @@ public:
 	using TQuantity = Quantity<Unit>;
 	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
 	CSVValue(T t): Element(std::to_string(t)), quantity(t) {};
-	const Quantity<U>& Get() { return this->quantity; }
+	const Quantity<U>& Get() const { return this->quantity; }
 	const T& GetValue() { return this->val; }
 	static const char* Key;
 	Element* DoCreate() { return this; };
