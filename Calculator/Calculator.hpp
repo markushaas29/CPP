@@ -7,6 +7,7 @@
 #include "../Logger/Logger.hpp"
 #include "../File/Raiba.hpp"
 #include "../File/Account.hpp"
+#include "../Common/DateTimes.hpp"
 
 #ifndef CALCULATOR_HPP
 #define CALCULATOR_HPP
@@ -56,9 +57,12 @@ namespace Calculation
 
 	//-------------------------------------------------------------------------------------------------Calculator----------------------------------------------------------
 	
-	template<typename Derived, typename StageT>
+	template<typename T, typename StageT>
 	class Calculator
 	{
+		using DependentProperty = T::StageQuantity; 
+		static void Calculate(DateTimes::Year y)
+		{};
 	};
 	
 	template<typename Property, typename Stage, typename AllStages>
