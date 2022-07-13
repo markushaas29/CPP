@@ -85,7 +85,7 @@ namespace Calculator
 				return std::make_shared<Result<ConfigT>>();
 			}
 			
-			auto result = Ratio::Calculate(GetQuantity<Stage, typename Config::QuantityType>::Value(), total, Bank::GetTransferEndpoint<Quantity<Sum>>(account));
+			auto result = Ratio::Calculate(GetStage<typename Config::QuantityType, typename Stage::Configuration>().Get(), total, Bank::GetTransferEndpoint<Quantity<Sum>>(account));
 			
 			std::cout<<"CALC: "<<result<<std::endl;
 			
@@ -114,7 +114,7 @@ namespace Calculator
 			
 			Logger::Log()<<totalSum;
 			
-			auto result = Ratio::Calculate(GetQuantity<Stage, typename PropertyTax::QuantityType>::Value(), totalQ, totalSum);
+			auto result = Ratio::Calculate(GetStage<typename PropertyTax::QuantityType, typename Stage::Configuration>().Get(), totalQ, totalSum);
 			
 			std::cout<<"CALC: "<<result<<std::endl;
 			

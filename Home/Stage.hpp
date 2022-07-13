@@ -30,9 +30,16 @@ using YearDataMapValueType = std::shared_ptr<YearDatas<T>>;
 template<typename T>
 using YearDataMap = std::map<YearDataMapKeyType, YearDataMapValueType<T>>;
 
+template<typename> class Stage;
+	
+template<typename ItemT, typename ConfigT>
+const ItemT& GetStage(){ return std::get<ItemT>( Stage<ConfigT>::Instance().quantities );	};
+
 template<typename ConfigT>
 class Stage
 {
+	template<typename ItemT, typename C>
+	friend const ItemT& GetStage();
 public:
 	using Type = Stage<ConfigT>;
 	using Configuration = ConfigT;
@@ -105,27 +112,6 @@ private:
 
 template<typename C, typename S = T::char_<'\t'>>
 std::ostream& operator<<(std::ostream& strm, const Stage<C> c){	return c.Display(strm);}
-
-template<typename T, typename Q>
-struct GetQuantity{};
-
-template<typename T>
-struct GetQuantity<T, ApartmentArea>
-{
-	static Quantity<ApartmentArea::Unit> Value() { return T::Instance().AreaQuantity(); }
-};
-
-template<typename T>
-struct GetQuantity<T, Persons>
-{
-	static Quantity<Persons::Unit> Value() { return T::Instance().PersonsQuantity(); }
-};
-
-template<typename T>
-struct GetQuantity<T, IndividualUnit>
-{
-	static Quantity<IndividualUnit::Unit> Value() { return T::Instance().UnitsQuantity(); }
-};
 
 using Top = Stage<TopConfiguration>;
 using Middle = Stage<MiddleConfiguration>;
