@@ -25,8 +25,10 @@
 
 using StageMap = std::map<std::string, std::string>;
 using YearDataMapKeyType = uint;
+
 template<typename T>
 using YearDataMapValueType = std::shared_ptr<YearDatas<T>>;
+
 template<typename T>
 using YearDataMap = std::map<YearDataMapKeyType, YearDataMapValueType<T>>;
 
@@ -49,17 +51,9 @@ public:
 	using ColdWaterCounter = ConfigT::ColdWaterCounter;
 	using HotWaterCounter = ConfigT::HotWaterCounter;
 	using EnergyCounter = ConfigT::EnergyCounter;
-	static constexpr int Number = Configuration::Number;
-	inline static const char* Name = Configuration::Name;
+	inline static constexpr int Number = Configuration::Number;
+	inline static constexpr const char* Name = Configuration::Name;
 	
-	const Quantity<Area> AreaQuantity() { return this->area.Get(); }
-	const Quantity<Area> RoomsQuantity() { return this->rooms.Get(); }
-	const Quantity<Scalar> UnitsQuantity() { return this->individualUnit.Get(); }
-	const Quantity<Scalar> PersonsQuantity() { return this->persons.Get(); }
-	const Quantity<Sum> AdvanceQuantity() { return this->advance.Get(); }
-	const Quantity<Sum> IncidentalHeatingCostsQuantity() { return this->incidentalHeatingCosts.Get(); }
-	const Quantity<Sum> MonthlyRentQuantity() { return this->monthlyRent.Get(); }
-	const Quantity<Sum> GarageRentalQuantity() { return this->garageRental.Get(); }
 // 	YearDataMapType operator[](YearDataMapKeyType key) { return 0; }
 	YearDataMapType operator[](YearDataMapKeyType key) { return 0; }
 	
@@ -73,8 +67,8 @@ public:
 	
 	std::ostream& Display(std::ostream& os) 
 	{
-		os<<"Name: "<<Type::Name<<"\tUnits:"<<individualUnit.Get()<<"\tRooms:"<<rooms.Get()<<"\tArea: "<<area.Get()<<"\tPersons: "<<persons.Get();
-		return os<<"MonthlyRent: "<<monthlyRent.Get()<<"\tAdvance: "<<advance.Get()<<"\tGarage: "<<garageRental.Get()<<"\tIncidentalHeatingCosts: "<<incidentalHeatingCosts.Get()<<std::endl;
+		os<<"Name: "<<Type::Name<<"\tUnits:"<<std::get<IndividualUnit>(quantities)<<"\tRooms:"<<std::get<Rooms>(quantities)<<"\tArea: "<<std::get<ApartmentArea>(quantities)<<"\tPersons: "<<std::get<Persons>(quantities);
+		return os<<"MonthlyRent: "<<std::get<MonthlyRent>(quantities)<<"\tAdvance: "<<std::get<Advance>(quantities)<<"\tGarage: "<<std::get<GarageRental>(quantities)<<"\tIncidentalHeatingCosts: "<<std::get<IncidentalHeatingCosts>(quantities)<<std::endl;
 	}
 	
 private:
@@ -82,23 +76,9 @@ private:
 	inline static YearDataMapPtrType yearData = YearDataMapPtrType(new YearDataMapType()); 
 	std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons,Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental> quantities;
 	
-	ApartmentArea area = ApartmentArea(Configuration::Area);
-	Rooms rooms = Rooms(Configuration::Rooms);
-	IndividualUnit individualUnit = IndividualUnit(Configuration::Units);
-	Persons persons;
-	Advance advance;
-	IncidentalHeatingCosts incidentalHeatingCosts;
-	GarageRental garageRental;
-	MonthlyRent monthlyRent;
-	
 	Stage(){ Logger::Log()<<"CTOR: "<<Number<<std::endl;}
 	Stage(const StageMap& m): 
-		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key)),
-		persons(m.at(Persons::Key)),
-		advance(m.at(Advance::Key)),
-		monthlyRent(m.at(MonthlyRent::Key)),
-		incidentalHeatingCosts(m.at(IncidentalHeatingCosts::Key)),
-		garageRental(m.at(GarageRental::Key))
+		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key))
 	{ 
 // 		for(auto kv : m)
 // 			Logger::Log()<<kv.first<<": "<<kv.second<<std::endl;
