@@ -32,15 +32,15 @@ int main()
     std::cout<<"m: "<<Middle::Instance().Name<<std::endl;
     
     std::cout<<"AREA"<<std::endl;
-	std::cout<<"t: "<<GetQuantity<Top,ApartmentArea>::Value()<<std::endl;
-    std::cout<<"m: "<<GetQuantity<Middle,ApartmentArea>::Value()<<std::endl;
-    std::cout<<"b: "<<GetQuantity<Bottom,ApartmentArea>::Value()<<std::endl;
+	std::cout<<"t: "<<GetStage<ApartmentArea,Top::Configuration>().Get()<<std::endl;
+    std::cout<<"m: "<<GetStage<ApartmentArea,Middle::Configuration>().Get()<<std::endl;
+    std::cout<<"b: "<<GetStage<ApartmentArea,Bottom::Configuration>().Get()<<std::endl;
     std::cout<<"TOTAL: "<<StageContainerType::Instance().GetTotal<ApartmentArea>()<<std::endl;
 	
     std::cout<<"\nPersons"<<std::endl;
-	std::cout<<"t: "<<GetQuantity<Top,Persons>::Value()<<std::endl;
-    std::cout<<"m: "<<GetQuantity<Middle,Persons>::Value()<<std::endl;
-    std::cout<<"b: "<<GetQuantity<Bottom,Persons>::Value()<<std::endl;
+	std::cout<<"t: "<<GetStage<Persons,Top::Configuration>().Get()<<std::endl;
+    std::cout<<"m: "<<GetStage<Persons,Middle::Configuration>().Get()<<std::endl;
+    std::cout<<"b: "<<GetStage<Persons,Bottom::Configuration>().Get()<<std::endl;
     std::cout<<"TOTAL: "<<StageContainerType::Instance().GetTotal<Persons>()<<std::endl;
 	
 	StageContainerType::Instance().Calculate();
