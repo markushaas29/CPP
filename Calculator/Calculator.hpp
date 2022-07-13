@@ -56,6 +56,10 @@ namespace Calculation
 
 	//-------------------------------------------------------------------------------------------------Calculator----------------------------------------------------------
 	
+	template<typename Derived, typename StageT>
+	class Calculator
+	{
+	};
 	
 	template<typename Property, typename Stage, typename AllStages>
 	struct Configuration
