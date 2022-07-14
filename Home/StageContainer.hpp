@@ -27,8 +27,8 @@
 using StagesMap = std::map<std::string, StageMap>;
 
 
-template<typename List>
-class StageContainer{};
+//~ template<typename List>
+//~ class StageContainer{};
 
 template<typename Head>
 class StageContainer<Typelist<Head>>
@@ -80,6 +80,13 @@ public:
 	
 	template<typename T>
 	static Quantity<typename T::Unit> GetTotal() {	return GetStage<T, typename Head::Configuration>().Get(); }
+	
+	template<typename T>
+	static decltype(auto) GetATotal() 
+	{
+		auto t = Head::Instance().quantities;	
+		return  t;
+	}
 
 	static StageContainer& Instance()
 	{
@@ -178,7 +185,13 @@ public:
 	void Calculate(){	CalculateInternal<ContainerType>();	}
 	
 	template<typename T>
-	Quantity<typename T::Unit> GetTotal(){	return GetStage<T, typename Head::Configuration>().Get() + Base::template GetTotal<T>();	}
+	Quantity<typename T::Unit> GetTotal(){ return GetStage<T, typename Head::Configuration>().Get() + Base::template GetTotal<T>();	}
+	
+	decltype(auto) GetATotal() 
+	{
+		auto t = Head::Instance().quantities;	
+		return  t;
+	}
 };
 
 template<typename Head, typename... Tail>

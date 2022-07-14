@@ -39,11 +39,17 @@ template<typename> class Stage;
 template<typename ItemT, typename ConfigT>
 const ItemT& GetStage(){ return std::get<ItemT>( Stage<ConfigT>::Instance().quantities );	};
 
+template<typename List>
+class StageContainer{};
+
 template<typename ConfigT>
 class Stage
 {
 	template<typename ItemT, typename C>
 	friend const ItemT& GetStage();
+	
+	template<typename List>
+	friend class StageContainer;	
 public:
 	using Type = Stage<ConfigT>;
 	using Configuration = ConfigT;
