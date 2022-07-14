@@ -24,8 +24,8 @@
 
 struct HouseConfiguration
 {
-	inline static const char* AccountName = "Umsaetze_DE19660623660009232702.csv";
-	inline static const char* CsvRepo = "/home/markus/Downloads/CSV_Files";
+	inline static constexpr const char* AccountName = "Umsaetze_DE19660623660009232702.csv";
+	inline static constexpr const char* CsvRepo = "/home/markus/Downloads/CSV_Files";
 };
 
 template<typename ConfigT = HouseConfiguration>
@@ -34,9 +34,9 @@ class House
 public:
 	using Type = House<ConfigT>;
 	using Configuration = ConfigT;
-	inline static const char* Name = "House";
-	inline static const char* AccountName = HouseConfiguration::AccountName;
-	inline static const char* CSVRepository = HouseConfiguration::CsvRepo;
+	inline static constexpr const char* Name = "House";
+	inline static constexpr const char* AccountName = HouseConfiguration::AccountName;
+	inline static constexpr const char* CSVRepository = HouseConfiguration::CsvRepo;
 	
 	static House& Instance()
 	{
@@ -66,13 +66,7 @@ private:
 		auto outFile = std::ofstream("out.txt");
 		auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
 		auto keyFileN = std::string("//home//markus//Downloads//Keys.txt");
-// 		auto out = Transfers<Bank::Raiba<0>>();
-// 		auto in = Transfers<Bank::Raiba<0>, Bank::In>();
-// 		std::cout<<"\n-------------------------------------------------------- Transfers IN --------------------------------------------------------------"<<std::endl;
-// 		auto raibaOut = Transfers<Bank::Raiba<0>, Bank::Out>();
-// 		auto rbo = raibaOut();
 		auto keys = FileSystem::ReadLines(keyFileN);
-// 		rbo.Display(inFile,keys);
 		
 		StageContainerType::Instance().Display(std::cout);
 		CounterConatinerType::Instance().Display(std::cout);
