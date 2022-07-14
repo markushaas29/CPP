@@ -24,6 +24,7 @@
 #define STAGE_HPP
 
 using ApartmentQuantitiesType = std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons,Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental>;
+inline static constexpr size_t ApartmentQuantitiesCount = std::tuple_size_v<ApartmentQuantitiesType>;
 using StageMap = std::map<std::string, std::string>;
 using YearDataMapKeyType = uint;
 
