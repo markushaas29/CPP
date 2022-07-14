@@ -23,24 +23,28 @@ class IndividualUnit: public CSVValue<IndividualUnit, Scalar, unsigned>
 {
 public:
 	IndividualUnit(unsigned a): CSVValue(a) {};
+	IndividualUnit(Quantity<Scalar> s): CSVValue(s) {};
 };
 
 class ApartmentArea: public CSVValue<ApartmentArea, Area, unsigned>
 {
 public:
 	ApartmentArea(unsigned a): CSVValue(a) {};
+	ApartmentArea(Quantity<Area> s): CSVValue(s) {};
 };
 
 class Rooms: public CSVValue<Rooms, Scalar, unsigned>
 {
 public:
 	Rooms(unsigned r): CSVValue(r) {};
+	Rooms(Quantity<Scalar> s): CSVValue(s) {};
 };	
 
 class Persons: public CSVValue<Persons, Scalar, unsigned>
 {
 public:
 	Persons(const std::string& s = "0"): CSVValue(s) {};
+	Persons(Quantity<Scalar> s): CSVValue(s) {};
 };	
 
 class Advance: public CSVValue<Advance, Sum>

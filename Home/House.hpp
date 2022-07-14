@@ -24,6 +24,8 @@
 #ifndef HOUSE_HPP
 #define HOUSE_HPP
 
+using HouseQuantitiesType = std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons>;
+
 struct HouseConfiguration
 {
 	inline static constexpr const char* AccountName = "Umsaetze_DE19660623660009232702.csv";
@@ -57,9 +59,9 @@ public:
 	}
 	
 private:
-	ApartmentQuantitiesType quantities; 
+	HouseQuantitiesType quantities; 
 	
-	House(): quantities(0, 0, 0, "",  "", "", "", ""){ 
+	House(): quantities(0, 0, 0, ""){ 
 		Logger::Log()<<"CTOR: "<<Name<<std::endl;
 		std::string csv = "/home/markus/Downloads/CSV_Files";
 		CSV::Repository::Map(csv);
@@ -84,7 +86,7 @@ private:
 	}
 	
 	template <size_t I = 0, typename... Ts>
-	constexpr std::tuple<Ts...> SumTuple(std::tuple<Ts...> t1)
+	constexpr std::tuple<Ts...> SumTuple(std::tuple<Ts...>& t1)
 	{
 	    if constexpr(I == sizeof...(Ts))
 			return t1;
@@ -92,30 +94,12 @@ private:
 			using TR = decltype(std::get<I>(quantities));
 			using T = std::remove_reference<TR>::type;
 			auto q = StageContainerType::Instance().GetTotal<T>();
-			Logger::Log()<<"SUM: "<<q<<std::endl;
+			//~ std::get<I>(quantities) = T(q);
+			auto tq = T(q);
+			Logger::Log()<<"SUM: "<<q<<"\t"<<tq<<std::endl;
 	        return SumTuple<I + 1>(t1);
 	    }
 	}
-	
-	//~ template <size_t I = 0, typename... Ts>
-	//~ contexpr void printTuple(tuple<Ts...> tup)
-	//~ {
-	    //~ // If we have iterated through all elements
-	    //~ if
-	        //~ constexpr(I == sizeof...(Ts))
-	        //~ {
-	            //~ // Last case, if nothing is left to
-	            //~ // iterate, then exit the function
-	            //~ return;
-	        //~ }
-	    //~ else {
-	        //~ // Print the tuple and go to next element
-	        //~ cout << get<I>(tup) << " ";
-	 
-	        //~ // Going for next element.
-	        //~ printTuple<I + 1>(tup);
-	    //~ }
-	//~ }
 	
 	~House()	{ Logger::Log()<<"Destructor"<<std::endl; }
 	House& operator=(const House&) = delete;
