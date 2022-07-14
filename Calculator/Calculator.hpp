@@ -60,7 +60,7 @@ namespace Calculation
 	template<typename T, typename StageT>
 	class Calculator
 	{
-		using DependentProperty = T::StageQuantity; 
+		using DependentQuantity = T::StageQuantity; 
 		static void Calculate(DateTimes::Year y)
 		{};
 	};
@@ -77,25 +77,25 @@ namespace Calculation
 		template<typename Stage, typename AllStages, typename ConfigT = Configuration<Config, Stage, AllStages>>
 		static std::shared_ptr<Result<ConfigT>> Calculate()
 		{
-			auto total = AllStages::Instance().template GetTotal<typename Config::QuantityType>();
+			//~ auto total = AllStages::Instance().template GetTotal<typename Config::QuantityType>();
 			
-			auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
-			auto account = raiba(Config::AccountKey);
-			account.Display(std::cout);
+			//~ auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
+			//~ auto account = raiba(Config::AccountKey);
+			//~ account.Display(std::cout);
 			
-			if(T::IsSame<Config,BuildingInsurance>::Value)
-			{
-				if(T::IsSame<Stage,Top>::Value)
-					Ratio::Calculate(IndividualUnit(2).Get(), IndividualUnit(4).Get(), Bank::GetTransferEndpoint<Quantity<Sum>>(account));
-				else
-					Ratio::Calculate(IndividualUnit(1).Get(), IndividualUnit(4).Get(), Bank::GetTransferEndpoint<Quantity<Sum>>(account));
+			//~ if(T::IsSame<Config,BuildingInsurance>::Value)
+			//~ {
+				//~ if(T::IsSame<Stage,Top>::Value)
+					//~ Ratio::Calculate(IndividualUnit(2).Get(), IndividualUnit(4).Get(), Bank::GetTransferEndpoint<Quantity<Sum>>(account));
+				//~ else
+					//~ Ratio::Calculate(IndividualUnit(1).Get(), IndividualUnit(4).Get(), Bank::GetTransferEndpoint<Quantity<Sum>>(account));
 				
-				return std::make_shared<Result<ConfigT>>();
-			}
+				//~ return std::make_shared<Result<ConfigT>>();
+			//~ }
 			
-			auto result = Ratio::Calculate(GetStage<typename Config::QuantityType, typename Stage::Configuration>().Get(), total, Bank::GetTransferEndpoint<Quantity<Sum>>(account));
+			//~ auto result = Ratio::Calculate(GetStage<typename Config::QuantityType, typename Stage::Configuration>().Get(), total, Bank::GetTransferEndpoint<Quantity<Sum>>(account));
 			
-			std::cout<<"CALC: "<<result<<std::endl;
+			//~ std::cout<<"CALC: "<<result<<std::endl;
 			
 			return std::make_shared<Result<ConfigT>>();
 		}
@@ -108,23 +108,23 @@ namespace Calculation
 		template<typename Stage, typename AllStages, typename ConfigT = Configuration<PropertyTax, Stage, AllStages>>
 		static std::shared_ptr<Result<ConfigT>> Calculate()
 		{
-			auto totalQ = AllStages::Instance().template GetTotal<typename PropertyTax::QuantityType>();
+			//~ auto totalQ = AllStages::Instance().template GetTotal<typename PropertyTax::QuantityType>();
 			
-			auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
-			auto account = raiba(PropertyTax::AccountKey);
-			account.Display(std::cout);
-			auto water = account.GetCause(PropertyTax::CauseString);
-			using QuantityType = Quantity<Sum>; 
-			auto totalSum = Quantity<Sum>(0); 
+			//~ auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
+			//~ auto account = raiba(PropertyTax::AccountKey);
+			//~ account.Display(std::cout);
+			//~ auto water = account.GetCause(PropertyTax::CauseString);
+			//~ using QuantityType = Quantity<Sum>; 
+			//~ auto totalSum = Quantity<Sum>(0); 
 			
-			for(auto w : water)
-				totalSum = totalSum + Bank::GetTransfer<QuantityType>(*w);
+			//~ for(auto w : water)
+				//~ totalSum = totalSum + Bank::GetTransfer<QuantityType>(*w);
 			
-			Logger::Log()<<totalSum;
+			//~ Logger::Log()<<totalSum;
 			
-			auto result = Ratio::Calculate(GetStage<typename PropertyTax::QuantityType, typename Stage::Configuration>().Get(), totalQ, totalSum);
+			//~ auto result = Ratio::Calculate(GetStage<typename PropertyTax::QuantityType, typename Stage::Configuration>().Get(), totalQ, totalSum);
 			
-			std::cout<<"CALC: "<<result<<std::endl;
+			//~ std::cout<<"CALC: "<<result<<std::endl;
 			
 			return std::make_shared<Result<ConfigT>>();
 		}
@@ -136,33 +136,33 @@ namespace Calculation
 		template<typename Stage, typename AllStages, typename ConfigT = Configuration<Sewage, Stage, AllStages>>
 		static std::shared_ptr<Result<ConfigT>> Calculate()
 		{
-			auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
-			auto account = raiba(Sewage::AccountKey);
-			account.Display(std::cout);
-			auto sewage = account.GetCause(Sewage::CauseString);
-			using QuantityType = Quantity<Sum>; 
-			auto totalSum = Quantity<Sum>(0); 
+			//~ auto raiba = Bank::Get<Bank::Raiba<0>, Bank::Out>();
+			//~ auto account = raiba(Sewage::AccountKey);
+			//~ account.Display(std::cout);
+			//~ auto sewage = account.GetCause(Sewage::CauseString);
+			//~ using QuantityType = Quantity<Sum>; 
+			//~ auto totalSum = Quantity<Sum>(0); 
 			
-			for(auto s : sewage)
-				totalSum = totalSum + Bank::GetTransfer<QuantityType>(*s);
+			//~ for(auto s : sewage)
+				//~ totalSum = totalSum + Bank::GetTransfer<QuantityType>(*s);
 			
-			auto invoice = account.GetCause(Sewage::InvoiceString);
-			totalSum= totalSum + Bank::GetTransfer<QuantityType>(*(invoice.at(0)));
+			//~ auto invoice = account.GetCause(Sewage::InvoiceString);
+			//~ totalSum= totalSum + Bank::GetTransfer<QuantityType>(*(invoice.at(0)));
 			
-			Logger::Log()<<"WATER sum"<<totalSum<<std::endl;
-			auto cwb = Stage::ColdWaterCounter::Instance().ConsumptionssBegin();
-			auto hwb = Stage::HotWaterCounter::Instance().ConsumptionssBegin();
-			auto water = CWA::Instance().ConsumptionssBegin();
+			//~ Logger::Log()<<"WATER sum"<<totalSum<<std::endl;
+			//~ auto cwb = Stage::ColdWaterCounter::Instance().ConsumptionssBegin();
+			//~ auto hwb = Stage::HotWaterCounter::Instance().ConsumptionssBegin();
+			//~ auto water = CWA::Instance().ConsumptionssBegin();
 			
-			for(int i = 0; cwb + i != Stage::ColdWaterCounter::Instance().ConsumptionsEnd(); ++i)
-			{
-				auto sum = (cwb + i)->Value + (hwb + i)->Value;
-				auto result = Ratio::Calculate(sum, (water+i)->Value, totalSum);
-				Logger::Log()<<"WATER"<<result<<std::endl;
+			//~ for(int i = 0; cwb + i != Stage::ColdWaterCounter::Instance().ConsumptionsEnd(); ++i)
+			//~ {
+				//~ auto sum = (cwb + i)->Value + (hwb + i)->Value;
+				//~ auto result = Ratio::Calculate(sum, (water+i)->Value, totalSum);
+				//~ Logger::Log()<<"WATER"<<result<<std::endl;
 				
-			}
+			//~ }
 			
-			Logger::Log(Stage::EnergyCounter::Instance().ConsumptionssBegin(), Stage::EnergyCounter::Instance().ConsumptionsEnd());
+			//~ Logger::Log(Stage::EnergyCounter::Instance().ConsumptionssBegin(), Stage::EnergyCounter::Instance().ConsumptionsEnd());
 			return std::make_shared<Result<ConfigT>>();
 		}
 	};

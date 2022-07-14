@@ -28,19 +28,28 @@ struct CalculatorConfiguration
 	constexpr static const char* Name = "";//Derived::Name; 
 };
 
-struct BuildingInsurance: CalculatorConfiguration<BuildingInsurance, IndividualUnit> 
+template<typename Derived, typename Q>
+struct AncilliaryRentalCostItemBase
+{
+	using Type = Derived;
+	using DependentQuantity = Q;
+	constexpr static const char* Name = "";//Derived::Name; 
+};
+
+
+struct BuildingInsurance: AncilliaryRentalCostItemBase<BuildingInsurance, IndividualUnit> 
 { 
 	constexpr static const char* Name = "BuildingInsurance"; 
 	constexpr static const char* KeyString = "SV Gebaeudeversicherung"; 
 };
 
-struct WasteFees: CalculatorConfiguration<WasteFees, Persons> 
+struct WasteFees: AncilliaryRentalCostItemBase<WasteFees, Persons> 
 { 
 	constexpr static const char* Name = "WasteFees"; 
 	constexpr static const char* KeyString = "Abfallwirtschaftsbetrieb"; 
 };
 
-struct ChimneySweeper: CalculatorConfiguration<ChimneySweeper, IndividualUnit> 
+struct ChimneySweeper: AncilliaryRentalCostItemBase<ChimneySweeper, IndividualUnit> 
 { 
 	constexpr static const char* Name = "ChimneySweeper"; 
 	constexpr static const char* KeyString = "Sascha Schneider"; 
@@ -48,7 +57,7 @@ struct ChimneySweeper: CalculatorConfiguration<ChimneySweeper, IndividualUnit>
 
 
 template<typename Derived, typename Q>
-struct LocalCommunity: CalculatorConfiguration<Derived, Q>
+struct LocalCommunity: AncilliaryRentalCostItemBase<Derived, Q>
 {
 	constexpr static const char* KeyString = "Gemeindekasse Dettenheim";	
 };
@@ -59,7 +68,7 @@ struct PropertyTax: LocalCommunity<PropertyTax, ApartmentArea>
 	constexpr static const char* CauseString = "Grundsteuer"; 
 };
 
-struct Sewage: LocalCommunity<Sewage, ApartmentArea> 
+struct Sewage: AncilliaryRentalCostItemBase<Sewage, ApartmentArea> 
 { 
 	constexpr static const char* Name = "Sewage"; 
 	constexpr static const char* CauseString = "Abschlag/Abwasser"; 
