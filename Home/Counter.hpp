@@ -33,7 +33,7 @@ public:
 	
 	using DataType = std::shared_ptr<ReadingType>;
 	using ReadingContainerType = std::vector<DataType>;
-	using AnnualConsumptionType = Calculation::ReadingResult<DataType, QuantityType>;
+	using AnnualConsumptionType = ReadingResult<DataType, QuantityType>;
 	using AnnualConsumptionContainerType = std::vector<AnnualConsumptionType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;

@@ -32,7 +32,7 @@ template<typename Derived, typename Q>
 struct AncilliaryRentalCostItemBase
 {
 	using Type = Derived;
-	using DependentQuantity = Q;
+	using StageQuantity = Q;
 	constexpr static const char* Name = "";//Derived::Name; 
 };
 

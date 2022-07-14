@@ -4,8 +4,7 @@
 #ifndef CALCULATORRESULT_HPP
 #define CALCULATORRESULT_HPP
 
-namespace Calculation
-{
+
 	template<typename Config>
 	struct Result			
 	{
@@ -50,7 +49,7 @@ namespace Calculation
 	{
 		return cr.Display(strm);
 	}
-}
+
 
 
 #endif

@@ -12,8 +12,6 @@
 #ifndef OPERATIONS_HPP
 #define OPERATIONS_HPP
 
-namespace Calculation
-{
 	//-------------------------------------------------------------------------------------------------CalculatorOperation----------------------------------------------------------
 	template<class Derived>
 	struct CalculatorOperation
@@ -68,7 +66,7 @@ namespace Calculation
 		//~ template<typename T, typename U, typename S, typename D>
 		//~ static constexpr decltype(auto) Calculate(const T& nom, const T& denom, const Quantity<T,U,D>& sum) {	return Multiplication((Division::Calculate(nom,denom)),sum.Value()); }
 	};
-}
+
 
 
 #endif
