@@ -23,6 +23,7 @@
 #ifndef STAGE_HPP
 #define STAGE_HPP
 
+using ApartmentQuantitiesType = std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons,Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental>;
 using StageMap = std::map<std::string, std::string>;
 using YearDataMapKeyType = uint;
 
@@ -74,7 +75,7 @@ public:
 private:
 	inline static StageMap Map = StageMap();
 	inline static YearDataMapPtrType yearData = YearDataMapPtrType(new YearDataMapType()); 
-	std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons,Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental> quantities;
+	ApartmentQuantitiesType quantities;
 	
 	Stage(){ Logger::Log()<<"CTOR: "<<Number<<std::endl;}
 	Stage(const StageMap& m): 
