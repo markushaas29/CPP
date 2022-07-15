@@ -12,16 +12,17 @@
 #ifndef CALCULATOR_HPP
 #define CALCULATOR_HPP
 
-	template<typename T, typename StageT>
-	class Calculator
+template<typename T, typename StageT>
+class Calculator
+{
+public:
+	using DependentQuantity = T::StageQuantity; 
+	static void Calculate(DateTimes::Year y)
 	{
-	public:
-		using DependentQuantity = T::StageQuantity; 
-		static void Calculate(DateTimes::Year y)
-		{
-			Logger::Log<Info>()<<"CALCULATION: \t"<<DependentQuantity::Key<<std::endl;
-		};
+		Logger::Log<Info>()<<"CALCULATION: \t"<<DependentQuantity::Key<<std::endl;
 	};
+};
+	
 	
 	//~ template<class Config>
 	//~ struct Stage

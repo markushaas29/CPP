@@ -1,3 +1,4 @@
+#include <tuple>
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.h"
@@ -8,16 +9,9 @@
 #include "../Unit/SIPrefix.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Home/StageQuantities.hpp"
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/vector.hpp>
-#include <map>
-#include <chrono>
-#include <ctime>
-#include <memory>
 
 #ifndef CALCULATORCONFIGURATION_HPP
 #define CALCULATORCONFIGURATION_HPP
-
 
 template<typename Derived, typename Q>
 struct CalculatorConfiguration
@@ -35,7 +29,6 @@ struct AncilliaryRentalCostItemBase
 	using StageQuantity = Q;
 	constexpr static const char* Name = "";//Derived::Name; 
 };
-
 
 struct BuildingInsurance: AncilliaryRentalCostItemBase<BuildingInsurance, IndividualUnit> 
 { 
@@ -55,7 +48,6 @@ struct ChimneySweeper: AncilliaryRentalCostItemBase<ChimneySweeper, IndividualUn
 	constexpr static const char* KeyString = "Sascha Schneider"; 
 };
 
-
 template<typename Derived, typename Q>
 struct LocalCommunity: AncilliaryRentalCostItemBase<Derived, Q>
 {
@@ -74,5 +66,7 @@ struct Sewage: AncilliaryRentalCostItemBase<Sewage, ApartmentArea>
 	constexpr static const char* CauseString = "Abschlag/Abwasser"; 
 	constexpr static const char* InvoiceString = "Rechnung/Abwasser"; 
 };
+
+using CalculationTypes = std::tuple<BuildingInsurance,WasteFees,Sewage,PropertyTax>;
 
 #endif
