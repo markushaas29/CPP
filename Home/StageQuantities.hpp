@@ -19,18 +19,28 @@
 #ifndef STAGEQUANTITIES_HPP
 #define STAGEQUANTITIES_HPP
 
-class IndividualUnit: public CSVValue<IndividualUnit, Scalar, unsigned>
-{
-public:
-	IndividualUnit(unsigned a): CSVValue(a) {};
-	IndividualUnit(Quantity<Scalar> s): CSVValue(s) {};
-};
-
 class ApartmentArea: public CSVValue<ApartmentArea, Area, unsigned>
 {
 public:
 	ApartmentArea(unsigned a): CSVValue(a) {};
 	ApartmentArea(Quantity<Area> s): CSVValue(s) {};
+	ApartmentArea& operator=(const ApartmentArea& a)
+	{ 
+		CSVValue<ApartmentArea, Area, unsigned>::operator=(a);
+		return *this; 
+	}
+};
+
+class IndividualUnit: public CSVValue<IndividualUnit, Scalar, unsigned>
+{
+public:
+	IndividualUnit(unsigned a): CSVValue(a) {};
+	IndividualUnit(Quantity<Scalar> s): CSVValue(s) {};
+	IndividualUnit& operator=(const IndividualUnit& a)
+	{
+		CSVValue<IndividualUnit, Scalar, unsigned>::operator=(a);
+		return *this; 
+	}
 };
 
 class Rooms: public CSVValue<Rooms, Scalar, unsigned>
@@ -38,6 +48,11 @@ class Rooms: public CSVValue<Rooms, Scalar, unsigned>
 public:
 	Rooms(unsigned r): CSVValue(r) {};
 	Rooms(Quantity<Scalar> s): CSVValue(s) {};
+	Rooms& operator=(const Rooms& a)
+	{ 
+		CSVValue<Rooms, Scalar, unsigned>::operator=(a);
+		return *this; 
+	}
 };	
 
 class Persons: public CSVValue<Persons, Scalar, unsigned>
@@ -45,6 +60,11 @@ class Persons: public CSVValue<Persons, Scalar, unsigned>
 public:
 	Persons(const std::string& s = "0"): CSVValue(s) {};
 	Persons(Quantity<Scalar> s): CSVValue(s) {};
+	Persons& operator=(const Persons& a)
+	{ 
+		CSVValue<Persons, Scalar, unsigned>::operator=(a);
+		return *this; 
+	}
 };	
 
 class Advance: public CSVValue<Advance, Sum>

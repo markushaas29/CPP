@@ -20,7 +20,7 @@ public:
 	virtual ~Element(){}
 	
 	Element(std::string s):stringValue(s), Value(s) {};
-	const std::string Value;
+	const std::string Value;	
 private:
 	const std::string stringValue;
 };
@@ -168,10 +168,17 @@ public:
 	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
 	CSVValue(T t): Element(std::to_string(t)), quantity(t) {};
 	CSVValue(Quantity<U> u): Element(std::to_string(u.Value())), quantity(u) {};
-	const Quantity<U>& Get() const { return this->quantity; }
-	const T& GetValue() { return this->val; }
+	const Quantity<U>& GetQuantity() const { return this->quantity; }
+	const T& Value() { return this->val; }
 	static const char* Key;
 	Element* DoCreate() { return this; };
+	
+	CSVValue& operator=(const CSVValue& a)
+	{
+		this->quantity = a.quantity; 
+		this->val = a.val; 
+		return *this; 
+	}
 private:
 	Quantity<U> quantity;
 	T val;

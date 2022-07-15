@@ -74,30 +74,24 @@ private:
 		auto keys = FileSystem::ReadLines(keyFileN);
 		
 		StageContainerType::Instance().Display(std::cout);
-		//~ auto t = StageContainerType::Instance().GetATotal();
-		//~ Logger::Log()<<"T: "<<std::get<1>(t)<<std::endl;
-		
-		SumTuple(quantities);
-
-		auto aa = StageContainerType::Instance().GetTotal<ApartmentArea>();
-		Logger::Log()<<"AA: "<<aa<<std::endl;
+		SumStageQuantities(quantities);
 		
 		CounterConatinerType::Instance().Display(std::cout);
 	}
 	
 	template <size_t I = 0, typename... Ts>
-	constexpr std::tuple<Ts...> SumTuple(std::tuple<Ts...>& t1)
+	constexpr std::tuple<Ts...> SumStageQuantities(std::tuple<Ts...>& t1)
 	{
 	    if constexpr(I == sizeof...(Ts))
 			return t1;
 	    else {
 			using TR = decltype(std::get<I>(quantities));
 			using T = std::remove_reference<TR>::type;
-			auto q = StageContainerType::Instance().GetTotal<T>();
-			//~ std::get<I>(quantities) = T(q);
-			auto tq = T(q);
-			Logger::Log()<<"SUM: "<<q<<"\t"<<tq<<std::endl;
-	        return SumTuple<I + 1>(t1);
+			auto tq = T(StageContainerType::Instance().GetTotal<T>());
+			
+			std::get<I>(quantities) = tq;
+			
+	        return SumStageQuantities<I + 1>(t1);
 	    }
 	}
 	

@@ -79,7 +79,7 @@ public:
 	static void RegisterTo(Cont& cont)	{	cont.insert(std::make_pair(GetFileName(),  &Parse)); }
 	
 	template<typename T>
-	static Quantity<typename T::Unit> GetTotal() {	return GetStage<T, typename Head::Configuration>().Get(); }
+	static Quantity<typename T::Unit> GetTotal() {	return GetStage<T, typename Head::Configuration>().GetQuantity(); }
 	
 	template<typename T>
 	static decltype(auto) GetATotal() 
@@ -185,7 +185,7 @@ public:
 	void Calculate(){	CalculateInternal<ContainerType>();	}
 	
 	template<typename T>
-	Quantity<typename T::Unit> GetTotal(){ return GetStage<T, typename Head::Configuration>().Get() + Base::template GetTotal<T>();	}
+	Quantity<typename T::Unit> GetTotal(){ return GetStage<T, typename Head::Configuration>().GetQuantity() + Base::template GetTotal<T>();	}
 	
 	decltype(auto) GetATotal() 
 	{
