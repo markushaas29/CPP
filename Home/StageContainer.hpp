@@ -55,19 +55,13 @@ protected:
 		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
 	};
 public:
-	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }
-	
+	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }	
 	void Write(const std::string sourcePath = ".")	{ Type::Write(sourcePath); }
-
-	static constexpr const char* GetName(){ return Name; }
-	
+	static constexpr const char* GetName(){ return Name; }	
 	static constexpr const char* GetFileName(){ return (std::string(Name) + ".csv").c_str(); }
 	
 	static void Parse(InputIterator begin, InputIterator end)
 	{
-		Logger::Log(begin, end);
-		Logger::Log()<<"PARSE STAGE StageContainer"<<std::endl; 
-		
 		std::vector<std::vector<std::string>> csvValues;
 		for(auto it = begin; it != end; ++it)
 			csvValues.push_back(FS::CSV::ExtractValues(*it));
@@ -76,17 +70,10 @@ public:
 	}
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont)	{	cont.insert(std::make_pair(GetFileName(),  &Parse)); }
+	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  &Parse)); }
 	
 	template<typename T>
 	static Quantity<typename T::Unit> GetTotal() {	return GetStage<T, typename Head::Configuration>().GetQuantity(); }
-	
-	template<typename T>
-	static decltype(auto) GetATotal() 
-	{
-		auto t = Head::Instance().quantities;	
-		return  t;
-	}
 
 	static StageContainer& Instance()
 	{
@@ -131,7 +118,6 @@ private:
 	
 	void Read(const std::string sourcePath = ".")
 	{
-		Logger::Log()<<"Read"<<std::endl;
 		auto lines =  FS::ReadLines(DestinationPath + std::string(Name) +".csv");
 		std::vector<std::vector<std::string>> values;
 		for(auto line : lines)
@@ -186,12 +172,6 @@ public:
 	
 	template<typename T>
 	Quantity<typename T::Unit> GetTotal(){ return GetStage<T, typename Head::Configuration>().GetQuantity() + Base::template GetTotal<T>();	}
-	
-	decltype(auto) GetATotal() 
-	{
-		auto t = Head::Instance().quantities;	
-		return  t;
-	}
 };
 
 template<typename Head, typename... Tail>

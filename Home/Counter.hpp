@@ -69,15 +69,8 @@ public:
 		return out;
 	}
 	
-	static std::string GetName()
-	{
-		return Name;
-	}
-	
-	static std::string GetFileName()
-	{
-		return Name + ".ctrv";
-	}
+	static constexpr const char* GetName(){ return Name; }
+	static std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
 	
 	static void Parse(InputIterator begin, InputIterator end)
 	{
@@ -119,14 +112,14 @@ private:
         return m;
 	}
 	
-	inline static const std::string DestinationPath = Config::DestinationPath;
-	inline static const std::string Name = Config::CounterName;
+	inline static constexpr const char* DestinationPath = Config::DestinationPath;
+	inline static const char* Name = Config::CounterName.c_str();
 	
 	inline static const std::map<std::string, std::string> Header = createHeader();	
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
 	inline static std::unique_ptr<AnnualConsumptionContainerType, DebugDeleter<AnnualConsumptionContainerType>> annalConsumptions = std::unique_ptr<AnnualConsumptionContainerType, DebugDeleter<AnnualConsumptionContainerType>>(new AnnualConsumptionContainerType(),DebugDeleter<AnnualConsumptionContainerType>());
 	
-	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(DestinationPath + Name )));
+	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(DestinationPath) + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
 	
 	template<typename Iterator>
@@ -185,9 +178,6 @@ private:
 };
 
 template<typename C, typename S = T::char_<'\t'>>
-std::ostream& operator<<(std::ostream& strm, const Counter<C> c)
-{
-	return c.Display(strm);
-}
+std::ostream& operator<<(std::ostream& strm, const Counter<C> c){	return c.Display(strm);}
 
 #endif

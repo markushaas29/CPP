@@ -30,27 +30,13 @@ public:
 protected:
 	CounterContainer() { Logger::Log<Info>()<<"CounterContainer created."<<std::endl; };
 public:
-	static std::ostream& Display(std::ostream& os) 
-	{
-		return Type::Display(os);
-	}
-	
-	void Write(const std::string sourcePath = ".")
-	{
-		Type::Write(sourcePath);
-	}
-	
-	void Read(const std::string sourcePath = ".")
-	{
-		Type::Read();
-	}
+	static std::ostream& Display(std::ostream& os) 	{	return Type::Display(os);	}
+	void Write(const std::string sourcePath = ".")	{	Type::Write(sourcePath);	}
+	void Read(const std::string sourcePath = ".")	{	Type::Read();	}
 	
 	template<unsigned N>
 	auto Get() { return At<CounterTypes,N>::Type; }
 
-// 	template<typename T>
-// 	auto Get() { return GetType<CounterTypes,T>; }
-// 	
 	static CounterContainer& Instance()
 	{
 		static CounterContainer instance;
@@ -69,14 +55,10 @@ public:
 protected:
 	CounterContainer() { Logger::Log<Info>()<<"CounterContainer created."<<std::endl; };
 public:
-	static std::ostream& Display(std::ostream& os) 
-	{
-		return Base::Display(Type::Display(os));		
-	}
-	
-	void Write(const std::string sourcePath = ".")
-	{
-		Type::Write(sourcePath);
+	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Display(os));	}
+	void Write(const std::string sourcePath = ".")	
+	{	
+		Type::Write(sourcePath);	
 		Base::Write(sourcePath);		
 	}
 	
@@ -88,10 +70,7 @@ public:
 	
 	template<unsigned N>
 	auto Get() { return At<CounterTypes,N>::Type; }
-/*
-	template<typename T>
-	auto Get() { return GetType<CounterTypes,T>; }
-	*/
+
 	static CounterContainer& Instance()
 	{
 		static CounterContainer instance;
@@ -100,10 +79,7 @@ public:
 };
 
 template<typename Head, typename... Tail>
-std::ostream& operator<<(std::ostream& strm, const CounterContainer<Head,Tail...> c)
-{
-	return c.Display(strm);
-}
+std::ostream& operator<<(std::ostream& strm, const CounterContainer<Head,Tail...> c){	return c.Display(strm); }
 
 
 using CG1 = Counter<GasConfiguration>;

@@ -19,56 +19,37 @@
 #ifndef COUNTERCONFIGURATION_HPP
 #define COUNTERCONFIGURATION_HPP
 
-template<typename Derived, typename U>
+template<typename Derived, typename N,typename U>
 struct CounterType
 {
 	using Unit = U;
 	using Type = Derived;
-	static std::string Name;
+	inline static constexpr const char* Name = N::Id;
 };
 
-struct Energy: public CounterType<Energy,Current>
-{ 
-	inline static std::string CounterType<Energy, Current>::Name = "Energy"; 
-};
+struct EnergyName	{	inline static constexpr const char* Id = "Energy"; };
+struct Energy: public CounterType<Energy,EnergyName,Current>{};
 
-struct Water: public CounterType<Water,Volume>
-{ 
-	inline static std::string CounterType<Water, Volume>::Name = "Water"; 
-};
+struct WaterName	{	inline static constexpr const char* Id = "Water"; };
+struct Water: public CounterType<Water,WaterName,Volume>{ };
 
-struct Gas: public CounterType<Gas,Volume>
-{ 
-	inline static std::string CounterType<Gas, Volume>::Name = "Gas"; 
-};
+struct GasName	{	inline static constexpr const char* Id = "Gas"; };
+struct Gas: public CounterType<Gas,GasName,Volume>{	};
 
-
-struct None
-{
-	inline static const std::string Value = "";
-};
-struct Hot
-{
-	inline static const std::string Value = "_Hot";
-};
-struct Cold
-{
-	inline static const std::string Value = "_Cold";
-};
+struct None {	inline static constexpr const char* Value = ""; };
+struct Hot	{	inline static constexpr const char* Value = "_Hot";	};
+struct Cold	{	inline static constexpr const char* Value = "_Cold"; };
 
 template<typename T>
-struct AdditionalInformation
-{
-	inline static const std::string Value = T::Value;
-};
+struct AdditionalInformation	{	inline static constexpr const char* Value = T::Value;	};
 
 template<typename MeterType,  int No = 0, typename U = typename MeterType::Unit, typename A = AdditionalInformation<None>>
 struct CounterConfiguration
 {
 	static const uint Number = No;
-	inline static const std::string AdditionalInformation = A::Value;
-	inline static const std::string CounterName = String_::FromInt(No) + "_" + MeterType::Name + AdditionalInformation;
-	inline static const std::string DestinationPath = "//home//markus//Downloads//";
+	inline static constexpr const char* AdditionalInformation = A::Value;
+	inline static std::string CounterName = String_::FromInt(No) + "_" + std::string(MeterType::Name) + std::string(AdditionalInformation);
+	inline static constexpr const char* DestinationPath = "//home//markus//Downloads//";
 	using MeterT = MeterType;
 	using Unit = U;
 };
@@ -83,20 +64,12 @@ struct Reading
 	const QuantityType QuantityValue;
 	
 	template<typename Separator = T::char_<';'>>
-	void Display(std::ostream& out) const
-	{
-		out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign()<<std::endl;
-	}
-	
+	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign()<<std::endl;	}
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
 };
 
 template<typename C,typename T = double, typename DateT = Date>
-std::ostream& operator<<(std::ostream& strm, const Reading<C,T,DateT> c)
-{
-	c.Display(strm);
-	return strm;
-}
+std::ostream& operator<<(std::ostream& strm, const Reading<C,T,DateT> c)	{	return c.Display(strm);}
 
 using GasConfiguration = CounterConfiguration<Gas,1202757, Volume>;
 using EnBWEnergyConfiguration = CounterConfiguration<Energy,21740069, Work>;
