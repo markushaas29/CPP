@@ -1,3 +1,8 @@
+#include "Parser.hpp"
+#include "CounterConfiguration.hpp"
+#include "StageQuantities.hpp"
+#include "Stage.hpp"
+#include "AncilliaryRentalCosts/AncilliaryRentalCostsContainer.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.h"
@@ -10,11 +15,6 @@
 #include "../File/Account.hpp"
 #include "../File/Repository.hpp"
 #include "../File/FileSystem.hpp"
-#include "Parser.hpp"
-#include "CounterConfiguration.hpp"
-#include "StageQuantities.hpp"
-#include "Stage.hpp"
-//~ #include "UtilitiesStatement.hpp"
 #include <map>
 #include <chrono>
 #include <ctime>
@@ -74,6 +74,8 @@ private:
 		
 		StageContainerType::Instance().Display(std::cout);
 		SumStageQuantities(quantities);
+		
+		auto a = AncilliaryRentalCostsContainer<Top,int>();
 		
 		CounterConatinerType::Instance().Display(std::cout);
 	}

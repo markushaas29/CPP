@@ -61,10 +61,7 @@
 		inline static constexpr const char* CalculatorOperation<Ratio>::Sign = "%";
 		
 		template<typename T, typename Q = T>
-		static constexpr decltype(auto) Calculate(const T& nom, const T& denom, const Q& sum) {	return Multiplication((Division::Calculate(nom,denom)),sum); }
-		
-		//~ template<typename T, typename U, typename S, typename D>
-		//~ static constexpr decltype(auto) Calculate(const T& nom, const T& denom, const Quantity<T,U,D>& sum) {	return Multiplication((Division::Calculate(nom,denom)),sum.Value()); }
+		static constexpr decltype(auto) Calculate(const T& nom, const T& denom, const Q& sum) {	return Multiplication((Division::Calculate(nom,denom)),sum); }		
 	};
 	
 	struct QuantityRatio: CalculatorOperation<QuantityRatio>
