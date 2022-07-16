@@ -5,7 +5,6 @@
 #include "Stage.hpp"
 #include "House.hpp"
 #include "StageContainer.hpp"
-#include "../Calculator/CalculatorConfiguration.hpp"
 #include "../Unit/SIPrefix.hpp"
 #include "../Calculator/Calculator.hpp"
 #include "../Tuple/Tuple.hpp"

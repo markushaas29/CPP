@@ -13,7 +13,6 @@
 #include "../Logger/Logger.hpp"
 #include "../File/Node.hpp"
 #include "../Calculator/Calculator.hpp"
-#include "../Calculator/CalculatorConfiguration.hpp"
 #include "../Typelist/Typelist.h"
 #include "../Unit/Unit.h"
 #include "../Quantity/Quantity.h"
@@ -25,10 +24,6 @@
 //---------------------------------------------------------------------------------------------------StageContainer----------------------------------------------------------------------------------------
 
 using StagesMap = std::map<std::string, StageMap>;
-
-
-//~ template<typename List>
-//~ class StageContainer{};
 
 template<typename Head>
 class StageContainer<Typelist<Head>>
@@ -159,8 +154,6 @@ public:
 			using Stage = Head;
 			using All = AllT;
 		};
-		
-		Calculator<Sewage,Type>::Calculate(DateTimes::Year{2021});
 		
 		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
 		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();

@@ -10,7 +10,6 @@
 #include "../File/Account.hpp"
 #include "../File/Repository.hpp"
 #include "../File/FileSystem.hpp"
-#include "../Calculator/CalculatorConfiguration.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
 #include "StageQuantities.hpp"

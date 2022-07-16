@@ -10,8 +10,8 @@
 #include "../Wrapper/Wrapper.hpp"
 #include "../Home/StageQuantities.hpp"
 
-#ifndef CALCULATORCONFIGURATION_HPP
-#define CALCULATORCONFIGURATION_HPP
+#ifndef ANCILLIARYRENTALCOST_HPP
+#define ANCILLIARYRENTALCOST_HPP
 
 template<typename Derived, typename Q>
 struct CalculatorConfiguration
