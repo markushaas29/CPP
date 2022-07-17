@@ -5,6 +5,8 @@
 #include "../../Quantity/Quantity.h"
 #include "../../Calculator/Calculator.hpp"
 #include "../../Common/DateTimes.hpp"
+#include "../../File/Raiba.hpp"
+#include "../../File/Account.hpp"
 
 #ifndef ANCILLIARYRENTALCOSTSCONTAINER_HPP
 #define ANCILLIARYRENTALCOSTSCONTAINER_HPP
@@ -34,15 +36,15 @@ private:
 	{ 
 		//~ this->items->insert({"TEST",std::make_shared<Item>()});
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
+		Bank::Raiba<0>::Display(std::cout);
+		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
+			//~ auto account = raiba(Sewage::AccountKey);
+			//~ account.Display(std::cout);
+			//~ auto sewage = account.GetCause(Sewage::CauseString);
 		//~ Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<year.Value()<<std::endl;
 		//~ auto v = this->items->at("TEST");
 	}	
-	AncilliaryRentalCostsContainer(YearType y): year(y) 
-	{ 
-		//~ this->items->insert({"TEST",std::make_shared<Item>()});
-		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<y.Value()<<std::endl;
-		//~ auto v = this->items->at("TEST");
-	}
+	
 	
 	~AncilliaryRentalCostsContainer()	{ Logger::Log()<<"Destructor"<<std::endl; }
 	void Calculate() 
