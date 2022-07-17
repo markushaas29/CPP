@@ -75,7 +75,7 @@ private:
 		StageContainerType::Instance().Display(std::cout);
 		SumStageQuantities(quantities);
 		
-		auto a = AncilliaryRentalCostsContainer<Top,int>();
+		AncilliaryRentalCostsContainer<Top>::Instance();
 		
 		CounterConatinerType::Instance().Display(std::cout);
 	}

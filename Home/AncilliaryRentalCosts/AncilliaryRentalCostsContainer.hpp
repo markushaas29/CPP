@@ -10,7 +10,7 @@
 #define ANCILLIARYRENTALCOSTSCONTAINER_HPP
 using YearType = DateTimes::Year;
 
-template<typename S,typename Y>
+template<typename S>
 class AncilliaryRentalCostsContainer
 {
 public:
@@ -22,6 +22,14 @@ public:
 	//~ using Item = UtilitiesStatementItem;
 	//~ using ItemsType = std::map<std::string, ValueType<Item>>;
 	//~ using StatetementsType = std::map<DateTimes::Year, ValueType<Type>>;
+	
+	static AncilliaryRentalCostsContainer& Instance()
+	{
+		static AncilliaryRentalCostsContainer instance;
+		return instance;
+	}
+		
+private:
 	AncilliaryRentalCostsContainer(): year(2000)
 	{ 
 		//~ this->items->insert({"TEST",std::make_shared<Item>()});
@@ -29,8 +37,6 @@ public:
 		//~ Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<year.Value()<<std::endl;
 		//~ auto v = this->items->at("TEST");
 	}	
-		
-private:
 	AncilliaryRentalCostsContainer(YearType y): year(y) 
 	{ 
 		//~ this->items->insert({"TEST",std::make_shared<Item>()});
@@ -38,7 +44,7 @@ private:
 		//~ auto v = this->items->at("TEST");
 	}
 	
-	//~ ~AncilliaryRentalCostsContainer()	{ Logger::Log()<<"Destructor"<<std::endl; }
+	~AncilliaryRentalCostsContainer()	{ Logger::Log()<<"Destructor"<<std::endl; }
 	void Calculate() 
 	{
 		Logger::Log()<<"US: "<<Stage::Number<<std::endl;
@@ -54,8 +60,8 @@ private:
 	
 };
 
-template<typename C, typename Y,typename S = T::char_<'\t'>>
-std::ostream& operator<<(std::ostream& strm, const AncilliaryRentalCostsContainer<C,Y>& c){	return c.Display(strm); }
+//~ template<typename C, typename S = T::char_<'\t'>>
+//~ std::ostream& operator<<(std::ostream& strm, const AncilliaryRentalCostsContainer<C,Y>& c){	return c.Display(strm); }
 
 
 #endif
