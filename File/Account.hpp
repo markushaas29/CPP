@@ -25,11 +25,11 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	template<typename A, typename DirectionT>
-	struct Get
+	template<typename A, typename T>
+	decltype(auto) Get(const T& t)
 	{
-		decltype(auto) operator()(typename A::KeyType k){ return A::cont[k]; }
-		
+		Key<std::string> s;
+		return A::cont[s];
 	};
 	
 	template<typename Derived, typename TransferT>
@@ -160,10 +160,6 @@ namespace Bank
 			
 			return result;
 		}
-		
-		static void InsertInContainer(std::string key, std::string transaction, double sum, std::string date, std::string iban, std::string bic, char transferSign, std::string cause = "")	{	}
-	private:
-		
 	};
 }
 

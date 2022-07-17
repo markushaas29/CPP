@@ -37,11 +37,7 @@ namespace Bank
 				
 		Raiba(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : Base(k,c,v, d, i, b) {};
 		
-		static std::ostream& Display(std::ostream& os)
-		{
-			return cont.Display(os);
-		}
-		
+		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
 	protected:
 		template<typename T>
 		static std::string Extract(std::string s)
@@ -62,8 +58,8 @@ namespace Bank
 			;
 		}
 	private:
-		template<typename A, typename DirectionT>
-		friend struct Get;
+		template<typename A, typename T>
+		friend decltype(auto) Get(const T& t);
 	
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static String_::Parser parser = String_::Parser();

@@ -52,6 +52,9 @@ namespace Bank
 			return s;
 		}
 	private:
+		template<typename A, typename T>
+		friend decltype(auto) Get(const T& t);
+		
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 	};
 }
