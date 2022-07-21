@@ -28,7 +28,8 @@ namespace Bank
 	template<typename A, typename T>
 	decltype(auto) Get(const T& t)
 	{
-		Key<std::string> s;
+		auto s = IBAN("DE12660623660000005703");
+		A::cont.DisplayKeys(std::cout);
 		return A::cont[s];
 	};
 	
@@ -47,7 +48,7 @@ namespace Bank
 		using Type = Account<Derived,TransferT> ;
 		using TransferType = Transfer<Derived, TransferT>;
 		using TupleType = TransferT;
-		using KeyType = Key<std::string>;
+		using KeyType = IBAN;
 		using AccountContainerType = AccountContainer<TransferType>;
 		using QuantityType = Quantity<Sum>;
 		using InputIterator = std::vector<std::string>::const_iterator;
@@ -86,7 +87,7 @@ namespace Bank
 							}
 							Logger::Log(values.cbegin(),values.cend());
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
-							Derived::cont.Insert(Key(Bank::GetTransfer<IBAN>(*tt).Value), tt);
+							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value, tt);
 						}
 						
 						Derived::cont.Display(std::cout);

@@ -37,7 +37,9 @@ private:
 		//~ this->items->insert({"TEST",std::make_shared<Item>()});
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
 		Bank::Raiba<0>::Display(std::cout);
+		auto s = Bank::Get<Bank::Raiba<0>>(year);
 		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
+		std::cout<<s<<std::endl;
 			//~ auto account = raiba(Sewage::AccountKey);
 			//~ account.Display(std::cout);
 			//~ auto sewage = account.GetCause(Sewage::CauseString);

@@ -120,6 +120,8 @@ public:
 	IBAN* DoCreate(){return this;};
 };
 
+inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value < rhs.Value; }
+
 class BIC: public Element
 {
 public:

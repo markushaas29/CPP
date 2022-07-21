@@ -40,7 +40,7 @@ namespace Bank
 		using Type = Transfer<Account,TupleT> ;
 		using TupleType = TupleT;
 		using AccountType = Account ;
-		using KeyType = Key<std::string>;
+		using KeyType = typename Account::KeyType;
 		using QunatityType = Quantity<Sum>;
 		
 		Transfer() = delete;

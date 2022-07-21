@@ -63,7 +63,7 @@ namespace Bank
 			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::GetTransfer<Quantity<Sum>>(*t);
 		}
 		
-		std::ostream& Display(std::ostream& out)
+		std::ostream& Display(std::ostream& out) const
 		{
 			out<<"Owner: "<<std::get<Name>(types)<<std::endl;
 			out<<"\tIBAN: "<<std::get<IBAN>(types)<<"\tBIC: "<<std::get<BIC>(types)<<std::endl;
@@ -96,7 +96,7 @@ namespace Bank
 		}
 				
 		template<typename T>
-		decltype(auto) All()
+		decltype(auto) All() const
 		{
 			auto result = std::vector<T>();
 						
@@ -133,6 +133,12 @@ namespace Bank
 			return result;
 		}		
 	};
+	
+	template<typename A, typename TupleType,template<typename> class Cont = std::vector>
+	std::ostream& operator<<(std::ostream& strm, const TransferEndpoint<A,TupleType,Cont> c)
+	{
+		return c.Display(strm);
+	}
 }
 
 
