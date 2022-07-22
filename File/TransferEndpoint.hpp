@@ -94,6 +94,17 @@ namespace Bank
 
 			return out<<std::endl;
 		}
+		
+		template<typename T>
+		decltype(auto) operator[](T t) 
+		{ 
+			for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
+				{
+					auto date = Bank::GetTransfer<T>(*(*it));
+					std::cout<<"DATE "<<date<<std::endl;
+				}
+			return 1; 
+		}
 				
 		template<typename T>
 		decltype(auto) All() const

@@ -40,6 +40,8 @@ private:
 		auto s = Bank::Get<Bank::Raiba<0>>(year);
 		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
 		std::cout<<s<<std::endl;
+		DateTimes::Date d;
+		s[d];
 			//~ auto account = raiba(Sewage::AccountKey);
 			//~ account.Display(std::cout);
 			//~ auto sewage = account.GetCause(Sewage::CauseString);
