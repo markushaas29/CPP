@@ -42,7 +42,8 @@ private:
 		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<PropertyTax::iban<<std::endl;
 		std::cout<<s<<std::endl;
 		DateTimes::Date d{"30.11.2020"};
-		s[d];
+		auto a = s[d];
+		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer "<<a.size()<<*(a[0])<<std::endl;
 			//~ auto account = raiba(Sewage::AccountKey);
 			//~ account.Display(std::cout);
 			//~ auto sewage = account.GetCause(Sewage::CauseString);

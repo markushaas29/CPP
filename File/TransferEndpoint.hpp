@@ -101,6 +101,7 @@ namespace Bank
 			auto result = ResultContainer();
 			std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(result), [&t](auto it) { return Bank::GetTransfer<T>(*it) == t; });
 			
+			//~ return std::forward<ResultContainer>(result); 
 			return result; 
 		}
 				
@@ -127,18 +128,6 @@ namespace Bank
 					result.push_back(current);
 			});
 
-			return result;
-		}
-		
-		ResultContainer GetCause(std::string name = "")
-		{
-			ResultContainer result;
-			for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
-			{
-				if(String_::Contains(Bank::GetTransfer<Entry>(*(*it)).Value, name))
-					result.push_back(*it);
-			}
-			
 			return result;
 		}		
 	};
