@@ -52,6 +52,7 @@ template<typename Derived, typename Q>
 struct LocalCommunity: AncilliaryRentalCostItemBase<Derived, Q>
 {
 	constexpr static const char* KeyString = "Gemeindekasse Dettenheim";	
+	constexpr static const char* IBAN_Identifier = "DE12660623660000005703";	
 };
 
 struct PropertyTax: LocalCommunity<PropertyTax, ApartmentArea> 
