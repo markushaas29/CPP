@@ -38,7 +38,8 @@ private:
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
 		Bank::Raiba<0>::Display(std::cout);
 		auto s = Bank::Get<Bank::Raiba<0>>(year);
-		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
+		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<PropertyTax::Identifier<<std::endl;
+		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<PropertyTax::iban<<std::endl;
 		std::cout<<s<<std::endl;
 		DateTimes::Date d{"30.11.2020"};
 		s[d];

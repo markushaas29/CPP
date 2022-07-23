@@ -33,26 +33,26 @@ struct AncilliaryRentalCostItemBase
 struct BuildingInsurance: AncilliaryRentalCostItemBase<BuildingInsurance, IndividualUnit> 
 { 
 	constexpr static const char* Name = "BuildingInsurance"; 
-	constexpr static const char* KeyString = "SV Gebaeudeversicherung"; 
+	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 };
 
 struct WasteFees: AncilliaryRentalCostItemBase<WasteFees, Persons> 
 { 
 	constexpr static const char* Name = "WasteFees"; 
-	constexpr static const char* KeyString = "Abfallwirtschaftsbetrieb"; 
+	constexpr static const char* Identifier = "Abfallwirtschaftsbetrieb"; 
 };
 
 struct ChimneySweeper: AncilliaryRentalCostItemBase<ChimneySweeper, IndividualUnit> 
 { 
 	constexpr static const char* Name = "ChimneySweeper"; 
-	constexpr static const char* KeyString = "Sascha Schneider"; 
+	constexpr static const char* Identifier = "Sascha Schneider"; 
 };
 
 template<typename Derived, typename Q>
 struct LocalCommunity: AncilliaryRentalCostItemBase<Derived, Q>
 {
-	constexpr static const char* KeyString = "Gemeindekasse Dettenheim";	
-	constexpr static const char* IBAN_Identifier = "DE12660623660000005703";	
+	constexpr static const char* Identifier = "Gemeindekasse Dettenheim";	
+	inline static const IBAN iban{"DE12660623660000005703"};	
 };
 
 struct PropertyTax: LocalCommunity<PropertyTax, ApartmentArea> 
