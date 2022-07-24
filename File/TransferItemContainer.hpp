@@ -46,15 +46,8 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 			return Base::template Create<T>(sourcePath, std::move(ret));	
 		}
 	public:
-		static std::ostream& Display(std::ostream& os) 
-		{
-			return Base::Display(Type::Display(os));		
-		}
-			
-		void Read(const std::string& sourcePath = ".")
-		{
-			Base::Read();		
-		}
+		static std::ostream& Display(std::ostream& os) 	{ return Base::Display(Type::Display(os));}
+		void Read(const std::string& sourcePath = "."){	Base::Read();	}
 		
 		template<typename TransferType>
 		auto CreateTransfer(Base::InputIterator begin, Base::InputIterator end)
@@ -96,10 +89,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 	protected:
 		TransferItemContainer() { Logger::Log<Info>()<<"TransferItemContainer created."<<std::endl; };
 		KeyIndexContainerPtrType keyIndices;
-		auto createTransfer(InputIterator begin, InputIterator end) 
-		{ 
-			return TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier])));
-		}
+		auto createTransfer(InputIterator begin, InputIterator end) {	return TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier])));	}
 		
 		template<typename T, typename Cont = T::KeyIndexContainerType::ContainerType>
 		auto Create(const std::string sourcePath, Cont ret)
@@ -109,15 +99,8 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 			return ret;		
 		}
 	public:
-		static std::ostream& Display(std::ostream& os) 
-		{
-			return Type::Display(os);
-		}
-		
-		void Read(const std::string& sourcePath = ".")
-		{
-		}
-		
+		static std::ostream& Display(std::ostream& os) { return Type::Display(os);	}
+		void Read(const std::string& sourcePath = "."){	}
 		void setKeyIndexContainer(KeyIndexContainerPtrType ptr){ this->keyIndices = ptr; }
 
 		static TransferItemContainer& Instance()
