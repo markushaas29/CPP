@@ -1,4 +1,5 @@
 #include <tuple>
+#include "../Stage.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
 #include "../../Unit/Unit.h"
@@ -34,6 +35,9 @@ struct AncilliaryRentalCostItemBase
 	{
 		auto s = Bank::Get<Bank::Raiba<0>>(Derived::iban);
 		std::cout<<s<<std::endl;
+		auto a = StageContainerType::Instance().GetTotal<Q>();
+		std::cout<<"AAC::::::::::: "<<a<<std::endl;
+		std::cout<<"AAC::::::::::: "<<GetStage<Q, MiddleConfiguration>().GetQuantity()<<std::endl;
 	}
 };
 

@@ -31,6 +31,11 @@ struct HouseConfiguration
 	inline static constexpr const char* CsvRepo = "/home/markus/Downloads/CSV_Files";
 };
 
+//~ template<typename>	class House;
+	
+//~ template<typename T, typename C>
+//~ const ItemT& GetTransfer(Transfer<Account,TupleT>const& t){		return std::get<ItemT>(t.transferItems);	};
+
 template<typename ConfigT = HouseConfiguration>
 class House
 {
@@ -67,27 +72,28 @@ private:
 		auto keys = FileSystem::ReadLines(keyFileN);
 		
 		StageContainerType::Instance().Display(std::cout);
-		SumStageQuantities(quantities);
-		
 		AncilliaryRentalCostsContainer<Top>::Instance();
 		//~ CounterContainerType::Instance().Display(std::cout);
 	}
 	
-	template <size_t I = 0, typename... Ts>
-	constexpr std::tuple<Ts...> SumStageQuantities(std::tuple<Ts...>& t1)
-	{
-	    if constexpr(I == sizeof...(Ts))
-			return t1;
-	    else {
-			using TR = decltype(std::get<I>(quantities));
-			using T = std::remove_reference<TR>::type;
-			auto tq = T(StageContainerType::Instance().GetTotal<T>());
+	template<typename T>
+	decltype(auto) Get(){	return StageContainerType::Instance().GetTotal<T>();	};
+	
+	//~ template <size_t I = 0, typename... Ts>
+	//~ constexpr std::tuple<Ts...> SumStageQuantities(std::tuple<Ts...>& t1)
+	//~ {
+	    //~ if constexpr(I == sizeof...(Ts))
+			//~ return t1;
+	    //~ else {
+			//~ using TR = decltype(std::get<I>(quantities));
+			//~ using T = std::remove_reference<TR>::type;
+			//~ auto tq = T(StageContainerType::Instance().GetTotal<T>());
 			
-			std::get<I>(quantities) = tq;
+			//~ std::get<I>(quantities) = tq;
 			
-	        return SumStageQuantities<I + 1>(t1);
-	    }
-	}
+	        //~ return SumStageQuantities<I + 1>(t1);
+	    //~ }
+	//~ }
 	
 	~House()	{ Logger::Log()<<"Destructor"<<std::endl; }
 	House& operator=(const House&) = delete;

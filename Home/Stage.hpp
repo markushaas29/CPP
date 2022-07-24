@@ -62,7 +62,6 @@ public:
 	inline static constexpr int Number = Configuration::Number;
 	inline static constexpr const char* Name = Configuration::Name;
 	
-// 	YearDataMapType operator[](YearDataMapKeyType key) { return 0; }
 	YearDataMapType operator[](YearDataMapKeyType key) { return 0; }
 	
 	static Stage& Instance()
