@@ -38,6 +38,9 @@ struct AncilliaryRentalCostItemBase
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		std::cout<<"AAC::::::::::: "<<a<<std::endl;
 		std::cout<<"AAC::::::::::: "<<GetStage<Q, MiddleConfiguration>().GetQuantity()<<std::endl;
+		auto b = GetStage<Q, MiddleConfiguration>().GetQuantity();
+		auto c = b / a;
+		std::cout<<"AAC::::::::::: "<<c<<std::endl;
 	}
 };
 
