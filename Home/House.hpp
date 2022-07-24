@@ -47,15 +47,9 @@ public:
 		return instance;
 	}
 	
-	std::ostream& Display(std::ostream& os) 
-	{
-		return os;
-	}
+	std::ostream& Display(std::ostream& os) {	return os;	}
 	
-	void Calculate() 
-	{
-		StageContainerType::Instance().Calculate();
-	}
+	void Calculate() {	StageContainerType::Instance().Calculate();	}
 	
 private:
 	HouseQuantitiesType quantities; 
@@ -76,8 +70,7 @@ private:
 		SumStageQuantities(quantities);
 		
 		AncilliaryRentalCostsContainer<Top>::Instance();
-		
-		CounterConatinerType::Instance().Display(std::cout);
+		//~ CounterContainerType::Instance().Display(std::cout);
 	}
 	
 	template <size_t I = 0, typename... Ts>

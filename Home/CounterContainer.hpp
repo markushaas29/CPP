@@ -96,6 +96,6 @@ using CMHW = Counter<Middle_HWaterConfiguration>;
 using CTCW = Counter<Top_CWaterConfiguration>;
 using CTHW = Counter<Top_HWaterConfiguration>;
 
-using CounterConatinerType = CounterContainer<Typelist<CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW>>::ContainerType;
+using CounterContainerType = CounterContainer<Typelist<CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW>>::ContainerType;
 
 #endif
