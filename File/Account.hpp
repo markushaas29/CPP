@@ -26,12 +26,7 @@ namespace fs = std::filesystem;
 namespace Bank
 {
 	template<typename A, typename T>
-	decltype(auto) Get(const T& t)
-	{
-		auto s = IBAN("DE12660623660000005703");
-		A::cont.DisplayKeys(std::cout);
-		return A::cont[s];
-	};
+	decltype(auto) Get(const T& t){	return A::cont[t];	};
 	
 	template<typename Derived, typename TransferT>
 	class Account

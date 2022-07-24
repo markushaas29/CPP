@@ -1,3 +1,4 @@
+#include <memory>
 #include "AncilliaryRentalCostItems.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
@@ -18,7 +19,7 @@ class AncilliaryRentalCostsContainer
 public:
 	using Type = AncilliaryRentalCostsContainer;
 	using Stage = S;
-	//~ using All = Configuration::All;
+	using Items = CalculationItems;
 	template<typename T>
 	using ValueType = std::shared_ptr<T>;
 	//~ using Item = UtilitiesStatementItem;
@@ -32,30 +33,28 @@ public:
 	}
 		
 private:
+	std::unique_ptr<Items> items = std::unique_ptr<Items>();
 	AncilliaryRentalCostsContainer(): year(2000)
 	{ 
 		//~ this->items->insert({"TEST",std::make_shared<Item>()});
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
-		Bank::Raiba<0>::Display(std::cout);
-		auto s = Bank::Get<Bank::Raiba<0>>(year);
-		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<PropertyTax::Identifier<<std::endl;
-		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<PropertyTax::iban<<std::endl;
-		std::cout<<s<<std::endl;
-		DateTimes::Date d{"30.11.2020"};
-		auto a = s[d];
-		std::cout<<"CTOR: "<<"AncilliaryRentalCostsContainer "<<a.size()<<*(a[0])<<std::endl;
-			//~ auto account = raiba(Sewage::AccountKey);
-			//~ account.Display(std::cout);
-			//~ auto sewage = account.GetCause(Sewage::CauseString);
-		//~ Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<year.Value()<<std::endl;
-		//~ auto v = this->items->at("TEST");
+		this->Calculate(*items);
+		//~ Bank::Raiba<0>::Display(std::cout);
 	}	
 	
 	
 	~AncilliaryRentalCostsContainer()	{ Logger::Log()<<"Destructor"<<std::endl; }
-	void Calculate() 
+	template <size_t I = 0, typename... Ts>
+	constexpr void Calculate(std::tuple<Ts...> tup) 
 	{
 		Logger::Log()<<"US: "<<Stage::Number<<std::endl;
+		if constexpr(I == sizeof...(Ts))    return;
+		else 
+		{
+			auto i = std::get<I>(*items);
+			decltype(i)::Calculate();
+			Calculate<I + 1>(*items);
+		}
 	}
 	
 	std::ostream& Display(std::ostream& os) {	return os;	}
