@@ -36,8 +36,8 @@ using YearDataMap = std::map<YearDataMapKeyType, YearDataMapValueType<T>>;
 
 template<typename> class Stage;
 	
-template<typename ItemT, typename ConfigT>
-const ItemT& GetStage(){ return std::get<ItemT>( Stage<ConfigT>::Instance().quantities );	};
+template<typename S, typename ItemT>
+const ItemT& GetStage(){ return std::get<ItemT>( S::Instance().quantities );	};
 
 template<typename List>
 class StageContainer{};
@@ -45,7 +45,7 @@ class StageContainer{};
 template<typename ConfigT>
 class Stage
 {
-	template<typename ItemT, typename C>
+	template<typename, typename ItemT>
 	friend const ItemT& GetStage();
 	
 	template<typename List>
