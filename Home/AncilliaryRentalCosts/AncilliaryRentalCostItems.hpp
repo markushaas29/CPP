@@ -1,5 +1,7 @@
 #include <tuple>
 #include "../Stage.hpp"
+#include "../../Calculator/Calculator.hpp"
+#include "../../Calculator/Operations.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
 #include "../../Unit/Unit.h"
@@ -43,6 +45,8 @@ struct AncilliaryRentalCostItemBase
 		auto c = b / a;
 		auto d = q * c;
 		std::cout<<"AAC::::::::::: "<<c<<"\t"<<d<<"\t"<<q<<std::endl;
+		auto qr = QuantityRatio::Calculate(b,a,q);
+		std::cout<<"AAC::::::::::: "<<qr<<std::endl;
 	}
 };
 

@@ -1,6 +1,5 @@
 #include <memory>
 #include <ratio>
-#include "CalculatorConfiguration.hpp"
 #include "CalculatorResult.hpp"
 #include "../Fraction/Fraction.h"
 #include "../Wrapper/Wrapper.hpp"
