@@ -121,6 +121,7 @@ public:
 };
 
 inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value < rhs.Value; }
+inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value == rhs.Value; }
 
 class BIC: public Element
 {
