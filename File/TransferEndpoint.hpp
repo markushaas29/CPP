@@ -33,6 +33,7 @@ namespace Bank
 	template<typename Account, typename TupleType = std::tuple<Name,IBAN,BIC,Quantity<Sum>>,template<typename> class Cont = std::vector>
 	class TransferEndpoint
 	{
+	public:
 		using TransferTypes = Account::TupleType;
 		using EnpointTypes = TupleType;
 		using Type = TransferEndpoint<Account> ;
@@ -41,7 +42,7 @@ namespace Bank
 		using ResultContainer = Cont<DataType> ;
 		using ContainerType = TransferContainer<DataType>;
 		using Iterator = ContainerType::Iterator;
-		
+	private:
 		std::shared_ptr<ContainerType> transactions = std::make_shared<ContainerType>();
 		TupleType types;
 	protected:

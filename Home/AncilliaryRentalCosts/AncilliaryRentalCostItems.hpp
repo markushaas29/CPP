@@ -1,4 +1,5 @@
 #include <tuple>
+#include "AncilliaryRentalCostResult.hpp"
 #include "../Stage.hpp"
 #include "../../Calculator/Calculator.hpp"
 #include "../../Calculator/Operations.hpp"
@@ -48,6 +49,7 @@ struct AncilliaryRentalCostItemBase
 		std::cout<<*(*t)[0]<<"\nAAC::::::::::: "<<c<<"\t"<<d<<"\t"<<q<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
 		std::cout<<"AAC::::::::::: "<<qr<<std::endl;
+		auto arr = AncilliaryRentalCostItemResult<decltype(s)>(std::move(t));
 	}
 };
 
