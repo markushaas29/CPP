@@ -98,10 +98,12 @@ namespace Bank
 		template<typename T>
 		decltype(auto) operator[](T t) 
 		{ 
-			auto result = ResultContainer();
-			std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(result), [&t](auto it) { return Bank::GetTransfer<T>(*it) == t; });
+			auto result = std::make_unique<ResultContainer>();
+			if constexpr (std::is_same<T,DateTimes::Year>::value)
+				std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(*result), [&t](auto it) { return Bank::GetTransfer<DateTimes::Date>(*it) == t; });
+			else
+				std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(*result), [&t](auto it) { return Bank::GetTransfer<T>(*it) == t; });
 			
-			//~ return std::forward<ResultContainer>(result); 
 			return result; 
 		}
 				

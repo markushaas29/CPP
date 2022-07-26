@@ -135,6 +135,7 @@ namespace DateTimes
 		bool operator==(const Date& date) const{ return std::get<DateTimes::Day>(date.tt) == std::get<DateTimes::Day>(this->tt) 
 			&& std::get<DateTimes::Month>(date.tt) == std::get<DateTimes::Month>(this->tt) 
 			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
+		bool operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
 	private:
 		TupleType tt;
 		TP tp;

@@ -36,15 +36,16 @@ struct AncilliaryRentalCostItemBase
 	static void Calculate()
 	{
 		auto s = Bank::Get<Bank::Raiba<0>>(Derived::iban);
-		auto t = s[Derived::iban];
-		auto q = GetTransfer<Quantity<Sum>>(*(t[0]));
+		//~ auto t = s[Derived::iban];
+		auto t = s[DateTimes::Year(2021)];
+		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		std::cout<<"AAC::::::::::: "<<a<<std::endl;
 		std::cout<<"AAC::::::::::: "<<GetStage<Middle,Q>().GetQuantity()<<std::endl;
 		auto b = GetStage<Middle,Q>().GetQuantity();
 		auto c = b / a;
 		auto d = q * c;
-		std::cout<<"AAC::::::::::: "<<c<<"\t"<<d<<"\t"<<q<<std::endl;
+		std::cout<<*(*t)[0]<<"\nAAC::::::::::: "<<c<<"\t"<<d<<"\t"<<q<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
 		std::cout<<"AAC::::::::::: "<<qr<<std::endl;
 	}
