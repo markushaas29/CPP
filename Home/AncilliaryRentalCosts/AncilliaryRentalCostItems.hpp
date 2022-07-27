@@ -33,10 +33,11 @@ struct AncilliaryRentalCostItemBase
 {
 	using Type = Derived;
 	using StageQuantity = Q;
+	using AccountType = Bank::Raiba<0>;
 	constexpr static const char* Name = "";//Derived::Name; 
 	static void Calculate()
 	{
-		auto s = Bank::Get<Bank::Raiba<0>>(Derived::iban);
+		auto s = Bank::Get<AccountType>(Derived::iban);
 		//~ auto t = s[Derived::iban];
 		auto t = s[DateTimes::Year(2021)];
 		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
