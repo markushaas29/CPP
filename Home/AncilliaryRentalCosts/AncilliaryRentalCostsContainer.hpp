@@ -18,7 +18,7 @@ class AncilliaryRentalCostsContainer
 {
 public:
 	using Type = AncilliaryRentalCostsContainer;
-	using Stage = S;
+	using StageT = S;
 	using Items = CalculationItems;
 	template<typename T>
 	using ValueType = std::shared_ptr<T>;
@@ -36,10 +36,8 @@ private:
 	std::unique_ptr<Items> items = std::unique_ptr<Items>();
 	AncilliaryRentalCostsContainer(): year(2000)
 	{ 
-		//~ this->items->insert({"TEST",std::make_shared<Item>()});
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
 		this->Calculate(*items);
-		//~ Bank::Raiba<0>::Display(std::cout);
 	}	
 	
 	
@@ -47,12 +45,12 @@ private:
 	template <size_t I = 0, typename... Ts>
 	constexpr void Calculate(std::tuple<Ts...> tup) 
 	{
-		Logger::Log()<<"US: "<<Stage::Number<<std::endl;
+		Logger::Log()<<"US: "<<StageT::Number<<std::endl;
 		if constexpr(I == sizeof...(Ts))    return;
 		else 
 		{
 			auto i = std::get<I>(*items);
-			decltype(i)::Calculate();
+			decltype(i)::template Calculate<StageT>();
 			Calculate<I + 1>(*items);
 		}
 	}

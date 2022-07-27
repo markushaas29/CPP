@@ -35,21 +35,21 @@ struct AncilliaryRentalCostItemBase
 	using StageQuantity = Q;
 	using AccountType = Bank::Raiba<0>;
 	constexpr static const char* Name = "";//Derived::Name; 
+	
+	template<typename S>
 	static void Calculate()
 	{
 		auto s = Bank::Get<AccountType>(Derived::iban);
-		//~ auto t = s[Derived::iban];
 		auto t = s[DateTimes::Year(2021)];
 		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
-		std::cout<<"AAC::::::::::: "<<a<<std::endl;
-		std::cout<<"AAC::::::::::: "<<GetStage<Middle,Q>().GetQuantity()<<std::endl;
-		auto b = GetStage<Middle,Q>().GetQuantity();
+		std::cout<<S::Name<<"\t Total "<<a<<"\t Stage"<<GetStage<S,Q>().GetQuantity()<<std::endl;
+		auto b = GetStage<S,Q>().GetQuantity();
 		auto c = b / a;
 		auto d = q * c;
-		std::cout<<*(*t)[0]<<"\nAAC::::::::::: "<<c<<"\t"<<d<<"\t"<<q<<std::endl;
+		//~ std::cout<<*(*t)[0]<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
-		std::cout<<"AAC::::::::::: "<<qr<<std::endl;
+		std::cout<<"Result "<<qr<<std::endl;
 		auto arr = AncilliaryRentalCostItemResult<decltype(s)>(std::move(t));
 	}
 };

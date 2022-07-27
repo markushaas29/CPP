@@ -76,7 +76,7 @@ public:
 		return instance;
 	}
 	
-	template<typename AllT>
+	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
 		struct Config
@@ -84,7 +84,7 @@ public:
 			using Stage = Head;
 			using All = AllT;
 		};
-		
+		CalcT<Type>::Instance();
 		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
 		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
 		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
@@ -146,7 +146,7 @@ public:
 		return instance;
 	}	
 	
-	template<typename AllT>
+	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
 		struct Config
@@ -154,14 +154,14 @@ public:
 			using Stage = Head;
 			using All = AllT;
 		};
-		
+		CalcT<Type>::Instance();
 		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
 		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
 		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
-		Base::template CalculateInternal<AllT>();
+		Base::template CalculateInternal<AllT,CalcT>();
 	}
-	
-	void Calculate(){	CalculateInternal<ContainerType>();	}
+	template<template<typename> class CalcT>
+	void Calculate(){	CalculateInternal<ContainerType,CalcT>();	}
 	
 	template<typename T>
 	Quantity<typename T::Unit> GetTotal(){ return GetStage<Head,T>().GetQuantity() + Base::template GetTotal<T>();	}

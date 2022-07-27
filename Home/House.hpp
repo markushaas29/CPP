@@ -54,7 +54,7 @@ public:
 	
 	std::ostream& Display(std::ostream& os) {	return os;	}
 	
-	void Calculate() {	StageContainerType::Instance().Calculate();	}
+	void Calculate() {	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();	}
 	
 private:
 	HouseQuantitiesType quantities; 
@@ -72,7 +72,7 @@ private:
 		auto keys = FileSystem::ReadLines(keyFileN);
 		
 		StageContainerType::Instance().Display(std::cout);
-		AncilliaryRentalCostsContainer<Top>::Instance();
+		StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
 		//~ CounterContainerType::Instance().Display(std::cout);
 	}
 	
