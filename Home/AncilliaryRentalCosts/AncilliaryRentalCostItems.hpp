@@ -50,7 +50,7 @@ struct AncilliaryRentalCostItemBase
 		//~ std::cout<<*(*t)[0]<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
 		std::cout<<"Result "<<qr<<std::endl;
-		auto arr = AncilliaryRentalCostItemResult<decltype(s)>(std::move(t));
+		auto arr = AncilliaryRentalCostItemResult<AccountType>(std::move(t));
 	}
 };
 

@@ -9,9 +9,9 @@ class AncilliaryRentalCostItemResult
 {
 public:
 	using Type = T;
-	using Transfers = std::vector<typename Type::DataType>;
+	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t): transfers{std::move(t)}{std::cout<<"RESULT"<<*(*transfers)[0]<<std::endl;};
+	AncilliaryRentalCostItemResult(TransfersPtr&& t): transfers{std::move(t)}{};
 private:
 	TransfersPtr transfers;
 };
