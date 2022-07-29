@@ -28,23 +28,23 @@ struct CalculatorConfiguration
 	constexpr static const char* Name = "";//Derived::Name; 
 };
 
-template<typename Derived, typename Q>
+template<typename StageT,typename Derived, typename Q>
 struct AncilliaryRentalCostItemBase
 {
 	using Type = Derived;
+	using StageType = StageT;
 	using StageQuantity = Q;
 	using AccountType = Bank::Raiba<0>;
 	constexpr static const char* Name = "";//Derived::Name; 
 	
-	template<typename S>
 	static void Calculate()
 	{
 		auto s = Bank::Get<AccountType>(Derived::iban);
 		auto t = s[DateTimes::Year(2021)];
 		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
-		std::cout<<S::Name<<"\t Total "<<a<<"\t Stage"<<GetStage<S,Q>().GetQuantity()<<std::endl;
-		auto b = GetStage<S,Q>().GetQuantity();
+		std::cout<<StageType::Name<<"\t Total "<<a<<"\t Stage"<<GetStage<StageType,Q>().GetQuantity()<<std::endl;
+		auto b = GetStage<StageType,Q>().GetQuantity();
 		auto c = b / a;
 		auto d = q * c;
 		//~ std::cout<<*(*t)[0]<<std::endl;
@@ -54,47 +54,53 @@ struct AncilliaryRentalCostItemBase
 	}
 };
 
-struct BuildingInsurance: AncilliaryRentalCostItemBase<BuildingInsurance, IndividualUnit> 
+template<typename S>
+struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, IndividualUnit> 
 { 
 	constexpr static const char* Name = "BuildingInsurance"; 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static const IBAN iban{"DE97500500000003200029"};	
 };
 
-struct WasteFees: AncilliaryRentalCostItemBase<WasteFees, Persons> 
+template<typename S>
+struct WasteFees: AncilliaryRentalCostItemBase<S,WasteFees<S>, Persons> 
 { 
 	constexpr static const char* Name = "WasteFees"; 
 	constexpr static const char* Identifier = "Abfallwirtschaftsbetrieb"; 
 	inline static const IBAN iban{"DE44600501010008017284"};	
 };
 
-struct ChimneySweeper: AncilliaryRentalCostItemBase<ChimneySweeper, IndividualUnit> 
+template<typename S>
+struct ChimneySweeper: AncilliaryRentalCostItemBase<S,ChimneySweeper<S>, IndividualUnit> 
 { 
 	constexpr static const char* Name = "ChimneySweeper"; 
 	constexpr static const char* Identifier = "Sascha Schneider"; 
 	inline static const IBAN iban{"DE82660501011021592702"};	
 };
 
-template<typename Derived, typename Q>
-struct LocalCommunity: AncilliaryRentalCostItemBase<Derived, Q>
+template<typename S, typename Derived, typename Q>
+struct LocalCommunity: AncilliaryRentalCostItemBase<S, Derived, Q>
 {
 	constexpr static const char* Identifier = "Gemeindekasse Dettenheim";	
 	inline static const IBAN iban{"DE12660623660000005703"};	
 };
 
-struct PropertyTax: public LocalCommunity<PropertyTax, ApartmentArea> 
+template<typename S>
+struct PropertyTax: public LocalCommunity<S, PropertyTax<S>, ApartmentArea> 
 { 
 	constexpr static const char* Name = "PropertyTax"; 
 	constexpr static const char* CauseString = "Grundsteuer"; 
 };
 
-struct Sewage: public LocalCommunity<Sewage, ApartmentArea> 
+template<typename S>
+struct Sewage: public LocalCommunity<S, Sewage<S>, ApartmentArea> 
 { 
 	constexpr static const char* Name = "Sewage"; 
 	constexpr static const char* CauseString = "Abschlag/Abwasser"; 
 	constexpr static const char* InvoiceString = "Rechnung/Abwasser"; 
 };
 
-using CalculationItems = std::tuple<BuildingInsurance,WasteFees,ChimneySweeper,Sewage,PropertyTax>;
+template<typename S>
+using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>>;
 
 #endif

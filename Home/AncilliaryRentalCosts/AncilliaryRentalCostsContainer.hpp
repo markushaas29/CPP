@@ -19,7 +19,7 @@ class AncilliaryRentalCostsContainer
 public:
 	using Type = AncilliaryRentalCostsContainer;
 	using StageT = S;
-	using Items = CalculationItems;
+	using Items = CalculationItems<S>;
 	template<typename T>
 	using ValueType = std::shared_ptr<T>;
 	//~ using Item = UtilitiesStatementItem;
@@ -50,7 +50,7 @@ private:
 		else 
 		{
 			auto i = std::get<I>(*items);
-			decltype(i)::template Calculate<StageT>();
+			decltype(i)::Calculate();
 			Calculate<I + 1>(*items);
 		}
 	}
