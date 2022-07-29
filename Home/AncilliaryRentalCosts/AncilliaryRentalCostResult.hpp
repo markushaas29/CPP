@@ -12,6 +12,8 @@ public:
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
 	AncilliaryRentalCostItemResult(TransfersPtr&& t): transfers{std::move(t)}{};
+	AncilliaryRentalCostItemResult() = default;
+	//~ AncilliaryRentalCostItemResult<S,T>& operator=(const AncilliaryRentalCostItemResult<S,T>& ) = default;
 private:
 	TransfersPtr transfers;
 };

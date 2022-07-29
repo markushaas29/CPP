@@ -39,7 +39,7 @@ struct AncilliaryRentalCostItemBase
 	using ResultType =  AncilliaryRentalCostItemResult<StageType,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static const char* Name = "";//Derived::Name; 
-	inline static std::unique_ptr<MapType> results= std::unique_ptr<MapType>();	
+	
 	static void Calculate()
 	{
 		auto s = Bank::Get<AccountType>(Derived::iban);
@@ -52,9 +52,12 @@ struct AncilliaryRentalCostItemBase
 		auto d = q * c;
 		//~ std::cout<<*(*t)[0]<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
-		std::cout<<"Result "<<qr<<std::endl;
-		auto arr = AncilliaryRentalCostItemResult<StageType,AccountType>(std::move(t));
+		results->insert({DateTimes::Year(2021),ResultType(std::move(t))});
+		std::cout<<(results->cbegin()->first).Value()<<" Result "<<qr<<std::endl;
 	}
+	
+private:
+	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 };
 
 template<typename S>
