@@ -36,7 +36,7 @@ struct AncilliaryRentalCostItemBase
 	using StageType = StageT;
 	using StageQuantity = Q;
 	using AccountType = Bank::Raiba<0>;
-	using ResultType =  AncilliaryRentalCostItemResult<StageType,AccountType>;
+	using ResultType =  AncilliaryRentalCostItemResult<Derived,StageType,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static const char* Name = "";//Derived::Name; 
 	
