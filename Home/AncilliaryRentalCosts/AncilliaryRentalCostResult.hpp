@@ -4,7 +4,7 @@
 #ifndef ANCILLIARYRENTALCOSTITEM_HPP
 #define ANCILLIARYRENTALCOSTITEM_HPP
 
-template<typename T>
+template<typename S, typename T>
 class AncilliaryRentalCostItemResult
 {
 public:
