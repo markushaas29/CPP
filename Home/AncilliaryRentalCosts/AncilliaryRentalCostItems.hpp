@@ -53,12 +53,20 @@ struct AncilliaryRentalCostItemBase
 		//~ std::cout<<*(*t)[0]<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
 		results->insert({DateTimes::Year(2021),ResultType(std::move(t))});
-		std::cout<<(results->cbegin()->first).Value()<<" Result "<<qr<<std::endl;
 	}
 	
+	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
+	static std::ostream& Display(std::ostream& os)
+	{
+		os<<results->cbegin()->first<<" Result "<<std::endl;
+		return os;
+	}
 private:
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 };
+
+template<typename S,typename D, typename Q>
+std::ostream& operator<<(std::ostream& out, const AncilliaryRentalCostItemBase<S,D,Q>& s){	return s.Display(out);	}
 
 template<typename S>
 struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, IndividualUnit> 

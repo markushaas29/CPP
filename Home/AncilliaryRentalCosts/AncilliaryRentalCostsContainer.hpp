@@ -51,6 +51,8 @@ private:
 		{
 			auto i = std::get<I>(*items);
 			decltype(i)::Calculate();
+			std::cout<<decltype(i)::Result(DateTimes::Year(2021))<<std::endl;
+			
 			Calculate<I + 1>(*items);
 		}
 	}
