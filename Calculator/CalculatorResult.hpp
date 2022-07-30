@@ -1,30 +1,31 @@
 #include <memory>
 #include <ratio>
+#include "../Wrapper/Wrapper.hpp"
 
 #ifndef CALCULATORRESULT_HPP
 #define CALCULATORRESULT_HPP
 
 
-	template<typename Config>
-	struct Result			
-	{
-		using Configuration = Config;
+	//~ template<typename Config>
+	//~ struct Result			
+	//~ {
+		//~ using Configuration = Config;
 		
 		
-		template<typename Separator = T::char_<'\t'>>
-		std::ostream& Display(std::ostream& out) const
-		{
-			return out;
-		}
+		//~ template<typename Separator = T::char_<'\t'>>
+		//~ std::ostream& Display(std::ostream& out) const
+		//~ {
+			//~ return out;
+		//~ }
 		
-		Result(){}
-	};
+		//~ Result(){}
+	//~ };
 	
-	template<typename C, typename S = T::char_<'\t'>>
-	std::ostream& operator<<(std::ostream& strm, const Result<C> r)
-	{
-		return r.Display(strm);
-	}
+	//~ template<typename C, typename S = T::char_<'\t'>>
+	//~ std::ostream& operator<<(std::ostream& strm, const Result<C> r)
+	//~ {
+		//~ return r.Display(strm);
+	//~ }
 	
 	template<typename TReading, typename TQuantity>
 	struct ReadingResult			
