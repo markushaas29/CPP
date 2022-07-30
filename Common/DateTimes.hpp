@@ -23,6 +23,9 @@ namespace DateTimes
 	protected:
 		const uint value;
 	};
+	
+	template<typename T>
+	std::ostream& operator<<(std::ostream& out, const DateTimeBase<T>& s){	return out<<s.Value();	}
 
 	struct Month: DateTimeBase<Month>
 	{
