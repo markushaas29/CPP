@@ -13,17 +13,17 @@ public:
 	using StageType = S;
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t): transfers{std::move(t)}{  };
-	AncilliaryRentalCostItemResult() = default;
-	//~ AncilliaryRentalCostItemResult<S,T>& operator=(const AncilliaryRentalCostItemResult<S,T>& ) = default;
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, const DateTimes::Year y): transfers{std::move(t)}, year{y}{  };
+	AncilliaryRentalCostItemResult():year{2000} {};
 	std::ostream& Display(std::ostream& os) const
 	{
-		os<<StageType::Name<<"\t"<<ItemType::Name<<std::endl;
+		os<<StageType::Name<<"\t"<<ItemType::Name<<"\t"<<this->year<<std::endl;
 		for(auto t : *transfers)
 			os<<*t<<std::endl;
 		return os;
 	}
 private:
+	const DateTimes::Year year;
 	TransfersPtr transfers;
 };
 

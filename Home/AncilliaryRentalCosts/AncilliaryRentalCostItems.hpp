@@ -38,21 +38,20 @@ struct AncilliaryRentalCostItemBase
 	using AccountType = Bank::Raiba<0>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,StageType,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
-	constexpr static const char* Name = "";//Derived::Name; 
+	constexpr static const char* Name = "";
 	
-	static void Calculate()
+	static void Calculate(const DateTimes::Year& y)
 	{
 		auto s = Bank::Get<AccountType>(Derived::iban);
-		auto t = s[DateTimes::Year(2021)];
+		auto t = s[y];
 		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		std::cout<<StageType::Name<<"\t Total "<<a<<"\t Stage"<<GetStage<StageType,Q>().GetQuantity()<<std::endl;
 		auto b = GetStage<StageType,Q>().GetQuantity();
 		auto c = b / a;
 		auto d = q * c;
-		//~ std::cout<<*(*t)[0]<<std::endl;
 		auto qr = QuantityRatio::Calculate(b,a,q);
-		results->insert({DateTimes::Year(2021),ResultType(std::move(t))});
+		results->insert({y,ResultType{std::move(t),y}});
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }

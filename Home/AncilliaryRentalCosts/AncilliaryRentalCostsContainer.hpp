@@ -50,8 +50,9 @@ private:
 		else 
 		{
 			auto i = std::get<I>(*items);
-			decltype(i)::Calculate();
-			std::cout<<decltype(i)::Result(DateTimes::Year(2021))<<std::endl;
+			auto y = DateTimes::Year(2021);
+			decltype(i)::Calculate(y);
+			std::cout<<decltype(i)::Result(y)<<std::endl;
 			
 			Calculate<I + 1>(*items);
 		}
