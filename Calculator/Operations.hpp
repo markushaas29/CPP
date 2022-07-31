@@ -95,9 +95,9 @@
 		template<typename L, typename R=L, typename Q=L>
 		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) 
 		{
-			auto ratio = Division::Calculate(nom,denom).Get();
+			auto ratio = Division::Calculate(nom,denom);
 			using RatioType = decltype(ratio);
-			auto result = ratio * q;
+			auto result = ratio.Get() * q;
 			using ResultType = decltype(result);
 			return Result<QuantityRatio,RatioType,Q,ResultType>(ratio, q ,result);	
 		}
