@@ -165,13 +165,13 @@ struct Transform
 template<class D1, class D2>
 struct MultiplyPolicy
 {
-	enum{ N = D1::N + D2::N };
+	static constexpr int N = D1::N + D2::N;
 };
 
 template<class D1, class D2>
 struct DividePolicy
 {
-	enum{ N = D1::N - D2::N };
+	static constexpr int N = D1::N - D2::N;
 };
 
 #endif

@@ -95,12 +95,11 @@
 		template<typename L, typename R=L, typename Q=L>
 		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) 
 		{
-			auto ratio = Division::Calculate(nom,denom).Get()
+			auto ratio = Division::Calculate(nom,denom).Get();
 			using RatioType = decltype(ratio);
 			auto result = ratio * q;
 			using ResultType = decltype(result);
-			//~ return Result<QuantityRatio,RatioType,Q,ResultType>(ratio, q ,result);	
-			return Result<QuantityRatio,decltype(Division::Calculate(nom,denom).Get()),Q,decltype(Division::Calculate(nom,denom).Get() * q)>(ratio, q ,result);	
+			return Result<QuantityRatio,RatioType,Q,ResultType>(ratio, q ,result);	
 		}
 	};
 
