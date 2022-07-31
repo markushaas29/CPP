@@ -15,14 +15,17 @@ int main()
 	auto e3 = Quantity<Sum>{3};
 	auto e6 = Quantity<Sum>{6};
 	auto e9 = Quantity<Sum>{9};
+	auto s2 = Quantity<Scalar>{2};
 	
 	std::cout<<Multiplication::Calculate(3,3)<<std::endl;
 	std::cout<<Addition::Calculate(e6,e3)<<std::endl;
 	std::cout<<Subtraction::Calculate(e6,e3)<<std::endl;
+	std::cout<<Multiplication::Calculate(e6,s2)<<std::endl;
 	std::cout<<Multiplication::Calculate(e6,e3)<<std::endl;
 	std::cout<<Division::Calculate(e6,e3)<<std::endl;
-	std::cout<<QuantityRatio::Calculate(e6,e3,e9)<<std::endl;
-	std::cout<<QuantityRatio::Calculate(e9,e3,e9)<<std::endl;
+	std::cout<<Division::Calculate(e3,s2)<<std::endl;
+	//~ std::cout<<QuantityRatio::Calculate(e6,e3,e9)<<std::endl;
+	//~ std::cout<<QuantityRatio::Calculate(e9,e3,e9)<<std::endl;
 	
 	
 	std::cout<<"END"<<std::endl;

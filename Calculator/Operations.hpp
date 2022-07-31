@@ -37,8 +37,8 @@
 		ValueType value;
 	};
 	
-	template<typename D, typename Q>
-	std::ostream& operator<<(std::ostream& strm, const Result<D,Q> cr)
+	template<typename D, typename L, typename R=L, typename V=L>
+	std::ostream& operator<<(std::ostream& strm, const Result<D,L,R,V> cr)
 	{
 		return cr.Display(strm);
 	}
@@ -58,7 +58,7 @@
 		inline static constexpr const char* Sign = "-";
 		
 		template<typename T>
-		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) { return t1 - t2; }
+		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) { return Result<Subtraction,T>(t1,t2,t1 - t2); }
 	};
 	
 	struct Multiplication: CalculatorOperation<Multiplication>
@@ -66,8 +66,8 @@
 		inline static constexpr const char* Name = "Multiplication";
 		inline static constexpr const char* Sign = "*";
 		
-		template<typename T>
-		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) { return t1 * t2; }
+		template<typename T, typename U=T>
+		static constexpr decltype(auto) Calculate(const T& t1, const U& t2) { return Result<Multiplication,T,U,decltype(t1*t2)>(t1,t2,t1 * t2); }
 	};
 	
 	struct Division: CalculatorOperation<Division>
@@ -75,8 +75,8 @@
 		inline static constexpr const char* Name = "Division";
 		inline static constexpr const char* Sign = "/";
 		
-		template<typename T>
-		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) { return t1 / t2; }
+		template<typename T, typename U=T>
+		static constexpr decltype(auto) Calculate(const T& t1, const U& t2) { return Result<Division,T,U,decltype(t1 / t2)>(t1,t2,t1 / t2); }
 	};
 
 	struct Ratio: CalculatorOperation<Ratio>
