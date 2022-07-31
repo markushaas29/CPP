@@ -18,18 +18,23 @@
 		using Type = Derived;
 	};
 	
-	template<class Derived, typename Q>
+	template<class Derived, typename L, typename R=L, typename V=L>
 	class Result
 	{
 	public:
 		using Type = Derived;
-		Result(Q q): quantity{q}{}
+		using ValueType = V;
+		using LeftType = L;
+		using RightType = R;
+		Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
 		std::ostream& Display(std::ostream& strm) const
 		{
-			return strm<<Derived::Name<<"\t"<<Derived::Sign<<"\t"<<quantity;
+			return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
 		}
 	//~ private;
-		Q quantity;
+		LeftType left;
+		RightType right;
+		ValueType value;
 	};
 	
 	template<typename D, typename Q>
@@ -44,7 +49,7 @@
 		inline static constexpr const char* Sign = "+";
 		
 		template<typename T>
-		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) {	return Result<Addition,T>(t1 + t2); }
+		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) {	return Result<Addition,T>(t1,t2,t1 + t2); }
 	};
 	
 	struct Subtraction: CalculatorOperation<Subtraction>
