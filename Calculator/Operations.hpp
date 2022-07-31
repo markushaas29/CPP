@@ -26,12 +26,11 @@
 		using ValueType = V;
 		using LeftType = L;
 		using RightType = R;
+		
 		Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
-		std::ostream& Display(std::ostream& strm) const
-		{
-			return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
-		}
-	//~ private;
+		decltype(auto) Get() { return this->value; }
+		std::ostream& Display(std::ostream& strm) const	{	return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;	}
+	private:
 		LeftType left;
 		RightType right;
 		ValueType value;
@@ -93,8 +92,16 @@
 		inline static constexpr const char* CalculatorOperation<QuantityRatio>::Name = "QuantityRatio";
 		inline static constexpr const char* CalculatorOperation<QuantityRatio>::Sign = "%";
 		
-		template<typename T, typename Q = T>
-		static constexpr decltype(auto) Calculate(const T& nom, const T& denom, const Q& q) {	return Q{Division::Calculate(nom,denom).Value() * q.Value()}; }
+		template<typename L, typename R=L, typename Q=L>
+		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) 
+		{
+			auto ratio = Division::Calculate(nom,denom).Get()
+			using RatioType = decltype(ratio);
+			auto result = ratio * q;
+			using ResultType = decltype(result);
+			//~ return Result<QuantityRatio,RatioType,Q,ResultType>(ratio, q ,result);	
+			return Result<QuantityRatio,decltype(Division::Calculate(nom,denom).Get()),Q,decltype(Division::Calculate(nom,denom).Get() * q)>(ratio, q ,result);	
+		}
 	};
 
 

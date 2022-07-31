@@ -24,8 +24,9 @@ int main()
 	std::cout<<Multiplication::Calculate(e6,e3)<<std::endl;
 	std::cout<<Division::Calculate(e6,e3)<<std::endl;
 	std::cout<<Division::Calculate(e3,s2)<<std::endl;
-	//~ std::cout<<QuantityRatio::Calculate(e6,e3,e9)<<std::endl;
-	//~ std::cout<<QuantityRatio::Calculate(e9,e3,e9)<<std::endl;
+	std::cout<<QuantityRatio::Calculate(e6,e3,e9)<<std::endl;
+	std::cout<<QuantityRatio::Calculate(e9,e3,e9)<<std::endl;
+	std::cout<<QuantityRatio::Calculate(e9,s2,e9)<<std::endl;
 	
 	
 	std::cout<<"END"<<std::endl;
