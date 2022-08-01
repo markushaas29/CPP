@@ -1,6 +1,6 @@
 #include <memory>
 #include <ratio>
-//~ #include "CalculatorResult.hpp"
+#include "CalculatorResult.hpp"
 #include "../Fraction/Fraction.h"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Logger/Logger.hpp"
@@ -17,30 +17,6 @@
 	{
 		using Type = Derived;
 	};
-	
-	template<class Derived, typename L, typename R=L, typename V=L>
-	class Result
-	{
-	public:
-		using Type = Derived;
-		using ValueType = V;
-		using LeftType = L;
-		using RightType = R;
-		
-		Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
-		decltype(auto) Get() { return this->value; }
-		std::ostream& Display(std::ostream& strm) const	{	return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;	}
-	private:
-		LeftType left;
-		RightType right;
-		ValueType value;
-	};
-	
-	template<typename D, typename L, typename R=L, typename V=L>
-	std::ostream& operator<<(std::ostream& strm, const Result<D,L,R,V> cr)
-	{
-		return cr.Display(strm);
-	}
 	
 	struct Addition: CalculatorOperation<Addition>
 	{ 

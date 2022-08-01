@@ -6,26 +6,29 @@
 #define CALCULATORRESULT_HPP
 
 
-	//~ template<typename Config>
-	//~ struct Result			
-	//~ {
-		//~ using Configuration = Config;
+	template<class Derived, typename L, typename R=L, typename V=L>
+	class Result
+	{
+	public:
+		using Type = Derived;
+		using ValueType = V;
+		using LeftType = L;
+		using RightType = R;
 		
-		
-		//~ template<typename Separator = T::char_<'\t'>>
-		//~ std::ostream& Display(std::ostream& out) const
-		//~ {
-			//~ return out;
-		//~ }
-		
-		//~ Result(){}
-	//~ };
+		Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
+		decltype(auto) Get() { return this->value; }
+		std::ostream& Display(std::ostream& strm) const	{	return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;	}
+	private:
+		LeftType left;
+		RightType right;
+		ValueType value;
+	};
 	
-	//~ template<typename C, typename S = T::char_<'\t'>>
-	//~ std::ostream& operator<<(std::ostream& strm, const Result<C> r)
-	//~ {
-		//~ return r.Display(strm);
-	//~ }
+	template<typename D, typename L, typename R=L, typename V=L>
+	std::ostream& operator<<(std::ostream& strm, const Result<D,L,R,V> cr)
+	{
+		return cr.Display(strm);
+	}
 	
 	template<typename TReading, typename TQuantity>
 	struct ReadingResult			
