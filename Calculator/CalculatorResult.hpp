@@ -6,6 +6,8 @@
 #define CALCULATORRESULT_HPP
 
 
+	struct QuantityRatio; //Fwd
+	
 	template<class Derived, typename L, typename R=L, typename V=L>
 	class Result
 	{
@@ -17,7 +19,14 @@
 		
 		Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
 		decltype(auto) Get() { return this->value; }
-		std::ostream& Display(std::ostream& strm) const	{	return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;	}
+		std::ostream& Display(std::ostream& strm) const	
+		{
+			if constexpr (std::is_same<Type,QuantityRatio>::value)
+			{
+				return strm<<Derived::Name<<"\tTEST"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
+			}	
+			return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;	
+		}
 	private:
 		LeftType left;
 		RightType right;
