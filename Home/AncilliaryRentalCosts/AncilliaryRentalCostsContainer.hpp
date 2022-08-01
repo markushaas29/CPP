@@ -1,4 +1,5 @@
 #include <memory>
+#include <fstream>
 #include "AncilliaryRentalCostItems.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
@@ -37,24 +38,27 @@ private:
 	AncilliaryRentalCostsContainer(): year(2000)
 	{ 
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
-		this->Calculate(*items);
+		auto fs = std::make_unique<std::ofstream>(std::string(StageT::Name)+ ".txt");
+		fs = this->Calculate(std::move(fs),*items);
+		fs->close();
 	}	
 	
 	
 	~AncilliaryRentalCostsContainer()	{ Logger::Log()<<"Destructor"<<std::endl; }
 	template <size_t I = 0, typename... Ts>
-	constexpr void Calculate(std::tuple<Ts...> tup) 
+	constexpr std::unique_ptr<std::ofstream> Calculate(std::unique_ptr<std::ofstream> fs, std::tuple<Ts...> tup) 
 	{
 		Logger::Log()<<"US: "<<StageT::Number<<std::endl;
-		if constexpr(I == sizeof...(Ts))    return;
+		if constexpr(I == sizeof...(Ts))    
+			return fs;
 		else 
 		{
 			auto i = std::get<I>(*items);
 			auto y = DateTimes::Year(2021);
 			decltype(i)::Calculate(y);
-			std::cout<<decltype(i)::Result(y)<<std::endl;
+			(*fs)<<decltype(i)::Result(y)<<std::endl;
 			
-			Calculate<I + 1>(*items);
+			return Calculate<I + 1>(std::move(fs), *items);
 		}
 	}
 	
