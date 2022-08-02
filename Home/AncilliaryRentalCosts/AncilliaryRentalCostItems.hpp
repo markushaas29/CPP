@@ -46,12 +46,8 @@ struct AncilliaryRentalCostItemBase
 		auto t = s[y];
 		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
-		std::cout<<StageType::Name<<"\t Total "<<a<<"\t Stage"<<GetStage<StageType,Q>().GetQuantity()<<std::endl;
 		auto b = GetStage<StageType,Q>().GetQuantity();
-		auto c = b / a;
-		auto d = q * c;
-		auto qr = QuantityRatio::Calculate(b,a,q);
-		results->insert({y,ResultType{std::move(t),y}});
+		results->insert({y,ResultType{std::move(t),std::move(QuantityRatio::Calculate(b,a,q)),y}});
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }

@@ -1,6 +1,8 @@
 #include <memory>
 #include <vector>
 #include "../../Calculator/CalculatorResult.hpp"
+#include "../../Calculator/Operations.hpp"
+#include "../../Quantity/Quantity.h"
 
 #ifndef ANCILLIARYRENTALCOSTITEM_HPP
 #define ANCILLIARYRENTALCOSTITEM_HPP
@@ -12,15 +14,18 @@ public:
 	using Type = T;
 	using ItemType = I;
 	using StageType = S;
-	using QuantityType = Q;
-	using ResultType = Result<QuantityRatio,QuantityType>;
+	using SumType = Quantity<Sum>;
+	using QuantityType = typename Q::TQuantity;
+	using RatioResultType = Result<Division,QuantityType,QuantityType,Quantity<Scalar>>;
+	using ResultType = Result<QuantityRatio,RatioResultType,SumType,SumType>;
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t, const DateTimes::Year y): transfers{std::move(t)}, year{y}{  };
-	AncilliaryRentalCostItemResult():year{2000} {};
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, ResultType&& r, const DateTimes::Year y): transfers{std::move(t)}, result{std::move(r)},year{y} {  };
+	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
 		os<<StageType::Name<<"\t"<<ItemType::Name<<"\t"<<this->year<<std::endl;
+		os<<result<<std::endl;
 		for(auto t : *transfers)
 			os<<*t<<std::endl;
 		return os;
@@ -28,7 +33,7 @@ public:
 private:
 	const DateTimes::Year year;
 	TransfersPtr transfers;
-	//~ ResultType result;
+	ResultType result;
 };
 
 

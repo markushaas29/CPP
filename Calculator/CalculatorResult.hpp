@@ -18,6 +18,7 @@
 		using RightType = R;
 		
 		Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
+		Result() = default;
 		decltype(auto) Get() { return this->value; }
 		std::ostream& Display(std::ostream& strm) const	
 		{
