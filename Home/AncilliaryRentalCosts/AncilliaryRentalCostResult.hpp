@@ -16,8 +16,7 @@ public:
 	using StageType = S;
 	using SumType = Quantity<Sum>;
 	using QuantityType = typename Q::TQuantity;
-	using RatioResultType = Result<Division,QuantityType,QuantityType,Quantity<Scalar>>;
-	using ResultType = Result<QuantityRatio,RatioResultType,SumType,SumType>;
+	using ResultType = decltype(QuantityRatio::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
 	AncilliaryRentalCostItemResult(TransfersPtr&& t, ResultType&& r, const DateTimes::Year y): transfers{std::move(t)}, result{std::move(r)},year{y} {  };
