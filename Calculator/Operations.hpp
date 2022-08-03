@@ -69,14 +69,7 @@
 		inline static constexpr const char* CalculatorOperation<QuantityRatio>::Sign = "%";
 		
 		template<typename L, typename R=L, typename Q=L>
-		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) 
-		{
-			auto ratio = Division::Calculate(nom,denom);
-			using RatioType = decltype(ratio);
-			auto result = ratio.Get() * q;
-			using ResultType = decltype(result);
-			return Result<QuantityRatio,RatioType,Q,ResultType>(ratio, q ,result);	
-		}
+		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) {	return Multiplication::Calculate(Division::Calculate(nom,denom),q);	}
 	};
 
 

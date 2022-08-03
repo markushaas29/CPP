@@ -28,6 +28,16 @@
 			}	
 			return strm<<Derived::Name<<"\t"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;	
 		}
+		
+		decltype(auto) operator+(const ValueType& u) const { return u + this->value; }		
+		decltype(auto) operator-(const ValueType& u) const { return u - this->value; }
+		
+		template<typename U>
+		decltype(auto) operator*(const U& u) const { return u * this->value; }
+		
+		template<typename U>
+		decltype(auto) operator/(const U& u) const { return u / this->value; }
+		
 	private:
 		LeftType left;
 		RightType right;
