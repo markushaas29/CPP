@@ -31,8 +31,8 @@ int main()
 	std::cout<<QuantityRatio::Calculate(e9,e3,e9)<<std::endl;
 	std::cout<<QuantityRatio::Calculate(e9,s2,e9)<<std::endl;
 	
-	std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,e6),e3),s2)<<std::endl;
-	//~ std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,m2),e3),s2)<<std::endl;
+	//~ std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,e6),e3),s2)<<std::endl;
+	std::cout<<(Multiplication::Calculate(m1,m2)*m2)<<std::endl;
 	
 	
 	std::cout<<"END"<<std::endl;
