@@ -74,14 +74,14 @@
 		return cr.Display(strm);
 	}
 	
-	template<typename T, class D2, typename L2, typename R2=L2, typename V2=L2>
-	decltype(auto) operator*(const Result<D2,L2,R2,V2>& u2, T u1) { return Result<Multiplication,Result<D2,L2,R2,V2>, T, decltype(u2.Get() * u1)>(u2,u1,u2.Get() * u1); }
+	template<typename T, class D, typename L, typename R=L, typename V=L>
+	decltype(auto) operator*(const Result<D,L,R,V>& r, const T& t) { return Result<Multiplication,Result<D,L,R,V>, T, decltype(r.Get() * t)>(r,t,r.Get() * t); }
 	
-	template<typename T, class D2, typename L2, typename R2=L2, typename V2=L2>
-	decltype(auto) operator*(T u1, const Result<D2,L2,R2,V2>& u2) { return Result<Multiplication,T,Result<D2,L2,R2,V2>, decltype(u1 *  u2.Get())>(u1,u2,u1 * u2.Get()); }
+	template<typename T, class D, typename L, typename R=L, typename V=L>
+	decltype(auto) operator*(const T& t, const Result<D,L,R,V>& r) { return Result<Multiplication,T,Result<D,L,R,V>, decltype(t *  r.Get())>(t,r,t * r.Get()); }
 	
 	template<class D1, typename L1, typename R1=L1, typename V1=L1,class D2, typename L2, typename R2=L2, typename V2=L2>
-	decltype(auto) operator*(const Result<D1,L1,R1,V1>& u1, const Result<D2,L2,R2,V2>& u2) { return Result<Multiplication,Result<D1,L1,R1,V1>,Result<D2,L2,R2,V2>, decltype(u1.Get() *  u2.Get())>(u1,u2,u1.Get() * u2.Get()); }
+	decltype(auto) operator*(const Result<D1,L1,R1,V1>& r1, const Result<D2,L2,R2,V2>& r2) { return Result<Multiplication,Result<D1,L1,R1,V1>,Result<D2,L2,R2,V2>, decltype(r1.Get() *  r2.Get())>(r1,r2,r1.Get() * r2.Get()); }
 	
 	template<typename TReading, typename TQuantity>
 	struct ReadingResult			
