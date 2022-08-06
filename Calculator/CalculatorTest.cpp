@@ -17,8 +17,8 @@ int main()
 	auto e9 = Quantity<Sum>{9};
 	auto s2 = Quantity<Scalar>{2};
 	
-	auto m1 = Addition::Calculate(e6,e9);
-	auto m2 = Multiplication::Calculate(e3,s2);
+	auto m1 = Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9);
+	auto m2 = Multiplication::Calculate(e3,s2) + Multiplication::Calculate(e3,s2) +Multiplication::Calculate(e3,s2);
 	auto d = Division::Calculate(e3,s2);
 	
 	std::cout<<Multiplication::Calculate(3,3)<<std::endl;
@@ -33,6 +33,8 @@ int main()
 	std::cout<<QuantityRatio::Calculate(e9,s2,e9)<<std::endl;
 	
 	//~ std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,e6),e3),s2)<<std::endl;
+	std::cout<<"\n---------------------Addition---------------------"<<std::endl;
+	std::cout<<(e6+m1+e6)<<std::endl;
 	std::cout<<"\n---------------------Multplication---------------------"<<std::endl;
 	std::cout<<(Multiplication::Calculate(m1,m2)*m2)<<std::endl;
 	std::cout<<"\n---------------------Division---------------------"<<std::endl;
