@@ -35,7 +35,7 @@ int main()
 	//~ std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,e6),e3),s2)<<std::endl;
 	std::cout<<"\n---------------------Addition---------------------"<<std::endl;
 	std::cout<<(e6+m1+e6)<<std::endl;
-	std::cout<<(Addition::Calculate(m1,m1)+Addition::Calculate(m1,m2)+m1)<<std::endl;
+	std::cout<<(e6+Addition::Calculate(m1,m1)+e6+Addition::Calculate(m1,m2)+m1)<<std::endl;
 	std::cout<<"\n---------------------Subtra---------------------"<<std::endl;
 	std::cout<<(Subtraction::Calculate(m1,m1)+Subtraction::Calculate(m1,m2)+m1)<<std::endl;
 	std::cout<<(m1-(e6-m1)-e6)<<std::endl;
