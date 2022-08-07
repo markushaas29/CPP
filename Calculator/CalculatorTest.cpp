@@ -35,12 +35,14 @@ int main()
 	//~ std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,e6),e3),s2)<<std::endl;
 	std::cout<<"\n---------------------Addition---------------------"<<std::endl;
 	std::cout<<(e6+m1+e6)<<std::endl;
+	std::cout<<(Addition::Calculate(m1,m1)+Addition::Calculate(m1,m2)+m1)<<std::endl;
 	std::cout<<"\n---------------------Subtra---------------------"<<std::endl;
+	std::cout<<(Subtraction::Calculate(m1,m1)+Subtraction::Calculate(m1,m2)+m1)<<std::endl;
 	std::cout<<(m1-(e6-m1)-e6)<<std::endl;
 	std::cout<<"\n---------------------Multplication---------------------"<<std::endl;
-	std::cout<<(Multiplication::Calculate(m1,m2)*m2)<<std::endl;
+	std::cout<<(e6/Multiplication::Calculate(m1,m2)*Multiplication::Calculate(m1,e6)*m2)<<std::endl;
 	std::cout<<"\n---------------------Division---------------------"<<std::endl;
-	std::cout<<(Division::Calculate(d,d)*m2)<<std::endl;
+	std::cout<<(e6/Division::Calculate(d,d)/Multiplication::Calculate(m1,e6)/m2)<<std::endl;
 	
 	
 	std::cout<<"END"<<std::endl;

@@ -23,8 +23,8 @@
 		inline static constexpr const char* Name = "Addition";
 		inline static constexpr const char* Sign = "+";
 		
-		template<typename T>
-		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) {	return Result<Addition,T>(t1,t2,t1 + t2); }
+		template<typename T, typename U=T>
+		static constexpr decltype(auto) Calculate(const T& t1, const U& t2) { return Result<Addition,T,U,decltype(t1+t2)>(t1,t2,t1 + t2); }
 	};
 	
 	struct Subtraction: CalculatorOperation<Subtraction>
@@ -32,8 +32,8 @@
 		inline static constexpr const char* Name = "Subtraction";
 		inline static constexpr const char* Sign = "-";
 		
-		template<typename T>
-		static constexpr decltype(auto) Calculate(const T& t1, const T& t2) { return Result<Subtraction,T>(t1,t2,t1 - t2); }
+		template<typename T, typename U=T>
+		static constexpr decltype(auto) Calculate(const T& t1, const U& t2) { return Result<Subtraction,T,U,decltype(t1-t2)>(t1,t2,t1 - t2); }
 	};
 	
 	struct Multiplication: CalculatorOperation<Multiplication>
