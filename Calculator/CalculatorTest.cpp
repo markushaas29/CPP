@@ -17,7 +17,7 @@ int main()
 	auto e9 = Quantity<Sum>{9};
 	auto s2 = Quantity<Scalar>{2};
 	
-	auto m1 = Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9);
+	auto a1 = Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9);
 	auto m2 = Multiplication::Calculate(e3,s2) + Multiplication::Calculate(e3,s2) +Multiplication::Calculate(e3,s2);
 	auto d = Division::Calculate(e3,s2);
 	
@@ -32,17 +32,16 @@ int main()
 	std::cout<<QuantityRatio::Calculate(e9,e3,e9)<<std::endl;
 	std::cout<<QuantityRatio::Calculate(e9,s2,e9)<<std::endl;
 	
-	//~ std::cout<<Multiplication::Calculate(Multiplication::Calculate(Multiplication::Calculate(m1,e6),e3),s2)<<std::endl;
 	std::cout<<"\n---------------------Addition---------------------"<<std::endl;
-	std::cout<<(e6+m1+e6)<<std::endl;
-	std::cout<<(e6+Addition::Calculate(m1,m1)+e6+Addition::Calculate(m1,m2)+m1)<<std::endl;
-	std::cout<<"\n---------------------Subtra---------------------"<<std::endl;
-	std::cout<<(Subtraction::Calculate(m1,m1)+Subtraction::Calculate(m1,m2)+m1)<<std::endl;
-	std::cout<<(m1-(e6-m1)-e6)<<std::endl;
+	std::cout<<(e6+a1+e6)<<std::endl;
+	std::cout<<(e6+Addition::Calculate(a1,a1)+e6+Addition::Calculate(a1,m2)+a1)<<std::endl;
+	std::cout<<"\n---------------------Subtraction---------------------"<<std::endl;
+	std::cout<<(e6-Subtraction::Calculate(a1,a1)-e6-Subtraction::Calculate(a1,m2)+a1)<<std::endl;
+	std::cout<<(a1-(e6-a1)-e6)<<std::endl;
 	std::cout<<"\n---------------------Multplication---------------------"<<std::endl;
-	std::cout<<(e6/Multiplication::Calculate(m1,m2)*Multiplication::Calculate(m1,e6)*m2)<<std::endl;
+	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
 	std::cout<<"\n---------------------Division---------------------"<<std::endl;
-	std::cout<<(e6/Division::Calculate(d,d)/Multiplication::Calculate(m1,e6)/m2)<<std::endl;
+	std::cout<<(e6/Division::Calculate(d,d)/Multiplication::Calculate(a1,e6)/m2)<<std::endl;
 	
 	
 	std::cout<<"END"<<std::endl;
