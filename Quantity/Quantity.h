@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <cmath>
 #include "../Unit/Unit.h"
 #include "../Unit/SIPrefix.hpp"
 // #include "../Wrapper/Wrapper.hpp"
@@ -26,7 +27,7 @@ struct Quantity
     
 	Quantity(): value(0 * SiPrefix::Factor) {	}
 	explicit Quantity(const T1& v): value(v * SiPrefix::Factor) {	}
-	explicit Quantity(const std::string& s): value{converter(commaToPoint(String_::Remove<String_::Point>(s)))} { 	}
+	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { 	}
 	
 	T1 Value() const { return value / SiPrefix::Factor;}
 	T1 PureValue() const { return value;}
