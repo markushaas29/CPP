@@ -52,10 +52,11 @@ namespace Bank
 		inline static constexpr int Id = 0; 
 	};
 	
+	template<typename TIn=In, typename TOut=Out, typename TUnknown=Unknown>
 	class DirectionBase: public Element
 	{
 	public:
-		DirectionBase(std::string s): Element(s), value(Unknown::Id), id{Unknown::Id}, typeId{Unknown::TypeId} {};
+		DirectionBase(std::string s): Element(s), sign{*(s.cbegin())},value(Unknown::Id), id{Unknown::Id}, typeId{Unknown::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
 		inline static constexpr const char* Identifier = "Direction";
@@ -68,12 +69,14 @@ namespace Bank
 		std::string typeId = Unknown::TypeId; 
 		int id = Unknown::Id; 		
 		Quantity<Scalar,SIPrefix<0>,int> value;	
+		char sign;
 	private:
 	};
 	
-	struct Direction: public DirectionBase
+	struct Direction: public DirectionBase<In,Out,Unknown>
 	{
-		Direction(std::string s): DirectionBase(s){ this->template Set<Out>();};
+		using Base = DirectionBase<In,Out,Unknown>;
+		Direction(std::string s): Base(s){ this->template Set<Out>();};
 		Direction(): DirectionBase(""){ };
 		
 		template<typename AccountT>
