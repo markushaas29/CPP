@@ -31,11 +31,16 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	class DirectionTypeBase
+	class TransferIn;
+	class TransferOut;
+	class UnknownDirection;
+	
+	class DirectionType
 	{
+		
 	};
 	
-	class TransferIn: DirectionTypeBase
+	class TransferIn: DirectionType
 	{
 	public:
 		using Type = TransferIn;
@@ -43,7 +48,7 @@ namespace Bank
 		inline static constexpr int Id = 1; 
 	};
 	
-	class TransferOut: DirectionTypeBase
+	class TransferOut: DirectionType
 	{
 	public:
 		using Type = TransferOut;
@@ -51,7 +56,7 @@ namespace Bank
 		inline static constexpr int Id = -1; 
 	};
 	
-	class UnknownDirection: DirectionTypeBase
+	class UnknownDirection: DirectionType
 	{
 	public:
 		using Type = UnknownDirection;
