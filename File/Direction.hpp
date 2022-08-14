@@ -3,17 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
-#include <chrono>
-#include <ctime>
 #include <iterator>
 #include <vector>
 #include <cstdlib>
-#include <unordered_map>
-#include <boost/mpl/vector.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/placeholders.hpp>
-#include <filesystem>
 #include "TransferContainer.hpp"
 #include "../Logger/Logger.hpp"
 #include "../CSV/CSV.hpp"
@@ -31,37 +23,37 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	class TransferIn;
-	class TransferOut;
-	class UnknownDirection;
-	
 	class DirectionType
 	{
-		
+	public:
+		virtual const std::string& Sign() = 0;		
 	};
 	
-	class TransferIn: DirectionType
+	class TransferIn: public DirectionType
 	{
 	public:
 		using Type = TransferIn;
 		inline static const std::string TypeId = "TransferIn"; 
 		inline static constexpr int Id = 1; 
+		virtual const std::string& Sign() { return TypeId; };		
 	};
 	
-	class TransferOut: DirectionType
+	class TransferOut: public DirectionType
 	{
 	public:
 		using Type = TransferOut;
 		inline static const std::string TypeId = "TransferOut"; 
 		inline static constexpr int Id = -1; 
+		virtual const std::string& Sign() { return TypeId; };		
 	};
 	
-	class UnknownDirection: DirectionType
+	class UnknownDirection: public DirectionType
 	{
 	public:
 		using Type = UnknownDirection;
 		inline static const std::string TypeId = "UnknownDirection"; 
 		inline static constexpr int Id = 0; 
+		virtual const std::string& Sign() { return TypeId; };		
 	};
 	
 	template<typename TIn=TransferIn, typename TOut=TransferOut, typename TUnknown=UnknownDirection>
@@ -87,10 +79,11 @@ namespace Bank
 	
 	class Direction: public DirectionBase<TransferIn,TransferOut,UnknownDirection>
 	{
+	public:
 		using Base = DirectionBase<TransferIn,TransferOut,UnknownDirection>;
+		using PtrType = std::unique_ptr<DirectionType>;
 		Direction(std::string s): Base(s){ };
 		Direction(): DirectionBase(""){ };
-		
 		template<typename AccountT>
 		void Update()
 		{
@@ -99,6 +92,15 @@ namespace Bank
 			this->value = QuantityType(AccountT::Id);
 			
 			Logger::Log()<<"SET______"<<this->id<<"\t"<<this->typeId<<"\t"<<this->value<<std::endl;
+		}
+		
+		static PtrType Create(const char c)
+		{
+			if(c == 'H')
+				return std::make_unique<TransferIn>();
+			if(c == 'S')
+				return std::make_unique<TransferOut>();
+			return std::make_unique<UnknownDirection>();
 		}
 		
 		template<typename DirectionT>
