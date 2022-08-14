@@ -37,6 +37,8 @@ namespace Bank
 		using VectorType = std::vector<char>;
 		using PtrType = std::unique_ptr<VectorType>;
 		virtual const std::string& Sign() = 0;	
+		virtual const int Value() = 0;	
+		virtual const std::string& TypeIdentifier() = 0;	
 	};
 	
 	class TransferIn: public DirectionType
@@ -52,6 +54,8 @@ namespace Bank
 		inline static constexpr int Id = 1; 
 		inline static constexpr char SignValue = SignType::Value; 
 		virtual const std::string& Sign() { return SignType::String; };		
+		virtual const int Value() { return Id;};	
+		virtual const std::string& TypeIdentifier() { return TypeId; };	
 	};
 	
 	class TransferOut: public DirectionType
@@ -67,6 +71,8 @@ namespace Bank
 		inline static constexpr int Id = -1; 
 		inline static constexpr char SignValue = SignType::Value; 
 		virtual const std::string& Sign() { return SignType::String; };		
+		virtual const int Value() { return Id;};	
+		virtual const std::string& TypeIdentifier() { return TypeId;};	
 	};
 	
 	class UnknownDirection: public DirectionType
@@ -78,6 +84,8 @@ namespace Bank
 		inline static constexpr int Id = 0; 
 		inline static constexpr char SignValue = SignType::Value; 
 		virtual const std::string& Sign() { return SignType::String; };		
+		virtual const int Value() { return Id;};	
+		virtual const std::string& TypeIdentifier() { return TypeId; };	
 	};
 	
 	template<typename TIn=TransferIn, typename TOut=TransferOut, typename TUnknown=UnknownDirection>
@@ -93,9 +101,10 @@ namespace Bank
 		
 		DirectionBase* DoCreate(){return this;};
 		DirectionBase(const DirectionBase&) = default;
-		const auto& Value() const {	return this->value; }
-		const auto& Id() const  {	return this->id; }
-		const auto& TypeId() const  {	return this->typeId; }	
+		const auto& Value() const {	return this->tranferType->Value(); }
+		const auto& Id() const  {	return this->tranferType->Value(); }
+		const auto& TypeId() const  {	return this->tranferType->TypeIdentifier(); }	
+		const auto QuantityValue() const  { return Quantity<Scalar,SIPrefix<0>,int>{this->tranferType->Value()}; }	
 	
 		static PtrType Create(const char c)
 		{
