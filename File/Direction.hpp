@@ -31,32 +31,32 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	struct In
+	struct TransferIn
 	{
-		using Type = In;
-		inline static const std::string TypeId = "In"; 
+		using Type = TransferIn;
+		inline static const std::string TypeId = "TransferIn"; 
 		inline static constexpr int Id = 1; 
 	};
 	
-	struct Out
+	struct TransferOut
 	{
-		using Type = Out;
-		inline static const std::string TypeId = "Out"; 
+		using Type = TransferOut;
+		inline static const std::string TypeId = "TransferOut"; 
 		inline static constexpr int Id = -1; 
 	};
 	
-	struct Unknown
+	struct UnknownDirection
 	{
-		using Type = Unknown;
-		inline static const std::string TypeId = "Unknown"; 
+		using Type = UnknownDirection;
+		inline static const std::string TypeId = "UnknownDirection"; 
 		inline static constexpr int Id = 0; 
 	};
 	
-	template<typename TIn=In, typename TOut=Out, typename TUnknown=Unknown>
+	template<typename TIn=TransferIn, typename TOut=TransferOut, typename TUnknown=UnknownDirection>
 	class DirectionBase: public Element
 	{
 	public:
-		DirectionBase(std::string s): Element(s), sign{*(s.cbegin())},value(Unknown::Id), id{Unknown::Id}, typeId{Unknown::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
+		DirectionBase(std::string s): Element(s), sign{*(s.cbegin())},value(UnknownDirection::Id), id{UnknownDirection::Id}, typeId{UnknownDirection::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
 		inline static constexpr const char* Identifier = "Direction";
@@ -66,17 +66,17 @@ namespace Bank
 		const auto& TypeId() const  {	return this->typeId; }	
 	
 	protected:
-		std::string typeId = Unknown::TypeId; 
-		int id = Unknown::Id; 		
+		std::string typeId = UnknownDirection::TypeId; 
+		int id = UnknownDirection::Id; 		
 		Quantity<Scalar,SIPrefix<0>,int> value;	
 		char sign;
 	private:
 	};
 	
-	struct Direction: public DirectionBase<In,Out,Unknown>
+	struct Direction: public DirectionBase<TransferIn,TransferOut,UnknownDirection>
 	{
-		using Base = DirectionBase<In,Out,Unknown>;
-		Direction(std::string s): Base(s){ this->template Set<Out>();};
+		using Base = DirectionBase<TransferIn,TransferOut,UnknownDirection>;
+		Direction(std::string s): Base(s){ };
 		Direction(): DirectionBase(""){ };
 		
 		template<typename AccountT>
