@@ -31,22 +31,29 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	struct TransferIn
+	class DirectionTypeBase
 	{
+	};
+	
+	class TransferIn: DirectionTypeBase
+	{
+	public:
 		using Type = TransferIn;
 		inline static const std::string TypeId = "TransferIn"; 
 		inline static constexpr int Id = 1; 
 	};
 	
-	struct TransferOut
+	class TransferOut: DirectionTypeBase
 	{
+	public:
 		using Type = TransferOut;
 		inline static const std::string TypeId = "TransferOut"; 
 		inline static constexpr int Id = -1; 
 	};
 	
-	struct UnknownDirection
+	class UnknownDirection: DirectionTypeBase
 	{
+	public:
 		using Type = UnknownDirection;
 		inline static const std::string TypeId = "UnknownDirection"; 
 		inline static constexpr int Id = 0; 
@@ -73,7 +80,7 @@ namespace Bank
 	private:
 	};
 	
-	struct Direction: public DirectionBase<TransferIn,TransferOut,UnknownDirection>
+	class Direction: public DirectionBase<TransferIn,TransferOut,UnknownDirection>
 	{
 		using Base = DirectionBase<TransferIn,TransferOut,UnknownDirection>;
 		Direction(std::string s): Base(s){ };
