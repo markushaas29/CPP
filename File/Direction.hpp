@@ -64,7 +64,8 @@ namespace Bank
 	class DirectionBase: public Element
 	{
 	public:
-		DirectionBase(std::string s): Element(s), tranferType{Create(*(s.cbegin()))},value(UnknownDirection::Id), id{UnknownDirection::Id}, typeId{UnknownDirection::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
+		DirectionBase(std::string s): Element(s), tranferType{Create(*(s.cbegin()))},value(UnknownDirection::Id), id{UnknownDirection::Id}, typeId{UnknownDirection::TypeId} 
+		{ Logger::Log()<<"DIRECTION: "<<tranferType->Sign()<<std::endl; };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
 		using PtrType = std::shared_ptr<DirectionType>;
