@@ -67,11 +67,12 @@ namespace Bank
 		DirectionBase(std::string s): Element(s), tranferType{Create(*(s.cbegin()))},value(UnknownDirection::Id), id{UnknownDirection::Id}, typeId{UnknownDirection::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
-		using PtrType = std::unique_ptr<DirectionType>;
+		using PtrType = std::shared_ptr<DirectionType>;
 		
 		inline static constexpr const char* Identifier = "Direction";
 		
 		DirectionBase* DoCreate(){return this;};
+		DirectionBase(const DirectionBase&) = default;
 		const auto& Value() const {	return this->value; }
 		const auto& Id() const  {	return this->id; }
 		const auto& TypeId() const  {	return this->typeId; }	
@@ -101,6 +102,8 @@ namespace Bank
 		using Base = DirectionBase<TransferIn,TransferOut,UnknownDirection>;
 		Direction(std::string s): Base(s){ };
 		Direction(): DirectionBase(""){ };
+		Direction(const Bank::Direction&) = default;
+		
 		template<typename AccountT>
 		void Update()
 		{
