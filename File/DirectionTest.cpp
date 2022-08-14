@@ -13,6 +13,10 @@ int main()
     std::cout<<out->Sign()<<std::endl;
     std::cout<<in->Sign()<<std::endl;
     std::cout<<un->Sign()<<std::endl;
+    
+	auto d = Direction("Hs");
+    std::cout<<"D: "<<d<<std::endl;
+    
 	
     return 0;
 }

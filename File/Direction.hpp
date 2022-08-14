@@ -24,7 +24,7 @@ namespace Bank
 	class DirectionType
 	{
 	public:
-		virtual const std::string& Sign() = 0;		
+		virtual const std::string& Sign() = 0;	
 	};
 	
 	class TransferIn: public DirectionType
@@ -34,6 +34,7 @@ namespace Bank
 		using SignType = T::char_<'+'>;
 		inline static const std::string TypeId = "TransferIn"; 
 		inline static constexpr int Id = 1; 
+		inline static constexpr char SignValue = SignType::Value; 
 		virtual const std::string& Sign() { return SignType::String; };		
 	};
 	
@@ -44,6 +45,7 @@ namespace Bank
 		using SignType = T::char_<'-'>;
 		inline static const std::string TypeId = "TransferOut"; 
 		inline static constexpr int Id = -1; 
+		inline static constexpr char SignValue = SignType::Value; 
 		virtual const std::string& Sign() { return SignType::String; };		
 	};
 	
@@ -54,6 +56,7 @@ namespace Bank
 		using SignType = T::char_<'?'>;
 		inline static const std::string TypeId = "UnknownDirection"; 
 		inline static constexpr int Id = 0; 
+		inline static constexpr char SignValue = SignType::Value; 
 		virtual const std::string& Sign() { return SignType::String; };		
 	};
 	
@@ -61,20 +64,34 @@ namespace Bank
 	class DirectionBase: public Element
 	{
 	public:
-		DirectionBase(std::string s): Element(s), sign{*(s.cbegin())},value(UnknownDirection::Id), id{UnknownDirection::Id}, typeId{UnknownDirection::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
+		DirectionBase(std::string s): Element(s), tranferType{Create(*(s.cbegin()))},value(UnknownDirection::Id), id{UnknownDirection::Id}, typeId{UnknownDirection::TypeId} { Logger::Log()<<"DIRECTION: "<<*(s.cbegin())<<std::endl; };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
+		using PtrType = std::unique_ptr<DirectionType>;
+		
 		inline static constexpr const char* Identifier = "Direction";
+		
 		DirectionBase* DoCreate(){return this;};
 		const auto& Value() const {	return this->value; }
 		const auto& Id() const  {	return this->id; }
 		const auto& TypeId() const  {	return this->typeId; }	
 	
+		static PtrType Create(const char c)
+		{
+			if(c == 'H')
+				return std::make_unique<TransferIn>();
+			if(c == 'S')
+				return std::make_unique<TransferOut>();
+			return std::make_unique<UnknownDirection>();
+		}
+		
+		
+		std::ostream& Display(std::ostream& os) const {	return os<<tranferType->Sign();	}
 	protected:
 		std::string typeId = UnknownDirection::TypeId; 
 		int id = UnknownDirection::Id; 		
 		Quantity<Scalar,SIPrefix<0>,int> value;	
-		char sign;
+		PtrType tranferType;
 	private:
 	};
 	
@@ -82,7 +99,6 @@ namespace Bank
 	{
 	public:
 		using Base = DirectionBase<TransferIn,TransferOut,UnknownDirection>;
-		using PtrType = std::unique_ptr<DirectionType>;
 		Direction(std::string s): Base(s){ };
 		Direction(): DirectionBase(""){ };
 		template<typename AccountT>
@@ -95,14 +111,6 @@ namespace Bank
 			Logger::Log()<<"SET______"<<this->id<<"\t"<<this->typeId<<"\t"<<this->value<<std::endl;
 		}
 		
-		static PtrType Create(const char c)
-		{
-			if(c == 'H')
-				return std::make_unique<TransferIn>();
-			if(c == 'S')
-				return std::make_unique<TransferOut>();
-			return std::make_unique<UnknownDirection>();
-		}
 		
 		template<typename DirectionT>
 		void Set()
@@ -112,6 +120,11 @@ namespace Bank
 			this->value = QuantityType(DirectionT::Id);
 		}
 	};
+	
+	std::ostream& operator<<(std::ostream& out, const Direction& d)
+	{
+		return d.Display(out);		
+	}
 }
 
 
