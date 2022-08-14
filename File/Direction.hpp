@@ -1,14 +1,12 @@
 #include <algorithm>
 #include <functional>
 #include <iostream>
-#include <fstream>
 #include <memory>
-#include <iterator>
 #include <vector>
-#include <cstdlib>
 #include "TransferContainer.hpp"
 #include "../Logger/Logger.hpp"
 #include "../CSV/CSV.hpp"
+#include "../Wrapper/Wrapper.hpp"
 #include "../Quantity/Quantity.h"
 #include "../Unit/SIPrefix.hpp"
 #include "../Typelist/Typelist.h"
@@ -33,27 +31,30 @@ namespace Bank
 	{
 	public:
 		using Type = TransferIn;
+		using SignType = T::char_<'+'>;
 		inline static const std::string TypeId = "TransferIn"; 
 		inline static constexpr int Id = 1; 
-		virtual const std::string& Sign() { return TypeId; };		
+		virtual const std::string& Sign() { return SignType::String; };		
 	};
 	
 	class TransferOut: public DirectionType
 	{
 	public:
 		using Type = TransferOut;
+		using SignType = T::char_<'-'>;
 		inline static const std::string TypeId = "TransferOut"; 
 		inline static constexpr int Id = -1; 
-		virtual const std::string& Sign() { return TypeId; };		
+		virtual const std::string& Sign() { return SignType::String; };		
 	};
 	
 	class UnknownDirection: public DirectionType
 	{
 	public:
 		using Type = UnknownDirection;
+		using SignType = T::char_<'?'>;
 		inline static const std::string TypeId = "UnknownDirection"; 
 		inline static constexpr int Id = 0; 
-		virtual const std::string& Sign() { return TypeId; };		
+		virtual const std::string& Sign() { return SignType::String; };		
 	};
 	
 	template<typename TIn=TransferIn, typename TOut=TransferOut, typename TUnknown=UnknownDirection>

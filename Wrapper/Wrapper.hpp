@@ -72,7 +72,7 @@ struct char_
 	static constexpr bool IsLetter = N > 64 && N < 90;
 	static constexpr char Value = N;
 	static constexpr int Num = N;
-	inline static const std::string String = std::string(Value);
+	inline static const std::string String = std::string(1,Value);
 	using Type = char_<N>;
 	using ValueType = char;
 	using Next = char_<N+1>;
