@@ -82,7 +82,9 @@ namespace Bank
 					if(DateTimes::Get<DateTimes::Year>(date) == year)
 					{
 						auto s = Bank::GetTransfer<Quantity<Sum>>(**it);
-						out<<"\tDate: "<<date<<"\tSum: "<<Bank::GetTransfer<Bank::Direction>(**it)<<std::setprecision(2)<<std::fixed<<s<<std::endl;
+						auto d = Bank::GetTransfer<Bank::Direction>(**it).QuantityValue();
+						s = (d*s);
+						out<<"\tDate: "<<date<<"\tSum: "<<std::setprecision(2)<<std::fixed<<s<<std::endl;
 						out<<"\t"<<"\t"<<Bank::GetTransfer<Entry>(**it)<<std::endl;
 						sum = sum + s;
 					}
