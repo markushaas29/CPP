@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Direction.hpp"
+#include "../Direction.hpp"
 using namespace Bank;
 
 int main()
@@ -16,7 +16,12 @@ int main()
     
 	auto d = Direction("Hs");
     std::cout<<"D: "<<d<<std::endl;
+    std::cout<<"D id: "<<d.QuantityValue()<<std::endl;
     
+    std::cout<<in->QuantityValue()<<std::endl;
+    std::cout<<out->QuantityValue()<<std::endl;
+    std::cout<<un->QuantityValue()<<std::endl;
+    std::cout<<(un->QuantityValue() * in->QuantityValue())<<std::endl;
 	
     return 0;
 }
