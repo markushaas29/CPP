@@ -104,15 +104,17 @@
 	
 	template<class D1, typename L1, typename R1=L1, typename V1=L1,class D2, typename L2, typename R2=L2, typename V2=L2>
 	decltype(auto) operator/(const Result<D1,L1,R1,V1>& r1, const Result<D2,L2,R2,V2>& r2) { return Result<Division,Result<D1,L1,R1,V1>,Result<D2,L2,R2,V2>, decltype(r1.Get() /  r2.Get())>(r1,r2,r1.Get() / r2.Get()); }
+
+	template<typename U, typename Pre, typename Q, typename DateT> struct Reading; //Fwd
 	
-	template<typename TReading, typename TQuantity>
-	struct ReadingResult			
+	template<typename Derived, typename V, typename U, typename Pre, typename Q, typename DateT>
+	struct Result<Derived, Reading<U,Pre,Q,DateT>, Reading<U,Pre,Q,DateT>, V>			
 	{
-		using ReadingType = TReading;
-		using QuantityType = TQuantity;
-		const TReading FirstReading;
-		const TReading SecondReading;
-		const TQuantity Value;
+		using ReadingType = Reading<U,Pre,Q,DateT>;
+		using QuantityType = typename ReadingType::QuantityType;
+		const ReadingType FirstReading;
+		const ReadingType SecondReading;
+		const QuantityType Value;
 		
 		template<typename Separator = T::char_<'\t'>>
 		std::ostream& Display(std::ostream& out) const
@@ -120,14 +122,9 @@
 			return out<<FirstReading<<Separator::Value<<SecondReading<<Separator::Value<<Value<<std::endl;
 		}
 		
-		ReadingResult(TReading r1, TReading r2, TQuantity q): FirstReading(r1), SecondReading(r2), Value(q) {};	
+		Result(ReadingType r1, ReadingType r2, QuantityType q): FirstReading(r1), SecondReading(r2), Value(q) {};	
 	};
 
-	template<typename R, typename Q, typename S = T::char_<'\t'>>
-	std::ostream& operator<<(std::ostream& strm, const ReadingResult<R,Q> cr)
-	{
-		return cr.Display(strm);
-	}
 
 
 

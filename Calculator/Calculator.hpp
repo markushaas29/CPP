@@ -143,9 +143,9 @@ public:
 	{
 		using ReadingType =  TCounter::ReadingType;
 		using QuantityType = TCounter::QuantityType;
-		static std::vector<ReadingResult<ReadingType,QuantityType>> Calculate()
+		static decltype(auto) Calculate()
 		{
-			auto result = std::vector<ReadingResult<ReadingType,QuantityType>>(); 
+			auto result = std::vector<Result<Addition,ReadingType, ReadingType,QuantityType>>(); 
 			for(auto it = TCounter::Begin(); (it + 1) != TCounter::End(); ++it)
 			{
 				auto cr = TCalc::template Calculate<ReadingType,QuantityType>(*it, *(it+1));
