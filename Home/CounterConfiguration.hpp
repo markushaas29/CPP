@@ -8,6 +8,7 @@
 #include "../Unit/SIPrefix.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Calculator/CalculatorResult.hpp"
 #include "Parser.hpp"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
@@ -60,12 +61,15 @@ struct Reading
 	using Unit = U;
 	using QuantityType = Q;
 	using DateType = DateT;
+	using Type = Reading<Unit,Pre,QuantityType,DateType>;
 	const DateType Date;
 	const QuantityType QuantityValue;
 	
 	template<typename Separator = T::char_<';'>>
 	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign()<<std::endl;	}
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
+	
+	decltype(auto) operator+(const Type& left) {return Result<Addition,Type,Type,QuantityType>(*this,left, this->QuantityValue + left.QuantityValue);}
 };
 
 template<typename C,typename T = double, typename DateT = Date>

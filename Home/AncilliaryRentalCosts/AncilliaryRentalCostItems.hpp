@@ -44,7 +44,7 @@ struct AncilliaryRentalCostItemBase
 	{
 		auto s = Bank::Get<AccountType>(Derived::iban);
 		auto t = s[y];
-		auto q = GetTransfer<Quantity<Sum>>(*((*t)[0]));
+		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*t)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		auto b = GetStage<StageType,Q>().GetQuantity();
 		results->insert({y,ResultType{std::move(t),std::move(QuantityRatio::Calculate(b,a,q)),y}});

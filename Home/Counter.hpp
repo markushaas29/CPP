@@ -78,6 +78,8 @@ public:
 		{
 			auto v = csv->ExtractValues(*it);
 			DataType reading = CreateReading(v.cbegin(), v.cend());
+			auto r = *reading + *reading;
+			Logger::Log()<<r<<std::endl;
 			readings->push_back(reading);
 		}
 	}
