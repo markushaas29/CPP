@@ -72,6 +72,12 @@ struct Reading
 	decltype(auto) operator+(const Type& left) {return Result<Addition,Type,Type,QuantityType>(*this,left, this->QuantityValue + left.QuantityValue);}
 };
 
+template<typename U,typename P, typename Q, typename D>
+decltype(auto) operator+(const Q& q, const Reading<U,P,Q,D>& r) { return q + r.QuantityValue;}
+
+template<typename U,typename P, typename Q, typename D>
+decltype(auto) operator+(const Reading<U,P,Q,D>& r, const Q& q) { return q + r.QuantityValue;}
+
 template<typename C,typename T = double, typename DateT = Date>
 std::ostream& operator<<(std::ostream& strm, const Reading<C,T,DateT> c)	{	return c.Display(strm);}
 

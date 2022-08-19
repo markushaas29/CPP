@@ -5,7 +5,6 @@
 #ifndef CALCULATORRESULT_HPP
 #define CALCULATORRESULT_HPP
 
-
 	struct QuantityRatio; //Fwd
 	struct Addition; //Fwd
 	struct Subtraction; //Fwd
@@ -57,12 +56,10 @@
 	};
 	
 	template<typename D, typename L, typename R=L, typename V=L>
-	std::ostream& operator<<(std::ostream& strm, const Result<D,L,R,V> cr)
-	{
-		return cr.Display(strm);
-	}
+	std::ostream& operator<<(std::ostream& strm, const Result<D,L,R,V> cr)	{	return cr.Display(strm);}
 	
 	//------------------------------------------Addition-------------------------------------------------------------
+
 	template<class D1, typename L1, typename R1=L1, typename V1=L1,class D2, typename L2, typename R2=L2, typename V2=L2>
 	decltype(auto) operator+(const Result<D1,L1,R1,V1>& r1, const Result<D2,L2,R2,V2>& r2) { return Result<Addition,Result<D1,L1,R1,V1>,Result<D2,L2,R2,V2>, decltype(r1.Get() +  r2.Get())>(r1,r2,r1.Get() + r2.Get()); }
 	
@@ -73,6 +70,7 @@
 	decltype(auto) operator+(const T& t, const Result<D,L,R,RT>& r) { return Result<Addition,T,Result<D,L,R,RT>, decltype(t + r.Get())>(t,r,t + r.Get()); }
 	
 	//------------------------------------------Subtraction-------------------------------------------------------------
+
 	template<class D1, typename L1, typename R1=L1, typename V1=L1,class D2, typename L2, typename R2=L2, typename V2=L2>
 	decltype(auto) operator-(const Result<D1,L1,R1,V1>& r1, const Result<D2,L2,R2,V2>& r2) { return Result<Subtraction,Result<D1,L1,R1,V1>,Result<D2,L2,R2,V2>, decltype(r1.Get() -  r2.Get())>(r1,r2,r1.Get() - r2.Get()); }
 	
@@ -82,9 +80,8 @@
 	template<typename T, class D, typename L, typename R=L, typename RT=T>
 	decltype(auto) operator-(const T& t, const Result<D,L,R,RT>& r) { return Result<Subtraction,T,Result<D,L,R,RT>, decltype(t - r.Get())>(t,r,t - r.Get()); }
 	
-	
 	//------------------------------------------Multiplication-------------------------------------------------------------
-	
+
 	template<typename T, class D, typename L, typename R=L, typename V=L>
 	decltype(auto) operator*(const Result<D,L,R,V>& r, const T& t) { return Result<Multiplication,Result<D,L,R,V>, T, decltype(r.Get() * t)>(r,t,r.Get() * t); }
 	
@@ -107,25 +104,4 @@
 
 	template<typename U, typename Pre, typename Q, typename DateT> struct Reading; //Fwd
 	
-	template<typename Derived, typename V, typename U, typename Pre, typename Q, typename DateT>
-	struct Result<Derived, Reading<U,Pre,Q,DateT>, Reading<U,Pre,Q,DateT>, V>			
-	{
-		using ReadingType = Reading<U,Pre,Q,DateT>;
-		using QuantityType = typename ReadingType::QuantityType;
-		const ReadingType FirstReading;
-		const ReadingType SecondReading;
-		const QuantityType Value;
-		
-		template<typename Separator = T::char_<'\t'>>
-		std::ostream& Display(std::ostream& out) const
-		{
-			return out<<FirstReading<<Separator::Value<<SecondReading<<Separator::Value<<Value<<std::endl;
-		}
-		
-		Result(ReadingType r1, ReadingType r2, QuantityType q): FirstReading(r1), SecondReading(r2), Value(q) {};	
-	};
-
-
-
-
 #endif
