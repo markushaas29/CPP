@@ -70,6 +70,9 @@ struct Reading
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
 	
 	decltype(auto) operator+(const Type& left) {return Result<Addition,Type,Type,QuantityType>(*this,left, this->QuantityValue + left.QuantityValue);}
+	decltype(auto) operator-(const Type& left) {return Result<Subtraction,Type,Type,QuantityType>(*this,left, this->QuantityValue - left.QuantityValue);}
+	decltype(auto) operator*(const Type& left) {return Result<Multiplication,Type,Type,decltype(this->QuantityValue * left.QuantityValue)>(*this,left, this->QuantityValue * left.QuantityValue);}
+	decltype(auto) operator/(const Type& left) {return Result<Division,Type,Type,decltype(this->QuantityValue / left.QuantityValue)>(*this,left, this->QuantityValue / left.QuantityValue);}
 };
 
 template<typename U,typename P, typename Q, typename D>
