@@ -94,10 +94,10 @@ decltype(auto) operator-(const Reading<U,P,Q,D>& r, const Q& q) { return q - r.Q
 //--------------------------------------------Multiplication---------------------------------------------------------
 
 template<typename U,typename P, typename Q, typename D, typename QT>
-decltype(auto) operator*(const QT& q, const Reading<U,P,Q,D>& r) { return q * r.QuantityValue;}
+decltype(auto) operator*(const QT& q, const Reading<U,P,Q,D>& r) { return Result<Multiplication,QT,Reading<U,P,Q,D>,decltype(q * r.QuantityValue)>(q,r,q * r.QuantityValue);}
 
 template<typename U,typename P, typename Q, typename D, typename QT>
-decltype(auto) operator*(const Reading<U,P,Q,D>& r, const QT& q) { return q * r.QuantityValue;}
+decltype(auto) operator*(const Reading<U,P,Q,D>& r, const QT& q) { return Result<Multiplication,Reading<U,P,Q,D>,QT,decltype(q * r.QuantityValue)>(r,q,q * r.QuantityValue);}
 
 //--------------------------------------------Division---------------------------------------------------------
 
