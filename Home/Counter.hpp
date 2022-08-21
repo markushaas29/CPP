@@ -11,6 +11,7 @@
 #include "../Calculator/CalculatorResult.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
+#include "Reading.hpp"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
 #include <map>
@@ -79,7 +80,22 @@ public:
 			auto v = csv->ExtractValues(*it);
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			auto r = *reading + *reading;
-			Logger::Log()<<r<<std::endl;
+			auto rs = *reading - *reading;
+			auto rm = *reading * *reading;
+			auto rd = *reading / *reading;
+			auto r2 = *reading + r;
+			auto r4 = *reading - r;
+			auto r5 = *reading * Quantity<Scalar>{2};
+			auto r6 = *reading / Quantity<Scalar>{2};
+			auto r3 = r2 + r;
+			auto r7 = r5 * r;
+			Logger::Log()<<r3<<std::endl;
+			Logger::Log()<<r4<<std::endl;
+			Logger::Log()<<"MUL_"<<r7<<std::endl;
+			Logger::Log()<<"Div_"<<r6<<std::endl;
+			Logger::Log()<<rs<<std::endl;
+			Logger::Log()<<rm<<std::endl;
+			Logger::Log()<<rd<<std::endl;
 			readings->push_back(reading);
 		}
 	}
