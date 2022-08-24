@@ -70,7 +70,7 @@ public:
 class HeatingCosts: public CSVValue<HeatingCosts, Area, unsigned>
 {
 public:
-	HeatingCosts(const std::string& s = "0"): CSVValue(s) {};
+	HeatingCosts(unsigned a): CSVValue(a) {};
 	HeatingCosts(Quantity<Area> s): CSVValue(s) {};
 	HeatingCosts& operator=(const HeatingCosts& a)
 	{ 
@@ -79,11 +79,10 @@ public:
 	}
 };	
 
-
 class BuildingCleaning: public CSVValue<BuildingCleaning, Scalar, unsigned>
 {
 public:
-	BuildingCleaning(const std::string& s = "0"): CSVValue(s) {};
+	BuildingCleaning(unsigned a): CSVValue(a) {};
 	BuildingCleaning(Quantity<Scalar> s): CSVValue(s) {};
 	BuildingCleaning& operator=(const BuildingCleaning& a)
 	{ 
