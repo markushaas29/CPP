@@ -67,6 +67,31 @@ public:
 	}
 };	
 
+class HeatingCosts: public CSVValue<HeatingCosts, Area, unsigned>
+{
+public:
+	HeatingCosts(const std::string& s = "0"): CSVValue(s) {};
+	HeatingCosts(Quantity<Area> s): CSVValue(s) {};
+	HeatingCosts& operator=(const HeatingCosts& a)
+	{ 
+		CSVValue<HeatingCosts, Area, unsigned>::operator=(a);
+		return *this; 
+	}
+};	
+
+
+class BuildingCleaning: public CSVValue<BuildingCleaning, Scalar, unsigned>
+{
+public:
+	BuildingCleaning(const std::string& s = "0"): CSVValue(s) {};
+	BuildingCleaning(Quantity<Scalar> s): CSVValue(s) {};
+	BuildingCleaning& operator=(const BuildingCleaning& a)
+	{ 
+		CSVValue<BuildingCleaning, Scalar, unsigned>::operator=(a);
+		return *this; 
+	}
+};	
+
 class Advance: public CSVValue<Advance, Sum>
 {
 public:
