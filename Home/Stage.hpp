@@ -23,7 +23,7 @@
 #ifndef STAGE_HPP
 #define STAGE_HPP
 
-using ApartmentQuantitiesType = std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons, HeatingCosts, BuildingCleaning, Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental>;
+using ApartmentQuantitiesType = std::tuple<ApartmentArea,Rooms,IndividualUnit,Persons, HeatingProportion, BuildingCleaningProportion, Advance,MonthlyRent,IncidentalHeatingCosts,GarageRental>;
 inline static constexpr size_t ApartmentQuantitiesCount = std::tuple_size_v<ApartmentQuantitiesType>;
 using StageMap = std::map<std::string, std::string>;
 using YearDataMapKeyType = uint;
@@ -75,7 +75,7 @@ public:
 	std::ostream& Display(std::ostream& os) 
 	{
 		os<<"Name: "<<Type::Name<<"\tUnits:"<<std::get<IndividualUnit>(quantities)<<"\tRooms:"<<std::get<Rooms>(quantities)<<"\tArea: "<<std::get<ApartmentArea>(quantities)<<"\tPersons: "<<std::get<Persons>(quantities);
-		os<<"\tHeating Cost: "<<std::get<HeatingCosts>(quantities)<<"\tBuildingCleaning: "<<std::get<BuildingCleaning>(quantities);
+		os<<"\tHeating Cost: "<<std::get<HeatingProportion>(quantities)<<"\tBuildingCleaning: "<<std::get<BuildingCleaningProportion>(quantities);
 		return os<<"MonthlyRent: "<<std::get<MonthlyRent>(quantities)<<"\tAdvance: "<<std::get<Advance>(quantities)<<"\tGarage: "<<std::get<GarageRental>(quantities)<<"\tIncidentalHeatingCosts: "<<std::get<IncidentalHeatingCosts>(quantities)<<std::endl;
 	}
 	
@@ -86,7 +86,7 @@ private:
 	
 	Stage(){ Logger::Log()<<"CTOR: "<<Number<<std::endl;}
 	Stage(const StageMap& m): 
-		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),Configuration::HeatingCostProportion,Configuration::BuildingCleaningProportion,m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key))
+		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),Configuration::Heating,Configuration::BuildingCleaning,m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key))
 	{ 
 // 		for(auto kv : m)
 // 			Logger::Log()<<kv.first<<": "<<kv.second<<std::endl;

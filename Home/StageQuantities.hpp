@@ -67,26 +67,26 @@ public:
 	}
 };	
 
-class HeatingCosts: public CSVValue<HeatingCosts, Area, unsigned>
+class HeatingProportion: public CSVValue<HeatingProportion, Area, unsigned>
 {
 public:
-	HeatingCosts(unsigned a): CSVValue(a) {};
-	HeatingCosts(Quantity<Area> s): CSVValue(s) {};
-	HeatingCosts& operator=(const HeatingCosts& a)
+	HeatingProportion(unsigned a): CSVValue(a) {};
+	HeatingProportion(Quantity<Area> s): CSVValue(s) {};
+	HeatingProportion& operator=(const HeatingProportion& a)
 	{ 
-		CSVValue<HeatingCosts, Area, unsigned>::operator=(a);
+		CSVValue<HeatingProportion, Area, unsigned>::operator=(a);
 		return *this; 
 	}
 };	
 
-class BuildingCleaning: public CSVValue<BuildingCleaning, Scalar, unsigned>
+class BuildingCleaningProportion: public CSVValue<BuildingCleaningProportion, Scalar, unsigned>
 {
 public:
-	BuildingCleaning(unsigned a): CSVValue(a) {};
-	BuildingCleaning(Quantity<Scalar> s): CSVValue(s) {};
-	BuildingCleaning& operator=(const BuildingCleaning& a)
+	BuildingCleaningProportion(unsigned a): CSVValue(a) {};
+	BuildingCleaningProportion(Quantity<Scalar> s): CSVValue(s) {};
+	BuildingCleaningProportion& operator=(const BuildingCleaningProportion& a)
 	{ 
-		CSVValue<BuildingCleaning, Scalar, unsigned>::operator=(a);
+		CSVValue<BuildingCleaningProportion, Scalar, unsigned>::operator=(a);
 		return *this; 
 	}
 };	

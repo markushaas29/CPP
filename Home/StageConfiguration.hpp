@@ -37,8 +37,8 @@ struct StageConfiguration
 	static constexpr int Number = N;
 	static constexpr unsigned Area = A;
 	static constexpr unsigned Rooms = R;
-	static constexpr unsigned HeatingCostProportion = H;
-	static constexpr unsigned BuildingCleaningProportion = B;
+	static constexpr unsigned Heating = H;
+	static constexpr unsigned BuildingCleaning = B;
 	static constexpr const char* Name = T::Name;
 };
 
