@@ -80,6 +80,23 @@ struct WasteFees: AncilliaryRentalCostItemBase<S,WasteFees<S>, Persons>
 };
 
 template<typename S>
+struct BuildingCleaning: AncilliaryRentalCostItemBase<S,BuildingCleaning<S>, BuildingCleaningProportion> 
+{ 
+	constexpr static const char* Name = "BuildingCleaning"; 
+	constexpr static const char* Identifier = "Alles Proper"; 
+	inline static const IBAN iban{"DE44600501010008017284"};	
+};
+
+template<typename S>
+struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion> 
+{ 
+	constexpr static const char* Name = "Heating"; 
+	constexpr static const char* Identifier = "Erdgas"; 
+	inline static const IBAN iban{"DE68600501010002057075"};	
+};
+
+
+template<typename S>
 struct ChimneySweeper: AncilliaryRentalCostItemBase<S,ChimneySweeper<S>, IndividualUnit> 
 { 
 	constexpr static const char* Name = "ChimneySweeper"; 
@@ -110,6 +127,6 @@ struct Sewage: public LocalCommunity<S, Sewage<S>, ApartmentArea>
 };
 
 template<typename S>
-using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>>;
+using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
 
 #endif
