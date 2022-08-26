@@ -91,7 +91,7 @@ template<typename S>
 struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion> 
 { 
 	constexpr static const char* Name = "Heating"; 
-	constexpr static const char* Identifier = "Erdgas"; 
+	constexpr static const char* Identifier = "Erdgas Suedwest"; 
 	inline static const IBAN iban{"DE68600501010002057075"};	
 };
 
