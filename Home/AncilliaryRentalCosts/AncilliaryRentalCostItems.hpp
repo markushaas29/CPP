@@ -56,7 +56,7 @@ struct AncilliaryRentalCostItemBase
 		os<<results->cbegin()->first<<" Result "<<std::endl;
 		return os;
 	}
-private:
+protected:
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 };
 
@@ -90,9 +90,27 @@ struct BuildingCleaning: AncilliaryRentalCostItemBase<S,BuildingCleaning<S>, Bui
 template<typename S>
 struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion> 
 { 
+	using Base =  AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>;
 	constexpr static const char* Name = "Heating"; 
-	constexpr static const char* Identifier = "Erdgas Suedwest"; 
-	inline static const IBAN iban{"DE68600501010002057075"};	
+	constexpr static const char* Identifier = "Erdgas Suedwest GmbH / EnBW Energie Bad-Wuertt AG"; 
+	constexpr static const char* IdentifierEnergy = "EnBW Energie Bad-Wuertt AG"; 
+	constexpr static const char* IdentifierGas = "Erdgas Suedwest GmbH"; 
+	inline static const IBAN ibanGas{"DE68600501010002057075"};	
+	inline static const IBAN ibanEnergy{"DE56600501017402051588"};	
+	
+	static void Calculate(const DateTimes::Year& year)
+	{
+		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
+		auto transfersGas = accGas[year];
+		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
+		auto transferEnergy = accEnergy[year];
+		
+		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*transferEnergy)[0]));
+		
+		auto a = StageContainerType::Instance().GetTotal<HeatingProportion>();
+		auto b = GetStage<S,HeatingProportion>().GetQuantity();
+		Base::results->insert({year,typename Base::ResultType{std::move(transferEnergy),std::move(QuantityRatio::Calculate(b,a,q)),year}});
+	}
 };
 
 
