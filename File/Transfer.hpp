@@ -55,8 +55,7 @@ namespace Bank
 		
 		std::ostream& Display(std::ostream& os) const 
 		{
-			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::get<Direction>(transferItems)<<"_"<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum>>(transferItems)<<std::endl;
-			//~ os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum>>(transferItems)<<std::endl;
+			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::get<Direction>(transferItems)<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum>>(transferItems)<<std::endl;
 			os<<"\t"<<"\t"<<std::get<Entry>(transferItems)<<std::endl;
 			
 			return os;
