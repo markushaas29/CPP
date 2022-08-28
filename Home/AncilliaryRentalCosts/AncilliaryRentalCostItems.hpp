@@ -44,10 +44,12 @@ struct AncilliaryRentalCostItemBase
 	{
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		auto transfers = account[year];
-		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*transfers)[0]));
+		
+		auto acc = TotalSum(transfers->cbegin(), transfers->cend());
+		
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		auto b = GetStage<StageType,Q>().GetQuantity();
-		results->insert({year,ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,q)),year}});
+		results->insert({year,ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
