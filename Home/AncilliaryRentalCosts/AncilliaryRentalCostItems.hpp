@@ -58,6 +58,14 @@ struct AncilliaryRentalCostItemBase
 	}
 protected:
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
+	
+	template<typename It>
+	static decltype(auto) TotalSum(It begin, It end)
+	{
+		auto acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
+		std::for_each(begin+1, end, [&](const auto t){ acc = acc + Bank::GetTransfer<Quantity<Sum>>(*t); });
+		return acc;
+	}
 };
 
 template<typename S,typename D, typename Q>
@@ -106,11 +114,12 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		auto transfersEnergy = accEnergy[year];
 		
 		transfers->insert(transfers->end(), transfersEnergy->begin(), transfersEnergy->end());
-		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*transfers)[0]));
 		
+		auto acc = Base::TotalSum(transfers->cbegin(), transfers->cend());
+				
 		auto a = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto b = GetStage<S,HeatingProportion>().GetQuantity();
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,q)),year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
 	}
 };
 
