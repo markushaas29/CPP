@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include "../Unit/Unit.h"
+#include "../Logger/Logger.hpp"
 #include "../Unit/SIPrefix.hpp"
 // #include "../Wrapper/Wrapper.hpp"
 
@@ -27,13 +28,13 @@ struct Quantity
     
 	Quantity(): value(0 * SiPrefix::Factor) {	}
 	explicit Quantity(const T1& v): value(v * SiPrefix::Factor) {	}
-	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { 	}
+	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { Logger::Log()<<"Value: "<<value<<std::endl;	}
 	
 	T1 Value() const { return value / SiPrefix::Factor;}
 	T1 PureValue() const { return value;}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix, typename T2 = T1>
-	Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ 	}
+	Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
 	Quantity<U,SiPrefix,T1> operator+(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,SiPrefix,T1>(this->Value() + y.Value()); }
