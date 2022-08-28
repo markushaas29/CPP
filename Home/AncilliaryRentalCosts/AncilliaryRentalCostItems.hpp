@@ -40,14 +40,14 @@ struct AncilliaryRentalCostItemBase
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static const char* Name = "";
 	
-	static void Calculate(const DateTimes::Year& y)
+	static void Calculate(const DateTimes::Year& year)
 	{
-		auto s = Bank::Get<AccountType>(Derived::iban);
-		auto t = s[y];
-		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*t)[0]));
+		auto account = Bank::Get<AccountType>(Derived::iban);
+		auto transfers = account[year];
+		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*transfers)[0]));
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		auto b = GetStage<StageType,Q>().GetQuantity();
-		results->insert({y,ResultType{std::move(t),std::move(QuantityRatio::Calculate(b,a,q)),y}});
+		results->insert({year,ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,q)),year}});
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
@@ -101,15 +101,16 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	static void Calculate(const DateTimes::Year& year)
 	{
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
-		auto transfersGas = accGas[year];
+		auto transfers = accGas[year];
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		auto transferEnergy = accEnergy[year];
+		auto transfersEnergy = accEnergy[year];
 		
-		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*transferEnergy)[0]));
+		transfers->insert(transfers->end(), transfersEnergy->begin(), transfersEnergy->end());
+		auto q = Bank::GetTransfer<Quantity<Sum>>(*((*transfers)[0]));
 		
 		auto a = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto b = GetStage<S,HeatingProportion>().GetQuantity();
-		Base::results->insert({year,typename Base::ResultType{std::move(transferEnergy),std::move(QuantityRatio::Calculate(b,a,q)),year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,q)),year}});
 	}
 };
 
