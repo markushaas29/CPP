@@ -45,9 +45,9 @@ struct AncilliaryRentalCostItemBase
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		auto transfers = account[year];
 		
-		auto cwb = StageT::ColdWaterCounter::Instance().ConsumptionssBegin();
+		auto cwb = StageT::ColdWaterCounter::Instance().ReadingsBegin();
 		Logger::Log()<<"WASSER"<<": "<<StageT::ColdWaterCounter::Instance().Number<<std::endl;
-		//~ Logger::Log()<<"WASSER"<<": "<<*cwb<<std::endl;
+		Logger::Log()<<"WASSER"<<": "<<**cwb<<std::endl;
 		auto acc = TotalSum(transfers->cbegin(), transfers->cend());
 		
 		auto a = StageContainerType::Instance().GetTotal<Q>();
