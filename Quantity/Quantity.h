@@ -28,7 +28,7 @@ struct Quantity
     
 	Quantity(): value(0 * SiPrefix::Factor) {	}
 	explicit Quantity(const T1& v): value(v * SiPrefix::Factor) {	}
-	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { Logger::Log()<<"Value: "<<value<<std::endl;	}
+	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { /*Logger::Log()<<"Value: "<<value<<std::endl;*/	}
 	
 	T1 Value() const { return value / SiPrefix::Factor;}
 	T1 PureValue() const { return value;}

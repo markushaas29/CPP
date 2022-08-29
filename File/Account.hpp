@@ -80,7 +80,7 @@ namespace Bank
 					 			Logger::Log<Error>()<<Derived::Name<<": Not enough values to create a transfer in line"<<*it<<std::endl;
 					 			continue;
 							}
-							Logger::Log(values.cbegin(),values.cend());
+							//~ Logger::Log(values.cbegin(),values.cend());
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
 							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value, tt);
 						}
