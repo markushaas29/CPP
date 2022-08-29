@@ -45,6 +45,9 @@ struct AncilliaryRentalCostItemBase
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		auto transfers = account[year];
 		
+		auto cwb = StageT::ColdWaterCounter::Instance().ConsumptionssBegin();
+		Logger::Log()<<"WASSER"<<": "<<StageT::ColdWaterCounter::Instance().Number<<std::endl;
+		//~ Logger::Log()<<"WASSER"<<": "<<*cwb<<std::endl;
 		auto acc = TotalSum(transfers->cbegin(), transfers->cend());
 		
 		auto a = StageContainerType::Instance().GetTotal<Q>();
@@ -135,8 +138,9 @@ struct ChimneySweeper: AncilliaryRentalCostItemBase<S,ChimneySweeper<S>, Individ
 };
 
 template<typename S, typename Derived, typename Q>
-struct LocalCommunity: AncilliaryRentalCostItemBase<S, Derived, Q>
+struct LocalCommunity: public AncilliaryRentalCostItemBase<S, Derived, Q>
 {
+	using Base =  AncilliaryRentalCostItemBase<S,LocalCommunity<S,Derived,Q>, Derived>;
 	constexpr static const char* Identifier = "Gemeindekasse Dettenheim";	
 	inline static const IBAN iban{"DE12660623660000005703"};	
 };
@@ -151,9 +155,25 @@ struct PropertyTax: public LocalCommunity<S, PropertyTax<S>, ApartmentArea>
 template<typename S>
 struct Sewage: public LocalCommunity<S, Sewage<S>, ApartmentArea> 
 { 
-	constexpr static const char* Name = "Sewage"; 
+	using Base = LocalCommunity<S, Sewage<S>, ApartmentArea>; 
 	constexpr static const char* CauseString = "Abschlag/Abwasser"; 
+	constexpr static const char* Name = "Sewage"; 
 	constexpr static const char* InvoiceString = "Rechnung/Abwasser"; 
+	
+	//~ static void Calculate(const DateTimes::Year& year)
+	//~ {
+		//~ auto account = Bank::Get<typename Base::AccountType>(Base::iban);
+		//~ auto transfers = account[year];
+		
+		//~ auto acc = Base::Base::TotalSum(transfers->cbegin(), transfers->cend());
+		//~ auto cwb = S::ColdWaterCounter::Instance().ConsumptionssBegin();
+		//~ auto hwb = S::HotWaterCounter::Instance().ConsumptionssBegin();
+		
+		
+		//~ auto a = StageContainerType::Instance().GetTotal<ApartmentArea>();
+		//~ auto b = GetStage<S,ApartmentArea>().GetQuantity();
+		//~ Base::Base::results->insert({year,typename Base::Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
+	//~ }
 };
 
 template<typename S>
