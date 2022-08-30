@@ -45,9 +45,6 @@ struct AncilliaryRentalCostItemBase
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		auto transfers = account[year];
 		
-		auto cwb = StageT::ColdWaterCounter::Instance().ReadingsBegin();
-		Logger::Log()<<"WASSER"<<": "<<StageT::ColdWaterCounter::Instance().Number<<std::endl;
-		Logger::Log()<<"WASSER"<<": "<<**cwb<<std::endl;
 		auto acc = TotalSum(transfers->cbegin(), transfers->cend());
 		
 		auto a = StageContainerType::Instance().GetTotal<Q>();
@@ -168,9 +165,12 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, Apartmen
 		auto transfers = account[year];
 		
 		auto acc = Base::TotalSum(transfers->cbegin(), transfers->cend());
-		auto cwb = S::ColdWaterCounter::Instance().ConsumptionssBegin();
-		auto hwb = S::HotWaterCounter::Instance().ConsumptionssBegin();
+		auto cwb = S::ColdWaterCounter::Instance().ReadingsBegin();
+		auto hwb = S::HotWaterCounter::Instance().ReadingsBegin();
 		
+		Logger::Log()<<"WASSER"<<": "<<**hwb<<std::endl;
+		Logger::Log()<<"WASSER"<<": "<<**cwb<<std::endl;
+		//~ Logger::Log()<<"WASSER"<<": "<<Addition::Calculate(**cwb,**hwb)<<std::endl;
 		
 		auto a = StageContainerType::Instance().GetTotal<ApartmentArea>();
 		auto b = GetStage<S,ApartmentArea>().GetQuantity();
