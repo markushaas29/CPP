@@ -171,6 +171,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, Apartmen
 		Logger::Log()<<"WASSER"<<": "<<**hwb<<std::endl;
 		Logger::Log()<<"WASSER"<<": "<<**cwb<<std::endl;
 		Logger::Log()<<"WASSER"<<": "<<(**cwb + **hwb)<<std::endl;
+		Logger::Log()<<"WASSER"<<": "<<Addition::Calculate(**cwb, **hwb)<<std::endl;
 		
 		auto a = StageContainerType::Instance().GetTotal<ApartmentArea>();
 		auto b = GetStage<S,ApartmentArea>().GetQuantity();
