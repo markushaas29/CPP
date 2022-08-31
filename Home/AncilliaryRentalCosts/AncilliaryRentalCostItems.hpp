@@ -171,9 +171,12 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, Apartmen
 		Logger::Log()<<"WASSER"<<": "<<**hwb<<std::endl;
 		Logger::Log()<<"WASSER"<<": "<<**cwb<<std::endl;
 		Logger::Log()<<"WASSER"<<": "<<(**cwb + **hwb)<<std::endl;
-		Logger::Log()<<"WASSER"<<": "<<Addition::Calculate(**cwb, **hwb)<<std::endl;
 		
 		auto a = StageContainerType::Instance().GetTotal<ApartmentArea>();
+		auto h = StageContainerType::Instance().GetCounterTotal<Hot>();
+		auto c = StageContainerType::Instance().GetCounterTotal<Cold>();
+		Logger::Log()<<"WASSER"<<": "<<Addition::Calculate(**cwb, **hwb)<<std::endl;
+		Logger::Log()<<"TOTAL"<<h<<"\nTOTALc"<<c<<std::endl;
 		auto b = GetStage<S,ApartmentArea>().GetQuantity();
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
 	}

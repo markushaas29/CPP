@@ -49,6 +49,14 @@ protected:
 		Head::Instance(); 			
 		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
 	};
+	
+	template<typename T>
+	decltype(auto) GetCounterTotal()
+	{ 
+		if constexpr (std::is_same<T,Hot>::value)
+			return **(Head::HotWaterCounter::Instance().ReadingsBegin());
+		return **(Head::ColdWaterCounter::Instance().ReadingsBegin());	
+	}
 public:
 	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }	
 	void Write(const std::string sourcePath = ".")	{ Type::Write(sourcePath); }
@@ -68,7 +76,7 @@ public:
 	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  &Parse)); }
 	
 	template<typename T>
-	static Quantity<typename T::Unit> GetTotal() {	return GetStage<Head,T>().GetQuantity(); }
+	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }
 
 	static StageContainer& Instance()
 	{
@@ -164,7 +172,15 @@ public:
 	void Calculate(){	CalculateInternal<ContainerType,CalcT>();	}
 	
 	template<typename T>
-	Quantity<typename T::Unit> GetTotal(){ return GetStage<Head,T>().GetQuantity() + Base::template GetTotal<T>();	}
+	decltype(auto) GetCounterTotal()
+	{ 
+		if constexpr (std::is_same<T,Hot>::value)
+			return **(Head::HotWaterCounter::Instance().ReadingsBegin()) + Base::template GetCounterTotal<T>();
+		return **(Head::ColdWaterCounter::Instance().ReadingsBegin()) + Base::template GetCounterTotal<T>();	
+	}
+	
+	template<typename T>
+	decltype(auto) GetTotal(){	return GetStage<Head,T>().GetQuantity() + Base::template GetTotal<T>();		}
 };
 
 template<typename Head, typename... Tail>
