@@ -50,12 +50,12 @@ protected:
 		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
 	};
 	
-	template<typename T>
-	decltype(auto) GetCounterTotal()
+	template<typename T, typename Op>
+	decltype(auto) GetCounterTotalInternal(const Op&& op)
 	{ 
 		if constexpr (std::is_same<T,Hot>::value)
-			return **(Head::HotWaterCounter::Instance().ReadingsBegin());
-		return **(Head::ColdWaterCounter::Instance().ReadingsBegin());	
+			return op(Head::HotWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd());
+		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd());	
 	}
 public:
 	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }	
@@ -93,9 +93,6 @@ public:
 			using All = AllT;
 		};
 		CalcT<Type>::Instance();
-		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
-		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
-		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
 	}
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
@@ -145,6 +142,14 @@ protected:
 		Type::Set(Base::stages->at(Head::Name)); 			
 		Type::Instance(); 			
 	};
+	
+	template<typename T, typename Op>
+	decltype(auto) GetCounterTotalInternal(const Op&& op)
+	{ 
+		if constexpr (std::is_same<T,Hot>::value)
+			return op(Head::HotWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd()) + Base::template GetCounterTotalInternal<T>(std::move(op));
+		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd()) + Base::template GetCounterTotalInternal<T>(std::move(op));	
+	}
 public:
 	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Instance().Display(os));	}
 
@@ -163,21 +168,14 @@ public:
 			using All = AllT;
 		};
 		CalcT<Type>::Instance();
-		//~ using StageUtilitiesStatemenent = UtilitiesStatement<Config>;
-		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2022))->Calculate();
-		//~ StageUtilitiesStatemenent::Instance(DateTimes::Year(2021));
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
 	template<template<typename> class CalcT>
 	void Calculate(){	CalculateInternal<ContainerType,CalcT>();	}
 	
-	template<typename T>
-	decltype(auto) GetCounterTotal()
-	{ 
-		if constexpr (std::is_same<T,Hot>::value)
-			return **(Head::HotWaterCounter::Instance().ReadingsBegin()) + Base::template GetCounterTotal<T>();
-		return **(Head::ColdWaterCounter::Instance().ReadingsBegin()) + Base::template GetCounterTotal<T>();	
-	}
+	
+	template<typename T, typename Op>
+	decltype(auto) GetCounterTotal(){	return GetCounterTotalInternal<T>(std::move(Op()));	}
 	
 	template<typename T>
 	decltype(auto) GetTotal(){	return GetStage<Head,T>().GetQuantity() + Base::template GetTotal<T>();		}

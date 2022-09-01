@@ -198,13 +198,13 @@ private:
 struct CurrentValue
 { 
 	template<typename It>
-	decltype(auto) operator()(It begin, It end) { return **begin; }
+	decltype(auto) operator()(It begin, It end) const { return **begin; }
 };
 
 struct Difference
 { 
 	template<typename It>
-	decltype(auto) operator()(It begin, It end) { return **(begin) - **(begin + 1); }
+	decltype(auto) operator()(It begin, It end) const { return **(begin) - **(begin + 1); }
 };
 
 template<typename C, typename S = T::char_<'\t'>>
