@@ -34,13 +34,10 @@ public:
 	
 	using DataType = std::shared_ptr<ReadingType>;
 	using ReadingContainerType = std::vector<DataType>;
-	using AnnualConsumptionType = Result<Addition,ReadingType,ReadingType,QuantityType>;
-	using AnnualConsumptionContainerType = std::vector<AnnualConsumptionType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;
 	using Unit = Config::Unit;
 	using CIteratorReading = std::vector<DataType>::const_iterator;
-	using CIteratorConsumption = std::vector<AnnualConsumptionType>::const_iterator;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	inline static const uint Number = Config::Number;
 
@@ -79,23 +76,6 @@ public:
 		{
 			auto v = csv->ExtractValues(*it);
 			DataType reading = CreateReading(v.cbegin(), v.cend());
-			//~ auto r = *reading + *reading;
-			//~ auto rs = *reading - *reading;
-			//~ auto rm = *reading * *reading;
-			//~ auto rd = *reading / *reading;
-			//~ auto r2 = *reading + r;
-			//~ auto r4 = *reading - r;
-			//~ auto r5 = *reading * Quantity<Scalar>{2};
-			//~ auto r6 = *reading / Quantity<Scalar>{2};
-			//~ auto r3 = r2 + r;
-			//~ auto r7 = r5 * r;
-			//~ Logger::Log()<<r3<<std::endl;
-			//~ Logger::Log()<<r4<<std::endl;
-			//~ Logger::Log()<<"MUL_"<<r7<<std::endl;
-			//~ Logger::Log()<<"Div_"<<r6<<std::endl;
-			//~ Logger::Log()<<rs<<std::endl;
-			//~ Logger::Log()<<rm<<std::endl;
-			//~ Logger::Log()<<rd<<std::endl;
 			readings->push_back(reading);
 		}
 	}
@@ -114,10 +94,7 @@ public:
 	}
 	
 	static CIteratorReading ReadingsBegin() { return readings->cbegin(); }
-	static CIteratorReading ReadingsEnd() { return readings->cend(); }
-	static CIteratorConsumption ConsumptionssBegin() { return annalConsumptions->cbegin(); }
-	static CIteratorConsumption ConsumptionsEnd() { return annalConsumptions->cend(); }
-		
+	static CIteratorReading ReadingsEnd() { return readings->cend(); }		
 private:
 	static std::map<std::string, std::string> createHeader()
 	{
@@ -135,7 +112,6 @@ private:
 	
 	inline static const std::map<std::string, std::string> Header = createHeader();	
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
-	inline static std::unique_ptr<AnnualConsumptionContainerType, DebugDeleter<AnnualConsumptionContainerType>> annalConsumptions = std::unique_ptr<AnnualConsumptionContainerType, DebugDeleter<AnnualConsumptionContainerType>>(new AnnualConsumptionContainerType(),DebugDeleter<AnnualConsumptionContainerType>());
 	
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(DestinationPath) + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
@@ -167,29 +143,9 @@ private:
 		return  DataType(new ReadingType(QuantityType(0.0), DateType(Parsers::Parser<std::string,DateType>::Parse("01.01.2000"))));
 	}
 	
-	static void Calculate()
-	{
-		if(readings->size() > 1)
-		{
-			for(int i = 1; i < readings->size(); ++i)
-			{
-				auto t1 = readings->at(i-1);
-				auto t2 = readings->at(i);
-				annalConsumptions->push_back(AnnualConsumptionType(t1, t2, t1->QuantityValue - t2->QuantityValue));
-			}
-		}
-		else
-			Logger::Log<Error>()<<"Error: Calculate-> Not enough values in "<<GetName()<<std::endl;
-	}
+	static void Calculate()	{	}	
 	
-	
-	Counter()
-	{ 
-		Logger::Log<Info>()<<"Initialize Counter: "<<MeterType::Name<<"_"<<Config::Number<<std::endl; 
- 		//~ this->Read();
- 		//~ this->Calculate();
-	};
-	
+	Counter()	{ 	Logger::Log<Info>()<<"Initialize Counter: "<<MeterType::Name<<"_"<<Config::Number<<std::endl; 	};
 	~Counter()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 	Counter& operator=(const Counter&) = delete;
 	Counter(const Counter& c) = delete;
