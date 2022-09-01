@@ -195,6 +195,18 @@ private:
 	Counter(const Counter& c) = delete;
 };
 
+struct CurrentValue
+{ 
+	template<typename It>
+	decltype(auto) operator()(It begin, It end) { return **begin; }
+};
+
+struct Difference
+{ 
+	template<typename It>
+	decltype(auto) operator()(It begin, It end) { return **(begin) - **(begin + 1); }
+};
+
 template<typename C, typename S = T::char_<'\t'>>
 std::ostream& operator<<(std::ostream& strm, const Counter<C> c){	return c.Display(strm);}
 
