@@ -150,9 +150,9 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 };
 
 template<typename S, typename Server = LocalCommunity>
-struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, ApartmentArea>
+struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>
 { 
-	using Base = AncilliaryRentalCostItemBase<S, Sewage<S,Server>, ApartmentArea>; 
+	using Base = AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static const IBAN iban = Server::iban;
 	constexpr static const char* CauseString = "Abschlag/Abwasser"; 
@@ -178,8 +178,8 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, Apartmen
 				
 		Logger::Log()<<"Div"<<((stageWater/houseWater)*sum)<<std::endl;
 		auto b = GetStage<S,ApartmentArea>().GetQuantity();
-		//~ Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(stageWater,houseWater,sum)),year}});
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,sum)),year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(stageColdWater.Get(),stageHotWater.Get(),sum)),year}});
+		//~ Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,sum)),year}});
 
 	}
 };

@@ -91,6 +91,12 @@ public:
 	}
 };	
 
+class WaterCounter: public CSVValue<WaterCounter, Volume, double>
+{
+public:
+	WaterCounter(std::string s = "0"): CSVValue(s) {};
+};
+
 class Advance: public CSVValue<Advance, Sum>
 {
 public:
