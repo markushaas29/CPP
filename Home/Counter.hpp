@@ -92,7 +92,10 @@ public:
 		cont.insert(std::make_pair(Instance().GetFileName(),  &CounterType::Parse));
 		Logger::Log()<<cont.size()<<std::endl;
 	}
-	
+			
+	template<typename Op>
+	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
+		
 	static CIteratorReading ReadingsBegin() { return readings->cbegin(); }
 	static CIteratorReading ReadingsEnd() { return readings->cend(); }		
 private:

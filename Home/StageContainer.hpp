@@ -170,10 +170,10 @@ public:
 		CalcT<Type>::Instance();
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
+	
 	template<template<typename> class CalcT>
 	void Calculate(){	CalculateInternal<ContainerType,CalcT>();	}
-	
-	
+		
 	template<typename T, typename Op>
 	decltype(auto) GetCounterTotal(){	return GetCounterTotalInternal<T>(std::move(Op()));	}
 	

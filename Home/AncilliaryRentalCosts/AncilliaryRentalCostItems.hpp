@@ -164,21 +164,23 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, Apartmen
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account[year];
 		
-		auto acc = Base::TotalSum(transfers->cbegin(), transfers->cend());
-		auto cwb = S::ColdWaterCounter::Instance().ReadingsBegin();
-		auto hwb = S::HotWaterCounter::Instance().ReadingsBegin();
-		
-		Logger::Log()<<"WASSER"<<": "<<**hwb<<std::endl;
-		Logger::Log()<<"WASSER"<<": "<<**cwb<<std::endl;
-		Logger::Log()<<"WASSER"<<": "<<(**cwb + **hwb)<<std::endl;
-		
+		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
+		auto stageHotWater = S::HotWaterCounter::Instance().Get(Difference());
+				
 		auto a = StageContainerType::Instance().GetTotal<ApartmentArea>();
-		auto h = StageContainerType::Instance().GetCounterTotal<Hot,Difference>();
-		auto c = StageContainerType::Instance().GetCounterTotal<Cold,Difference>();
-		Logger::Log()<<"WASSER"<<": "<<Addition::Calculate(**cwb, **hwb)<<std::endl;
-		Logger::Log()<<"TOTAL"<<h<<"\nTOTALc"<<c<<std::endl;
+		
+		auto houseHotWater = StageContainerType::Instance().GetCounterTotal<Hot,Difference>();
+		auto houseColdWater = StageContainerType::Instance().GetCounterTotal<Cold,Difference>();
+		
+		auto stageWater = stageColdWater + stageHotWater;
+		auto houseWater = houseHotWater + houseColdWater;
+				
+		Logger::Log()<<"Div"<<((stageWater/houseWater)*sum)<<std::endl;
 		auto b = GetStage<S,ApartmentArea>().GetQuantity();
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
+		//~ Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(stageWater,houseWater,sum)),year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,sum)),year}});
+
 	}
 };
 
