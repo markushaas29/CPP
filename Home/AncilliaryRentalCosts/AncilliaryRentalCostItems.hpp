@@ -168,19 +168,14 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
 		auto stageHotWater = S::HotWaterCounter::Instance().Get(Difference());
 				
-		auto a = StageContainerType::Instance().GetTotal<ApartmentArea>();
-		
 		auto houseHotWater = StageContainerType::Instance().GetCounterTotal<Hot,Difference>();
 		auto houseColdWater = StageContainerType::Instance().GetCounterTotal<Cold,Difference>();
 		
 		auto stageWater = stageColdWater + stageHotWater;
 		auto houseWater = houseHotWater + houseColdWater;
-				
-		Logger::Log()<<"Div"<<((stageWater/houseWater)*sum)<<std::endl;
-		auto b = GetStage<S,ApartmentArea>().GetQuantity();
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(stageColdWater.Get(),stageHotWater.Get(),sum)),year}});
-		//~ Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,sum)),year}});
 
+		Logger::Log()<<"Div"<<QuantityRatio::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(stageWater.Get(),houseWater.Get(),sum)),year}});
 	}
 };
 
