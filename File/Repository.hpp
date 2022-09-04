@@ -37,7 +37,7 @@ namespace CSV
 	struct Repository
 	{
 		using InputIterator = std::vector<std::string>::const_iterator;
-		using FileTypes = Typelist<FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
+		using FileTypes = Typelist<FS::INPUT,FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
 		using ParseTypes = Typelist<InputManager<int>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;

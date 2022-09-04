@@ -149,6 +149,7 @@ namespace FS
 	struct CPP: public FileTypeBase<CPP>{};
 	struct HPP: public FileTypeBase<HPP>{};
 	struct H: public FileTypeBase<H>{};
+	struct INPUT: public FileTypeBase<INPUT>{};
 	
 	struct CSV: public FileTypeBase<CSV>
 	{
@@ -177,6 +178,7 @@ namespace FS
 	template<> const char* FileTypeBase<HPP>::Extension = ".hpp";
 	template<> const char* FileTypeBase<H>::Extension = ".h";
 	template<> const char* FileTypeBase<CSV>::Extension = ".csv";
+	template<> const char* FileTypeBase<INPUT>::Extension = ".input";
 }
 
 
