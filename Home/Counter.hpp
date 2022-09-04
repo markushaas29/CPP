@@ -9,6 +9,7 @@
 #include "../Unit/SIPrefix.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Calculator/CalculatorResult.hpp"
+#include "../InputManager/InputManager.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
 #include "Reading.hpp"
@@ -78,6 +79,8 @@ public:
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			readings->push_back(reading);
 		}
+		
+		InputManager<int>::Instance().Display(std::cout);
 	}
 	
 	static void Write(const std::string sourcePath = ".")
