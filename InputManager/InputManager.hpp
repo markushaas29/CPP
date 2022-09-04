@@ -21,6 +21,8 @@ public:
 	using ReadingContainerType = std::vector<std::string>;
 	using OutIterator = ReadingContainerType::const_iterator;
 	using InputIterator = std::vector<std::string>::const_iterator;
+	
+	inline static constexpr const char* Filename = "Input";
 
 	static InputManager& Instance()
 	{
@@ -56,7 +58,7 @@ public:
 	template<typename Cont>
 	static void RegisterTo(Cont& cont)
 	{
-		cont.insert(std::make_pair(Instance().GetFileName(),  &InputManagerType::Parse));
+		cont.insert(std::make_pair(Filename,  &InputManagerType::Parse));
 		Logger::Log()<<cont.size()<<std::endl;
 	}
 	
