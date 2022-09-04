@@ -42,12 +42,10 @@ public:
 	static void Parse(InputIterator begin, InputIterator end)
 	{
 		Instance();
-		//~ for(auto it = (begin + Header.size()); it != end; ++it)
-		//~ {
-			//~ auto v = csv->ExtractValues(*it);
-			//~ DataType reading = CreateReading(v.cbegin(), v.cend());
-			//~ readings->push_back(reading);
-		//~ }
+		for(auto it = begin; it != end; ++it)
+		{
+			Logger::Log()<<"InputManagerValue: "<<*it<<std::endl;
+		}
 	}
 	
 	static void Write(const std::string sourcePath = ".")
