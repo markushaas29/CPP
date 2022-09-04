@@ -5,6 +5,7 @@
 #include "../File/Info.hpp"
 #include "../File/Node.hpp"
 #include "../Unit/SIPrefix.hpp"
+#include "../Home/Counter.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include <map>
 #include <memory>
@@ -44,7 +45,7 @@ public:
 		Instance();
 		for(auto it = begin; it != end; ++it)
 		{
-			Logger::Log()<<"InputManagerValue: "<<*it<<std::endl;
+			Logger::Log()<<"InputManagerValue: "<<*it<<"\t"<<CE1::GetName()<<std::endl;
 		}
 	}
 	
