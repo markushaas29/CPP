@@ -41,6 +41,7 @@ public:
 	
 	static void Parse(InputIterator begin, InputIterator end)
 	{
+		Instance();
 		//~ for(auto it = (begin + Header.size()); it != end; ++it)
 		//~ {
 			//~ auto v = csv->ExtractValues(*it);
