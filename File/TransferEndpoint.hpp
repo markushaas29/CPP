@@ -101,8 +101,8 @@ namespace Bank
 		template<typename T>
 		decltype(auto) operator[](T t) { return transactions->FilterBy(t); 	}
 		
-		//~ template<typename... FilterTypes>
-		//~ decltype(auto) GetTransferOf(FilterTypes... filters) { return transactions->GetTransferOf(filters...); }
+		template<typename... FilterTypes>
+		decltype(auto) GetTransferOf(FilterTypes... filters) { return transactions->GetTransferOf(filters...); }
 				
 		template<typename T>
 		decltype(auto) All() const

@@ -163,6 +163,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account[year];
+		account.GetTransferOf(Entry(CauseString),year);
 		//~ auto transfers = account[Entry(CauseString)];
 		auto transfersInvoiceYear = account[year.Next()];
 		

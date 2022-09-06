@@ -45,7 +45,7 @@ public:
 		Instance();
 		for(auto it = begin; it != end; ++it)
 		{
-			Logger::Log()<<"InputManagerValue: "<<*it<<"\t"<<CE1::GetName()<<std::endl;
+			//~ Logger::Log()<<"InputManagerValue: "<<*it<<"\t"<<CE1::GetName()<<std::endl;
 		}
 	}
 	

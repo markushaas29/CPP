@@ -30,12 +30,31 @@ namespace Bank
 
 		TransferContainer(): transactions{std::make_unique<ContainerType>()}{}
 		
-// 		Type operator[](std::string s) { return Type(ContainerType(this->Begin()+1, this->End()-1)); }
+		template <typename... FilterTypes>
+		decltype(auto) GetTransferOf(FilterTypes... filters){ return this->getTransferOf(std::make_unique<ContainerType>(), filters...);		}
+		
+		//~ template<typename FilterT>
+		//~ TypePtr operator[](FilterT t) 
+		//~ { 
+			//~ auto r = this->filterBy(std::make_unique<ContainerType>(), t); 
+			//~ return r; 
+		//~ }
+		
+		template<typename FilterType>
+		decltype(auto) FilterBy(FilterType t) { return this->filterBy(std::make_unique<ContainerType>(), t); }
+		
+		const Iterator Begin() const { return this->transactions->cbegin(); }
+		const Iterator End() const { return this->transactions->cend(); }
+		const size_t Size() const { return this->transactions->size(); }
+		void Add(T t){ this->transactions->push_back(t); }
+		
+	private:
+		ContainerPtr transactions;
+		TransferContainer(ContainerPtr c): transactions(c){ }
 
 		template<typename FilterType>
-		decltype(auto) FilterBy(FilterType t) 
+		decltype(auto) filterBy(ContainerPtr result, FilterType t) 
 		{ 
-			auto result = std::make_unique<ContainerType>();
 			if constexpr (std::is_same<FilterType,DateTimes::Year>::value)
 				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
 			else if constexpr (std::is_same<FilterType,Entry>::value)
@@ -46,34 +65,15 @@ namespace Bank
 			return result; 
 		}
 		
-		//~ decltype(auto) GetTransferOf()
-		//~ {			
-			//~ return 0;
-		//~ }
+		decltype(auto) getTransferOf(ContainerPtr ptr){	return ptr; } 
 
-		//~ template <typename FilterT, typename... FilterTypes>
-		//~ decltype(auto) GetTransferOf(FilterT var1, FilterTypes... var2)
-		//~ {
-			//~ return GetTransferOf(var2...);
-		//~ }
-		
-		template<typename KeyT>
-		TypePtr operator[](KeyT t) 
-		{ 
-			auto result = std::make_shared<Type>();
-			std::for_each(this->Begin(), this->End(),[&](auto i){ if(*i == t) result->Add(i);});
-			
-			return result;  
+		template <typename FilterT, typename... FilterTypes>
+		decltype(auto) getTransferOf(ContainerPtr ptr, FilterT filter, FilterTypes... filters)
+		{
+			Logger::Log()<<"GetTransferOf.."<<std::endl;
+			return GetTransferOf(filters...);
 		}
 		
-		const Iterator Begin() const { return this->transactions->cbegin(); }
-		const Iterator End() const { return this->transactions->cend(); }
-		const size_t Size() const { return this->transactions->size(); }
-		void Add(T t){ this->transactions->push_back(t); }
-		
-	private:
-		ContainerPtr transactions;
-		TransferContainer(ContainerPtr c): transactions(c){ }
 	};
 }
 
