@@ -162,8 +162,8 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	static void Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		//~ auto transfers = account[year];
-		auto transfers = account[Entry(CauseString)];
+		auto transfers = account[year];
+		//~ auto transfers = account[Entry(CauseString)];
 		auto transfersInvoiceYear = account[year.Next()];
 		
 		auto cause = std::string(CauseString);

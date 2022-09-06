@@ -31,6 +31,31 @@ namespace Bank
 		TransferContainer(): transactions{std::make_unique<ContainerType>()}{}
 		
 // 		Type operator[](std::string s) { return Type(ContainerType(this->Begin()+1, this->End()-1)); }
+
+		template<typename FilterType>
+		decltype(auto) FilterBy(FilterType t) 
+		{ 
+			auto result = std::make_unique<ContainerType>();
+			if constexpr (std::is_same<FilterType,DateTimes::Year>::value)
+				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
+			else if constexpr (std::is_same<FilterType,Entry>::value)
+				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value, t.Value); });
+			else
+				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
+				
+			return result; 
+		}
+		
+		//~ decltype(auto) GetTransferOf()
+		//~ {			
+			//~ return 0;
+		//~ }
+
+		//~ template <typename FilterT, typename... FilterTypes>
+		//~ decltype(auto) GetTransferOf(FilterT var1, FilterTypes... var2)
+		//~ {
+			//~ return GetTransferOf(var2...);
+		//~ }
 		
 		template<typename KeyT>
 		TypePtr operator[](KeyT t) 
@@ -50,32 +75,6 @@ namespace Bank
 		ContainerPtr transactions;
 		TransferContainer(ContainerPtr c): transactions(c){ }
 	};
-	
-	//~ template<typename ItemT, typename AccountT>
-	//~ const ItemT& GetAll(TransferContainer<AccountT> const& tc)
-	//~ {
-			//~ auto result = std::vector<T>();
-						
-			//~ std::for_each(tc->Begin(),tc->End(), [&result](const auto& c) 
-			//~ { 
-				//~ auto current = Bank::Get<T>(*c);
-				
-				//~ bool found = false;
-				//~ if(result.size() > 0)
-				//~ {
-					//~ for(const auto& t : result)
-					//~ {
-						//~ if(!found && DateTimes::Get<DateTimes::Year>(t) == DateTimes::Get<DateTimes::Year>(current))
-							//~ found = true;
-					//~ }
-				//~ }			
-						
-				//~ if(!found || result.size() == 0)
-					//~ result.push_back(current);
-			//~ });
-
-			//~ return result;
-	//~ };
 }
 
 

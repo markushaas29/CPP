@@ -99,18 +99,10 @@ namespace Bank
 		}
 		
 		template<typename T>
-		decltype(auto) operator[](T t) 
-		{ 
-			auto result = std::make_unique<ResultContainer>();
-			if constexpr (std::is_same<T,DateTimes::Year>::value)
-				std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(*result), [&t](auto it) { return Bank::GetTransfer<DateTimes::Date>(*it) == t; });
-			else if constexpr (std::is_same<T,Entry>::value)
-				std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(*result), [&t](auto it) { return String_::Contains(Bank::GetTransfer<Entry>(*it).Value, t.Value); });
-			else
-				std::copy_if(this->transactions->Begin(), this->transactions->End(), std::back_inserter(*result), [&t](auto it) { return Bank::GetTransfer<T>(*it) == t; });
-			
-			return result; 
-		}
+		decltype(auto) operator[](T t) { return transactions->FilterBy(t); 	}
+		
+		//~ template<typename... FilterTypes>
+		//~ decltype(auto) GetTransferOf(FilterTypes... filters) { return transactions->GetTransferOf(filters...); }
 				
 		template<typename T>
 		decltype(auto) All() const
