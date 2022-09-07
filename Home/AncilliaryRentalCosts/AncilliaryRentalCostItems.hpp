@@ -163,17 +163,11 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account[year];
-		account.GetTransferOf(Entry(CauseString),year);
-		//~ auto transfers = account[Entry(CauseString)];
-		auto transfersInvoiceYear = account[year.Next()];
+		auto transfersInvoiceYear = account.GetTransferOf(Entry(InvoiceString),year.Next());
 		
 		auto cause = std::string(CauseString);
 		auto invoice = std::string(InvoiceString);
-		//~ auto causeEnd = std::remove_if(transfers->begin(), transfers->end(), [&](const auto tr) { return !String_::Contains(Bank::GetTransfer<Entry>(*tr).Value, cause); });
-		//~ transfers->erase(std::remove_if(transfers->begin(), transfers->end(), [&](const auto tr) { return !String_::Contains(Bank::GetTransfer<Entry>(*tr).Value, cause); }));
-		//~ std::for_each(transfers->begin(), transfers->end(), [&](const auto tr) { if(!String_::Contains(Bank::GetTransfer<Entry>(*tr).Value, cause)) Logger::Log()<<cause<<" :\n"<<*tr<<std::endl; } );
-		//~ std::for_each(transfers->begin(), transfers->end(), [&](const auto tr) { if(String_::Contains(Bank::GetTransfer<Entry>(*tr).Value, invoice)) Logger::Log()<<invoice<<" :\n"<<*tr<<std::endl; } );
-		Logger::Log()<<"SIZE"<<transfers->size()<<std::endl;
+		Logger::Log()<<" SIZE: "<<(**(transfersInvoiceYear->cbegin()))<<std::endl;
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
 		auto stageHotWater = S::HotWaterCounter::Instance().Get(Difference());

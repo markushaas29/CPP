@@ -36,14 +36,7 @@ namespace Bank
 			auto result = this->getTransferOf(ContainerType(this->transactions->cbegin(), this->transactions->cend()), filters...);		
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
-		
-		//~ template<typename FilterT>
-		//~ TypePtr operator[](FilterT t) 
-		//~ { 
-			//~ auto r = this->filterBy(std::make_unique<ContainerType>(), t); 
-			//~ return r; 
-		//~ }
-		
+
 		template<typename FilterType>
 		decltype(auto) FilterBy(FilterType t) 
 		{ 
@@ -79,7 +72,6 @@ namespace Bank
 		template <typename FilterT, typename... FilterTypes>
 		ContainerType getTransferOf(ContainerType&& cont, FilterT filter, FilterTypes... filters)
 		{
-			Logger::Log()<<"GetTransferOf: "<<std::endl;
 			ContainerType result = this->filterBy(std::move(cont), filter);
 			return getTransferOf(std::move(result),filters...);
 		}
