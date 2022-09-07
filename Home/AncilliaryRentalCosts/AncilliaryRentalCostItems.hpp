@@ -146,7 +146,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static const IBAN iban = Server::iban;
 	constexpr static const char* Name = "PropertyTax"; 
-	constexpr static const char* CauseString = "Grundsteuer"; 
+	constexpr static const char* Cause = "Grundsteuer"; 
 };
 
 template<typename S, typename Server = LocalCommunity>
@@ -155,19 +155,18 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	using Base = AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static const IBAN iban = Server::iban;
-	constexpr static const char* CauseString = "Abschlag/Abwasser"; 
+	constexpr static const char* Cause = "Abschlag/Abwasser"; 
 	constexpr static const char* Name = "Sewage"; 
-	constexpr static const char* InvoiceString = "Rechnung/Abwasser"; 
+	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
 	
 	static void Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account[year];
-		auto transfersInvoiceYear = account.GetTransferOf(Entry(InvoiceString),year.Next());
+		auto transfers = account.GetTransferOf(Entry(Cause),year);
+		auto invoiceTransfer = account.GetTransferOf(Entry(Invoice),year.Next());
 		
-		auto cause = std::string(CauseString);
-		auto invoice = std::string(InvoiceString);
-		Logger::Log()<<" SIZE: "<<(**(transfersInvoiceYear->cbegin()))<<std::endl;
+		transfers->insert(transfers->end(), invoiceTransfer->begin(), invoiceTransfer->end());
+
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
 		auto stageHotWater = S::HotWaterCounter::Instance().Get(Difference());
