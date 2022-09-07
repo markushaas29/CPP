@@ -41,7 +41,12 @@ namespace Bank
 		//~ }
 		
 		template<typename FilterType>
-		decltype(auto) FilterBy(FilterType t) { return this->filterBy(std::make_unique<ContainerType>(), t); }
+		decltype(auto) FilterBy(FilterType t) 
+		{ 
+			auto container = ContainerType(this->transactions->cbegin(), this->transactions->cend());
+			auto result = this->filterBy(ContainerType(this->transactions->cbegin(), this->transactions->cend()), t); 
+			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
+		}
 		
 		const Iterator Begin() const { return this->transactions->cbegin(); }
 		const Iterator End() const { return this->transactions->cend(); }
@@ -53,14 +58,15 @@ namespace Bank
 		TransferContainer(ContainerPtr c): transactions(c){ }
 
 		template<typename FilterType>
-		decltype(auto) filterBy(ContainerPtr result, FilterType t) 
+		decltype(auto) filterBy(ContainerType&& cont, FilterType t) 
 		{ 
+			auto result = ContainerType();
 			if constexpr (std::is_same<FilterType,DateTimes::Year>::value)
-				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
+				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
 			else if constexpr (std::is_same<FilterType,Entry>::value)
-				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value, t.Value); });
+				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value, t.Value); });
 			else
-				std::copy_if(transactions->begin(), transactions->end(), std::back_inserter(*result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
+				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
 				
 			return result; 
 		}
