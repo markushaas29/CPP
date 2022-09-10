@@ -45,7 +45,9 @@ public:
 		Instance();
 		for(auto it = begin; it != end; ++it)
 		{
-			//~ Logger::Log()<<"InputManagerValue: "<<*it<<"\t"<<CE1::GetName()<<std::endl;
+			auto vals = String_::Split<T::char_<':'>>(*it);
+			for(auto v : vals)
+				Logger::Log()<<"InputManagerValue: "<<v<<std::endl;
 		}
 	}
 	
@@ -74,7 +76,7 @@ private:
 	//~ inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
 	
 	InputManager()	{ 	Logger::Log<Info>()<<"InputManager initialized "<<std::endl; 	};
-	~InputManager()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+	~InputManager()	{ }
 	InputManager& operator=(const InputManager&) = delete;
 	InputManager(const InputManager& c) = delete;
 };

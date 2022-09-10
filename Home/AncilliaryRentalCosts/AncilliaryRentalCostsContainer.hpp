@@ -23,9 +23,6 @@ public:
 	using Items = CalculationItems<S>;
 	template<typename T>
 	using ValueType = std::shared_ptr<T>;
-	//~ using Item = UtilitiesStatementItem;
-	//~ using ItemsType = std::map<std::string, ValueType<Item>>;
-	//~ using StatetementsType = std::map<DateTimes::Year, ValueType<Type>>;
 	
 	static AncilliaryRentalCostsContainer& Instance()
 	{
@@ -42,7 +39,6 @@ private:
 		fs = this->Calculate(std::move(fs),*items);
 		fs->close();
 	}	
-	
 	
 	~AncilliaryRentalCostsContainer()	{  }
 	template <size_t I = 0, typename... Ts>
@@ -62,13 +58,7 @@ private:
 	}
 	
 	std::ostream& Display(std::ostream& os) {	return os;	}
-	
-	
-	//~ ValueType<ItemsType> items;
-	//~ inline static ValueType<StatetementsType> statements = std::make_shared<StatetementsType>(); 
-	
 	YearType year;
-	
 };
 
 //~ template<typename C, typename S = T::char_<'\t'>>
