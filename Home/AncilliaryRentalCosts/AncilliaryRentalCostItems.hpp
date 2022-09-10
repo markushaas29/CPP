@@ -105,17 +105,27 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	constexpr static const char* Identifier = "Erdgas Suedwest GmbH / EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierEnergy = "EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierGas = "Erdgas Suedwest GmbH"; 
+	constexpr static const char* Invoice = "Rechnung"; 
+	constexpr static const char* AdvancePayment = "Abschlag"; 
 	inline static const IBAN ibanGas{"DE68600501010002057075"};	
 	inline static const IBAN ibanEnergy{"DE56600501017402051588"};	
 	
 	static void Calculate(const DateTimes::Year& year)
 	{
+		auto invoiceEntry = Entry(Invoice);
+		auto paymentEntry = Entry(AdvancePayment);
+		
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
-		auto transfers = accGas[year];
+		auto transfers = accGas.GetTransferOf(paymentEntry,year);
+		auto invoiceTransferGas = accGas.GetTransferOf(invoiceEntry,year.Next());
+		
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		auto transfersEnergy = accEnergy[year];
+		auto transfersEnergy = accEnergy.GetTransferOf(paymentEntry,year);
+		auto invoiceTransferEnergy = accEnergy.GetTransferOf(invoiceEntry,year.Next());
 		
 		transfers->insert(transfers->end(), transfersEnergy->begin(), transfersEnergy->end());
+		transfers->insert(transfers->end(), invoiceTransferGas->begin(), invoiceTransferGas->end());
+		transfers->insert(transfers->end(), invoiceTransferEnergy->begin(), invoiceTransferEnergy->end());
 		
 		auto acc = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
