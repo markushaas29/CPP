@@ -44,11 +44,10 @@ private:
 	}	
 	
 	
-	~AncilliaryRentalCostsContainer()	{ Logger::Log()<<"Destructor"<<std::endl; }
+	~AncilliaryRentalCostsContainer()	{  }
 	template <size_t I = 0, typename... Ts>
 	constexpr std::unique_ptr<std::ofstream> Calculate(std::unique_ptr<std::ofstream> fs, std::tuple<Ts...> tup) 
 	{
-		Logger::Log()<<"US: "<<StageT::Number<<std::endl;
 		if constexpr(I == sizeof...(Ts))    
 			return fs;
 		else 

@@ -84,16 +84,11 @@ private:
 	inline static YearDataMapPtrType yearData = YearDataMapPtrType(new YearDataMapType()); 
 	ApartmentQuantitiesType quantities;
 	
-	Stage(){ Logger::Log()<<"CTOR: "<<Number<<std::endl;}
+	Stage(){ }
 	Stage(const StageMap& m): 
-		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),Configuration::Heating,Configuration::BuildingCleaning,m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key))
-	{ 
-// 		for(auto kv : m)
-// 			Logger::Log()<<kv.first<<": "<<kv.second<<std::endl;
-// 		Logger::Log()<<"CTOR MAP: "<<Number<<std::endl;
-	}
+		quantities(Configuration::Area,Configuration::Rooms,Configuration::Units,m.at(Persons::Key),Configuration::Heating,Configuration::BuildingCleaning,m.at(Advance::Key),m.at(MonthlyRent::Key),m.at(IncidentalHeatingCosts::Key),m.at(GarageRental::Key)){ 	}
 	
-	~Stage()	{ Logger::Log()<<"Destructor"<<std::endl; }
+	~Stage()	{  }
 	Stage& operator=(const Stage&) = delete;
 	Stage(const Stage& c) = delete;
 };

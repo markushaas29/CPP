@@ -105,15 +105,8 @@ private:
 			for(auto jt = ++(it->cbegin()); jt != it->cend(); ++jt, ++j)
 				stage.insert(std::pair<std::string,std::string>(*(keysIt+j), *jt));
 			
-			for(auto kv : stage)
-				Logger::Log()<<kv.first<<": "<<kv.second<<std::endl;
-			
 			stages->insert(std::pair<std::string,StageMap>(*(it->cbegin()), stage));
-		}
-		
-		for(auto kv : *stages)
-			Logger::Log()<<kv.first<<std::endl;
-		Logger::Log()<<"END: Extract "<<std::endl;
+		}		
 	}
 	
 	void Read(const std::string sourcePath = ".")

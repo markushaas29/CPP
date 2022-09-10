@@ -31,11 +31,6 @@ struct HouseConfiguration
 	inline static constexpr const char* CsvRepo = "/home/markus/Downloads/CSV_Files";
 };
 
-//~ template<typename>	class House;
-	
-//~ template<typename T, typename C>
-//~ const ItemT& GetTransfer(Transfer<Account,TupleT>const& t){		return std::get<ItemT>(t.transferItems);	};
-
 template<typename ConfigT = HouseConfiguration>
 class House
 {

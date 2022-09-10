@@ -90,11 +90,7 @@ public:
 	}
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont)
-	{
-		cont.insert(std::make_pair(Instance().GetFileName(),  &CounterType::Parse));
-		Logger::Log()<<cont.size()<<std::endl;
-	}
+	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  &CounterType::Parse));	}
 			
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
