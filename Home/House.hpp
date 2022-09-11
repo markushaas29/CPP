@@ -63,42 +63,20 @@ private:
 	
 		auto outFile = std::ofstream("out.txt");
 		auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
-		auto keyFileN = std::string("//home//markus//Downloads//Keys.txt");
-		auto keys = FileSystem::ReadLines(keyFileN);
 		
 		StageContainerType::Instance().Display(std::cout);
 		StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
-		//~ CounterContainerType::Instance().Display(std::cout);
 	}
 	
 	template<typename T>
 	decltype(auto) Get(){	return StageContainerType::Instance().GetTotal<T>();	};
-	
-	//~ template <size_t I = 0, typename... Ts>
-	//~ constexpr std::tuple<Ts...> SumStageQuantities(std::tuple<Ts...>& t1)
-	//~ {
-	    //~ if constexpr(I == sizeof...(Ts))
-			//~ return t1;
-	    //~ else {
-			//~ using TR = decltype(std::get<I>(quantities));
-			//~ using T = std::remove_reference<TR>::type;
-			//~ auto tq = T(StageContainerType::Instance().GetTotal<T>());
-			
-			//~ std::get<I>(quantities) = tq;
-			
-	        //~ return SumStageQuantities<I + 1>(t1);
-	    //~ }
-	//~ }
-	
+
 	~House()	{ Logger::Log()<<"Destructor"<<std::endl; }
 	House& operator=(const House&) = delete;
 	House(const House& c) = delete;
 };
 
 template<typename C, typename S = T::char_<'\t'>>
-std::ostream& operator<<(std::ostream& strm, const House<C>& c)
-{
-	return c.Display(strm);
-}
+std::ostream& operator<<(std::ostream& strm, const House<C>& c){	return c.Display(strm); }
 
 #endif

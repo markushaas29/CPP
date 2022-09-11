@@ -65,21 +65,15 @@ namespace CSV
 			{
 				for(uint i = 0; i < values.size(); ++i)
 				{
-					//~ if(String_::Contains(values.at(i), "BIC"))
-					//~ {
-						//~ Logger::Log<Error>()<<"BIC: "<<values.at(i)<<" "<<values.at(i).size()<<std::endl;
-						//~ Logger::Log<Error>()<<"BIC: "<<*(this->key.Patterns()->cbegin())<<" "<<this->key.Patterns()->cbegin()->size()<<std::endl;
-					//~ }
 					if(this->Is(values.at(i)))
                     {
 						this->setIndexValue(i);
 						this->key.setCurrent(values.at(i));
+						Logger::Log<Info>("Value: ",values.at(i), " at ", i);
                         return true;
                     }
                 }
                  
-                Logger::Log<Error>()<<"No values found: "<<std::endl;
-                Logger::Log(this->key.Patterns()->cbegin(),this->key.Patterns()->cend());
                 return false;
 			}
 			

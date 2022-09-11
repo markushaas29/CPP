@@ -94,7 +94,6 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 		template<typename T, typename Cont = T::KeyIndexContainerType::ContainerType>
 		auto Create(const std::string sourcePath, Cont ret)
 		{
-			Logger::Log()<<"CREATE: "<<Type::Identifier<<"_"<<Index<<std::endl;
 			ret->push_back(typename T::KeyIndexContainerType::KeyIndexType(Type::Identifier));
 			return ret;		
 		}
@@ -110,15 +109,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 		}	
 };
 
-//~ template<typename Head, typename... Tail>
 template<typename KeyIndexContainerType, typename Tuple, uint Idx>
-std::ostream& operator<<(std::ostream& strm, const TransferItemContainer<KeyIndexContainerType,Tuple, Idx> c)
-{
-	return c.Display(strm);
-}
-
-
-//Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben
-//~ using TransferItemContainerType = TransferItemContainer<Typelist<IBAN,BIC,DateTimes::Date,IBAN, Quantity<Sum>, Bank::Transfer<Bank::In>, Bank::Transfer<Bank::Out>>>::ContainerType;
+std::ostream& operator<<(std::ostream& strm, const TransferItemContainer<KeyIndexContainerType,Tuple, Idx> c){	return c.Display(strm);}
 
 #endif

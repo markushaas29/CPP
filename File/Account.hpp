@@ -80,7 +80,6 @@ namespace Bank
 					 			Logger::Log<Error>()<<Derived::Name<<": Not enough values to create a transfer in line"<<*it<<std::endl;
 					 			continue;
 							}
-							//~ Logger::Log(values.cbegin(),values.cend());
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
 							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value, tt);
 						}
@@ -88,10 +87,6 @@ namespace Bank
 						Derived::cont.Display(std::cout);
 						
 						return;
-					}
-					else
-					{
-			 			Logger::Log<Error>()<<Derived::Name<<": KeyLine not found"<<std::endl;
 					}
 				}
 			}
@@ -119,10 +114,11 @@ namespace Bank
 					auto keyItem = *values.cbegin();
 					auto keys = String_::Split<T::char_<';'>>(String_::Remove<String_::CR>(*(values.cbegin()+1)));
 					
-		 			if(keys.cbegin() == keys.cend())
-			 			Logger::Log<Error>()<<Derived::Name<<" ReadKeyPatterns: No keys found for item"<<keyItem<<std::endl;
-					else
+		 			if(keys.cbegin() != keys.cend())
+		 			{
+			 			Logger::Log<Info>()<<Derived::Name<<" ReadKeyPatterns: Key found for item: "<<keyItem<<std::endl;
 						keyIndices->UpdateKeyPatterns(Key(keyItem), keys);
+					}
 				}
 				catch(std::exception e)
 				{

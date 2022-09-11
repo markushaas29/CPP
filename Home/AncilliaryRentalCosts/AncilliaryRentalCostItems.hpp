@@ -68,7 +68,7 @@ protected:
 		if(specifiedtransfers->begin() != specifiedtransfers->end())
 			transfers->insert(transfers->end(), specifiedtransfers->begin(), specifiedtransfers->end());
 		else
-			Logger::Log()<<"Error"<<std::endl;
+			Logger::Log<Info>("No Transfers found for categories: ", categories...);
 	}
 		
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
