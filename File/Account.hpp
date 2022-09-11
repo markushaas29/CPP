@@ -84,7 +84,7 @@ namespace Bank
 							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value, tt);
 						}
 						
-						Derived::cont.Display(std::cout);
+						//~ Derived::cont.Display(std::cout);
 						
 						return;
 					}

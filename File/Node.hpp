@@ -28,10 +28,7 @@ namespace FS
 		std::ifstream ifs (path);
 		if (ifs.is_open())
 		{
-			while ( getline (ifs,line) )
-			{
-				result.push_back(line);
-			}
+			while ( getline (ifs,line) ){	result.push_back(line);		}
 			ifs.close();
 		}
 		
@@ -87,10 +84,7 @@ namespace FS
 	
 	//---------------------------------------------------------------------------------------------------Directory----------------------------------------------------------------------------------------
 
-	struct Directory: Node<Directory, DirectoryInfo>
-	{	
-		Directory(DirectoryInfo * di): Node(di){};
-	};
+	struct Directory: Node<Directory, DirectoryInfo>{	Directory(DirectoryInfo * di): Node(di){};	};
 	
 	//---------------------------------------------------------------------------------------------------File----------------------------------------------------------------------------------------
 
@@ -98,7 +92,6 @@ namespace FS
 	{
 		
 		File(FileInfo* fi): Node(fi){};
-
 		void CopyTo(std::string destinationName) const 
 		{ 
 			auto srcName = fs::path(this->info.Path()).parent_path().string() +"/"+ this->info.Name();
@@ -106,15 +99,8 @@ namespace FS
 		};
 	
 		
-		std::vector<std::string> Read() const
-		{
-			return FS::ReadLines(this->info.Path());
-		};
-		
-		void Write(std::vector<std::string> lines)
-		{
-			
-		};
+		std::vector<std::string> Read() const {	return FS::ReadLines(this->info.Path());};
+		void Write(std::vector<std::string> lines)	{	};
 		
 		template<typename ParseType, typename ParseTypeContainer = ParseType::ParseCont>
 		ParseTypeContainer Parse() const
@@ -138,10 +124,7 @@ namespace FS
 		static const char* Extension;		
 		
 		template<typename Separator = T::char_<';'>>
-		static std::vector<std::string> ExtractValues(std::string line)
-		{
-			return String_::Split<Separator>(line);
-		};
+		static std::vector<std::string> ExtractValues(std::string line)	{		return String_::Split<Separator>(line);	};
 	};
 	
 	struct CTRV: public FileTypeBase<CTRV>{};
@@ -157,12 +140,9 @@ namespace FS
 
 		template<typename Ctr, typename Separator = T::char_<';'>>
 		void Write()
-// 		void Write(const Ctr& counter)
 		{
-			std::unique_ptr<std::ofstream> ofs = std::unique_ptr<std::ofstream>(new std::ofstream(destinationPath)); 
-			
+			auto ofs = std::unique_ptr<std::ofstream>(new std::ofstream(destinationPath)); 
 			Ctr::template Display<Separator>(*ofs);
-			
 			ofs->close();
 		}
 		

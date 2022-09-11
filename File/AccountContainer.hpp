@@ -86,9 +86,7 @@ namespace Bank
 		std::ostream& DisplayKeys(std::ostream& out) const
 		{
 			for(auto p : this->transfers)
-			{
 				out<<p.first<<std::endl;				
-			}
 			
 			return out;
 		}		

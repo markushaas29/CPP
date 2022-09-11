@@ -54,10 +54,7 @@ namespace FS
 		
 	};
 	
-	std::ostream& operator<<(std::ostream& out, const Code& c)
-	{
-		return out<<c.LineNumber()<<"\t"<<c.Line();
-	}
+	std::ostream& operator<<(std::ostream& out, const Code& c)	{ return out<<c.LineNumber()<<"\t"<<c.Line();	}
 
 }
 #endif
