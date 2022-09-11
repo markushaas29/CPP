@@ -58,7 +58,19 @@ struct AncilliaryRentalCostItemBase
 		os<<results->cbegin()->first<<" Result "<<std::endl;
 		return os;
 	}
+	
 protected:
+	template <typename Acc, typename T, typename... Categories>
+	static decltype(auto) InsertSpecifiedTransfers(const Acc& account, std::unique_ptr<T>& transfers, Categories... categories)
+	{ 
+		auto specifiedtransfers = account.GetTransferOf(categories...);
+		
+		if(specifiedtransfers->begin() != specifiedtransfers->end())
+			transfers->insert(transfers->end(), specifiedtransfers->begin(), specifiedtransfers->end());
+		else
+			Logger::Log()<<"Error"<<std::endl;
+	}
+		
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 	
 	template<typename It>
@@ -117,15 +129,11 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
 		auto transfers = accGas.GetTransferOf(paymentEntry,year);
-		auto invoiceTransferGas = accGas.GetTransferOf(invoiceEntry,year.Next());
+		Base::InsertSpecifiedTransfers(accGas, transfers, invoiceEntry,year.Next());
 		
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		auto transfersEnergy = accEnergy.GetTransferOf(paymentEntry,year);
-		auto invoiceTransferEnergy = accEnergy.GetTransferOf(invoiceEntry,year.Next());
-		
-		transfers->insert(transfers->end(), transfersEnergy->begin(), transfersEnergy->end());
-		transfers->insert(transfers->end(), invoiceTransferGas->begin(), invoiceTransferGas->end());
-		transfers->insert(transfers->end(), invoiceTransferEnergy->begin(), invoiceTransferEnergy->end());
+		Base::InsertSpecifiedTransfers(accEnergy, transfers, paymentEntry,year.Next());
+		Base::InsertSpecifiedTransfers(accEnergy, transfers, invoiceEntry,year.Next());
 		
 		auto acc = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
@@ -172,10 +180,8 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	static void Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account.GetTransferOf(Entry(Cause),year);
-		auto invoiceTransfer = account.GetTransferOf(Entry(Invoice),year.Next());
-		
-		transfers->insert(transfers->end(), invoiceTransfer->begin(), invoiceTransfer->end());
+		auto transfers = account.GetTransferOf(Entry(Cause),year);		
+		Base::InsertSpecifiedTransfers(account, transfers, Entry(Invoice),year.Next());
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
