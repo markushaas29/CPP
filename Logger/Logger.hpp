@@ -69,14 +69,10 @@ class Logger
         }
         Logger(const Logger&) = delete;
         void operator=(const Logger&) = delete;
-        
         virtual ~Logger(){ this->file.close();  };
         
         template<typename T>
-        static std::ostream& log(std::ostream& os,T t)
-        {
-			return os<<" "<<t<<std::endl;
-        };
+        static std::ostream& log(std::ostream& os,T t) {	return os<<" "<<t<<std::endl;   };
         
         template<typename T, typename ...Ts>
         static std::ostream& log(std::ostream& os,T t, Ts ...ts)
@@ -104,8 +100,8 @@ class Logger
         template<class LogPolicy = Debug, typename ...Vals>
         static std::ostream& Log(Vals ...vals)
         {
-			if constexpr (std::is_same<Debug,LogPolicy>::value)
-				return log(LogPolicy::Log(Logger::Instance().file),vals...);
+			if constexpr (std::is_same<Info,LogPolicy>::value)
+				log(LogPolicy::Log(Logger::Instance().file),vals...);
 
 			return log(LogPolicy::Log(Logger::Instance().out),vals...);
         };
@@ -113,8 +109,6 @@ class Logger
         template<char C, class LogPolicy = Debug, typename ...Vals>
         static std::ostream& Log(Vals ...vals)
         {
-			T::char_<C> TC;
-			std::cout<<C<<std::endl;
 			if constexpr (std::is_same<Debug,LogPolicy>::value)
 				return log(LogPolicy::Log(Logger::Instance().file),vals...);
 
@@ -141,9 +135,6 @@ class Logger
 #endif
 
 template<typename T>
-struct DebugDeleter 
-{
-  void operator()(T* t)  {	/*Logger::Log()<<"Pointer deleted."<<std::endl;*/ }
-};
+struct DebugDeleter {  void operator()(T* t)  {	/*Logger::Log()<<"Pointer deleted."<<std::endl;*/ } };
 
 #endif
