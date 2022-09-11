@@ -76,9 +76,7 @@ namespace FS
 		void List()
 		{
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{				
 				Logger::Log()<<it->Info()<<std::endl;
-			}			
 		}
 		
 		std::vector<std::string> Read(std::string name)
@@ -103,7 +101,6 @@ namespace FS
 		{
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
-				Logger::Log()<<it->Info().Name()<<"\t"<<name<<std::endl;
 				if(it->Info().Name() == name)
 					return it->template Parse<ParseType>();
 			}
@@ -112,16 +109,8 @@ namespace FS
 		}
 		
 		template<typename Cont>
-		void RegisterTo(Cont& cont)
-		{
-			Head::RegisterTo(cont);
-		}
-		
-		void Display(std::ostream& os)
-		{
-			Head::Display(os);
-		}
-		
+		void RegisterTo(Cont& cont)	{	Head::RegisterTo(cont);	}
+		void Display(std::ostream& os)	{	Head::Display(os);	}
 		FileTypeContainer()	{ }
 	};
 	
@@ -134,13 +123,9 @@ namespace FS
 		void Add(FileInfo* fi)
 		{
 			if(strcmp(Type::Extension, fi->Extension()) == 0)
-			{
 				Head::Add(fi); 
-			}
 			else
-			{
 				FileTypeContainer<Typelist<Tail...>>::Add(fi);
-			}				
 		}
 		
 		void CopyTo(std::string dest)
@@ -158,16 +143,13 @@ namespace FS
 		void List()
 		{
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{				
 				Logger::Log()<<it->Info()<<std::endl;
-			}
 			
 			FileTypeContainer<Typelist<Tail...>>::List();
 		}
 		
 		std::vector<std::string> Read(std::string name)
 		{
-			Logger::Log()<<Head::Extension<<std::endl;
 			std::vector<std::string> r, result;
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
@@ -199,14 +181,12 @@ namespace FS
 		void RegisterTo(Cont& cont)
 		{
 			Head::RegisterTo(cont);
-			
 			FileTypeContainer<Typelist<Tail...>>::RegisterTo(cont);
 		}
 		
 		void Display(std::ostream& os)
 		{
 			Head::Display(os);
-			
 			FileTypeContainer<Typelist<Tail...>>::Display(os);
 		}
 		
