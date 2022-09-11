@@ -102,7 +102,10 @@ namespace FS
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
 				if(it->Info().Name() == name)
+				{
+					Logger::Log<Info>("Parsing: ", name);
 					return it->template Parse<ParseType>();
+				}
 			}
 			
 			return typename ParseType::ParseCont();
@@ -171,7 +174,10 @@ namespace FS
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
 				if(it->Info().Name() == name)
+				{
+					Logger::Log<Info>("Parsing: ", name);
 					return it->template Parse<ParseType>();
+				}
 			}
 			
 			return FileTypeContainer<Typelist<Tail...>>::template Parse<ParseType>(name);

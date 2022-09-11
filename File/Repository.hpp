@@ -49,10 +49,7 @@ namespace CSV
 		static void Map(const Iterator& begin, const Iterator& end)
 		{
 			for(Iterator it = begin; it != end; ++it)
-			{
 				(*it)->Accept(treeParser);
-			}
-			
 		}
 		
 		static void CopyTo(std::string dest)
@@ -61,10 +58,7 @@ namespace CSV
 			typeContainer.CopyTo(dest);
 		}
 		
-		static void List()
-		{
-			typeContainer.List();
-		}
+		static void List()	{	typeContainer.List();	}
 		
 		static void SetRootPath(std::string s) { Root = s; }
 		static void SetDestPath(std::string s) { Dest = s; }
@@ -83,23 +77,20 @@ namespace CSV
 			CSV::Repository::Map(CSV::Repository::nodes->cbegin(), CSV::Repository::nodes->cend());
 		}
 		
-		static std::vector<std::string> Read(std::string s)
-		{
-			return typeContainer.Read(s);			
-		}
+		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s);	}
 		
 		static void Register()
 		{
 			parseTypeContainer.RegisterTo(Repository::parseContainer);	
 			
 			for(auto kv : parseContainer)
-				Logger::Log()<<kv.first<<std::endl;
+				Logger::Log<Info>("Register:",kv.first);
 		}
 		
 		template<typename ParseType>
 		static typename ParseType::ParseCont Parse(std::string s)
 		{
-			Logger::Log()<<s<<std::endl;
+			Logger::Log("Parsing: ",s);
 			return typeContainer.Parse<ParseType>(s);			
 		}
 		
@@ -111,7 +102,7 @@ namespace CSV
 				{
 					if((String_::Contains((*itNode)->Name(),it->first)))
 					{
-					Logger::Log()<<it->first<<"\t"<<(*itNode)->Path()<<std::endl;
+						Logger::Log<Info>("Parsing File: ",it->first);
 						auto lines = CSV::Repository::Read((*itNode)->Name());	
 						it->second(lines.cbegin(), lines.cend());
 						
@@ -121,10 +112,7 @@ namespace CSV
 			}
 		}
 		
-		static void Display(std::ostream& os)
-		{
-			parseTypeContainer.Display(os);
-		}
+		static void Display(std::ostream& os){	parseTypeContainer.Display(os);	}
 		
 	private:
 		static inline ParserContainer parseContainer = ParserContainer();
