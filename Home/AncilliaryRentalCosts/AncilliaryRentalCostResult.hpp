@@ -19,18 +19,25 @@ public:
 	using ResultType = decltype(QuantityRatio::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t, ResultType&& r, const DateTimes::Year y): transfers{std::move(t)}, result{std::move(r)},year{y} {  };
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, QuantityType n, QuantityType d, SumType s,ResultType&& r, const DateTimes::Year y): transfers{std::move(t)}, result{std::move(r)},year{y}, numerator{n},denominator{d},sum{s} {  };
 	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
 		os<<StageType::Name<<"\t"<<ItemType::Name<<"\t"<<this->year<<std::endl;
-		os<<result<<std::endl;
+		os<<"Numerator: \t\t"<<numerator<<std::endl;
+		os<<"Denominator: \t"<<denominator<<std::endl;
+		os<<"Sum: \t"<<sum<<std::endl;
+		os<<"Result: \t"<<result<<std::endl;
+		os<<"\nTransfers: \t"<<std::endl;
 		for(auto t : *transfers)
 			os<<*t<<std::endl;
 		return os;
 	}
 private:
 	const DateTimes::Year year;
+	const QuantityType numerator;
+	const QuantityType denominator;
+	const SumType sum;
 	TransfersPtr transfers;
 	ResultType result;
 };

@@ -49,7 +49,7 @@ struct AncilliaryRentalCostItemBase
 		
 		auto a = StageContainerType::Instance().GetTotal<Q>();
 		auto b = GetStage<StageType,Q>().GetQuantity();
-		results->insert({year,ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
+		results->insert({year,ResultType{std::move(transfers),b,a,acc,std::move(QuantityRatio::Calculate(b,a,acc)),year}});
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
@@ -139,7 +139,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 				
 		auto a = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto b = GetStage<S,HeatingProportion>().GetQuantity();
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(b,a,acc)),year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),b,a,acc,std::move(QuantityRatio::Calculate(b,a,acc)),year}});
 	}
 };
 
@@ -194,7 +194,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto houseWater = houseHotWater + houseColdWater;
 
 		Logger::Log()<<"Div"<<QuantityRatio::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(QuantityRatio::Calculate(stageWater.Get(),houseWater.Get(),sum)),year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),stageWater.Get(),houseWater.Get(),sum,std::move(QuantityRatio::Calculate(stageWater.Get(),houseWater.Get(),sum)),year}});
 	}
 };
 
