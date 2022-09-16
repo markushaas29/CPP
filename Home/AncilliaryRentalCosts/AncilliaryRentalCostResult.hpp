@@ -19,7 +19,7 @@ public:
 	using ResultType = decltype(QuantityRatio::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t, QuantityType n, QuantityType d, SumType s,ResultType&& r, const DateTimes::Year y): transfers{std::move(t)}, result{std::move(r)},year{y}, numerator{n},denominator{d},sum{s} {  };
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, const QuantityType& n, const QuantityType& d, const SumType& s, const DateTimes::Year y): transfers{std::move(t)}, result{QuantityRatio::Calculate(n,d,s)},year{y}, numerator{n},denominator{d},sum{s} {  };
 	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
