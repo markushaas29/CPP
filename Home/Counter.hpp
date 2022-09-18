@@ -9,7 +9,7 @@
 #include "../Unit/SIPrefix.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Calculator/CalculatorResult.hpp"
-#include "../File/RepositoryObjectVisitor.hpp"
+//~ #include "../File/RepositoryObjectVisitor.hpp"
 //~ #include "../InputManager/InputManager.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
@@ -91,10 +91,7 @@ public:
 	}
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont) 
-	{ 
-		auto r = FS::RepositoryObjectVisitor<InputIterator>(Instance().GetFileName(), &CounterType::Parse);
-		cont.insert(std::make_pair(Instance().GetFileName(),  &CounterType::Parse));	}
+	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), &CounterType::Parse)));	}
 			
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}

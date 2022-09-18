@@ -130,8 +130,8 @@ namespace Bank
 		template<typename Cont>
 		static void RegisterTo(Cont& cont)
 		{
-			cont.insert(std::make_pair(Derived::Filename,  &Type::Parse));
-			cont.insert(std::make_pair(Type::KeysFilename,  &Type::ReadKeyPatterns));
+			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, &Type::Parse)));
+			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, &Type::ReadKeyPatterns)));
 		}	
 		
 	protected:

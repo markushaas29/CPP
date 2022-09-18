@@ -44,7 +44,8 @@ namespace CSV
 		using ParseTypes = Typelist<InputManager<int>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
 		using ParseTypeContainer = FS::FileTypeContainer<ParseTypes>;
 		using ParseMethod = void(*)(InputIterator, InputIterator);
-		using ParserContainer = std::map<std::string, ParseMethod>;
+		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
+		using ParserContainer = std::map<std::string, VisitorType>;
 	
 		template<typename Iterator>
 		static void Map(const Iterator& begin, const Iterator& end)
@@ -101,11 +102,11 @@ namespace CSV
 			{
 				for(auto itNode = CSV::Repository::nodes->cbegin(); itNode != CSV::Repository::nodes->cend(); ++itNode )
 				{
-					if((String_::Contains((*itNode)->Name(),it->first)))
+					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						Logger::Log<Info>("Parsing File: ",it->first);
 						auto lines = CSV::Repository::Read((*itNode)->Name());	
-						it->second(lines.cbegin(), lines.cend());
+						it->second.Parse(lines.cbegin(), lines.cend());
 						
 					}
 				}			

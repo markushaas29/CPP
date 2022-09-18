@@ -73,7 +73,7 @@ public:
 	}
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  &Parse)); }
+	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), &Parse))); }
 	
 	template<typename T>
 	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }

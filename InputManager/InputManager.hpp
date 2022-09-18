@@ -60,7 +60,7 @@ public:
 	template<typename Cont>
 	static void RegisterTo(Cont& cont)
 	{
-		cont.insert(std::make_pair(Filename,  &InputManagerType::Parse));
+		cont.insert(std::make_pair(Filename,  typename Cont::mapped_type(Filename, &InputManagerType::Parse)));
 		Logger::Log()<<cont.size()<<std::endl;
 	}
 	
