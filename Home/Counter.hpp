@@ -93,8 +93,7 @@ public:
 	template<typename Cont>
 	static void RegisterTo(Cont& cont) 
 	{ 
-		auto r = FS::RepositoryObjectVisitor("VISIT", [](std::string s){ return true; });
-		Logger::Log<Info>()<<r.Name()<<std::endl;
+		auto r = FS::RepositoryObjectVisitor<InputIterator>(Instance().GetFileName(), &CounterType::Parse);
 		cont.insert(std::make_pair(Instance().GetFileName(),  &CounterType::Parse));	}
 			
 	template<typename Op>

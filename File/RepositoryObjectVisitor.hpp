@@ -12,13 +12,17 @@ namespace FS
 	template<typename Iterator = std::vector<std::string>::const_iterator>
 	class RepositoryObjectVisitor
 	{
-		std::string name;
-		std::function<bool(std::string)> is;
-		std::function<void(Iterator,Iterator)> parse;
+		using IsVisitorFuncType = std::function<bool(std::string)>;
+		using ParseFuncType = std::function<void(Iterator,Iterator)>;
 	public:
 		RepositoryObjectVisitor() = delete;
-		RepositoryObjectVisitor(std::string n, std::function<bool(std::string)> is_ = [](const std::string& s){ return String_::Contains(name,s); }): name{n}, is{is_} {};
-		std::string Name() { this->is(name) ;return this->name;}
+		RepositoryObjectVisitor(std::string n, ParseFuncType p, IsVisitorFuncType i): name{n}, parse{p}, isVisitorOf{i} {};
+		RepositoryObjectVisitor(std::string n, ParseFuncType p): name{n}, parse{p}{};
+		std::string Name() { return this->name;}
+	private:
+		std::string name;
+		ParseFuncType parse;
+		IsVisitorFuncType isVisitorOf = [&](const std::string& s){ return String_::Contains(name,s); };
 	};
 	
 	//~ std::ostream& operator<<(std::ostream& out, const RepositoryObjectVisitor& c)	{ return out;	}
