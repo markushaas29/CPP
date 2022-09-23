@@ -32,11 +32,17 @@ public:
 		
 private:
 	std::unique_ptr<Items> items = std::unique_ptr<Items>();
-	AncilliaryRentalCostsContainer(): year(2000)
+	AncilliaryRentalCostsContainer(): year(2021)
 	{ 
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
-		Bank::Get<Bank::Raiba<0>>(IBAN{"DE68600501010002057075"});
+		auto iban = GetStage<S,IBAN>();
+		auto stageTransfers = Bank::Get<Bank::Raiba<0>>(iban);
+		auto transfers = stageTransfers.GetTransferOf(year);
+		
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
+		for(auto t : *transfers)
+			*fs<<*t<<std::endl;
+		*fs<<"\n--------Output-----\n"<<std::endl;
 		fs = this->Calculate(std::move(fs),*items);
 		fs->close();
 	}	
