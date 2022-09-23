@@ -35,7 +35,8 @@ private:
 	AncilliaryRentalCostsContainer(): year(2000)
 	{ 
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
-		auto fs = std::make_unique<std::ofstream>(std::string(StageT::Name)+ ".txt");
+		Bank::Get<Bank::Raiba<0>>(IBAN{"DE68600501010002057075"});
+		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
 		fs = this->Calculate(std::move(fs),*items);
 		fs->close();
 	}	

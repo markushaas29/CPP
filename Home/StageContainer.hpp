@@ -45,9 +45,9 @@ protected:
 	StageContainer() 
 	{ 
  		Read();
-		Head::Set(stages->at(Head::Name)); 
+		Head::Set(stages->at(Head::StageName)); 
 		Head::Instance(); 			
-		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
+		Logger::Log<Info>()<<"StageContainer created."<<Head::StageName<<std::endl; 
 	};
 	
 	template<typename T, typename Op>
@@ -131,8 +131,8 @@ public:
 protected:
 	StageContainer() 
 	{ 
-		Logger::Log<Info>()<<"StageContainer created."<<Head::Name<<std::endl; 
-		Type::Set(Base::stages->at(Head::Name)); 			
+		Logger::Log<Info>()<<"StageContainer created."<<Head::StageName<<std::endl; 
+		Type::Set(Base::stages->at(Head::StageName)); 			
 		Type::Instance(); 			
 	};
 	
