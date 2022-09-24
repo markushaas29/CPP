@@ -28,11 +28,14 @@ public:
 		os<<"Denominator: \t"<<denominator<<std::endl;
 		os<<"Sum: \t"<<sum<<std::endl;
 		os<<"Result: \t"<<result<<std::endl;
+		os<<"Result sum: \t"<<result.Get()<<std::endl;
 		os<<"\nTransfers: \t"<<std::endl;
 		for(auto t : *transfers)
 			os<<*t<<std::endl;
 		return os;
 	}
+	
+	decltype(auto) Get() { return result.Get(); }
 private:
 	const DateTimes::Year year;
 	const QuantityType numerator;

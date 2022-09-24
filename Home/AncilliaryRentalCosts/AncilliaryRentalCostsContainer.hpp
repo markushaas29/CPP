@@ -44,6 +44,8 @@ private:
 			*fs<<*t<<std::endl;
 		*fs<<"\n--------Output-----\n"<<std::endl;
 		fs = this->Calculate(std::move(fs),*items);
+		*fs<<"\n--------Total Sum-----\n"<<std::endl;
+		*fs<<"\n-Sum: "<<total<<std::endl;
 		fs->close();
 	}	
 	
@@ -55,10 +57,13 @@ private:
 			return fs;
 		else 
 		{
-			auto i = std::get<I>(*items);
+			auto item = std::get<I>(*items);
 			auto y = DateTimes::Year(2021);
-			decltype(i)::Calculate(y);
-			(*fs)<<decltype(i)::Result(y)<<std::endl;
+			auto result = decltype(item)::Calculate(y);
+			
+			total = total + result.Get();
+			Logger::Log<Info>("Sum: ", result.Get()," Total", total);
+			(*fs)<<decltype(item)::Result(y)<<std::endl;
 			
 			return Calculate<I + 1>(std::move(fs), *items);
 		}
@@ -66,6 +71,7 @@ private:
 	
 	std::ostream& Display(std::ostream& os) {	return os;	}
 	YearType year;
+	Quantity<Sum> total = Quantity<Sum>(0.0);
 };
 
 //~ template<typename C, typename S = T::char_<'\t'>>

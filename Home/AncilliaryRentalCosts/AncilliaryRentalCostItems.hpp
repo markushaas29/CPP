@@ -40,7 +40,7 @@ struct AncilliaryRentalCostItemBase
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static const char* Name = "";
 	
-	static void Calculate(const DateTimes::Year& year)
+	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		auto transfers = account[year];
@@ -50,6 +50,8 @@ struct AncilliaryRentalCostItemBase
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
 		results->insert({year,ResultType{std::move(transfers),num,denom,sum,year}});
+		
+		return (*results)[year].Get();
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
@@ -122,7 +124,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	inline static const IBAN ibanGas{"DE68600501010002057075"};	
 	inline static const IBAN ibanEnergy{"DE56600501017402051588"};	
 	
-	static void Calculate(const DateTimes::Year& year)
+	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto invoiceEntry = Entry(Invoice);
 		auto paymentEntry = Entry(AdvancePayment);
@@ -140,6 +142,8 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto num = GetStage<S,HeatingProportion>().GetQuantity();
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),num,denom,sum,year}});
+		
+		return (*Base::results)[year].Get();
 	}
 };
 
@@ -177,7 +181,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	constexpr static const char* Name = "Sewage"; 
 	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
 	
-	static void Calculate(const DateTimes::Year& year)
+	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account.GetTransferOf(Entry(Cause),year);		
@@ -195,6 +199,8 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 
 		Logger::Log()<<"Div"<<QuantityRatio::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),stageWater.Get(),houseWater.Get(),sum,year}});
+		
+		return (*Base::results)[year].Get();
 	}
 };
 
