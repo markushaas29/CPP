@@ -39,11 +39,22 @@ private:
 		auto stageTransfers = Bank::Get<Bank::Raiba<0>>(iban);
 		auto transfers = stageTransfers.GetTransferOf(year);
 		
+		auto advance = GetStage<S,Advance>().GetQuantity();
+		auto heatingCosts = GetStage<S,IncidentalHeatingCosts>().GetQuantity();
+		auto advancePays = (advance + heatingCosts) * paymentsPerYear;
+
+		
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
 		for(auto t : *transfers)
 			*fs<<*t<<std::endl;
 		*fs<<"\n--------Output-----\n"<<std::endl;
 		fs = this->Calculate(std::move(fs),*items);
+		
+		*fs<<"\n--------Advance-----\n"<<std::endl;
+		*fs<<"\nHeating:\t"<<advance<<std::endl;
+		*fs<<"\nAdvance:\t"<<heatingCosts<<std::endl;
+		*fs<<"\nTotal:\t"<<advancePays<<std::endl;
+				
 		*fs<<"\n--------Total Sum-----\n"<<std::endl;
 		*fs<<"\n-Sum: "<<total<<std::endl;
 		fs->close();
@@ -71,6 +82,7 @@ private:
 	
 	std::ostream& Display(std::ostream& os) {	return os;	}
 	YearType year;
+	const Quantity<Scalar> paymentsPerYear = Quantity<Scalar>{12};
 	Quantity<Sum> total = Quantity<Sum>(0.0);
 };
 
