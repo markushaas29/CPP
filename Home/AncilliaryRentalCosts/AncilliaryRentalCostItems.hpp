@@ -163,12 +163,29 @@ struct LocalCommunity
 };
 
 template<typename S, typename Server = LocalCommunity>
-struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea> 
+struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, IndividualUnit> 
 { 
+	using Base = AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, IndividualUnit>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static const IBAN iban = Server::iban;
 	constexpr static const char* Name = "PropertyTax"; 
 	constexpr static const char* Cause = "Grundsteuer"; 
+	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
+	
+	static decltype(auto) Calculate(const DateTimes::Year& year)
+	{
+		auto account = Bank::Get<typename Base::AccountType>(iban);
+		auto transfers = account.GetTransferOf(Entry(Cause),year);		
+
+		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+				
+		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
+		//~ if constexpr
+		auto num = GetStage<S,IndividualUnit>().GetQuantity();
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),num,denom,sum,year}});
+		
+		return (*Base::results)[year].Get();
+	}
 };
 
 template<typename S, typename Server = LocalCommunity>
