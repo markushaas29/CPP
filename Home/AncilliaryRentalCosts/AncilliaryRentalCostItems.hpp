@@ -90,9 +90,28 @@ std::ostream& operator<<(std::ostream& out, const AncilliaryRentalCostItemBase<S
 template<typename S>
 struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, IndividualUnit> 
 { 
+	using Base = AncilliaryRentalCostItemBase<S, BuildingInsurance<S>,IndividualUnit>; 
 	constexpr static const char* Name = "BuildingInsurance"; 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static const IBAN iban{"DE97500500000003200029"};	
+	
+	static decltype(auto) Calculate(const DateTimes::Year& year)
+	{
+		auto account = Bank::Get<typename Base::AccountType>(iban);
+		auto transfers = account.GetTransferOf(year);		
+
+		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+				
+		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
+		auto num = GetStage<S,IndividualUnit>().GetQuantity();
+		
+		if constexpr (std::is_same<S,Top>::value)
+			num = num + Quantity<Scalar>(1);
+				
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),num,denom,sum,year}});
+		
+		return (*Base::results)[year].Get();
+	}
 };
 
 template<typename S>
