@@ -6,6 +6,7 @@
 #include "../../Unit/Unit.h"
 #include "../../Quantity/Quantity.h"
 #include "../../Calculator/Calculator.hpp"
+#include "../../Calculator/Operations.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../File/Raiba.hpp"
 #include "../../File/Account.hpp"
@@ -56,7 +57,10 @@ private:
 		*fs<<"\nTotal:\t"<<advancePays<<std::endl;
 				
 		*fs<<"\n--------Total Sum-----\n"<<std::endl;
-		*fs<<"\n-Sum: "<<total<<std::endl;
+		*fs<<"\nSum: "<<total<<std::endl;
+		
+		*fs<<"\n--------Result-----\n"<<std::endl;
+		*fs<<"\nSum: "<<Subtraction::Calculate(advancePays,total)<<std::endl;
 		fs->close();
 	}	
 	

@@ -163,9 +163,9 @@ struct LocalCommunity
 };
 
 template<typename S, typename Server = LocalCommunity>
-struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, IndividualUnit> 
+struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea> 
 { 
-	using Base = AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, IndividualUnit>; 
+	using Base = AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static const IBAN iban = Server::iban;
 	constexpr static const char* Name = "PropertyTax"; 
@@ -179,9 +179,14 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
-		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
-		//~ if constexpr
-		auto num = GetStage<S,IndividualUnit>().GetQuantity();
+		//~ auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
+		//~ auto num = GetStage<S,IndividualUnit>().GetQuantity();
+		//~ if constexpr (std::is_same<S,Top>::value)
+			//~ num = num + Quantity<Scalar>(1);
+				
+		auto denom = StageContainerType::Instance().GetTotal<ApartmentArea>();
+		auto num = GetStage<S,ApartmentArea>().GetQuantity();
+			
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),num,denom,sum,year}});
 		
 		return (*Base::results)[year].Get();
