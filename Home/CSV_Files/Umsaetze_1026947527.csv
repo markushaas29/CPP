@@ -1,0 +1,69 @@
+;
+"Umsätze Girokonto";"Zeitraum: 30 Tage";
+"Neuer Kontostand";"913,92 EUR";
+
+"Buchungstag";"Wertstellung (Valuta)";"Vorgang";"Buchungstext";"Umsatz in EUR";
+"11.10.2021";"08.10.2021";"Übertrag / Überweisung";"Empfänger: Re-In Retail InternationalKto/IBAN: DE81760100850901210858 BLZ/BIC: PBNKDEFF  Buchungstext: 181064499 433455045 Ref. CS5C16WW4BF542EF/1";"-69,40";
+"08.10.2021";"08.10.2021";"Übertrag / Überweisung";"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Internet Ref. H522128105521820/2";"-50,00";
+"08.10.2021";"08.10.2021";"Übertrag / Überweisung";"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Fernsehen Ref. H522128105451261/2";"-50,00";
+"06.10.2021";"06.10.2021";"Übertrag / Überweisung";"Empfänger: r2 bikeKto/IBAN: DE48870700240199122300 BLZ/BIC: DEUTDEDBCHE  Ref. CY5C16WU34G2KWBZ/1";"-3,95";
+"06.10.2021";"06.10.2021";"Übertrag / Überweisung";"Auftraggeber: H + S Bike Discount GmbH Buchungstext: KD.NR. 116180 ZA V.04.10.21 EUR 4, 09 ./. SK 0,00 Ref. HL221279A0600521/4393";"4,09";
+"06.10.2021";"06.10.2021";"Lastschrift / Belastung";"Auftraggeber: VATTENFALL EUROPE SALES Buchungstext: S/836620605956/604908221321 Ruchens tr. 14 Strom Abschlag Ref. JF22127872359972/19303";"-100,00";
+"06.10.2021";"05.10.2021";"Übertrag / Überweisung";"Empfänger: Werner HaasKto/IBAN: DE29200411110872192000 BLZ/BIC: COBADEHD  Buchungstext: Spende und Geschenk Frau haberer Ref. DE5C16WT46F4F7MF/1";"-17,00";
+"05.10.2021";"05.10.2021";"Übertrag / Überweisung";"Empfänger: r2 Handels GmbHKto/IBAN: DE48870700240199122300 BLZ/BIC: DEUTDEDBCHE  Buchungstext: DE-1065985 Markus Haas Ref. DE5C16WT31QRFUWU/1";"-149,75";
+"05.10.2021";"05.10.2021";"Lastschrift / Belastung";"Auftraggeber: Deutsche Bibelgesellschaft Buchungstext: 1249926/Haas Markus Armenien Vielen Dank Ref. H622127792923072/56744";"-40,00";
+"04.10.2021";"03.10.2021";"Übertrag / Überweisung";"Empfänger: HS Bike-Discount GmbHKto/IBAN: DE26380700240055515100 BLZ/BIC: DEUTDEDB380  Buchungstext: c26248616 Bike-Discount sagt Danke Ref. CS5C16WR3OA1G4ZV/1";"-112,97";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: Markus HaasKto/IBAN: DE45200411330694752705 BLZ/BIC: COBADEHD001  Buchungstext: Uebertrag auf Tagesgeld PLUS-Konto Ref. CM5C16WP3XLE7K9H/1";"-100,00";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: Re-In Retail InternationalKto/IBAN: DE81760100850901210858 BLZ/BIC: PBNKDEFF  Buchungstext: 181037760 433455045 Ref. DC5C16WP3X00AP7Y/1";"-78,81";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: Werner HaasKto/IBAN: DE29200411110872192000 BLZ/BIC: COBADEHD  Buchungstext: einkauf Ref. DC5C16WP3WLBJV5E/1";"-20,00";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Auftraggeber: VODAFONE BW GMBH Buchungstext: VODAFONE BW GMBH KDNR.4179644011 ER STATTUNG 1 1 02GUTHABEN GEM.LETZTER RECHN. Ref. HI22127481554749/82621";"89,80";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Miete warm Ref. HF22127443016869/2";"-1.000,00";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Leana Ref. HQ22127442408108/2";"-10,00";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: DMGKto/IBAN: DE02672922000000269204 BLZ/BIC: GENODE61WIE  Buchungstext: F574833 P10337 Knoedler Ref. IQ22127440257615/2";"-25,00";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Empfänger: Werner HaasKto/IBAN: DE29200411110872192000 BLZ/BIC: COBADEHDXXX  Buchungstext: Beitrag Ref. IH22127434604248/2";"-200,00";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: Telefonica Germany GmbH + Co. OHG Buchungstext: Kd-Nr.: 6007878798, Rg-Nr.: 1180284 461/7, Ihre Tarifrechnung Ref. JJ221271D2451305/17495";"-16,99";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: R + V LEBENSVERSICHERUNG AKTIENGESELLSCHAFT Buchungstext: 70543764892 Leben / Haas, Markus / 11.28 Folgeb. 01.10 Ref. HK221270G1337166/28395";"-11,28";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: Frontiers Deutschland e.V. (FROG e.V.) Ref. HR22126571305886/4535";"-25,00";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: ALTE LEIPZIGER LEBEN Buchungstext: Vers-Nr:00006241594-Ihr Beitrag:10. 21 Ref. IC221272G1507731/75312";"-257,36";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: Open Doors Deutschland Buchungstext: Vielen Dank fuer Ihre Spende Ref. IC221272G2853101/2204";"-50,00";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: Open Doors Deutschland Buchungstext: Vielen Dank fuer Ihre Spende Ref. IC221272G2853101/2266";"-50,00";
+"01.10.2021";"01.10.2021";"Lastschrift / Belastung";"Auftraggeber: ERF Medien e.V. Buchungstext: Danke fuer Ihre ERF Spende Ref. JM221270I0735764/12046";"-25,00";
+"29.09.2021";"29.09.2021";"Übertrag / Überweisung";"Auftraggeber: SEW-EURODRIVE GmbH + Co KG Buchungstext: Lohn/Gehalt 00017119/202109 Ref. HN22127280106547/25497";"2.892,51";
+"27.09.2021";"27.09.2021";"Übertrag / Überweisung";"Empfänger: Pro Femina e.V.Kto/IBAN: DE09700205000008851405 BLZ/BIC: BFSWDE33MUE  Buchungstext: FB-T-12210319 Ref. HF221269H4454762/2";"-50,00";
+"23.09.2021";"23.09.2021";"Übertrag / Überweisung";"Empfänger: Coolblue GmbHKto/IBAN: NL79ADYB2017400165 BLZ/BIC: ADYBNL2AXXX  Buchungstext: 6119324066399783 Coolblue GmbH Ref. IT221266G2504371/2";"-245,00";
+"23.09.2021";"23.09.2021";"Lastschrift / Belastung";"Auftraggeber: AMAZON EU S.A R.L., NIEDERLASSUNG DEUTSCHLAND Buchungstext: 302-8966309-8665106 Amazon.de 5F6QN MOJSS8L3712 Ref. II22126591107541/26694";"-25,00";
+"21.09.2021";"21.09.2021";"Lastschrift / Belastung";"Auftraggeber: Deutsche Bibelgesellschaft Buchungstext: 1246397/Haas Markus Sibirien Vielen Dank Ref. JP22126391624202/80913";"-50,00";
+"20.09.2021";"20.09.2021";"Übertrag / Überweisung";"Empfänger: Hilfe fuer Brueder InternationaKto/IBAN: DE89520604100000415600 BLZ/BIC: GENODEF1EK1  Buchungstext: Projekt 5291 Aethiopien - Alphabeti sierungsprogramm Ref. J322126322340710/2";"-25,00";
+"15.09.2021";"15.09.2021";"Übertrag / Überweisung";"Empfänger: DMG 74889 SinsheimKto/IBAN: DE02672922000000269204 BLZ/BIC: GENODE61WIE  Buchungstext: Janzen Johannes und Astrid P10294 Ref. JJ22125822323914/2";"-25,00";
+"15.09.2021";"15.09.2021";"Übertrag / Überweisung";"Empfänger: DMG 74889 SinsheimKto/IBAN: DE02672922000000269204 BLZ/BIC: GENODE61WIE  Buchungstext: Projekt 30851 El Buen Samaritano Si lbergroschen Ref. JJ22125822152438/2";"-25,00";
+"15.09.2021";"15.09.2021";"Übertrag / Überweisung";"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: GEZ Ref. JJ22125822537096/2";"-55,00";
+"15.09.2021";"15.09.2021";"Lastschrift / Belastung";"Auftraggeber: Open Doors Deutschland Buchungstext: Vielen Dank fuer Ihre Spende Ref. HI221256G1540936/3607";"-50,00";
+"14.09.2021";"14.09.2021";"Lastschrift / Belastung";"Auftraggeber: RatePAY GmbH Buchungstext: Metro Markets GmbH Vielen Dank fuer ihre Bestellung DU2128670K8 Ref. H522125673513628/18892";"-15,99";
+"13.09.2021";"12.09.2021";"Übertrag / Überweisung";"Empfänger: HS Bike-Discount GmbHKto/IBAN: DE26380700240055515100 BLZ/BIC: DEUTDEDB380  Buchungstext: c25913797 Bike-Discount sagt Danke Ref. CM5C16U84AF64YJE/1";"-67,79";
+"13.09.2021";"12.09.2021";"Übertrag / Überweisung";"Empfänger: Stichting Mollie PaymentsKto/IBAN: NL49ABNA0501616942 BLZ/BIC: ABNANL2A  Buchungstext: 93222-741775-613E2550-38D0 Hilfe fu r Bruder Internatio Ref. D25C16U83VGNADXB/1";"-50,00";
+"13.09.2021";"12.09.2021";"Übertrag / Überweisung";"Empfänger: Re-In Retail InternationalKto/IBAN: DE81760100850901210858 BLZ/BIC: PBNKDEFF  Buchungstext: 180967179 433455045 Ref. DI5C16U82P2I85SN/1";"-36,11";
+"13.09.2021";"11.09.2021";"Übertrag / Überweisung";"Empfänger: IRMA QUIRINKto/IBAN: DE67663500360010802769 BLZ/BIC: BRUSDE66  Buchungstext: GOTTES Segen und viel Erfolg weiter hin auf ihren Wegen Ref. DC5C16U73RLL5EYV/1";"-20,00";
+"10.09.2021";"10.09.2021";"Übertrag / Überweisung";"Empfänger: IRMA QUIRINKto/IBAN: DE67663500360010802769 BLZ/BIC: BRUSDE66XXX  Buchungstext: Gottes Segen und viel Erfolg weiter hin auf ihren Wegen Ref. J922125304258823/2";"-25,00";
+
+"Alter Kontostand";"1.154,92 EUR";
+
+"Umsätze Visa-Karte (Kreditkarte)";"Zeitraum: 30 Tage";
+
+"Keine Umsätze vorhanden.";
+
+"Umsätze Tagesgeld PLUS-Konto";"Zeitraum: 30 Tage";
+"Neuer Kontostand";"17.121,32 EUR";
+
+"Buchungstag";"Wertstellung (Valuta)";"Vorgang";"Buchungstext";"Umsatz in EUR";
+"01.10.2021";"01.10.2021";"Übertrag / Überweisung";"Auftraggeber: Markus Haas Buchungstext: Uebertrag auf Tagesgeld PLUS-Konto Ref. DA5C16WP3XLE881A/1";"100,00";
+
+"Alter Kontostand";"17.021,32 EUR";
+
+"Umsätze Verrechnungskonto";"Zeitraum: 30 Tage";
+
+"Keine Umsätze vorhanden.";
+
+"Umsätze Depot";"Zeitraum: 30 Tage";
+
+"Keine Umsätze vorhanden.";
+

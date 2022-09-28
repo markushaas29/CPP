@@ -1,0 +1,7 @@
+IBAN:IBAN Zahlungsbeteiligter;ZahlungsempfängerIBAN
+BIC:BIC (SWIFT-Code) Zahlungsbeteiligter;ZahlungsempfängerBIC
+Name:Name Zahlungsbeteiligter;Zahlungsempfänger
+Sum:Betrag;Soll/Haben;Umsatz
+Date:Buchungstag;Mandatsreferenz
+Direction:Soll/Haben;Kategorie
+Entry:Verwendungszweck;Vorgang/Verwendungszweck
