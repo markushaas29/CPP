@@ -17,7 +17,7 @@ int main()
     std::cout<<"START"<<std::endl;
 	
 	House<HouseConfiguration>::Instance();
-    std::cout<<"t: "<<Top::Name<<std::endl;
+    std::cout<<"t: "<<Top::StageName<<std::endl;
     std::cout<<"t: "<<Top::Number<<std::endl;
     
     std::cout<<"t: "<<ApartmentArea::Key<<std::endl;
@@ -26,7 +26,7 @@ int main()
 	Rooms r(6);
 	
 	StageContainerType::Instance().Display(std::cout);
-    std::cout<<"m: "<<Middle::Instance().Name<<std::endl;
+    std::cout<<"m: "<<Middle::Instance().StageName<<std::endl;
     
     std::cout<<"AREA"<<std::endl;
 	std::cout<<"t: "<<GetStage<Top,ApartmentArea>()<<std::endl;

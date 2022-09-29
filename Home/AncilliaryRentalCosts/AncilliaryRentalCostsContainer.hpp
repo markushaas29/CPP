@@ -40,29 +40,37 @@ private:
 		auto stageTransfers = Bank::Get<Bank::Raiba<0>>(iban);
 		auto transfers = stageTransfers.GetTransferOf(year);
 		
-		auto advance = GetStage<S,Advance>().GetQuantity();
-		auto heatingCosts = GetStage<S,IncidentalHeatingCosts>().GetQuantity();
-		auto advancePays = (advance + heatingCosts) * paymentsPerYear;
-
-		
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
 		for(auto t : *transfers)
 			*fs<<*t<<std::endl;
 		*fs<<"\n--------Output-----\n"<<std::endl;
 		fs = this->Calculate(std::move(fs),*items);
 		
+		fs = this->printResult(std::move(fs));
+		
+		fs->close();
+	}	
+	
+	decltype(auto) printResult(std::unique_ptr<std::ofstream> fs)
+	{
+		auto advance = GetStage<S,Advance>().GetQuantity();
+		auto heatingCosts = GetStage<S,IncidentalHeatingCosts>().GetQuantity();
+		auto advancePays = (advance + heatingCosts) * paymentsPerYear;
+		
 		*fs<<"\n--------Advance-----\n"<<std::endl;
 		*fs<<"\nHeating:\t"<<advance<<std::endl;
 		*fs<<"\nAdvance:\t"<<heatingCosts<<std::endl;
 		*fs<<"\nTotal:\t"<<advancePays<<std::endl;
+		
 				
 		*fs<<"\n--------Total Sum-----\n"<<std::endl;
 		*fs<<"\nSum: "<<total<<std::endl;
 		
 		*fs<<"\n--------Result-----\n"<<std::endl;
 		*fs<<"\nSum: "<<Subtraction::Calculate(advancePays,total)<<std::endl;
-		fs->close();
-	}	
+		
+		return fs;
+	}
 	
 	~AncilliaryRentalCostsContainer()	{  }
 	template <size_t I = 0, typename... Ts>
