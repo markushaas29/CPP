@@ -100,7 +100,6 @@ namespace String_
 					vals->push_back((uint)(val->at(i) - ZERO));
 
 				vals->push_back((uint)(val->at(0) - ZERO));
-				//~ std::stoll(*val);
 			}				
 		}
 		

@@ -111,7 +111,6 @@ namespace String_
         static auto extractCommonAtoms(ParsedValue::ParaType val)
         {
 			auto ret = std::make_shared<std::vector<ParaType>>();
-			auto first = *(val->cbegin());
 			auto temp = std::string(val->cbegin(),val->cbegin()+1);
 			
 			for(auto it = val->cbegin() + 1; it != val->cend();++it)

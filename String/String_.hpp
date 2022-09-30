@@ -38,7 +38,7 @@ namespace String_
 		
 		while(str.size())
 		{
-			int index = str.find(token);
+			size_t index = str.find(token);
 			if(index!=std::string::npos)
 			{
 				result.push_back(str.substr(0,index));

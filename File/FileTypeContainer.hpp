@@ -34,8 +34,6 @@ namespace FS
 			auto dstPath = std::filesystem::path(dst);
 			std::string result = "";
 
-			auto it2 = this->rootPath.begin();
-
 			for (auto it = --srcPath.end() ; it != srcPath.begin(); --it)
 			{
 				if(*it == *(--this->rootPath.end()))

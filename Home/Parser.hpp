@@ -33,7 +33,7 @@ namespace Parsers
 			auto vals = String_::Split<BlankSeparator>(*first);
 			auto value = Type();
 					
-			for(int i = 0; i < vals.size()-1; ++i)
+			for(size_t i = 0; i < vals.size()-1; ++i)
 				value += vals.at(i);
 			
 			this->resultMap[key] = value;
