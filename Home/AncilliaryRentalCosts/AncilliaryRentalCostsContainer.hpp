@@ -36,14 +36,9 @@ private:
 	AncilliaryRentalCostsContainer(): year(2021)
 	{ 
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
-		auto iban = GetStage<S,IBAN>();
-		auto stageTransfers = Bank::Get<Bank::Raiba<0>>(iban);
-		auto transfers = stageTransfers.GetTransferOf(year);
-		
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
-		for(auto t : *transfers)
-			*fs<<*t<<std::endl;
-		*fs<<"\n--------Output-----\n"<<std::endl;
+		fs = this->printHead(std::move(fs));
+		
 		fs = this->Calculate(std::move(fs),*items);
 		
 		fs = this->printResult(std::move(fs));
@@ -58,16 +53,28 @@ private:
 		auto advancePays = (advance + heatingCosts) * paymentsPerYear;
 		
 		*fs<<"\n--------Advance-----\n"<<std::endl;
-		*fs<<"\nHeating:\t"<<advance<<std::endl;
-		*fs<<"\nAdvance:\t"<<heatingCosts<<std::endl;
+		*fs<<"\n"<<Advance::Key<<":\t"<<advance<<std::endl;
+		*fs<<"\n"<<IncidentalHeatingCosts::Key<<":\t"<<heatingCosts<<std::endl;
 		*fs<<"\nTotal:\t"<<advancePays<<std::endl;
 		
 				
 		*fs<<"\n--------Total Sum-----\n"<<std::endl;
 		*fs<<"\nSum: "<<total<<std::endl;
 		
-		*fs<<"\n--------Result-----\n"<<std::endl;
+		*fs<<"\n--------TotalResult-----\n"<<std::endl;
 		*fs<<"\nSum: "<<Subtraction::Calculate(advancePays,total)<<std::endl;
+		
+		return fs;
+	}
+	
+	decltype(auto) printHead(std::unique_ptr<std::ofstream> fs)
+	{
+		auto iban = GetStage<S,IBAN>();
+		auto stageTransfers = Bank::Get<Bank::Raiba<0>>(iban);
+		auto transfers = stageTransfers.GetTransferOf(year);
+		
+		for(auto t : *transfers)
+			*fs<<*t<<std::endl;
 		
 		return fs;
 	}
