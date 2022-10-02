@@ -74,9 +74,11 @@ public:
 	
 	std::ostream& Display(std::ostream& os) 
 	{
-		os<<"Stage: "<<Type::StageName<<"\nName: "<<std::get<Name>(quantities)<<"\nIBAN: "<<std::get<IBAN>(quantities)<<"\nUnits: "<<std::get<IndividualUnit>(quantities)<<"\tRooms:"<<std::get<Rooms>(quantities)<<"\tArea: "<<std::get<ApartmentArea>(quantities)<<"\tPersons: "<<std::get<Persons>(quantities);
-		os<<"\tHeating Cost: "<<std::get<HeatingProportion>(quantities)<<"\tBuildingCleaning: "<<std::get<BuildingCleaningProportion>(quantities);
-		return os<<"MonthlyRent: "<<std::get<MonthlyRent>(quantities)<<"\tAdvance: "<<std::get<Advance>(quantities)<<"\tGarage: "<<std::get<GarageRental>(quantities)<<"\tIncidentalHeatingCosts: "<<std::get<IncidentalHeatingCosts>(quantities)<<std::endl;
+		os<<"Stage: "<<Type::StageName<<std::endl;
+		std::unique_ptr<std::ostream> ptr(&os);
+		auto ret = printQuantities(std::move(ptr), quantities);
+		
+		return *(ret.release());
 	}
 	
 	constexpr std::unique_ptr<std::ofstream> PrintQuantities(std::unique_ptr<std::ofstream> fs) { return printQuantities(std::move(fs), quantities); } 
@@ -86,15 +88,15 @@ private:
 	inline static YearDataMapPtrType yearData = YearDataMapPtrType(new YearDataMapType()); 
 	ApartmentQuantitiesType quantities;
 	
-	template <size_t I = 0, typename... Ts>
-	constexpr std::unique_ptr<std::ofstream> printQuantities(std::unique_ptr<std::ofstream> fs, std::tuple<Ts...> tup) 
+	template <size_t I = 0, typename Out,typename... Ts>
+	constexpr std::unique_ptr<Out> printQuantities(std::unique_ptr<Out> fs, std::tuple<Ts...> tup) 
 	{
 		if constexpr(I == sizeof...(Ts))    
 			return fs;
 		else 
 		{
 			auto item = std::get<I>(quantities);
-			(*fs)<<item.ID()<<":\t"<<item<<std::endl;
+			(*fs)<<item<<std::endl;
 
 			return printQuantities<I + 1>(std::move(fs), quantities);
 		}
