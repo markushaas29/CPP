@@ -69,6 +69,7 @@ private:
 	
 	decltype(auto) printHead(std::unique_ptr<std::ofstream> fs)
 	{
+		fs = S::Instance().PrintQuantities(std::move(fs));
 		auto iban = GetStage<S,IBAN>();
 		auto stageTransfers = Bank::Get<Bank::Raiba<0>>(iban);
 		auto transfers = stageTransfers.GetTransferOf(year);
@@ -80,6 +81,7 @@ private:
 	}
 	
 	~AncilliaryRentalCostsContainer()	{  }
+	
 	template <size_t I = 0, typename... Ts>
 	constexpr std::unique_ptr<std::ofstream> Calculate(std::unique_ptr<std::ofstream> fs, std::tuple<Ts...> tup) 
 	{

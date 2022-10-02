@@ -79,10 +79,26 @@ public:
 		return os<<"MonthlyRent: "<<std::get<MonthlyRent>(quantities)<<"\tAdvance: "<<std::get<Advance>(quantities)<<"\tGarage: "<<std::get<GarageRental>(quantities)<<"\tIncidentalHeatingCosts: "<<std::get<IncidentalHeatingCosts>(quantities)<<std::endl;
 	}
 	
+	constexpr std::unique_ptr<std::ofstream> PrintQuantities(std::unique_ptr<std::ofstream> fs) { return printQuantities(std::move(fs), quantities); } 
+	
 private:
 	inline static StageMap Map = StageMap();
 	inline static YearDataMapPtrType yearData = YearDataMapPtrType(new YearDataMapType()); 
 	ApartmentQuantitiesType quantities;
+	
+	template <size_t I = 0, typename... Ts>
+	constexpr std::unique_ptr<std::ofstream> printQuantities(std::unique_ptr<std::ofstream> fs, std::tuple<Ts...> tup) 
+	{
+		if constexpr(I == sizeof...(Ts))    
+			return fs;
+		else 
+		{
+			auto item = std::get<I>(quantities);
+			(*fs)<<item<<std::endl;
+			
+			return printQuantities<I + 1>(std::move(fs), quantities);
+		}
+	}
 	
 	Stage(){ }
 	Stage(const StageMap& m): 

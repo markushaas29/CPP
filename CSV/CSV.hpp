@@ -188,7 +188,12 @@ private:
 	String_::To<T> to;
 };
 
-//Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben
+template<typename D, typename U, typename T = double>
+std::ostream& operator<<(std::ostream& out, const CSVValue<D,U,T>& c)
+{
+	//~ return out<<CSVValue<D,U,T>::Key<<c.GetQuantity()<<std::endl;;
+	return out<<c.GetQuantity()<<std::endl;;
+}
 
 
 //--------------------------------Factory------------------------------------------------
