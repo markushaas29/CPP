@@ -193,8 +193,7 @@ private:
 };
 
 template<typename D, typename U, typename T = double>
-std::ostream& operator<<(std::ostream& out, const CSVValue<D,U,T>& c) { return out<<c.GetQuantity()<<std::endl; }
-
+std::ostream& operator<<(std::ostream& out, const CSVValue<D,U,T>& c) { return out<<D::Key<<"\t"<<c.GetQuantity(); }
 
 //--------------------------------Factory------------------------------------------------
 class Date;
