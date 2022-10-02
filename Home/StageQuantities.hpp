@@ -123,9 +123,9 @@ public:
 
 template<> const char* CSVValue<IndividualUnit, Scalar, unsigned>::Key = "IndividualUnit";
 template<> const char* CSVValue<ApartmentArea, Area, unsigned>::Key = "Area";
-template<> const char* CSVValue<Rooms, Area>::Key = "Rooms";
-template<> const char* CSVValue<BuildingCleaningProportion, Scalar>::Key = "BuildingCleaningProportion";
-template<> const char* CSVValue<HeatingProportion, Area>::Key = "HeatingProportion";
+template<> const char* CSVValue<Rooms, Scalar, unsigned>::Key = "Rooms";
+template<> const char* CSVValue<BuildingCleaningProportion, Scalar, unsigned>::Key = "BuildingCleaningProportion";
+template<> const char* CSVValue<HeatingProportion, Area, unsigned>::Key = "HeatingProportion";
 template<> const char* CSVValue<Persons, Scalar, unsigned>::Key = "Persons";
 template<> const char* CSVValue<Advance, Sum>::Key = "Advance";
 template<> const char* CSVValue<IncidentalHeatingCosts, Sum>::Key = "IncidentalHeatingCosts";

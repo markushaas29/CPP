@@ -118,6 +118,7 @@ public:
 	IBAN(std::string s): Element(s){ };
 	IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
+	decltype(auto) ID() { return Identifier; }
 };
 
 inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value < rhs.Value; }
@@ -159,13 +160,14 @@ public:
        Name(std::string s): Element(s){};
        Name(): Element(""){};
        Name* DoCreate(){return this;};
+		decltype(auto) ID() { return Identifier; }
 };
 
 template<typename D, typename U, typename T = double>
 class CSVValue: public Element
 {
-	using Derived = D;
 public:
+	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
 	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
@@ -182,6 +184,8 @@ public:
 		this->val = a.val; 
 		return *this; 
 	}
+	
+	decltype(auto) ID() { return Key; }
 private:
 	Quantity<U> quantity;
 	T val;
@@ -189,11 +193,7 @@ private:
 };
 
 template<typename D, typename U, typename T = double>
-std::ostream& operator<<(std::ostream& out, const CSVValue<D,U,T>& c)
-{
-	//~ return out<<CSVValue<D,U,T>::Key<<c.GetQuantity()<<std::endl;;
-	return out<<c.GetQuantity()<<std::endl;;
-}
+std::ostream& operator<<(std::ostream& out, const CSVValue<D,U,T>& c) { return out<<c.GetQuantity()<<std::endl; }
 
 
 //--------------------------------Factory------------------------------------------------

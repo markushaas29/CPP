@@ -94,8 +94,8 @@ private:
 		else 
 		{
 			auto item = std::get<I>(quantities);
-			(*fs)<<item<<std::endl;
-			
+			(*fs)<<item.ID()<<":\t"<<item<<std::endl;
+
 			return printQuantities<I + 1>(std::move(fs), quantities);
 		}
 	}
