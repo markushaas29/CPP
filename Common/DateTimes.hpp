@@ -48,7 +48,7 @@ namespace DateTimes
 		using Base = DateTimeBase<Year>;
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
-		Year(uint v): DateTimeBase<Year>(v), IsLeapYear(isLeapYear(v)){};
+		constexpr Year(uint v): DateTimeBase<Year>(v), IsLeapYear(isLeapYear(v)){};
 		bool operator==(const DateTimes::Year& d) const{ return this->value == d.value; };
 		bool IsLeapYear;
 	private:
@@ -68,7 +68,7 @@ namespace DateTimes
 		using Base = DateTimeBase<Day>;
 		static Base::Derived Get(uint i) { return Day{i};}
 		static Base::Derived Get(int i) { return Day((uint)i);}
-		Day(uint v): DateTimeBase<Day>(v){};
+		constexpr Day(uint v): DateTimeBase<Day>(v){};
 		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
 	};
 	
