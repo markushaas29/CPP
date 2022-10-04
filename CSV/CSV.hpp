@@ -16,9 +16,6 @@ class Element
 {
 public:
 	inline static const std::string Identifier = "";
-	virtual Element* DoCreate() = 0;
-	virtual ~Element(){}
-	
 	Element(std::string s):stringValue(s), Value(s) {};
 	const std::string Value;	
 private:
