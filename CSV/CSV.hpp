@@ -16,10 +16,10 @@ class Element
 {
 public:
 	inline static const std::string Identifier = "Element";
-	constexpr Element(const char* s = ""):value(s) {};
-	const std::string Value() const  { return std::string(value); };	
+	Element(std::string s):value(s) {};
+	const std::string& Value() const  { return this->value; };	
 private:
-	const char* value;
+	const std::string value;
 };
 
 std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}
@@ -30,10 +30,7 @@ template<class ConcreteProduct, typename T = std::string>
 class CreateElementNewPolicy
 {
 public:
-	static Element* DoCreate(T param)
-	{
-		return new ConcreteProduct(param);
-	}
+	static Element* DoCreate(T param){	return new ConcreteProduct(param);	}
 };
 
 
@@ -109,7 +106,7 @@ class IBAN: public Element
 {
 public:
 	inline static const std::string Identifier = "IBAN";
-	IBAN(std::string s): Element(s.c_str()){ };
+	IBAN(std::string s): Element(s){ };
 	IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
@@ -122,7 +119,7 @@ class BIC: public Element
 {
 public:
 	inline static const std::string Identifier = "BIC";
-	BIC(std::string s): Element(s.c_str()){};
+	BIC(std::string s): Element(s){};
 	BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
 };
@@ -134,7 +131,7 @@ class Item: public Element
 public:
 	inline static const std::string Identifier = "Item";
 	Key<T> key;
-	Item(std::string s): Element(s.c_str()), key(s){};
+	Item(std::string s): Element(s), key(s){};
 	Item* DoCreate(){return this;};
 };
 
@@ -142,7 +139,7 @@ class Entry: public Element
 {
 public:
        inline static const std::string Identifier = "Entry";
-       Entry(std::string s): Element(s.c_str()){};
+       Entry(std::string s): Element(s){};
        Entry(): Element(""){};
        Entry* DoCreate(){return this;};
 };
@@ -151,7 +148,7 @@ class Name: public Element
 {
 public:
        inline static const std::string Identifier = "Name";
-       Name(std::string s): Element(s.c_str()){};
+       Name(std::string s): Element(s){};
        Name(): Element(""){};
        Name* DoCreate(){return this;};
 		decltype(auto) ID() { return Identifier; }
@@ -164,9 +161,9 @@ public:
 	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
-	CSVValue(std::string s = "0.0"): Element(s.c_str()), quantity(this->to(s)) {};
-	CSVValue(T t): Element(std::to_string(t).c_str()), quantity(t) {};
-	CSVValue(Quantity<U> u): Element(std::to_string(u.Value()).c_str()), quantity(u) {};
+	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
+	CSVValue(T t): Element(std::to_string(t)), quantity(t) {};
+	CSVValue(Quantity<U> u): Element(std::to_string(u.Value())), quantity(u) {};
 	const Quantity<U>& GetQuantity() const { return this->quantity; }
 	const T& Value() { return this->val; }
 	static const char* Key;

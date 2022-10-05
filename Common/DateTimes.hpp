@@ -102,7 +102,7 @@ namespace DateTimes
 		
 		inline static const std::string Identifier = "Date";
 						
-		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{	}; 
+		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s}, tt{Extract(s)}{	}; 
 		Date(const std::string& s, const TupleType& t): Date(s,  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(uint d, uint m, uint y): Date(std::string(), d,m, y) { };
 		Date(): Date(std::string(), 0,0, 0) { };
