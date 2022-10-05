@@ -81,7 +81,7 @@ namespace Bank
 					 			continue;
 							}
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
-							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value, tt);
+							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value(), tt);
 						}
 						
 						//~ Derived::cont.Display(std::cout);

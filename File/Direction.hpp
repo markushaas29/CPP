@@ -104,7 +104,7 @@ namespace Bank
 	class DirectionBase: public Element
 	{
 	public:
-		DirectionBase(std::string s): Element(s), tranferType{Create(*(s.cbegin()))} { };
+		DirectionBase(std::string s): Element(s.c_str()), tranferType{Create(*(s.cbegin()))} { };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
 		using PtrType = std::shared_ptr<DirectionType>;

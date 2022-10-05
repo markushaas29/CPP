@@ -120,7 +120,7 @@ namespace CSV
 				return result;
 			}
 			
-			void UpdateKeyPatterns(const KeyType&  k, const std::vector<std::string>& patterns)	{	this->UpdateKeyPatterns(k.Value, patterns);	}
+			void UpdateKeyPatterns(const KeyType&  k, const std::vector<std::string>& patterns)	{	this->UpdateKeyPatterns(k.Value(), patterns);	}
 			
 			void UpdateKeyPatterns(const TKeyValue& k, const std::vector<std::string>& patterns)
 			{
@@ -150,7 +150,7 @@ namespace CSV
 			IndexType Get(TKeyValue key) 
 			{
 				for(auto it = this->keyIndices->cbegin(); it != this->keyIndices->cend(); ++it)
-					if((it->GetKey()).Value == key)
+					if((it->GetKey()).Value() == key)
 						return (it->GetIndex()).Get();
 					
 				throw std::invalid_argument( "received negative value" );

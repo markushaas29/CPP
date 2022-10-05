@@ -15,17 +15,14 @@
 class Element
 {
 public:
-	inline static const std::string Identifier = "";
-	Element(std::string s):stringValue(s), Value(s) {};
-	const std::string Value;	
+	inline static const std::string Identifier = "Element";
+	constexpr Element(const char* s = ""):value(s) {};
+	const std::string Value() const  { return std::string(value); };	
 private:
-	const std::string stringValue;
+	const char* value;
 };
 
-std::ostream& operator<<(std::ostream& out, const Element& e)
-{
-	return out<<e.Value;
-}
+std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}
 
 //--------------------------------CreateElementNewPolicy------------------------------------------------
 
@@ -46,7 +43,7 @@ class Key: public Element
 {
 public:
 	inline static const std::string Identifier = "Key";
-	Key(std::string s = ""): Element(s) {};
+	Key(std::string s = ""): Element(s.c_str()) {};
 	Key* DoCreate(){return this;};
 	bool operator==(std::string s) const{ return s == this->Value; }
 	bool operator!=(std::string s) const{ return s != this->Value; }
@@ -85,10 +82,10 @@ template<typename T = std::string>
 bool operator!=(std::string s, const Key<T>& k) { return k != s; }
 
 template<typename T = std::string>
-inline bool operator< (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value < rhs.Value; }
+inline bool operator< (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() < rhs.Value(); }
 
 template<typename T = std::string>
-inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value == rhs.Value; }
+inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
 
 template<typename T = double>
 class Value: public Element
@@ -112,20 +109,20 @@ class IBAN: public Element
 {
 public:
 	inline static const std::string Identifier = "IBAN";
-	IBAN(std::string s): Element(s){ };
+	IBAN(std::string s): Element(s.c_str()){ };
 	IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
 };
 
-inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value < rhs.Value; }
-inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value == rhs.Value; }
+inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() < rhs.Value(); }
+inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() == rhs.Value(); }
 
 class BIC: public Element
 {
 public:
 	inline static const std::string Identifier = "BIC";
-	BIC(std::string s): Element(s){};
+	BIC(std::string s): Element(s.c_str()){};
 	BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
 };
@@ -137,7 +134,7 @@ class Item: public Element
 public:
 	inline static const std::string Identifier = "Item";
 	Key<T> key;
-	Item(std::string s): Element(s), key(s){};
+	Item(std::string s): Element(s.c_str()), key(s){};
 	Item* DoCreate(){return this;};
 };
 
@@ -145,7 +142,7 @@ class Entry: public Element
 {
 public:
        inline static const std::string Identifier = "Entry";
-       Entry(std::string s): Element(s){};
+       Entry(std::string s): Element(s.c_str()){};
        Entry(): Element(""){};
        Entry* DoCreate(){return this;};
 };
@@ -154,7 +151,7 @@ class Name: public Element
 {
 public:
        inline static const std::string Identifier = "Name";
-       Name(std::string s): Element(s){};
+       Name(std::string s): Element(s.c_str()){};
        Name(): Element(""){};
        Name* DoCreate(){return this;};
 		decltype(auto) ID() { return Identifier; }
@@ -167,9 +164,9 @@ public:
 	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
-	CSVValue(std::string s = "0.0"): Element(s), quantity(this->to(s)) {};
-	CSVValue(T t): Element(std::to_string(t)), quantity(t) {};
-	CSVValue(Quantity<U> u): Element(std::to_string(u.Value())), quantity(u) {};
+	CSVValue(std::string s = "0.0"): Element(s.c_str()), quantity(this->to(s)) {};
+	CSVValue(T t): Element(std::to_string(t).c_str()), quantity(t) {};
+	CSVValue(Quantity<U> u): Element(std::to_string(u.Value()).c_str()), quantity(u) {};
 	const Quantity<U>& GetQuantity() const { return this->quantity; }
 	const T& Value() { return this->val; }
 	static const char* Key;
