@@ -33,12 +33,8 @@ class Element
 public:
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
-	Element(const char* s):value{strdup(s)}, size{constLen(s)} {
-		strcpy(data.data(), s); 
-		std::cout<<size<<std::endl;
-		int i[4]= { 0, 2, 1, 3 };
-		auto a2 = to_array(i); };
-	constexpr Element():value{""}, data{{'\0'}}, size(1){ };
+	constexpr Element(const char* s): value(s), size{constLen(s)}, data{constInit(s)} { std::cout<<data[0]<<std::endl;};
+	constexpr Element(): value(""),data{{'\0'}}, size(1){ };
 	const std::string Value() const  { return this->value; };	
 private:
 	std::size_t size;
@@ -47,6 +43,19 @@ private:
 		const char* end = a;
 		while(*end) ++end;
 		return end - a;
+	}
+	
+	constexpr std::array<char,N> constInit(const char * a)
+	{
+		std::array<char,N> result = {};
+		int i = 0;
+		const char* end = a;
+		while(*end) 
+		{
+			result[i] = *end;
+			++end;
+		}
+		return result;
 	}
 	
 	const char* value;
