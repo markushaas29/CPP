@@ -6,21 +6,51 @@
 #include <string.h>
 #include <map>
 #include <memory>
+#include <array>
 #include <chrono>
 #include <ctime>
 
 #ifndef CSV_H
 #define CSV_H
 
+
+template <class T, std::size_t N, std::size_t... I>
+constexpr std::array<std::remove_cv_t<T>, N>
+    to_array_impl(T (&a)[N], std::index_sequence<I...>)
+{
+    return { {a[I]...} };
+}
+ 
+template <class T, std::size_t N>
+constexpr std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N])
+{
+    return to_array_impl(a, std::make_index_sequence<N>{});
+}
+
 //--------------------------------Element------------------------------------------------
 class Element
 {
 public:
+	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
-	Element(const char* s):value{strdup(s)} {};
+	Element(const char* s):value{strdup(s)}, size{constLen(s)} {
+		strcpy(data.data(), s); 
+		std::cout<<size<<std::endl;
+		int i[4]= { 0, 2, 1, 3 };
+		auto a2 = to_array(i); };
+	constexpr Element():value{""}, data{{'\0'}}, size(1){ };
 	const std::string Value() const  { return this->value; };	
 private:
+	std::size_t size;
+	constexpr std::size_t constLen(const char * a)
+	{
+		const char* end = a;
+		while(*end) ++end;
+		return end - a;
+	}
+	
 	const char* value;
+	std::array<char,N> data;
 };
 
 std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}
