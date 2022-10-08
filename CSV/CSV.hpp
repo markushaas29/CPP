@@ -26,6 +26,7 @@ class Element
 public:
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
+	constexpr Element(std::array<char,N> s): size{N}, data{s} { };
 	constexpr Element(const char* s): size{constLen(s)}, data{constInit(s)} { };
 	const std::string Value() const  { return std::string(data.data()); };	
 private:

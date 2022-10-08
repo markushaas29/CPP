@@ -25,6 +25,7 @@ int main()
 	
 	auto d = DateTimes::Date(8,9,2021);
 	std::cout<<d.Value()<<std::endl;
+	std::cout<<d.Value().size()<<std::endl;
 	
 	//~ uint i;
 	//~ std::cin>>i;

@@ -10,6 +10,14 @@
 
 namespace DateTimes
 {
+	template<class T, size_t N>
+	using c_array = T[N];
+
+	template<class T, size_t N>
+	constexpr c_array<T, N>& as_c_array(std::array<T, N> a) {
+		return reinterpret_cast<T(&)[N]>(*a.data());
+	}
+	
 	template<typename T>
 	struct DateTimeBase
 	{
@@ -103,7 +111,7 @@ namespace DateTimes
 		
 		inline static const std::string Identifier = "Date";
 						
-		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element{"TEST"}, tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
+		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element(getChars(2,3,2000)), tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{    };
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date("", 0,0, 0) { };
@@ -142,9 +150,9 @@ namespace DateTimes
 			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
 		bool operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
 	private:
-		static constexpr decltype(auto) getChars(uint d = 0, uint m = 0, uint y = 0)
+		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
-			std::array<char,8> result= {};
+			std::array<char,512> result= {'1','2'};
 			return result;
 		}
 		TupleType tt;
