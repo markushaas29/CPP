@@ -138,7 +138,7 @@ class IBAN: public Element
 public:
 	inline static const std::string Identifier = "IBAN";
 	IBAN(std::string s): Element(s.c_str()){ };
-	IBAN(): Element(""){ };
+	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
 };
@@ -151,7 +151,7 @@ class BIC: public Element
 public:
 	inline static const std::string Identifier = "BIC";
 	BIC(std::string s): Element(s.c_str()){};
-	BIC(): Element(""){ };
+	constexpr BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
 };
 
@@ -169,20 +169,20 @@ public:
 class Entry: public Element
 {
 public:
-       inline static const std::string Identifier = "Entry";
-       Entry(std::string s): Element(s.c_str()){};
-       Entry(): Element(""){};
-       Entry* DoCreate(){return this;};
+	inline static const std::string Identifier = "Entry";
+    Entry(std::string s): Element(s.c_str()){};
+    constexpr Entry(): Element(""){};
+    Entry* DoCreate(){return this;};
 };
 
 class Name: public Element
 {
 public:
-       inline static const std::string Identifier = "Name";
-       Name(std::string s): Element(s.c_str()){};
-       Name(): Element(""){};
-       Name* DoCreate(){return this;};
-		decltype(auto) ID() { return Identifier; }
+    inline static const std::string Identifier = "Name";
+    Name(std::string s): Element(s.c_str()){};
+    constexpr Name(): Element(""){};
+    Name* DoCreate(){return this;};
+	decltype(auto) ID() { return Identifier; }
 };
 
 template<typename D, typename U, typename T = double>

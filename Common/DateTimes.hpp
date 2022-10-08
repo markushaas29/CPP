@@ -102,10 +102,11 @@ namespace DateTimes
 		
 		inline static const std::string Identifier = "Date";
 						
-		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{	}; 
-		Date(const std::string& s, const TupleType& t): Date(s,  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
-		Date(uint d, uint m, uint y): Date(std::string(), d,m, y) { };
-		Date(): Date(std::string(), 0,0, 0) { };
+		constexpr Date(const char* s, uint d = 0, uint m = 0, uint y = 0): Element{s}, tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
+		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{    };
+		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
+		Date(uint d, uint m, uint y): Date("", d,m, y) { };
+		Date(): Date("", 0,0, 0) { };
 		Date* DoCreate(){return this;};
 
 		std::string TimeString()
