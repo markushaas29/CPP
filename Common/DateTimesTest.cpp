@@ -22,6 +22,10 @@ int main()
 	Logger::Log()<<DateTimes::January.Value()<<std::endl;
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
+	
+	auto d = DateTimes::Date(8,9,2021);
+	std::cout<<d.Value()<<std::endl;
+	
 	//~ uint i;
 	//~ std::cin>>i;
     //~ auto x = DateTimes::Month::Get(i);
