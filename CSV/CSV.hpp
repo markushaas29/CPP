@@ -15,17 +15,10 @@
 
 
 template <class T, std::size_t N, std::size_t... I>
-constexpr std::array<std::remove_cv_t<T>, N>
-    to_array_impl(T (&a)[N], std::index_sequence<I...>)
-{
-    return { {a[I]...} };
-}
+constexpr std::array<std::remove_cv_t<T>, N>   to_array_impl(T (&a)[N], std::index_sequence<I...>){  return { {a[I]...} };}
  
 template <class T, std::size_t N>
-constexpr std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N])
-{
-    return to_array_impl(a, std::make_index_sequence<N>{});
-}
+constexpr std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]){  return to_array_impl(a, std::make_index_sequence<N>{}); }
 
 //--------------------------------Element------------------------------------------------
 class Element
@@ -33,9 +26,8 @@ class Element
 public:
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
-	constexpr Element(const char* s): value(s), size{constLen(s)}, data{constInit(s)} { std::cout<<data[0]<<std::endl;};
-	constexpr Element(): value(""),data{{'\0'}}, size(1){ };
-	const std::string Value() const  { return this->value; };	
+	constexpr Element(const char* s): size{constLen(s)}, data{constInit(s)} { };
+	const std::string Value() const  { return std::string(data.data()); };	
 private:
 	std::size_t size;
 	constexpr std::size_t constLen(const char * a)
@@ -52,13 +44,12 @@ private:
 		const char* end = a;
 		while(*end) 
 		{
-			result[i] = *end;
+			result[i++] = *end;
 			++end;
 		}
 		return result;
 	}
 	
-	const char* value;
 	std::array<char,N> data;
 };
 
