@@ -87,7 +87,7 @@ constexpr decltype(auto) IntToChars(uint num)
     std::array<char,N+1> result = {};
     uint i;
     uint E = (N-1) * 10;
-    while(num > E)
+    while(num >= E)
 	{
 		num = num - 10;
 		++i;

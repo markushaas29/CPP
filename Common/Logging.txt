@@ -1,0 +1,9 @@
+[DEBUG]: 1
+[DEBUG]: 2
+[DEBUG]: 12
+[DEBUG]: 2021
+[DEBUG]: 2020
+[DEBUG]: 7
+[DEBUG]: 6
+[DEBUG]: 1
+[DEBUG]: 12

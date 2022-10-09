@@ -27,6 +27,12 @@ int main()
 	
     std::cout<<"Int2Chars"<<std::endl;
     std::cout<<"12: "<<std::string(IntToChars<2>(12).data())<<std::endl;
+    std::cout<<"20: "<<std::string(IntToChars<2>(20).data())<<std::endl;
+    std::cout<<"20: "<<IntToChars<2>(20)[0]<<std::endl;
+    std::cout<<"20: "<<IntToChars<2>(20)[1]<<std::endl;
+    std::cout<<"21: "<<std::string(IntToChars<2>(21).data())<<std::endl;
+    std::cout<<"31: "<<std::string(IntToChars<2>(31).data())<<std::endl;
+    std::cout<<"89: "<<std::string(IntToChars<2>(89).data())<<std::endl;
     
     std::cout<<"Num2String"<<std::endl;
     std::cout<<num_to_string<4568>::value<<std::endl;

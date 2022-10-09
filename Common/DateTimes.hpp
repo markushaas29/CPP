@@ -151,9 +151,36 @@ namespace DateTimes
 			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
 		bool operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
 	private:
-		static constexpr std::array<char,512> getChars(const uint d = 0, uint m = 0, uint y = 0)
+		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
 			std::array<char,512> result= {};
+			auto day = IntToChars<2>(d);
+			auto month = IntToChars<2>(m);
+			auto year1 = IntToChars<2>(20);
+			auto year = IntToChars<2>(21);
+			
+			//~ result[0] = day[0];
+			//~ result[1] = day[1];
+			//~ result[2] = month[0];
+			//~ result[3] = month[1];
+			//~ result[4] = (char)year1[0];
+			//~ result[5] = year[1];
+			//~ result[6] = year[0];
+			//~ result[7] = year[1];
+			//~ result[8] = '\0';
+			
+			result[0] = year1[0];
+			result[1] = year[1];
+			result[2] = year[0];
+			result[3] = year[1];
+			result[4] = '\0';
+			result[0] = NumToChar(2);
+			result[1] = NumToChar(0);
+			result[2] = year[0];
+			result[3] = year[1];
+			result[4] = '\0';
+			
+			//~ std::array<char,512> result = {day[0], day[1], month[0], month[1], year1[0], year[1], year[0], year[1],'\0'};
 			return result;
 		}
 		TupleType tt;
