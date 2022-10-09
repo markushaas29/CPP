@@ -138,7 +138,8 @@ class IBAN: public Element
 {
 public:
 	inline static const std::string Identifier = "IBAN";
-	IBAN(std::string s): Element(s.c_str()){ };
+	IBAN(std::string s): IBAN{s.c_str()}{ };
+	constexpr IBAN(const char* c): Element(c){ };
 	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
@@ -151,7 +152,8 @@ class BIC: public Element
 {
 public:
 	inline static const std::string Identifier = "BIC";
-	BIC(std::string s): Element(s.c_str()){};
+	BIC(std::string s): BIC(s.c_str()){};
+	constexpr BIC(const char* c): Element(c){ };
 	constexpr BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
 };
@@ -163,7 +165,8 @@ class Item: public Element
 public:
 	inline static const std::string Identifier = "Item";
 	Key<T> key;
-	Item(std::string s): Element(s.c_str()), key(s){};
+	Item(std::string s):Element(s.c_str()), key(s){};
+	constexpr Item(const char* c): Element(c){ };
 	Item* DoCreate(){return this;};
 };
 
@@ -171,7 +174,8 @@ class Entry: public Element
 {
 public:
 	inline static const std::string Identifier = "Entry";
-    Entry(std::string s): Element(s.c_str()){};
+    Entry(std::string s): Entry(s.c_str()){};
+	constexpr Entry(const char* c): Element(c){ };
     constexpr Entry(): Element(""){};
     Entry* DoCreate(){return this;};
 };
@@ -180,7 +184,8 @@ class Name: public Element
 {
 public:
     inline static const std::string Identifier = "Name";
-    Name(std::string s): Element(s.c_str()){};
+    Name(std::string s): Name(s.c_str()){};
+	constexpr Name(const char* c): Element(c){ };
     constexpr Name(): Element(""){};
     Name* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }

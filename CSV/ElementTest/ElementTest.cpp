@@ -15,5 +15,11 @@ int main()
     std::cout<<e.Value().size()<<std::endl;
     std::cout<<e.Value()<<std::endl;
 	
+	auto s1 = std::string("DE123DE");
+	auto i = IBAN(s1.c_str());
+	assert(s1.size()==i.Value().size());
+	assert(s1==i.Value());
+    std::cout<<i.Value()<<std::endl;
+	
     return 0;
 }
