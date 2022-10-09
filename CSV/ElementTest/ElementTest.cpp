@@ -22,6 +22,8 @@ int main()
     std::cout<<i.Value()<<std::endl;
 	
     std::cout<<"Num2String"<<std::endl;
+    std::cout<<"9: "<<NumToChar(9)<<std::endl;
+    std::cout<<"0: "<<NumToChar(0)<<std::endl;
 	
     std::cout<<num_to_string<4568>::value<<std::endl;
 	

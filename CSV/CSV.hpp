@@ -79,6 +79,7 @@ std::array<char,S> convertIntegerToChar(uint N)
     return arr;
 }
 
+constexpr char NumToChar(uint i){ return (char)(i + '0'); }
 
 //--------------------------------Element------------------------------------------------
 class Element
