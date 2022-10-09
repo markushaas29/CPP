@@ -107,7 +107,14 @@ public:
 	inline static const std::string Identifier = "Element";
 	constexpr Element(std::array<char,N> s): size{N}, data{s} { };
 	constexpr Element(const char* s): size{constLen(s)}, data{constInit(s)} { };
-	const std::string Value() const  { return std::string(data.data()); };	
+
+	const std::string Value() const  
+	{ 
+		return std::string(data.data()); 
+	};	
+	constexpr decltype(auto) Begin() { return data.begin(); }
+	constexpr decltype(auto) End() { return data.begin() + size; }
+	constexpr decltype(auto) Size() { return size; }
 private:
 	std::size_t size;
 	constexpr std::size_t constLen(const char * a)
@@ -129,7 +136,6 @@ private:
 		}
 		return result;
 	}
-	
 	std::array<char,N> data;
 };
 

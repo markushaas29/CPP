@@ -13,7 +13,7 @@ int main()
 	assert(s.size()==e.Value().size());
 	assert(s==e.Value());
     std::cout<<e.Value().size()<<std::endl;
-    std::cout<<e.Value()<<std::endl;
+    std::cout<<*(e.End()-2)<<std::endl;
 	
 	auto s1 = std::string("DE123DE");
 	auto i = IBAN(s1.c_str());

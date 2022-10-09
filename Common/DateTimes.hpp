@@ -157,7 +157,7 @@ namespace DateTimes
 			auto day = IntToChars<2>(d);
 			auto month = IntToChars<2>(m);
 			auto year1 = IntToChars<2>(20);
-			auto year = IntToChars<2>(21);
+			auto year = IntToChars<2>(y);
 			
 			//~ result[0] = day[0];
 			//~ result[1] = day[1];

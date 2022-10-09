@@ -23,7 +23,7 @@ int main()
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
 	
-	auto d = DateTimes::Date(18,12,2021);
+	auto d = DateTimes::Date(18,(uint)12,(uint)2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);
 	//~ std::cout<<d[0]<<std::endl;
 	//~ std::cout<<d[1]<<std::endl;
