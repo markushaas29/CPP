@@ -20,6 +20,66 @@ constexpr std::array<std::remove_cv_t<T>, N>   to_array_impl(T (&a)[N], std::ind
 template <class T, std::size_t N>
 constexpr std::array<std::remove_cv_t<T>, N> to_array(T (&a)[N]){  return to_array_impl(a, std::make_index_sequence<N>{}); }
 
+namespace detail
+{
+    template<unsigned... digits>
+    struct to_chars { static const char value[]; };
+
+    template<unsigned... digits>
+    constexpr char to_chars<digits...>::value[] = {('0' + digits)..., 0};
+
+    template<unsigned rem, unsigned... digits>
+    struct explode : explode<rem / 10, rem % 10, digits...> {};
+
+    template<unsigned... digits>
+    struct explode<0, digits...> : to_chars<digits...> {};
+}
+
+template<unsigned num>
+struct num_to_string : detail::explode<num> {};
+
+template<uint S>
+//~ constexpr decltype(auto) convertIntegerToChar(uint N)
+std::array<char,S> convertIntegerToChar(uint N)
+{
+    uint m = N;
+
+    uint digit = 0;
+    while (m) {
+        digit++;
+        m /= 10;
+    }
+
+    std::array<char,S> arr = {};
+	std::array<char,S> arr1 = {};
+ 
+    int index = 0;
+    while (N) {
+        arr1[++index] = N % 10 + '0';
+        N /= 10;
+    }
+    
+    
+    std::cout<<index<<std::endl;
+
+    for (uint i= 0; i < S; i++) {
+        arr[i] = arr1[S - i -1];
+		if(!(int)arr[i])
+			arr[S-1] = '0';
+    }
+    
+    std::cout<<arr1[3]<<std::endl;
+    std::cout<<arr[1]<<std::endl;
+    std::cout<<arr[2]<<std::endl;
+    std::cout<<arr[3]<<std::endl;
+ 
+    std::cout<<arr[0]<<std::endl;
+    std::cout<<arr[S-1]<<std::endl;
+ 
+    return arr;
+}
+
+
 //--------------------------------Element------------------------------------------------
 class Element
 {

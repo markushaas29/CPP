@@ -2,6 +2,7 @@
 #include <ratio>
 #include <chrono>
 #include <tuple>
+#include <charconv>
 #include <array>
 #include "../CSV/CSV.hpp"
 
@@ -111,7 +112,7 @@ namespace DateTimes
 		
 		inline static const std::string Identifier = "Date";
 						
-		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element(getChars(2,3,2000)), tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
+		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element(getChars(d,m,y)), tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{    };
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date("", 0,0, 0) { };
@@ -150,9 +151,9 @@ namespace DateTimes
 			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
 		bool operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
 	private:
-		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
+		static constexpr std::array<char,512> getChars(const uint d = 0, uint m = 0, uint y = 0)
 		{
-			std::array<char,512> result= {'1','2'};
+			std::array<char,512> result= {};
 			return result;
 		}
 		TupleType tt;

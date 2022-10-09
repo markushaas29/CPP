@@ -23,9 +23,12 @@ int main()
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
 	
-	auto d = DateTimes::Date(8,9,2021);
+	auto d = DateTimes::Date(18,12,2021);
 	std::cout<<d.Value()<<std::endl;
 	std::cout<<d.Value().size()<<std::endl;
+	
+	//~ auto day = convertIntegerToChar<1>(1);
+	//~ std::cout<<day[0]<<std::endl;
 	
 	//~ uint i;
 	//~ std::cin>>i;

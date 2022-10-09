@@ -21,5 +21,9 @@ int main()
 	assert(s1==i.Value());
     std::cout<<i.Value()<<std::endl;
 	
+    std::cout<<"Num2String"<<std::endl;
+	
+    std::cout<<num_to_string<4568>::value<<std::endl;
+	
     return 0;
 }
