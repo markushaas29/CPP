@@ -25,6 +25,10 @@ int main()
     std::cout<<"9: "<<NumToChar(9)<<std::endl;
     std::cout<<"0: "<<NumToChar(0)<<std::endl;
 	
+    std::cout<<"Int2Chars"<<std::endl;
+    std::cout<<"12: "<<std::string(IntToChars<2>(12).data())<<std::endl;
+    
+    std::cout<<"Num2String"<<std::endl;
     std::cout<<num_to_string<4568>::value<<std::endl;
 	
     return 0;

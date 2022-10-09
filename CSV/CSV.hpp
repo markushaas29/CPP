@@ -81,6 +81,24 @@ std::array<char,S> convertIntegerToChar(uint N)
 
 constexpr char NumToChar(uint i){ return (char)(i + '0'); }
 
+template<uint N>
+constexpr decltype(auto) IntToChars(uint num)
+{
+    std::array<char,N+1> result = {};
+    uint i;
+    uint E = (N-1) * 10;
+    while(num > E)
+	{
+		num = num - 10;
+		++i;
+	}
+	
+	result[N-2] = NumToChar(i);
+	result[N-1] = NumToChar(num);
+	result[N] = '\0';
+	
+	return result;
+}
 //--------------------------------Element------------------------------------------------
 class Element
 {
