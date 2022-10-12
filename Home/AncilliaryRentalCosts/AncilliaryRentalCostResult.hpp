@@ -23,7 +23,7 @@ public:
 	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
-		os<<StageType::StageName<<"\t"<<ItemType::Name<<"\t"<<this->year<<std::endl;
+		os<<StageType::StageName<<"\t"<<ItemType::TypeIdentifier<<"\t"<<this->year<<std::endl;
 		os<<"Numerator: \t\t"<<numerator<<std::endl;
 		os<<"Denominator: \t"<<denominator<<std::endl;
 		os<<"Sum: \t"<<sum<<std::endl;

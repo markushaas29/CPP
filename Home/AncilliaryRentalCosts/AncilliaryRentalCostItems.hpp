@@ -38,7 +38,7 @@ struct AncilliaryRentalCostItemBase
 	using AccountType = Bank::Raiba<0>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,StageType,StageQuantity,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
-	constexpr static const char* Name = "";
+	constexpr static Name TypeIdentifier = Name{""};
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
@@ -91,7 +91,7 @@ template<typename S>
 struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, IndividualUnit> 
 { 
 	using Base = AncilliaryRentalCostItemBase<S, BuildingInsurance<S>,IndividualUnit>; 
-	constexpr static const char* Name = "BuildingInsurance"; 
+	constexpr static Name TypeIdentifier = Name{"BuildingInsurance"}; 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static constexpr IBAN iban{"DE97500500000003200029"};	
 	
@@ -117,7 +117,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 template<typename S>
 struct WasteFees: AncilliaryRentalCostItemBase<S,WasteFees<S>, Persons> 
 { 
-	constexpr static const char* Name = "WasteFees"; 
+	constexpr static Name TypeIdentifier = Name{"WasteFees"}; 
 	constexpr static const char* Identifier = "Abfallwirtschaftsbetrieb"; 
 	inline static constexpr IBAN iban{"DE44600501010008017284"};	
 };
@@ -125,7 +125,7 @@ struct WasteFees: AncilliaryRentalCostItemBase<S,WasteFees<S>, Persons>
 template<typename S>
 struct BuildingCleaning: AncilliaryRentalCostItemBase<S,BuildingCleaning<S>, BuildingCleaningProportion> 
 { 
-	constexpr static const char* Name = "BuildingCleaning"; 
+	constexpr static Name TypeIdentifier = Name{"BuildingCleaning"}; 
 	constexpr static const char* Identifier = "Alles Proper"; 
 	inline static constexpr IBAN iban{"DE44600501010008017284"};	
 };
@@ -134,7 +134,7 @@ template<typename S>
 struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion> 
 { 
 	using Base =  AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>;
-	constexpr static const char* Name = "Heating"; 
+	constexpr static Name TypeIdentifier = Name{"Heating"}; 
 	constexpr static const char* Identifier = "Erdgas Suedwest GmbH / EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierEnergy = "EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierGas = "Erdgas Suedwest GmbH"; 
@@ -170,7 +170,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 template<typename S>
 struct ChimneySweeper: AncilliaryRentalCostItemBase<S,ChimneySweeper<S>, IndividualUnit> 
 { 
-	constexpr static const char* Name = "ChimneySweeper"; 
+	constexpr static Name TypeIdentifier =  Name{"ChimneySweeper"}; 
 	constexpr static const char* Identifier = "Sascha Schneider"; 
 	inline static constexpr IBAN iban{"DE82660501011021592702"};	
 };
@@ -187,7 +187,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	using Base = AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
-	constexpr static const char* Name = "PropertyTax"; 
+	constexpr static Name TypeIdentifier = Name{"PropertyTax"}; 
 	constexpr static const char* Cause = "Grundsteuer"; 
 	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
 	
@@ -219,7 +219,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
 	constexpr static const char* Cause = "Abschlag/Abwasser"; 
-	constexpr static const char* Name = "Sewage"; 
+	constexpr static Name TypeIdentifier = Name{"Sewage"}; 
 	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
