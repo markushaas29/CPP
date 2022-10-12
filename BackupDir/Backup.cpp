@@ -42,11 +42,14 @@ std::string GetTarget()
 {
     const std::string usb ="/media/markus/BACKUP/";
  	const std::string seagate ="/media/markus/Seagate/";
+	const std::string usb128 ="/media/markus/eebbb521-a27a-4f77-a520-6628d7a9b923/";
 	
 	if(Directory_exists(usb)) 
 		return usb;
 	if(Directory_exists(seagate)) 
 		return seagate;	
+	if(Directory_exists(usb128)) 
+		return usb128;	
 	
 	return "";
 }

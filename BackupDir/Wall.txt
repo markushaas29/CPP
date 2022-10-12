@@ -1,0 +1,7 @@
+Backup.cpp: In function ‘std::string GetTarget()’:
+Backup.cpp:45: error: redeclaration of ‘const string seagate’
+   45 |  const std::string seagate ="/media/markus/eebbb521-a27a-4f77-a520-6628d7a9b923/";
+      | 
+Backup.cpp:44: note: ‘const string seagate’ previously declared here
+   44 |   const std::string seagate ="/media/markus/Seagate/";
+      | 
