@@ -5,9 +5,37 @@
 #include <charconv>
 #include <array>
 #include "../CSV/CSV.hpp"
+#include "../String/String_.hpp"
 
 #ifndef DATETIMES_HPP
 #define DATETIMES_HPP
+
+static std::array<char,512> Chars(uint d = 0, uint m = 0, uint y = 0)
+{
+	std::array<char,512> result= {};
+	auto day = IntToChars<2>(d);
+	auto month = IntToChars<2>(m);
+	auto year1 = IntToChars<2>(20);
+	auto year = IntToChars<2>(y);
+		
+		std::cout<<"D "<<d<<std::endl;	
+		std::cout<<"M "<<m<<std::endl;	
+		std::cout<<"Y "<<y<<std::endl;	
+			
+			//~ result[0] = year1[0];
+			//~ result[1] = year[1];
+			//~ result[2] = year[0];
+			//~ result[3] = year[1];
+			//~ result[4] = '\0';
+			result[0] = month[0];
+			result[1] = month[1];
+			result[2] = year[0];
+			result[3] = year[1];
+			result[4] = '\0';
+			
+			//~ std::array<char,512> result = {day[0], day[1], month[0], month[1], year1[0], year[1], year[0], year[1],'\0'};
+			return result;
+		}
 
 namespace DateTimes
 {
@@ -146,6 +174,9 @@ namespace DateTimes
 		}
 		
 		
+		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 
+			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
+			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
 		bool operator==(const Date& date) const{ return std::get<DateTimes::Day>(date.tt) == std::get<DateTimes::Day>(this->tt) 
 			&& std::get<DateTimes::Month>(date.tt) == std::get<DateTimes::Month>(this->tt) 
 			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
@@ -159,32 +190,21 @@ namespace DateTimes
 			auto year1 = IntToChars<2>(20);
 			auto year = IntToChars<2>(y);
 			
-			//~ result[0] = day[0];
-			//~ result[1] = day[1];
-			//~ result[2] = month[0];
-			//~ result[3] = month[1];
-			//~ result[4] = (char)year1[0];
-			//~ result[5] = year[1];
-			//~ result[6] = year[0];
-			//~ result[7] = year[1];
-			//~ result[8] = '\0';
+			result[0] = day[0];
+			result[1] = day[1];
+			result[2] = month[0];
+			result[3] = month[1];
+			result[4] = year1[0];
+			result[5] = year[1];
+			result[6] = year[0];
+			result[7] = year[1];
+			result[8] = '\0';
 			
-			result[0] = year1[0];
-			result[1] = year[1];
-			result[2] = year[0];
-			result[3] = year[1];
-			result[4] = '\0';
-			result[0] = NumToChar(2);
-			result[1] = NumToChar(0);
-			result[2] = year[0];
-			result[3] = year[1];
-			result[4] = '\0';
-			
-			//~ std::array<char,512> result = {day[0], day[1], month[0], month[1], year1[0], year[1], year[0], year[1],'\0'};
 			return result;
 		}
 		TupleType tt;
 		TP tp;
+		String_::From<uint> converter;
 	};
 
 	template<typename ItemT>

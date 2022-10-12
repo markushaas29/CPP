@@ -23,19 +23,21 @@ int main()
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
 	
-	auto d = DateTimes::Date(18,(uint)12,(uint)2021);
+	auto dt = DateTimes::Date(18,(uint)12,(uint)2021);
+	std::cout<<dt.Value()<<std::endl;
+	
+	auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);
-	//~ std::cout<<d[0]<<std::endl;
-	//~ std::cout<<d[1]<<std::endl;
-	//~ std::cout<<d[2]<<std::endl;
-	//~ std::cout<<d[3]<<std::endl;
-	//~ std::cout<<d[4]<<std::endl;
-	//~ std::cout<<d[5]<<std::endl;
-	//~ std::cout<<d[6]<<std::endl;
-	//~ std::cout<<d[7]<<std::endl;
-	//~ std::cout<<std::string(d.data())<<std::endl;
-	std::cout<<d.Value()<<std::endl;
-	//~ std::cout<<d.Value().size()<<std::endl;
+	std::cout<<d[0]<<std::endl;
+	std::cout<<d[1]<<std::endl;
+	std::cout<<d[2]<<std::endl;
+	std::cout<<d[3]<<std::endl;
+	std::cout<<d[4]<<std::endl;
+	std::cout<<d[5]<<std::endl;
+	std::cout<<d[6]<<std::endl;
+	std::cout<<d[7]<<std::endl;
+	std::cout<<std::string(d.data())<<std::endl;
+	//~ std::cout<<d.Value()<<std::endl;
 	
 	//~ auto day = convertIntegerToChar<1>(1);
 	//~ std::cout<<day[0]<<std::endl;

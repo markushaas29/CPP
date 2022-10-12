@@ -39,8 +39,7 @@ template<unsigned num>
 struct num_to_string : detail::explode<num> {};
 
 template<uint S>
-//~ constexpr decltype(auto) convertIntegerToChar(uint N)
-std::array<char,S> convertIntegerToChar(uint N)
+constexpr decltype(auto) convertIntegerToChar(uint N)
 {
     uint m = N;
 
@@ -67,14 +66,6 @@ std::array<char,S> convertIntegerToChar(uint N)
 		if(!(int)arr[i])
 			arr[S-1] = '0';
     }
-    
-    std::cout<<arr1[3]<<std::endl;
-    std::cout<<arr[1]<<std::endl;
-    std::cout<<arr[2]<<std::endl;
-    std::cout<<arr[3]<<std::endl;
- 
-    std::cout<<arr[0]<<std::endl;
-    std::cout<<arr[S-1]<<std::endl;
  
     return arr;
 }
@@ -108,10 +99,7 @@ public:
 	constexpr Element(std::array<char,N> s): size{N}, data{s} { };
 	constexpr Element(const char* s): size{constLen(s)}, data{constInit(s)} { };
 
-	const std::string Value() const  
-	{ 
-		return std::string(data.data()); 
-	};	
+	const std::string Value() const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Begin() { return data.begin(); }
 	constexpr decltype(auto) End() { return data.begin() + size; }
 	constexpr decltype(auto) Size() { return size; }
