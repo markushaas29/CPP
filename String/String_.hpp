@@ -151,25 +151,25 @@ namespace String_
 	template<typename T>
 	struct From
 	{
-		std::string operator()(T t) { return ""; }
+		std::string operator()(T t) const { return ""; }
 	};
 	
 	template<>
 	struct From<int>
 	{
-		std::string operator()(int t) { return std::to_string(t); }
+		std::string operator()(int t) const { return std::to_string(t); }
 	};
 	
 	template<>
 	struct From<uint>
 	{
-		std::string operator()(uint t) { return std::to_string(t); }
+		std::string operator()(uint t) const { return std::to_string(t); }
 	};
 	
 	template<>
 	struct From<double>
 	{
-		std::string operator()(double t) { return std::to_string(t); }
+		std::string operator()(double t) const { return std::to_string(t); }
 	};
 	
 	static From<int> FromInt = From<int>();
