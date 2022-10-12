@@ -91,7 +91,7 @@ template<typename S>
 struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, IndividualUnit> 
 { 
 	using Base = AncilliaryRentalCostItemBase<S, BuildingInsurance<S>,IndividualUnit>; 
-	constexpr static Name TypeIdentifier = Name{"BuildingInsurance"}; 
+	constexpr static Name TypeIdentifier{"BuildingInsurance"}; 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static constexpr IBAN iban{"DE97500500000003200029"};	
 	
@@ -117,7 +117,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 template<typename S>
 struct WasteFees: AncilliaryRentalCostItemBase<S,WasteFees<S>, Persons> 
 { 
-	constexpr static Name TypeIdentifier = Name{"WasteFees"}; 
+	constexpr static Name TypeIdentifier{"WasteFees"}; 
 	constexpr static const char* Identifier = "Abfallwirtschaftsbetrieb"; 
 	inline static constexpr IBAN iban{"DE44600501010008017284"};	
 };
@@ -125,7 +125,7 @@ struct WasteFees: AncilliaryRentalCostItemBase<S,WasteFees<S>, Persons>
 template<typename S>
 struct BuildingCleaning: AncilliaryRentalCostItemBase<S,BuildingCleaning<S>, BuildingCleaningProportion> 
 { 
-	constexpr static Name TypeIdentifier = Name{"BuildingCleaning"}; 
+	constexpr static Name TypeIdentifier{"BuildingCleaning"}; 
 	constexpr static const char* Identifier = "Alles Proper"; 
 	inline static constexpr IBAN iban{"DE44600501010008017284"};	
 };
@@ -138,23 +138,20 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	constexpr static const char* Identifier = "Erdgas Suedwest GmbH / EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierEnergy = "EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierGas = "Erdgas Suedwest GmbH"; 
-	constexpr static const char* Invoice = "Rechnung"; 
-	constexpr static const char* AdvancePayment = "Abschlag"; 
+	constexpr static Entry Invoice{"Rechnung"}; 
+	constexpr static Entry AdvancePayment{"Abschlag"}; 
 	inline static constexpr IBAN ibanGas{"DE68600501010002057075"};	
 	inline static constexpr IBAN ibanEnergy{"DE56600501017402051588"};	
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto invoiceEntry = Entry(Invoice);
-		auto paymentEntry = Entry(AdvancePayment);
-		
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
-		auto transfers = accGas.GetTransferOf(paymentEntry,year);
-		Base::InsertSpecifiedTransfers(accGas, transfers, invoiceEntry,year.Next());
+		auto transfers = accGas.GetTransferOf(AdvancePayment,year);
+		Base::InsertSpecifiedTransfers(accGas, transfers, Invoice,year.Next());
 		
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		Base::InsertSpecifiedTransfers(accEnergy, transfers, paymentEntry,year.Next());
-		Base::InsertSpecifiedTransfers(accEnergy, transfers, invoiceEntry,year.Next());
+		Base::InsertSpecifiedTransfers(accEnergy, transfers, AdvancePayment,year.Next());
+		Base::InsertSpecifiedTransfers(accEnergy, transfers, Invoice,year.Next());
 		
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
@@ -170,7 +167,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 template<typename S>
 struct ChimneySweeper: AncilliaryRentalCostItemBase<S,ChimneySweeper<S>, IndividualUnit> 
 { 
-	constexpr static Name TypeIdentifier =  Name{"ChimneySweeper"}; 
+	constexpr static Name TypeIdentifier{"ChimneySweeper"}; 
 	constexpr static const char* Identifier = "Sascha Schneider"; 
 	inline static constexpr IBAN iban{"DE82660501011021592702"};	
 };
@@ -187,21 +184,16 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	using Base = AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
-	constexpr static Name TypeIdentifier = Name{"PropertyTax"}; 
-	constexpr static const char* Cause = "Grundsteuer"; 
+	constexpr static Name TypeIdentifier{"PropertyTax"}; 
+	constexpr static Entry Cause{"Grundsteuer"}; 
 	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account.GetTransferOf(Entry(Cause),year);		
+		auto transfers = account.GetTransferOf(Cause,year);		
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
-				
-		//~ auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
-		//~ auto num = GetStage<S,IndividualUnit>().GetQuantity();
-		//~ if constexpr (std::is_same<S,Top>::value)
-			//~ num = num + Quantity<Scalar>(1);
 				
 		auto denom = StageContainerType::Instance().GetTotal<ApartmentArea>();
 		auto num = GetStage<S,ApartmentArea>().GetQuantity();
@@ -218,15 +210,15 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	using Base = AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>; 
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
-	constexpr static const char* Cause = "Abschlag/Abwasser"; 
-	constexpr static Name TypeIdentifier = Name{"Sewage"}; 
-	constexpr static const char* Invoice = "Rechnung/Abwasser"; 
+	constexpr static Entry Cause{"Abschlag/Abwasser"}; 
+	constexpr static Name TypeIdentifier{"Sewage"}; 
+	constexpr static Entry Invoice{"Rechnung/Abwasser"}; 
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account.GetTransferOf(Entry(Cause),year);		
-		Base::InsertSpecifiedTransfers(account, transfers, Entry(Invoice),year.Next());
+		auto transfers = account.GetTransferOf(Cause,year);		
+		Base::InsertSpecifiedTransfers(account, transfers, Invoice,year.Next());
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
