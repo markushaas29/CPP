@@ -8,13 +8,14 @@
 #include <cstdint>
 #include <filesystem>
 #include <unordered_map>
+#include <map>
 #include "../Logger/Logger.hpp"
 #include "../File/Account.hpp"
 #include "../File/Repository.hpp"
 #include "../File/FileSystem.hpp"
 namespace fs = std::filesystem;
 
-std::vector<std::string> GetFiles(std::string filename = "Backup.txt")
+std::vector<std::string> ReadFile(std::string filename = "Backup_.txt")
 {
 	std::ifstream file(filename);
 	std::vector<std::string> result;
@@ -27,6 +28,27 @@ std::vector<std::string> GetFiles(std::string filename = "Backup.txt")
 		file.close();
 	}
 
+	return result;
+}
+
+decltype(auto) ParseFile(const std::vector<std::string>& lines)
+{
+	std::map<std::string, std::vector<std::string>> result;
+	std::string source = "";
+	for(auto it = lines.cbegin(); it != lines.cend(); ++it)
+	{
+			Logger::Log<Info>(*it);
+		auto vals = String_::Split<T::char_<':'>>(*it);
+		if(vals[0] == "Source")
+			source = vals[1];
+		else if(vals[0] == "Directory")
+		{
+			auto path = source + vals[1];
+			Logger::Log<Info>(path);
+			result[source].push_back(path);
+		}
+	}
+	
 	return result;
 }
 
@@ -58,7 +80,9 @@ using namespace FS;
 //----------------------------------------------------------------------------PRODUCT----------------------------------------------------------
 int main()
 {
-	auto dirs = GetFiles();
+	auto lines = ReadFile();
+	Logger::Log(lines.cbegin(), lines.cend());
+	auto dirs = ParseFile(lines);
 	
 	if(dirs.size() == 0)
 	{
@@ -73,7 +97,8 @@ int main()
 		return 0;
 	}
 	
-	auto to = source + "CPP/";
+	//~ auto to = source + "CPP/";
+	auto to = source + "NEW/";
 	
 	if(Directory_exists(to))
 		std::filesystem::remove_all(to);
@@ -82,8 +107,11 @@ int main()
 	
 	for(auto dir : dirs)
 	{
-		Logger::Log()<<"Dir: "<<dir<<"\tTo"<<to<<std::endl;
-		Backup::Repository::Backup(dir,to);
+		for(auto subdir : dir.second)
+		{
+			Logger::Log()<<"Dir: "<<subdir<<"\tTo"<<to<<std::endl;
+			Backup::Repository::Backup(subdir,to);
+		}
 	}		
 		
     return 0;
