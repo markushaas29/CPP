@@ -41,11 +41,11 @@ namespace CSV
 		using FileTypes = Typelist<FS::INPUT,FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
-		using ParseTypes = Typelist<InputManager<int>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
-		using ParseTypeContainer = FS::FileTypeContainer<ParseTypes>;
+		using Parsers = Typelist<InputManager<int>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
+		using ParserContainer = FS::FileTypeContainer<Parsers>;
 		using ParseMethod = void(*)(InputIterator, InputIterator);
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
-		using ParserContainer = std::map<std::string, VisitorType>;
+		using VisitorContainer = std::map<std::string, VisitorType>;
 	
 		template<typename Iterator>
 		static void Map(const Iterator& begin, const Iterator& end)
@@ -56,11 +56,11 @@ namespace CSV
 		
 		static void CopyTo(std::string dest)
 		{
-			typeContainer.SetRootPath(Repository::Root);
-			typeContainer.CopyTo(dest);
+			types.SetRootPath(Repository::Root);
+			types.CopyTo(dest);
 		}
 		
-		static void List()	{	typeContainer.List();	}
+		static void List()	{	types.List();	}
 		
 		static void SetRootPath(std::string s) { Root = s; }
 		static void SetDestPath(std::string s) { Dest = s; }
@@ -79,13 +79,13 @@ namespace CSV
 			CSV::Repository::Map(CSV::Repository::nodes->cbegin(), CSV::Repository::nodes->cend());
 		}
 		
-		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s);	}
+		static std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
 		
 		static void Register()
 		{
-			parseTypeContainer.RegisterTo(Repository::parseContainer);	
+			parsers.RegisterTo(Repository::visitors);	
 			
-			for(auto kv : parseContainer)
+			for(auto kv : visitors)
 				Logger::Log<Info>("Register:",kv.first);
 		}
 		
@@ -93,12 +93,12 @@ namespace CSV
 		static typename ParseType::ParseCont Parse(std::string s)
 		{
 			Logger::Log("Parsing: ",s);
-			return typeContainer.Parse<ParseType>(s);			
+			return types.Parse<ParseType>(s);			
 		}
 		
 		static void ParseAll()
 		{
-			for (auto it = parseContainer.begin(); it != parseContainer.end(); it++)
+			for (auto it = visitors.begin(); it != visitors.end(); it++)
 			{
 				for(auto itNode = CSV::Repository::nodes->cbegin(); itNode != CSV::Repository::nodes->cend(); ++itNode )
 				{
@@ -114,12 +114,12 @@ namespace CSV
 			}
 		}
 		
-		static void Display(std::ostream& os){	parseTypeContainer.Display(os);	}
+		static void Display(std::ostream& os){	parsers.Display(os);	}
 		
 	private:
-		static inline ParserContainer parseContainer = ParserContainer();
-		static inline TypeContainer typeContainer = TypeContainer();
-		static inline ParseTypeContainer parseTypeContainer = ParseTypeContainer();
+		static inline VisitorContainer visitors = VisitorContainer();
+		static inline TypeContainer types = TypeContainer();
+		static inline ParserContainer parsers = ParserContainer();
 		inline static std::string Root = ""; 
 		inline static std::string Dest = ""; 
 				
@@ -130,7 +130,7 @@ namespace CSV
 		{
 		public:
 			virtual void Visit(FS::DirectoryInfo& di) {	FS::Directory::Add(&di); };
-			virtual void Visit(FS::FileInfo& fi) { typeContainer.Add(&fi); };
+			virtual void Visit(FS::FileInfo& fi) { types.Add(&fi); };
 		};	
 		
 		static inline TreeParserVisitor treeParser = TreeParserVisitor();
