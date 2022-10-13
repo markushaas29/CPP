@@ -95,7 +95,7 @@ namespace FS
 		}
 		
 		template<typename ParseType>
-		typename ParseType::ParseCont Parse(std::string name)
+		decltype(auto) Parse(const std::string& name)
 		{
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
@@ -167,7 +167,7 @@ namespace FS
 		}
 		
 		template<typename ParseType>
-		typename ParseType::ParseCont Parse(std::string name)
+		decltype(auto) Parse(const std::string& name)
 		{
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				

@@ -53,19 +53,19 @@ namespace FS
 	{
 		using Type = Derived;
 		using ElementType = T;
-		using Cont = std::vector<ElementType>;
+		using ContainerType = std::vector<ElementType>;
 	protected:
-		static inline Cont cont = Cont();
+		static inline ContainerType elements = ContainerType();
 		const DerivedInfo info;
 	public:		
 		Node(DerivedInfo* fi): info(*fi){};
 		
 		static void Add(Info* fi)
 		{ 
-			cont.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 
+			elements.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 
 		};
 		static ElementType Get(Info* fi){return ElementType();};
-		static const Cont& Nodes() { return cont; };
+		static const ContainerType& Nodes() { return elements; };
 		
 		const DerivedInfo& Info() const {return info;}
 		bool BelongsTo(const fs::path& p) const
@@ -90,7 +90,6 @@ namespace FS
 
 	struct File: Node<File, FileInfo>
 	{
-		
 		File(FileInfo* fi): Node(fi){};
 		void CopyTo(std::string destinationName) const 
 		{ 
@@ -119,8 +118,8 @@ namespace FS
 	struct FileTypeBase: Node<FileTypeBase<FileT>, FileInfo, File>
 	{
 		FileTypeBase(FileInfo* fi): Node<FileTypeBase<FileT>, FileInfo, File>(fi){};
-		using ParseType = std::string;
-		using ParseCont = std::vector<ParseType>;
+		using ParsedType = std::string;
+		using ParserContainer = std::vector<ParsedType>;
 		static const char* Extension;		
 		
 		template<typename Separator = T::char_<';'>>
@@ -146,7 +145,7 @@ namespace FS
 			ofs->close();
 		}
 		
-		const std::string& GetDestinationPath(){ return this->destinationPath; };
+		const std::string& GetDestinationPath() const { return this->destinationPath; };
 	private:
 		const std::string destinationPath;
 	};
