@@ -150,10 +150,7 @@ namespace Backup
 		static void Map(const Iterator& begin, const Iterator& end)
 		{
 			for(Iterator it = begin; it != end; ++it)
-			{
 				(*it)->Accept(treeParser);
-			}
-			
 		}
 		
 		static void CopyTo(std::string dest)
@@ -162,10 +159,7 @@ namespace Backup
 			typeContainer.CopyTo(dest);
 		}
 		
-		static void List()
-		{
-			typeContainer.List();
-		}
+		static void List()	{ typeContainer.List();	}
 		
 		static void SetRootPath(std::string s) { Root = s; }
 		static void SetDestPath(std::string s) { Dest = s; }
@@ -186,20 +180,12 @@ namespace Backup
 			FileSystem::CreateDirectories(from,to);
 			Backup::Repository::List();
 			Backup::Repository::CopyTo(to);
-
-// 			FileSystem::List(to);
 		}
 		
-		static std::vector<std::string> Read(std::string s)
-		{
-			return typeContainer.Read(s);			
-		}
+		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }
 		
 		template<typename ParseType>
-		static typename ParseType::ParseCont Parse(std::string s)
-		{
-			return typeContainer.Parse<ParseType>(s);			
-		}
+		static typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
 		
 	private:
 		static inline TypeContainer typeContainer = TypeContainer();
