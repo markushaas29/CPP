@@ -19,117 +19,117 @@
 #ifndef STAGEQUANTITIES_HPP
 #define STAGEQUANTITIES_HPP
 
-class ApartmentArea: public CSVValue<ApartmentArea, Area, unsigned>
+class ApartmentArea: public Value<ApartmentArea, Area, unsigned>
 {
 public:
-	ApartmentArea(unsigned a): CSVValue(a) {};
-	ApartmentArea(Quantity<Area> s): CSVValue(s) {};
+	ApartmentArea(unsigned a): Value(a) {};
+	ApartmentArea(Quantity<Area> s): Value(s) {};
 	ApartmentArea& operator=(const ApartmentArea& a)
 	{ 
-		CSVValue<ApartmentArea, Area, unsigned>::operator=(a);
+		Value<ApartmentArea, Area, unsigned>::operator=(a);
 		return *this; 
 	}
 };
 
-class IndividualUnit: public CSVValue<IndividualUnit, Scalar, unsigned>
+class IndividualUnit: public Value<IndividualUnit, Scalar, unsigned>
 {
 public:
-	IndividualUnit(unsigned a): CSVValue(a) {};
-	IndividualUnit(Quantity<Scalar> s): CSVValue(s) {};
+	IndividualUnit(unsigned a): Value(a) {};
+	IndividualUnit(Quantity<Scalar> s): Value(s) {};
 	IndividualUnit& operator=(const IndividualUnit& a)
 	{
-		CSVValue<IndividualUnit, Scalar, unsigned>::operator=(a);
+		Value<IndividualUnit, Scalar, unsigned>::operator=(a);
 		return *this; 
 	}
 };
 
-class Rooms: public CSVValue<Rooms, Scalar, unsigned>
+class Rooms: public Value<Rooms, Scalar, unsigned>
 {
 public:
-	Rooms(unsigned r): CSVValue(r) {};
-	Rooms(Quantity<Scalar> s): CSVValue(s) {};
+	Rooms(unsigned r): Value(r) {};
+	Rooms(Quantity<Scalar> s): Value(s) {};
 	Rooms& operator=(const Rooms& a)
 	{ 
-		CSVValue<Rooms, Scalar, unsigned>::operator=(a);
+		Value<Rooms, Scalar, unsigned>::operator=(a);
 		return *this; 
 	}
 };	
 
-class Persons: public CSVValue<Persons, Scalar, unsigned>
+class Persons: public Value<Persons, Scalar, unsigned>
 {
 public:
-	Persons(const std::string& s = "0"): CSVValue(s) {};
-	Persons(Quantity<Scalar> s): CSVValue(s) {};
+	Persons(const std::string& s = "0"): Value(s) {};
+	Persons(Quantity<Scalar> s): Value(s) {};
 	Persons& operator=(const Persons& a)
 	{ 
-		CSVValue<Persons, Scalar, unsigned>::operator=(a);
+		Value<Persons, Scalar, unsigned>::operator=(a);
 		return *this; 
 	}
 };	
 
-class HeatingProportion: public CSVValue<HeatingProportion, Area, unsigned>
+class HeatingProportion: public Value<HeatingProportion, Area, unsigned>
 {
 public:
-	HeatingProportion(unsigned a): CSVValue(a) {};
-	HeatingProportion(Quantity<Area> s): CSVValue(s) {};
+	HeatingProportion(unsigned a): Value(a) {};
+	HeatingProportion(Quantity<Area> s): Value(s) {};
 	HeatingProportion& operator=(const HeatingProportion& a)
 	{ 
-		CSVValue<HeatingProportion, Area, unsigned>::operator=(a);
+		Value<HeatingProportion, Area, unsigned>::operator=(a);
 		return *this; 
 	}
 };	
 
-class BuildingCleaningProportion: public CSVValue<BuildingCleaningProportion, Scalar, unsigned>
+class BuildingCleaningProportion: public Value<BuildingCleaningProportion, Scalar, unsigned>
 {
 public:
-	BuildingCleaningProportion(unsigned a): CSVValue(a) {};
-	BuildingCleaningProportion(Quantity<Scalar> s): CSVValue(s) {};
+	BuildingCleaningProportion(unsigned a): Value(a) {};
+	BuildingCleaningProportion(Quantity<Scalar> s): Value(s) {};
 	BuildingCleaningProportion& operator=(const BuildingCleaningProportion& a)
 	{ 
-		CSVValue<BuildingCleaningProportion, Scalar, unsigned>::operator=(a);
+		Value<BuildingCleaningProportion, Scalar, unsigned>::operator=(a);
 		return *this; 
 	}
 };	
 
-class WaterCounter: public CSVValue<WaterCounter, Volume, double>
+class WaterCounter: public Value<WaterCounter, Volume, double>
 {
 public:
-	WaterCounter(std::string s = "0"): CSVValue(s) {};
+	WaterCounter(std::string s = "0"): Value(s) {};
 };
 
-class Advance: public CSVValue<Advance, Sum>
+class Advance: public Value<Advance, Sum>
 {
 public:
-	Advance(std::string s = "0"): CSVValue(s) {};
+	Advance(std::string s = "0"): Value(s) {};
 };
 
-class IncidentalHeatingCosts: public CSVValue<IncidentalHeatingCosts, Sum>
+class IncidentalHeatingCosts: public Value<IncidentalHeatingCosts, Sum>
 {
 public:
-	IncidentalHeatingCosts(std::string s = "0"): CSVValue(s) {};
+	IncidentalHeatingCosts(std::string s = "0"): Value(s) {};
 };	
 
-class GarageRental: public CSVValue<GarageRental, Sum>
+class GarageRental: public Value<GarageRental, Sum>
 {
 public:
-	GarageRental(std::string s = "0"): CSVValue(s) {};
+	GarageRental(std::string s = "0"): Value(s) {};
 };	
 
-class MonthlyRent: public CSVValue<MonthlyRent, Sum>
+class MonthlyRent: public Value<MonthlyRent, Sum>
 {
 public:
-	MonthlyRent(std::string s = "0"): CSVValue(s) {};
+	MonthlyRent(std::string s = "0"): Value(s) {};
 };	
 
-template<> const char* CSVValue<IndividualUnit, Scalar, unsigned>::Key = "IndividualUnit";
-template<> const char* CSVValue<ApartmentArea, Area, unsigned>::Key = "Area";
-template<> const char* CSVValue<Rooms, Scalar, unsigned>::Key = "Rooms";
-template<> const char* CSVValue<BuildingCleaningProportion, Scalar, unsigned>::Key = "BuildingCleaningProportion";
-template<> const char* CSVValue<HeatingProportion, Area, unsigned>::Key = "HeatingProportion";
-template<> const char* CSVValue<Persons, Scalar, unsigned>::Key = "Persons";
-template<> const char* CSVValue<Advance, Sum>::Key = "Advance";
-template<> const char* CSVValue<IncidentalHeatingCosts, Sum>::Key = "IncidentalHeatingCosts";
-template<> const char* CSVValue<MonthlyRent, Sum>::Key = "MonthlyRent";
-template<> const char* CSVValue<GarageRental, Sum>::Key = "GarageRental";
+template<> const char* Value<IndividualUnit, Scalar, unsigned>::Key = "IndividualUnit";
+template<> const char* Value<ApartmentArea, Area, unsigned>::Key = "Area";
+template<> const char* Value<Rooms, Scalar, unsigned>::Key = "Rooms";
+template<> const char* Value<BuildingCleaningProportion, Scalar, unsigned>::Key = "BuildingCleaningProportion";
+template<> const char* Value<HeatingProportion, Area, unsigned>::Key = "HeatingProportion";
+template<> const char* Value<Persons, Scalar, unsigned>::Key = "Persons";
+template<> const char* Value<Advance, Sum>::Key = "Advance";
+template<> const char* Value<IncidentalHeatingCosts, Sum>::Key = "IncidentalHeatingCosts";
+template<> const char* Value<MonthlyRent, Sum>::Key = "MonthlyRent";
+template<> const char* Value<GarageRental, Sum>::Key = "GarageRental";
 
 #endif

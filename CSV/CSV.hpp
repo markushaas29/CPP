@@ -64,24 +64,6 @@ inline bool operator< (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value()
 template<typename T = std::string>
 inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
 
-template<typename T = double>
-class Value: public Element
-{
-	using ConverterT = String_::From<T>;
-	ConverterT converter = ConverterT();
-	
-	T value;
-	T Parse(std::string s){ return std::stod(s); }
-public:
-	using Type = T;
-	
-	inline static const std::string Identifier = "Value";
-	Value(std::string s = ""): Element(s.c_str()), value(this->Parse(s)){};
-	Value(T val, std::string s = ""): Element(this->converter(val)), value(val){};
-	Value* DoCreate(){return this;};
-	T Get(){ return this->value; }
-};
-
 class IBAN: public Element
 {
 public:
@@ -140,21 +122,21 @@ public:
 };
 
 template<typename D, typename U, typename T = double>
-class CSVValue: public Element
+class Value: public Element
 {
 public:
 	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
-	CSVValue(std::string s = "0.0"): Element(s.c_str()), quantity(this->to(s)) {};
-	CSVValue(T t): Element(std::to_string(t).c_str()), quantity(t) {};
-	CSVValue(Quantity<U> u): Element(std::to_string(u.Value()).c_str()), quantity(u) {};
+	Value(std::string s = "0.0"): Element(s.c_str()), quantity(this->to(s)) {};
+	Value(T t): Element(std::to_string(t).c_str()), quantity(t) {};
+	Value(Quantity<U> u): Element(std::to_string(u.Value()).c_str()), quantity(u) {};
 	const Quantity<U>& GetQuantity() const { return this->quantity; }
-	const T& Value() { return this->val; }
+	const T& Get() { return this->val; }
 	static const char* Key;
 	Element* DoCreate() { return this; };
 	
-	CSVValue& operator=(const CSVValue& a)
+	Value& operator=(const Value& a)
 	{
 		this->quantity = a.quantity; 
 		this->val = a.val; 
@@ -169,60 +151,8 @@ private:
 };
 
 template<typename D, typename U, typename T = double>
-std::ostream& operator<<(std::ostream& out, const CSVValue<D,U,T>& c) { return out<<D::Key<<"\t"<<c.GetQuantity(); }
+std::ostream& operator<<(std::ostream& out, const Value<D,U,T>& c) { return out<<D::Key<<"\t"<<c.GetQuantity(); }
 
-//--------------------------------Factory------------------------------------------------
 class Date;
-
-using Elements = boost::mpl::vector<Key<std::string>, Value<double>, Entry, Date>;
-
-template<class TList = Elements, class Unit = Element,typename T = std::string,class IdentifierType = std::string, template<class> class CreatePolicy = CreateElementNewPolicy>
-class ElementFactory
-{
-	using ProductList = TList;
-	using Creator = Unit* (*)(T);
-	
-private:
-	using AssocMap = std::map<IdentifierType,Creator>;
-	inline static AssocMap associations_ = std::map<IdentifierType,Creator>();
-	
-	struct Register
-	{
-		template<class Type>
-		void operator()(Type) const
-		{
-			RegisterImpl(Type::Identifier, CreatePolicy<Type>::DoCreate);
-		};
-	};
-	
-	static bool RegisterImpl(const IdentifierType& id, const Creator& creator)
-	{
-		return associations_.insert(std::make_pair(id,creator)).second;
-	}
-	
-public:
-	ElementFactory()
-	{		
-		boost::mpl::for_each<ProductList>(Register());
-	}
-	
-	
-	bool Unregister(const IdentifierType& id)
-	{
-		return associations_.erase(id) == 1;
-	}
-		
-	Unit* Create(const IdentifierType& id,T param)
-	{
-		typename AssocMap::const_iterator i = associations_.find(id);
-		
-		if(i != associations_.end())
-		{
-			return (i->second)(param);
-		}
-		
-		return (associations_.find(id)->second)(param);
-	}
-};
 
 #endif
