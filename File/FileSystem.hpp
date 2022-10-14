@@ -19,14 +19,14 @@ class FileSystem
 {
 	using Delimiter = T::char_<'/'> ;
 	inline static int level = 0;
-	inline static std::shared_ptr<std::vector<FS::Info*>> nodes = std::shared_ptr<std::vector<FS::Info*>>();
+	inline static std::unique_ptr<std::vector<FS::Info*>> nodes = std::make_unique<std::vector<FS::Info*>>();
 		
 public:
-
+	using Iterator = std::vector<FS::Info*>::const_iterator;
+	using ContainerType = std::vector<FS::Info*>;
 	static std::unique_ptr<std::vector<FS::Info*>> List(const fs::path& pathToScan) {
 		std::unique_ptr<std::vector<FS::Info*>> result = std::make_unique<std::vector<FS::Info*>>();
 		auto start = std::chrono::high_resolution_clock::now();
-		Logger::Log<Info>("List Start:");
 		std::cout<<"|->"<<pathToScan<<std::endl;
 		for (const auto& entry : fs::directory_iterator(pathToScan)) {
 			const auto filenameStr = entry.path().filename().string();
@@ -37,26 +37,24 @@ public:
 				++level;
 				auto dirnodes = FileSystem::List(entry.path());
 				FS::DirectoryInfo* dir = new FS::DirectoryInfo(entry.path(),entry.last_write_time(),*dirnodes);
-				//~ nodes->push_back(dir);
 				result->push_back(dir);
+				nodes->push_back(dir);
 			}
 			else {
 				FS::FileInfo* file = new FS::FileInfo(entry.path(), entry.last_write_time(), entry.file_size());
-				//~ nodes->push_back(file);
 				result->push_back(file);
+				nodes->push_back(file);
 				std::cout<<"|--"<<*file<<std::endl;
 			}
 		}
 		
 		--level;
-		auto finish = std::chrono::high_resolution_clock::now();
-		std::chrono::duration<double> elapsed = finish - start;
-		//~ Logger::Log<Info>("List End:", finish, " Duration: ", elapsed.count() );
-		Logger::Log<Info>(" =>Duration: ", elapsed.count() );
 		
 		return result;
 	}
 	
+	static decltype(auto) Begin(){ return nodes->cbegin(); }
+	static decltype(auto) End(){ return nodes->cend(); }
 	static std::vector<std::string> ReadLines(std::string path)	{	return FS::ReadLines(path);	}
 	static void WriteLines(std::string path, std::vector<std::string>)	{	}
 	
