@@ -69,11 +69,11 @@ namespace CSV
 		{
 			auto infos = FileSystem::List(path);
 			
-			for(auto i : infos)
+			for(auto i : *infos)
 				CSV::Repository::nodes->push_back(i);
 
 			auto root = fs::directory_entry(path);
-			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),infos);
+			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*infos);
 			
 			CSV::Repository::nodes->push_back(dir);
 			CSV::Repository::Map(CSV::Repository::nodes->cbegin(), CSV::Repository::nodes->cend());
@@ -170,12 +170,12 @@ namespace Backup
 			Repository::Dest = to;
 			
 			auto nodes = FileSystem::List(from);
-
+			Logger::Log<Info>("Start Mapping");
 			auto root = fs::directory_entry(from);
-			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),nodes);
+			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*nodes);
 			
-			nodes.push_back(dir);
-			Backup::Repository::Map(nodes.cbegin(), nodes.cend());
+			nodes->push_back(dir);
+			Backup::Repository::Map(nodes->cbegin(), nodes->cend());
 			
 			FileSystem::CreateDirectories(from,to);
 			Backup::Repository::List();
