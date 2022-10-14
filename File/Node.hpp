@@ -129,6 +129,12 @@ namespace FS
 	struct CTRV: public FileTypeBase<CTRV>{};
 	struct KEYS: public FileTypeBase<KEYS>{};
 	struct CPP: public FileTypeBase<CPP>{};
+	struct PDF: public FileTypeBase<PDF>{};
+	struct JPG: public FileTypeBase<JPG>{};
+	struct ZIP: public FileTypeBase<ZIP>{};
+	struct ODS: public FileTypeBase<ODS>{};
+	struct DOCX: public FileTypeBase<DOCX>{};
+	struct TXT: public FileTypeBase<TXT>{};
 	struct HPP: public FileTypeBase<HPP>{};
 	struct H: public FileTypeBase<H>{};
 	struct INPUT: public FileTypeBase<INPUT>{};
@@ -155,6 +161,12 @@ namespace FS
 	template<> const char* FileTypeBase<KEYS>::Extension = ".keys";
 	template<> const char* FileTypeBase<CPP>::Extension = ".cpp";
 	template<> const char* FileTypeBase<HPP>::Extension = ".hpp";
+	template<> const char* FileTypeBase<PDF>::Extension = ".pdf";
+	template<> const char* FileTypeBase<JPG>::Extension = ".jpg";
+	template<> const char* FileTypeBase<ZIP>::Extension = ".zip";
+	template<> const char* FileTypeBase<ODS>::Extension = ".ods";
+	template<> const char* FileTypeBase<DOCX>::Extension = ".docx";
+	template<> const char* FileTypeBase<TXT>::Extension = ".txt";
 	template<> const char* FileTypeBase<H>::Extension = ".h";
 	template<> const char* FileTypeBase<CSV>::Extension = ".csv";
 	template<> const char* FileTypeBase<INPUT>::Extension = ".input";
