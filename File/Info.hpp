@@ -60,16 +60,27 @@ namespace FS
 		virtual ~Info(){};
 		
 		virtual long Size() const {return size; };
+		virtual std::unique_ptr<std::vector<const Info*>> GetNodes(std::unique_ptr<std::vector<const Info*>> nodes) const 
+		//~ virtual std::vector<const Info*> GetNodes(std::vector<const Info*> nodes) const 
+		{ 
+			nodes->push_back(this); 
+			//~ std::cout<<"Adresss"<<this<<std::endl;
+			return nodes;
+		};
 		const std::string& Name() const{ return name; };
 		const std::string& Path() const { return path; };
 		const std::time_t LastModification()const { return to_time_t(this->lastModification); };
-		const std::string virtual PrintInfo() const { return this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path() ; };
+		const decltype(auto) LastWriteTime()const { return this->lastModification; };
+		const decltype(auto) GetInfo() const { return this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path();}
+		const std::string virtual PrintInfo(std::ostream& out) const { return this->GetInfo() ; };
+		
+		std::ostream& Display(std::ostream& out) const { 
+			auto i = this->PrintInfo(out); 
+			return out<<i;
+		};
 	};
 	
-	std::ostream& operator<<(std::ostream& out, const Info& n)
-	{
-		return out<<n.PrintInfo();
-	}
+	std::ostream& operator<<(std::ostream& out, const Info& n)	{	return n.Display(out);	}
 
 //---------------------------------------------------------------------------------------------------FileInfo----------------------------------------------------------------------------------------
 
@@ -95,10 +106,7 @@ namespace FS
 		const char*  Extension() const { return this->extension; };
 	};
 	
-	std::ostream& operator<<(std::ostream& out, const FileInfo* n)
-	{
-		return out<<n->PrintInfo();
-	}
+	std::ostream& operator<<(std::ostream& out, const FileInfo* n)	{	return out<<n->PrintInfo(out);	}
 	
 //---------------------------------------------------------------------------------------------------DirectoryInfo----------------------------------------------------------------------------------------
 
@@ -115,6 +123,13 @@ namespace FS
 		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::vector<Info*> n):Info(p,lm, 0), nodes(n)
 		{
 			this->size = this->Size();
+			Logger::Log("Count: ",n.size()," Size: ", size);
+		};
+		
+		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm):Info(p,lm, 0), nodes{}
+		{
+			this->size = this->Size();
+			Logger::Log(" Size: ", size);
 		};
 		
 		long Size() const
@@ -127,8 +142,34 @@ namespace FS
 			return result;
 		}
 		
+		std::unique_ptr<std::vector<const Info*>> GetNodes(std::unique_ptr<std::vector<const Info*>> ptr) const
+		//~ std::vector<const Info*> GetNodes(std::vector<const Info*> ptr) const
+		{
+			ptr->push_back(this);
+			//~ std::cout<<"Adresss"<<this<<std::endl;
+			for(auto it = nodes.cbegin(); it != nodes.cend(); ++it)
+				ptr = (*it)->GetNodes(std::move(ptr));
+							
+			return ptr;
+		}
+		
+		const std::string virtual PrintInfo(std::ostream& out) const 
+		{ 
+			auto s = this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path() ; 
+			for(auto n : nodes)
+				out<<"|-->"<<*n<<std::endl;
+				
+			return s;
+		};
+		
 		const std::vector<Info*>& Nodes() { return this->nodes; }
 	};
+	
+	std::ostream& operator<<(std::ostream& out, const DirectoryInfo* n)	
+	{	
+		n->PrintInfo(out);	
+		return out;	
+	}
 }
 
 

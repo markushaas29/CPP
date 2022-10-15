@@ -150,7 +150,10 @@ namespace Backup
 		static void Map(const Iterator& begin, const Iterator& end)
 		{
 			for(Iterator it = begin; it != end; ++it)
+			{
 				(*it)->Accept(treeParser);
+				(*it)->PrintInfo(std::cout);
+			}
 		}
 		
 		static void CopyTo(std::string dest)
@@ -169,18 +172,29 @@ namespace Backup
 			Repository::Root = from;
 			Repository::Dest = to;
 			
+			auto root = fs::directory_entry(from);
+			auto di =  std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time());
+			auto newDi = FileSystem::GetInfos(std::move(di));
+			//~ Logger::Log<Info>("DI", di->Size());
+			
+			auto vec =  std::make_unique<std::vector<const FS::Info*>>();
+			auto result = newDi->GetNodes(std::move(vec));
+
+			Logger::Log<Info>("END", result->size());
+			for(auto r : *result)
+				std::cout<<r->GetInfo()<<std::endl;
+			
 			auto nodes = FileSystem::List(from);
 			nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
-			Logger::Log<Info>("Start Mapping");
-			auto root = fs::directory_entry(from);
+			Logger::Log<Info>("Start Mapping2", nodes->at(0)->Size());
 			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*nodes);
 			
-			nodes->push_back(dir);
-			Backup::Repository::Map(nodes->cbegin(), nodes->cend());
+			//~ nodes->push_back(dir);
+			//~ Backup::Repository::Map(nodes->cbegin(), nodes->cend());
 			
-			FileSystem::CreateDirectories(from,to);
-			Backup::Repository::List();
-			Backup::Repository::CopyTo(to);
+			//~ FileSystem::CreateDirectories(from,to);
+			//~ Backup::Repository::List();
+			//~ Backup::Repository::CopyTo(to);
 		}
 		
 		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }

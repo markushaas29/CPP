@@ -24,9 +24,10 @@ class FileSystem
 public:
 	using Iterator = std::vector<FS::Info*>::const_iterator;
 	using ContainerType = std::vector<FS::Info*>;
+	
 	static std::unique_ptr<std::vector<FS::Info*>> List(const fs::path& pathToScan) {
 		std::unique_ptr<std::vector<FS::Info*>> result = std::make_unique<std::vector<FS::Info*>>();
-		auto start = std::chrono::high_resolution_clock::now();
+
 		std::cout<<"|->"<<pathToScan<<std::endl;
 		for (const auto& entry : fs::directory_iterator(pathToScan)) {
 			const auto filenameStr = entry.path().filename().string();
@@ -51,6 +52,32 @@ public:
 		--level;
 		
 		return result;
+	}
+	
+	static std::unique_ptr<std::vector<FS::Info*>> GetInfos(const FS::DirectoryInfo& di) {
+		std::unique_ptr<std::vector<FS::Info*>> result = std::make_unique<std::vector<FS::Info*>>();
+
+		for (const auto& entry : fs::directory_iterator(di.Path())) {
+			const auto filenameStr = entry.path().filename().string();
+			
+			if (entry.is_directory()) {
+				auto dirnodes = FileSystem::List(entry.path());
+				FS::DirectoryInfo* dir = new FS::DirectoryInfo(entry.path(),entry.last_write_time(),*dirnodes);
+				result->push_back(dir);
+			}
+			else {
+				FS::FileInfo* file = new FS::FileInfo(entry.path(), entry.last_write_time(), entry.file_size());
+				result->push_back(file);
+			}
+		}
+		
+		return result;
+	}
+	
+	static std::unique_ptr<FS::DirectoryInfo> GetInfos(std::unique_ptr<FS::DirectoryInfo> di) 
+	{	
+		auto infos = GetInfos(*di);
+		return std::make_unique<FS::DirectoryInfo>(di->Path(), di->LastWriteTime(), *infos);	
 	}
 	
 	static decltype(auto) Begin(){ return nodes->cbegin(); }
