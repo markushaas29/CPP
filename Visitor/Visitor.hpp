@@ -21,10 +21,10 @@
 	public:
 		using ReturnType = R;
 		virtual ~BaseVisitable(){}
-		virtual ReturnType Accept(BaseVisitor&) = 0;
+		virtual ReturnType Accept(BaseVisitor&) const = 0;
 	protected:
 		template<class T>
-		static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor)
+		static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 		{
 			if(Visitor<T,R>* p = dynamic_cast<Visitor<T,R>*>(&visitor))
 				return p->Visit(visited);
@@ -33,6 +33,6 @@
 		}		
 	};
 	
-#define DEFINE_VISITABLE() virtual ReturnType Accept(BaseVisitor& visitor) { return AcceptImpl(*this, visitor); }
+#define DEFINE_VISITABLE() virtual ReturnType Accept(BaseVisitor& visitor) const { return AcceptImpl(*this, visitor); }
 
 #endif

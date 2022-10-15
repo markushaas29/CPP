@@ -184,13 +184,15 @@ namespace Backup
 			for(auto r : *result)
 				std::cout<<r->GetInfo()<<std::endl;
 			
+			Backup::Repository::Map(result->cbegin(), result->cend());
+			typeContainer.Display(std::cout);
+			
 			auto nodes = FileSystem::List(from);
 			nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
 			Logger::Log<Info>("Start Mapping2", nodes->at(0)->Size());
 			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*nodes);
 			
 			//~ nodes->push_back(dir);
-			//~ Backup::Repository::Map(nodes->cbegin(), nodes->cend());
 			
 			//~ FileSystem::CreateDirectories(from,to);
 			//~ Backup::Repository::List();
@@ -213,8 +215,8 @@ namespace Backup
 			public Visitor<FS::FileInfo>
 		{
 		public:
-			virtual void Visit(FS::DirectoryInfo& di) {	FS::Directory::Add(&di); };
-			virtual void Visit(FS::FileInfo& fi) { typeContainer.Add(&fi); };
+			virtual void Visit(FS::DirectoryInfo& di)  {	FS::Directory::Add(&di); };
+			virtual void Visit(FS::FileInfo& fi)  { typeContainer.Add(&fi); };
 		};	
 		
 		static inline TreeParserVisitor treeParser = TreeParserVisitor();

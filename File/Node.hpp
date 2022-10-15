@@ -67,6 +67,13 @@ namespace FS
 		static ElementType Get(Info* fi){return ElementType();};
 		static const ContainerType& Nodes() { return elements; };
 		
+		static void Display(std::ostream& os)
+		{
+			os<<Type::Extension<<std::endl;
+			for(auto e : elements)
+				os<<"-"<<e.Info()<<std::endl;
+		}
+		
 		const DerivedInfo& Info() const {return info;}
 		bool BelongsTo(const fs::path& p) const
 		{  
