@@ -85,6 +85,21 @@ public:
 	static std::vector<std::string> ReadLines(std::string path)	{	return FS::ReadLines(path);	}
 	static void WriteLines(std::string path, std::vector<std::string>)	{	}
 	
+	template<typename Iterator>
+	static void CreateDirectories(Iterator begin, Iterator end, const std::string& src, const std::string& dest)
+	{
+		auto srcPath = std::filesystem::path(src);
+		auto dstPath = std::filesystem::path(dest);
+		
+		for(auto it = begin; it != end; ++it)
+		{
+			auto destPath = BuildDestPath(srcPath, (*it)->Path(),dstPath);
+			fs::create_directories(destPath);
+			Logger::Log<Info>()<<"Directory created :"<<destPath<<std::endl;
+		}			
+	}
+	
+	
 	static void CreateDirectories(std::string src, std::string dest)
 	{
 		auto srcPath = std::filesystem::path(src);

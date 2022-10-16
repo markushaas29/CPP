@@ -151,9 +151,13 @@ namespace Backup
 		{
 			for(Iterator it = begin; it != end; ++it)
 			{
-				(*it)->Accept(treeParser);
-				(*it)->PrintInfo(std::cout);
+				Logger::Log<Info>("Map: ", (*it)->Name());
+				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Info*>(*it)))
+					typeContainer.Add(fi); 
+				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Info*>(*it)))
+					directories->push_back(di);
 			}
+			Logger::Log<Info>("Directories: ", directories->size());
 		}
 		
 		static void CopyTo(std::string dest)
@@ -187,10 +191,10 @@ namespace Backup
 			Backup::Repository::Map(result->cbegin(), result->cend());
 			typeContainer.Display(std::cout);
 			
-			auto nodes = FileSystem::List(from);
-			nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
-			Logger::Log<Info>("Start Mapping2", nodes->at(0)->Size());
-			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*nodes);
+			//~ auto nodes = FileSystem::List(from);
+			//~ nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
+			//~ Logger::Log<Info>("Start Mapping2", nodes->at(0)->Size());
+			//~ auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*nodes);
 			
 			//~ nodes->push_back(dir);
 			
@@ -205,21 +209,10 @@ namespace Backup
 		static typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
 		
 	private:
+		inline static std::unique_ptr<std::vector<FS::DirectoryInfo*>> directories = std::make_unique<std::vector<FS::DirectoryInfo*>>();
 		static inline TypeContainer typeContainer = TypeContainer();
 		inline static std::string Root = ""; 
 		inline static std::string Dest = ""; 
-				
-		class TreeParserVisitor: 
-			public BaseVisitor,
-			public Visitor<FS::DirectoryInfo>,
-			public Visitor<FS::FileInfo>
-		{
-		public:
-			virtual void Visit(FS::DirectoryInfo& di)  {	FS::Directory::Add(&di); };
-			virtual void Visit(FS::FileInfo& fi)  { typeContainer.Add(&fi); };
-		};	
-		
-		static inline TreeParserVisitor treeParser = TreeParserVisitor();
 	};
 }
 

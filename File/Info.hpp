@@ -57,14 +57,13 @@ namespace FS
 		virtual Info* Child(int n) = 0;
 	public:
 		DEFINE_VISITABLE();
+		DEFINE_CONSTVISITABLE();
 		virtual ~Info(){};
 		
 		virtual long Size() const {return size; };
 		virtual std::unique_ptr<std::vector<const Info*>> GetNodes(std::unique_ptr<std::vector<const Info*>> nodes) const 
-		//~ virtual std::vector<const Info*> GetNodes(std::vector<const Info*> nodes) const 
 		{ 
 			nodes->push_back(this); 
-			//~ std::cout<<"Adresss"<<this<<std::endl;
 			return nodes;
 		};
 		const std::string& Name() const{ return name; };
