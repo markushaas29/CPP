@@ -193,6 +193,7 @@ namespace Backup
 			Backup::Repository::Map(result->cbegin(), result->cend());
 			typeContainer.Display(std::cout);
 			FileSystem::CreateDirectories(directories->cbegin(), directories->cend(),from,to);
+			Backup::Repository::CopyTo(to);
 			
 			//~ auto nodes = FileSystem::List(from);
 			//~ nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
@@ -202,7 +203,6 @@ namespace Backup
 			//~ nodes->push_back(dir);
 			
 			//~ Backup::Repository::List();
-			//~ Backup::Repository::CopyTo(to);
 		}
 		
 		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }

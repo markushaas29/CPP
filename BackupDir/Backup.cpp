@@ -100,8 +100,8 @@ int main()
 	//~ auto to = source + "CPP/";
 	auto to = source + "NEW/";
 	
-	//~ if(Directory_exists(to))
-		//~ std::filesystem::remove_all(to);
+	if(Directory_exists(to))
+		std::filesystem::remove_all(to);
 	
 	//~ fs::create_directories(to);
 	
