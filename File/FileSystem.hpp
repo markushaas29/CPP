@@ -93,7 +93,7 @@ public:
 		
 		for(auto it = begin; it != end; ++it)
 		{
-			auto destPath = BuildDestPath(srcPath, (*it)->Path(),dstPath);
+			auto destPath = BuildDestPath(srcPath, (*it)->Info().Path(),dstPath);
 			fs::create_directories(destPath);
 			Logger::Log<Info>()<<"Directory created :"<<destPath<<std::endl;
 		}			

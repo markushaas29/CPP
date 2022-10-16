@@ -151,11 +151,13 @@ namespace Backup
 		{
 			for(Iterator it = begin; it != end; ++it)
 			{
+				(*it)->AcceptConst(treeParser);
+
 				Logger::Log<Info>("Map: ", (*it)->Name());
 				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Info*>(*it)))
 					typeContainer.Add(fi); 
 				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Info*>(*it)))
-					directories->push_back(di);
+					directories->push_back(std::make_unique<FS::Directory>(di));
 			}
 			Logger::Log<Info>("Directories: ", directories->size());
 		}
@@ -190,6 +192,7 @@ namespace Backup
 			
 			Backup::Repository::Map(result->cbegin(), result->cend());
 			typeContainer.Display(std::cout);
+			FileSystem::CreateDirectories(directories->cbegin(), directories->cend(),from,to);
 			
 			//~ auto nodes = FileSystem::List(from);
 			//~ nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
@@ -198,7 +201,6 @@ namespace Backup
 			
 			//~ nodes->push_back(dir);
 			
-			//~ FileSystem::CreateDirectories(from,to);
 			//~ Backup::Repository::List();
 			//~ Backup::Repository::CopyTo(to);
 		}
@@ -209,10 +211,22 @@ namespace Backup
 		static typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
 		
 	private:
-		inline static std::unique_ptr<std::vector<FS::DirectoryInfo*>> directories = std::make_unique<std::vector<FS::DirectoryInfo*>>();
+		inline static std::unique_ptr<std::vector<std::unique_ptr<FS::Directory>>> directories = std::make_unique<std::vector<std::unique_ptr<FS::Directory>>>();
 		static inline TypeContainer typeContainer = TypeContainer();
 		inline static std::string Root = ""; 
 		inline static std::string Dest = ""; 
+		
+		class TreeParserVisitor: 
+			public BaseVisitor,
+			public ConstVisitor<FS::DirectoryInfo>,
+			public ConstVisitor<FS::FileInfo>
+		{
+		public:
+			virtual void Visit(const FS::DirectoryInfo* di) { Logger::Log<Info>("Visit Directory");	 };
+			virtual void Visit(const FS::FileInfo* fi) { Logger::Log<Info>("Visit File"); };
+		};
+		
+		static inline TreeParserVisitor treeParser = TreeParserVisitor();	
 	};
 }
 
