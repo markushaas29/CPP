@@ -35,7 +35,7 @@
 	public:
 		using ReturnType = R;
 		virtual ~BaseVisitable(){}
-		virtual ReturnType Accept(BaseVisitor&) const = 0;
+		virtual ReturnType Accept(BaseVisitor&) = 0;
 	protected:
 		template<class T>
 		static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
@@ -67,7 +67,7 @@
 		}		
 	};
 	
-#define DEFINE_VISITABLE() virtual ReturnType Accept(BaseVisitor& visitor) const { return AcceptImpl(*this, visitor); }
+#define DEFINE_VISITABLE() virtual ReturnType Accept(BaseVisitor& visitor) { return AcceptImpl(*this, visitor); }
 #define DEFINE_CONSTVISITABLE() virtual ReturnType AcceptConst(BaseVisitor& visitor) const { return AcceptConstImpl(*this, visitor); }
 
 #endif
