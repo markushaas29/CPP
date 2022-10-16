@@ -1,6 +1,12 @@
 #ifndef VISITOR_HPP
 #define VISITOR_HPP
 
+	//~ namespace FS
+	//~ {
+		//~ class DirectoryInfo;
+		//~ class FileInfo;
+	//~ }
+	
 	class BaseVisitor
 	{
 	public:
@@ -20,7 +26,7 @@
 	{
 	public:
 		using ReturnType = R;
-		virtual ReturnType Visit(const T*) = 0;
+		virtual ReturnType Visit(const T&) = 0;
 	};
 		
 	template<typename R = void>
@@ -41,21 +47,27 @@
 		}		
 		
 		template<class T>
-		static ReturnType AcceptConstImpl(const T* visited, BaseVisitor& visitor) 
+		static ReturnType AcceptConstImpl(const T& visited, BaseVisitor& visitor) 
 		{
-			std::cout<<"Accept"<<std::endl;
+			//~ std::cout<<"Accept"<<std::endl;
 			
-			if(ConstVisitor<T,R>* p = dynamic_cast<ConstVisitor<T,R>*>(&visitor))
-				std::cout<<"Accept Const"<<std::endl;
+			//~ if(ConstVisitor<FS::DirectoryInfo,R>* p = dynamic_cast<ConstVisitor<FS::DirectoryInfo,R>*>(&visitor))
+				//~ std::cout<<"Accept Directory"<<std::endl;
 			
-			if(ConstVisitor<T,R>* p = dynamic_cast<ConstVisitor<T,R>*>(&visitor))
-				return p->Visit(visited);
+			//~ if(ConstVisitor<FS::FileInfo,R>* p = dynamic_cast<ConstVisitor<FS::FileInfo,R>*>(&visitor))
+			//~ {
+				//~ std::cout<<"Accept File"<<std::endl;
+				//~ p->Visit(visited);
+			//~ }
+			
+			//~ if(ConstVisitor<T,R>* p = dynamic_cast<ConstVisitor<T,R>*>(&visitor))
+				//~ return p->Visit(visited);
 			
 			return ReturnType();
 		}		
 	};
 	
 #define DEFINE_VISITABLE() virtual ReturnType Accept(BaseVisitor& visitor) const { return AcceptImpl(*this, visitor); }
-#define DEFINE_CONSTVISITABLE() virtual ReturnType AcceptConst(BaseVisitor& visitor) const { return AcceptConstImpl(this, visitor); }
+#define DEFINE_CONSTVISITABLE() virtual ReturnType AcceptConst(BaseVisitor& visitor) const { return AcceptConstImpl(*this, visitor); }
 
 #endif

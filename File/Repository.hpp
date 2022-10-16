@@ -222,8 +222,8 @@ namespace Backup
 			public ConstVisitor<FS::FileInfo>
 		{
 		public:
-			virtual void Visit(const FS::DirectoryInfo* di) { Logger::Log<Info>("Visit Directory");	 };
-			virtual void Visit(const FS::FileInfo* fi) { Logger::Log<Info>("Visit File"); };
+			virtual void Visit(const FS::DirectoryInfo& di) { Logger::Log<Info>("Visit Directory");	 };
+			virtual void Visit(const FS::FileInfo& fi) { Logger::Log<Info>("Visit File"); };
 		};
 		
 		static inline TreeParserVisitor treeParser = TreeParserVisitor();	
