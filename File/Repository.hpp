@@ -181,12 +181,10 @@ namespace Backup
 			auto root = fs::directory_entry(from);
 			auto di =  std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time());
 			auto newDi = FileSystem::GetInfos(std::move(di));
-			//~ Logger::Log<Info>("DI", di->Size());
 			
 			auto vec =  std::make_unique<std::vector<const FS::Info*>>();
 			auto result = newDi->GetNodes(std::move(vec));
 
-			Logger::Log<Info>("END", result->size());
 			for(auto r : *result)
 				std::cout<<r->GetInfo()<<std::endl;
 			

@@ -64,7 +64,7 @@ std::string GetTarget()
 {
     const std::string usb ="/media/markus/BACKUP/";
  	const std::string seagate ="/media/markus/Seagate/";
-	const std::string usb128 ="/media/markus/eebbb521-a27a-4f77-a520-6628d7a9b923/";
+	const std::string usb128 ="/media/markus/539512b8-9fc1-41a3-b359-2be6c2eecdcc/";
 	
 	if(Directory_exists(usb)) 
 		return usb;
@@ -86,24 +86,26 @@ int main()
 	
 	if(dirs.size() == 0)
 	{
-		Logger::Log()<<"No files to backup!";
+		//~ Logger::Log<Info>()<<"No files to backup!"<<std::endl;
+		std::cout<<"No files to backup!"<<std::endl;
 	}
 	
 	auto source = GetTarget();
 	
 	if(source == "")
 	{
-		Logger::Log()<<"No backup medium!";
+		//~ Logger::Log<Info>()<<"No backup medium!"<<std::endl;
+		std::cout<<"No backup medium!"<<std::endl;
 		return 0;
 	}
 	
 	//~ auto to = source + "CPP/";
-	auto to = source + "NEW/";
+	auto to = source + "Backup/";
 	
 	if(Directory_exists(to))
 		std::filesystem::remove_all(to);
 	
-	//~ fs::create_directories(to);
+	fs::create_directories(to);
 	
 	for(auto dir : dirs)
 	{

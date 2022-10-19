@@ -69,8 +69,8 @@ namespace FS
 		const std::string& Name() const{ return name; };
 		const std::string& Path() const { return path; };
 		const std::time_t LastModification()const { return to_time_t(this->lastModification); };
-		const decltype(auto) LastWriteTime()const { return this->lastModification; };
-		const decltype(auto) GetInfo() const { return this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path();}
+		decltype(auto) LastWriteTime()const { return this->lastModification; };
+		decltype(auto) GetInfo() const { return this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path();}
 		const std::string virtual PrintInfo(std::ostream& out) const { return this->GetInfo() ; };
 		
 		std::ostream& Display(std::ostream& out) const { 

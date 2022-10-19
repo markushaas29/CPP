@@ -77,8 +77,9 @@ namespace FS
 		const DerivedInfo& Info() const {return info;}
 		bool BelongsTo(const fs::path& p) const
 		{  
-			auto pIt = fs::path(this->info.Path()).begin();
-			
+			auto path = fs::path(this->info.Path());
+			auto pIt = path.begin();
+
 			for(auto sp = p.begin(); sp != p.end(); ++sp, ++pIt)
 			{
 				if(*sp != *pIt)
