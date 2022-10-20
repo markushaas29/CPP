@@ -63,12 +63,14 @@ namespace FS
 		
 		void CopyTo(std::string dest)
 		{
+			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{
 				std::string dst = this->BuildDestPath(it->Info().Path(),dest);
 				if(it->BelongsTo(this->rootPath))
 					it->CopyTo(dst);
 			}
+			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
 		}
 		
 		void List()
@@ -131,12 +133,14 @@ namespace FS
 		
 		void CopyTo(std::string dest)
 		{
+			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{
 				std::string dst = this->BuildDestPath(it->Info().Path(),dest);
 				if(it->BelongsTo(this->rootPath))
 					it->CopyTo(dst);
 			}
+			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
 			
 			FileTypeContainer<Typelist<Tail...>>::CopyTo(dest);
 		}

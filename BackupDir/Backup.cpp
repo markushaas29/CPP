@@ -86,7 +86,7 @@ int main()
 	
 	if(dirs.size() == 0)
 	{
-		Logger::Log<Info>()<<"No files to backup!"<<std::endl;
+		Logger::Log<Error>("No files to backup!");
 		std::cout<<"No files to backup!"<<std::endl;
 	}
 	
@@ -94,12 +94,10 @@ int main()
 	
 	if(source == "")
 	{
-		//~ Logger::Log<Info>()<<"No backup medium!"<<std::endl;
-		std::cout<<"No backup medium!"<<std::endl;
+		Logger::Log<Error>("No backup medium!");
 		return 0;
 	}
 	
-	//~ auto to = source + "CPP/";
 	auto to = source + "Backup/";
 	
 	if(Directory_exists(to))
@@ -111,7 +109,7 @@ int main()
 	{
 		for(auto subdir : dir.second)
 		{
-			Logger::Log()<<"Dir: "<<subdir<<"\tTo"<<to<<std::endl;
+			Logger::Log("Dir: ",subdir,"\tTo",to);
 			Backup::Repository::Backup(subdir,to);
 		}
 	}		
