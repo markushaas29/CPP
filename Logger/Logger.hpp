@@ -62,7 +62,7 @@ class Logger
         virtual ~Logger(){ this->file.close();  };
         
         template<typename T>
-        static std::ostream& log(std::ostream& os,T t) { return os<<" "<<t<<"\033[" <<Color::Code::BG_DEFAULT<< "m"<<std::endl;   };
+        static std::ostream& log(std::ostream& os,T t) { return os<<" "<<t<<"\033[" <<Color::Code::FG_DEFAULT<< "m"<<std::endl;   };
         
         template<typename T, typename ...Ts>
         static std::ostream& log(std::ostream& os,T t, Ts ...ts)
