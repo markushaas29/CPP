@@ -93,8 +93,7 @@ namespace FS
 		{ 
 			auto srcName = fs::path(this->info.Path()).parent_path().string() +"/"+ this->info.Name();
 			fs::copy(srcName, fs::path(destinationName));
-			//~ Logger::Log<Info>(srcName," copied.");
-			std::cout<<srcName<<" copied."<<std::endl;
+			Logger::Log<::Info>(srcName," copied.");
 		};
 	
 		
