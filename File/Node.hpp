@@ -91,9 +91,17 @@ namespace FS
 		File(FileInfo* fi): Node(fi){};
 		void CopyTo(std::string destinationName) const 
 		{ 
-			auto srcName = fs::path(this->info.Path()).parent_path().string() +"/"+ this->info.Name();
-			fs::copy(srcName, fs::path(destinationName));
-			Logger::Log<::Info>(srcName," copied.");
+			try
+			{
+				auto srcName = fs::path(this->info.Path()).parent_path().string() +"/"+ this->info.Name();
+				fs::copy(srcName, fs::path(destinationName));
+				Logger::Log<::Info>(srcName," copied.");
+			}
+			catch (const std::exception& e)
+			{
+				Logger::Log<Error>("File", this->info.Name(), "could not copied!");
+				Logger::Log<Error>("Reason", e.what());
+			} 
 		};
 	
 		

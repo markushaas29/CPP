@@ -143,7 +143,7 @@ namespace Backup
 {
 	struct Repository
 	{
-		using FileTypes = Typelist<FS::XLSX,FS::XLS,FS::JPG,FS::PDF,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP>::Type;
+		using FileTypes = Typelist<FS::XLSX,FS::XLS,FS::JPG,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP,FS::PDF>::Type;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 	
 		template<typename Iterator>
