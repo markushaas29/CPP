@@ -103,6 +103,8 @@ namespace FS
 		{ 
 			auto srcName = fs::path(this->info.Path()).parent_path().string() +"/"+ this->info.Name();
 			fs::copy(srcName, fs::path(destinationName));
+			//~ Logger::Log<Info>(srcName," copied.");
+			std::cout<<srcName<<" copied."<<std::endl;
 		};
 	
 		
@@ -142,6 +144,8 @@ namespace FS
 	struct ZIP: public FileTypeBase<ZIP>{};
 	struct ODS: public FileTypeBase<ODS>{};
 	struct DOCX: public FileTypeBase<DOCX>{};
+	struct XLSX: public FileTypeBase<XLSX>{};
+	struct XLS: public FileTypeBase<XLS>{};
 	struct TXT: public FileTypeBase<TXT>{};
 	struct HPP: public FileTypeBase<HPP>{};
 	struct H: public FileTypeBase<H>{};
@@ -174,6 +178,8 @@ namespace FS
 	template<> const char* FileTypeBase<ZIP>::Extension = ".zip";
 	template<> const char* FileTypeBase<ODS>::Extension = ".ods";
 	template<> const char* FileTypeBase<DOCX>::Extension = ".docx";
+	template<> const char* FileTypeBase<XLSX>::Extension = ".xlsx";
+	template<> const char* FileTypeBase<XLS>::Extension = ".xls";
 	template<> const char* FileTypeBase<TXT>::Extension = ".txt";
 	template<> const char* FileTypeBase<H>::Extension = ".h";
 	template<> const char* FileTypeBase<CSV>::Extension = ".csv";

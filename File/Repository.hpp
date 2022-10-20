@@ -143,7 +143,7 @@ namespace Backup
 {
 	struct Repository
 	{
-		using FileTypes = Typelist<FS::JPG,FS::PDF,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP>::Type;
+		using FileTypes = Typelist<FS::XLSX,FS::XLS,FS::JPG,FS::PDF,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP>::Type;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 	
 		template<typename Iterator>
@@ -192,15 +192,6 @@ namespace Backup
 			typeContainer.Display(std::cout);
 			FileSystem::CreateDirectories(directories->cbegin(), directories->cend(),from,to);
 			Backup::Repository::CopyTo(to);
-			
-			//~ auto nodes = FileSystem::List(from);
-			//~ nodes = std::make_unique<FileSystem::ContainerType>(FileSystem::Begin(), FileSystem::End());
-			//~ Logger::Log<Info>("Start Mapping2", nodes->at(0)->Size());
-			//~ auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*nodes);
-			
-			//~ nodes->push_back(dir);
-			
-			//~ Backup::Repository::List();
 		}
 		
 		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }
