@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <cassert>
 #include "LogExpression.hpp"
+#include "Colour.hpp"
 #include "../Wrapper/Wrapper.hpp"
 
 #ifndef NDEBUG
@@ -30,7 +31,8 @@
 template<typename Derived>
 struct LogTypeBase
 {
-	static std::ostream& Log(std::ostream& os)	{	return os<<Derived::Identifier;	};
+	//~ static Color::Modifier red = Color::Modifier(Color::Code::FG_RED);
+	static std::ostream& Log(std::ostream& os)	{	return os<<"\033[" << 31 << "m"<<Derived::Identifier;	};
 };
 
 struct Debug: LogTypeBase<Debug>{   static constexpr const char* Identifier ="[DEBUG]: "; };

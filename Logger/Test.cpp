@@ -14,6 +14,8 @@ int main()
 	Logger::Log<Error>()<<"Test2"<<std::endl;
 	Logger::Log<Info>()<<"Test2"<<std::endl;
 	Logger::Log<Info>("Test Info");
+	Logger::Log<Warning>("Test Warning");
+	Logger::Log<Error>("Test Error");
 	
 	LogExpression le1{1};
 	LogExpression le2{2};
