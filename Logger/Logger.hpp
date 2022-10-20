@@ -30,34 +30,21 @@
 template<typename Derived>
 struct LogTypeBase
 {
-	static std::ostream& Log(std::ostream& os)
-	{
-		return os<<Derived::Identifier;
-	};
+	static std::ostream& Log(std::ostream& os)	{	return os<<Derived::Identifier;	};
 };
 
-struct Debug: LogTypeBase<Debug>
-{
-    static constexpr const char* Identifier ="[DEBUG]: ";
-};
-
-struct Info: LogTypeBase<Info>
-{
-    static constexpr const char* Identifier ="[Info]: ";
-};
-
-struct Error: LogTypeBase<Debug>
-{
-    static constexpr const char* Identifier ="[ERROR]: ";
-};
+struct Debug: LogTypeBase<Debug>{   static constexpr const char* Identifier ="[DEBUG]: "; };
+struct Info: LogTypeBase<Info>{    static constexpr const char* Identifier ="[Info]: "; };
+struct Warning: LogTypeBase<Warning>{    static constexpr const char* Identifier ="[Warning]: ";};
+struct Error: LogTypeBase<Error>{    static constexpr const char* Identifier ="[ERROR]: ";};
 
 class Logger
-{   public:
+{   
+	public:
         std::ofstream file;
         std::ostream& out = std::cout;
     private:
         std::string logFileName;
-        
         Logger()
         {
             out<<"Logger started"<<std::endl;
@@ -88,19 +75,12 @@ class Logger
         };
 
         template<class LogPolicy = Debug>
-        static std::ostream& Log()
-        {
-				return LogPolicy::Log(Logger::Instance().file);
-			//~ #ifndef NDEBUG
-			//~ #else
-				//~ return LogPolicy::Log(Logger::Instance().out);
-			//~ #endif
-        };
+        static std::ostream& Log() {	return LogPolicy::Log(Logger::Instance().file);    };
         
         template<class LogPolicy = Debug, typename ...Vals>
         static std::ostream& Log(Vals ...vals)
         {
-			if constexpr (std::is_same<Info,LogPolicy>::value)
+			if constexpr (!std::is_same<Debug,LogPolicy>::value )
 				log(LogPolicy::Log(Logger::Instance().file),vals...);
 
 			return log(LogPolicy::Log(Logger::Instance().out),vals...);
