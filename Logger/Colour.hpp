@@ -3,25 +3,29 @@
 #ifndef COLOUR_HPP
 #define COLOUR_HPP
 namespace Color {
-	struct Code {
-		static constexpr uint FG_RED     = 31;
-		static constexpr uint FG_GREEN    = 32;
-		static constexpr uint FG_YELLOW   = 93;
-		static constexpr uint FG_BLUE     = 34;
-		static constexpr uint FG_DEFAULT  = 39;
-		static constexpr uint BG_RED      = 41;
-		static constexpr uint BG_GREEN    = 42;
-		static constexpr uint BG_BLUE     = 44;
-		static constexpr uint BG_DEFAULT  = 49;
+	
+	template<uint Num>
+	struct Code
+	{ 
+		static  inline constexpr uint FG = Num; 
+		static  inline constexpr uint BG = Num + 10; 
 	};
+	
+	using Red = Code<31>;
+	using Green = Code<32>;
+	using Yellow = Code<93>;
+	using Blue = Code<34>;
+	using Default = Code<39>;
+	using White = Code<97>;
 			
+	template<typename T>
 	class Modifier {
-		uint code;
+		static inline constexpr uint code = T::FG;
 	public:
-		Modifier(uint pCode) : code(pCode) {}
-		friend std::ostream&	operator<<(std::ostream& os, const Modifier& mod) {
+		constexpr Modifier() = default;
+		friend std::ostream& operator<<(std::ostream& os, const Modifier& mod) {
 					return os << "\033[" << mod.code << "m";
 				}
-		};
+	};
 }
 #endif
