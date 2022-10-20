@@ -60,11 +60,11 @@ namespace FS
 	public:		
 		Node(DerivedInfo* fi): info(*fi){};
 		
-		static void Add(Info* fi)
+		static void Add(Metainfo* fi)
 		{ 
 			elements.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 
 		};
-		static ElementType Get(Info* fi){return ElementType();};
+		static ElementType Get(Metainfo* fi){return ElementType();};
 		static const ContainerType& Nodes() { return elements; };
 		
 		static void Display(std::ostream& os)

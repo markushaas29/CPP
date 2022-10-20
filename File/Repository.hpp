@@ -134,7 +134,7 @@ namespace CSV
 		};	
 		
 		static inline TreeParserVisitor treeParser = TreeParserVisitor();
-		static inline std::unique_ptr<std::vector<FS::Info*>> nodes = std::unique_ptr<std::vector<FS::Info*>>(new std::vector<FS::Info*>());
+		static inline std::unique_ptr<std::vector<FS::Metainfo*>> nodes = std::unique_ptr<std::vector<FS::Metainfo*>>(new std::vector<FS::Metainfo*>());
 		
 	};
 }
@@ -154,9 +154,9 @@ namespace Backup
 				(*it)->AcceptConst(treeParser);
 
 				Logger::Log<Info>("Map: ", (*it)->Name());
-				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Info*>(*it)))
+				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Metainfo*>(*it)))
 					typeContainer.Add(fi); 
-				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Info*>(*it)))
+				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Metainfo*>(*it)))
 					directories->push_back(std::make_unique<FS::Directory>(di));
 			}
 			Logger::Log<Info>("Directories: ", directories->size());
@@ -182,7 +182,7 @@ namespace Backup
 			auto di =  std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time());
 			auto newDi = FileSystem::GetInfos(std::move(di));
 			
-			auto vec =  std::make_unique<std::vector<const FS::Info*>>();
+			auto vec =  std::make_unique<std::vector<const FS::Metainfo*>>();
 			auto result = newDi->GetNodes(std::move(vec));
 
 			for(auto r : *result)
