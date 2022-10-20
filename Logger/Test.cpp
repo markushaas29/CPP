@@ -10,12 +10,10 @@ int main()
 {       
     std::cout<<"START"<<std::endl;
 	
-	Logger::Log()<<"Test"<<std::endl;
-	Logger::Log<Error>()<<"Test2"<<std::endl;
-	Logger::Log<Info>()<<"Test2"<<std::endl;
 	Logger::Log<Info>("Test Info");
 	Logger::Log<Warning>("Test Warning");
 	Logger::Log<Error>("Test Error");
+	Logger::Log<Success>("Test Error");
 	
 	LogExpression le1{1};
 	LogExpression le2{2};

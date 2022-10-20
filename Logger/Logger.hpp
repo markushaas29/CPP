@@ -28,17 +28,18 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-template<typename Derived>
+template<typename Derived, uint ColorCode = 0>
 struct LogTypeBase
 {
-	//~ static Color::Modifier red = Color::Modifier(Color::Code::FG_RED);
-	static std::ostream& Log(std::ostream& os)	{	return os<<"\033[" << 31 << "m"<<Derived::Identifier;	};
+	static constexpr uint color = ColorCode;
+	static std::ostream& Log(std::ostream& os)	{ return os<<"\033[" << color << "m"<<Derived::Identifier;	};
 };
 
-struct Debug: LogTypeBase<Debug>{   static constexpr const char* Identifier ="[DEBUG]: "; };
-struct Info: LogTypeBase<Info>{    static constexpr const char* Identifier ="[Info]: "; };
-struct Warning: LogTypeBase<Warning>{    static constexpr const char* Identifier ="[Warning]: ";};
-struct Error: LogTypeBase<Error>{    static constexpr const char* Identifier ="[ERROR]: ";};
+struct Debug: LogTypeBase<Debug, Color::Code::FG_DEFAULT>{   static constexpr const char* Identifier ="[DEBUG]: "; };
+struct Info: LogTypeBase<Info, Color::Code::FG_DEFAULT>{    static constexpr const char* Identifier ="[Info]: "; };
+struct Success: LogTypeBase<Success, Color::Code::FG_GREEN>{    static constexpr const char* Identifier ="[Success]: "; };
+struct Warning: LogTypeBase<Warning, Color::Code::FG_YELLOW>{    static constexpr const char* Identifier ="[Warning]: ";};
+struct Error: LogTypeBase<Error, Color::Code::FG_RED>{    static constexpr const char* Identifier ="[ERROR]: ";};
 
 class Logger
 {   
@@ -61,7 +62,7 @@ class Logger
         virtual ~Logger(){ this->file.close();  };
         
         template<typename T>
-        static std::ostream& log(std::ostream& os,T t) {	return os<<" "<<t<<std::endl;   };
+        static std::ostream& log(std::ostream& os,T t) { return os<<" "<<t<<"\033[" <<Color::Code::BG_DEFAULT<< "m"<<std::endl;   };
         
         template<typename T, typename ...Ts>
         static std::ostream& log(std::ostream& os,T t, Ts ...ts)
