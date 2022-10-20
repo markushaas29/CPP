@@ -40,8 +40,6 @@ namespace FS
 		return formattedFileInfoTime;
 	}
 	
-	
-//---------------------------------------------------------------------------------------------------Info----------------------------------------------------------------------------------------
 	class Metainfo : public BaseVisitable<>
 	{
 	protected:
@@ -53,7 +51,6 @@ namespace FS
 
 		Metainfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(p), name(p.filename()), path(p), size(s), lastModification(lm){ };
 		Metainfo(std::filesystem::path p, std::filesystem::path pp, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(pp), name(p.filename()), path(p), size(s), lastModification(lm){ };
-
 		virtual Metainfo* Child(int n) = 0;
 	public:
 		DEFINE_VISITABLE();
@@ -81,8 +78,6 @@ namespace FS
 	
 	std::ostream& operator<<(std::ostream& out, const Metainfo& n)	{	return n.Display(out);	}
 
-//---------------------------------------------------------------------------------------------------FileInfo----------------------------------------------------------------------------------------
-
 	class FileInfo : public Metainfo
 	{
 	private:
@@ -107,8 +102,6 @@ namespace FS
 	
 	std::ostream& operator<<(std::ostream& out, const FileInfo* n)	{	return out<<n->PrintInfo(out);	}
 	
-//---------------------------------------------------------------------------------------------------DirectoryInfo----------------------------------------------------------------------------------------
-
 	class DirectoryInfo : public Metainfo
 	{   
 	private:
@@ -119,11 +112,7 @@ namespace FS
 		DEFINE_VISITABLE();
 		~DirectoryInfo(){};
 		
-		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::vector<Metainfo*> n):Metainfo(p,lm, 0), nodes(n)
-		{
-			this->size = this->Size();
-			Logger::Log("Count: ",n.size()," Size: ", size);
-		};
+		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::vector<Metainfo*> n):Metainfo(p,lm, 0), nodes(n){	this->size = this->Size();	};
 		
 		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm):Metainfo(p,lm, 0), nodes{}
 		{
@@ -142,10 +131,8 @@ namespace FS
 		}
 		
 		std::unique_ptr<std::vector<const Metainfo*>> GetNodes(std::unique_ptr<std::vector<const Metainfo*>> ptr) const
-		//~ std::vector<const Metainfo*> GetNodes(std::vector<const Metainfo*> ptr) const
 		{
 			ptr->push_back(this);
-			//~ std::cout<<"Adresss"<<this<<std::endl;
 			for(auto it = nodes.cbegin(); it != nodes.cend(); ++it)
 				ptr = (*it)->GetNodes(std::move(ptr));
 							

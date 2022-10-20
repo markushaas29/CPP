@@ -86,7 +86,7 @@ int main()
 	
 	if(dirs.size() == 0)
 	{
-		//~ Logger::Log<Info>()<<"No files to backup!"<<std::endl;
+		Logger::Log<Info>()<<"No files to backup!"<<std::endl;
 		std::cout<<"No files to backup!"<<std::endl;
 	}
 	
