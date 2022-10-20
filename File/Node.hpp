@@ -19,8 +19,7 @@ namespace fs = std::filesystem;
 
 namespace FS
 {
-
-	static std::vector<std::string> ReadLines(std::string path)
+	static std::vector<std::string> ReadLines(const std::string& path)
 	{
 		std::string line;
 		auto result = std::vector<std::string>();			
@@ -35,7 +34,7 @@ namespace FS
 		return result;
 	}
 	
-	static void WriteLines(std::string path, std::vector<std::string> lines)
+	static void WriteLines(const std::string& path, const std::vector<std::string>& lines)
 	{
 		std::ofstream ofs(path);
 		if (ofs.is_open())
@@ -47,7 +46,6 @@ namespace FS
 		}
 	}
 	
-	//---------------------------------------------------------------------------------------------------Node----------------------------------------------------------------------------------------
 	template<typename Derived, typename DerivedInfo,typename T = Derived>
 	struct Node
 	{
@@ -59,13 +57,10 @@ namespace FS
 		const DerivedInfo info;
 	public:		
 		Node(DerivedInfo* fi): info(*fi){};
-		
-		static void Add(Info* fi)
-		{ 
-			elements.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 
-		};
-		static ElementType Get(Info* fi){return ElementType();};
+		static void Add(Metainfo* fi){ elements.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 	};
+		static ElementType Get(Metainfo* fi){return ElementType();};
 		static const ContainerType& Nodes() { return elements; };
+		const DerivedInfo& Info() const {return info;}
 		
 		static void Display(std::ostream& os)
 		{
@@ -74,7 +69,6 @@ namespace FS
 				os<<"-"<<e.Info()<<std::endl;
 		}
 		
-		const DerivedInfo& Info() const {return info;}
 		bool BelongsTo(const fs::path& p) const
 		{  
 			auto path = fs::path(this->info.Path());
@@ -90,12 +84,8 @@ namespace FS
 		};
 	};
 	
-	//---------------------------------------------------------------------------------------------------Directory----------------------------------------------------------------------------------------
-
 	struct Directory: Node<Directory, DirectoryInfo>{	Directory(DirectoryInfo * di): Node(di){};	};
 	
-	//---------------------------------------------------------------------------------------------------File----------------------------------------------------------------------------------------
-
 	struct File: Node<File, FileInfo>
 	{
 		File(FileInfo* fi): Node(fi){};
@@ -115,14 +105,11 @@ namespace FS
 		ParseTypeContainer Parse() const
 		{
 			auto content = this->Read();
-			
 			ParseType::Parse(content);
 			
 			return ParseType::Transactions;
 		}
 	};
-
-	//---------------------------------------------------------------------------------------------------FileTypes----------------------------------------------------------------------------------------
 
 	template<typename FileT>
 	struct FileTypeBase: Node<FileTypeBase<FileT>, FileInfo, File>

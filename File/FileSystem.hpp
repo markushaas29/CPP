@@ -19,14 +19,14 @@ class FileSystem
 {
 	using Delimiter = T::char_<'/'> ;
 	inline static int level = 0;
-	inline static std::unique_ptr<std::vector<FS::Info*>> nodes = std::make_unique<std::vector<FS::Info*>>();
+	inline static std::unique_ptr<std::vector<FS::Metainfo*>> nodes = std::make_unique<std::vector<FS::Metainfo*>>();
 		
 public:
-	using Iterator = std::vector<FS::Info*>::const_iterator;
-	using ContainerType = std::vector<FS::Info*>;
+	using Iterator = std::vector<FS::Metainfo*>::const_iterator;
+	using ContainerType = std::vector<FS::Metainfo*>;
 	
-	static std::unique_ptr<std::vector<FS::Info*>> List(const fs::path& pathToScan) {
-		std::unique_ptr<std::vector<FS::Info*>> result = std::make_unique<std::vector<FS::Info*>>();
+	static std::unique_ptr<std::vector<FS::Metainfo*>> List(const fs::path& pathToScan) {
+		std::unique_ptr<std::vector<FS::Metainfo*>> result = std::make_unique<std::vector<FS::Metainfo*>>();
 
 		std::cout<<"|->"<<pathToScan<<std::endl;
 		for (const auto& entry : fs::directory_iterator(pathToScan)) {
@@ -54,8 +54,8 @@ public:
 		return result;
 	}
 	
-	static std::unique_ptr<std::vector<FS::Info*>> GetInfos(const FS::DirectoryInfo& di) {
-		std::unique_ptr<std::vector<FS::Info*>> result = std::make_unique<std::vector<FS::Info*>>();
+	static std::unique_ptr<std::vector<FS::Metainfo*>> GetInfos(const FS::DirectoryInfo& di) {
+		std::unique_ptr<std::vector<FS::Metainfo*>> result = std::make_unique<std::vector<FS::Metainfo*>>();
 
 		for (const auto& entry : fs::directory_iterator(di.Path())) {
 			const auto filenameStr = entry.path().filename().string();
