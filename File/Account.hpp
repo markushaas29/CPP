@@ -7,6 +7,7 @@
 #include <tuple>
 #include <exception>
 #include "TransferItemContainer.hpp"
+#include "RepositoryValue.hpp"
 #include "JSONParser.hpp"
 #include "Direction.hpp"
 #include "../Logger/Logger.hpp"
@@ -84,8 +85,6 @@ namespace Bank
 							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value(), tt);
 						}
 						
-						//~ Derived::cont.Display(std::cout);
-						
 						return;
 					}
 				}
@@ -94,7 +93,7 @@ namespace Bank
 			return;
 		}
 		
-		static void Get(const std::string& s) { Logger::Log("GET in",Derived::Name); }
+		static std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { Logger::Log("GET in",Derived::Name); return std::make_unique<FS::RepositoryValue>(); }
 		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Derived::Name); return true; }
 		
 		static void ReadKeyPatterns(InputIterator begin, InputIterator end)

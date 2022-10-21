@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include "Stage.hpp"
-//~ #include "UtilitiesStatement.hpp"
+#include "../File/RepositoryValue.hpp"
 #include "../Logger/Logger.hpp"
 #include "../File/Node.hpp"
 #include "../Calculator/Calculator.hpp"
@@ -72,7 +72,7 @@ public:
 		ExtractValues(csvValues.cbegin(),csvValues.cend());
 	}
 	
-	static void Get(const std::string& s) { Logger::Log("GET in",Name); }
+	static std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { Logger::Log("GET in",Name); return std::make_unique<FS::RepositoryValue>();}
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
 	
 	template<typename Cont>

@@ -9,8 +9,7 @@
 #include "../Unit/SIPrefix.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Calculator/CalculatorResult.hpp"
-//~ #include "../File/RepositoryObjectVisitor.hpp"
-//~ #include "../InputManager/InputManager.hpp"
+#include "../File/RepositoryValue.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
 #include "Reading.hpp"
@@ -90,7 +89,7 @@ public:
 		csv->Write<CounterType>();
 	}
 	
-	static void GetValue(const std::string& s) { Logger::Log("GET in",Number); }
+	static std::unique_ptr<FS::RepositoryValue> GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::RepositoryValue>(); }
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 	
 	template<typename Cont>

@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <functional>
+#include <memory>
+#include "RepositoryValue.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 
@@ -16,7 +18,7 @@ namespace FS
 		using IsVisitorFuncType = std::function<bool(const std::string&, const std::string&)>;
 		using ParseFuncType = std::function<void(Iterator,Iterator)>;
 		using UpdateFuncType = std::function<bool(Iterator,Iterator)>;
-		using GetFuncType = std::function<void(const std::string&)>;
+		using GetFuncType = std::function<std::unique_ptr<RepositoryValue>(const std::string&)>;
 	public:
 		RepositoryObjectVisitor() = delete;
 		RepositoryObjectVisitor(std::string n, ParseFuncType p, IsVisitorFuncType i): name{n}, parse{p}, isVisitorOf{i} {};

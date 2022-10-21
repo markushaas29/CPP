@@ -18,6 +18,7 @@
 #include "Raiba.hpp"
 #include "Custom.hpp"
 #include "Direction.hpp"
+#include "RepositoryValue.hpp"
 #include "RepositoryObjectVisitor.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
