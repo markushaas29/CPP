@@ -35,8 +35,6 @@ namespace Bank
 		inline static constexpr const char* Name = "Raiba";
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
 				
-		Raiba(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : Base(k,c,v, d, i, b) {};
-		
 		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
 	protected:
 		template<typename T>
@@ -53,10 +51,6 @@ namespace Bank
 			return (it)->second;
 		}
 		
-		static void InterpretTransaction(std::string transaction)
-		{
-			;
-		}
 	private:
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);

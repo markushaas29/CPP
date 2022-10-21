@@ -32,25 +32,13 @@ namespace Bank
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Name = "Custom";
 		inline static constexpr const char* Filename = "RaibaKonten2021_1.csv";
-
-		Custom(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : Base(k,c,v, d, i, b) {};		
 		
-		static std::ostream& Display(std::ostream& os)
-		{
-			return cont.Display(os);
-		}
-						
+		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
 	protected:
 		template<typename T>
-		static std::string Extract(std::string s)
-		{
-			return s;
-		}
+		static std::string Extract(std::string s){	return s;	}
 		
-		static std::string ExtractKey(std::string s)
-		{
-			return s;
-		}
+		static std::string ExtractKey(std::string s){	return s;	}
 	private:
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);

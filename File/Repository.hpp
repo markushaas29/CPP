@@ -34,7 +34,6 @@
 
 namespace CSV
 {
-	
 	struct Repository
 	{
 		using InputIterator = std::vector<std::string>::const_iterator;
@@ -56,12 +55,11 @@ namespace CSV
 		
 		static void CopyTo(std::string dest)
 		{
-			types.SetRootPath(Repository::Root);
+			types.SetRootPath(Root);
 			types.CopyTo(dest);
 		}
 		
 		static void List()	{	types.List();	}
-		
 		static void SetRootPath(std::string s) { Root = s; }
 		static void SetDestPath(std::string s) { Dest = s; }
 		
@@ -70,20 +68,20 @@ namespace CSV
 			auto infos = FileSystem::List(path);
 			
 			for(auto i : *infos)
-				CSV::Repository::nodes->push_back(i);
+				nodes->push_back(i);
 
 			auto root = fs::directory_entry(path);
 			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*infos);
 			
-			CSV::Repository::nodes->push_back(dir);
-			CSV::Repository::Map(CSV::Repository::nodes->cbegin(), CSV::Repository::nodes->cend());
+			nodes->push_back(dir);
+			Map(nodes->cbegin(), nodes->cend());
 		}
 		
 		static std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
 		
 		static void Register()
 		{
-			parsers.RegisterTo(Repository::visitors);	
+			parsers.RegisterTo(visitors);	
 			
 			for(auto kv : visitors)
 				Logger::Log<Info>("Register:",kv.first);
@@ -100,17 +98,15 @@ namespace CSV
 		{
 			for (auto it = visitors.begin(); it != visitors.end(); it++)
 			{
-				for(auto itNode = CSV::Repository::nodes->cbegin(); itNode != CSV::Repository::nodes->cend(); ++itNode )
+				for(auto itNode = nodes->cbegin(); itNode != nodes->cend(); ++itNode )
 				{
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						Logger::Log<Info>("Parsing File: ",it->first);
-						auto lines = CSV::Repository::Read((*itNode)->Name());	
+						auto lines = Read((*itNode)->Name());	
 						it->second.Parse(lines.cbegin(), lines.cend());
-						
 					}
 				}			
-				
 			}
 		}
 		

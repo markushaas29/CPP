@@ -29,22 +29,14 @@ namespace Bank
 		using TransferType = Transfer<Comdirect,TransferTypes>;
 		using IsOutTransferSign = T::char_<'-'>;
 		using Base = Account<Comdirect, TransferTypes>;
+		using TextSeparator = T::char_<' '> ;
 		friend class Account<Comdirect, TransferTypes>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Name = "Comdirect";
 		inline static constexpr const char* Filename = "Umsaetze_DE832004113306947527";
 				
-		Comdirect(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : Base(k,c,v, d, i, b) {};
-		
-		static std::ostream& Display(std::ostream& os)
-		{
-			return cont.Display(os);
-		}
-		
-		using TextSeparator = T::char_<' '> ;
-				
-		
+		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os); }
 	protected:
 		template<typename T>
 		static std::string Extract(std::string s)
