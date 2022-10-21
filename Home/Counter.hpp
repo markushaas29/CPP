@@ -91,9 +91,10 @@ public:
 	}
 	
 	static void GetValue(const std::string& s) { Logger::Log("GET in",Number); }
+	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), &CounterType::Parse, &CounterType::GetValue)));	}
+	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), &CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
 			
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}

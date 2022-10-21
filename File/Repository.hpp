@@ -104,6 +104,7 @@ namespace CSV
 						Logger::Log("Repository start parsing: ",it->first);
 						auto lines = Read((*itNode)->Name());	
 						it->second.Parse(lines.cbegin(), lines.cend());
+						it->second.Update(lines.cbegin(), lines.cend());
 						it->second.Get("");
 					}
 				}			

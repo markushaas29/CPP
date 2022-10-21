@@ -73,9 +73,10 @@ public:
 	}
 	
 	static void Get(const std::string& s) { Logger::Log("GET in",Name); }
+	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), &Parse, &Get))); }
+	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), &Parse, &Get, &Update))); }
 	
 	template<typename T>
 	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }
