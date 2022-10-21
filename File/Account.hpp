@@ -94,6 +94,7 @@ namespace Bank
 			return;
 		}
 		
+		static void Get(const std::string& s) { Logger::Log("GET in",Derived::Name); }
 		
 		static void ReadKeyPatterns(InputIterator begin, InputIterator end)
 		{
@@ -130,8 +131,8 @@ namespace Bank
 		template<typename Cont>
 		static void RegisterTo(Cont& cont)
 		{
-			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, &Type::Parse)));
-			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, &Type::ReadKeyPatterns)));
+			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, &Type::Parse, &Type::Get)));
+			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, &Type::ReadKeyPatterns, &Type::Get)));
 		}	
 		
 	protected:

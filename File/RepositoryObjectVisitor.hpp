@@ -15,20 +15,21 @@ namespace FS
 	{
 		using IsVisitorFuncType = std::function<bool(const std::string&, const std::string&)>;
 		using ParseFuncType = std::function<void(Iterator,Iterator)>;
+		using GetFuncType = std::function<void(const std::string&)>;
 	public:
 		RepositoryObjectVisitor() = delete;
 		RepositoryObjectVisitor(std::string n, ParseFuncType p, IsVisitorFuncType i): name{n}, parse{p}, isVisitorOf{i} {};
 		RepositoryObjectVisitor(std::string n, ParseFuncType p): name{n}, parse{p}{};
+		RepositoryObjectVisitor(std::string n, ParseFuncType p, GetFuncType g): name{n}, parse{p}, get{g}{};
 		std::string Name() { return this->name;}
-		void Parse(Iterator b, Iterator e) { this->parse(b,e); }
+		void Parse(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Parse", name);this->parse(b,e); }
 		bool IsVisitorOf(const std::string& s) { return this->isVisitorOf(s,this->name); }
+		void Get(const std::string& s) { get(s); }
 	private:
 		std::string name;
 		ParseFuncType parse;
+		GetFuncType get = [&](const std::string& s){ Logger::Log("RepositoryObjectVisitor GET", name); };
 		IsVisitorFuncType isVisitorOf = [&](const std::string& s, const std::string& n){ return String_::Contains(s,n); };
 	};
-	
-	//~ std::ostream& operator<<(std::ostream& out, const RepositoryObjectVisitor& c)	{ return out;	}
-
 }
 #endif

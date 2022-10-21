@@ -72,8 +72,10 @@ public:
 		ExtractValues(csvValues.cbegin(),csvValues.cend());
 	}
 	
+	static void Get(const std::string& s) { Logger::Log("GET in",Name); }
+	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), &Parse))); }
+	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), &Parse, &Get))); }
 	
 	template<typename T>
 	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }

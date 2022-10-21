@@ -90,8 +90,10 @@ public:
 		csv->Write<CounterType>();
 	}
 	
+	static void GetValue(const std::string& s) { Logger::Log("GET in",Number); }
+	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), &CounterType::Parse)));	}
+	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), &CounterType::Parse, &CounterType::GetValue)));	}
 			
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}

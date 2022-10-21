@@ -40,9 +40,8 @@ namespace CSV
 		using FileTypes = Typelist<FS::INPUT,FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
-		using Parsers = Typelist<InputManager<int>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
+		using Parsers = Typelist<CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
 		using ParserContainer = FS::FileTypeContainer<Parsers>;
-		using ParseMethod = void(*)(InputIterator, InputIterator);
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
 	
@@ -102,9 +101,10 @@ namespace CSV
 				{
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
-						Logger::Log<Info>("Parsing File: ",it->first);
+						Logger::Log("Repository start parsing: ",it->first);
 						auto lines = Read((*itNode)->Name());	
 						it->second.Parse(lines.cbegin(), lines.cend());
+						it->second.Get("");
 					}
 				}			
 			}
