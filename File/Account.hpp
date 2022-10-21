@@ -69,7 +69,7 @@ namespace Bank
 					if(keyIndices->UpdateKeys(values))
 					{
 						uint valueCount = values.size();
-						Logger::Log()<<"Updatet Keys from Line:\n\t"<<*it<<std::endl;
+						Logger::Log("Updatet Keys from Line:\n\t",*it);
 										
 						++it;		
 						for(;it != end; ++it)
@@ -77,7 +77,7 @@ namespace Bank
 							auto values = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(*it));
 							if(valueCount != values.size())
 							{
-					 			Logger::Log<Error>()<<Derived::Name<<": Not enough values to create a transfer in line"<<*it<<std::endl;
+					 			Logger::Log<Error>(Derived::Name,": Not enough values to create a transfer in line",*it);
 					 			continue;
 							}
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
@@ -103,7 +103,7 @@ namespace Bank
 			TransferItemContainerType::Instance().Read();
 			if(begin==end)
 			{
-	 			Logger::Log<Error>()<<"ReadKeyPatterns: No Items found for "<<Derived::Name<<std::endl;
+	 			Logger::Log<Error>("ReadKeyPatterns: No Items found for ",Derived::Name);
 	 			// Todo weiter Fehlerbehandlung für weiter Bearbeitung
 	 			return;
 			}
@@ -118,13 +118,13 @@ namespace Bank
 					
 		 			if(keys.cbegin() != keys.cend())
 		 			{
-			 			Logger::Log<Info>()<<Derived::Name<<" ReadKeyPatterns: Key found for item: "<<keyItem<<std::endl;
+			 			Logger::Log<Info>(Derived::Name," ReadKeyPatterns: Key found for item: ");
 						keyIndices->UpdateKeyPatterns(Key(keyItem), keys);
 					}
 				}
 				catch(std::exception e)
 				{
-		 			Logger::Log<Error>()<<"ReadKeyPatterns: "<<Derived::Name<<"\t"<<e.what()<<std::endl;
+		 			Logger::Log<Error>("ReadKeyPatterns: ",Derived::Name,"\t",e.what());
 				}
 			}
 		}

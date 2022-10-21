@@ -68,7 +68,7 @@ class Logger
         template<typename T, typename ...Ts>
         static std::ostream& log(std::ostream& os,T t, Ts ...ts)
         {
-			os<<" "<<t;;
+			os<<" "<<t;
 			return log(os,ts...);
         };
     public: 
@@ -85,9 +85,9 @@ class Logger
         static std::ostream& Log(Vals ...vals)
         {
 			if constexpr (!std::is_same<Debug,LogPolicy>::value )
-				log(LogPolicy::Log(Logger::Instance().file),vals...);
+				log(LogPolicy::Log(Logger::Instance().out),vals...);
 
-			return log(LogPolicy::Log(Logger::Instance().out),vals...);
+			return log(LogPolicy::Log(Logger::Instance().file),vals...);
         };
         
         template<char C, class LogPolicy = Debug, typename ...Vals>
