@@ -89,7 +89,7 @@ public:
 		csv->Write<CounterType>();
 	}
 	
-	static std::unique_ptr<FS::RepositoryValue> GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::RepositoryValue>(); }
+	static std::unique_ptr<FS::CounterValue<int>> GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<int>>(); }
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 	
 	template<typename Cont>

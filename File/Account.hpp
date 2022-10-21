@@ -93,7 +93,7 @@ namespace Bank
 			return;
 		}
 		
-		static std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { Logger::Log("GET in",Derived::Name); return std::make_unique<FS::RepositoryValue>(); }
+		static std::unique_ptr<FS::AccountValue<int>> Get(const std::string& s) { Logger::Log("GET in",Derived::Name); return std::make_unique<FS::AccountValue<int>>(); }
 		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Derived::Name); return true; }
 		
 		static void ReadKeyPatterns(InputIterator begin, InputIterator end)

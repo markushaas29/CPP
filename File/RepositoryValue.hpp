@@ -10,8 +10,28 @@ namespace FS
 	{
 	public:
 		RepositoryValue() = default;
-		void Get(const std::string& s) {  }
+		virtual void Get(const std::string& s) { Logger::Log("RepositoryValue"); }
 	private:
+	};
+	
+	template<typename T = int>
+	class CounterValue: public RepositoryValue
+	{
+	public:
+		CounterValue() = default;
+		virtual void Get(const std::string& s) { Logger::Log("CoutnterValue"); }
+	private:
+		T value = T{};
+	};
+	
+	template<typename T>
+	class AccountValue: public RepositoryValue
+	{
+	public:
+		AccountValue() = default;
+		virtual void Get(const std::string& s) { Logger::Log("AccountValue"); }
+	private:
+		T value = T{};
 	};
 }
 #endif

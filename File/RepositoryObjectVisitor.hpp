@@ -28,7 +28,7 @@ namespace FS
 		void Parse(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Parse", name);this->parse(b,e); }
 		bool Update(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Update", name); return update(b,e); }
 		bool IsVisitorOf(const std::string& s) { return this->isVisitorOf(s,this->name); }
-		void Get(const std::string& s) { get(s); }
+		std::unique_ptr<RepositoryValue> Get(const std::string& s) { return get(s); }
 	private:
 		std::string name;
 		ParseFuncType parse;

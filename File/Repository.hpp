@@ -106,7 +106,8 @@ namespace CSV
 						auto lines = Read((*itNode)->Name());	
 						it->second.Parse(lines.cbegin(), lines.cend());
 						it->second.Update(lines.cbegin(), lines.cend());
-						it->second.Get("");
+						auto p = it->second.Get("");
+						p->Get("");
 					}
 				}			
 			}
