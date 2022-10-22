@@ -1,3 +1,4 @@
+#include <memory>
 #include "../Logger/Logger.hpp"
 
 #ifndef REPOSITORYVALUE_HPP
@@ -9,17 +10,24 @@ namespace FS
 	class RepositoryValue
 	{
 	public:
+		//~ RepositoryValue() = delete;
 		RepositoryValue() = default;
-		virtual void Get(const std::string& s) { Logger::Log("RepositoryValue"); }
+		RepositoryValue(const std::string n): _name{n} {};
+		virtual const std::string& Name() { return _name ; }
+		virtual RepositoryValue*  Cast() { return  new RepositoryValue(); }
+	protected:
+		const std::string& name() { return _name; };
 	private:
+		const std::string _name;
 	};
 	
 	template<typename T = int>
 	class CounterValue: public RepositoryValue
 	{
 	public:
-		CounterValue() = default;
-		virtual void Get(const std::string& s) { Logger::Log("CoutnterValue"); }
+		CounterValue(): RepositoryValue{"CoutnterValue"} {};
+		CounterValue<T>*  Cast() override{ return this; }
+		const std::string& Name() { return name();  }
 	private:
 		T value = T{};
 	};
@@ -28,8 +36,9 @@ namespace FS
 	class AccountValue: public RepositoryValue
 	{
 	public:
-		AccountValue() = default;
-		virtual void Get(const std::string& s) { Logger::Log("AccountValue"); }
+		AccountValue(): RepositoryValue{"AccountValue"}{};
+		AccountValue<T>*  Cast() override { return this; }
+		const std::string& Name() override { return name();  }
 	private:
 		T value = T{};
 	};

@@ -108,6 +108,18 @@ namespace CSV
 						it->second.Update(lines.cbegin(), lines.cend());
 						auto p = it->second.Get("");
 						p->Get("");
+						auto y(dynamic_cast<FS::CounterValue<int>*>(p.get()));
+						if(y)
+							Logger::Log<Error>("CAST");
+						else
+							Logger::Log<Error>("DONT CAST");
+							
+						//~ FS::CounterValue<int>* pp = p->Cast();
+						//~ if(pp)
+							//~ Logger::Log<Error>("CAST2");
+						//~ else
+							//~ Logger::Log<Error>("DONT CAST");
+							
 					}
 				}			
 			}
