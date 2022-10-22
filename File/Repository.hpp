@@ -35,6 +35,9 @@
 
 namespace CSV
 {
+	
+	template<typename T> decltype(auto) Get();
+	
 	struct Repository
 	{
 		using InputIterator = std::vector<std::string>::const_iterator;
@@ -115,6 +118,9 @@ namespace CSV
 		static void Display(std::ostream& os){	parsers.Display(os);	}
 		
 	private:
+		template<typename T>
+		friend decltype(auto) Get();
+		
 		static inline VisitorContainer visitors = VisitorContainer();
 		static inline TypeContainer types = TypeContainer();
 		static inline ParserContainer parsers = ParserContainer();
@@ -134,6 +140,17 @@ namespace CSV
 		static inline TreeParserVisitor treeParser = TreeParserVisitor();
 		static inline std::unique_ptr<std::vector<FS::Metainfo*>> nodes = std::unique_ptr<std::vector<FS::Metainfo*>>(new std::vector<FS::Metainfo*>());
 		
+	};
+	
+	template<typename T>
+	decltype(auto) Get()
+	{
+		for (auto it = Repository::visitors.begin(); it != Repository::visitors.end(); it++)
+		{
+			Logger::Log<Info>("ID: ", it->second.Identifier());
+			if(it->second.Identifier() == T::Identifier);
+				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());
+		}
 	};
 }
 
