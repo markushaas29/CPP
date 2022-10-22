@@ -149,7 +149,13 @@ namespace CSV
 		{
 			Logger::Log<Info>("ID: ", it->second.Identifier());
 			if(it->second.Identifier() == T::Identifier)
+			{
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());
+				auto p = it->second.Get("");
+				std::cout<<"GET OUT"<<*p<<std::endl;
+				auto cv = Cast::static_unique_ptr<FS::CounterValue<CE1::DataType>>(std::move(p)); 
+				std::cout<<"GET OUT"<<*(cv->value)<<std::endl;
+			}
 		}
 	};
 }

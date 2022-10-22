@@ -24,8 +24,10 @@ namespace FS
 		RepositoryObjectVisitor(std::string n, ParseFuncType p, IsVisitorFuncType i): name{n}, parse{p}, isVisitorOf{i} {};
 		RepositoryObjectVisitor(std::string n, ParseFuncType p): name{n}, parse{p}{};
 		RepositoryObjectVisitor(const std::string& n, const std::string& i,ParseFuncType p, GetFuncType g, UpdateFuncType u = [](Iterator b, Iterator e){ return true; } ): name{n}, identifier{i},parse{p}, get{g}, update{u}{};
+		
 		const std::string& Name() { return this->name;}
 		const std::string& Identifier() { return this->identifier;}
+		
 		void Parse(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Parse", name);this->parse(b,e); }
 		bool Update(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Update", name); return update(b,e); }
 		bool IsVisitorOf(const std::string& s) { return this->isVisitorOf(s,this->name); }

@@ -16,11 +16,15 @@ namespace FS
 		RepositoryValue(const std::string n): _name{n} {};
 		virtual const std::string& Name() { return _name ; }
 		virtual RepositoryValue*  Cast() { return  new RepositoryValue(); }
+		std::ostream& Display(std::ostream& strm) const {	return strm<<_name;}
 	protected:
 		const std::string& name() { return _name; };
 	private:
 		const std::string _name;
 	};
+	
+	//~ template<typename C, typename S = T::char_<'\t'>>
+	std::ostream& operator<<(std::ostream& strm, const RepositoryValue& rv){	return rv.Display(strm); }
 	
 	template<typename T = int>
 	class CounterValue: public RepositoryValue
@@ -31,8 +35,8 @@ namespace FS
 		CounterValue<T>*  Cast() override{ return this; }
 		const std::string& Name() { return name();  }
 		const std::string& Val1() { return name();  }
-	private:
 		T value = T{};
+	private:
 	};
 	
 	template<typename T>
