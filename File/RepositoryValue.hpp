@@ -1,5 +1,6 @@
 #include <memory>
 #include "../Logger/Logger.hpp"
+#include "../Common/UniqueCast.hpp"
 
 #ifndef REPOSITORYVALUE_HPP
 #define REPOSITORYVALUE_HPP
@@ -26,8 +27,10 @@ namespace FS
 	{
 	public:
 		CounterValue(): RepositoryValue{"CoutnterValue"} {};
+		CounterValue(const T& t): RepositoryValue{"CoutnterValue"}, value{t} {};
 		CounterValue<T>*  Cast() override{ return this; }
 		const std::string& Name() { return name();  }
+		const std::string& Val1() { return name();  }
 	private:
 		T value = T{};
 	};
@@ -37,8 +40,10 @@ namespace FS
 	{
 	public:
 		AccountValue(): RepositoryValue{"AccountValue"}{};
+		AccountValue(const T& t): RepositoryValue{"CoutnterValue"}, value{t} {};
 		AccountValue<T>*  Cast() override { return this; }
 		const std::string& Name() override { return name();  }
+		const std::string& Val() { return name();  }
 	private:
 		T value = T{};
 	};
