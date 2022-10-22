@@ -134,7 +134,7 @@ namespace Bank
 		static void RegisterTo(Cont& cont)
 		{
 			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
-			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "",&Type::ReadKeyPatterns, &Type::Get)));
+			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
 		}	
 		
 	protected:

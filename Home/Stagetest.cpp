@@ -10,6 +10,7 @@
 #include "../Tuple/Tuple.hpp"
 #include "../Traits/Traits.h"
 #include "../Unit/Unit.h"
+#include "../File/Repository.hpp"
 #include "../Logger/Logger.hpp"
 
 int main()
@@ -39,6 +40,8 @@ int main()
     std::cout<<"m: "<<GetStage<Middle,Persons>().GetQuantity()<<std::endl;
     std::cout<<"b: "<<GetStage<Bottom,Persons>().GetQuantity()<<std::endl;
     std::cout<<"TOTAL: "<<StageContainerType::Instance().GetTotal<Persons>()<<std::endl;
+	
+	CSV::Get<CE1>();
 	
 	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
     std::cout<<"END"<<std::endl;

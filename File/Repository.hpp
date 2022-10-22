@@ -148,7 +148,7 @@ namespace CSV
 		for (auto it = Repository::visitors.begin(); it != Repository::visitors.end(); it++)
 		{
 			Logger::Log<Info>("ID: ", it->second.Identifier());
-			if(it->second.Identifier() == T::Identifier);
+			if(it->second.Identifier() == T::Identifier)
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());
 		}
 	};

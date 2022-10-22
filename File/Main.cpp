@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <unordered_map>
 #include "Account.hpp"
+#include "Raiba.hpp"
 #include "Repository.hpp"
 #include "FileSystem.hpp"
 #include "../Home/House.hpp"
@@ -44,7 +45,8 @@ int main()
 //     CSV::Repository::Display(outFile);
 // 	
 
-	CSV::Get<Bank::Raiba<0>>();
+	//~ std::cout<<"\n TEST ID"<<Bank::Raiba<0>::Identifier<<std::endl;
+	//~ CSV::Get<Bank::Raiba<0>>();
 	std::cout<<"\n TEST Transfers"<<std::endl;
 	
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;
