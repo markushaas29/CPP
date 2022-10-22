@@ -58,6 +58,7 @@ protected:
 		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd());	
 	}
 public:
+	inline static constexpr const char* Identifier = Name;
 	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }	
 	void Write(const std::string sourcePath = ".")	{ Type::Write(sourcePath); }
 	static constexpr const char* GetName(){ return Name; }	
@@ -76,7 +77,7 @@ public:
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), &Parse, &Get, &Update))); }
+	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), Identifier, &Parse, &Get, &Update))); }
 	
 	template<typename T>
 	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }

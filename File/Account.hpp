@@ -52,6 +52,7 @@ namespace Bank
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;
 		using KeyIndexContainerPtrType = std::shared_ptr<KeyIndexContainerType>;
 		using TransferItemContainerType = TransferItemContainer<KeyIndexContainerType,TupleType>::ContainerType;
+		inline static constexpr const char* Identifier = Derived::Name;
 		
 		static void Parse(InputIterator begin, InputIterator end)
 		{
@@ -132,8 +133,8 @@ namespace Bank
 		template<typename Cont>
 		static void RegisterTo(Cont& cont)
 		{
-			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, &Type::Parse, &Type::Get, &Type::Update)));
-			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, &Type::ReadKeyPatterns, &Type::Get)));
+			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
+			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "",&Type::ReadKeyPatterns, &Type::Get)));
 		}	
 		
 	protected:

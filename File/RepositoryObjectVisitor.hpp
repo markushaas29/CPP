@@ -23,14 +23,16 @@ namespace FS
 		RepositoryObjectVisitor() = delete;
 		RepositoryObjectVisitor(std::string n, ParseFuncType p, IsVisitorFuncType i): name{n}, parse{p}, isVisitorOf{i} {};
 		RepositoryObjectVisitor(std::string n, ParseFuncType p): name{n}, parse{p}{};
-		RepositoryObjectVisitor(std::string n, ParseFuncType p, GetFuncType g, UpdateFuncType u = [](Iterator b, Iterator e){ return true; } ): name{n}, parse{p}, get{g}, update{u}{};
-		std::string Name() { return this->name;}
+		RepositoryObjectVisitor(const std::string& n, const std::string& i,ParseFuncType p, GetFuncType g, UpdateFuncType u = [](Iterator b, Iterator e){ return true; } ): name{n}, identifier{i},parse{p}, get{g}, update{u}{};
+		const std::string& Name() { return this->name;}
+		const std::string& Identifier() { return this->identifier;}
 		void Parse(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Parse", name);this->parse(b,e); }
 		bool Update(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Update", name); return update(b,e); }
 		bool IsVisitorOf(const std::string& s) { return this->isVisitorOf(s,this->name); }
 		std::unique_ptr<RepositoryValue> Get(const std::string& s) { return get(s); }
 	private:
-		std::string name;
+		const std::string name;
+		const std::string identifier;
 		ParseFuncType parse;
 		UpdateFuncType update;
 		GetFuncType get = [&](const std::string& s){ Logger::Log("RepositoryObjectVisitor GET", name); };

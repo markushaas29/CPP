@@ -41,6 +41,7 @@ public:
 	using CIteratorReading = std::vector<DataType>::const_iterator;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	inline static const uint Number = Config::Number;
+	inline static const std::string Identifier = Config::CounterName;
 
 	static Counter& Instance()
 	{
@@ -93,7 +94,7 @@ public:
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), &CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
+	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,&CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
 			
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
