@@ -43,9 +43,20 @@ struct AncilliaryRentalCostItemBase
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<AccountType>(Derived::iban);
-		auto transfers = account[year];
-		
-		auto sum = TotalSum(transfers->cbegin(), transfers->cend());
+		typename ResultType::TransfersPtr transfers;
+		Quantity<Sum> sum;
+		try
+		{
+			transfers = account[year];
+			if(transfers->cbegin() != transfers->cend())
+				sum = TotalSum(transfers->cbegin(), transfers->cend());
+			else
+				Logger::Log<Error>("Sum 0", Derived::TypeIdentifier);
+		}
+		catch(...)
+		{		
+			Logger::Log<Error>("No Account 0");
+		}
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
@@ -127,7 +138,7 @@ struct BuildingCleaning: AncilliaryRentalCostItemBase<S,BuildingCleaning<S>, Bui
 { 
 	constexpr static Name TypeIdentifier{"BuildingCleaning"}; 
 	constexpr static const char* Identifier = "Alles Proper"; 
-	inline static constexpr IBAN iban{"DE44600501010008017284"};	
+	inline static constexpr IBAN iban{"DE05100110012620778704"};	
 };
 
 template<typename S>
