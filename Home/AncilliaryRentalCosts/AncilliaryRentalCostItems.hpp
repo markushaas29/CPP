@@ -44,18 +44,18 @@ struct AncilliaryRentalCostItemBase
 	{
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		typename ResultType::TransfersPtr transfers;
-		Quantity<Sum> sum;
+		typename ResultType::SumType sum;
 		try
 		{
 			transfers = account[year];
 			if(transfers->cbegin() != transfers->cend())
 				sum = TotalSum(transfers->cbegin(), transfers->cend());
 			else
-				Logger::Log<Error>("Sum 0", Derived::TypeIdentifier);
+				Logger::Log<Error>("No transfers for ", Derived::TypeIdentifier,"in ",year,"of account ",account);
 		}
 		catch(...)
 		{		
-			Logger::Log<Error>("No Account 0");
+			Logger::Log<Error>("No Account for calculate!");
 		}
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
@@ -66,11 +66,7 @@ struct AncilliaryRentalCostItemBase
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
-	static std::ostream& Display(std::ostream& os)
-	{
-		os<<results->cbegin()->first<<" Result "<<std::endl;
-		return os;
-	}
+	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
 	
 protected:
 	template <typename Acc, typename T, typename... Categories>

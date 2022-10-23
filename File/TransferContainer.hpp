@@ -63,6 +63,9 @@ namespace Bank
 				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value(), t.Value()); });
 			else
 				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
+			
+			if(result.size() == 0)
+				Logger::Log<Warning>("No transfer by filtering with ",t);
 				
 			return result; 
 		}
