@@ -38,7 +38,7 @@ namespace Bank
 		IBAN iban;
 		BIC bic;
 		
-		inline static const std::string KeysFilename = std::string(Derived::Name) + ".keys";
+		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferT>;
 	public:
 		using Type = Account<Derived,TransferT> ;
@@ -52,13 +52,13 @@ namespace Bank
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;
 		using KeyIndexContainerPtrType = std::shared_ptr<KeyIndexContainerType>;
 		using TransferItemContainerType = TransferItemContainer<KeyIndexContainerType,TupleType>::ContainerType;
-		inline static constexpr const char* Identifier = Derived::Name;
+		inline static constexpr const char* const Identifier = Derived::name;
 		
 		static void Parse(InputIterator begin, InputIterator end)
 		{
 			if(keyIndices->Empty())
 			{
-	 			Logger::Log<Error>()<<Derived::Name<<" parsing not possible, no keys!"<<std::endl;
+	 			Logger::Log<Error>()<<Derived::name<<" parsing not possible, no keys!"<<std::endl;
 				return;
 			}
 			
@@ -79,7 +79,7 @@ namespace Bank
 							auto values = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(*it));
 							if(valueCount != values.size())
 							{
-					 			Logger::Log<Error>(Derived::Name,": Not enough values to create a transfer in line",*it);
+					 			Logger::Log<Error>(Derived::name,": Not enough values to create a transfer in line",*it);
 					 			continue;
 							}
 							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
@@ -96,7 +96,7 @@ namespace Bank
 		
 		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN()].All); }
 		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
-		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Derived::Name); return true; }
+		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 		
 		static void ReadKeyPatterns(InputIterator begin, InputIterator end)
 		{
@@ -104,7 +104,7 @@ namespace Bank
 			TransferItemContainerType::Instance().Read();
 			if(begin==end)
 			{
-	 			Logger::Log<Error>("ReadKeyPatterns: No Items found for ",Derived::Name);
+	 			Logger::Log<Error>("ReadKeyPatterns: No Items found for ",Derived::name);
 	 			// Todo weiter Fehlerbehandlung für weiter Bearbeitung
 	 			return;
 			}
@@ -119,13 +119,13 @@ namespace Bank
 					
 		 			if(keys.cbegin() != keys.cend())
 		 			{
-			 			Logger::Log<Info>(Derived::Name," ReadKeyPatterns: Key found for item: ");
+			 			Logger::Log<Info>(Derived::name," ReadKeyPatterns: Key found for item: ");
 						keyIndices->UpdateKeyPatterns(Key(keyItem), keys);
 					}
 				}
 				catch(std::exception e)
 				{
-		 			Logger::Log<Error>("ReadKeyPatterns: ",Derived::Name,"\t",e.what());
+		 			Logger::Log<Error>("ReadKeyPatterns: ",Derived::name,"\t",e.what());
 				}
 			}
 		}
@@ -135,6 +135,8 @@ namespace Bank
 		{
 			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
 			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
+			
+			Logger::Log<Info>("Register", Identifier, Derived::Num);
 		}	
 		
 	protected:

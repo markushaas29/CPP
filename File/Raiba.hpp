@@ -28,11 +28,10 @@ namespace Bank
 		using TransferTypes = TransferT;
 		using TransferType = Transfer<Raiba,TransferTypes>;
 		using IsOutTransferSign = T::char_<'S'>;
-		using Base = Account<Raiba, TransferTypes>;
-		friend class Account<Raiba, TransferTypes>;
+		using Base = Account<Raiba<N>, TransferTypes>;
+		friend class Account<Raiba<N>, TransferTypes>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
-		inline static constexpr const char* Name = "Raiba";
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
 				
 		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
@@ -50,13 +49,13 @@ namespace Bank
 						
 			return (it)->second;
 		}
-		
 	private:
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);
-	
+		
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static String_::Parser parser = String_::Parser();
+		inline static constexpr const char* const name = "Raiba";
 	};
 }
 

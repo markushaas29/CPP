@@ -145,10 +145,7 @@ namespace CSV
 	{
 		for (auto it = Repository::visitors.begin(); it != Repository::visitors.end(); it++)
 		{
-			Logger::Log<Info>("ID: ", Bank::Comdirect<0>::Identifier);
-			//~ Logger::Log<Info>("ID: ", Bank::Comdirect<0>::identifier());
-			Logger::Log<Info>("ID: ", Bank::Raiba<0>::Base::identifier());
-			//~ Logger::Log<Info>("ID: ", Bank::Raiba<0>::Base::Identifier);
+			Logger::Log<Info>("ID: ", Bank::Raiba<0>::Identifier);
 			if(it->second.Identifier() == T::Identifier)
 			{
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());

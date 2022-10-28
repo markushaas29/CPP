@@ -26,11 +26,10 @@ namespace Bank
 		using TransferTypes = TransferT;
 		using TransferType = Transfer<Custom,TransferTypes>;
 		using IsOutTransferSign = T::char_<'-'>;
-		using Base = Account<Custom, TransferTypes>;
-		friend class Account<Custom, TransferTypes>;
+		using Base = Account<Custom<N>, TransferTypes>;
+		friend class Account<Custom<N>, TransferTypes>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
-		inline static constexpr const char* Name = "Custom";
 		inline static constexpr const char* Filename = "RaibaKonten2021_1.csv";
 		
 		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
@@ -39,11 +38,13 @@ namespace Bank
 		static std::string Extract(std::string s){	return s;	}
 		
 		static std::string ExtractKey(std::string s){	return s;	}
+		
 	private:
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);
 		
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
+		inline static constexpr const char* name = "Custom";
 	};
 }
 
