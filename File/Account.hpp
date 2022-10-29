@@ -157,6 +157,11 @@ namespace Bank
 			
 			return result;
 		}
+	private:
+		Account()	{ 	};
+		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Account& operator=(const Account&) = delete;
+		Account(const Account& c) = delete;
 	};
 }
 

@@ -114,7 +114,6 @@ namespace CSV
 		}
 		
 		static void Display(std::ostream& os){	parsers.Display(os);	}
-		
 	private:
 		template<typename T>
 		friend decltype(auto) Get();

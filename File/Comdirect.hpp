@@ -24,7 +24,7 @@ namespace Bank
 	template<unsigned int N = 0, typename TransferT = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>>
 	struct Comdirect: public Account<Comdirect<N>, TransferT>
 	{
-		enum{ Num = N };
+		static constexpr uint Num = N;
 		using TransferTypes = TransferT;
 		using TransferType = Transfer<Comdirect,TransferTypes>;
 		using IsOutTransferSign = T::char_<'-'>;
@@ -36,7 +36,6 @@ namespace Bank
 		inline static constexpr const char* Filename = "Umsaetze_DE832004113306947527";
 				
 		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os); }
-
 	protected:
 		template<typename T>
 		static std::string Extract(std::string s)
@@ -64,6 +63,11 @@ namespace Bank
 		}
 		
 	private:
+		Comdirect()	{ 	};
+		~Comdirect()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Comdirect& operator=(const Comdirect&) = delete;
+		Comdirect(const Comdirect& c) = delete;
+	
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);
 

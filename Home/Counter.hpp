@@ -48,8 +48,7 @@ public:
 		static Counter instance;
 		return instance;
 	}
-	
-	
+		
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& DisplayHeader(std::ostream& out)
 	{

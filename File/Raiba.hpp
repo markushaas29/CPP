@@ -24,7 +24,7 @@ namespace Bank
 	template<unsigned int N = 0, typename TransferT = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>>
 	struct Raiba: public Account<Raiba<N>, TransferT>
 	{
-		enum{ Num = N };
+		static constexpr uint Num = N;
 		using TransferTypes = TransferT;
 		using TransferType = Transfer<Raiba,TransferTypes>;
 		using IsOutTransferSign = T::char_<'S'>;
@@ -49,7 +49,18 @@ namespace Bank
 						
 			return (it)->second;
 		}
+		
+		static Raiba& Instance()
+		{
+			static Raiba instance;
+			return instance;
+		}
 	private:
+		Raiba()	{ 	};
+		~Raiba()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Raiba& operator=(const Raiba&) = delete;
+		Raiba(const Raiba& c) = delete;
+	
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);
 		
