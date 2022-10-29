@@ -48,10 +48,7 @@ struct AncilliaryRentalCostItemBase
 		try
 		{
 			transfers = account[year];
-			if(transfers->cbegin() != transfers->cend())
-				sum = TotalSum(transfers->cbegin(), transfers->cend());
-			else
-				Logger::Log<Error>("No transfers for ", Derived::TypeIdentifier,"in ",year,"of account ",account);
+			sum = TotalSum(transfers->cbegin(), transfers->cend());
 		}
 		catch(...)
 		{		
@@ -85,8 +82,16 @@ protected:
 	template<typename It>
 	static decltype(auto) TotalSum(It begin, It end)
 	{
-		auto acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
+		auto acc = Quantity<Sum>{0};
+		if(begin == end)
+		{
+			Logger::Log<Error>("No transfers for ", Derived::TypeIdentifier,"and sum is ", acc);
+			return acc;
+		}
+		
+		acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
 		std::for_each(begin+1, end, [&](const auto t){ acc = acc + Bank::GetTransfer<Quantity<Sum>>(*t); });
+				
 		return acc;
 	}
 };

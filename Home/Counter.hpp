@@ -49,14 +49,6 @@ public:
 		return instance;
 	}
 		
-	template<typename Separator = T::char_<'\t'>>
-	static std::ostream& DisplayHeader(std::ostream& out)
-	{
-		for (auto& it : Header)
-			out<<it.first<<Separator::Value<<it.second<<std::endl;
-		
-		return out;
-	}
 	
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& Display(std::ostream& out)
@@ -70,7 +62,19 @@ public:
 	
 	static constexpr const char* GetName(){ return Name; }
 	static std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
-	
+
+	template<typename Cont>
+	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,&CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
+private:
+	template<typename Separator = T::char_<'\t'>>
+	static std::ostream& DisplayHeader(std::ostream& out)
+	{
+		for (auto& it : Header)
+			out<<it.first<<Separator::Value<<it.second<<std::endl;
+		
+		return out;
+	}
+
 	static void Parse(InputIterator begin, InputIterator end)
 	{
 		for(auto it = (begin + Header.size()); it != end; ++it)
@@ -88,16 +92,14 @@ public:
 		Logger::Log<Info>()<<"Write Counter: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
 		csv->Write<CounterType>();
 	}
-	
-	static decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->cbegin())); }
+
+
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
-	
-	template<typename Cont>
-	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,&CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
-			
+public:
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
-		
+	
+	static decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->cbegin())); }
 	static CIteratorReading ReadingsBegin() { return readings->cbegin(); }
 	static CIteratorReading ReadingsEnd() { return readings->cend(); }		
 private:

@@ -63,9 +63,9 @@ namespace Bank
 			Logger::Log<Info>("Register", Identifier, Derived::Num);
 		}	
 		
-		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN()].All); }
 	private:
+		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		static void Parse(InputIterator begin, InputIterator end)
 		{
 			if(keyIndices->Empty())
