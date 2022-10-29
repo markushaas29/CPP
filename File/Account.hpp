@@ -53,7 +53,19 @@ namespace Bank
 		using KeyIndexContainerPtrType = std::shared_ptr<KeyIndexContainerType>;
 		using TransferItemContainerType = TransferItemContainer<KeyIndexContainerType,TupleType>::ContainerType;
 		inline static constexpr const char* const Identifier = Derived::name;
+
+		template<typename Cont>
+		static void RegisterTo(Cont& cont)
+		{
+			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
+			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
+			
+			Logger::Log<Info>("Register", Identifier, Derived::Num);
+		}	
 		
+		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
+		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN()].All); }
+	private:
 		static void Parse(InputIterator begin, InputIterator end)
 		{
 			if(keyIndices->Empty())
@@ -94,10 +106,6 @@ namespace Bank
 			return;
 		}
 		
-		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN()].All); }
-		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
-		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
-		
 		static void ReadKeyPatterns(InputIterator begin, InputIterator end)
 		{
 			TransferItemContainerType::Instance().setKeyIndexContainer(keyIndices);
@@ -130,14 +138,7 @@ namespace Bank
 			}
 		}
 				
-		template<typename Cont>
-		static void RegisterTo(Cont& cont)
-		{
-			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
-			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
-			
-			Logger::Log<Info>("Register", Identifier, Derived::Num);
-		}	
+		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 		
 	protected:
 		Account(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : owner(k), iban(i), bic(b) { };
