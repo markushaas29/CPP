@@ -10,6 +10,7 @@
 #include "RepositoryValue.hpp"
 #include "JSONParser.hpp"
 #include "Direction.hpp"
+#include "RepositoryValue.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../CSV/CSV.hpp"
@@ -52,6 +53,8 @@ namespace Bank
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;
 		using KeyIndexContainerPtrType = std::shared_ptr<KeyIndexContainerType>;
 		using TransferItemContainerType = TransferItemContainer<KeyIndexContainerType,TupleType>::ContainerType;
+		using ResultValueType = FS::AccountValue<TransferType>;
+	
 		inline static constexpr const char* const Identifier = Derived::name;
 
 		template<typename Cont>

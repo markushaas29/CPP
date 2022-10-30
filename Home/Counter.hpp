@@ -32,8 +32,9 @@ public:
 	using ReadingType = Reading<typename Config::Unit>;
 	using QuantityType = ReadingType::QuantityType;
 	using DateType = ReadingType::DateType;
-	
 	using DataType = std::shared_ptr<ReadingType>;
+	using ResultValueType = FS::CounterValue<DataType>;
+	
 	using ReadingContainerType = std::vector<DataType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;

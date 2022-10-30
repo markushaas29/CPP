@@ -150,7 +150,7 @@ namespace CSV
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());
 				auto p = it->second.Get("");
 				std::cout<<"GET OUT"<<*p<<std::endl;
-				auto cv = Cast::static_unique_ptr<FS::CounterValue<typename T::DataType>>(std::move(p)); 
+				auto cv = Cast::static_unique_ptr<typename T::ResultValueType>(std::move(p)); 
 				std::cout<<"GET OUT"<<*(cv->value)<<std::endl;
 			}
 		}
