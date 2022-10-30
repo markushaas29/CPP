@@ -37,27 +37,32 @@ namespace Bank
 		using AccountEndpointType = TransferEndpoint<typename T::AccountType>;
 	private:
 		Cont<KeyType> keys;
-		TCont<KeyType, AccountEndpointType> transfers;
+		TCont<KeyType, AccountEndpointType> accounts;
 	public:
 		void Insert(KeyType k, DataType t)
 		{
 			if(!this->Contains(k))
 			{
 				this->keys.push_back(k);
-				this->transfers.insert(std::pair<KeyType, AccountEndpointType>(k,AccountEndpointType(t)));
+				this->accounts.insert(std::pair<KeyType, AccountEndpointType>(k,AccountEndpointType(t)));
 				return;
 			}
 			
-			this->transfers[k].Add(t);
+			this->accounts[k].Add(t);
 		}
 		
-		bool Contains(KeyType k) const { return this->transfers.find(k) != this->transfers.end(); }
+		bool Contains(KeyType k) const { return this->accounts.find(k) != this->accounts.end(); }
 		const Cont<KeyType>& Keys() { return keys; }
-		const AccountEndpointType& operator[](KeyType k) { return this->transfers[k]; }
+		const AccountEndpointType& operator[](KeyType k) 
+		{
+			if(!Contains(k))
+				Logger::Log<Error>("No account found for IBAN: ",k);
+			return this->accounts[k]; 
+		}
 				
 		std::ostream& Display(std::ostream& out) const
 		{
-			for(auto p : this->transfers)
+			for(auto p : this->accounts)
 			{
 				p.second.Display(out);
 				out<<std::endl;
@@ -74,7 +79,7 @@ namespace Bank
 				if(!this->Contains(key))
 					continue;
 				
-				auto p = this->transfers[key];				
+				auto p = this->accounts[key];				
 				p.Display(out);
 				
 				out<<std::endl;
@@ -85,7 +90,7 @@ namespace Bank
 		
 		std::ostream& DisplayKeys(std::ostream& out) const
 		{
-			for(auto p : this->transfers)
+			for(auto p : this->accounts)
 				out<<p.first<<std::endl;				
 			
 			return out;

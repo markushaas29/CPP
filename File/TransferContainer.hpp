@@ -40,7 +40,7 @@ namespace Bank
 		template<typename FilterType>
 		decltype(auto) FilterBy(FilterType t) 
 		{ 
-			auto result = this->filterBy(ContainerType(this->transactions->cbegin(), this->transactions->cend()), t); 
+			auto result = filterBy(ContainerType(this->transactions->cbegin(), this->transactions->cend()), t); 
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
 		

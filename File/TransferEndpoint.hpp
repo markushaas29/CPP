@@ -43,7 +43,7 @@ namespace Bank
 		using ContainerType = TransferContainer<DataType>;
 		using Iterator = ContainerType::Iterator;
 	private:
-		std::shared_ptr<ContainerType> transactions = std::make_shared<ContainerType>();
+		std::shared_ptr<ContainerType> transfers = std::make_shared<ContainerType>();
 		TupleType types;
 	protected:
 		using CSVSeparator = T::char_<';'> ;
@@ -55,12 +55,12 @@ namespace Bank
 		friend const ItemT& GetTransferEndpoint(TransferEndpoint<AccountT,TupleT,C> const& t);
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : types(ownerKey, i, b) { };
-		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	{ this->transactions->Add(t); };
+		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	{ this->transfers->Add(t); };
 		TransferEndpoint():types("ownerKey", "iban", "bic", 0) { };
 				
 		void Add(DataType t)
 		{
-			this->transactions->Add(t);
+			this->transfers->Add(t);
 			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::GetTransfer<Quantity<Sum>>(*t);
 		}
 		
@@ -75,7 +75,7 @@ namespace Bank
 				QuantityType sum = QuantityType{0};
 				auto year = DateTimes::Get<DateTimes::Year>(y);
 				
-				for(auto it = this->transactions->Begin(); it != this->transactions->End(); ++it)
+				for(auto it = this->transfers->Begin(); it != this->transfers->End(); ++it)
 				{
 					auto date = Bank::GetTransfer<DateTimes::Date>(*(*it));
 		
@@ -98,17 +98,17 @@ namespace Bank
 		}
 		
 		template<typename T>
-		decltype(auto) operator[](T t) { return transactions->FilterBy(t); 	}
+		decltype(auto) operator[](T t) { return transfers->FilterBy(t); 	}
 		
 		template<typename... FilterTypes>
-		decltype(auto) GetTransferOf(FilterTypes... filters) const { return transactions->GetTransferOf(filters...); }
+		decltype(auto) GetTransferOf(FilterTypes... filters) const { return transfers->GetTransferOf(filters...); }
 				
 		template<typename T>
 		decltype(auto) All() const
 		{
 			auto result = std::vector<T>();
 						
-			std::for_each(this->transactions->Begin(),this->transactions->End(), [&result](const auto& c) 
+			std::for_each(this->transfers->Begin(),this->transfers->End(), [&result](const auto& c) 
 			{ 
 				auto current = Bank::GetTransfer<T>(*c);
 				
