@@ -62,9 +62,9 @@ namespace Bank
 				
 		std::ostream& Display(std::ostream& out) const
 		{
-			for(auto p : this->accounts)
+			for(auto it = accounts.cbegin(); it != accounts.cend(); ++it)
 			{
-				p.second.Display(out);
+				it->second.Display(out);
 				out<<std::endl;
 			}
 			

@@ -35,7 +35,7 @@
 namespace CSV
 {
 	
-	template<typename T> decltype(auto) Get();
+	template<typename T, typename ResultT = typename T::ResultValueType> decltype(auto) Get();
 	
 	struct Repository
 	{
@@ -115,7 +115,7 @@ namespace CSV
 		
 		static void Display(std::ostream& os){	parsers.Display(os);	}
 	private:
-		template<typename T>
+		template<typename T, typename ResultT>
 		friend decltype(auto) Get();
 		
 		static inline VisitorContainer visitors = VisitorContainer();
@@ -139,7 +139,7 @@ namespace CSV
 		
 	};
 	
-	template<typename T>
+	template<typename T, typename ResultT>
 	decltype(auto) Get()
 	{
 		for (auto it = Repository::visitors.begin(); it != Repository::visitors.end(); it++)
@@ -150,8 +150,10 @@ namespace CSV
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());
 				auto p = it->second.Get("");
 				std::cout<<"GET OUT"<<*p<<std::endl;
-				auto cv = Cast::static_unique_ptr<typename T::ResultValueType>(std::move(p)); 
+				auto cv = Cast::static_unique_ptr<ResultT>(std::move(p)); 
 				std::cout<<"GET OUT"<<*(cv->value)<<std::endl;
+				
+				//~ return cv;
 			}
 		}
 	};
