@@ -45,26 +45,22 @@ struct AncilliaryRentalCostItemBase
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		typename ResultType::TransfersPtr transfers;
 		typename ResultType::SumType sum;
-		try
+
+		if(account)
 		{
-			if(account)
-			{
-				transfers = (*account)[year];
-				sum = TotalSum(transfers->cbegin(), transfers->cend());
-			}
-			else
-				transfers = std::make_unique<typename ResultType::Transfers>();
+			transfers = (*account)[year];
+			sum = TotalSum(transfers->cbegin(), transfers->cend());
 		}
-		catch(...)
-		{		
-			Logger::Log<Error>("No Account for calculate!");
+		else
+		{
+			transfers = std::make_unique<typename ResultType::Transfers>();
+			Logger::Log<Error>("No transfers for ", Derived::Identifier, " sum is ", sum);
 		}
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
 		results->insert({year,ResultType{std::move(transfers),num,denom,sum,year}});
 		
-		Logger::Log<Error>("Calculate4", Derived::Identifier);
 		return (*results)[year].Get();
 	}
 	
