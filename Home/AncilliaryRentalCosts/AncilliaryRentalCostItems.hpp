@@ -47,8 +47,11 @@ struct AncilliaryRentalCostItemBase
 		typename ResultType::SumType sum;
 		try
 		{
-			transfers = account[year];
-			sum = TotalSum(transfers->cbegin(), transfers->cend());
+			if(account)
+			{
+				transfers = (*account)[year];
+				sum = TotalSum(transfers->cbegin(), transfers->cend());
+			}
 		}
 		catch(...)
 		{		
@@ -59,6 +62,7 @@ struct AncilliaryRentalCostItemBase
 		auto num = GetStage<StageType,Q>().GetQuantity();
 		results->insert({year,ResultType{std::move(transfers),num,denom,sum,year}});
 		
+		Logger::Log<Error>("Calculate4", Derived::Identifier);
 		return (*results)[year].Get();
 	}
 	
@@ -110,7 +114,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account.GetTransferOf(year);		
+		auto transfers = account->GetTransferOf(year);		
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
@@ -158,12 +162,12 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
-		auto transfers = accGas.GetTransferOf(AdvancePayment,year);
-		Base::InsertSpecifiedTransfers(accGas, transfers, Invoice,year.Next());
+		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
+		Base::InsertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
 		
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		Base::InsertSpecifiedTransfers(accEnergy, transfers, AdvancePayment,year.Next());
-		Base::InsertSpecifiedTransfers(accEnergy, transfers, Invoice,year.Next());
+		Base::InsertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
+		Base::InsertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());
 		
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
@@ -203,7 +207,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account.GetTransferOf(Cause,year);		
+		auto transfers = account->GetTransferOf(Cause,year);		
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
@@ -229,8 +233,8 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account.GetTransferOf(Cause,year);		
-		Base::InsertSpecifiedTransfers(account, transfers, Invoice,year.Next());
+		auto transfers = account->GetTransferOf(Cause,year);		
+		Base::InsertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
@@ -250,6 +254,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 };
 
 template<typename S>
-using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
+//~ using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
+using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, Heating<S>>;
 
 #endif

@@ -34,7 +34,8 @@ namespace Bank
 	public:
 		using KeyType = typename T::KeyType;
 		using DataType = std::shared_ptr<T>;
-		using AccountEndpointType = TransferEndpoint<typename T::AccountType>;
+		using AccountEndpointT =TransferEndpoint<typename T::AccountType>;
+		using AccountEndpointType =std::shared_ptr<TransferEndpoint<typename T::AccountType>>;
 	private:
 		Cont<KeyType> keys;
 		TCont<KeyType, AccountEndpointType> accounts;
@@ -44,11 +45,11 @@ namespace Bank
 			if(!this->Contains(k))
 			{
 				this->keys.push_back(k);
-				this->accounts.insert(std::pair<KeyType, AccountEndpointType>(k,AccountEndpointType(t)));
+				this->accounts.insert(std::pair<KeyType, AccountEndpointType>(k,std::make_shared<AccountEndpointT>(t)));
 				return;
 			}
 			
-			this->accounts[k].Add(t);
+			this->accounts[k]->Add(t);
 		}
 		
 		bool Contains(KeyType k) const { return this->accounts.find(k) != this->accounts.end(); }
@@ -64,7 +65,7 @@ namespace Bank
 		{
 			for(auto it = accounts.cbegin(); it != accounts.cend(); ++it)
 			{
-				it->second.Display(out);
+				it->second->Display(out);
 				out<<std::endl;
 			}
 			
@@ -80,7 +81,7 @@ namespace Bank
 					continue;
 				
 				auto p = this->accounts[key];				
-				p.Display(out);
+				p->Display(out);
 				
 				out<<std::endl;
 			}
