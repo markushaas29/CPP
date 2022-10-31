@@ -52,6 +52,8 @@ struct AncilliaryRentalCostItemBase
 				transfers = (*account)[year];
 				sum = TotalSum(transfers->cbegin(), transfers->cend());
 			}
+			else
+				transfers = std::make_unique<typename ResultType::Transfers>();
 		}
 		catch(...)
 		{		
@@ -254,7 +256,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 };
 
 template<typename S>
-//~ using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
-using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, Heating<S>>;
+using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
+//~ using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, Heating<S>>;
 
 #endif

@@ -43,8 +43,7 @@ namespace Bank
 		using ContainerType = TransferContainer<DataType>;
 		using Iterator = ContainerType::Iterator;
 	private:
-		//~ std::unique_ptr<ContainerType> transfers = std::make_unique<ContainerType>();
-		std::shared_ptr<ContainerType> transfers = std::make_shared<ContainerType>();
+		std::unique_ptr<ContainerType> transfers = std::make_unique<ContainerType>();
 		TupleType types;
 	protected:
 		using CSVSeparator = T::char_<';'> ;
