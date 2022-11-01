@@ -49,23 +49,23 @@ namespace CSV
 		using VisitorContainer = std::map<std::string, VisitorType>;
 	
 		template<typename Iterator>
-		static void Map(const Iterator& begin, const Iterator& end)
+		void Map(const Iterator& begin, const Iterator& end)
 		{
 			for(Iterator it = begin; it != end; ++it)
 				(*it)->Accept(treeParser);
 		}
 		
-		static void CopyTo(std::string dest)
+		void CopyTo(std::string dest)
 		{
 			types.SetRootPath(Root);
 			types.CopyTo(dest);
 		}
 		
-		static void List()	{	types.List();	}
-		static void SetRootPath(std::string s) { Root = s; }
-		static void SetDestPath(std::string s) { Dest = s; }
+		void List()	{	types.List();	}
+		void SetRootPath(std::string s) { Root = s; }
+		void SetDestPath(std::string s) { Dest = s; }
 		
-		static void Map(std::string path)
+		void Map(std::string path)
 		{
 			auto infos = FileSystem::List(path);
 			
@@ -79,9 +79,9 @@ namespace CSV
 			Map(nodes->cbegin(), nodes->cend());
 		}
 		
-		static std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
+		std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
 		
-		static void Register()
+		void Register()
 		{
 			parsers.RegisterTo(visitors);	
 			
@@ -90,13 +90,13 @@ namespace CSV
 		}
 		
 		template<typename ParseType>
-		static typename ParseType::ParseCont Parse(std::string s)
+		typename ParseType::ParseCont Parse(std::string s)
 		{
 			Logger::Log("Parsing: ",s);
 			return types.Parse<ParseType>(s);			
 		}
 		
-		static void ParseAll()
+		void ParseAll()
 		{
 			for (auto it = visitors.begin(); it != visitors.end(); it++)
 			{
@@ -112,14 +112,14 @@ namespace CSV
 				}			
 			}
 		}
-		
+	public:
 		static Repository& Instance()
 		{
 			static Repository instance;
 			return instance;
 		}
 		
-		static void Display(std::ostream& os){	parsers.Display(os);	}
+		void Display(std::ostream& os){	parsers.Display(os);	}
 	private:
 		Repository()	
 		{ 
@@ -239,6 +239,15 @@ namespace Backup
 		static typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
 		
 	private:
+		Repository()	
+		{ 
+			Logger::Log<Info>("Repository constructor");
+		};
+		
+		~Repository()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Repository& operator=(const Repository&) = delete;
+		Repository(const Repository& c) = delete;
+	
 		inline static std::unique_ptr<std::vector<std::unique_ptr<FS::Directory>>> directories = std::make_unique<std::vector<std::unique_ptr<FS::Directory>>>();
 		static inline TypeContainer typeContainer = TypeContainer();
 		inline static std::string Root = ""; 
