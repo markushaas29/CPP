@@ -49,7 +49,7 @@ namespace Bank
 						
 			return (it)->second;
 		}
-		
+	public:
 		static Raiba& Instance()
 		{
 			static Raiba instance;

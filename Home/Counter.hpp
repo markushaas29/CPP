@@ -65,7 +65,7 @@ public:
 	static std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
 
 	template<typename Cont>
-	static void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,&CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
+	void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,&CounterType::Parse, &CounterType::GetValue, &CounterType::Update)));	}
 private:
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& DisplayHeader(std::ostream& out)

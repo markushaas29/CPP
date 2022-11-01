@@ -44,6 +44,7 @@ namespace CSV
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
 		using Parsers = Typelist<CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
+		//~ using Parsers = Typelist<Bank::Raiba<0>>::Type;
 		using ParserContainer = FS::FileTypeContainer<Parsers>;
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
@@ -170,7 +171,7 @@ namespace CSV
 				auto p = it->second.Get("");
 				std::cout<<"GET OUT"<<*p<<std::endl;
 				auto cv = Cast::static_unique_ptr<ResultT>(std::move(p)); 
-				std::cout<<"GET OUT"<<*(cv->value)<<std::endl;
+				std::cout<<"GET OUT"<<*(cv)<<std::endl;
 				
 				//~ return cv;
 			}

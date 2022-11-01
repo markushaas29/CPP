@@ -29,20 +29,14 @@ int main()
 	std::string comdirect = "Umsaetze_1026947527.csv";
 	std::string raiba = "Umsaetze_DE19660623660009232702.csv";
     
-    CSV::Repository::Instance();
     
 
-	//~ auto c = CSV::Repository::Read(csv);	
-	
 	auto outFile = std::ofstream("out.txt");
 	auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
-//     CSV::Repository::Register();
-//     CSV::Repository::ParseAll();
-//     CSV::Repository::Display(outFile);
-// 	
+    CSV::Repository::Instance();
 
-	//~ std::cout<<"\n TEST ID"<<Bank::Raiba<0>::Identifier<<std::endl;
-	//~ CSV::Get<Bank::Raiba<0>>();
+	std::cout<<"\n TEST ID"<<Bank::Raiba<0>::Identifier<<std::endl;
+	CSV::Get<Bank::Raiba<0>>();
 	std::cout<<"\n TEST Transfers"<<std::endl;
 	
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;

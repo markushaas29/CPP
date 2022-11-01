@@ -112,7 +112,7 @@ namespace FS
 		}
 		
 		template<typename Cont>
-		void RegisterTo(Cont& cont)	{	Head::RegisterTo(cont);	}
+		void RegisterTo(Cont& cont)	{	Head::Instance().RegisterTo(cont);	}
 		void Display(std::ostream& os)	{	Head::Display(os);	}
 		FileTypeContainer()	{ }
 	};
@@ -188,7 +188,7 @@ namespace FS
 		template<typename Cont>
 		void RegisterTo(Cont& cont)
 		{
-			Head::RegisterTo(cont);
+			Head::Instance().RegisterTo(cont);
 			FileTypeContainer<Typelist<Tail...>>::RegisterTo(cont);
 		}
 		

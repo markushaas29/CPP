@@ -48,8 +48,8 @@ namespace FS
 		AccountValue<T>*  Cast() override { return this; }
 		const std::string& Name() override { return name();  }
 		const std::string& Val() { return name();  }
-	private:
 		T value = T{};
+	private:
 	};
 }
 #endif

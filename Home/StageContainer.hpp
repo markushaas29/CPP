@@ -77,7 +77,7 @@ public:
 	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
 	
 	template<typename Cont>
-	static void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), Identifier, &Parse, &Get, &Update))); }
+	void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), Identifier, &Parse, &Get, &Update))); }
 	
 	template<typename T>
 	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }

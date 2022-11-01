@@ -58,7 +58,7 @@ namespace Bank
 		inline static constexpr const char* const Identifier = Derived::name;
 
 		template<typename Cont>
-		static void RegisterTo(Cont& cont)
+		void RegisterTo(Cont& cont)
 		{
 			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
 			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
@@ -66,8 +66,13 @@ namespace Bank
 			Logger::Log<Info>("Register", Identifier, Derived::Num);
 		}	
 		
-		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN()].All); }
+		static Account& Instance()
+		{
+			static Account instance;
+			return instance;
+		}
 	private:
+		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
 		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		static void Parse(InputIterator begin, InputIterator end)
 		{
@@ -140,9 +145,7 @@ namespace Bank
 				}
 			}
 		}
-				
 		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
-		
 	protected:
 		Account(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : owner(k), iban(i), bic(b) { };
 		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
@@ -161,7 +164,6 @@ namespace Bank
 			
 			return result;
 		}
-	private:
 		Account()	{ 	};
 		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Account& operator=(const Account&) = delete;
