@@ -113,8 +113,27 @@ namespace CSV
 			}
 		}
 		
+		static Repository& Instance()
+		{
+			static Repository instance;
+			return instance;
+		}
+		
 		static void Display(std::ostream& os){	parsers.Display(os);	}
 	private:
+		Repository()	
+		{ 
+			Logger::Log<Info>("Repository constructor");
+			std::string csv = "/home/markus/Downloads/CSV_Files";
+			Map(csv);
+			Register();
+			ParseAll();	
+		};
+		
+		~Repository()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Repository& operator=(const Repository&) = delete;
+		Repository(const Repository& c) = delete;
+	
 		template<typename T, typename ResultT>
 		friend decltype(auto) Get();
 		

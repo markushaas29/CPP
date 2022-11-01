@@ -28,12 +28,9 @@ int main()
 	std::string custom = "RaibaKonten2021_1.csv";
 	std::string comdirect = "Umsaetze_1026947527.csv";
 	std::string raiba = "Umsaetze_DE19660623660009232702.csv";
-
-	//~ House<HouseConfiguration>::Instance();	
-	std::string csv = "/home/markus/Downloads/CSV_Files";
-    CSV::Repository::Map(csv);
-	CSV::Repository::Register();
-    CSV::Repository::ParseAll();
+    
+    CSV::Repository::Instance();
+    
 
 	//~ auto c = CSV::Repository::Read(csv);	
 	
