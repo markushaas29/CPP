@@ -185,34 +185,13 @@ namespace Backup
 		using FileTypes = Typelist<FS::XLSX,FS::XLS,FS::JPG,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP,FS::PDF>::Type;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 	
-		template<typename Iterator>
-		static void Map(const Iterator& begin, const Iterator& end)
+		static Repository& Instance()
 		{
-			for(Iterator it = begin; it != end; ++it)
-			{
-				(*it)->AcceptConst(treeParser);
-
-				Logger::Log<Info>("Map: ", (*it)->Name());
-				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Metainfo*>(*it)))
-					typeContainer.Add(fi); 
-				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Metainfo*>(*it)))
-					directories->push_back(std::make_unique<FS::Directory>(di));
-			}
-			Logger::Log<Info>("Directories: ", directories->size());
+			static Repository instance;
+			return instance;
 		}
 		
-		static void CopyTo(std::string dest)
-		{
-			typeContainer.SetRootPath(Repository::Root);
-			typeContainer.CopyTo(dest);
-		}
-		
-		static void List()	{ typeContainer.List();	}
-		
-		static void SetRootPath(std::string s) { Root = s; }
-		static void SetDestPath(std::string s) { Dest = s; }
-		
-		static void Backup(std::string from, std::string to)
+		void Backup(std::string from, std::string to)
 		{
 			Repository::Root = from;
 			Repository::Dest = to;
@@ -233,11 +212,36 @@ namespace Backup
 			Backup::Repository::CopyTo(to);
 		}
 		
-		static std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }
+		template<typename Iterator>
+		void Map(const Iterator& begin, const Iterator& end)
+		{
+			for(Iterator it = begin; it != end; ++it)
+			{
+				(*it)->AcceptConst(treeParser);
+
+				Logger::Log<Info>("Map: ", (*it)->Name());
+				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Metainfo*>(*it)))
+					typeContainer.Add(fi); 
+				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Metainfo*>(*it)))
+					directories->push_back(std::make_unique<FS::Directory>(di));
+			}
+			Logger::Log<Info>("Directories: ", directories->size());
+		}
+		
+		void CopyTo(std::string dest)
+		{
+			typeContainer.SetRootPath(Repository::Root);
+			typeContainer.CopyTo(dest);
+		}
+		
+		void List()	{ typeContainer.List();	}
+		
+		void SetRootPath(std::string s) { Root = s; }
+		void SetDestPath(std::string s) { Dest = s; }
+		std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }
 		
 		template<typename ParseType>
-		static typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
-		
+		typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
 	private:
 		Repository()	
 		{ 

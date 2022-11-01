@@ -110,7 +110,7 @@ int main()
 		for(auto subdir : dir.second)
 		{
 			Logger::Log("Dir: ",subdir,"\tTo",to);
-			Backup::Repository::Backup(subdir,to);
+			Backup::Repository::Instance().Backup(subdir,to);
 		}
 	}		
 		
