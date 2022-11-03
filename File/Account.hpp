@@ -60,7 +60,7 @@ namespace Bank
 		template<typename Cont>
 		void RegisterTo(Cont& cont)
 		{
-			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, &Type::Parse, &Type::Get, &Type::Update)));
+			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, [&](InputIterator begin, InputIterator end){ Logger::Log<Info>("Lambda"); Parse(begin,end);}, &Type::Get, &Type::Update)));
 			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
 			
 			Logger::Log<Info>("Register", Identifier, Derived::Num);
@@ -74,7 +74,7 @@ namespace Bank
 	private:
 		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
 		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
-		static void Parse(InputIterator begin, InputIterator end)
+		void Parse(InputIterator begin, InputIterator end)
 		{
 			if(keyIndices->Empty())
 			{
