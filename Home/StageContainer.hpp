@@ -64,7 +64,7 @@ public:
 	static constexpr const char* GetName(){ return Name; }	
 	static constexpr const char* GetFileName(){ return (std::string(Name) + ".csv").c_str(); }
 	
-	static void Parse(InputIterator begin, InputIterator end)
+	void Parse(InputIterator begin, InputIterator end)
 	{
 		std::vector<std::vector<std::string>> csvValues;
 		for(auto it = begin; it != end; ++it)
@@ -73,11 +73,14 @@ public:
 		ExtractValues(csvValues.cbegin(),csvValues.cend());
 	}
 	
-	static std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { Logger::Log("GET in",Name); return std::make_unique<FS::RepositoryValue>();}
-	static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
+	std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { Logger::Log("GET in",Name); return std::make_unique<FS::RepositoryValue>();}
+	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
 	
 	template<typename Cont>
-	void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), Identifier, &Parse, &Get, &Update))); }
+	void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), Identifier,
+		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
+		[&](const std::string& s){ return Get(s); }, 
+		[&](InputIterator begin, InputIterator end){ return Update(begin,end); }))); }
 	
 	template<typename T>
 	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }
