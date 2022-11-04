@@ -60,8 +60,15 @@ namespace Bank
 		template<typename Cont>
 		void RegisterTo(Cont& cont)
 		{
-			cont.insert(std::make_pair(Derived::Filename,  typename Cont::mapped_type(Derived::Filename, Identifier, [&](InputIterator begin, InputIterator end){ Logger::Log<Info>("Lambda"); Parse(begin,end);}, &Type::Get, &Type::Update)));
-			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",&Type::ReadKeyPatterns, &Type::Get)));
+			cont.insert(std::make_pair(Derived::Filename,  
+			typename Cont::mapped_type(Derived::Filename, Identifier, 
+			[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
+			[&](const std::string& s){ return Get(s); }, 
+			[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));
+			
+			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",
+			[&](InputIterator begin, InputIterator end){ ReadKeyPatterns(begin,end); }, 
+			[&](const std::string& s){ return Get(s); })));
 			
 			Logger::Log<Info>("Register", Identifier, Derived::Num);
 		}	
@@ -72,8 +79,8 @@ namespace Bank
 			return instance;
 		}
 	private:
-		//~ static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
-		static decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
+		//~ decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
+		decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		void Parse(InputIterator begin, InputIterator end)
 		{
 			if(keyIndices->Empty())
@@ -114,7 +121,7 @@ namespace Bank
 			return;
 		}
 		
-		static void ReadKeyPatterns(InputIterator begin, InputIterator end)
+		void ReadKeyPatterns(InputIterator begin, InputIterator end)
 		{
 			TransferItemContainerType::Instance().setKeyIndexContainer(keyIndices);
 			TransferItemContainerType::Instance().Read();
@@ -145,7 +152,7 @@ namespace Bank
 				}
 			}
 		}
-		static bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
+		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	protected:
 		Account(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : owner(k), iban(i), bic(b) { };
 		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
@@ -164,6 +171,7 @@ namespace Bank
 			
 			return result;
 		}
+		
 		Account()	{ 	};
 		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Account& operator=(const Account&) = delete;
