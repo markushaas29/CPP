@@ -61,15 +61,22 @@ public:
 		return out;
 	}
 	
-	static constexpr const char* GetName(){ return Name; }
-	static std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
+	constexpr const char* GetName(){ return Name; }
+	std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
 
 	template<typename Cont>
 	void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,
 		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 		[&](const std::string& s){ return GetValue(s); }, 
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));	}
-private:
+
+	template<typename Op>
+	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
+	
+	decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->cbegin())); }
+	decltype(auto) ReadingsBegin() { return readings->cbegin(); }
+	decltype(auto) ReadingsEnd() { return readings->cend(); }		
+
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& DisplayHeader(std::ostream& out)
 	{
@@ -91,7 +98,7 @@ private:
 		//~ InputManager<int>::Instance().Display(std::cout);
 	}
 	
-	static void Write(const std::string sourcePath = ".")
+	void Write(const std::string sourcePath = ".")
 	{
 		Logger::Log<Info>()<<"Write Counter: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
 		csv->Write<CounterType>();
@@ -99,13 +106,6 @@ private:
 
 
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
-public:
-	template<typename Op>
-	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
-	
-	decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->cbegin())); }
-	static CIteratorReading ReadingsBegin() { return readings->cbegin(); }
-	static CIteratorReading ReadingsEnd() { return readings->cend(); }		
 private:
 	static std::map<std::string, std::string> createHeader()
 	{

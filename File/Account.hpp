@@ -171,7 +171,7 @@ namespace Bank
 			
 			return result;
 		}
-		
+			
 		Account()	{ 	};
 		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Account& operator=(const Account&) = delete;
