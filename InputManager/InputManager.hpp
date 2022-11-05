@@ -13,12 +13,12 @@
 #ifndef INPUTMANAGER_HPP
 #define INPUTMANAGER_HPP
 
-template<typename ConfigT>
+template<template<typename...> class ConfigT>
 class InputManager
 {
 public:
-	using Config = ConfigT;
-	using InputManagerType = InputManager<Config>;
+	//~ using Config = ConfigT;
+	//~ using InputManagerType = InputManager<Config>;
 	using ReadingContainerType = std::vector<std::string>;
 	using OutIterator = ReadingContainerType::const_iterator;
 	using InputIterator = std::vector<std::string>::const_iterator;
@@ -85,7 +85,7 @@ private:
 	InputManager(const InputManager& c) = delete;
 };
 
-template<typename C, typename S = T::char_<'\t'>>
+template<template<typename...> class C, typename S = T::char_<'\t'>>
 std::ostream& operator<<(std::ostream& strm, const InputManager<C> c){	return c.Display(strm);}
 
 #endif
