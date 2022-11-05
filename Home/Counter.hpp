@@ -49,7 +49,6 @@ public:
 		static Counter instance;
 		return instance;
 	}
-		
 	
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& Display(std::ostream& out)
@@ -103,7 +102,6 @@ public:
 		Logger::Log<Info>()<<"Write Counter: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
 		csv->Write<CounterType>();
 	}
-
 
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 private:

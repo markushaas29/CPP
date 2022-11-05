@@ -61,8 +61,8 @@ public:
 	inline static constexpr const char* Identifier = Name;
 	static std::ostream& Display(std::ostream& os) 	{	return Type::Instance().Display(os); }	
 	void Write(const std::string sourcePath = ".")	{ Type::Write(sourcePath); }
-	static constexpr const char* GetName(){ return Name; }	
-	static constexpr const char* GetFileName(){ return (std::string(Name) + ".csv").c_str(); }
+	constexpr const char* GetName(){ return Name; }	
+	constexpr const char* GetFileName(){ return (std::string(Name) + ".csv").c_str(); }
 	
 	void Parse(InputIterator begin, InputIterator end)
 	{
@@ -83,7 +83,7 @@ public:
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); }))); }
 	
 	template<typename T>
-	static decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }
+	decltype(auto) GetTotal() {	return GetStage<Head,T>().GetQuantity(); }
 
 	static StageContainer& Instance()
 	{
