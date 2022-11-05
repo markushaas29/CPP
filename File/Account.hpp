@@ -81,6 +81,7 @@ namespace Bank
 	private:
 		//~ decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
 		decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
+		
 		void Parse(InputIterator begin, InputIterator end)
 		{
 			if(keyIndices->Empty())

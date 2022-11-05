@@ -24,6 +24,7 @@ public:
 	using InputIterator = std::vector<std::string>::const_iterator;
 	
 	inline static constexpr const char* Filename = "Input";
+	inline static constexpr const char* Identifier = "Input";
 
 	static InputManager& Instance()
 	{
@@ -31,6 +32,15 @@ public:
 		return instance;
 	}
 	
+	template<typename Cont>
+	void RegisterTo(Cont& cont)
+	{
+		cont.insert(std::make_pair(Filename,  
+			typename Cont::mapped_type(Filename, Identifier, 
+			[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
+			[&](const std::string& s){ return Get(s); }, 
+			[&](InputIterator begin, InputIterator end){ return true; })));
+	}
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& Display(std::ostream& out)
 	{
@@ -40,7 +50,9 @@ public:
 		return out;
 	}
 	
-	static void Parse(InputIterator begin, InputIterator end)
+private:
+	
+	void Parse(InputIterator begin, InputIterator end)
 	{
 		Instance();
 		for(auto it = begin; it != end; ++it)
@@ -51,29 +63,21 @@ public:
 		}
 	}
 	
-	static void Write(const std::string sourcePath = ".")
+	void Write(const std::string sourcePath = ".")
 	{
 		//~ Logger::Log<Info>()<<"Write InputManager: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
 		//~ csv->Write<InputManagerType>();
 	}
 	
-	template<typename Cont>
-	static void RegisterTo(Cont& cont)
-	{
-		cont.insert(std::make_pair(Filename,  typename Cont::mapped_type(Filename, &InputManagerType::Parse)));
-		Logger::Log()<<cont.size()<<std::endl;
-	}
+	
+	decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 	
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
 		
-	static OutIterator ReadingsBegin() { return readings->cbegin(); }
-	static OutIterator ReadingsEnd() { return readings->cend(); }		
-private:
+	decltype(auto) ReadingsBegin() { return readings->cbegin(); }
+	decltype(auto) ReadingsEnd() { return readings->cend(); }		
 	inline static std::unique_ptr<ReadingContainerType> readings = std::make_unique<ReadingContainerType>();
-	
-	//~ inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(DestinationPath) + std::string(Name) )));
-	//~ inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
 	
 	InputManager()	{ 	Logger::Log<Info>()<<"InputManager initialized "<<std::endl; 	};
 	~InputManager()	{ }
