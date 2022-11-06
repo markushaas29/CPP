@@ -14,14 +14,12 @@
 #ifndef INPUTMANAGER_HPP
 #define INPUTMANAGER_HPP
 
-template<template<typename...> class ConfigT>
+template<template<typename...> class Config>
 class InputManager
 {
 public:
-	//~ using Config = ConfigT;
-	//~ using InputManagerType = InputManager<Config>;
-	using ReadingContainerType = std::vector<std::string>;
-	using OutIterator = ReadingContainerType::const_iterator;
+	using InputManagerType = InputManager<Config>;
+	using InputContainerType = std::vector<std::string>;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using VisitorMap = std::map<std::string,std::unique_ptr<InputVisitor>>;
 	
@@ -45,12 +43,12 @@ public:
 	}
 	
 	void Register(std::unique_ptr<InputVisitor> visitor) { 
-		Logger::Log(visitor->Name(), "inputManger registered"); 
+		Logger::Log<Info>("Register", visitor->Name(),"in InputManager"); 
 		visitors->insert({visitor->Name(), std::move(visitor)}); 
 	}
 	
 	template<typename Separator = T::char_<'\t'>>
-	 static std::ostream& Display(std::ostream& out)
+	static std::ostream& Display(std::ostream& out)
 	{
 		for(auto it = visitors->cbegin(); it != visitors->cend(); ++it)
 			out<<"Update"<<(*it).second->Name()<<std::endl;
@@ -59,7 +57,9 @@ public:
 	}
 	
 private:
-	
+	inline static std::unique_ptr<InputContainerType> inputs = std::make_unique<InputContainerType>();
+	inline static std::unique_ptr<VisitorMap> visitors = std::make_unique<VisitorMap>();
+
 	void Parse(InputIterator begin, InputIterator end)
 	{
 		Instance();
@@ -71,22 +71,10 @@ private:
 		}
 	}
 	
-	void Write(const std::string sourcePath = ".")
-	{
-		//~ Logger::Log<Info>()<<"Write InputManager: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
-		//~ csv->Write<InputManagerType>();
-	}
-	
-	
 	decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 	
 	template<typename Op>
-	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
-		
-	decltype(auto) ReadingsBegin() { return readings->cbegin(); }
-	decltype(auto) ReadingsEnd() { return readings->cend(); }		
-	inline static std::unique_ptr<ReadingContainerType> readings = std::make_unique<ReadingContainerType>();
-	inline static std::unique_ptr<VisitorMap> visitors = std::make_unique<VisitorMap>();
+	decltype(auto) Get(const Op&& op){ return op(inputs->cbegin(),inputs->cend());	}
 	
 	InputManager()	{ 	Logger::Log<Info>()<<"InputManager initialized "<<std::endl; 	};
 	~InputManager()	{ }

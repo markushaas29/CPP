@@ -143,7 +143,6 @@ private:
 				auto date = Parsers::Parser<std::string,DateType>::Parse(*cbegin);
 				auto value = std::stod(*(++cbegin));
 				
-				Logger::Log<Info>()<<value<<std::endl;
 				Logger::Log<Info>()<<ReadingType(QuantityType(value), DateType(date))<<std::endl;
 				return DataType(new ReadingType(QuantityType(value), DateType(date)));
 			} 

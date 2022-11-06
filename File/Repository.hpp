@@ -112,8 +112,7 @@ namespace CSV
 				}			
 			}
 			
-			//~ InputManager<Counter>::Instance().Display(std::cout);
-			InputManager<Counter>::Display(std::cout);
+			InputManager<Counter>::Instance().Display(std::cout);
 		}
 	public:
 		static Repository& Instance()

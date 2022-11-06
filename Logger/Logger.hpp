@@ -104,11 +104,11 @@ class Logger
         {
 			int j = 0;
 
-			if(name != "")
-				Logger::Log()<<name<<" :"<<std::endl;
+			//~ if(name != "")
+				//~ Logger::Log()<<name<<" :"<<std::endl;
 			
-			for(auto i = begin; i != end; ++i, ++j)
-				Logger::Log<LogPolicy>()<<"\t"<<j<<" :"<<*i<<std::endl;
+			//~ for(auto i = begin; i != end; ++i, ++j)
+				//~ Logger::Log<LogPolicy>()<<"\t"<<j<<" :"<<*i<<std::endl;
 		};		
 };
 
