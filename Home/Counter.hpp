@@ -10,6 +10,8 @@
 #include "../Wrapper/Wrapper.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../File/RepositoryValue.hpp"
+#include "../InputManager/InputVisitor.hpp"
+#include "../InputManager/InputManager.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
 #include "Reading.hpp"
@@ -67,7 +69,10 @@ public:
 	void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,
 		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 		[&](const std::string& s){ return GetValue(s); }, 
-		[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));	}
+		[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));	
+		
+		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, [&](InputIterator b, InputIterator e) { add(b,e); }));
+		}
 
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
@@ -105,6 +110,8 @@ public:
 
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 private:
+	void add(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); }
+
 	static std::map<std::string, std::string> createHeader()
 	{
 		std::map<std::string, std::string> m;

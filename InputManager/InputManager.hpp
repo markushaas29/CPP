@@ -5,8 +5,9 @@
 #include "../File/Info.hpp"
 #include "../File/Node.hpp"
 #include "../Unit/SIPrefix.hpp"
-#include "../Home/Counter.hpp"
+//~ #include "../Home/Counter.hpp"
 #include "../Wrapper/Wrapper.hpp"
+#include "InputVisitor.hpp"
 #include <map>
 #include <memory>
 
@@ -22,6 +23,7 @@ public:
 	using ReadingContainerType = std::vector<std::string>;
 	using OutIterator = ReadingContainerType::const_iterator;
 	using InputIterator = std::vector<std::string>::const_iterator;
+	using VisitorMap = std::map<std::string,std::unique_ptr<InputVisitor>>;
 	
 	inline static constexpr const char* Filename = "Input";
 	inline static constexpr const char* Identifier = "Input";
@@ -41,11 +43,17 @@ public:
 			[&](const std::string& s){ return Get(s); }, 
 			[&](InputIterator begin, InputIterator end){ return true; })));
 	}
+	
+	void Register(std::unique_ptr<InputVisitor> visitor) { 
+		Logger::Log(visitor->Name(), "inputManger registered"); 
+		visitors->insert({visitor->Name(), std::move(visitor)}); 
+	}
+	
 	template<typename Separator = T::char_<'\t'>>
-	static std::ostream& Display(std::ostream& out)
+	 static std::ostream& Display(std::ostream& out)
 	{
-		//~ for(auto it = readings->cbegin(); it != readings->cend(); ++it)
-			//~ (*it)->Display(out);
+		for(auto it = visitors->cbegin(); it != visitors->cend(); ++it)
+			out<<"Update"<<(*it).second->Name()<<std::endl;
 		
 		return out;
 	}
@@ -78,6 +86,7 @@ private:
 	decltype(auto) ReadingsBegin() { return readings->cbegin(); }
 	decltype(auto) ReadingsEnd() { return readings->cend(); }		
 	inline static std::unique_ptr<ReadingContainerType> readings = std::make_unique<ReadingContainerType>();
+	inline static std::unique_ptr<VisitorMap> visitors = std::make_unique<VisitorMap>();
 	
 	InputManager()	{ 	Logger::Log<Info>()<<"InputManager initialized "<<std::endl; 	};
 	~InputManager()	{ }
