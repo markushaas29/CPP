@@ -44,6 +44,7 @@ public:
 	using CIteratorReading = std::vector<DataType>::const_iterator;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	inline static const uint Number = Config::Number;
+	inline static constexpr const char* TypeIdentifier = "Counter";
 	inline static const std::string Identifier = Config::CounterName;
 
 	static Counter& Instance()

@@ -11,12 +11,17 @@ BINDIR := bin
 Release: $(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) 
 	
-Debug: $(OBJECTS)
+Debug: House.o Stage.o
 	$(CXX) -o $@ $(OBJECTS) 
 
-%.o: %.cpp %.h
+House: $(OBJECTS)
+	$(CXX) -o $@ $(OBJECTS) 
+
+Stage.o: Stagetest.cpp 
 	$(CXX) $(DEBUGFLAGS) $<
 
+House.o: HouseTest.cpp
+	$(CXX) $(DEBUGFLAGS) $<
 clean:
 	rm *.o test
 

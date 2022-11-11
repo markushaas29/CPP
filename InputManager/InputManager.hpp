@@ -14,7 +14,7 @@
 #ifndef INPUTMANAGER_HPP
 #define INPUTMANAGER_HPP
 
-template<template<typename...> class Config>
+template<template<typename... Ts> class Config>
 class InputManager
 {
 public:
@@ -24,6 +24,7 @@ public:
 	using VisitorMap = std::map<std::string,std::unique_ptr<InputVisitor>>;
 	
 	inline static constexpr const char* Filename = "Input";
+	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
 
 	static InputManager& Instance()
@@ -40,6 +41,17 @@ public:
 			[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 			[&](const std::string& s){ return Get(s); }, 
 			[&](InputIterator begin, InputIterator end){ return true; })));
+	}
+	
+	void CreateFile()
+	{
+		auto fs = std::make_unique<std::ofstream>(std::string("Test") + "." + std::string(FileExtension) );
+		//~ auto fs = std::make_unique<std::ofstream>(std::string(Config<Ts...>::TypeIdentifier) + "." + std::string(FileExtension) );
+		
+		for(auto it = visitors->cbegin(); it != visitors->cend(); ++it)
+			(*fs)<<(*it).second->Name()<<": "<<std::endl;
+			
+		fs->close();
 	}
 	
 	void Register(std::unique_ptr<InputVisitor> visitor) { 
