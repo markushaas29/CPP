@@ -167,6 +167,8 @@ private:
 	Counter(const Counter& c) = delete;
 };
 
+template<> inline const char* InputManager<Counter>::TypeIdentifier = "Counter";
+
 struct CurrentValue
 { 
 	template<typename It>

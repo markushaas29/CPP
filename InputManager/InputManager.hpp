@@ -26,6 +26,7 @@ public:
 	inline static constexpr const char* Filename = "Input";
 	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
+	inline static const char* TypeIdentifier;
 
 	static InputManager& Instance()
 	{
@@ -45,8 +46,7 @@ public:
 	
 	void CreateFile()
 	{
-		auto fs = std::make_unique<std::ofstream>(std::string("Test") + "." + std::string(FileExtension) );
-		//~ auto fs = std::make_unique<std::ofstream>(std::string(Config<Ts...>::TypeIdentifier) + "." + std::string(FileExtension) );
+		auto fs = std::make_unique<std::ofstream>(std::string(TypeIdentifier) + "." + std::string(FileExtension) );
 		
 		for(auto it = visitors->cbegin(); it != visitors->cend(); ++it)
 			(*fs)<<(*it).second->Name()<<": "<<std::endl;
