@@ -101,8 +101,6 @@ public:
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			readings->push_back(reading);
 		}
-		
-		//~ InputManager<int>::Instance().Display(std::cout);
 	}
 	
 	void Write(const std::string sourcePath = ".")
@@ -117,9 +115,10 @@ private:
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
 	{
-		(*of)<<MeterType::Name<<"\t"<<Config::Number<<"\t"<<Config::Unit::Sign();
+		Logger::Log("SIZE_READINGS", readings->size());
+		(*of)<<MeterType::Name<<"\t"<<Config::Number<<" Unit "<<Config::Unit::Sign()<<"\t";
 		if(readings->cbegin() != readings->cend())
-			(*of)<<(*(readings->cend() - 1));
+			(*of)<<*(*(readings->cend() - 1));
 		(*of)<<std::endl;
 		
 		return of;

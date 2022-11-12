@@ -18,7 +18,7 @@ public:
 	const std::string& Name() { return this->name;}
 	const std::string& Identifier() { return this->identifier;}
 		
-	void Add(Iterator b, Iterator e) { Logger::Log("RepositoryObjectVisitor: Add", name); add(b,e); }
+	void Add(Iterator b, Iterator e) { add(b,e); }
 	std::unique_ptr<std::ofstream> Input(std::unique_ptr<std::ofstream> of) { return input(std::move(of)); }
 private:
 	const std::string name;

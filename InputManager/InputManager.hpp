@@ -49,7 +49,7 @@ public:
 		auto fs = std::make_unique<std::ofstream>(std::string(TypeIdentifier) + "." + std::string(FileExtension) );
 		
 		for(auto it = visitors->cbegin(); it != visitors->cend(); ++it)
-			(*fs)<<(*it).second->Name()<<": "<<std::endl;
+			fs = (*it).second->Input(std::move(fs));
 			
 		fs->close();
 	}
