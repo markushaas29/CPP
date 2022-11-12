@@ -72,7 +72,9 @@ public:
 		[&](const std::string& s){ return GetValue(s); }, 
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));	
 		
-		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, [&](InputIterator b, InputIterator e) { add(b,e); }));
+		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, 
+		[&](InputIterator b, InputIterator e) { add(b,e); },
+		[&](std::unique_ptr<std::ofstream> of) { return input(std::move(of)); }));
 		}
 
 	template<typename Op>
@@ -112,6 +114,16 @@ public:
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
 private:
 	void add(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); }
+	
+	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
+	{
+		(*of)<<MeterType::Name<<"\t"<<Config::Number<<"\t"<<Config::Unit::Sign();
+		if(readings->cbegin() != readings->cend())
+			(*of)<<(*(readings->cend() - 1));
+		(*of)<<std::endl;
+		
+		return of;
+	}
 
 	static std::map<std::string, std::string> createHeader()
 	{

@@ -31,6 +31,8 @@ struct Reading
 	decltype(auto) operator/(const Type& left) const {return Result<Division,Type,Type,decltype(this->QuantityValue / left.QuantityValue)>(*this,left, this->QuantityValue / left.QuantityValue);}
 };
 
+template<typename U, typename Pre = SIPrefix<0>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
+std::ostream& operator<<(std::ostream& strm, const Reading<U,Pre,Q,DateT>& r){	return r.Display(strm);}
 //--------------------------------------------Addition---------------------------------------------------------
 
 template<typename U,typename P, typename Q, typename D>
