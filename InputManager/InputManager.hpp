@@ -55,7 +55,7 @@ public:
 	
 	void Register(std::unique_ptr<InputVisitor> visitor) { 
 		Logger::Log<Info>("Register", visitor->Name(),"in InputManager"); 
-		visitors->insert({visitor->Name(), std::move(visitor)}); 
+		visitors->insert({visitor->Identifier(), std::move(visitor)}); 
 	}
 	
 	template<typename Separator = T::char_<'\t'>>

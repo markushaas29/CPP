@@ -109,13 +109,17 @@ public:
 		csv->Write<CounterType>();
 	}
 
-	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); return true; }
+	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
-	void add(InputIterator begin, InputIterator end) { Logger::Log("Update in",Number); }
+	void add(InputIterator begin, InputIterator end) 
+	{ 
+		auto s = (*begin);
+		auto s2 = *(begin+2);
+		Logger::Log("Add in",s,s2);  }
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
 	{
-		(*of)<<Config::Number<<":"<<" ;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
+		(*of)<<Name<<":"<<" ;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
 		if(readings->cbegin() != readings->cend())
 			(*of)<<*(*(readings->cend() - 1));
 		(*of)<<std::endl;
@@ -191,10 +195,7 @@ void InputManager<Counter>::Parse(InputIterator begin, InputIterator end)
 		auto vals = String_::Split<T::char_<':'>>(*it);
 		auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
 		values.insert(values.begin(), date);
-		for(auto v : values)
-               Logger::Log()<<"InputManagerValue: "<<v<<"\t";
-                Logger::Log()<<std::endl;
-
+		(*visitors)[vals[0]]->Add(values.cbegin(),values.cend());
 	}
 }
 
