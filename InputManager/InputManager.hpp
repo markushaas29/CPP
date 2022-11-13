@@ -2,10 +2,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/CSV.hpp"
-#include "../File/Info.hpp"
-#include "../File/Node.hpp"
 #include "../Unit/SIPrefix.hpp"
-//~ #include "../Home/Counter.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "InputVisitor.hpp"
 #include <map>
@@ -23,10 +20,10 @@ public:
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using VisitorMap = std::map<std::string,std::unique_ptr<InputVisitor>>;
 	
-	inline static constexpr const char* Filename = "Input";
+	inline static const char* TypeIdentifier;
+	inline static const char* Filename;
 	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
-	inline static const char* TypeIdentifier;
 
 	static InputManager& Instance()
 	{
@@ -47,6 +44,8 @@ public:
 	void CreateFile()
 	{
 		auto fs = std::make_unique<std::ofstream>(std::string(TypeIdentifier) + "." + std::string(FileExtension) );
+		
+		(*fs)<<DateTimes::Date::Identifier<<":"<<"12.11.2022"<<std::endl;
 		
 		for(auto it = visitors->cbegin(); it != visitors->cend(); ++it)
 			fs = (*it).second->Input(std::move(fs));
@@ -75,11 +74,19 @@ private:
 	void Parse(InputIterator begin, InputIterator end)
 	{
 		Instance();
-		for(auto it = begin; it != end; ++it)
+		auto it = begin;
+		auto dateLine = String_::Split<T::char_<':'>>(*it);
+		auto date = dateLine.cbegin() + 1 != dateLine.cend() ? dateLine[1] : "1.1.2022" ;
+		++it;
+		for(; it != end; ++it)
 		{
 			auto vals = String_::Split<T::char_<':'>>(*it);
-			for(auto v : vals)
-				Logger::Log()<<"InputManagerValue: "<<v<<std::endl;
+			auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
+			values.insert(values.begin(), date);
+			for(auto v : values)
+                Logger::Log()<<"InputManagerValue: "<<v<<"\t";
+                Logger::Log()<<std::endl;
+
 		}
 	}
 	

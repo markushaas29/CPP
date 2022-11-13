@@ -115,8 +115,7 @@ private:
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
 	{
-		Logger::Log("SIZE_READINGS", readings->size());
-		(*of)<<MeterType::Name<<"\t"<<Config::Number<<" Unit "<<Config::Unit::Sign()<<"\t";
+		(*of)<<Config::Number<<":"<<" ;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
 		if(readings->cbegin() != readings->cend())
 			(*of)<<*(*(readings->cend() - 1));
 		(*of)<<std::endl;
@@ -179,6 +178,7 @@ private:
 };
 
 template<> inline const char* InputManager<Counter>::TypeIdentifier = "Counter";
+template<> inline const char* InputManager<Counter>::Filename = "Counter";
 
 struct CurrentValue
 { 

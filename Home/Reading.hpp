@@ -22,7 +22,7 @@ struct Reading
 	const QuantityType QuantityValue;
 	
 	template<typename Separator = T::char_<';'>>
-	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign()<<std::endl;	}
+	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign();	}
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
 	
 	decltype(auto) operator+(const Type& left) const {return Result<Addition,Type,Type,QuantityType>(*this,left, this->QuantityValue + left.QuantityValue);}
