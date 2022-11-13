@@ -148,7 +148,6 @@ private:
 	{
 		if(cbegin != cend)
 		{
-			Logger::Log(cbegin, cend);
 			try 
 			{
 				auto date = Parsers::Parser<std::string,DateType>::Parse(*cbegin);
@@ -177,8 +176,27 @@ private:
 	Counter(const Counter& c) = delete;
 };
 
-template<> inline const char* InputManager<Counter>::TypeIdentifier = "Counter";
 template<> inline const char* InputManager<Counter>::Filename = "Counter";
+
+template<> 
+void InputManager<Counter>::Parse(InputIterator begin, InputIterator end)
+{
+	Instance();
+	auto it = begin;
+	auto dateLine = String_::Split<T::char_<':'>>(*it);
+	auto date = dateLine.cbegin() + 1 != dateLine.cend() ? dateLine[1] : "1.1.2022" ;
+	++it;
+	for(; it != end; ++it)
+	{
+		auto vals = String_::Split<T::char_<':'>>(*it);
+		auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
+		values.insert(values.begin(), date);
+		for(auto v : values)
+               Logger::Log()<<"InputManagerValue: "<<v<<"\t";
+                Logger::Log()<<std::endl;
+
+	}
+}
 
 struct CurrentValue
 { 

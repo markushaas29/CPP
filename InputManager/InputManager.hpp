@@ -20,8 +20,8 @@ public:
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using VisitorMap = std::map<std::string,std::unique_ptr<InputVisitor>>;
 	
-	inline static const char* TypeIdentifier;
 	inline static const char* Filename;
+	inline static const char* TypeIdentifier = Filename;
 	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
 
@@ -71,25 +71,8 @@ private:
 	inline static std::unique_ptr<InputContainerType> inputs = std::make_unique<InputContainerType>();
 	inline static std::unique_ptr<VisitorMap> visitors = std::make_unique<VisitorMap>();
 
-	void Parse(InputIterator begin, InputIterator end)
-	{
-		Instance();
-		auto it = begin;
-		auto dateLine = String_::Split<T::char_<':'>>(*it);
-		auto date = dateLine.cbegin() + 1 != dateLine.cend() ? dateLine[1] : "1.1.2022" ;
-		++it;
-		for(; it != end; ++it)
-		{
-			auto vals = String_::Split<T::char_<':'>>(*it);
-			auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
-			values.insert(values.begin(), date);
-			for(auto v : values)
-                Logger::Log()<<"InputManagerValue: "<<v<<"\t";
-                Logger::Log()<<std::endl;
-
-		}
-	}
-	
+	void Parse(InputIterator begin, InputIterator end);
+		
 	decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 	
 	template<typename Op>
