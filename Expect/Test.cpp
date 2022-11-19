@@ -8,7 +8,8 @@ int main()
 {       
     std::cout<<"START"<<std::endl;
 		
-	expect<ErrorAction::Logging>(2 == 3,4);
+	expect<ErrorAction::Logging>(2 == 3);
+	expect<ErrorAction::Throwing>(2 == 3);
 		
 	std::cout<<"END"<<std::endl;
 

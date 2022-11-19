@@ -12,8 +12,8 @@ enum class ErrorAction {Ignore, Throwing, Termiating, Logging};
 
 constexpr ErrorAction defaultErrorActon = ErrorAction::Throwing;
 
-template<ErrorAction action = defaultErrorActon, class C>
-constexpr void expect(C cond, uint code)
+template<ErrorAction action = defaultErrorActon, class Logging = Debug,class C>
+constexpr void expect(C cond)
 {
 	if constexpr(action == ErrorAction::Logging)
 		if(!cond)

@@ -115,11 +115,22 @@ private:
 	{ 
 		auto s = (*begin);
 		auto s2 = *(begin+2);
-		Logger::Log("Add in",s,s2);  }
+		Logger::Log("Add in",s,s2);  
+		if(s2 != "")
+		{
+			auto date = Parsers::Parser<std::string,DateType>::Parse(s);
+			auto value = std::stod(s2);
+				
+			auto r = ReadingType(QuantityType(value), DateType(date));
+			Logger::Log<Info>()<<r<<std::endl;
+			//~ DataType(new ReadingType(QuantityType(value), DateType(date)));
+			Logger::Log("Add in",s,s2);  
+		}	
+	}
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
 	{
-		(*of)<<Name<<":"<<" ;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
+		(*of)<<Name<<":"<<";;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
 		if(readings->cbegin() != readings->cend())
 			(*of)<<*(*(readings->cend() - 1));
 		(*of)<<std::endl;
