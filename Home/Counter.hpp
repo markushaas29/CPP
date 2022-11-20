@@ -99,8 +99,7 @@ public:
 		{
 			auto v = csv->ExtractValues(*it);
 			DataType reading = CreateReading(v.cbegin(), v.cend());
-			readings->push_back(reading);
-			Logger::Log<Info>("Reading added", *reading);
+			addReading(reading);
 		}
 	}
 	
@@ -119,8 +118,15 @@ private:
 		Logger::Log("Add in",s,s2);  
 		if(s2 != "")
 		{
-			Logger::Log("Add in",s,s2,*(ReadingType::Create(s,s2)));  
+			auto reading = ReadingType::Create(s,s2);
+			addReading(reading);
 		}	
+	}
+	
+	void addReading(DataType reading)
+	{
+		readings->push_back(reading);
+		Logger::Log<Info>("Reading added", *reading);
 	}
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
