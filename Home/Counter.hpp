@@ -103,14 +103,15 @@ public:
 		}
 	}
 	
-	void Write(const std::string sourcePath = ".")
+
+	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
+private:
+	void write(const std::string sourcePath = ".")
 	{
 		Logger::Log<Info>()<<"Write Counter: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
 		csv->Write<CounterType>();
 	}
-
-	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
-private:
+	
 	void add(InputIterator begin, InputIterator end) 
 	{ 
 		auto s = (*begin);
@@ -120,13 +121,15 @@ private:
 		{
 			auto reading = ReadingType::Create(s,s2);
 			addReading(reading);
+			write();
 		}	
+		
 	}
 	
 	void addReading(DataType reading)
 	{
 		readings->push_back(reading);
-		Logger::Log<Info>("Reading added", *reading);
+		Logger::Log<Info>("Reading added",Name, *reading);
 	}
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
