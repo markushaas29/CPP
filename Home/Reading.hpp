@@ -1,3 +1,4 @@
+#include "Parser.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.h"
@@ -24,6 +25,14 @@ struct Reading
 	template<typename Separator = T::char_<';'>>
 	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign();	}
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
+	
+	static decltype(auto) Create(const std::string& d, const std::string& v)
+	{
+		auto date = Parsers::Parser<std::string,DateType>::Parse(d);
+		auto value = std::stod(v);
+				
+		return std::make_shared<Type>(QuantityType(value), DateType(date));
+	}
 	
 	decltype(auto) operator+(const Type& left) const {return Result<Addition,Type,Type,QuantityType>(*this,left, this->QuantityValue + left.QuantityValue);}
 	decltype(auto) operator-(const Type& left) const {return Result<Subtraction,Type,Type,QuantityType>(*this,left, this->QuantityValue - left.QuantityValue);}

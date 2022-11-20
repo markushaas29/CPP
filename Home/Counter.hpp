@@ -100,6 +100,7 @@ public:
 			auto v = csv->ExtractValues(*it);
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			readings->push_back(reading);
+			Logger::Log<Info>("Reading added", *reading);
 		}
 	}
 	
@@ -118,13 +119,7 @@ private:
 		Logger::Log("Add in",s,s2);  
 		if(s2 != "")
 		{
-			auto date = Parsers::Parser<std::string,DateType>::Parse(s);
-			auto value = std::stod(s2);
-				
-			auto r = ReadingType(QuantityType(value), DateType(date));
-			Logger::Log<Info>()<<r<<std::endl;
-			//~ DataType(new ReadingType(QuantityType(value), DateType(date)));
-			Logger::Log("Add in",s,s2);  
+			Logger::Log("Add in",s,s2,*(ReadingType::Create(s,s2)));  
 		}	
 	}
 	
@@ -165,11 +160,7 @@ private:
 		{
 			try 
 			{
-				auto date = Parsers::Parser<std::string,DateType>::Parse(*cbegin);
-				auto value = std::stod(*(++cbegin));
-				
-				Logger::Log<Info>()<<ReadingType(QuantityType(value), DateType(date))<<std::endl;
-				return DataType(new ReadingType(QuantityType(value), DateType(date)));
+				return ReadingType::Create(*cbegin,*(cbegin+1));
 			} 
 			catch (const std::exception& e) 
 			{
@@ -179,7 +170,7 @@ private:
 		else
 			Logger::Log<Error>()<<"Error: CreateReading-> Not enough values"<<std::endl;
 			
-				
+		//~ return ReadingType::Create("1,0","01.01.2000");
 		return  DataType(new ReadingType(QuantityType(0.0), DateType(Parsers::Parser<std::string,DateType>::Parse("01.01.2000"))));
 	}
 	
