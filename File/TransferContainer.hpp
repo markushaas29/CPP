@@ -6,7 +6,7 @@
 #include "../Common/DateTimes.hpp"
 #include "../Common/Algorithms.hpp"
 #include "../String/String_.hpp"
-#include "../CSV/CSV.hpp"
+#include "../CSV/Elements.hpp"
 
 #ifndef TRANSFERSCONTAINER_HPP
 #define TRANSFERSCONTAINER_HPP

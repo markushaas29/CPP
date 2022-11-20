@@ -3,7 +3,7 @@
 #include "../Unit/Unit.h"
 #include "../Common/DateTimes.hpp"
 #include "../Quantity/Quantity.h"
-#include "../CSV/CSV.hpp"
+#include "../CSV/Elements.hpp"
 #include "../File/Info.hpp"
 #include "../File/Node.hpp"
 #include "../Unit/SIPrefix.hpp"
@@ -125,8 +125,7 @@ private:
 			auto reading = ReadingType::Create(s,s2);
 			addReading(reading);
 			write();
-		}	
-		
+		}			
 	}
 	
 	void addReading(DataType reading)

@@ -11,8 +11,8 @@
 #include <chrono>
 #include <ctime>
 
-#ifndef CSV_H
-#define CSV_H
+#ifndef ELEMENTS_HPP
+#define ELEMENTS_HPP
 
 //--------------------------------TYPES------------------------------------------------
 template<typename T = std::string>
