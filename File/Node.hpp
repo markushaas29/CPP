@@ -152,7 +152,7 @@ namespace FS
 		template<typename Ctr, typename Separator = T::char_<';'>>
 		void Write()
 		{
-			auto ofs = std::unique_ptr<std::ofstream>(new std::ofstream(destinationPath)); 
+			auto ofs = std::make_unique<std::ofstream>(destinationPath); 
 			Ctr::template Display<Separator>(*ofs);
 			ofs->close();
 		}

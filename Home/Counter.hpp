@@ -58,7 +58,10 @@ public:
 	{
 		DisplayHeader<Separator>(out);		
 		for(auto it = readings->cbegin(); it != readings->cend(); ++it)
+		{
 			(*it)->Display(out);
+			out<<std::endl;
+		}
 		
 		return out;
 	}
