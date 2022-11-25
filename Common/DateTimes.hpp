@@ -157,7 +157,7 @@ namespace DateTimes
 			return ts;
 		}
 		
-		static TupleType Extract(std::string s)
+		static TupleType Extract(const std::string& s)
 		{
 			uint d, m, y;
 			
@@ -191,16 +191,11 @@ namespace DateTimes
 			{
 				if(std::get<DateTimes::Month>(this->tt) > std::get<DateTimes::Month>(d.tt))
 					return true;
-				if(std::get<DateTimes::Month>(this->tt) == std::get<DateTimes::Month>(d.tt))
-				{
-					if(std::get<DateTimes::Day>(this->tt) > std::get<DateTimes::Day>(d.tt))
-						return true;
-					if(std::get<DateTimes::Day>(this->tt) == std::get<DateTimes::Day>(d.tt))
-						return false;
-				}
+				if(std::get<DateTimes::Month>(this->tt) == std::get<DateTimes::Month>(d.tt) && std::get<DateTimes::Day>(this->tt) > std::get<DateTimes::Day>(d.tt))
+					return true;
 			}
-		return false;
-	}
+			return false;
+		}
 	private:
 		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
@@ -228,10 +223,7 @@ namespace DateTimes
 	};
 
 	template<typename ItemT>
-	const ItemT& Get(Date const& d)
-	{
-		return std::get<ItemT>(d.tt);
-	};
+	const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
 }
 
 namespace Parsers
