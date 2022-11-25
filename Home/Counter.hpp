@@ -131,6 +131,7 @@ private:
 	void addReading(DataType reading)
 	{
 		readings->push_back(reading);
+		std::sort(readings->begin(), readings->end(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
 		Logger::Log<Info>("Reading added",Name, *reading);
 	}
 	

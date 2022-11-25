@@ -72,6 +72,7 @@ namespace DateTimes
 		constexpr Month(uint v): DateTimeBase<Month>(check(v)){};
 		constexpr Month(int v): DateTimeBase<Month>(check((uint)v)){};
 		bool operator==(const DateTimes::Month& d) const{ return this->value == d.value; };
+		bool operator>(const DateTimes::Month& d) const{ return this->value > d.value; };
 	private:
 		static constexpr uint check(uint i)
 		{
@@ -88,6 +89,7 @@ namespace DateTimes
 		static Base::Derived Get(int i) { return Year((uint)i);}
 		constexpr Year(uint v): DateTimeBase<Year>(v), IsLeapYear(isLeapYear(v)){};
 		bool operator==(const DateTimes::Year& d) const{ return this->value == d.value; };
+		bool operator>(const DateTimes::Year& d) const{ return this->value > d.value; };
 		bool IsLeapYear;
 	private:
 		static constexpr bool isLeapYear(uint year)
@@ -108,6 +110,7 @@ namespace DateTimes
 		static Base::Derived Get(int i) { return Day((uint)i);}
 		constexpr Day(uint v): DateTimeBase<Day>(v){};
 		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
+		bool operator>(const DateTimes::Day& d) const{ return this->value > d.value; };
 	};
 	
 	
@@ -181,6 +184,23 @@ namespace DateTimes
 			&& std::get<DateTimes::Month>(date.tt) == std::get<DateTimes::Month>(this->tt) 
 			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
 		bool operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
+		bool operator>(const Date& d) const { 
+			if(std::get<DateTimes::Year>(this->tt) > std::get<DateTimes::Year>(d.tt))
+				return true;
+			if(std::get<DateTimes::Year>(this->tt) == std::get<DateTimes::Year>(d.tt))
+			{
+				if(std::get<DateTimes::Month>(this->tt) > std::get<DateTimes::Month>(d.tt))
+					return true;
+				if(std::get<DateTimes::Month>(this->tt) == std::get<DateTimes::Month>(d.tt))
+				{
+					if(std::get<DateTimes::Day>(this->tt) > std::get<DateTimes::Day>(d.tt))
+						return true;
+					if(std::get<DateTimes::Day>(this->tt) == std::get<DateTimes::Day>(d.tt))
+						return false;
+				}
+			}
+		return false;
+	}
 	private:
 		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
