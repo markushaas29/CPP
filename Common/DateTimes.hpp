@@ -157,6 +157,14 @@ namespace DateTimes
 			return ts;
 		}
 		
+		static Date Today()
+		{
+			std::time_t t = std::time(0);
+			std::tm* now = std::localtime(&t);
+			return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));
+			
+		} 
+		
 		static TupleType Extract(const std::string& s)
 		{
 			uint d, m, y;

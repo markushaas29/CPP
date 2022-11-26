@@ -22,6 +22,7 @@ int main()
 	Logger::Log()<<DateTimes::January.Value()<<std::endl;
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
+	std::cout<<"TODAY"<<DateTimes::Date::Today().Value()<<std::endl;
 	
 	
 	auto d = Chars(18,12,2021);
@@ -43,6 +44,7 @@ int main()
 	std::cout<<dt[4]<<std::endl;
 	std::cout<<dt[9]<<std::endl;
 	std::cout<<dt.Size()<<std::endl;
+	
 
 	std::cout<<"END"<<std::endl;
     
