@@ -47,7 +47,7 @@ namespace DateTimes
 		return reinterpret_cast<T(&)[N]>(*a.data());
 	}
 	
-	template<typename T>
+	template<typename T, uint m = 3000>
 	struct DateTimeBase
 	{
 		using Derived = T;
@@ -55,22 +55,38 @@ namespace DateTimes
 		Derived Prev() const { return T{this->value - 1}; };
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
-		constexpr DateTimeBase(uint v):value{v} {}
+		constexpr DateTimeBase(uint v):value {v}
+		{
+			if(v > max || v == 0)
+				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
+		}
 		operator uint() { return this->value; }
-
 	protected:
 		const uint value;
+	private:
+		constexpr static uint min = 1;
+		constexpr static uint max = m;
 	};
 	
-	template<typename T>
-	std::ostream& operator<<(std::ostream& out, const DateTimeBase<T>& s){	return out<<s.Value();	}
-
-	struct Month: DateTimeBase<Month>
+	
+	struct Day: DateTimeBase<Day,31>
 	{
-		using Base = DateTimeBase<Month>;
+		using Base = DateTimeBase<Day,31>;
+		static constexpr const char* TypeIdentifier = "Day";
+		static Base::Derived Get(uint i) { return Day{i};}
+		static Base::Derived Get(int i) { return Day((uint)i);}
+		constexpr Day(uint v): Base(v){};
+		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
+		bool operator>(const DateTimes::Day& d) const{ return this->value > d.value; };
+	};
+
+	struct Month: DateTimeBase<Month,12>
+	{
+		using Base = DateTimeBase<Month,12>;
+		static constexpr const char* TypeIdentifier = "Month";
 		static Base::Derived Get(uint i) { return Month{i};}
-		constexpr Month(uint v): DateTimeBase<Month>(check(v)){};
-		constexpr Month(int v): DateTimeBase<Month>(check((uint)v)){};
+		constexpr Month(uint v): Base(v){};
+		constexpr Month(int v): Base(v){};
 		bool operator==(const DateTimes::Month& d) const{ return this->value == d.value; };
 		bool operator>(const DateTimes::Month& d) const{ return this->value > d.value; };
 	private:
@@ -85,6 +101,7 @@ namespace DateTimes
 	struct Year: DateTimeBase<Year>
 	{
 		using Base = DateTimeBase<Year>;
+		static constexpr const char* TypeIdentifier = "Year";
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
 		constexpr Year(uint v): DateTimeBase<Year>(v), IsLeapYear(isLeapYear(v)){};
@@ -102,16 +119,6 @@ namespace DateTimes
 	};
 		
 	bool operator<(const Year& y1, const Year& y2) { return y1.Value() < y2.Value(); };
-	
-	struct Day: DateTimeBase<Day>
-	{
-		using Base = DateTimeBase<Day>;
-		static Base::Derived Get(uint i) { return Day{i};}
-		static Base::Derived Get(int i) { return Day((uint)i);}
-		constexpr Day(uint v): DateTimeBase<Day>(v){};
-		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
-		bool operator>(const DateTimes::Day& d) const{ return this->value > d.value; };
-	};
 	
 	
 	inline static Month January = Month(1);
@@ -233,6 +240,11 @@ namespace DateTimes
 	template<typename ItemT>
 	const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
 }
+
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T>& s){	return out<<s.Value();	}
+
+std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return out<<d.Value();	}
 
 namespace Parsers
 {
