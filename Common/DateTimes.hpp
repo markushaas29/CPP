@@ -47,7 +47,7 @@ namespace DateTimes
 		return reinterpret_cast<T(&)[N]>(*a.data());
 	}
 	
-	template<typename T, uint m = 3000>
+	template<typename T, uint mx = 3000, uint mn = 1>
 	struct DateTimeBase
 	{
 		using Derived = T;
@@ -55,17 +55,17 @@ namespace DateTimes
 		Derived Prev() const { return T{this->value - 1}; };
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
-		constexpr DateTimeBase(uint v):value {v}
+		constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
 		{
 			if(v > max || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
-		operator uint() { return this->value; }
+		operator uint() const { return this->value; }
 	protected:
 		const uint value;
 	private:
-		constexpr static uint min = 1;
-		constexpr static uint max = m;
+		constexpr static uint min = mn;
+		constexpr static uint max = mx;
 	};
 	
 	
@@ -98,13 +98,13 @@ namespace DateTimes
 		}
 	};
 	
-	struct Year: DateTimeBase<Year>
+	struct Year: DateTimeBase<Year, 3000, 1900>
 	{
-		using Base = DateTimeBase<Year>;
+		using Base = DateTimeBase<Year,3000,1900>;
 		static constexpr const char* TypeIdentifier = "Year";
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
-		constexpr Year(uint v): DateTimeBase<Year>(v), IsLeapYear(isLeapYear(v)){};
+		constexpr Year(uint v): Base(v), IsLeapYear(isLeapYear(v)){};
 		bool operator==(const DateTimes::Year& d) const{ return this->value == d.value; };
 		bool operator>(const DateTimes::Year& d) const{ return this->value > d.value; };
 		bool IsLeapYear;
