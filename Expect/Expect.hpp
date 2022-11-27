@@ -11,15 +11,15 @@ class Expect
 
 enum class ErrorAction {Ignore, Throwing, Termiating, Logging};
 
-constexpr ErrorAction defaultErrorActon = ErrorAction::Throwing;
+constexpr ErrorAction defaultErrorActon = ErrorAction::Logging;
 
-template<ErrorAction action = defaultErrorActon, class Logging = Debug,class C>
+template<class LogLevel = Debug, ErrorAction action = defaultErrorActon,class C>
 //~ constexpr void expect(C cond, const std::source_location location =  std::source_location::current())
-constexpr void expect(C cond)
+constexpr void expect(C cond, const std::string& message)
 {
 	if constexpr(action == ErrorAction::Logging)
 		if(!cond)
-			Logger::Log<Info>("Test");
+			Logger::Log<LogLevel>(message);
 	if constexpr(action == ErrorAction::Throwing)
 		if(!cond)
 			throw "Test";

@@ -6,6 +6,7 @@
 #include <array>
 #include "../CSV/Element.hpp"
 #include "../String/String_.hpp"
+//~ #include "../Validator/Validator.hpp"
 
 #ifndef DATETIMES_HPP
 #define DATETIMES_HPP
@@ -47,7 +48,7 @@ namespace DateTimes
 		return reinterpret_cast<T(&)[N]>(*a.data());
 	}
 	
-	template<typename T, uint mx = 3000, uint mn = 1>
+	template<typename T, uint Max = 3000, uint Min = 1>
 	struct DateTimeBase
 	{
 		using Derived = T;
@@ -56,6 +57,7 @@ namespace DateTimes
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
 		constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
+		//~ constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}
 		{
 			if(v > max || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
@@ -64,8 +66,8 @@ namespace DateTimes
 	protected:
 		const uint value;
 	private:
-		constexpr static uint min = mn;
-		constexpr static uint max = mx;
+		constexpr static uint min = Min;
+		constexpr static uint max = Max;
 	};
 	
 	

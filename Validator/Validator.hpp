@@ -3,39 +3,37 @@
 #include "../Expect/Expect.hpp"
 //~ #include <source_location>
 
-#ifndef VAILDATOR_HPP
-#define VALIDATOR_HPP
+#ifndef VAILDAT_HPP
+#define VALIDAT_HPP
 
-template<typename T, typename LogLevel = Error>
+template<typename Derived, typename Type,typename Level = Error>
 class Vaildator
-{  
+{ 
 public:
-	using ValidationType = std::function<bool(T)>;
-	T operator ()(T t) 
+	static constexpr Type Check(Type t) 
 	{
-		if(validation(t))
+		if(Derived::Condition(t))
 			return t;
 		
-		expect<LogLevel>(false,"Invalid");
+		expect<Level>(false,"Invalid");
+		
 		return returnValue;
 	};
-protected:
-	Vaildator(ValidationType v, const T r = T{}): validation{v}, returnValue{r}{};
 private:
-	const T returnValue;
-	const ValidationType validation; 
+	static constexpr Type returnValue = Derived::min;
 };
 
-template<typename T>
-class RangeValidator: public Vaildator<T>
+template<typename T, T Min,T Max>
+class RangeValidator: public Vaildator<RangeValidator<T,Min,Max>,T>
 {
-	using Base = Vaildator<T>;
+	using Base = Vaildator<RangeValidator<T,Min,Max>,T>;
+	friend class Vaildator<RangeValidator<T,Min,Max>,T>;
 public:
-	RangeValidator(const T min, const T max): Base{[&](const T t) { return t >= min && t <= max; },min},  min{min}, max{max} {}
+	using Type = T;
 private:
-	Base::ValidationType validation = [&](const T t) { return t >= min && t <= max; };
-	const T min;
-	const T max;
+	static constexpr bool Condition(const T t) { return t >= min && t <= max; };
+	static constexpr T min = Min;
+	static constexpr T max = Max;
 };
 
 #endif
