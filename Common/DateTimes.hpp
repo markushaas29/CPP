@@ -6,10 +6,11 @@
 #include <array>
 #include "../CSV/Element.hpp"
 #include "../String/String_.hpp"
-//~ #include "../Validator/Validator.hpp"
+#include "../Validator/Validator.hpp"
 
-#ifndef DATETIMES_HPP
-#define DATETIMES_HPP
+#pragma once
+//~ #ifndef DATETIMES_HPP
+//~ #define DATETIMES_HPP
 
 static std::array<char,512> Chars(uint d = 0, uint m = 0, uint y = 0)
 {
@@ -56,8 +57,8 @@ namespace DateTimes
 		Derived Prev() const { return T{this->value - 1}; };
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
-		constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
-		//~ constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}
+		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
+		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}
 		{
 			if(v > max || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
@@ -260,4 +261,4 @@ namespace Parsers
 	};
 }
 
-#endif
+//~ #endif
