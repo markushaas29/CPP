@@ -1,29 +1,34 @@
-lsCXX      = g++
+CXX      = g++
 CXXC      = clang
 OBJECTS = *.o
 CXXFLAGS  = -c -std=c++2a
-DEBUGFLAGS  = -c -g -std=c++17
+DEBUGFLAGS  = -c -g -std=c++2a
 
 SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 
-Release: $(OBJECTS)
+Release:	$(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) 
 	
-Debug: House.o Stage.o
+Debug:	$(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) 
 
-House: $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) 
+%.o: 	%.hpp %.cpp
+	$(CXX) $(DEBUGFLAGS) $*.cpp
+	
+Regex: 	RegexTest.cpp
+	g++ -std=c++2a -o Regex RegexTest.cpp
 
-Stage.o: Stagetest.cpp 
-	$(CXX) $(DEBUGFLAGS) $<
+Backup:	Backup.cpp
+	g++ -std=c++2a -o Backup Backup.cpp
 
-House.o: HouseTest.cpp
-	$(CXX) $(DEBUGFLAGS) $<
 clean:
-	rm *.o test
+	rm -r  ../../../Downloads/* && rm *.o
+	
+All:
+	$(MAKE) clean
+	$(MAKE) Debug
 
 
 

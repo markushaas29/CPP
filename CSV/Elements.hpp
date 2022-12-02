@@ -2,6 +2,7 @@
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.h"
+#include "../Validator/Validator.hpp"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
 #include <string.h>
@@ -11,8 +12,9 @@
 #include <chrono>
 #include <ctime>
 
-#ifndef ELEMENTS_HPP
-#define ELEMENTS_HPP
+#pragma once
+//~ #ifndef ELEMENTS_HPP
+//~ #define ELEMENTS_HPP
 
 //--------------------------------TYPES------------------------------------------------
 template<typename T = std::string>
@@ -68,8 +70,8 @@ class IBAN: public Element
 {
 public:
 	inline static const std::string Identifier = "IBAN";
-	IBAN(std::string s): IBAN{s.c_str()}{ };
-	constexpr IBAN(const char* c): Element(c){ };
+	IBAN(std::string s): IBAN{s.c_str()}{ SizeValidator<const char*,32>::Check(s.c_str()); };
+	constexpr IBAN(const char* c): Element(c){  };
 	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
@@ -155,4 +157,4 @@ std::ostream& operator<<(std::ostream& out, const Value<D,U,T>& c) { return out<
 
 class Date;
 
-#endif
+//~ #endif

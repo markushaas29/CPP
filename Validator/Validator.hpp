@@ -1,11 +1,10 @@
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Expect/Expect.hpp"
+#include <string.h>
 //~ #include <source_location>
 
-#ifndef VAILDAT_HPP
-#define VALIDAT_HPP
-
+#pragma once
 template<typename Derived, typename Type,typename Level = Error>
 class Vaildator
 { 
@@ -20,7 +19,7 @@ public:
 		return returnValue;
 	};
 private:
-	static constexpr Type returnValue = Derived::min;
+	static constexpr Type returnValue = Derived::returnValue;
 };
 
 template<typename T, T Min,T Max>
@@ -34,6 +33,19 @@ private:
 	static constexpr bool Condition(const T t) { return t >= min && t <= max; };
 	static constexpr T min = Min;
 	static constexpr T max = Max;
+	static constexpr T returnValue = min;
 };
 
-#endif
+template<typename T, int N>
+class SizeValidator: public Vaildator<SizeValidator<T, N>,T>
+{
+	using Base = Vaildator<SizeValidator<T,N>,T>;
+	friend class Vaildator<SizeValidator<T,N>,T>;
+public:
+	using Type = T;
+private:
+	static constexpr bool Condition(const T t) { return strlen(t) == N; };
+	static constexpr int size = N;
+	static constexpr T returnValue = nullptr;
+};
+
