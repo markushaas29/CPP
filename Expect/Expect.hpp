@@ -9,6 +9,9 @@ class Expect
 {  
 };
 
+template<typename T>
+constexpr void print(T t) { std::cout<<t<<std::endl; }
+
 enum class ErrorAction {Ignore, Throwing, Termiating, Logging};
 
 constexpr ErrorAction defaultErrorActon = ErrorAction::Logging;

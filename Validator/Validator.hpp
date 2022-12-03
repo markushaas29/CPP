@@ -36,6 +36,8 @@ private:
 	static constexpr T returnValue = min;
 };
 
+constexpr decltype(auto) length( const char* c){  return std::char_traits<char>::length(c); }
+
 template<typename T, int N>
 class SizeValidator: public Vaildator<SizeValidator<T, N>,T>
 {
@@ -44,7 +46,7 @@ class SizeValidator: public Vaildator<SizeValidator<T, N>,T>
 public:
 	using Type = T;
 private:
-	static constexpr bool Condition(const T t) { return strlen(t) == N; };
+	static constexpr bool Condition(const T t) { return length(t) == N; };
 	static constexpr int size = N;
 	static constexpr T returnValue = nullptr;
 };

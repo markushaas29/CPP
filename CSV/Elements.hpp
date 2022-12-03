@@ -69,9 +69,11 @@ inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value(
 class IBAN: public Element
 {
 public:
+	inline static constexpr uint Length = 22;
+	inline static constexpr const char* Default = "XX00000000000000000000";
 	inline static const std::string Identifier = "IBAN";
-	IBAN(std::string s): IBAN{s.c_str()}{ SizeValidator<const char*,32>::Check(s.c_str()); };
-	constexpr IBAN(const char* c): Element(c){  };
+	IBAN(std::string s): IBAN{s.c_str()}{  };
+	constexpr IBAN(const char* c): Element(c){ SizeValidator<const char*,Length>::Check(c); };
 	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
