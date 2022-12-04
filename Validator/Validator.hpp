@@ -15,7 +15,7 @@ public:
 			return t;
 		
 		//~ expect<Level>(false,"Invalid");
-		Logger::Log<Level>("Invalid Value",t);
+		//~ Logger::Log<Level>("Invalid Value",t);
 		
 		return defaultValue;
 	};
