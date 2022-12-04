@@ -14,7 +14,8 @@ public:
 		if(Derived::Condition(t))
 			return t;
 		
-		expect<Level>(false,"Invalid");
+		//~ expect<Level>(false,"Invalid");
+		Logger::Log<Level>("Invalid Value",t);
 		
 		return defaultValue;
 	};
@@ -35,6 +36,10 @@ private:
 	static constexpr T max = Max;
 	static constexpr T returnValue = min;
 };
+
+class NumberValidator: public RangeValidator<char,47,57> {};
+class CapitalLetterValidator: public RangeValidator<char,65,90> {};
+class LowerCaseLetterValidator: public RangeValidator<char,97,122> {};
 
 constexpr decltype(auto) length( const char* c){  return std::char_traits<char>::length(c); }
 constexpr bool IsLetter(char c) noexcept { return c > 64 && c < 91 || c > 96 && c < 123; };

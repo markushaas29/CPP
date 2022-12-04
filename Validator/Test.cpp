@@ -31,6 +31,21 @@ int main()
 	expect<Info>(isIban(c), c);	
 	expect<Info>(isIban(c2), c2);	
 	
+	expect<Info>(NumberValidator::Check('9'), "9 Should be true");	
+	expect<Info>(NumberValidator::Check('a'), "a Should not be true");
+		
+	expect<Info>(LowerCaseLetterValidator::Check('a'), "a Should be true");	
+	expect<Info>(LowerCaseLetterValidator::Check('z'), "z Should be true");	
+	expect<Info>(LowerCaseLetterValidator::Check('A'), "A Should not be true");	
+	expect<Info>(LowerCaseLetterValidator::Check('Z'), "Z Should not be true");	
+	expect<Info>(LowerCaseLetterValidator::Check('9'), "9 Should not be true");	
+	
+	expect<Info>(CapitalLetterValidator::Check('a'), "a Should not be true");	
+	expect<Info>(CapitalLetterValidator::Check('z'), "z Should not be true");	
+	expect<Info>(CapitalLetterValidator::Check('A'), "A Should be true");	
+	expect<Info>(CapitalLetterValidator::Check('Z'), "Z Should be true");	
+	expect<Info>(CapitalLetterValidator::Check('9'), "9 Should not be true");	
+	
 	
 	std::cout<<"END"<<std::endl;
 
