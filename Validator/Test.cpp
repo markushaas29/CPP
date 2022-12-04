@@ -19,6 +19,13 @@ int main()
 	static constexpr IBAN iban2{"XX00000000000000000000"};	
 	SizeValidator<22>::Check(c);
 	
+	expect<Info>(IsLetter('A'), "A Should be true");	
+	expect<Info>(IsLetter('a'), "a Should be true");	
+	expect<Info>(IsLetter('?'), "ok ?");	
+	expect<Info>(IsLetter('z'), "z Should be true");	
+	expect<Info>(IsLetter('Z'), "Z Should be true");	
+	expect<Info>(IsNum('0'), "Z Should be true");	
+	expect<Info>(IsNum('9'), "Z Should be true");	
 	std::cout<<"END"<<std::endl;
 
     return 0;

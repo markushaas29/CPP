@@ -37,6 +37,9 @@ private:
 };
 
 constexpr decltype(auto) length( const char* c){  return std::char_traits<char>::length(c); }
+constexpr bool IsLetter(char c) noexcept { return c > 64 && c < 91 || c > 96 && c < 123; };
+constexpr bool IsNum(char c) noexcept { return c > 47 && c < 58; };
+
 
 template<uint N, typename T = const char *>
 class SizeValidator: public Vaildator<SizeValidator<N, T>,T>
