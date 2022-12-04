@@ -38,11 +38,11 @@ private:
 
 constexpr decltype(auto) length( const char* c){  return std::char_traits<char>::length(c); }
 
-template<typename T, int N>
-class SizeValidator: public Vaildator<SizeValidator<T, N>,T>
+template<uint N, typename T = const char *>
+class SizeValidator: public Vaildator<SizeValidator<N, T>,T>
 {
-	using Base = Vaildator<SizeValidator<T,N>,T>;
-	friend class Vaildator<SizeValidator<T,N>,T>;
+	using Base = Vaildator<SizeValidator<N, T>,T>;
+	friend class Vaildator<SizeValidator<N, T>,T>;
 public:
 	using Type = T;
 private:

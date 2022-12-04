@@ -17,7 +17,7 @@ int main()
 	std::cout<<length(c)<<std::endl;
 	static constexpr IBAN iban{"DE97500500000003200029"};
 	static constexpr IBAN iban2{"XX00000000000000000000"};	
-	SizeValidator<const char*,22>::Check(c);
+	SizeValidator<22>::Check(c);
 	
 	std::cout<<"END"<<std::endl;
 
