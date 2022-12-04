@@ -26,6 +26,12 @@ int main()
 	expect<Info>(IsLetter('Z'), "Z Should be true");	
 	expect<Info>(IsNum('0'), "Z Should be true");	
 	expect<Info>(IsNum('9'), "Z Should be true");	
+	
+	const char* c2 = "DE97500500A00003200029";
+	expect<Info>(isIban(c), c);	
+	expect<Info>(isIban(c2), c2);	
+	
+	
 	std::cout<<"END"<<std::endl;
 
     return 0;
