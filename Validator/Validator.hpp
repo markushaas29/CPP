@@ -9,14 +9,14 @@ template<typename Derived, typename Type,typename Level = Error>
 class Vaildator
 { 
 public:
-	static constexpr Type Check(Type t) 
+	static constexpr Type Check(Type t, Type defaultValue = returnValue) 
 	{
 		if(Derived::Condition(t))
 			return t;
 		
 		expect<Level>(false,"Invalid");
 		
-		return returnValue;
+		return defaultValue;
 	};
 private:
 	static constexpr Type returnValue = Derived::returnValue;
