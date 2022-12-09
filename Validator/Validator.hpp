@@ -9,14 +9,18 @@ template<typename Derived, typename Type,typename Level = Error>
 class Vaildator
 { 
 public:
+	template<typename T = Type>
 	static constexpr Type Check(Type t, Type defaultValue = returnValue) 
 	{
-		if(Derived::Condition(t))
+		bool condition = Derived::Condition(t);
+		if constexpr (std::is_same<T, bool>::value)
+			return condition;
+		if(condition)
 			return t;
-		
-		//~ expect<Level>(false,"Invalid");
-		//~ Logger::Log<Level>("Invalid Value",t);
-		
+			
+			//~ expect<Level>(false,"Invalid");
+			//~ Logger::Log<Level>("Invalid Value",t);
+			
 		return defaultValue;
 	};
 private:
@@ -45,16 +49,6 @@ constexpr decltype(auto) length( const char* c){  return std::char_traits<char>:
 constexpr bool IsLetter(char c) noexcept { return c > 64 && c < 91 || c > 96 && c < 123; };
 constexpr bool IsNum(char c) noexcept { return c > 47 && c < 58; };
 
-static constexpr bool isIban(const char* iban)
-{
-	auto N = length(iban);
-	for(int i = 2; i < N; ++i)
-		if(!IsNum(*(iban + i)))
-			return false;
-		
-	return true;
-}
-
 template<uint N, typename T = const char *>
 class SizeValidator: public Vaildator<SizeValidator<N, T>,T>
 {
@@ -63,7 +57,7 @@ class SizeValidator: public Vaildator<SizeValidator<N, T>,T>
 public:
 	using Type = T;
 private:
-	static constexpr bool Condition(const T t) { isIban(t);return length(t) == N; };
+	static constexpr bool Condition(const T t) { return length(t) == N; };
 	static constexpr int size = N;
 	static constexpr T returnValue = nullptr; 
 };
