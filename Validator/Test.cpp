@@ -13,6 +13,7 @@ int main()
 	
 	std::string s = "TEST";
 	const char* c = "DE97500500000003200029";
+	std::string ibanStr = "DE9750050000A003200029";
 	const char* c1 = "DE975005000000A3200029";
 	std::cout<<length(s.c_str())<<std::endl;
 	std::cout<<length(c)<<std::endl;
@@ -55,10 +56,11 @@ int main()
 	else
 		std::cout<<"BOOL2"<<std::endl;
 	
-	
+	IBAN ibanInvalid(ibanStr);
 	
 	std::cout<<"iban"<<iban.Value()<<std::endl;
 	std::cout<<"iban"<<iban2.Value()<<std::endl;
+	std::cout<<"iban"<<ibanInvalid.Value()<<std::endl;
 	std::cout<<"END"<<(3==1)<<std::endl;
 
     return 0;
