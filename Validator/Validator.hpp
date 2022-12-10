@@ -9,13 +9,11 @@ template<typename Derived, typename Type,typename Level = Error>
 class Vaildator
 { 
 public:
-	template<typename T = Type>
+	static constexpr bool Condition(Type t) {	return Derived::condition(t); }	
+	
 	static constexpr Type Check(Type t, Type defaultValue = returnValue) 
 	{
-		bool condition = Derived::Condition(t);
-		if constexpr (std::is_same<T, bool>::value)
-			return condition;
-		if(condition)
+		if(Condition(t))
 			return t;
 			
 			//~ expect<Level>(false,"Invalid");
@@ -35,7 +33,7 @@ class RangeValidator: public Vaildator<RangeValidator<T,Min,Max>,T>
 public:
 	using Type = T;
 private:
-	static constexpr bool Condition(const T t) { return t >= min && t <= max; };
+	static constexpr bool condition(const T t) { return t >= min && t <= max; };
 	static constexpr T min = Min;
 	static constexpr T max = Max;
 	static constexpr T returnValue = min;
@@ -57,7 +55,7 @@ class SizeValidator: public Vaildator<SizeValidator<N, T>,T>
 public:
 	using Type = T;
 private:
-	static constexpr bool Condition(const T t) { return length(t) == N; };
+	static constexpr bool condition(const T t) { return length(t) == N; };
 	static constexpr int size = N;
 	static constexpr T returnValue = nullptr; 
 };

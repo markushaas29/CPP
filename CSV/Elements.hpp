@@ -70,14 +70,15 @@ class IBAN: public Element
 {
 	static constexpr const char* isValid(const char* iban)
 	{
-		SizeValidator<Length>::Check(iban,Default);
+		if (!SizeValidator<Length>::Condition(iban))
+			//~ return Default;
 		LowerCaseLetterValidator::Check(iban[0]);
 		CapitalLetterValidator::Check(iban[1]);
 		LowerCaseLetterValidator::Check(iban[0]);
 		CapitalLetterValidator::Check(iban[1]);
 
 		for(int i = 2; i < Length; ++i)
-			if(!NumberValidator::Check<bool>(iban[i]))
+			if(!NumberValidator::Condition(iban[i]))
 				return Default;
 			
 		return iban;

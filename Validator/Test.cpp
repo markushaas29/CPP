@@ -47,7 +47,7 @@ int main()
 	expect<Info>(CapitalLetterValidator::Check('Z'), "Z Should be true");	
 	expect<Info>(CapitalLetterValidator::Check('9'), "9 Should not be true");	
 	
-	if(NumberValidator::Check<bool>('9'))
+	if(NumberValidator::Check('9'))
 		std::cout<<"9 is number"<<std::endl;
 	else
 		std::cout<<"BOOL2"<<std::endl;
