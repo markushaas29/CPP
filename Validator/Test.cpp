@@ -16,7 +16,7 @@ int main()
 	const char* c1 = "DE975005000000A3200029";
 	std::cout<<length(s.c_str())<<std::endl;
 	std::cout<<length(c)<<std::endl;
-	static constexpr IBAN iban{"DE97500500000003200029"};
+	static constexpr IBAN iban{"#E97500500000003200029"};
 	static constexpr IBAN iban2{"1X00A00000A00000000000"};	
 	SizeValidator<22>::Check(c);
 	
@@ -46,6 +46,9 @@ int main()
 	expect<Info>(CapitalLetterValidator::Check('A'), "A Should be true");	
 	expect<Info>(CapitalLetterValidator::Check('Z'), "Z Should be true");	
 	expect<Info>(CapitalLetterValidator::Check('9'), "9 Should not be true");	
+	expect<Info>(LetterValidator::Check('a'), "a Should be true");	
+	expect<Info>(LetterValidator::Check('A'), "A Should be true");	
+	expect<Info>(LetterValidator::Check('#'), "9 Should not be true");	
 	
 	if(NumberValidator::Check('9'))
 		std::cout<<"9 is number"<<std::endl;
