@@ -76,7 +76,7 @@ class IBAN: public Element<IBAN>
 public:
 	inline static constexpr uint Length = 22;
 	inline static constexpr const char* Default = "XX00000000000000000000";
-	inline static const std::string Identifier = "IBAN";
+	inline static constexpr const char* Identifier = "IBAN";
 	IBAN(std::string s): IBAN{s.c_str()}
 	{
 		if(!isValid(s.c_str()))
@@ -109,7 +109,7 @@ class BIC: public Element<BIC>
 	using Base = Element<BIC>;
 	friend class Element<BIC>;
 public:
-	inline static const std::string Identifier = "BIC";
+	inline static constexpr const char* Identifier = "BIC";
 	BIC(std::string s): BIC(s.c_str()){};
 	constexpr BIC(const char* c): Element(c){ };
 	constexpr BIC(): Element(""){ };
@@ -125,7 +125,7 @@ class Item: public Element<Item<T>>
 	using Base = Element<Item<T>>;
 	friend class Element<Item<T>>;
 public:
-	inline static const std::string Identifier = "Item";
+	inline static constexpr const char* Identifier = "Item";
 	Key<T> key;
 	Item(std::string s):Base(s.c_str()), key(s){};
 	constexpr Item(const char* c): Base(c){ };
@@ -139,7 +139,7 @@ class Entry: public Element<Entry>
 	using Base = Element<Entry>;
 	friend class Element<Entry>;
 public:
-	inline static const std::string Identifier = "Entry";
+	inline static constexpr const char* Identifier = "Entry";
     Entry(std::string s): Entry(s.c_str()){};
 	constexpr Entry(const char* c): Element(c){ };
     constexpr Entry(): Element(""){};
@@ -153,7 +153,7 @@ class Name: public Element<Name>
 	using Base = Element<Name>;
 	friend class Element<Name>;
 public:
-    inline static const std::string Identifier = "Name";
+    inline static constexpr const char* Identifier = "Name";
     Name(std::string s): Name(s.c_str()){};
 	constexpr Name(const char* c): Element(c){ };
     constexpr Name(): Element(""){};

@@ -153,7 +153,7 @@ namespace DateTimes
 		template<typename ItemT>
 		friend const ItemT& Get(Date const& t);
 		
-		inline static const std::string Identifier = "Date";
+		inline static constexpr const char* Identifier = "Date";
 						
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element(getChars(d,m,y)), tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{    };
