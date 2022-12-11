@@ -99,7 +99,7 @@ public:
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
 	constexpr Element(std::array<char,N> s): size{constLen(s)}, data{s} { };
-	constexpr Element(const char* s): size{constLen(s)}, data{constInit(s)} { Derived::check(s); };
+	constexpr Element(const char* s): size{constLen(Derived::check(s))}, data{constInit(Derived::check(s))} { };
 
 	const std::string Value() const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Begin() { return data.begin(); }

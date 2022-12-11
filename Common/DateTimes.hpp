@@ -60,8 +60,8 @@ namespace DateTimes
 		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}
 		{
-			//~ if(v > max || v == 0)
-				//~ Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
+			if(v > max || v == 0)
+				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
 		operator uint() const { return this->value; }
 	protected:
@@ -217,7 +217,7 @@ namespace DateTimes
 			return false;
 		}
 	private:
-		static constexpr const char* check(const char* iban) { return ""; }
+		static constexpr const char* check(const char* s) { return s; }
 		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
 			std::array<char,512> result= {};

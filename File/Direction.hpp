@@ -133,7 +133,7 @@ namespace Bank
 	protected:
 		PtrType tranferType;
 	private:
-		static constexpr const char* check(const char* iban) { return ""; }
+		static constexpr const char* check(const char* s) { return s; }
 	};
 	
 	class Direction: public DirectionBase<TransferIn,TransferOut,UnknownDirection>

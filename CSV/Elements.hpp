@@ -44,7 +44,7 @@ public:
 	ValueType Current() const { return this->currentPattern; }
 	void setCurrent(ValueType v) { this->currentPattern = v; }
 private:
-	static constexpr const char* check(const char* iban) { return ""; }
+	static constexpr const char* check(const char* s) { return s; }
 	class keyCompare
 	{
 		const std::string key;
@@ -115,7 +115,7 @@ public:
 	constexpr BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
 private:
-	static constexpr const char* check(const char* iban) { return ""; }
+	static constexpr const char* check(const char* s) { return s; }
 };
 
 
@@ -131,7 +131,7 @@ public:
 	constexpr Item(const char* c): Base(c){ };
 	Item* DoCreate(){return this;};
 private:
-	static constexpr const char* check(const char* iban) { return ""; }
+	static constexpr const char* check(const char* s) { return s; }
 };
 
 class Entry: public Element<Entry>
@@ -145,7 +145,7 @@ public:
     constexpr Entry(): Element(""){};
     Entry* DoCreate(){return this;};
 private:
-	static constexpr const char* check(const char* iban) { return ""; }
+	static constexpr const char* check(const char* s) { return s; }
 };
 
 class Name: public Element<Name>
@@ -160,7 +160,7 @@ public:
     Name* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
 private:
-	static constexpr const char* check(const char* iban) { return ""; }
+	static constexpr const char* check(const char* s) { return s; }
 };
 
 template<typename D, typename U, typename TVal = double>
@@ -189,7 +189,7 @@ public:
 	
 	decltype(auto) ID() { return Key; }
 private:
-	static constexpr const char* check(const char* iban) { return ""; }
+	static constexpr const char* check(const char* s) { return s; }
 	Quantity<U> quantity;
 	TVal val;
 	String_::To<TVal> to;
