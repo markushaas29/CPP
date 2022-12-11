@@ -82,7 +82,7 @@ public:
 		if(!isValid(s.c_str()))
 			Logger::Log<Error>("IBAN",s," is invalid!");
 	};
-	constexpr IBAN(const char* c): Element(check(c)){	};
+	constexpr IBAN(const char* c): Element(c){	};
 	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
