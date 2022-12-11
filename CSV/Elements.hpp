@@ -18,11 +18,12 @@
 
 //--------------------------------TYPES------------------------------------------------
 template<typename T = std::string>
-class Key: public Element
+class Key: public Element<Key<T>>
 {
+	using Base = Element<Key<T>>;
 public:
 	inline static const std::string Identifier = "Key";
-	Key(std::string s = ""): Element(s.c_str()) {};
+	Key(std::string s = ""): Base(s.c_str()) {};
 	Key* DoCreate(){return this;};
 	bool operator==(std::string s) const{ return s == this->Value; }
 	bool operator!=(std::string s) const{ return s != this->Value; }
@@ -66,7 +67,7 @@ inline bool operator< (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value()
 template<typename T = std::string>
 inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
 
-class IBAN: public Element
+class IBAN: public Element<IBAN>
 {
 	static constexpr bool isValid(const char* iban)
 	{
@@ -98,7 +99,7 @@ public:
 inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() < rhs.Value(); }
 inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() == rhs.Value(); }
 
-class BIC: public Element
+class BIC: public Element<BIC>
 {
 public:
 	inline static const std::string Identifier = "BIC";
@@ -110,18 +111,20 @@ public:
 
 
 template<typename T = std::string>
-class Item: public Element
+class Item: public Element<Item<T>>
 {
+	using Base = Element<Item<T>>;
 public:
 	inline static const std::string Identifier = "Item";
 	Key<T> key;
-	Item(std::string s):Element(s.c_str()), key(s){};
-	constexpr Item(const char* c): Element(c){ };
+	Item(std::string s):Base(s.c_str()), key(s){};
+	constexpr Item(const char* c): Base(c){ };
 	Item* DoCreate(){return this;};
 };
 
-class Entry: public Element
+class Entry: public Element<Entry>
 {
+	using Base = Element<Entry>;
 public:
 	inline static const std::string Identifier = "Entry";
     Entry(std::string s): Entry(s.c_str()){};
@@ -130,7 +133,7 @@ public:
     Entry* DoCreate(){return this;};
 };
 
-class Name: public Element
+class Name: public Element<Name>
 {
 public:
     inline static const std::string Identifier = "Name";
@@ -142,19 +145,20 @@ public:
 };
 
 template<typename D, typename U, typename T = double>
-class Value: public Element
+class Value: public Element<Value<D,U,T>>
 {
+	using Base = Element<Value<D,U,T>>;
 public:
 	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
-	Value(std::string s = "0.0"): Element(s.c_str()), quantity(this->to(s)) {};
-	Value(T t): Element(std::to_string(t).c_str()), quantity(t) {};
-	Value(Quantity<U> u): Element(std::to_string(u.Value()).c_str()), quantity(u) {};
+	Value(std::string s = "0.0"): Base(s.c_str()), quantity(this->to(s)) {};
+	Value(T t): Base(std::to_string(t).c_str()), quantity(t) {};
+	Value(Quantity<U> u): Base(std::to_string(u.Value()).c_str()), quantity(u) {};
 	const Quantity<U>& GetQuantity() const { return this->quantity; }
 	const T& Get() { return this->val; }
 	static const char* Key;
-	Element* DoCreate() { return this; };
+	Base* DoCreate() { return this; };
 	
 	Value& operator=(const Value& a)
 	{

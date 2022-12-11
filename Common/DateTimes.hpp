@@ -139,7 +139,7 @@ namespace DateTimes
 	
 	using TP = std::chrono::system_clock::time_point;
 	
-	class Date: public Element
+	class Date: public Element<Date>
 	{
 	public:
 		using DayType = DateTimes::Day;

@@ -101,10 +101,11 @@ namespace Bank
 	};
 	
 	template<typename TIn=TransferIn, typename TOut=TransferOut, typename TUnknown=UnknownDirection>
-	class DirectionBase: public Element
+	class DirectionBase: public Element<DirectionBase<TIn,TOut,TUnknown>>
 	{
+		using Base = Element<DirectionBase<TIn,TOut,TUnknown>>;
 	public:
-		DirectionBase(std::string s): Element(s.c_str()), tranferType{Create(*(s.cbegin()))} { };
+		DirectionBase(std::string s): Base(s.c_str()), tranferType{Create(*(s.cbegin()))} { };
 		using Type = DirectionBase;
 		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
 		using PtrType = std::shared_ptr<DirectionType>;

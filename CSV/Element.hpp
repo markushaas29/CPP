@@ -91,9 +91,11 @@ constexpr decltype(auto) IntToChars(uint num)
 	return result;
 }
 //--------------------------------Element------------------------------------------------
+template<typename Derived>
 class Element
 {
 public:
+	using Type = Derived;
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
 	constexpr Element(std::array<char,N> s): size{constLen(s)}, data{s} { };
@@ -135,15 +137,16 @@ private:
 	std::array<char,N> data;
 };
 
-std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}
+template<typename T>
+std::ostream& operator<<(std::ostream& out, const Element<T>& e) {	return out<<e.Value();}
 
 //--------------------------------CreateElementNewPolicy------------------------------------------------
 
-template<class ConcreteProduct, typename T = std::string>
-class CreateElementNewPolicy
-{
-public:
-	static Element* DoCreate(T param){	return new ConcreteProduct(param);	}
-};
+//~ template<class ConcreteProduct, typename T = std::string>
+//~ class CreateElementNewPolicy
+//~ {
+//~ public:
+	//~ static Element* DoCreate(T param){	return new ConcreteProduct(param);	}
+//~ };
 
 #endif
