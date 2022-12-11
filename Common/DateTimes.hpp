@@ -60,8 +60,8 @@ namespace DateTimes
 		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}
 		{
-			if(v > max || v == 0)
-				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
+			//~ if(v > max || v == 0)
+				//~ Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
 		operator uint() const { return this->value; }
 	protected:
@@ -221,20 +221,20 @@ namespace DateTimes
 		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
 			std::array<char,512> result= {};
-			auto day = IntToChars<2>(d);
-			auto month = IntToChars<2>(m);
-			auto year1 = IntToChars<2>(20);
-			auto year = IntToChars<2>(y);
+			//~ auto day = IntToChars<2>(d);
+			//~ auto month = IntToChars<2>(m);
+			//~ auto year1 = IntToChars<2>(20);
+			//~ auto year = IntToChars<2>(y);
 			
-			result[0] = day[0];
-			result[1] = day[1];
-			result[2] = month[0];
-			result[3] = month[1];
-			result[4] = year1[0];
-			result[5] = year[1];
-			result[6] = year[0];
-			result[7] = year[1];
-			result[8] = '\0';
+			//~ result[0] = day[0];
+			//~ result[1] = day[1];
+			//~ result[2] = month[0];
+			//~ result[3] = month[1];
+			//~ result[4] = year1[0];
+			//~ result[5] = year[1];
+			//~ result[6] = year[0];
+			//~ result[7] = year[1];
+			//~ result[8] = '\0';
 			
 			return result;
 		}
