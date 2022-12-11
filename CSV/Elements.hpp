@@ -21,6 +21,7 @@ template<typename T = std::string>
 class Key: public Element<Key<T>>
 {
 	using Base = Element<Key<T>>;
+	friend class Element<Key<T>>; 
 public:
 	inline static const std::string Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
@@ -43,6 +44,7 @@ public:
 	ValueType Current() const { return this->currentPattern; }
 	void setCurrent(ValueType v) { this->currentPattern = v; }
 private:
+	static constexpr const char* check(const char* iban) { return ""; }
 	class keyCompare
 	{
 		const std::string key;
@@ -69,18 +71,8 @@ inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value(
 
 class IBAN: public Element<IBAN>
 {
-	static constexpr bool isValid(const char* iban)
-	{
-		if (!SizeValidator<Length>::Condition(iban) || !LetterValidator::Condition(iban[0]) || !LetterValidator::Condition(iban[1]))
-			return false;
-
-		for(int i = 2; i < Length; ++i)
-			if(!NumberValidator::Condition(iban[i]))
-				return false;
-			
-		return true;
-	}
-	static constexpr const char* check(const char* iban) { return isValid(iban) ? iban : Default; }
+	using Base = Element<IBAN>;
+	friend class Element<IBAN>;
 public:
 	inline static constexpr uint Length = 22;
 	inline static constexpr const char* Default = "XX00000000000000000000";
@@ -94,6 +86,19 @@ public:
 	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
+private:
+	static constexpr bool isValid(const char* iban)
+	{
+		if (!SizeValidator<Length>::Condition(iban) || !LetterValidator::Condition(iban[0]) || !LetterValidator::Condition(iban[1]))
+			return false;
+
+		for(int i = 2; i < Length; ++i)
+			if(!NumberValidator::Condition(iban[i]))
+				return false;
+			
+		return true;
+	}
+	static constexpr const char* check(const char* iban) { return isValid(iban) ? iban : Default; }
 };
 
 inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() < rhs.Value(); }
@@ -101,12 +106,16 @@ inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() ==
 
 class BIC: public Element<BIC>
 {
+	using Base = Element<BIC>;
+	friend class Element<BIC>;
 public:
 	inline static const std::string Identifier = "BIC";
 	BIC(std::string s): BIC(s.c_str()){};
 	constexpr BIC(const char* c): Element(c){ };
 	constexpr BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
+private:
+	static constexpr const char* check(const char* iban) { return ""; }
 };
 
 
@@ -114,27 +123,35 @@ template<typename T = std::string>
 class Item: public Element<Item<T>>
 {
 	using Base = Element<Item<T>>;
+	friend class Element<Item<T>>;
 public:
 	inline static const std::string Identifier = "Item";
 	Key<T> key;
 	Item(std::string s):Base(s.c_str()), key(s){};
 	constexpr Item(const char* c): Base(c){ };
 	Item* DoCreate(){return this;};
+private:
+	static constexpr const char* check(const char* iban) { return ""; }
 };
 
 class Entry: public Element<Entry>
 {
 	using Base = Element<Entry>;
+	friend class Element<Entry>;
 public:
 	inline static const std::string Identifier = "Entry";
     Entry(std::string s): Entry(s.c_str()){};
 	constexpr Entry(const char* c): Element(c){ };
     constexpr Entry(): Element(""){};
     Entry* DoCreate(){return this;};
+private:
+	static constexpr const char* check(const char* iban) { return ""; }
 };
 
 class Name: public Element<Name>
 {
+	using Base = Element<Name>;
+	friend class Element<Name>;
 public:
     inline static const std::string Identifier = "Name";
     Name(std::string s): Name(s.c_str()){};
@@ -142,21 +159,24 @@ public:
     constexpr Name(): Element(""){};
     Name* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
+private:
+	static constexpr const char* check(const char* iban) { return ""; }
 };
 
-template<typename D, typename U, typename T = double>
-class Value: public Element<Value<D,U,T>>
+template<typename D, typename U, typename TVal = double>
+class Value: public Element<Value<D,U,TVal>>
 {
-	using Base = Element<Value<D,U,T>>;
+	using Base = Element<Value<D,U,TVal>>;
+	friend class Element<Value<D,U,TVal>>;
 public:
 	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
 	Value(std::string s = "0.0"): Base(s.c_str()), quantity(this->to(s)) {};
-	Value(T t): Base(std::to_string(t).c_str()), quantity(t) {};
+	Value(TVal t): Base(std::to_string(t).c_str()), quantity(t) {};
 	Value(Quantity<U> u): Base(std::to_string(u.Value()).c_str()), quantity(u) {};
 	const Quantity<U>& GetQuantity() const { return this->quantity; }
-	const T& Get() { return this->val; }
+	const TVal& Get() { return this->val; }
 	static const char* Key;
 	Base* DoCreate() { return this; };
 	
@@ -169,9 +189,10 @@ public:
 	
 	decltype(auto) ID() { return Key; }
 private:
+	static constexpr const char* check(const char* iban) { return ""; }
 	Quantity<U> quantity;
-	T val;
-	String_::To<T> to;
+	TVal val;
+	String_::To<TVal> to;
 };
 
 template<typename D, typename U, typename T = double>

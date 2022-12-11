@@ -141,6 +141,8 @@ namespace DateTimes
 	
 	class Date: public Element<Date>
 	{
+		using Base = Element<Date>;
+		friend class Element<Date>;
 	public:
 		using DayType = DateTimes::Day;
         using MonthType = DateTimes::Month;
@@ -215,6 +217,7 @@ namespace DateTimes
 			return false;
 		}
 	private:
+		static constexpr const char* check(const char* iban) { return ""; }
 		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
 			std::array<char,512> result= {};

@@ -104,6 +104,7 @@ namespace Bank
 	class DirectionBase: public Element<DirectionBase<TIn,TOut,TUnknown>>
 	{
 		using Base = Element<DirectionBase<TIn,TOut,TUnknown>>;
+		friend class Element<DirectionBase<TIn,TOut,TUnknown>>;
 	public:
 		DirectionBase(std::string s): Base(s.c_str()), tranferType{Create(*(s.cbegin()))} { };
 		using Type = DirectionBase;
@@ -132,6 +133,7 @@ namespace Bank
 	protected:
 		PtrType tranferType;
 	private:
+		static constexpr const char* check(const char* iban) { return ""; }
 	};
 	
 	class Direction: public DirectionBase<TransferIn,TransferOut,UnknownDirection>
