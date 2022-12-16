@@ -1,5 +1,6 @@
 #include "Parser.hpp"
 #include "../String/String_.hpp"
+#include "../String/To/To.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.h"
 #include "../Quantity/Quantity.h"
@@ -29,7 +30,7 @@ struct Reading
 	static decltype(auto) Create(const std::string& d, const std::string& v)
 	{
 		auto date = Parsers::Parser<std::string,DateType>::Parse(d);
-		auto value = std::stod(v);
+		auto value = String_::ParseTo<double,std::string>(v);
 				
 		return std::make_shared<Type>(QuantityType(value), DateType(date));
 	}

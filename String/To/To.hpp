@@ -2,11 +2,11 @@
 
 #pragma once
 
-namespace
+namespace String_
 {
 	
 template<typename Target=std::string, typename Source=std::string>
-Target To(Source arg)
+Target ParseTo(Source arg)
 {
 	std::stringstream buf;
 	Target result;
