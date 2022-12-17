@@ -226,6 +226,6 @@ struct Difference
 };
 
 template<typename C, typename S = T::char_<'\t'>>
-std::ostream& operator<<(std::ostream& strm, const Counter<C> c){	return c.Display(strm);}
+std::ostream& operator<<(std::ostream& strm, const Counter<C>& c){	return c.Display(strm);}
 
 #endif
