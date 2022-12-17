@@ -1,5 +1,6 @@
 #include "Element.hpp"
 #include "../String/String_.hpp"
+#include "../String/StringParser.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.h"
 #include "../Validator/Validator.hpp"
@@ -192,7 +193,7 @@ private:
 	static constexpr const char* check(const char* s) { return s; }
 	Quantity<U> quantity;
 	TVal val;
-	String_::To<TVal> to;
+	String_::ParserTo<TVal> to;
 };
 
 template<typename D, typename U, typename T = double>

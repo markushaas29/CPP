@@ -4,6 +4,7 @@
 #include "../Unit/Unit.h"
 #include "../Logger/Logger.hpp"
 #include "../Unit/SIPrefix.hpp"
+#include "../String/StringParser.hpp"
 // #include "../Wrapper/Wrapper.hpp"
 
 #ifndef QUANTITY_H
@@ -15,7 +16,7 @@ struct Quantity
 	using ValueType = T1;
 	using UnitType = U;
 	using UnitPrefix = SiPrefix;
-	using Converter = String_::To<T1>;
+	using Converter = String_::ParserTo<T1>;
 	using Type = Quantity<U,SiPrefix,T1>;	
 	
     //~ const std::string UnitName() {  return UnitType::Name; }

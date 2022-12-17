@@ -1,4 +1,5 @@
 #include "../String/String_.hpp"
+#include "../String/StringParser.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.h"
 #include "../Quantity/Quantity.h"

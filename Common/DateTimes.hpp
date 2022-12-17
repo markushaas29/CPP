@@ -6,6 +6,7 @@
 #include <array>
 #include "../CSV/Element.hpp"
 #include "../String/String_.hpp"
+#include "../String/StringParser.hpp"
 #include "../Validator/Validator.hpp"
 
 #pragma once
@@ -240,7 +241,7 @@ namespace DateTimes
 		}
 		TupleType tt;
 		TP tp;
-		String_::From<uint> converter;
+		String_::ParserFrom<uint> converter;
 	};
 
 	template<typename ItemT>
