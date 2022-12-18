@@ -28,11 +28,10 @@ namespace String_
 	T::Is_<Delimiter> isDelimiter;
 	T::IsNot_<Delimiter> isNotDelimiter;
 		
-	template<typename Type = Delimiter>
-	std::vector<std::string> Split(const std::string strT)
+	
+	std::vector<std::string> Split(const std::string& strT, const std::string& token)
 	{
 		std::vector<std::string> result;		
-		auto token = std::string(1,Type::Value);
 		auto str = std::string(strT);
 		
 		while(str.size())
@@ -54,6 +53,9 @@ namespace String_
 		}
 		return result;
 	};
+	
+	template<typename Type = Delimiter>
+	std::vector<std::string> Split(const std::string& strT) { return Split(strT, std::string(1,Type::Value)); }
 	
 	bool Contains(const std::string& s, const std::string& sub)
 	{
