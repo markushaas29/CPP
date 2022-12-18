@@ -1,4 +1,5 @@
 #include "../String/String_.hpp"
+#include "../String/To/To.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.h"
 #include "../Common/DateTimes.hpp"
@@ -119,7 +120,9 @@ private:
 	{ 
 		auto s = (*begin);
 		auto s2 = *(begin+2);
-		Logger::Log("Add in",s,s2);  
+		auto valueResult = String_::TryTo<double>(s2);
+		Logger::Log("Add in",s,s2,valueResult);  
+		
 		if(s2 != "")
 		{
 			auto reading = ReadingType::Create(s,s2);

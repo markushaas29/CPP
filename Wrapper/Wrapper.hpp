@@ -121,13 +121,13 @@ template<typename T,template<T> class ValueType> struct Value { };
 template<typename Type>
 struct Is_ 
 { 
-	bool operator()(Type::ValueType v) { return v == Type::Value; }
+	bool operator()(typename Type::ValueType v) { return v == Type::Value; }
 };
 
 template<typename Type>
 struct IsNot_ 
 { 
-	bool operator()(Type::ValueType v) { return v != Type::Value; }
+	bool operator()( typename Type::ValueType v) { return v != Type::Value; }
 };
 
 

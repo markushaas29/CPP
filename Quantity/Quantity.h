@@ -5,6 +5,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Unit/SIPrefix.hpp"
 #include "../String/StringParser.hpp"
+#include "../String/String_.hpp"
 // #include "../Wrapper/Wrapper.hpp"
 
 #ifndef QUANTITY_H
@@ -19,8 +20,6 @@ struct Quantity
 	using Converter = String_::ParserTo<T1>;
 	using Type = Quantity<U,SiPrefix,T1>;	
 	
-    //~ const std::string UnitName() {  return UnitType::Name; }
-    //~ const std::string UnitSymbol() { return UnitType::Symbol;}
     const std::string UnitSign() { return U::Sign(); }
     const std::string SiUnit() { return UnitType::SiUnit(); }
     inline static const std::string Identifier = U::Name;
@@ -36,6 +35,12 @@ struct Quantity
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix, typename T2 = T1>
 	Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
+	
+	bool operator<(const Quantity<U,SiPrefix,T1>& y) const { return this->Value() < y.Value(); }
+	bool operator>(const Quantity<U,SiPrefix,T1>& y) const { return this->Value() > y.Value(); }
+	bool operator>=(const Quantity<U,SiPrefix,T1>& y) const { return this->Value() >= y.Value(); }
+	bool operator==(const Quantity<U,SiPrefix,T1>& y) const { return this->Value() == y.Value(); }
+	bool operator!=(const Quantity<U,SiPrefix,T1>& y) const { return !(this->Value() == y.Value()); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
 	Quantity<U,SiPrefix,T1> operator+(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,SiPrefix,T1>(this->Value() + y.Value()); }
@@ -71,29 +76,11 @@ struct Quantity
 		return Quantity<typename Transform< U, U2, DividePolicy>::Type, SiPrefix,T1>(this->Value() / q.Value());
 	}
 	
-// 	template<typename Separator = T::char_<';'>>
-// 	std::ostream& Display(std::ostream& out) const
-// 	{
-// // 		auto output = std::string(std::string(this->Value()) + std::string(Separator::Value) + UnitPrefix::Sign + UnitType::Sign());
-// 		out<<this->Value()<<Separator::Value<<UnitPrefix::Sign<<UnitPrefix::Sign<<UnitType::Sign();
-// // 		out<<output<<std::endl;
-// 		return out;
-// 	}
-	
-// 	template<typename Separator = T::char_<';'>>
-// 	std::ostream& Display(std::ostream& out) const
-// 	{
-// // 		out<<Date<<Separator::Value<<QuantityValue.Display(out)<<std::endl;
-// // 		out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<U::Sign()<<std::endl;
-// 		
-// 		return out;
-// 	}
 private:
 	T1 value;
 	
 };
 
-// template<typename U, typename T = double>
 template<typename U, typename SiPrefix = SIPrefix<0>,typename T1 = double>
 std::ostream& operator<<(std::ostream& out, const Quantity<U,SiPrefix,T1>& q)
 {

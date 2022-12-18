@@ -10,8 +10,7 @@
 #include "../Traits/Traits.h"
 #include "../Typelist/Typelist.h"
 
-#ifndef STRING_H
-#define STRING_H
+#pragma once
 
 namespace String_
 {
@@ -61,19 +60,6 @@ namespace String_
 		return s.find(sub) != std::string::npos; 
 	}
 	
-	std::wstring utf8_to_wstring(const std::string& s)
-	{
-		std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-		return conv.from_bytes(s);
-	}
-	
-	std::wstring to_wstring(const std::string& s, const std::locale& loc= std::locale())
-	{
-		std::vector<wchar_t> buf(s.size());
-		std::use_facet<std::ctype<wchar_t>>(loc).widen(s.data(), s.data() + s.size(), buf.data());
-		return std::wstring(buf.data(),buf.size());
-	}
-	
 	template<typename T = char>
 	bool Compare(const std::string& s1, const std::string& s2)
 	{
@@ -107,5 +93,3 @@ namespace String_
 	
 	using CommaToPoint = Replace<Comma,Point>;
 }
-
-#endif

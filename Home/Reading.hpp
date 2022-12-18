@@ -39,6 +39,11 @@ struct Reading
 	decltype(auto) operator-(const Type& left) const {return Result<Subtraction,Type,Type,QuantityType>(*this,left, this->QuantityValue - left.QuantityValue);}
 	decltype(auto) operator*(const Type& left) const {return Result<Multiplication,Type,Type,decltype(this->QuantityValue * left.QuantityValue)>(*this,left, this->QuantityValue * left.QuantityValue);}
 	decltype(auto) operator/(const Type& left) const {return Result<Division,Type,Type,decltype(this->QuantityValue / left.QuantityValue)>(*this,left, this->QuantityValue / left.QuantityValue);}
+	
+	bool operator>(const Type& left) const {return this->QuantityValue > left.QuantityValue;}
+	bool operator<(const Type& left) const {return this->QuantityValue < left.QuantityValue;}
+	bool operator==(const Type& left) const {return this->QuantityValue == left.QuantityValue;}
+	bool operator!=(const Type& left) const {return !(this->QuantityValue == left.QuantityValue);}
 };
 
 template<typename U, typename Pre = SIPrefix<0>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>

@@ -197,7 +197,8 @@ namespace DateTimes
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y));
 		}
 		
-		
+		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
+
 		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
@@ -251,7 +252,7 @@ namespace DateTimes
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T>& s){	return out<<s.Value();	}
 
-std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return out<<d.Value();	}
+std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return d.Display(out);	}
 
 namespace Parsers
 {

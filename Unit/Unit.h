@@ -2,8 +2,7 @@
 #include <iostream>
 #include "../Logger/Logger.hpp" 
 
-#ifndef UNIT_H
-#define UNIT_H
+#pragma once
 
 typedef int dimension[8];
 
@@ -174,4 +173,3 @@ struct DividePolicy
 	static constexpr int N = D1::N - D2::N;
 };
 
-#endif
