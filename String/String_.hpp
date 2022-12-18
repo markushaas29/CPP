@@ -29,18 +29,19 @@ namespace String_
 	T::IsNot_<Delimiter> isNotDelimiter;
 		
 	
-	std::vector<std::string> Split(const std::string& strT, const std::string& token)
+	std::vector<std::string> Split(const std::string& strT, const char token)
 	{
-		std::vector<std::string> result;		
+		std::vector<std::string> result;	
+		auto stringToken = std::string(1,token);	
 		auto str = std::string(strT);
 		
 		while(str.size())
 		{
-			size_t index = str.find(token);
+			size_t index = str.find(stringToken);
 			if(index!=std::string::npos)
 			{
 				result.push_back(str.substr(0,index));
-				str = str.substr(index+token.size());
+				str = str.substr(index+stringToken.size());
 				
 				if(str.size()==0)
 					result.push_back(str);
@@ -55,7 +56,7 @@ namespace String_
 	};
 	
 	template<typename Type = Delimiter>
-	std::vector<std::string> Split(const std::string& strT) { return Split(strT, std::string(1,Type::Value)); }
+	std::vector<std::string> Split(const std::string& strT) { return Split(strT, Type::Value); }
 	
 	bool Contains(const std::string& s, const std::string& sub)
 	{

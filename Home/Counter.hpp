@@ -122,8 +122,11 @@ private:
 		auto s2 = *(begin+2);
 		auto valueResult = String_::TryTo<double>(s2);
 		Logger::Log("Add in",s,s2,valueResult);  
+		//~ auto first = readings->cbegin();
+		//~ if(first != readings->cend())
+			//~ Logger::Log("Reading Comparison",*reading," > ",**first, (*reading > **first));
 		
-		if(s2 != "")
+		if(valueResult.Valid)
 		{
 			auto reading = ReadingType::Create(s,s2);
 			addReading(reading);
@@ -133,6 +136,7 @@ private:
 	
 	void addReading(DataType reading)
 	{
+			
 		readings->push_back(reading);
 		std::sort(readings->begin(), readings->end(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
 		Logger::Log<Info>("Reading added",Name, *reading);

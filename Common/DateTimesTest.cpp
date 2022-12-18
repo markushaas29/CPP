@@ -26,6 +26,15 @@ int main()
 	std::cout<<"TODAY"<<DateTimes::Date::Today()<<std::endl;
 	std::cout<<"TODAY"<<DateTimes::Date(32,15,3001)<<std::endl;
 	
+	std::cout<<"Extract"<<DateTimes::Date("20.11.2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2.11.2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2.1.2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2.01.2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2,11,2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2;11;2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2/11/2022")<<std::endl;
+	std::cout<<"Extract"<<DateTimes::Date("2112022")<<std::endl;
+	
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);

@@ -7,11 +7,10 @@
 #include "../CSV/Element.hpp"
 #include "../String/String_.hpp"
 #include "../String/StringParser.hpp"
+#include "../String/To/To.hpp"
 #include "../Validator/Validator.hpp"
 
 #pragma once
-//~ #ifndef DATETIMES_HPP
-//~ #define DATETIMES_HPP
 
 static std::array<char,512> Chars(uint d = 0, uint m = 0, uint y = 0)
 {
@@ -39,6 +38,13 @@ static std::array<char,512> Chars(uint d = 0, uint m = 0, uint y = 0)
 			//~ std::array<char,512> result = {day[0], day[1], month[0], month[1], year1[0], year[1], year[0], year[1],'\0'};
 			return result;
 		}
+
+
+namespace Parsers
+{
+	template<typename, typename, typename>
+	struct Parser;
+}
 
 namespace DateTimes
 {
@@ -154,10 +160,13 @@ namespace DateTimes
 		template<typename ItemT>
 		friend const ItemT& Get(Date const& t);
 		
+		template<typename, typename, typename>
+		friend class Parsers::Parser;
+
 		inline static constexpr const char* Identifier = "Date";
 						
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element(getChars(d,m,y)), tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
-		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{Extract(s)}{    };
+		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}{    };
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date("", 0,0, 0) { };
 		Date* DoCreate(){return this;};
@@ -174,28 +183,8 @@ namespace DateTimes
 		{
 			std::time_t t = std::time(0);
 			std::tm* now = std::localtime(&t);
-			return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));
-			
+			return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));			
 		} 
-		
-		static TupleType Extract(const std::string& s)
-		{
-			uint d, m, y;
-			
-			std::string res;
-			for(auto c : s)
-				if(isdigit(c))
-					res += c;
-			
-			if(res.size() > 0)
-			{
-				d = std::stoul(std::string(res.begin(),res.begin()+2));
-				m = std::stoul(std::string(res.begin()+3,res.begin()+4));
-				y = std::stoul(std::string(res.begin()+4,res.begin()+8));
-			}
-			
-			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y));
-		}
 		
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
 
@@ -218,7 +207,49 @@ namespace DateTimes
 			}
 			return false;
 		}
+		
 	private:
+		static TupleType extract(const std::string& s)
+		{
+			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
+			if(it != s.cend())
+				return extractBySeparation(s,*it);
+			else
+				return extractByValue(s);				
+		}
+		
+		static TupleType extractBySeparation(const std::string& s, const char token)
+		{
+			auto values = String_::Split(s,token);
+			
+			if(values.size() == 3)
+				return createTuple(values.at(0),values.at(1),values.at(2));
+			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day{1},DateTimes::Month{1},DateTimes::Year{1900});
+		}
+		
+		static TupleType extractByValue(const std::string& s)
+		{
+			std::string res;
+										
+			for(auto c : s)
+				if(isdigit(c))
+					res += c;
+			
+			if(res.size() > 0)
+			{
+				if(res.size() < 8)
+					Logger::Log<Warning>("Date: ", s, " separated by value and might not be valid!");  
+				return createTuple(std::string(res.begin(),res.begin()+2), std::string(res.begin()+2,res.begin()+4),std::string(res.begin()+4,res.begin()+8));
+				
+			}
+			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day{1},DateTimes::Month{1},DateTimes::Year{1900});			
+		}
+		
+		static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)
+		{
+			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(String_::ParseTo<uint>(d)),DateTimes::Month(String_::ParseTo<uint>(m)),DateTimes::Year(String_::ParseTo<uint>(y)));
+		}
+		
 		static constexpr const char* check(const char* s) { return s; }
 		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
 		{
@@ -255,15 +286,11 @@ std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T>& s)
 std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return d.Display(out);	}
 
 namespace Parsers
-{
-	template<typename, typename, typename>
-	struct Parser;
-	
+{	
 	template<>
 	struct Parser<std::string, DateTimes::Date,std::string>
 	{
-		static DateTimes::Date Parse(std::string s) { return DateTimes::Date(s, DateTimes::Date::Extract(s)); }
+		static DateTimes::Date Parse(std::string s) { return DateTimes::Date(s, DateTimes::Date::extract(s)); }
 	};
 }
 
-//~ #endif
