@@ -1,2 +1,5 @@
 *.o
 Debug
+Bottom.txt Ctr.txt F.txt Logging.txt Middle.txt out.txt Top.txt Wall.txt
+Debug
+Release
