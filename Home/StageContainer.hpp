@@ -92,15 +92,7 @@ public:
 	}
 	
 	template<typename AllT, template<typename> class CalcT>
-	void CalculateInternal()
-	{
-		struct Config
-		{
-			using Stage = Head;
-			using All = AllT;
-		};
-		CalcT<Type>::Instance();
-	}
+	void CalculateInternal(){	CalcT<Type>::Instance(); }
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
 	{
@@ -162,11 +154,6 @@ public:
 	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
-		struct Config
-		{
-			using Stage = Head;
-			using All = AllT;
-		};
 		CalcT<Type>::Instance();
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
