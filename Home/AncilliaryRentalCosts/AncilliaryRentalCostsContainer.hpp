@@ -8,6 +8,7 @@
 #include "../../Calculator/Calculator.hpp"
 #include "../../Calculator/Operations.hpp"
 #include "../../Common/DateTimes.hpp"
+#include "../../Common/Configuration.hpp"
 #include "../../File/Raiba.hpp"
 #include "../../File/Account.hpp"
 
@@ -20,6 +21,7 @@ class AncilliaryRentalCostsContainer
 {
 public:
 	using Type = AncilliaryRentalCostsContainer;
+	using Config = Configuration<AncilliaryRentalCostsContainer>;
 	using StageT = S;
 	using Items = CalculationItems<S>;
 	template<typename T>
@@ -33,7 +35,7 @@ public:
 		
 private:
 	std::unique_ptr<Items> items = std::unique_ptr<Items>();
-	AncilliaryRentalCostsContainer(): year(2021)
+	AncilliaryRentalCostsContainer(): year(2022)
 	{ 
 		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
@@ -90,12 +92,11 @@ private:
 		else 
 		{
 			auto item = std::get<I>(*items);
-			auto y = DateTimes::Year(2021);
-			auto result = decltype(item)::Calculate(y);
+			auto result = decltype(item)::Calculate(year);
 			
 			total = total + result.Get();
 			Logger::Log<Info>("Sum: ", result.Get()," Total", total);
-			(*fs)<<decltype(item)::Result(y)<<std::endl;
+			(*fs)<<decltype(item)::Result(year)<<std::endl;
 			
 			return Calculate<I + 1>(std::move(fs), *items);
 		}
