@@ -43,7 +43,7 @@ namespace CSV
 		using FileTypes = Configuration::Repository::FileTypes;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
-		using Parsers = Typelist<InputManager<Counter>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
+		using Parsers = Typelist<InputManager<Counter>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<Configuration::Raiba>, Bank::Comdirect<0>,StageContainerType>::Type;
 		using ParserContainer = FS::FileTypeContainer<Parsers>;
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
@@ -164,7 +164,7 @@ namespace CSV
 	{
 		for (auto it = Repository::visitors.begin(); it != Repository::visitors.end(); it++)
 		{
-			Logger::Log<Info>("ID: ", Bank::Raiba<0>::Identifier);
+			Logger::Log<Info>("ID: ", Bank::Raiba<Configuration::Raiba>::Identifier);
 			if(it->second.Identifier() == T::Identifier)
 			{
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());

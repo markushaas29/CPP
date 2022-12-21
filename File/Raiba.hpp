@@ -22,10 +22,9 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {	
-	template<unsigned int N = 0>
+	template<typename N>
 	struct Raiba: public Account<Raiba<N>>
 	{
-		static constexpr uint Num = N;
 		using TransferItems = Configuration::Account::TransferType;
 		using TransferType = Transfer<Raiba, TransferItems>;
 		using IsOutTransferSign = T::char_<'S'>;

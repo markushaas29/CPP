@@ -16,6 +16,7 @@
 #include "../../Home/StageQuantities.hpp"
 #include "../../File/Raiba.hpp"
 #include "../../File/Account.hpp"
+#include "../../Common/Configuration.hpp"
 
 #ifndef ANCILLIARYRENTALCOST_HPP
 #define ANCILLIARYRENTALCOST_HPP
@@ -35,7 +36,7 @@ struct AncilliaryRentalCostItemBase
 	using Type = Derived;
 	using StageType = StageT;
 	using StageQuantity = Q;
-	using AccountType = Bank::Raiba<0>;
+	using AccountType = Bank::Raiba<Configuration::Raiba>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,StageType,StageQuantity,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static Name TypeIdentifier = Name{""};

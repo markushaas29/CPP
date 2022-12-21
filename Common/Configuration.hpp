@@ -5,6 +5,7 @@ namespace FS
 	struct KEYS;
 	struct CPP;
 	struct HPP;
+	struct H;
 	struct CTRV;
 	struct CSV;
 	struct XLSX;
@@ -35,6 +36,11 @@ struct Configuration
 	struct Account
 	{
 		using TransferType = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>;
+	};
+	
+	struct Raiba
+	{
+		inline static constexpr IBAN iban{"DE19660623660009232702"};
 	};
 	
 	struct Backup

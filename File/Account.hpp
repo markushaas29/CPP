@@ -72,7 +72,7 @@ namespace Bank
 			[&](InputIterator begin, InputIterator end){ ReadKeyPatterns(begin,end); }, 
 			[&](const std::string& s){ return Get(s); })));
 			
-			Logger::Log<Info>("Register", Identifier, Derived::Num);
+			//~ Logger::Log<Info>("Register", Identifier, Derived::Num);
 		}	
 		
 		static Account& Instance()

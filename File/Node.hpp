@@ -105,7 +105,7 @@ namespace FS
 		};
 	
 		
-		std::vector<std::string> Read() const {	return FS::ReadLines(this->info.Path());};
+		std::vector<std::string> Read() const {	return ReadLines(this->info.Path());};
 		void Write(std::vector<std::string> lines)	{	};
 		
 		template<typename ParseType, typename ParseTypeContainer = ParseType::ParseCont>

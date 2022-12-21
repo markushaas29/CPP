@@ -11,6 +11,7 @@
 #include "FileSystem.hpp"
 #include "../Home/House.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Common/Configuration.hpp"
 
 using namespace FS;
 
@@ -35,8 +36,8 @@ int main()
 	auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
     CSV::Repository::Instance();
 
-	std::cout<<"\n TEST ID"<<Bank::Raiba<0>::Identifier<<std::endl;
-	CSV::Get<Bank::Raiba<0>>();
+	std::cout<<"\n TEST ID"<<Bank::Raiba<Configuration::Raiba>::Identifier<<std::endl;
+	CSV::Get<Bank::Raiba<Configuration::Raiba>>();
 	std::cout<<"\n TEST Transfers"<<std::endl;
 	
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;
