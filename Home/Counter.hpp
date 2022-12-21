@@ -122,9 +122,6 @@ private:
 		auto s2 = *(begin+2);
 		auto valueResult = String_::TryTo<double>(s2);
 		Logger::Log("Add in",s,s2,valueResult);  
-		//~ auto first = readings->cbegin();
-		//~ if(first != readings->cend())
-			//~ Logger::Log("Reading Comparison",*reading," > ",**first, (*reading > **first));
 		
 		if(valueResult.Valid)
 		{

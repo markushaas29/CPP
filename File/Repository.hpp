@@ -11,7 +11,6 @@
 #include "FileTypeContainer.hpp"
 #include "FileSystem.hpp"
 #include "Info.hpp"
-#include "Node.hpp"
 #include "Comdirect.hpp"
 #include "AccountContainer.hpp"
 #include "Raiba.hpp"
@@ -26,6 +25,7 @@
 #include "../Home/CounterContainer.hpp"
 #include "../Home/StageContainer.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Common/Configuration.hpp"
 #include "../Visitor/Visitor.hpp"
 
 
@@ -40,7 +40,7 @@ namespace CSV
 	struct Repository
 	{
 		using InputIterator = std::vector<std::string>::const_iterator;
-		using FileTypes = Typelist<FS::INPUT,FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
+		using FileTypes = Configuration::Repository::FileTypes;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
 		using Parsers = Typelist<InputManager<Counter>,CE1,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Custom<0>, Bank::Raiba<0>, Bank::Comdirect<0>,StageContainerType>::Type;
@@ -126,8 +126,7 @@ namespace CSV
 		Repository()	
 		{ 
 			Logger::Log<Info>("Repository constructor");
-			std::string csv = "/home/markus/Downloads/CSV_Files";
-			Map(csv);
+			Map(std::string(Configuration::Repository::SourcePath));
 			Register();
 			ParseAll();	
 		};
@@ -184,7 +183,7 @@ namespace Backup
 {
 	struct Repository
 	{
-		using FileTypes = Typelist<FS::XLSX,FS::XLS,FS::JPG,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP,FS::PDF>::Type;
+		using FileTypes = Configuration::Backup::FileTypes;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 	
 		static Repository& Instance()

@@ -21,7 +21,6 @@ class AncilliaryRentalCostsContainer
 {
 public:
 	using Type = AncilliaryRentalCostsContainer;
-	using Config = Configuration<AncilliaryRentalCostsContainer>;
 	using StageT = S;
 	using Items = CalculationItems<S>;
 	template<typename T>
