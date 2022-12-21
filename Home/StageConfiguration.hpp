@@ -43,7 +43,7 @@ struct StageConfiguration
 };
 
 struct TopConfiguration:StageConfiguration<TopConfiguration, CTCW, CTHW, CVat,2,58,5,70,40,TOP> { };
-struct MiddleConfiguration:StageConfiguration<MiddleConfiguration,CMCW, CMHW, CE1,1,101,7,100,30,MIDDLE> { };
-struct BottomConfiguration:StageConfiguration<BottomConfiguration,CBCW, CBHW, CE1,0,101,7,100,30,BOTTOM> { };
+struct MiddleConfiguration:StageConfiguration<MiddleConfiguration,CMCW, CMHW, CEHouse,1,101,7,100,30,MIDDLE> { };
+struct BottomConfiguration:StageConfiguration<BottomConfiguration,CBCW, CBHW, CEHouse,0,101,7,100,30,BOTTOM> { };
 
 #endif

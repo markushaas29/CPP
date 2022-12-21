@@ -57,7 +57,8 @@ struct CounterConfiguration
 };
 
 using GasConfiguration = CounterConfiguration<Gas,1202757, Volume>;
-using EnBWEnergyConfiguration = CounterConfiguration<Energy,21740069, Work>;
+using EnBWHouseEnergyConfiguration = CounterConfiguration<Energy,21740069, Work>;
+using EnBWHallEnergyConfiguration = CounterConfiguration<Energy,11256983, Work>;
 using VattenfallEnergyConfiguration = CounterConfiguration<Energy,11144078, Work>;
 using AllWaterConfiguration = CounterConfiguration<Water,18061860, Volume>;
 using OWaterConfiguration = CounterConfiguration<Water,279638, Volume>;

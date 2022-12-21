@@ -41,7 +41,7 @@ int main()
     std::cout<<"b: "<<GetStage<Bottom,Persons>().GetQuantity()<<std::endl;
     std::cout<<"TOTAL: "<<StageContainerType::Instance().GetTotal<Persons>()<<std::endl;
 	
-	CSV::Get<CE1>();
+	CSV::Get<CEHouse>();
 	
 	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
     std::cout<<"END"<<std::endl;
