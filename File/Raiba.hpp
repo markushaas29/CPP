@@ -13,6 +13,7 @@
 #include "../String/String_.hpp"
 #include "../Home/Parser.hpp"
 #include "../String/Parser.hpp"
+#include "../Common/Configuration.hpp"
 
 #ifndef RAIBA_HPP
 #define RAIBA_HPP
@@ -21,15 +22,15 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {	
-	template<unsigned int N = 0, typename TransferT = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>>
-	struct Raiba: public Account<Raiba<N>, TransferT>
+	template<unsigned int N = 0>
+	struct Raiba: public Account<Raiba<N>>
 	{
 		static constexpr uint Num = N;
-		using TransferTypes = TransferT;
-		using TransferType = Transfer<Raiba,TransferTypes>;
+		using TransferItems = Configuration::Account::TransferType;
+		using TransferType = Transfer<Raiba, TransferItems>;
 		using IsOutTransferSign = T::char_<'S'>;
-		using Base = Account<Raiba<N>, TransferTypes>;
-		friend class Account<Raiba<N>, TransferTypes>;
+		using Base = Account<Raiba<N>>;
+		friend class Account<Raiba<N>>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";

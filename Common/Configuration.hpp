@@ -16,6 +16,12 @@ namespace FS
 	struct DOCX;
 	struct PDF;
 }
+
+namespace Bank
+{
+	struct Direction;
+}
+
 #pragma once
 
 struct Configuration
@@ -24,6 +30,11 @@ struct Configuration
 	{
 		inline static constexpr const char* SourcePath = "/home/markus/Downloads/CSV_Files";
 		using FileTypes = Typelist<FS::INPUT,FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
+	};
+	
+	struct Account
+	{
+		using TransferType = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>;
 	};
 	
 	struct Backup

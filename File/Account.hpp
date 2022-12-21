@@ -19,6 +19,7 @@
 #include "../Visitor/Visitor.hpp"
 #include "../String/String_.hpp"
 #include "../CSV/KeyIndex.hpp"
+#include "../Common/Configuration.hpp"
 
 #ifndef ACCOUNT_HPP
 #define ACCOUNT_HPP
@@ -30,9 +31,10 @@ namespace Bank
 	template<typename A, typename T>
 	decltype(auto) Get(const T& t){	return A::cont[t];	};
 	
-	template<typename Derived, typename TransferT>
+	template<typename Derived>
 	class Account
 	{
+		using TransferItems = Configuration::Account::TransferType;
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
 		Key<std::string> owner;
@@ -40,11 +42,11 @@ namespace Bank
 		BIC bic;
 		
 		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
-		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferT>;
+		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 	public:
-		using Type = Account<Derived,TransferT> ;
-		using TransferType = Transfer<Derived, TransferT>;
-		using TupleType = TransferT;
+		using Type = Account<Derived> ;
+		using TransferType = Transfer<Derived, TransferItems>;
+		using TupleType = TransferItems;
 		using KeyType = IBAN;
 		using AccountContainerType = AccountContainer<TransferType>;
 		using QuantityType = Quantity<Sum>;

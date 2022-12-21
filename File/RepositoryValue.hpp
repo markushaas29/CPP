@@ -7,11 +7,9 @@
 
 namespace FS
 {
-	//~ template<typename Iterator = std::vector<std::string>::const_iterator>
 	class RepositoryValue
 	{
 	public:
-		//~ RepositoryValue() = delete;
 		RepositoryValue() = default;
 		RepositoryValue(const std::string n): _name{n} {};
 		virtual const std::string& Name() { return _name ; }
@@ -23,7 +21,6 @@ namespace FS
 		const std::string _name;
 	};
 	
-	//~ template<typename C, typename S = T::char_<'\t'>>
 	std::ostream& operator<<(std::ostream& strm, const RepositoryValue& rv){	return rv.Display(strm); }
 	
 	template<typename T = int>

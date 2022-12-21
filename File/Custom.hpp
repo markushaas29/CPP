@@ -11,6 +11,7 @@
 #include "../Typelist/Typelist.h"
 #include "../Visitor/Visitor.hpp"
 #include "../String/String_.hpp"
+#include "../Common/Configuration.hpp"
 
 #ifndef CUSTOM_HPP
 #define CUSTOM_HPP
@@ -19,15 +20,15 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	template<unsigned int N = 0, typename TransferT = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>>
-	struct Custom: public Account<Custom<N>, TransferT>
+	template<unsigned int N = 0>
+	struct Custom: public Account<Custom<N>>
 	{
 		static constexpr uint Num = N;
-		using TransferTypes = TransferT;
+		using TransferTypes = Configuration::Account::TransferType;
 		using TransferType = Transfer<Custom,TransferTypes>;
 		using IsOutTransferSign = T::char_<'-'>;
-		using Base = Account<Custom<N>, TransferTypes>;
-		friend class Account<Custom<N>, TransferTypes>;
+		using Base = Account<Custom<N>>;
+		friend class Account<Custom<N>>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "RaibaKonten2021_1.csv";
