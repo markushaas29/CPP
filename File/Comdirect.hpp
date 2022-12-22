@@ -22,16 +22,17 @@ namespace fs = std::filesystem;
 namespace Bank
 {
 	//-----------------------------------------------------------------------------------------------Tranfers-----------------------------------------------------------------------
-	template<unsigned int N = 0>
-	struct Comdirect: public Account<Comdirect<N>>
+
+	template<typename Config>
+	struct Comdirect: public Account<Comdirect<Config>>
 	{
-		static constexpr uint Num = N;
+		using Type = Config;
 		using TransferTypes = Configuration::Account::TransferType;
 		using TransferType = Transfer<Comdirect,TransferTypes>;
 		using IsOutTransferSign = T::char_<'-'>;
-		using Base = Account<Comdirect<N>>;
+		using Base = Account<Comdirect<Config>>;
 		using TextSeparator = T::char_<' '> ;
-		friend class Account<Comdirect<N>>;
+		friend class Account<Comdirect<Config>>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "Umsaetze_DE832004113306947527";
