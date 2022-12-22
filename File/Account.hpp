@@ -41,7 +41,6 @@ namespace Bank
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
 		Key<std::string> owner;
-
 		BIC bic;
 		
 	public:
