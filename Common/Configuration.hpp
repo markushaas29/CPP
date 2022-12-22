@@ -45,10 +45,10 @@ struct Configuration
 		//~ {
 		//~ };
 		
-		//~ struct Private
-		//~ {
-			//~ inline static constexpr IBAN iban{"DE05660623660009331409"};
-		//~ };
+		struct Private
+		{
+			inline static constexpr IBAN iban{"DE05660623660009331409"};
+		};
 	};
 	
 	struct Comdirect
