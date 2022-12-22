@@ -12,7 +12,6 @@
 #include "../File/RepositoryValue.hpp"
 #include "../Logger/Logger.hpp"
 #include "../File/Node.hpp"
-#include "../Calculator/Calculator.hpp"
 #include "../Typelist/Typelist.h"
 #include "../Unit/Unit.h"
 #include "../Quantity/Quantity.h"

@@ -22,14 +22,15 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {	
-	template<typename N>
-	struct Raiba: public Account<Raiba<N>>
+	template<typename Config>
+	struct Raiffeisenbank: public Account<Raiffeisenbank<Config>>
 	{
+		using Type = Config;
 		using TransferItems = Configuration::Account::TransferType;
-		using TransferType = Transfer<Raiba, TransferItems>;
+		using TransferType = Transfer<Raiffeisenbank, TransferItems>;
 		using IsOutTransferSign = T::char_<'S'>;
-		using Base = Account<Raiba<N>>;
-		friend class Account<Raiba<N>>;
+		using Base = Account<Raiffeisenbank<Type>>;
+		friend class Account<Raiffeisenbank<Type>>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
@@ -50,16 +51,16 @@ namespace Bank
 			return (it)->second;
 		}
 	public:
-		static Raiba& Instance()
+		static Raiffeisenbank& Instance()
 		{
-			static Raiba instance;
+			static Raiffeisenbank instance;
 			return instance;
 		}
 	private:
-		Raiba()	{ 	};
-		~Raiba()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
-		Raiba& operator=(const Raiba&) = delete;
-		Raiba(const Raiba& c) = delete;
+		Raiffeisenbank()	{ 	};
+		~Raiffeisenbank()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Raiffeisenbank& operator=(const Raiffeisenbank&) = delete;
+		Raiffeisenbank(const Raiffeisenbank& c) = delete;
 	
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);

@@ -4,7 +4,7 @@
 #include "../Fraction/Fraction.h"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Logger/Logger.hpp"
-#include "../File/Raiba.hpp"
+#include "../File/Raiffeisenbank.hpp"
 #include "../Common/DateTimes.hpp"
 
 #ifndef OPERATIONS_HPP

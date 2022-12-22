@@ -38,9 +38,22 @@ struct Configuration
 		using TransferType = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>;
 	};
 	
-	struct Raiba
+	struct Raiffeisenbank
 	{
 		inline static constexpr IBAN iban{"DE19660623660009232702"};
+		//~ struct House
+		//~ {
+		//~ };
+		
+		//~ struct Private
+		//~ {
+			//~ inline static constexpr IBAN iban{"DE05660623660009331409"};
+		//~ };
+	};
+	
+	struct Comdirect
+	{
+		inline static constexpr IBAN iban{"DE83200411330694752700"};
 	};
 	
 	struct Backup

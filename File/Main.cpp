@@ -6,7 +6,7 @@
 #include <vector>
 #include <cstdlib>
 #include <unordered_map>
-#include "Raiba.hpp"
+#include "Raiffeisenbank.hpp"
 #include "Repository.hpp"
 #include "FileSystem.hpp"
 #include "../Home/House.hpp"
@@ -36,8 +36,8 @@ int main()
 	auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
     CSV::Repository::Instance();
 
-	std::cout<<"\n TEST ID"<<Bank::Raiba<Configuration::Raiba>::Identifier<<std::endl;
-	CSV::Get<Bank::Raiba<Configuration::Raiba>>();
+	std::cout<<"\n TEST ID"<<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>::Identifier<<std::endl;
+	CSV::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>();
 	std::cout<<"\n TEST Transfers"<<std::endl;
 	
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;

@@ -204,17 +204,25 @@ template<>
 void InputManager<Counter>::Parse(InputIterator begin, InputIterator end)
 {
 	Instance();
-	auto it = begin;
-	auto dateLine = String_::Split<T::char_<':'>>(*it);
-	auto date = dateLine.cbegin() + 1 != dateLine.cend() ? dateLine[1] : "1.1.2022" ;
-	++it;
-	for(; it != end; ++it)
+		Logger::Log<Error>("CATCHED");
+	try
 	{
-		auto vals = String_::Split<T::char_<':'>>(*it);
-		auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
-		values.insert(values.begin(), date);
-		(*visitors)[vals[0]]->Add(values.cbegin(),values.cend());
+		auto it = begin;
+		auto dateLine = String_::Split<T::char_<':'>>(*it);
+		auto date = dateLine.cbegin() + 1 != dateLine.cend() ? dateLine[1] : "1.1.2022" ;
+		++it;
+		for(; it != end; ++it)
+		{
+			auto vals = String_::Split<T::char_<':'>>(*it);
+			auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
+			values.insert(values.begin(), date);
+			(*visitors)[vals[0]]->Add(values.cbegin(),values.cend());
+		}
 	}
+	catch(const std::exception& e)
+	{
+	}
+		Logger::Log<Error>("CATCHED");
 }
 
 struct CurrentValue

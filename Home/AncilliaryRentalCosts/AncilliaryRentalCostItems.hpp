@@ -2,7 +2,6 @@
 #include <memory>
 #include "AncilliaryRentalCostResult.hpp"
 #include "../Stage.hpp"
-#include "../../Calculator/Calculator.hpp"
 #include "../../Calculator/Operations.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
@@ -14,7 +13,7 @@
 #include "../../Unit/SIPrefix.hpp"
 #include "../../Wrapper/Wrapper.hpp"
 #include "../../Home/StageQuantities.hpp"
-#include "../../File/Raiba.hpp"
+#include "../../File/Raiffeisenbank.hpp"
 #include "../../File/Account.hpp"
 #include "../../Common/Configuration.hpp"
 
@@ -36,7 +35,7 @@ struct AncilliaryRentalCostItemBase
 	using Type = Derived;
 	using StageType = StageT;
 	using StageQuantity = Q;
-	using AccountType = Bank::Raiba<Configuration::Raiba>;
+	using AccountType = Bank::Raiffeisenbank<Configuration::Raiffeisenbank>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,StageType,StageQuantity,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static Name TypeIdentifier = Name{""};

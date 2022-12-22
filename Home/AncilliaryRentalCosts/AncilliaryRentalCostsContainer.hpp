@@ -5,11 +5,10 @@
 #include "../../Logger/Logger.hpp"
 #include "../../Unit/Unit.h"
 #include "../../Quantity/Quantity.h"
-#include "../../Calculator/Calculator.hpp"
 #include "../../Calculator/Operations.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../Common/Configuration.hpp"
-#include "../../File/Raiba.hpp"
+#include "../../File/Raiffeisenbank.hpp"
 #include "../../File/Account.hpp"
 
 #ifndef ANCILLIARYRENTALCOSTSCONTAINER_HPP
@@ -72,7 +71,7 @@ private:
 	{
 		fs = S::Instance().PrintQuantities(std::move(fs));
 		auto iban = GetStage<S,IBAN>();
-		auto stageTransfers = Bank::Get<Bank::Raiba<Configuration::Raiba>>(iban);
+		auto stageTransfers = Bank::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>(iban);
 		auto transfers = stageTransfers->GetTransferOf(year);
 		
 		for(auto t : *transfers)
