@@ -20,15 +20,15 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {
-	template<unsigned int N = 0>
-	struct Custom: public Account<Custom<N>>
+	template<typename Config>
+	struct Custom: public Account<Custom<Config>>
 	{
-		static constexpr uint Num = N;
+		using Type = Config;
 		using TransferTypes = Configuration::Account::TransferType;
 		using TransferType = Transfer<Custom,TransferTypes>;
 		using IsOutTransferSign = T::char_<'-'>;
-		using Base = Account<Custom<N>>;
-		friend class Account<Custom<N>>;
+		using Base = Account<Custom<Config>>;
+		friend class Account<Custom<Config>>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "RaibaKonten2021_1.csv";
