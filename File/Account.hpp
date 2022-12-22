@@ -35,15 +35,15 @@ namespace Bank
 	class Account
 	{
 		using TransferItems = Configuration::Account::TransferType;
+		inline static constexpr IBAN iban = Derived::Type::iban;
+		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
+		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
 		Key<std::string> owner;
 
-		inline static constexpr IBAN iban = Derived::Type::iban;
 		BIC bic;
 		
-		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
-		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 	public:
 		using Type = Account<Derived> ;
 		using TransferType = Transfer<Derived, TransferItems>;
