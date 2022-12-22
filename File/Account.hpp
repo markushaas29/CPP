@@ -39,7 +39,7 @@ namespace Bank
 		using CSVSeparator = T::char_<';'> ;
 		Key<std::string> owner;
 
-		inline static constexpr IBAN iban = Derived::Config::iban;
+		inline static constexpr IBAN iban = Derived::Type::iban;
 		BIC bic;
 		
 		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
@@ -64,7 +64,7 @@ namespace Bank
 		void RegisterTo(Cont& cont)
 		{
 			cont.insert(std::make_pair(Derived::Filename,  
-			typename Cont::mapped_type(Derived::Filename, Identifier, 
+			typename Cont::mapped_type(iban.Value(), Identifier, 
 			[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 			[&](const std::string& s){ return Get(s); }, 
 			[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));
