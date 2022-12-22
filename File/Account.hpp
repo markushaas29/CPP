@@ -38,7 +38,8 @@ namespace Bank
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
 		Key<std::string> owner;
-		IBAN iban;
+
+		inline static constexpr IBAN iban = Derived::Config::iban;
 		BIC bic;
 		
 		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
@@ -71,8 +72,6 @@ namespace Bank
 			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",
 			[&](InputIterator begin, InputIterator end){ ReadKeyPatterns(begin,end); }, 
 			[&](const std::string& s){ return Get(s); })));
-			
-			//~ Logger::Log<Info>("Register", Identifier, Derived::Num);
 		}	
 		
 		static Account& Instance()
@@ -157,7 +156,7 @@ namespace Bank
 		}
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	protected:
-		Account(std::string k, std::string c, double v, std::string d, std::string i = "IBAN", std::string b = "BIC") : owner(k), iban(i), bic(b) { };
+		Account(std::string k, std::string c, double v, std::string d, std::string b = "BIC") : owner(k), bic(b) { };
 		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
 		
 		static std::string GetNumericValue(std::string s)
