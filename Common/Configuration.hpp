@@ -21,6 +21,7 @@ namespace FS
 namespace Bank
 {
 	struct Direction;
+	template<typename> struct Raiffeisenbank;
 }
 
 #pragma once
@@ -53,6 +54,11 @@ struct Configuration
 			inline static constexpr IBAN Iban{"DE05660623660009331409"};
 			inline static constexpr BIC Bic{"GENODE61DET"};
 		};
+	};
+	
+	struct AncilliaryRentalCosts
+	{
+		using AccountType = Bank::Raiffeisenbank<Raiffeisenbank::House>;
 	};
 	
 	struct Comdirect
