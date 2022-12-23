@@ -41,7 +41,6 @@ namespace Bank
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
-		Key<std::string> owner;
 		
 	public:
 		using Type = Account<Derived> ;
@@ -155,7 +154,6 @@ namespace Bank
 		}
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	protected:
-		Account(std::string k, std::string c, double v, std::string d) : owner(k) { };
 		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
 		
 		static std::string GetNumericValue(std::string s)
@@ -173,7 +171,7 @@ namespace Bank
 			return result;
 		}
 			
-		Account()	{ 	};
+		Account() = default;
 		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Account& operator=(const Account&) = delete;
 		Account(const Account& c) = delete;
