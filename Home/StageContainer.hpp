@@ -16,6 +16,7 @@
 #include "../Unit/Unit.h"
 #include "../Quantity/Quantity.h"
 #include "../Common/DateTimes.hpp"
+#include "../Common/Configuration.hpp"
 
 #ifndef STAGECONTAINER_HPP
 #define STAGECONTAINER_HPP
@@ -32,11 +33,12 @@ public:
 	using StageTypes = Typelist<Head>;
 	using ContainerType = StageContainer<Typelist<Head>>;
 private:
-	inline static constexpr const char* DestinationPath = "//home//markus//Downloads//CSV_Files//";
+	inline static constexpr const char* DestinationPath = Configuration::Repository::SourcePath;
 	inline static constexpr const char* Name = "Stages";
+	inline static const std::string filePath = std::string(DestinationPath) + "/" + std::string(Name);
 protected:
 	inline static std::unique_ptr<StagesMap, DebugDeleter<StagesMap>> stages = std::unique_ptr<StagesMap, DebugDeleter<StagesMap>>(new StagesMap(),DebugDeleter<StagesMap>());
-	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(DestinationPath) + std::string(Name))));
+	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(filePath)));
 	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using CsvValuesIterator = std::vector<std::vector<std::string>>::const_iterator;
@@ -109,7 +111,7 @@ private:
 	
 	void Read(const std::string sourcePath = ".")
 	{
-		auto lines =  FS::ReadLines(DestinationPath + std::string(Name) +".csv");
+		auto lines =  FS::ReadLines(filePath +".csv");
 		std::vector<std::vector<std::string>> values;
 		for(auto line : lines)
 			values.push_back(FS::CSV::ExtractValues(line));
