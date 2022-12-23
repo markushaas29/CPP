@@ -55,7 +55,11 @@ namespace Bank
 		friend const ItemT& GetTransferEndpoint(TransferEndpoint<AccountT,TupleT,C> const& t);
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : types(ownerKey, i, b) { };
-		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	{ this->transfers->Add(t); };
+		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	
+		{ 	
+			Logger::Log("Enpoint created ", std::get<IBAN>(types));
+			this->transfers->Add(t); 
+		};
 		TransferEndpoint():types("ownerKey", "iban", "bic", 0) { };
 				
 		void Add(DataType t)
