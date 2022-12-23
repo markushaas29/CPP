@@ -10,6 +10,7 @@
 #include "RepositoryValue.hpp"
 #include "JSONParser.hpp"
 #include "Direction.hpp"
+#include "Node.hpp"
 #include "RepositoryValue.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
@@ -61,15 +62,11 @@ namespace Bank
 		template<typename Cont>
 		void RegisterTo(Cont& cont)
 		{
-			cont.insert(std::make_pair(Derived::Filename,  
+			cont.insert(std::make_pair(iban.Value(),  
 			typename Cont::mapped_type(iban.Value(), Identifier, 
 			[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 			[&](const std::string& s){ return Get(s); }, 
-			[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));
-			
-			cont.insert(std::make_pair(Type::KeysFilename, typename Cont::mapped_type(Type::KeysFilename, "AccountKeys",
-			[&](InputIterator begin, InputIterator end){ ReadKeyPatterns(begin,end); }, 
-			[&](const std::string& s){ return Get(s); })));
+			[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));			
 		}	
 		
 		static Account& Instance()
@@ -171,7 +168,12 @@ namespace Bank
 			return result;
 		}
 			
-		Account() = default;
+		Account()
+		{
+			//~ FS::ReadLines(Configuration::Repository::SourcePath + "/");
+			auto lines = FS::ReadLines("//home//markus//Downloads//CSV_Files//" + Type::KeysFilename);
+			ReadKeyPatterns(lines.cbegin(), lines.cend());
+		};
 		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Account& operator=(const Account&) = delete;
 		Account(const Account& c) = delete;
