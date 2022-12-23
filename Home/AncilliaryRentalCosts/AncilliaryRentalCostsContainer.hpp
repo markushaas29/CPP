@@ -71,7 +71,7 @@ private:
 	{
 		fs = S::Instance().PrintQuantities(std::move(fs));
 		auto iban = GetStage<S,IBAN>();
-		auto stageTransfers = Bank::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>(iban);
+		auto stageTransfers = Bank::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>>(iban);
 		auto transfers = stageTransfers->GetTransferOf(year);
 		
 		for(auto t : *transfers)

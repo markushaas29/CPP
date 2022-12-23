@@ -1,0 +1,112 @@
+[39m[Info]: AtomContainer created.
+[39m[Info]: AtomContainer created.
+[39m[Info]: AtomContainer created.
+[39m[Info]: AtomContainer created.
+[39m[Info]: AtomContainer created.
+[39m[Info]: AtomContainer created.
+[39m[Info]: ~
+[39m[Info]: }
+[39m[Info]: |
+[39m[Info]: {
+[39m[Info]: `
+[39m[Info]: _
+[39m[Info]: ^
+[39m[Info]: ]
+[39m[Info]: \
+[39m[Info]: [
+[39m[Info]: @
+[39m[Info]: ?
+[39m[Info]: =
+[39m[Info]: <
+[39m[Info]: ;
+[39m[Info]: :
+[39m[Info]: /
+[39m[Info]: -
+[39m[Info]: +
+[39m[Info]: *
+[39m[Info]: )
+[39m[Info]: (
+[39m[Info]: <
+[39m[Info]: '
+[39m[Info]: &
+[39m[Info]: %
+[39m[Info]: $
+[39m[Info]: #
+[39m[Info]: "
+[39m[Info]: !
+[39m[Info]: ,
+[39m[Info]: .
+[39m[DEBUG]: IS1: 1 _ _
+[39m[DEBUG]: IS1: 1 , ,
+[39m[DEBUG]: VAL Constructor Word: ZWEI
+[39m[DEBUG]: IS1: 1 \ \
+[39m[DEBUG]: IS1: 1 / /
+[39m[DEBUG]: IS1: 1 ; ;
+[39m[DEBUG]: IS1: 1 . .
+[39m[DEBUG]: IS1: 1 / /
+[39m[DEBUG]: VAL Constructor Word: home
+[39m[DEBUG]: IS1: 1 / /
+[39m[DEBUG]: VAL Constructor Word: VIERmarkus
+[39m[DEBUG]: IS1: 1 / /
+[39m[DEBUG]: VAL Constructor Word: Dok
+[39m[DEBUG]: IS1: 1 _ _
+[39m[DEBUG]: VAL Constructor Word: um
+[39m[DEBUG]: VAL Constructor Word: ente
+[39m[DEBUG]: IS1: 1 / /
+[39m[DEBUG]: VAL Constructor Word: cpp
+[39m[DEBUG]: IS1: 1 / /
+[39m[DEBUG]: VAL Constructor Word: F
+[39m[DEBUG]: VAL Constructor Word: i
+[39m[DEBUG]: VAL Constructor Word: le
+[39m[DEBUG]: 94565467864
+[39m[DEBUG]: 3
+[39m[DEBUG]: 45
+[39m[DEBUG]: 45
+[39m[DEBUG]: 95
+[39m[DEBUG]: IS1: 1 , ,
+[39m[DEBUG]: UINT
+[39m[DEBUG]: T
+[39m[DEBUG]: VAL Constructor Word: A
+[39m[Info]: 0: Quantity Scalar
+[39m[Info]: 1: Quantity unknown
+[39m[Info]: 2: Quantity unknown
+[39m[Info]: 3: Quantity unknown
+[39m[Info]: 4: Quantity unknown
+[39m[Info]: 5: Quantity Current
+[39m[Info]: 6: Quantity unknown
+[39m[Info]: 7: Quantity unknown
+[39m[Info]: 8: Quantity unknown
+[39m[Info]: 9: Quantity Sum
+[39m[DEBUG]: Add 0x55dded43dec0 Current 1
+[39m[DEBUG]: VAL Constructor Word: A
+[39m[DEBUG]: Add 0x55dded43dec0 Current 1
+[39m[Info]: 0: Quantity Scalar
+[39m[Info]: 1: Quantity unknown
+[39m[Info]: 2: Quantity unknown
+[39m[Info]: 3: Quantity unknown
+[39m[Info]: 4: Quantity unknown
+[39m[Info]: 5: Quantity Current
+[39m[Info]: 6: Quantity unknown
+[39m[Info]: 7: Quantity unknown
+[39m[Info]: 8: Quantity unknown
+[39m[Info]: 0: Quantity Scalar
+[39m[Info]: 1: Quantity unknown
+[39m[Info]: 2: Quantity unknown
+[39m[Info]: 3: Quantity unknown
+[39m[Info]: 4: Quantity unknown
+[39m[Info]: 5: Quantity Current
+[39m[Info]: 6: Quantity unknown
+[39m[Info]: 7: Quantity unknown
+[39m[Info]: 0: Quantity Scalar
+[39m[Info]: 1: Quantity unknown
+[39m[Info]: 2: Quantity unknown
+[39m[Info]: 3: Quantity unknown
+[39m[Info]: 4: Quantity unknown
+[39m[Info]: 5: Quantity Current
+[39m[Info]: 6: Quantity unknown
+[39m[Info]: 0: Quantity Scalar
+[39m[Info]: 1: Quantity unknown
+[39m[Info]: 2: Quantity unknown
+[39m[Info]: 3: Quantity unknown
+[39m[Info]: 4: Quantity unknown
+[39m[Info]: 5: Quantity Current

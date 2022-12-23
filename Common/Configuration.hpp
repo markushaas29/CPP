@@ -40,20 +40,25 @@ struct Configuration
 	
 	struct Raiffeisenbank
 	{
-		inline static constexpr IBAN iban{"DE19660623660009232702"};
-		//~ struct House
-		//~ {
-		//~ };
+		inline static constexpr BIC bic{"GENODE61DET"};
+
+		struct House
+		{
+			inline static constexpr IBAN Iban{"DE19660623660009232702"};
+			inline static constexpr BIC Bic = bic;
+		};
 		
 		struct Private
 		{
-			inline static constexpr IBAN iban{"DE05660623660009331409"};
+			inline static constexpr IBAN Iban{"DE05660623660009331409"};
+			inline static constexpr BIC Bic{"GENODE61DET"};
 		};
 	};
 	
 	struct Comdirect
 	{
-		inline static constexpr IBAN iban{"DE83200411330694752700"};
+		inline static constexpr IBAN Iban{"DE83200411330694752700"};
+		inline static constexpr BIC Bic{"COBADEHD001"};
 	};
 	
 	struct Backup

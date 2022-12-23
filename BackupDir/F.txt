@@ -1,0 +1,8 @@
+In file included from ../File/FileTypeContainer.hpp:15,
+                 from ../File/Repository.hpp:11,
+                 from Backup.cpp:14:
+../File/Node.hpp: In static member function ‘static void FS::Node<Derived, DerivedInfo, T>::Display(std::ostream&)’:
+../File/Node.hpp:75:11: error: return-statement with a value, in function returning ‘void’ [-fpermissive]
+   75 |    return os;
+      |           ^~
+make: *** [<eingebaut>: *.o] Fehler 1

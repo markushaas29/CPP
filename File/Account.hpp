@@ -35,13 +35,13 @@ namespace Bank
 	class Account
 	{
 		using TransferItems = Configuration::Account::TransferType;
-		inline static constexpr IBAN iban = Derived::Type::iban;
+		inline static constexpr IBAN iban = Derived::Type::Iban;
+		inline static constexpr BIC bic = Derived::Type::Bic;
 		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
 		Key<std::string> owner;
-		BIC bic;
 		
 	public:
 		using Type = Account<Derived> ;
@@ -155,7 +155,7 @@ namespace Bank
 		}
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	protected:
-		Account(std::string k, std::string c, double v, std::string d, std::string b = "BIC") : owner(k), bic(b) { };
+		Account(std::string k, std::string c, double v, std::string d) : owner(k) { };
 		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
 		
 		static std::string GetNumericValue(std::string s)
