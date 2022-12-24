@@ -204,7 +204,6 @@ template<>
 void InputManager<Counter>::Parse(InputIterator begin, InputIterator end)
 {
 	Instance();
-		Logger::Log<Error>("CATCHED");
 	try
 	{
 		auto it = begin;
@@ -216,13 +215,13 @@ void InputManager<Counter>::Parse(InputIterator begin, InputIterator end)
 			auto vals = String_::Split<T::char_<':'>>(*it);
 			auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
 			values.insert(values.begin(), date);
-			(*visitors)[vals[0]]->Add(values.cbegin(),values.cend());
+			visitors->at(vals[0])->Add(values.cbegin(),values.cend());
 		}
 	}
 	catch(const std::exception& e)
 	{
+		Logger::Log<Error>("InputManager<Counter>::Parse ",e.what());
 	}
-		Logger::Log<Error>("CATCHED");
 }
 
 struct CurrentValue
