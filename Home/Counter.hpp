@@ -5,6 +5,7 @@
 #include "../Common/DateTimes.hpp"
 #include "../Quantity/Quantity.h"
 #include "../CSV/Elements.hpp"
+#include "../Common/Configuration.hpp"
 #include "../File/Info.hpp"
 #include "../File/Node.hpp"
 #include "../Unit/SIPrefix.hpp"
@@ -160,13 +161,12 @@ private:
         return m;
 	}
 	
-	inline static constexpr const char* DestinationPath = Config::DestinationPath;
 	inline static const char* Name = Config::CounterName.c_str();
 	
 	inline static const std::map<std::string, std::string> Header = createHeader();	
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
 	
-	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(DestinationPath) + std::string(Name) )));
+	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
 	
 	template<typename Iterator>
