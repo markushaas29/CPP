@@ -45,6 +45,7 @@ namespace FS
 	protected:
 		const std::string name;
 		const std::string path;
+		bool exists = std::filesystem::exists(path);
 		std::filesystem::path fs_path;
 		const std::filesystem::file_time_type lastModification;
 		std::uintmax_t size;
@@ -65,6 +66,7 @@ namespace FS
 		};
 		const std::string& Name() const{ return name; };
 		const std::string& Path() const { return path; };
+		bool Exists() const {  return exists; };
 		const std::time_t LastModification()const { return to_time_t(this->lastModification); };
 		decltype(auto) LastWriteTime()const { return this->lastModification; };
 		decltype(auto) GetInfo() const { return this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path();}

@@ -38,8 +38,9 @@ namespace Bank
 		using TransferItems = Configuration::Account::TransferType;
 		inline static constexpr IBAN iban = Derived::Type::Iban;
 		inline static constexpr BIC bic = Derived::Type::Bic;
-		inline static const std::string KeysFilename = std::string(Derived::name) + ".keys";
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
+		
+		inline static std::unique_ptr<FS::FileInfo> keyFileInfo = std::make_unique<FS::FileInfo>(std::filesystem::path( std::string(Configuration::Repository::SourcePath) + "/" + std::string(Derived::name) + ".keys"));
 	protected:		
 		using CSVSeparator = T::char_<';'> ;
 		
@@ -170,8 +171,10 @@ namespace Bank
 			
 		Account()
 		{
-			//~ FS::ReadLines(Configuration::Repository::SourcePath + "/");
-			auto lines = FS::ReadLines("//home//markus//Downloads//CSV_Files//" + Type::KeysFilename);
+			if(!keyFileInfo->Exists())
+				Logger::Log<Error>("No Keys for ", Derived::name, " under ", *keyFileInfo);
+				
+			auto lines = FS::ReadLines(keyFileInfo->Path());
 			ReadKeyPatterns(lines.cbegin(), lines.cend());
 		};
 		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
