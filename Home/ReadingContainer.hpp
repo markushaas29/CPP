@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>    // std::find
 #include <chrono>    // std::find
+#include "ReadingComparer.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Common/BaseContainer.hpp"
 #include "../Common/DateTimes.hpp"
@@ -10,7 +11,6 @@
 #include "../CSV/Elements.hpp"
 
 #pragma once
-	
 	
 template<typename T>
 class ReadingContainer : public BaseContainer<T>
@@ -21,6 +21,7 @@ public:
 	using ContainerPtr = std::unique_ptr<ContainerType>;
 	using TypePtr = T;
 	using Iterator = ContainerType::const_iterator;
+	using Comparer = ReadingComparer::Date;
 
 	ReadingContainer(): readings{std::make_unique<ContainerType>()}{}
 		
