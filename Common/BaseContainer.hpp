@@ -27,7 +27,7 @@ public:
 	{ 
 		using Comparer = typename Derived::Comparer;
 		this->elemnts->push_back(t); 
-		//~ sortBy(Comparer());
+		sortBy(Comparer());
 	}
 protected:		
 	const Iterator begin() const { return elemnts->begin(); }
