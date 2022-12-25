@@ -107,8 +107,9 @@ public:
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			addReading(reading);
 		}
-	}
-	
+		std::cout<<"READING PARESD"<<std::endl;
+		readings->Display(std::cout);
+	}	
 
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
@@ -194,7 +195,7 @@ private:
 	static void Calculate()	{	}	
 	
 	Counter()	{ 	Logger::Log<Info>()<<"Initialize Counter: "<<MeterType::Name<<"_"<<Config::Number<<std::endl; 	};
-	~Counter()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+	~Counter()	{ };
 	Counter& operator=(const Counter&) = delete;
 	Counter(const Counter& c) = delete;
 };

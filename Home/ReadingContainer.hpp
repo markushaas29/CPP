@@ -37,13 +37,14 @@ public:
 			//~ return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		//~ }
 		
-	const Iterator Begin() const { return this->readings->begin(); }
-	const Iterator End() const { return this->readings->end(); }
-	const Iterator CBegin() const { return this->readings->cbegin(); }
-	const Iterator CEnd() const { return this->readings->cend(); }
-	const size_t Size() const { return this->readings->size(); }
+	const Iterator Begin() const { return readings->begin(); }
+	const Iterator End() const { return readings->end(); }
+	const Iterator CBegin() const { return readings->cbegin(); }
+	const Iterator CEnd() const { return readings->cend(); }
+	const size_t Size() const { return readings->size(); }
 	void Add(T t){ this->readings->push_back(t); }
-		
+	
+	std::ostream& Display(std::ostream& os) const {	std::for_each(readings->cbegin(), readings->cend(), [&](auto const& t){ os<<*t<<std::endl; } ); return os;	}		
 private:
 	ContainerPtr readings;
 	ReadingContainer(ContainerPtr c): readings(c){ }
@@ -76,3 +77,5 @@ private:
 		
 };
 
+template<typename T>
+std::ostream& operator<<(std::ostream& strm, const ReadingContainer<T>& c){	return c.Display(strm);}
