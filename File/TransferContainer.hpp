@@ -2,8 +2,10 @@
 #include <vector>
 #include <algorithm>    // std::find
 #include <chrono>    // std::find
+#include "TransferComparer.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Common/BaseContainer.hpp"
 #include "../Common/Algorithms.hpp"
 #include "../String/String_.hpp"
 #include "../CSV/Elements.hpp"
@@ -19,50 +21,48 @@ namespace Bank
 	using DateType = DateTimes::Date::Type;
 	
 	template<typename T>
-	class TransferContainer
+	class TransferContainer: public BaseContainer<TransferContainer<T>, T>
 	{
 	public:
 		using Type = TransferContainer<T> ;
 		using ContainerType = std::vector<T>;
+		using Base = BaseContainer<TransferContainer<T>, T>;
 		using ContainerPtr = std::unique_ptr<ContainerType>;
 		using TypePtr = std::shared_ptr<Type>;
 		using Iterator = ContainerType::const_iterator;
+		using Comparer = TransferComparer::Date;
 
-		TransferContainer(): transactions{std::make_unique<ContainerType>()}{}
+		TransferContainer(): Base{std::make_unique<ContainerType>()}{}
 		
 		template <typename... FilterTypes>
 		decltype(auto) GetTransferOf(FilterTypes... filters)
 		{ 
-			auto result = this->getTransferOf(ContainerType(this->transactions->cbegin(), this->transactions->cend()), filters...);		
+			auto result = this->getTransferOf(ContainerType(this->CBegin(), this->CEnd()), filters...);		
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
 
 		template<typename FilterType>
 		decltype(auto) FilterBy(FilterType t) 
 		{ 
-			auto result = filterBy(ContainerType(this->transactions->cbegin(), this->transactions->cend()), t); 
+			auto result = filterBy(ContainerType(this->CBegin(), this->CEnd()), t); 
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
 		
-		const Iterator Begin() const { return this->transactions->cbegin(); }
-		const Iterator End() const { return this->transactions->cend(); }
-		const size_t Size() const { return this->transactions->size(); }
-		void Add(T t){ this->transactions->push_back(t); }
-		
+		const Iterator Begin() const { return this->CBegin(); }
+		const Iterator End() const { return this->CEnd(); }
 	private:
-		ContainerPtr transactions;
-		TransferContainer(ContainerPtr c): transactions(c){ }
+		TransferContainer(ContainerPtr c): Base(c){ }
 
 		template<typename FilterType>
 		decltype(auto) filterBy(ContainerType&& cont, FilterType t) 
 		{ 
 			auto result = ContainerType();
 			if constexpr (std::is_same<FilterType,DateTimes::Year>::value)
-				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
+				std::copy_if(this->begin(), this->end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
 			else if constexpr (std::is_same<FilterType,Entry>::value)
-				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value(), t.Value()); });
+				std::copy_if(this->begin(), this->end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value(), t.Value()); });
 			else
-				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
+				std::copy_if(this->begin(), this->end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
 			
 			if(result.size() == 0)
 				Logger::Log<Warning>("No transfer by filtering with ",t);

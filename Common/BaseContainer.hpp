@@ -10,36 +10,37 @@
 #pragma once
 	
 	
-template<typename T>
+template<typename Derived, typename T>
 class BaseContainer
 {
 public:
-	using Type = BaseContainer<T> ;
+	using Type = Derived;
 	using ContainerType = std::vector<T>;
 	using ContainerPtr = std::unique_ptr<ContainerType>;
 	using TypePtr = T;
 	using Iterator = ContainerType::const_iterator;
-
-	BaseContainer(): elemnts{std::make_unique<ContainerType>()}{}
 
 	const Iterator CBegin() const { return elemnts->cbegin(); }
 	const Iterator CEnd() const { return elemnts->cend(); }
 	const size_t Size() const { return elemnts->size(); }
 	void Add(T t)
 	{ 
-		Logger::Log<Error>("Base");
+		using Comparer = typename Derived::Comparer;
 		this->elemnts->push_back(t); 
-		std::sort(elemnts->begin(), elemnts->end(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
+		//~ sortBy(Comparer());
 	}
 protected:		
 	const Iterator begin() const { return elemnts->begin(); }
 	const Iterator end() const { return elemnts->end(); }
+	BaseContainer(ContainerPtr c): elemnts(std::move(c)){ }
+	BaseContainer(): elemnts{std::make_unique<ContainerType>()}{}
 	
 	std::ostream& Display(std::ostream& os) const {	std::for_each(elemnts->cbegin(), elemnts->cend(), [&](auto const& t){ os<<*t<<std::endl; } ); return os;	}		
 private:
+	template<typename Comp>
+	void sortBy(Comp comp){ std::sort(elemnts->begin(), elemnts->end(), comp); };
 	ContainerPtr elemnts;
-	BaseContainer(ContainerPtr c): elemnts(c){ }
 };
 
-template<typename T>
-std::ostream& operator<<(std::ostream& strm, const BaseContainer<T>& c){	return c.Display(strm);}
+template<typename Derived,typename T>
+std::ostream& operator<<(std::ostream& strm, const BaseContainer<Derived,T>& c){	return c.Display(strm);}
