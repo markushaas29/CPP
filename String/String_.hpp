@@ -7,7 +7,7 @@
 #include <codecvt>
 #include "../Wrapper/Wrapper.hpp"
 #include "../Logger/Logger.hpp"
-#include "../Traits/Traits.h"
+#include "../Traits/Traits.hpp"
 #include "../Typelist/Typelist.h"
 
 #pragma once

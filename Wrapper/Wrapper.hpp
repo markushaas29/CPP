@@ -1,6 +1,6 @@
 #include <string>
 #include <iostream>
-#include "../Traits/Traits.h"
+#include "../Traits/Traits.hpp"
 #include "../Typelist/Typelist.h"
 
 #ifndef WRAPPER_H

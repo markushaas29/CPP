@@ -107,6 +107,9 @@ public:
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			addReading(reading);
 		}
+		
+		std::cout<<"Parsed"<<std::endl;
+		Display(std::cout);
 	}	
 
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
@@ -133,8 +136,7 @@ private:
 	}
 	
 	void addReading(DataType reading)
-	{
-			
+	{			
 		readings->Add(reading);
 		Logger::Log<Info>("Reading added",Name, *reading);
 	}

@@ -6,7 +6,7 @@
 #include <map>
 #include "ParsedValues.hpp"
 #include "../Wrapper/Wrapper.hpp"
-#include "../Traits/Traits.h"
+#include "../Traits/Traits.hpp"
 #include "../Logger/Logger.hpp"
 
 #ifndef PARSERSTATE_HPP

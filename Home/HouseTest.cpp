@@ -7,7 +7,6 @@
 #include "House.hpp"
 #include "../Unit/SIPrefix.hpp"
 #include "../Tuple/Tuple.hpp"
-#include "../Traits/Traits.h"
 #include "../Unit/Unit.hpp"
 #include "../Logger/Logger.hpp"
 

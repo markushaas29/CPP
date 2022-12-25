@@ -7,7 +7,6 @@
 #include "AncilliaryRentalCosts/AncilliaryRentalCostsContainer.hpp"
 #include "../Unit/SIPrefix.hpp"
 #include "../Tuple/Tuple.hpp"
-#include "../Traits/Traits.h"
 #include "../Unit/Unit.hpp"
 #include "../File/Repository.hpp"
 #include "../Logger/Logger.hpp"

@@ -9,7 +9,7 @@
 #include "../Quantity/Quantity.hpp"
 #include "../Common/Number.hpp"
 #include "../Wrapper/Wrapper.hpp"
-#include "../Traits/Traits.h"
+#include "../Traits/Traits.hpp"
 #include "../Typelist/Typelist.h"
 #include "../Logger/Logger.hpp"
 
