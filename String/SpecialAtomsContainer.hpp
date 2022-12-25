@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include "../Logger/Logger.hpp"
-#include "../Typelist/Typelist.h"
+#include "../Typelist/Typelist.hpp"
 
 #ifndef SPECIALSpecialAtomContainer_HPP
 #define SPECIALSpecialAtomContainer_HPP

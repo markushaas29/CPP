@@ -9,7 +9,6 @@
 #include "../Wrapper/Wrapper.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Unit/SIPrefix.hpp"
-#include "../Typelist/Typelist.h"
 #include "../Visitor/Visitor.hpp"
 #include "../String/String_.hpp"
 #include "../Common/DateTimes.hpp"

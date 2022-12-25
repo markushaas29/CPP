@@ -9,7 +9,6 @@
 #include "ParsedValues.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Traits/Traits.hpp"
-#include "../Typelist/Typelist.h"
 #include "../Logger/Logger.hpp"
 
 #ifndef ATOMPASSINGPARSER_HPP

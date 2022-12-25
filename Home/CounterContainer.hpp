@@ -10,7 +10,7 @@
 #include <filesystem>
 #include "Counter.hpp"
 #include "../Logger/Logger.hpp"
-#include "../Typelist/Typelist.h"
+#include "../Typelist/Typelist.hpp"
 
 #ifndef COUNTERCONTAINER_HPP
 #define COUNTERCONTAINER_HPP

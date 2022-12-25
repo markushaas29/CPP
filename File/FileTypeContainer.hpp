@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <filesystem>
 #include "../Logger/Logger.hpp"
-#include "../Typelist/Typelist.h"
+#include "../Typelist/Typelist.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "Info.hpp"
 #include "Node.hpp"
