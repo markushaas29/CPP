@@ -17,6 +17,7 @@
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
 #include "Reading.hpp"
+#include "ReadingContainer.hpp"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
 #include <map>
@@ -39,7 +40,7 @@ public:
 	using DataType = std::shared_ptr<ReadingType>;
 	using ResultValueType = FS::CounterValue<DataType>;
 	
-	using ReadingContainerType = std::vector<DataType>;
+	using ReadingContainerType = ReadingContainer<DataType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;
 	using Unit = Config::Unit;
@@ -59,7 +60,7 @@ public:
 	static std::ostream& Display(std::ostream& out)
 	{
 		DisplayHeader<Separator>(out);		
-		for(auto it = readings->cbegin(); it != readings->cend(); ++it)
+		for(auto it = readings->CBegin(); it != readings->CEnd(); ++it)
 		{
 			(*it)->Display(out);
 			out<<std::endl;
@@ -83,11 +84,11 @@ public:
 		}
 
 	template<typename Op>
-	decltype(auto) Get(const Op&& op){ return op(readings->cbegin(),readings->cend());	}
+	decltype(auto) Get(const Op&& op){ return op(readings->CBegin(),readings->CEnd());	}
 	
-	decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->cbegin())); }
-	decltype(auto) ReadingsBegin() { return readings->cbegin(); }
-	decltype(auto) ReadingsEnd() { return readings->cend(); }		
+	decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->CBegin())); }
+	decltype(auto) ReadingsBegin() { return readings->CBegin(); }
+	decltype(auto) ReadingsEnd() { return readings->CEnd(); }		
 
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& DisplayHeader(std::ostream& out)
@@ -135,16 +136,16 @@ private:
 	void addReading(DataType reading)
 	{
 			
-		readings->push_back(reading);
-		std::sort(readings->begin(), readings->end(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
+		readings->Add(reading);
+		//~ std::sort(readings->Begin(), readings->End(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
 		Logger::Log<Info>("Reading added",Name, *reading);
 	}
 	
 	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
 	{
 		(*of)<<Name<<":"<<";;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
-		if(readings->cbegin() != readings->cend())
-			(*of)<<*(*(readings->cend() - 1));
+		if(readings->CBegin() != readings->CEnd())
+			(*of)<<*(*(readings->CEnd() - 1));
 		(*of)<<std::endl;
 		
 		return of;
