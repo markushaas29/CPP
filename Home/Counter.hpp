@@ -107,8 +107,6 @@ public:
 			DataType reading = CreateReading(v.cbegin(), v.cend());
 			addReading(reading);
 		}
-		std::cout<<"READING PARESD"<<std::endl;
-		readings->Display(std::cout);
 	}	
 
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
@@ -138,7 +136,6 @@ private:
 	{
 			
 		readings->Add(reading);
-		//~ std::sort(readings->Begin(), readings->End(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
 		Logger::Log<Info>("Reading added",Name, *reading);
 	}
 	

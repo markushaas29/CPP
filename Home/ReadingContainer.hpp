@@ -42,7 +42,11 @@ public:
 	const Iterator CBegin() const { return readings->cbegin(); }
 	const Iterator CEnd() const { return readings->cend(); }
 	const size_t Size() const { return readings->size(); }
-	void Add(T t){ this->readings->push_back(t); }
+	void Add(T t)
+	{ 
+		this->readings->push_back(t); 
+		std::sort(readings->begin(), readings->end(), [](const auto& r1, const auto& r2){ return r1->Date > r2->Date; });
+	}
 	
 	std::ostream& Display(std::ostream& os) const {	std::for_each(readings->cbegin(), readings->cend(), [&](auto const& t){ os<<*t<<std::endl; } ); return os;	}		
 private:
