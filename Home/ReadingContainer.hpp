@@ -13,7 +13,7 @@
 #pragma once
 	
 template<typename T>
-class ReadingContainer : public BaseContainer<T>
+class ReadingContainer : public BaseContainer<ReadingContainer<T>, T>
 {
 public:
 	using Type = ReadingContainer<T> ;
