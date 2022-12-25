@@ -28,7 +28,6 @@ int main()
     std::cout<<"m: "<<Middle::Instance().StageName<<std::endl;
     
     std::cout<<"AREA"<<std::endl;
-    std::cout<<"AREA"<<std::endl;
 	std::cout<<"t: "<<GetStage<Top,ApartmentArea>()<<std::endl;
     std::cout<<"m: "<<GetStage<Middle,ApartmentArea>().GetQuantity()<<std::endl;
     std::cout<<"b: "<<GetStage<Bottom,ApartmentArea>().GetQuantity()<<std::endl;
