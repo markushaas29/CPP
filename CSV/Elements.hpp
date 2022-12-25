@@ -2,7 +2,7 @@
 #include "../String/String_.hpp"
 #include "../String/StringParser.hpp"
 #include "../Logger/Logger.hpp"
-#include "../Quantity/Quantity.h"
+#include "../Quantity/Quantity.hpp"
 #include "../Validator/Validator.hpp"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>

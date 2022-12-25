@@ -1,6 +1,6 @@
 CXX      = g++
 CXXC      = clang
-OBJECTS = UnitTest.o Unit.o
+OBJECTS = UnitTest.o
 CXXFLAGS  = -c -std=c++2a
 DEBUGFLAGS  = -c -g -std=c++17
 

@@ -1,6 +1,6 @@
 CXX      = g++
 CXXC      = clang
-OBJECTS = Test.o Quantity.o
+OBJECTS = Test.o
 CXXFLAGS  = -c -std=c++2a
 DEBUGFLAGS  = -c -g -std=c++17
 

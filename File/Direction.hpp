@@ -7,7 +7,7 @@
 #include "../Logger/Logger.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Wrapper/Wrapper.hpp"
-#include "../Quantity/Quantity.h"
+#include "../Quantity/Quantity.hpp"
 #include "../Unit/SIPrefix.hpp"
 #include "../Typelist/Typelist.h"
 #include "../Visitor/Visitor.hpp"

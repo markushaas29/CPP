@@ -9,8 +9,8 @@
 #include <filesystem>
 #include "Transfer.hpp"
 #include "../CSV/Elements.hpp"
-#include "../Unit/Unit.h"
-#include "../Quantity/Quantity.h"
+#include "../Unit/Unit.hpp"
+#include "../Quantity/Quantity.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Typelist/Typelist.h"

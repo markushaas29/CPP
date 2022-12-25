@@ -6,7 +6,7 @@
 #include "SpecialAtomsContainer.hpp"
 #include "QuantityContainer.hpp"
 #include "ParsedValue.hpp"
-#include "../Quantity/Quantity.h"
+#include "../Quantity/Quantity.hpp"
 #include "../Common/Number.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Traits/Traits.h"

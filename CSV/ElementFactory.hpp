@@ -1,7 +1,7 @@
 #include "Element.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
-#include "../Quantity/Quantity.h"
+#include "../Quantity/Quantity.hpp"
 #include <boost/mpl/for_each.hpp>
 #include <boost/mpl/vector.hpp>
 #include <string.h>

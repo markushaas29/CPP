@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Quantity.h"
+#include "Quantity.hpp"
 
 int main()
 {       

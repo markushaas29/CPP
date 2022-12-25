@@ -2,7 +2,7 @@
 #include <vector>
 #include "../../Calculator/CalculatorResult.hpp"
 #include "../../Calculator/Operations.hpp"
-#include "../../Quantity/Quantity.h"
+#include "../../Quantity/Quantity.hpp"
 
 #ifndef ANCILLIARYRENTALCOSTITEM_HPP
 #define ANCILLIARYRENTALCOSTITEM_HPP

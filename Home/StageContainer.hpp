@@ -13,8 +13,8 @@
 #include "../Logger/Logger.hpp"
 #include "../File/Node.hpp"
 #include "../Typelist/Typelist.h"
-#include "../Unit/Unit.h"
-#include "../Quantity/Quantity.h"
+#include "../Unit/Unit.hpp"
+#include "../Quantity/Quantity.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Common/Configuration.hpp"
 

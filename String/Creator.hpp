@@ -7,7 +7,7 @@
 #include "QuantityContainer.hpp"
 #include "ParsedValue.hpp"
 #include "ParsedValues.hpp"
-#include "../Quantity/Quantity.h"
+#include "../Quantity/Quantity.hpp"
 #include "../Common/Number.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Traits/Traits.h"
