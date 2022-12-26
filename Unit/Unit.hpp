@@ -141,7 +141,7 @@ using Temperature = Unit<0,0,0,0,0,1>;
 using Scalar = Unit<>;
 
 using Volume = Unit<0,3>;
-using Work = Unit<0,1,2,2>;
+using Work = Unit<0,1,2,-3>;
 using Area = Unit<0,2>;
 
 template<> const char* Sum::Name = SumType<0>::Name;
