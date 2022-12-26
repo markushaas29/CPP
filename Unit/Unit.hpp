@@ -13,8 +13,8 @@ struct UnitTypeBase
 	static std::string Unit() 
 	{ 
 		if(Derived::N == 0) return "";
-		if(Derived::N == 1) return Derived::Sign;
-		return Derived::Sign + "^(" + std::to_string(Derived::N) + ")"; };
+		if(Derived::N == 1) return std::string(Derived::Sign);
+		return std::string(Derived::Sign) + "^(" + std::to_string(Derived::N) + ")"; };
 };
 
 template<int n = 0>
@@ -22,9 +22,9 @@ struct MassType: public UnitTypeBase<MassType<n>>
 {
     enum{ N = n };
 	using Type = MassType<N>;
-    inline static const std::string Name = "Mass";
-    inline static const std::string Symbol = "M";
-    inline static const std::string Sign = "kg";
+    inline static constexpr const char* Name = "Mass";
+    inline static constexpr const char* Symbol = "M";
+    inline static constexpr const char* Sign = "kg";
 };
 
 template<int n = 0>
@@ -32,9 +32,9 @@ struct LengthType: public UnitTypeBase<LengthType<n>>
 {
     enum{ N = n };
 	using Type = LengthType<N>;
-    inline static const std::string Name = "Length";
-    inline static const std::string Symbol = "L";
-    inline static const std::string Sign = "m";
+    inline static constexpr const char* Name = "Length";
+    inline static constexpr const char* Symbol = "L";
+    inline static constexpr const char* Sign = "m";
 };
 
 template<int n = 0>
@@ -42,9 +42,9 @@ struct TimeType: public UnitTypeBase<TimeType<n>>
 {
     enum{ N = n };
 	using Type = TimeType<N>;
-    inline static const std::string Name = "Time";
-    inline static const std::string Symbol = "T";
-    inline static const std::string Sign = "s";
+    inline static constexpr const char* Name = "Time";
+    inline static constexpr const char* Symbol = "T";
+    inline static constexpr const char* Sign = "s";
 };
 
 template<int n = 0>
@@ -52,9 +52,9 @@ struct CurrentType: public UnitTypeBase<CurrentType<n>>
 {
     enum{ N = n };
 	using Type = CurrentType<N>;
-    inline static const std::string Name = "Current";
-    inline static const std::string Symbol = "I";
-    inline static const std::string Sign = "A";
+    inline static constexpr const char* Name = "Current";
+    inline static constexpr const char* Symbol = "I";
+    inline static constexpr const char* Sign = "A";
 };
 
 template<int n = 0>
@@ -62,9 +62,9 @@ struct TemperatureType: public UnitTypeBase<TemperatureType<n>>
 {
 	enum{ N = n };
 	using Type = TemperatureType<N>;
-    inline static const std::string Name = "Temperature";
-    inline static const std::string Symbol = "T";
-    inline static const std::string Sign = "K";
+    inline static constexpr const char* Name = "Temperature";
+    inline static constexpr const char* Symbol = "T";
+    inline static constexpr const char* Sign = "K";
 };
 
 template<int n = 0>
@@ -72,9 +72,9 @@ struct SubstanceAmount: public UnitTypeBase<SubstanceAmount<n>>
 {
     enum{ N = n };
 	using Type = SubstanceAmount<N>;
-    inline static const std::string Name = "SubstanceAmount";
-    inline static const std::string Symbol = "N";
-    inline static const std::string Sign = "mol";
+    inline static constexpr const char* Name = "SubstanceAmount";
+    inline static constexpr const char* Symbol = "N";
+    inline static constexpr const char* Sign = "mol";
 };
 
 template<int n = 0>
@@ -82,9 +82,9 @@ struct LightIntensity: public UnitTypeBase<LightIntensity<n>>
 {
     enum{ N = n };
 	using Type = LightIntensity<N>;
-    inline static const std::string Name = "LightIntensity";
-    inline static const std::string Symbol = "Iv";
-    inline static const std::string Sign = "cd";
+    inline static constexpr const char* Name = "LightIntensity";
+    inline static constexpr const char* Symbol = "Iv";
+    inline static constexpr const char* Sign = "cd";
 };
 
 template<int n = 0>
@@ -92,9 +92,9 @@ struct SumType: public UnitTypeBase<SumType<n>>
 {
     enum{ N = n };
 	using Type = SumType<N>;
-    inline static const std::string Name = "Sum";
-    inline static const std::string Symbol = "S";
-    inline static const std::string Sign = "€";
+    inline static constexpr const char* Name = "Sum";
+    inline static constexpr const char* Symbol = "S";
+    inline static constexpr const char* Sign = "€";
 };
 
 template<typename U, int S = U::Sum::N, int L = U::Length::N, int M = U::Mass::N, int T = U::Time::N, int C = U::Current::N, int Te = U::Temperature::N, int Sub = U::SubstanceAmount::N, int Li = U::LightIntensity::N> 
@@ -118,12 +118,19 @@ struct Unit
 	using Sum = typename SumType<SumN>::Type;
 	using Type = Unit<SumN, LengthN, MassN, TimeN, CurrentN, TemperatureN, SubstanceN, LightIntensityN>;
 	
-	static const std::string Name;
-	static const std::string SiUnit() { return Mass::Unit() + Length::Unit() + Time::Unit() + Current::Unit() + Temperature::Unit() + SubstanceAmount::Unit() + LightIntensity::Unit() + Sum::Unit(); };
+	static Unit& Instance()
+	{
+		static Unit instance;
+		SiUnit();
+		return instance;
+	}
+	
+	static const char* Name;
+	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + SubstanceAmount::Unit() + LightIntensity::Unit() + Sum::Unit(); };
 	static const std::string Sign() { return UnitSign<Type>::Get(); }; 
 };
 
-template<int a,int b,int c,int d,int e,int f,int g,int h> const std::string Unit<a,b,c,d,e,f,g,h>::Name = "unknown";
+template<int a,int b,int c,int d,int e,int f,int g,int h> const char* Unit<a,b,c,d,e,f,g,h>::Name = "unknown";
 
 using Sum = Unit<1>;
 using Length = Unit<0,1>;
@@ -137,11 +144,11 @@ using Volume = Unit<0,3>;
 using Work = Unit<0,1,2,2>;
 using Area = Unit<0,2>;
 
-template<> const std::string Sum::Name = SumType<0>::Name;
-template<> const std::string Current::Name = CurrentType<0>::Name;
-template<> const std::string Scalar::Name = "Scalar";
+template<> const char* Sum::Name = SumType<0>::Name;
+template<> const char* Current::Name = CurrentType<0>::Name;
+template<> const char* Scalar::Name = "Scalar";
 
-template<> struct UnitSign<Work> {	static std::string Get(){ return "W";} };
+template<> struct UnitSign<Work> {	static constexpr const char* Get(){ return "W";} };
 // template<> struct UnitSign<Area> {	static std::string Get(){ return "m²";} };
 
 

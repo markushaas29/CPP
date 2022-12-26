@@ -193,7 +193,7 @@ private:
 	
 	static void Calculate()	{	}	
 	
-	Counter()	{ 	Logger::Log<Info>()<<"Initialize Counter: "<<MeterType::Name<<"_"<<Config::Number<<std::endl; 	};
+	Counter()	{ 	Logger::Log<Info>()<<"Initialize Counter: "<<MeterType::Name<<"_"<<Config::Number<<std::endl; 	Config::Unit::Instance(); };
 	~Counter()	{ };
 	Counter& operator=(const Counter&) = delete;
 	Counter(const Counter& c) = delete;
