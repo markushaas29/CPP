@@ -48,7 +48,8 @@ struct AdditionalInformation	{	inline static constexpr const char* Value = T::Va
 template<typename MeterType,  int No = 0, typename U = typename MeterType::Unit, typename A = AdditionalInformation<None>>
 struct CounterConfiguration
 {
-	static const uint Number = No;
+	inline static constexpr uint Size = 5;
+	inline static constexpr uint Number = No;
 	inline static constexpr const char* AdditionalInformation = A::Value;
 	inline static std::string CounterName = String_::FromInt(No) + "_" + std::string(MeterType::Name) + std::string(AdditionalInformation);
 	using MeterT = MeterType;
@@ -57,8 +58,8 @@ struct CounterConfiguration
 	static std::ostream& Display(std::ostream& out) { 	out<<"Number\t"<<Number<<std::endl;
 														out<<"Name\t"<<CounterName<<std::endl;
 														out<<"Type\t"<<MeterType::Name<<std::endl;
-														out<<"SiUnit\t"<<U::Sign()<<std::endl;
-														out<<"Unit\t"<<U::SiUnit()<<std::endl;
+														out<<"Unit\t"<<U::Sign()<<std::endl;
+														out<<"SiUnit\t"<<U::SiUnit()<<std::endl;
 														return out;	}
 };
 

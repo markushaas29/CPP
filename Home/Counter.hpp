@@ -59,7 +59,7 @@ public:
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& Display(std::ostream& out)
 	{
-		DisplayHeader<Separator>(out);		
+		Config::Display(out);
 		for(auto it = readings->CBegin(); it != readings->CEnd(); ++it)
 		{
 			(*it)->Display(out);
@@ -90,18 +90,9 @@ public:
 	decltype(auto) ReadingsBegin() { return readings->CBegin(); }
 	decltype(auto) ReadingsEnd() { return readings->CEnd(); }		
 
-	template<typename Separator = T::char_<'\t'>>
-	static std::ostream& DisplayHeader(std::ostream& out)
-	{
-		for (auto& it : Header)
-			out<<it.first<<Separator::Value<<it.second<<std::endl;
-		
-		return out;
-	}
-
 	void Parse(InputIterator begin, InputIterator end)
 	{
-		for(auto it = (begin + Header.size()); it != end; ++it)
+		for(auto it = (begin + Config::Size); it != end; ++it)
 		{
 			auto v = csv->ExtractValues(*it);
 			DataType reading = CreateReading(v.cbegin(), v.cend());
@@ -150,21 +141,8 @@ private:
 		
 		return of;
 	}
-
-	static std::map<std::string, std::string> createHeader()
-	{
-		std::map<std::string, std::string> m;
-		m["CounterName"] = Name;
-		m["Number"] =  std::to_string(Config::Number),
-		m["Type"] = MeterType::Name,
-		m["SiUnit"] =  Config::Unit::SiUnit(),
-		m["Unit"] =  Config::Unit::Sign();
-        return m;
-	}
 	
-	inline static const char* Name = Config::CounterName.c_str();
-	
-	inline static const std::map<std::string, std::string> Header = createHeader();	
+	inline static const char* Name = Config::CounterName.c_str();	
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
 	
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
