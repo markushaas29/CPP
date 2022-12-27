@@ -53,7 +53,17 @@ struct CounterConfiguration
 	inline static std::string CounterName = String_::FromInt(No) + "_" + std::string(MeterType::Name) + std::string(AdditionalInformation);
 	using MeterT = MeterType;
 	using Unit = U;
+		
+	static std::ostream& Display(std::ostream& out) { 	out<<"Number\t"<<Number<<std::endl;
+														out<<"Name\t"<<CounterName<<std::endl;
+														out<<"Type\t"<<MeterType::Name<<std::endl;
+														out<<"SiUnit\t"<<U::Sign()<<std::endl;
+														out<<"Unit\t"<<U::SiUnit()<<std::endl;
+														return out;	}
 };
+
+template<typename MeterType,  int No = 0, typename U = typename MeterType::Unit, typename A = AdditionalInformation<None>>
+std::ostream& operator<<(std::ostream& strm, const CounterConfiguration<MeterType,No,U,A>& c){	return c.Display(strm);}
 
 using GasConfiguration = CounterConfiguration<Gas,1202757, Volume>;
 using EnBWHouseEnergyConfiguration = CounterConfiguration<Energy,21740069, Work>;
