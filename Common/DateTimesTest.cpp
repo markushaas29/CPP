@@ -3,8 +3,10 @@
 #include "../Logger/Logger.hpp"
 #include "DateTimes.hpp"
 
+using namespace std::chrono;
+
 int main()
-{       
+{      
     std::cout<<"START"<<std::endl;
     auto j = DateTimes::Month::Get(1);
 	Logger::Log()<<j.Value()<<std::endl;
@@ -30,11 +32,13 @@ int main()
 	std::cout<<"Extract"<<DateTimes::Date("2.11.2022")<<std::endl;
 	std::cout<<"Extract"<<DateTimes::Date("2.1.2022")<<std::endl;
 	std::cout<<"Extract"<<DateTimes::Date("2.01.2022")<<std::endl;
-	std::cout<<"Extract"<<DateTimes::Date("2,11,2022")<<std::endl;
-	std::cout<<"Extract"<<DateTimes::Date("2;11;2022")<<std::endl;
-	std::cout<<"Extract"<<DateTimes::Date("2/11/2022")<<std::endl;
-	std::cout<<"Extract"<<DateTimes::Date("2112022")<<std::endl;
 	
+	std::cout<<"Days"<<std::endl;
+	
+	auto d1 = DateTimes::Date("20.11.2022");
+	auto d2 = DateTimes::Date("18.11.2022");
+	
+	NumberOfDays(d2,d1);
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);

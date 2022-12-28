@@ -1,6 +1,7 @@
 #include <memory>
 #include <ratio>
 #include <chrono>
+#include <ctime>
 #include <tuple>
 #include <charconv>
 #include <array>
@@ -88,6 +89,17 @@ namespace DateTimes
 		constexpr Day(uint v): Base(v){};
 		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
 		bool operator>(const DateTimes::Day& d) const{ return this->value > d.value; };
+	};
+	
+	struct Days: DateTimeBase<Days,999999>
+	{
+		using Base = DateTimeBase<Days,999999>;
+		static constexpr const char* TypeIdentifier = "Days";
+		static Base::Derived Get(uint i) { return Days{i};}
+		static Base::Derived Get(int i) { return Days((uint)i);}
+		constexpr Days(uint v): Base(v){};
+		bool operator==(const DateTimes::Days& d) const{ return this->value == d.value; };
+		bool operator>(const DateTimes::Days& d) const{ return this->value > d.value; };
 	};
 
 	struct Month: DateTimeBase<Month,12>
@@ -278,6 +290,20 @@ namespace DateTimes
 
 	template<typename ItemT>
 	const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
+	
+	static void NumberOfDays(const Date& d1, const Date& d2)
+	{
+		struct std::tm a = {0,0,0,(int)Get<Day>(d1),(int)Get<Month>(d1),(int)Get<Year>(d1)-1900}; 
+		struct std::tm b = {0,0,0,(int)Get<Day>(d2),(int)Get<Month>(d2),(int)Get<Year>(d2)-1900}; 
+		std::time_t x = std::mktime(&a);
+		std::time_t y = std::mktime(&b);
+		if ( x != (std::time_t)(-1) && y != (std::time_t)(-1) )
+		{
+			double difference = std::difftime(y, x) / (60 * 60 * 24);
+			std::cout << "difference = " << difference << " days" << std::endl;
+		}
+	}
+
 }
 
 template<typename T>
