@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include <vector>
 #include "../Logger/Logger.hpp"
 #include "DateTimes.hpp"
@@ -6,7 +7,12 @@
 using namespace std::chrono;
 
 int main()
-{      
+{    
+	const std::chrono::time_point now{std::chrono::system_clock::now()};
+	const std::chrono::year_month_day ymd{std::chrono::floor<std::chrono::days>(now)};
+    
+    std::cout << "Current Year: " << static_cast<int>(ymd.year());
+    
     std::cout<<"START"<<std::endl;
     auto j = DateTimes::Month::Get(1);
 	Logger::Log()<<j.Value()<<std::endl;
@@ -35,13 +41,17 @@ int main()
 	
 	std::cout<<"Days"<<std::endl;
 	
-	auto d1 = DateTimes::Date("20.11.2022");
-	auto d2 = DateTimes::Date("18.11.2022");
+	auto d1 = DateTimes::Date("5.3.2022");
+	auto d2 = DateTimes::Date("28.2.2022");
 	
-	auto days = NumberOfDays(d2,d1);
-	std::cout<<"Days "<<days<<std::endl;
 	std::cout<<"Days "<<(d2 - d1)<<std::endl;
 	std::cout<<"Days "<<(d1 - d2)<<std::endl;
+
+	auto d3 = DateTimes::Date("5.3.2020");
+	auto d4 = DateTimes::Date("28.2.2020");
+	
+	std::cout<<"Days "<<(d3 - d1)<<std::endl;
+	std::cout<<"Days "<<(d4 - d3)<<std::endl;
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);

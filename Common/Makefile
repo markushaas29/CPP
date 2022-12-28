@@ -1,7 +1,7 @@
-CXX      = g++
+CXX      = g++-11
 CXXC      = clang
 OBJECTS = *.o
-CXXFLAGS  = -c -std=c++2a
+CXXFLAGS  = -c -std=c++23
 DEBUGFLAGS  = -c -g -std=c++17
 
 SRCDIR := src

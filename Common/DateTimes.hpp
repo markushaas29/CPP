@@ -288,28 +288,20 @@ namespace DateTimes
 		String_::ParserFrom<uint> converter;
 	};
 
+	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
+	{
+		const std::chrono::year_month_day ymd1{std::chrono::year(Get<Year>(d1)), std::chrono::month(Get<Month>(d1)), std::chrono::day(Get<Day>(d1))};
+		const std::chrono::year_month_day ymd2{std::chrono::year(Get<Year>(d2)), std::chrono::month(Get<Month>(d2)), std::chrono::day(Get<Day>(d2))};
+		
+		if(d1 > d2)
+			return Days{static_cast<uint>((std::chrono::sys_days{ymd1} - std::chrono::sys_days{ymd2}).count())};
+			
+		return Days{static_cast<uint>((std::chrono::sys_days{ymd2} - std::chrono::sys_days{ymd1}).count())};
+	}
+	
 	template<typename ItemT>
 	const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
 	
-	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
-	{
-		struct std::tm a = {0,0,0,(int)Get<Day>(d1),(int)Get<Month>(d1),(int)Get<Year>(d1)-1900}; 
-		struct std::tm b = {0,0,0,(int)Get<Day>(d2),(int)Get<Month>(d2),(int)Get<Year>(d2)-1900}; 
-		std::time_t x = std::mktime(&a);
-		std::time_t y = std::mktime(&b);
-		
-		uint difference;
-		
-		if ( x != (std::time_t)(-1) && y != (std::time_t)(-1) )
-		{
-			if(d2 > d1)
-				difference = std::difftime(y, x) / (60 * 60 * 24);
-			else
-				difference = std::difftime(x, y) / (60 * 60 * 24);
-		}
-		
-		return Days{difference};
-	}
 
 }
 
