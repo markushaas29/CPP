@@ -291,20 +291,26 @@ namespace DateTimes
 	template<typename ItemT>
 	const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
 	
-	static void NumberOfDays(const Date& d1, const Date& d2)
+	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
 	{
 		struct std::tm a = {0,0,0,(int)Get<Day>(d1),(int)Get<Month>(d1),(int)Get<Year>(d1)-1900}; 
 		struct std::tm b = {0,0,0,(int)Get<Day>(d2),(int)Get<Month>(d2),(int)Get<Year>(d2)-1900}; 
 		std::time_t x = std::mktime(&a);
 		std::time_t y = std::mktime(&b);
+		
+		uint difference;
+		
 		if ( x != (std::time_t)(-1) && y != (std::time_t)(-1) )
 		{
-			double difference = std::difftime(y, x) / (60 * 60 * 24);
-			std::cout << "difference = " << difference << " days" << std::endl;
+			difference = std::difftime(y, x) / (60 * 60 * 24);
 		}
+		
+		return Days{difference};
 	}
 
 }
+
+decltype(auto) operator-(const DateTimes::Date& d1, const DateTimes::Date& d2)  { return DateTimes::NumberOfDays(d1,d2); }
 
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T>& s){	return out<<s.Value();	}

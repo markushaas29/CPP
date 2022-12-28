@@ -38,7 +38,8 @@ int main()
 	auto d1 = DateTimes::Date("20.11.2022");
 	auto d2 = DateTimes::Date("18.11.2022");
 	
-	NumberOfDays(d2,d1);
+	auto days = NumberOfDays(d2,d1);
+	std::cout<<"Days "<<days<<std::endl;
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);
