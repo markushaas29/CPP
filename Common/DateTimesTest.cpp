@@ -40,6 +40,8 @@ int main()
 	
 	auto days = NumberOfDays(d2,d1);
 	std::cout<<"Days "<<days<<std::endl;
+	std::cout<<"Days "<<(d2 - d1)<<std::endl;
+	std::cout<<"Days "<<(d1 - d2)<<std::endl;
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);
