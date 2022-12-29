@@ -57,10 +57,11 @@ namespace DateTimes
 		return reinterpret_cast<T(&)[N]>(*a.data());
 	}
 	
-	template<typename T, uint Max = 3000, uint Min = 1>
+	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1>
 	struct DateTimeBase
 	{
 		using Derived = T;
+		using ChronoType = TChrono;
 		Derived Next() const { return T{this->value + 1}; };
 		Derived Prev() const { return T{this->value - 1}; };
 		std::string ToString() const { return ""; };
@@ -80,9 +81,9 @@ namespace DateTimes
 	};
 	
 	
-	struct Day: DateTimeBase<Day,31>
+	struct Day: DateTimeBase<Day,std::chrono::day,31>
 	{
-		using Base = DateTimeBase<Day,31>;
+		using Base = DateTimeBase<Day,std::chrono::day,31>;
 		static constexpr const char* TypeIdentifier = "Day";
 		static Base::Derived Get(uint i) { return Day{i};}
 		static Base::Derived Get(int i) { return Day((uint)i);}
@@ -91,9 +92,9 @@ namespace DateTimes
 		bool operator>(const DateTimes::Day& d) const{ return this->value > d.value; };
 	};
 	
-	struct Days: DateTimeBase<Days,999999>
+	struct Days: DateTimeBase<Days,std::chrono::day,999999>
 	{
-		using Base = DateTimeBase<Days,999999>;
+		using Base = DateTimeBase<Days,std::chrono::day,999999>;
 		static constexpr const char* TypeIdentifier = "Days";
 		static Base::Derived Get(uint i) { return Days{i};}
 		static Base::Derived Get(int i) { return Days((uint)i);}
@@ -102,9 +103,9 @@ namespace DateTimes
 		bool operator>(const DateTimes::Days& d) const{ return this->value > d.value; };
 	};
 
-	struct Month: DateTimeBase<Month,12>
+	struct Month: DateTimeBase<Month,std::chrono::month,12>
 	{
-		using Base = DateTimeBase<Month,12>;
+		using Base = DateTimeBase<Month,std::chrono::month,12>;
 		static constexpr const char* TypeIdentifier = "Month";
 		static Base::Derived Get(uint i) { return Month{i};}
 		constexpr Month(uint v): Base(v){};
@@ -120,9 +121,9 @@ namespace DateTimes
 		}
 	};
 	
-	struct Year: DateTimeBase<Year, 3000, 1900>
+	struct Year: DateTimeBase<Year, std::chrono::year,3000, 1900>
 	{
-		using Base = DateTimeBase<Year,3000,1900>;
+		using Base = DateTimeBase<Year,std::chrono::year,3000,1900>;
 		static constexpr const char* TypeIdentifier = "Year";
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
@@ -307,8 +308,8 @@ namespace DateTimes
 
 decltype(auto) operator-(const DateTimes::Date& d1, const DateTimes::Date& d2)  { return DateTimes::NumberOfDays(d1,d2); }
 
-template<typename T>
-std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T>& s){	return out<<s.Value();	}
+template<typename T, typename TC>
+std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){	return out<<s.Value();	}
 
 std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return d.Display(out);	}
 
