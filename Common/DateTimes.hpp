@@ -67,7 +67,7 @@ namespace DateTimes
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
 		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
-		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}
+		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(unsigned)v}
 		{
 			if(v > max || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
@@ -76,6 +76,7 @@ namespace DateTimes
 	protected:
 		const uint value;
 	private:
+		const ChronoType chronoValue;
 		constexpr static uint min = Min;
 		constexpr static uint max = Max;
 	};
