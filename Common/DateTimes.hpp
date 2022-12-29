@@ -210,26 +210,18 @@ namespace DateTimes
 		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
-		bool operator==(const Date& date) const{ return std::get<DateTimes::Day>(date.tt) == std::get<DateTimes::Day>(this->tt) 
-			&& std::get<DateTimes::Month>(date.tt) == std::get<DateTimes::Month>(this->tt) 
-			&& std::get<DateTimes::Year>(date.tt) == std::get<DateTimes::Year>(this->tt);};
-		bool operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
-		bool operator>(const Date& d) const { 
-			if(std::get<DateTimes::Year>(this->tt) > std::get<DateTimes::Year>(d.tt))
-				return true;
-			if(std::get<DateTimes::Year>(this->tt) == std::get<DateTimes::Year>(d.tt))
-			{
-				if(std::get<DateTimes::Month>(this->tt) > std::get<DateTimes::Month>(d.tt))
-					return true;
-				if(std::get<DateTimes::Month>(this->tt) == std::get<DateTimes::Month>(d.tt) && std::get<DateTimes::Day>(this->tt) > std::get<DateTimes::Day>(d.tt))
-					return true;
-			}
-			return false;
-		}
 		
+		bool  operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
+		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
+		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
 		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }
 		
 	private:
+		TupleType tt;
+		const std::chrono::year_month_day ymd;
+		TP tp;
+		String_::ParserFrom<uint> converter;
+		
 		static TupleType extract(const std::string& s)
 		{
 			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
@@ -292,11 +284,6 @@ namespace DateTimes
 			
 			return result;
 		}
-		
-		TupleType tt;
-		const std::chrono::year_month_day ymd;
-		TP tp;
-		String_::ParserFrom<uint> converter;
 	};
 
 	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
@@ -312,8 +299,6 @@ namespace DateTimes
 	
 	template<typename ItemT>
 	const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
-	
-
 }
 
 decltype(auto) operator-(const DateTimes::Date& d1, const DateTimes::Date& d2)  { return DateTimes::NumberOfDays(d1,d2); }

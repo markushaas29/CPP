@@ -52,6 +52,10 @@ int main()
 	
 	std::cout<<"Days "<<(d3 - d1)<<std::endl;
 	std::cout<<"Days "<<(d4 - d3)<<std::endl;
+	std::cout<<d4<<" > "<<d3<<"\t"<<(d4 > d3)<<std::endl;
+	std::cout<<d4<<"< "<<d3<<"\t"<<(d4 < d3)<<std::endl;
+	std::cout<<d4<<"== "<<d3<<"\t"<<(d4 == d3)<<std::endl;
+	std::cout<<d3<<"== "<<d3<<"\t"<<(d3 == d3)<<std::endl;
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);
