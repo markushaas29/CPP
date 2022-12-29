@@ -12,3 +12,6 @@
 [31m[ERROR]:  Value 3001  is invalid for Year[39m
 [31m[ERROR]:  Value 15  is invalid for Month[39m
 [31m[ERROR]:  Value 32  is invalid for Day[39m
+[31m[ERROR]:  Value 3001  is invalid for Year[39m
+[31m[ERROR]:  Value 15  is invalid for Month[39m
+[31m[ERROR]:  Value 32  is invalid for Day[39m

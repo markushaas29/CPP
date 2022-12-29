@@ -73,6 +73,7 @@ namespace DateTimes
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
 		operator uint() const { return this->value; }
+		constexpr operator ChronoType() const { return chronoValue;}
 	protected:
 		const uint value;
 	private:
@@ -179,8 +180,11 @@ namespace DateTimes
 
 		inline static constexpr const char* Identifier = "Date";
 						
-		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Element(getChars(d,m,y)), tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))}{	}; 
-		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}{    };
+		constexpr Date(uint d = 0, uint m = 0, uint y = 0): 
+			Element(getChars(d,m,y)), 
+			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))},
+			ymd{DateTimes::Year{y}, DateTimes::Month{m}, DateTimes::Day{d}}{	}; 
+		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}, ymd{std::get<DateTimes::Year>(tt), std::get<DateTimes::Month>(tt), std::get<DateTimes::Day>(tt) }{    };
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date("", 0,0, 0) { };
 		Date* DoCreate(){return this;};
@@ -285,7 +289,9 @@ namespace DateTimes
 			
 			return result;
 		}
+		
 		TupleType tt;
+		const std::chrono::year_month_day ymd;
 		TP tp;
 		String_::ParserFrom<uint> converter;
 	};
