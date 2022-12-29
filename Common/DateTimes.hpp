@@ -227,6 +227,8 @@ namespace DateTimes
 			return false;
 		}
 		
+		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }
+		
 	private:
 		static TupleType extract(const std::string& s)
 		{
