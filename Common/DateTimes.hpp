@@ -57,17 +57,18 @@ namespace DateTimes
 		return reinterpret_cast<T(&)[N]>(*a.data());
 	}
 	
-	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1>
+	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint>
 	struct DateTimeBase
 	{
 		using Derived = T;
 		using ChronoType = TChrono;
+		using ChronoValueType = TChronoVal;
 		Derived Next() const { return T{this->value + 1}; };
 		Derived Prev() const { return T{this->value - 1}; };
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
 		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
-		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(unsigned)v}
+		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(ChronoValueType)v}
 		{
 			if(v > max || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
@@ -123,9 +124,9 @@ namespace DateTimes
 		}
 	};
 	
-	struct Year: DateTimeBase<Year, std::chrono::year,3000, 1900>
+	struct Year: DateTimeBase<Year, std::chrono::year,3000, 1900, int>
 	{
-		using Base = DateTimeBase<Year,std::chrono::year,3000,1900>;
+		using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int>;
 		static constexpr const char* TypeIdentifier = "Year";
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
