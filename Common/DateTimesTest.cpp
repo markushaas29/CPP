@@ -31,6 +31,7 @@ int main()
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
 	std::cout<<"TODAY"<<DateTimes::Date::Today().Value()<<std::endl;
+	
 	std::cout<<"TODAY"<<DateTimes::Date::Today()<<std::endl;
 	std::cout<<"TODAY"<<DateTimes::Date(32,15,3001)<<std::endl;
 	
@@ -56,6 +57,8 @@ int main()
 	std::cout<<d4<<"< "<<d3<<"\t"<<(d4 < d3)<<std::endl;
 	std::cout<<d4<<"== "<<d3<<"\t"<<(d4 == d3)<<std::endl;
 	std::cout<<d3<<"== "<<d3<<"\t"<<(d3 == d3)<<std::endl;
+	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::July == DateTimes::July)<<std::endl;
+	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::Year(2021) == DateTimes::Year(2021))<<std::endl;
 	
 	//~ auto d = Chars(18,12,2021);
 	//~ auto d = DateTimes::Date::getChars(18,12,2021);

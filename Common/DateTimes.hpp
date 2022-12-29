@@ -78,6 +78,8 @@ namespace DateTimes
 	protected:
 		const uint value;
 	private:
+		template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+		template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
 		const ChronoType chronoValue;
 		constexpr static uint min = Min;
 		constexpr static uint max = Max;
@@ -91,8 +93,6 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return Day{i};}
 		static Base::Derived Get(int i) { return Day((uint)i);}
 		constexpr Day(uint v): Base(v){};
-		bool operator==(const DateTimes::Day& d) const{ return this->value == d.value; };
-		bool operator>(const DateTimes::Day& d) const{ return this->value > d.value; };
 	};
 	
 	struct Days: DateTimeBase<Days,std::chrono::day,999999>
@@ -102,8 +102,6 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return Days{i};}
 		static Base::Derived Get(int i) { return Days((uint)i);}
 		constexpr Days(uint v): Base(v){};
-		bool operator==(const DateTimes::Days& d) const{ return this->value == d.value; };
-		bool operator>(const DateTimes::Days& d) const{ return this->value > d.value; };
 	};
 
 	struct Month: DateTimeBase<Month,std::chrono::month,12>
@@ -113,8 +111,6 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return Month{i};}
 		constexpr Month(uint v): Base(v){};
 		constexpr Month(int v): Base(v){};
-		bool operator==(const DateTimes::Month& d) const{ return this->value == d.value; };
-		bool operator>(const DateTimes::Month& d) const{ return this->value > d.value; };
 	private:
 		static constexpr uint check(uint i)
 		{
@@ -131,8 +127,6 @@ namespace DateTimes
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
 		constexpr Year(uint v): Base(v), IsLeapYear(isLeapYear(v)){};
-		bool operator==(const DateTimes::Year& d) const{ return this->value == d.value; };
-		bool operator>(const DateTimes::Year& d) const{ return this->value > d.value; };
 		bool IsLeapYear;
 	private:
 		static constexpr bool isLeapYear(uint year)
@@ -211,7 +205,7 @@ namespace DateTimes
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
 		
-		bool  operator==(const Year& y) const{ return std::get<DateTimes::Year>(this->tt) == y; };
+		constexpr bool operator==(const Year& y) const{ return ymd.year() == y; };
 		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
 		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }
@@ -302,6 +296,12 @@ namespace DateTimes
 }
 
 decltype(auto) operator-(const DateTimes::Date& d1, const DateTimes::Date& d2)  { return DateTimes::NumberOfDays(d1,d2); }
+
+template<typename T, typename TC>
+decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;	}
+
+template<typename T, typename TC>
+decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue;	}
 
 template<typename T, typename TC>
 std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){	return out<<s.Value();	}
