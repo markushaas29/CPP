@@ -58,6 +58,10 @@ int main()
 	std::cout<<d4<<"== "<<d3<<"\t"<<(d4 == d3)<<std::endl;
 	std::cout<<d3<<"== "<<d3<<"\t"<<(d3 == d3)<<std::endl;
 	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::July == DateTimes::July)<<std::endl;
+	auto y2021 = DateTimes::Year(2021);
+	auto y2020 = DateTimes::Year(2020);
+	std::cout<<"Leap 2020"<<"\t"<<y2020.IsLeap<<std::endl;
+	std::cout<<"Leap 2021"<<"\t"<<y2021.IsLeap<<std::endl;
 	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::Year(2021) == DateTimes::Year(2021))<<std::endl;
 	
 	//~ auto d = Chars(18,12,2021);

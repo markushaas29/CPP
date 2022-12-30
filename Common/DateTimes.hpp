@@ -126,16 +126,8 @@ namespace DateTimes
 		static constexpr const char* TypeIdentifier = "Year";
 		static Base::Derived Get(uint i) { return Year{i};}
 		static Base::Derived Get(int i) { return Year((uint)i);}
-		constexpr Year(uint v): Base(v), IsLeapYear(isLeapYear(v)){};
-		bool IsLeapYear;
-	private:
-		static constexpr bool isLeapYear(uint year)
-		{
-			if (year % 400 == 0) 	return true;
-			if (year % 100 == 0)	return false;
-			if (year % 4 == 0)		return true;
-			return false;
-		}
+		constexpr Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
+		bool IsLeap;
 	};
 		
 	bool operator<(const Year& y1, const Year& y2) { return y1.Value() < y2.Value(); };
