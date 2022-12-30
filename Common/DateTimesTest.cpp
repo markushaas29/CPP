@@ -29,8 +29,13 @@ int main()
 	
 	Logger::Log()<<DateTimes::January.Value()<<std::endl;
 	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
+	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
 	
 	std::cout<<"TODAY"<<DateTimes::Date::Today().Value()<<std::endl;
+	std::cout<<"Get"<<DateTimes::Days::Get(12)<<std::endl;
+	std::cout<<"Get"<<DateTimes::Day::Get(1)<<std::endl;
+	std::cout<<"Get"<<DateTimes::Month::Get(2)<<std::endl;
+	std::cout<<"Get"<<DateTimes::Year::Get(2021)<<std::endl;
 	
 	std::cout<<"TODAY"<<DateTimes::Date::Today()<<std::endl;
 	std::cout<<"TODAY"<<DateTimes::Date(32,15,3001)<<std::endl;

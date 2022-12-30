@@ -65,6 +65,8 @@ namespace DateTimes
 		using ChronoValueType = TChronoVal;
 		Derived Next() const { return T{this->value + 1}; };
 		Derived Prev() const { return T{this->value - 1}; };
+		static constexpr Derived Get(uint i) { return Derived{i};}
+		static constexpr Derived Get(int i) { return Derived((uint)i);}
 		std::string ToString() const { return ""; };
 		uint Value() const { return this->value; }
 		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
@@ -90,8 +92,6 @@ namespace DateTimes
 	{
 		using Base = DateTimeBase<Day,std::chrono::day,31>;
 		static constexpr const char* TypeIdentifier = "Day";
-		static Base::Derived Get(uint i) { return Day{i};}
-		static Base::Derived Get(int i) { return Day((uint)i);}
 		constexpr Day(uint v): Base(v){};
 	};
 	
@@ -99,8 +99,6 @@ namespace DateTimes
 	{
 		using Base = DateTimeBase<Days,std::chrono::day,999999>;
 		static constexpr const char* TypeIdentifier = "Days";
-		static Base::Derived Get(uint i) { return Days{i};}
-		static Base::Derived Get(int i) { return Days((uint)i);}
 		constexpr Days(uint v): Base(v){};
 	};
 
@@ -108,7 +106,6 @@ namespace DateTimes
 	{
 		using Base = DateTimeBase<Month,std::chrono::month,12>;
 		static constexpr const char* TypeIdentifier = "Month";
-		static Base::Derived Get(uint i) { return Month{i};}
 		constexpr Month(uint v): Base(v){};
 		constexpr Month(int v): Base(v){};
 	private:
@@ -124,8 +121,6 @@ namespace DateTimes
 	{
 		using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int>;
 		static constexpr const char* TypeIdentifier = "Year";
-		static Base::Derived Get(uint i) { return Year{i};}
-		static Base::Derived Get(int i) { return Year((uint)i);}
 		constexpr Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
 		bool IsLeap;
 	};
