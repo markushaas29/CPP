@@ -94,9 +94,12 @@ public:
 	{
 		for(auto it = (begin + Config::Size); it != end; ++it)
 		{
-			auto v = csv->ExtractValues(*it);
-			DataType reading = CreateReading(v.cbegin(), v.cend());
-			addReading(reading);
+			if(it->size() > 0)
+			{
+				auto v = csv->ExtractValues(*it);
+				DataType reading = CreateReading(v.cbegin(), v.cend());
+				addReading(reading);
+			}
 		}
 		
 		std::cout<<"Parsed"<<std::endl;
@@ -212,7 +215,23 @@ struct CurrentValue
 struct Difference
 { 
 	template<typename It>
-	decltype(auto) operator()(It begin, It end) const { return **(begin) - **(begin + 1); }
+	decltype(auto) operator()(It begin, It end) const {	return **(begin) - **(begin + 1); 	}
+};
+
+class AnnualConsumption
+{ 
+public:
+	AnnualConsumption(DateTimes::Year y): year{y} {};
+	template<typename It>
+	decltype(auto) operator()(It begin, It end) const 
+	{ 
+		auto curr = std::find_if(begin,end,[&](const auto t) { return t->Date == year;});
+		auto prev = std::find_if(begin,end,[&](const auto t) { return t->Date == lastYear;});
+		return **curr - **prev;
+	}
+private:
+	DateTimes::Year year;
+	DateTimes::Year lastYear = year.Prev();
 };
 
 template<typename C, typename S = T::char_<'\t'>>
