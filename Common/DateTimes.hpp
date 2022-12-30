@@ -63,19 +63,19 @@ namespace DateTimes
 		using Derived = T;
 		using ChronoType = TChrono;
 		using ChronoValueType = TChronoVal;
-		Derived Next() const { return T{this->value + 1}; };
-		Derived Prev() const { return T{this->value - 1}; };
+		constexpr Derived Next() const { return T{this->value + 1}; };
+		constexpr Derived Prev() const { return T{this->value - 1}; };
 		static constexpr Derived Get(uint i) { return Derived{i};}
 		static constexpr Derived Get(int i) { return Derived((uint)i);}
 		std::string ToString() const { return ""; };
-		uint Value() const { return this->value; }
+		constexpr uint Value() const { return this->value; }
 		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(ChronoValueType)v}
 		{
 			if(v > max || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
-		operator uint() const { return this->value; }
+		constexpr operator uint() const { return this->value; }
 		constexpr operator ChronoType() const { return chronoValue;}
 	protected:
 		const uint value;
@@ -108,13 +108,6 @@ namespace DateTimes
 		static constexpr const char* TypeIdentifier = "Month";
 		constexpr Month(uint v): Base(v){};
 		constexpr Month(int v): Base(v){};
-	private:
-		static constexpr uint check(uint i)
-		{
-			if( i > 12) return 1;
-			if( i < 1) return 12;
-			return i;
-		}
 	};
 	
 	struct Year: DateTimeBase<Year, std::chrono::year,3000, 1900, int>
