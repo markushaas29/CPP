@@ -147,19 +147,18 @@ namespace DateTimes
 	{
 		using Base = Element<Date>;
 		friend class Element<Date>;
-	public:
-		using DayType = DateTimes::Day;
-        using MonthType = DateTimes::Month;
-        using YearType = DateTimes::Year;
-		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
-		using Type = DateTimes::Date;
 		
 		template<typename ItemT>
 		friend const ItemT& Get(Date const& t);
 		
 		template<typename, typename, typename>
 		friend class Parsers::Parser;
-
+	public:
+		using DayType = DateTimes::Day;
+        using MonthType = DateTimes::Month;
+        using YearType = DateTimes::Year;
+		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
+		using Type = DateTimes::Date;
 		inline static constexpr const char* Identifier = "Date";
 						
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): 
@@ -195,8 +194,7 @@ namespace DateTimes
 		constexpr bool operator==(const Year& y) const{ return ymd.year() == y; };
 		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
-		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }
-		
+		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
 	private:
 		TupleType tt;
 		const std::chrono::year_month_day ymd;
