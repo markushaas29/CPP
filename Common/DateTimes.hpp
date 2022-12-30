@@ -60,6 +60,7 @@ namespace DateTimes
 	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint>
 	struct DateTimeBase
 	{
+	public:
 		using Derived = T;
 		using ChronoType = TChrono;
 		using ChronoValueType = TChronoVal;
@@ -87,9 +88,9 @@ namespace DateTimes
 		constexpr static uint max = Max;
 	};
 	
-	
 	struct Day: DateTimeBase<Day,std::chrono::day,31>
 	{
+	public:
 		using Base = DateTimeBase<Day,std::chrono::day,31>;
 		static constexpr const char* TypeIdentifier = "Day";
 		constexpr Day(uint v): Base(v){};
@@ -97,6 +98,7 @@ namespace DateTimes
 	
 	struct Days: DateTimeBase<Days,std::chrono::day,999999>
 	{
+	public:
 		using Base = DateTimeBase<Days,std::chrono::day,999999>;
 		static constexpr const char* TypeIdentifier = "Days";
 		constexpr Days(uint v): Base(v){};
@@ -104,6 +106,7 @@ namespace DateTimes
 
 	struct Month: DateTimeBase<Month,std::chrono::month,12>
 	{
+	public:
 		using Base = DateTimeBase<Month,std::chrono::month,12>;
 		static constexpr const char* TypeIdentifier = "Month";
 		constexpr Month(uint v): Base(v){};
@@ -112,6 +115,7 @@ namespace DateTimes
 	
 	struct Year: DateTimeBase<Year, std::chrono::year,3000, 1900, int>
 	{
+	public:
 		using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int>;
 		static constexpr const char* TypeIdentifier = "Year";
 		constexpr Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
