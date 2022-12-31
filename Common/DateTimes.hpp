@@ -6,6 +6,7 @@
 #include <charconv>
 #include <array>
 #include "../CSV/Element.hpp"
+#include "../Quantity/Quantity.hpp"
 #include "../String/String_.hpp"
 #include "../String/StringParser.hpp"
 #include "../String/To/To.hpp"
@@ -58,7 +59,7 @@ namespace DateTimes
 	}
 	
 	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint>
-	struct DateTimeBase
+	class DateTimeBase
 	{
 	public:
 		using Derived = T;
@@ -88,7 +89,7 @@ namespace DateTimes
 		constexpr static uint max = Max;
 	};
 	
-	struct Day: DateTimeBase<Day,std::chrono::day,31>
+	class Day: public DateTimeBase<Day,std::chrono::day,31>
 	{
 	public:
 		using Base = DateTimeBase<Day,std::chrono::day,31>;
@@ -96,15 +97,17 @@ namespace DateTimes
 		constexpr Day(uint v): Base(v){};
 	};
 	
-	struct Days: DateTimeBase<Days,std::chrono::day,999999>
+	class Days: public DateTimeBase<Days,std::chrono::day,999999>
 	{
 	public:
 		using Base = DateTimeBase<Days,std::chrono::day,999999>;
 		static constexpr const char* TypeIdentifier = "Days";
-		constexpr Days(uint v): Base(v){};
+		constexpr Days(uint v): Base(v), quantity{v}{};
+	private:
+		Quantity<Time,Kilo,uint> quantity;
 	};
 
-	struct Month: DateTimeBase<Month,std::chrono::month,12>
+	class Month: public DateTimeBase<Month,std::chrono::month,12>
 	{
 	public:
 		using Base = DateTimeBase<Month,std::chrono::month,12>;
@@ -113,7 +116,7 @@ namespace DateTimes
 		constexpr Month(int v): Base(v){};
 	};
 	
-	struct Year: DateTimeBase<Year, std::chrono::year,3000, 1900, int>
+	class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int>
 	{
 	public:
 		using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int>;
