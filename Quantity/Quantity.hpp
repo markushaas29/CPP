@@ -26,8 +26,8 @@ struct Quantity
     inline static constexpr Converter converter = Converter();
     inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
-	Quantity(): value(0 * SiPrefix::Factor) {	}
-	explicit Quantity(const T1& v): value(v * SiPrefix::Factor) {	}
+	constexpr Quantity(): value(0 * SiPrefix::Factor) {	}
+	explicit constexpr Quantity(const T1& v): value(v * SiPrefix::Factor) {	}
 	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { /*Logger::Log()<<"Value: "<<value<<std::endl;*/	}
 	
 	T1 Value() const { return value / SiPrefix::Factor;}
