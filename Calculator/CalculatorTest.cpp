@@ -3,10 +3,11 @@
 #include "Calculator.hpp"
 #include "Operations.hpp"
 #include "../Home/Counter.hpp"
+#include "../Common/DateTimes.hpp"
 #include "../Home/CounterContainer.hpp"
 #include "../Home/StageContainer.hpp"
 #include "../Home/Stage.hpp"
-#include "../Quantity/Quantity.h"
+#include "../Quantity/Quantity.hpp"
 
 int main()
 {       
@@ -16,6 +17,13 @@ int main()
 	auto e6 = Quantity<Sum>{6};
 	auto e9 = Quantity<Sum>{9};
 	auto s2 = Quantity<Scalar>{2};
+	auto t1 = Quantity<Time>{3};
+	auto t2 = Quantity<Time>{2};
+	
+	auto days = DateTimes::Days::Get(12);
+	auto ts = Subtraction::Calculate(t1,t2);
+	auto dts =  ts / days.AsQuantity();
+	std::cout<<Subtraction::Calculate(t1,t2)<<std::endl;
 	
 	auto a1 = Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9);
 	auto m2 = Multiplication::Calculate(e3,s2) + Multiplication::Calculate(e3,s2) +Multiplication::Calculate(e3,s2);

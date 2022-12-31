@@ -218,6 +218,14 @@ struct Difference
 	decltype(auto) operator()(It begin, It end) const {	return **(begin) - **(begin + 1); 	}
 };
 
+struct DailyConsumption
+{ 
+	template<typename It>
+	decltype(auto) operator()(It begin, It end) const {	
+		   std::vector<int> v = {7, 5, 16, 8};
+		   return v; 	}
+};
+
 class AnnualConsumption
 { 
 public:

@@ -33,6 +33,7 @@ int main()
 	
 	std::cout<<"TODAY"<<DateTimes::Date::Today().Value()<<std::endl;
 	std::cout<<"Get"<<DateTimes::Days::Get(12)<<std::endl;
+	std::cout<<"Get Quantity"<<DateTimes::Days::Get(12).AsQuantity()<<std::endl;
 	std::cout<<"Get"<<DateTimes::Day::Get(1)<<std::endl;
 	std::cout<<"Get"<<DateTimes::Month::Get(2)<<std::endl;
 	std::cout<<"Get"<<DateTimes::Year::Get(2021)<<std::endl;

@@ -103,6 +103,7 @@ namespace DateTimes
 		using Base = DateTimeBase<Days,std::chrono::day,999999>;
 		static constexpr const char* TypeIdentifier = "Days";
 		constexpr Days(uint v): Base(v), quantity{v}{};
+		constexpr decltype(auto) AsQuantity(){ return quantity; }
 	private:
 		Quantity<Time,Kilo,uint> quantity;
 	};
