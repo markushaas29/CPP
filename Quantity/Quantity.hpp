@@ -32,8 +32,8 @@ public:
 	explicit constexpr Quantity(const T1& v): value(v * SiPrefix::Factor) {	}
 	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { /*Logger::Log()<<"Value: "<<value<<std::endl;*/	}
 	
-	T1 Value() const { return value / SiPrefix::Factor;}
-	T1 PureValue() const { return value;}
+	constexpr T1 Value() const { return value / SiPrefix::Factor;}
+	constexpr T1 PureValue() const { return value;}
 	constexpr decltype(auto) ToPure() const { return PureType(value);}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix, typename T2 = T1>
