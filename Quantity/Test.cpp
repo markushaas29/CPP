@@ -29,6 +29,9 @@ int main()
 	auto q12 = q7 / q5;
     std::cout<<"q12: "<<q12.Value()<<std::endl;
 	
+	Quantity<Time,Days> d3 = Quantity<Time,Days>(3);
+    std::cout<<"Days: "<<d3<<std::endl;
+	
 	Quantity<Mass,Kilo>::UnitType u;
 	auto km1 = Quantity<Mass,Kilo>(2);
 	auto km2 = Quantity<Mass,Kilo>(2);

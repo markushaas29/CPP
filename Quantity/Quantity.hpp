@@ -84,8 +84,16 @@ private:
 template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
 std::ostream& operator<<(std::ostream& out, const Quantity<U,SiPrefix,T1>& q)
 {
+	if constexpr (std::is_same_v<SiPrefix, Days>)
+		return out<<q.Value()<<" "<<SiPrefix::Sign;
 	return out<<q.Value()<<" "<<SiPrefix::Sign<<U::Sign();
 }
+
+//~ template<typename U,typename SIPrefix<86400,1> SiPrefix,typename T1 = double>
+//~ std::ostream& operator<<(std::ostream& out, const Quantity<U,SiPrefix,T1>& q)
+//~ {
+	//~ return out<<q.Value()<<" "<<SiPrefix::Sign;
+//~ }
 
 
 #endif
