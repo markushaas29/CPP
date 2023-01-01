@@ -88,6 +88,10 @@ int main()
 	dhm = dhm - m1;
     assert(dhm.PureValue()==(86400+3600));
 	
+	auto m_2 = m1 * m1;
+    std::cout<<"m_2: "<<m_2<<std::endl;
+    assert(m_2.PureValue()==3600);
+	
     std::cout<<"END"<<std::endl;
 
     return 0;

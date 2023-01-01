@@ -46,34 +46,33 @@ public:
 	bool operator!=(const Quantity<U,SiPrefix,T1>& y) const { return !(this->Value() == y.Value()); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
-	decltype(auto) operator+(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,SiPrefix,T1>(this->Value() + y.Value()); }
+	decltype(auto) operator+(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,Pure,T1>(value + y.PureValue()); }
 	
 	template<typename SiPrefix2 = SiPrefix>
-	decltype(auto) operator+(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure,T1>(this->PureValue() + y.PureValue()); }
+	decltype(auto) operator+(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure,T1>(value + y.PureValue()); }
 	
 	// ----------------------------------------SUB-------------------------------------------------------------
-	decltype(auto) operator-(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,SiPrefix,T1>(this->Value() - y.Value()); }
+	decltype(auto) operator-(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,Pure,T1>(value - y.PureValue()); }
 	
 	template<typename SiPrefix2 = SiPrefix>
-	decltype(auto) operator-(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure,T1>(this->PureValue() - y.PureValue()); }
+	decltype(auto) operator-(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure,T1>(value - y.PureValue()); }
 	
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
 	
-	decltype(auto) operator*(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, SiPrefix,T1>(this->PureValue() * q.Value());	}
+	decltype(auto) operator*(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, Pure,T1>(value * q.PureValue());}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix>
 	decltype(auto) operator*(const Quantity<U2, SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure,T1>(value * q.PureValue());	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	
-	decltype(auto) operator/(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, SiPrefix,T1>(this->Value() / q.Value());	}
+	decltype(auto) operator/(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, Pure,T1>(value / q.PureValue());	}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix>
 	decltype(auto) operator/(const Quantity<U2,SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure,T1>(value / q.PureValue()); }
 	
 private:
-	T1 value;
-	
+	T1 value;	
 };
 
 template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
