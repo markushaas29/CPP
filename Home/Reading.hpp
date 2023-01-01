@@ -13,7 +13,7 @@
 #define READING_HPP
 
 
-template<typename U, typename Pre = SIPrefix<0>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
+template<typename U, typename Pre = SIPrefix<1,1>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
 struct Reading
 {
 	using Unit = U;
@@ -47,7 +47,7 @@ struct Reading
 	bool operator!=(const Type& left) const {return !(this->QuantityValue == left.QuantityValue);}
 };
 
-template<typename U, typename Pre = SIPrefix<0>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
+template<typename U, typename Pre = SIPrefix<1,1>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
 std::ostream& operator<<(std::ostream& strm, const Reading<U,Pre,Q,DateT>& r){	return r.Display(strm);}
 //--------------------------------------------Addition---------------------------------------------------------
 

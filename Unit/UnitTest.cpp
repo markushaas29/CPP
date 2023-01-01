@@ -33,8 +33,21 @@ int main()
 	std::cout<<Volume::Sign()<<std::endl;
 	std::cout<<Volume::SiUnit()<<std::endl;
 	
+	std::cout<<"Kilo "<<Milli::Name<<std::endl;
+    std::cout<<"Milli "<<Milli::Sign<<std::endl;
+    std::cout<<"Milli "<<Milli::Factor<<std::endl;
+
+	std::cout<<"H "<<Hours::Name<<std::endl;
+    std::cout<<"H "<<Hours::Sign<<std::endl;
+    std::cout<<"H "<<Hours::Factor<<std::endl;
+	
+	std::cout<<"D "<<Days::Name<<std::endl;
+    std::cout<<"D "<<Days::Sign<<std::endl;
+    std::cout<<"D "<<Days::Factor<<std::endl;
+	
 	std::cout<<"Kilo "<<Kilo::Name<<std::endl;
     std::cout<<"Kilo "<<Kilo::Sign<<std::endl;
+    std::cout<<"Kilo "<<Kilo::Factor<<std::endl;
 	
 	std::cout<<"Hekto "<<Hekto::Name<<std::endl;
     std::cout<<"Hekto "<<Hekto::Sign<<std::endl;
@@ -42,7 +55,6 @@ int main()
 	std::cout<<"Deka "<<Deka::Name<<std::endl;
     std::cout<<"Deka "<<Deka::Sign<<std::endl;
 	
-    std::cout<<"Deka Next"<<Deka::Next::Name<<std::endl;
     
 	std::cout<<"END"<<std::endl;
     return 0;

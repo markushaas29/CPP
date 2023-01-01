@@ -16,10 +16,7 @@ struct SIPrefix
 	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
 	static inline const std::string Sign;
 	static inline const std::string Name;
-	static constexpr double Factor = ((double)Num / Denom);
-	
-	using Next = SIPrefix<Num + 1, Denom>;
-	using Prev = SIPrefix<Num - 1, Denom>;
+	static constexpr double Factor = ((double)Num / Denom);	
 };
 
 
@@ -29,6 +26,30 @@ struct SIPrefix
 // 	inline static const std::string Sign = "h"; 
 // 	inline static const std::string Name = "Hekto"; 
 // };
+
+struct Milli: public SIPrefix<1, 1000> 
+{	
+	inline static const std::string Sign = "mil"; 
+	inline static const std::string Name = "Milli"; 
+};
+
+struct Minutes: public SIPrefix<60, 1> 
+{	
+	inline static const std::string Sign = "min"; 
+	inline static const std::string Name = "Minuttes"; 
+};
+
+struct Hours: public SIPrefix<3600, 1> 
+{	
+	inline static const std::string Sign = "h"; 
+	inline static const std::string Name = "Hours"; 
+};
+
+struct Days: public SIPrefix<86400, 1> 
+{	
+	inline static const std::string Sign = "d"; 
+	inline static const std::string Name = "Days"; 
+};
 
 struct Zero: public SIPrefix<1, 1> 
 {	

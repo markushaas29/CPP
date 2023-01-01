@@ -35,7 +35,7 @@ namespace Bank
 	public:
 		using VectorType = std::vector<char>;
 		using PtrType = std::unique_ptr<VectorType>;
-		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
+		using QuantityType = Quantity<Scalar,SIPrefix<1,1>>;
 		virtual const std::string& Sign() = 0;	
 		virtual const QuantityType& QuantityValue() = 0;	
 		virtual const int Value() = 0;	
@@ -107,7 +107,7 @@ namespace Bank
 	public:
 		DirectionBase(std::string s): Base(s.c_str()), tranferType{Create(*(s.cbegin()))} { };
 		using Type = DirectionBase;
-		using QuantityType = Quantity<Scalar,SIPrefix<0>>;
+		using QuantityType = Quantity<Scalar,SIPrefix<1,1>>;
 		using PtrType = std::shared_ptr<DirectionType>;
 		
 		inline static constexpr const char* Identifier = "Direction";
