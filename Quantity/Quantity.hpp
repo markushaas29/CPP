@@ -12,8 +12,9 @@
 #define QUANTITY_H
 
 template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
-struct Quantity
+class Quantity
 {
+public:
 	using ValueType = T1;
 	using UnitType = U;
 	using UnitPrefix = SiPrefix;
