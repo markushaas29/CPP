@@ -96,18 +96,7 @@ namespace DateTimes
 		static constexpr const char* TypeIdentifier = "Day";
 		constexpr Day(uint v): Base(v){};
 	};
-	
-	class Days: public DateTimeBase<Days,std::chrono::day,999999>
-	{
-	public:
-		using Base = DateTimeBase<Days,std::chrono::day,999999>;
-		static constexpr const char* TypeIdentifier = "Days";
-		constexpr Days(uint v): Base(v), quantity{v}{};
-		constexpr decltype(auto) AsQuantity(){ return quantity; }
-	private:
-		Quantity<Time,Kilo,uint> quantity;
-	};
-
+		
 	class Month: public DateTimeBase<Month,std::chrono::month,12>
 	{
 	public:
@@ -272,9 +261,9 @@ namespace DateTimes
 		const std::chrono::year_month_day ymd2{std::chrono::year(Get<Year>(d2)), std::chrono::month(Get<Month>(d2)), std::chrono::day(Get<Day>(d2))};
 		
 		if(d1 > d2)
-			return Days{static_cast<uint>((std::chrono::sys_days{ymd1} - std::chrono::sys_days{ymd2}).count())};
+			return Quantity<Time,Days,uint>{static_cast<uint>((std::chrono::sys_days{ymd1} - std::chrono::sys_days{ymd2}).count())};
 			
-		return Days{static_cast<uint>((std::chrono::sys_days{ymd2} - std::chrono::sys_days{ymd1}).count())};
+		return Quantity<Time,Days,uint>{static_cast<uint>((std::chrono::sys_days{ymd2} - std::chrono::sys_days{ymd1}).count())};
 	}
 	
 	template<typename ItemT>
