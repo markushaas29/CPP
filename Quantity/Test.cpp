@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "Quantity.hpp"
 
 int main()
@@ -29,8 +30,6 @@ int main()
 	auto q12 = q7 / q5;
     std::cout<<"q12: "<<q12.Value()<<std::endl;
 	
-	Quantity<Time,Days> d3 = Quantity<Time,Days>(3);
-    std::cout<<"Days: "<<d3<<std::endl;
 	
 	Quantity<Mass,Kilo>::UnitType u;
 	auto km1 = Quantity<Mass,Kilo>(2);
@@ -68,6 +67,26 @@ int main()
     std::cout<<"kmM2 / q5: Pure "<<kmD.Value()<<std::endl;
     std::cout<<"kmM2 / q5: Value() "<<kmD.PureValue()<<std::endl;
 	
+	Quantity<Time,Days> d3 = Quantity<Time,Days>(1);
+    std::cout<<"Days: "<<d3<<std::endl;
+    std::cout<<"Days: "<<d3<<std::endl;
+    std::cout<<"Days: "<<d3.ToPure()<<std::endl;
+    assert(d3.PureValue()==86400);
+    
+    auto d2 = d3 + d3;
+	Quantity<Time,Hours> h1 = Quantity<Time,Hours>(1);
+	auto m1 = Quantity<Time,Minutes>(1);
+    std::cout<<"H: "<<h1<<std::endl;
+    std::cout<<"M: "<<m1<<std::endl;
+    assert(d2.PureValue()==(2 * 86400));
+    assert(h1.PureValue()==3600);
+    assert(m1.PureValue()==60);
+	
+	auto dhm = d3 + h1 + m1;
+    std::cout<<"dhm: "<<dhm<<dhm.PureValue()<<std::endl;
+    assert(dhm.PureValue()==(86400+3600+60));
+	dhm = dhm - m1;
+    assert(dhm.PureValue()==(86400+3600));
 	
     std::cout<<"END"<<std::endl;
 
