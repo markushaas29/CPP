@@ -6,20 +6,20 @@
 #ifndef SIPREFIX_HPP
 #define SIPREFIX_HPP
 
-template<int Ex = 0>
+template<uint N, uint D>
 struct SIPrefix
 {
-	static constexpr int Exponent = Ex;
-	static constexpr int BigDistance = Ex % 3;
-	using Type = SIPrefix<Exponent>;
+	using Type = SIPrefix<N,D>;
+	
+	static constexpr uint Num = N;
+	static constexpr uint Denom = D;
+	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
 	static inline const std::string Sign;
 	static inline const std::string Name;
-// 	static inline const std::string Sign = "";
-// 	static inline const std::string Name = "None";
-	static constexpr double Factor = Math::Pow<10,Ex>::Result;
+	static constexpr double Factor = ((double)Num / Denom);
 	
-	using Next = SIPrefix<Exponent+1>;
-	using Prev = SIPrefix<Exponent-1>;
+	using Next = SIPrefix<Num + 1, Denom>;
+	using Prev = SIPrefix<Num - 1, Denom>;
 };
 
 
@@ -30,25 +30,25 @@ struct SIPrefix
 // 	inline static const std::string Name = "Hekto"; 
 // };
 
-struct Zero: public SIPrefix<0> 
+struct Zero: public SIPrefix<1, 1> 
 {	
 	inline static const std::string Sign = ""; 
 	inline static const std::string Name = ""; 
 };
 
-struct Kilo: public SIPrefix<3> 
+struct Kilo: public SIPrefix<1000, 1> 
 {	
 	inline static const std::string Sign = "k"; 
 	inline static const std::string Name = "Kilo"; 
 };
 
-struct Hekto: public SIPrefix<2> 
+struct Hekto: public SIPrefix<100, 1> 
 {	
 	inline static const std::string Sign = "h"; 
 	inline static const std::string Name = "Hekto"; 
 };
 
-struct Deka: public SIPrefix<1> 
+struct Deka: public SIPrefix<10, 1> 
 {	
 	inline static const std::string Sign = "da"; 
 	inline static const std::string Name = "Deka";

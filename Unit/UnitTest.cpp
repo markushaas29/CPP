@@ -35,17 +35,13 @@ int main()
 	
 	std::cout<<"Kilo "<<Kilo::Name<<std::endl;
     std::cout<<"Kilo "<<Kilo::Sign<<std::endl;
-    std::cout<<"Kilo "<<Kilo::BigDistance<<std::endl;
 	
 	std::cout<<"Hekto "<<Hekto::Name<<std::endl;
     std::cout<<"Hekto "<<Hekto::Sign<<std::endl;
-    std::cout<<"Hekto "<<Hekto::BigDistance<<std::endl;
 	
 	std::cout<<"Deka "<<Deka::Name<<std::endl;
     std::cout<<"Deka "<<Deka::Sign<<std::endl;
-    std::cout<<"Deka "<<Deka::BigDistance<<std::endl;
 	
-    std::cout<<"Deka Next"<<Deka::Next::Exponent<<std::endl;
     std::cout<<"Deka Next"<<Deka::Next::Name<<std::endl;
     
 	std::cout<<"END"<<std::endl;

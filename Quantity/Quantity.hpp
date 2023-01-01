@@ -11,7 +11,7 @@
 #ifndef QUANTITY_H
 #define QUANTITY_H
 
-template<typename U, typename SiPrefix = SIPrefix<0>,typename T1 = double>
+template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
 struct Quantity
 {
 	using ValueType = T1;
@@ -81,7 +81,7 @@ private:
 	
 };
 
-template<typename U, typename SiPrefix = SIPrefix<0>,typename T1 = double>
+template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
 std::ostream& operator<<(std::ostream& out, const Quantity<U,SiPrefix,T1>& q)
 {
 	return out<<q.Value()<<" "<<SiPrefix::Sign<<U::Sign();
