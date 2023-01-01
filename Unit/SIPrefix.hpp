@@ -51,7 +51,7 @@ struct Days: public SIPrefix<86400, 1>
 	inline static const std::string Name = "Days"; 
 };
 
-struct Zero: public SIPrefix<1, 1> 
+struct Pure: public SIPrefix<1, 1> 
 {	
 	inline static const std::string Sign = ""; 
 	inline static const std::string Name = ""; 
