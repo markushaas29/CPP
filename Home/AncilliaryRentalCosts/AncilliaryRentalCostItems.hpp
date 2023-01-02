@@ -235,12 +235,13 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		Base::InsertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
-		auto stageColdWater = S::ColdWaterCounter::Instance().Get(Difference());
-		auto stageHotWater = S::HotWaterCounter::Instance().Get(Difference());
-				
-		auto houseHotWater = StageContainerType::Instance().GetCounterTotal<Hot,Difference>();
-		auto houseColdWater = StageContainerType::Instance().GetCounterTotal<Cold,Difference>();
+		auto stageColdWater = S::ColdWaterCounter::Instance().Get(AnnualConsumption(year));
+		auto stageHotWater = S::HotWaterCounter::Instance().Get(AnnualConsumption(year));
 		
+		auto houseHotWater = StageContainerType::Instance().GetCounterTotal<Hot>(AnnualConsumption(year));
+		auto houseColdWater = StageContainerType::Instance().GetCounterTotal<Cold>(AnnualConsumption(year));
+		
+		Logger::Log<Info>("AnnualConsumption: ", stageColdWater,stageHotWater,houseColdWater,houseHotWater);
 		auto stageWater = stageColdWater + stageHotWater;
 		auto houseWater = houseHotWater + houseColdWater;
 

@@ -163,7 +163,7 @@ public:
 	void Calculate(){	CalculateInternal<ContainerType,CalcT>();	}
 		
 	template<typename T, typename Op>
-	decltype(auto) GetCounterTotal(){	return GetCounterTotalInternal<T>(std::move(Op()));	}
+	decltype(auto) GetCounterTotal(const Op&& op){	return GetCounterTotalInternal<T>(std::move(op));	}
 	
 	template<typename T>
 	decltype(auto) GetTotal(){	return GetStage<Head,T>().GetQuantity() + Base::template GetTotal<T>();		}
