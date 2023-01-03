@@ -18,6 +18,15 @@ int main()
 	using T2 = QuantityRatio<2,Time>;
     std::cout<<"L: "<<L2::Num<<" / "<<L2::Denom<<std::endl;
     std::cout<<"T: "<<T2::Num<<" / "<<T2::Denom<<std::endl;
+    assert(L2::Num==1000000);
+    assert(T2::Num==3600);
+	
+	using L_2 = QuantityRatio<-1,Length>;
+	using T_2 = QuantityRatio<-1,Time>;
+    std::cout<<"L: "<<L_2::Num<<" / "<<L_2::Denom<<std::endl;
+    std::cout<<"T: "<<T_2::Num<<" / "<<T_2::Denom<<std::endl;
+    assert(L_2::Denom==1000);
+    assert(T_2::Denom==60);
     std::cout<<"END"<<std::endl;
 
     return 0;
