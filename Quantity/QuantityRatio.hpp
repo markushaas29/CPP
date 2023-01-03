@@ -1,16 +1,19 @@
 #include <memory>
 #include <ratio>
 #include "../Math/Math.hpp"
+#include "../Unit/Unit.hpp"
 
 #pragma once
 
-template<int a,int b,int c,int d,int e,int f,int g,int h> class Unit;
+//~ template<int a,int b,int c,int d,int e,int f,int g,int h> class Unit;
 
 template<uint N, uint D, int Ex>
 struct QuantityRatioBase
 {
 	using Type = QuantityRatioBase<N,D,Ex>;
+	template<int E> using Creator = QuantityRatioBase<N,D,E>;
 	
+	static constexpr int Exponent = Ex;
 	static constexpr uint Num = Ex > 0 ? Math::Pow<N,Ex>::Result : 1;
 	static constexpr uint Denom = Ex < 0 ? Math::Pow<N,-Ex>::Result : 1;
 	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
@@ -39,11 +42,11 @@ struct QuantityRatio<N,Unit<0,0,0,1,0,0,0,0>>: public QuantityRatioBase<60,1,N>
 	//~ inline static const std::string Name = "Milli"; 
 //~ };
 
-//~ struct Minutes: public SIPrefix<60, 1> 
-//~ {	
-	//~ inline static const std::string Sign = "min"; 
-	//~ inline static const std::string Name = "Minuttes"; 
-//~ };
+struct Minutes: public QuantityRatio<1,Time> 
+{	
+	inline static const std::string Sign = "min"; 
+	inline static const std::string Name = "Minuttes"; 
+};
 
 //~ struct Hours: public SIPrefix<3600, 1> 
 //~ {	
