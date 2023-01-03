@@ -60,11 +60,12 @@ struct Minutes: public QuantityRatio<1,Time>
 	//~ inline static const std::string Name = "Days"; 
 //~ };
 
-//~ struct Pure: public SIPrefix<1, 1> 
-//~ {	
-	//~ inline static const std::string Sign = ""; 
-	//~ inline static const std::string Name = ""; 
-//~ };
+template<typename U>
+struct Pure: public QuantityRatio<1, U> 
+{	
+	inline static const std::string Sign = ""; 
+	inline static const std::string Name = ""; 
+};
 
 //~ struct Kilo: public SIPrefix<1000, 1> 
 //~ {	

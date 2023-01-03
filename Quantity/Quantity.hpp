@@ -1,9 +1,10 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include "QuantityRatio.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Logger/Logger.hpp"
-#include "../Unit/SIPrefix.hpp"
+//~ #include "../Unit/SIPrefix.hpp"
 #include "../String/StringParser.hpp"
 #include "../String/String_.hpp"
 // #include "../Wrapper/Wrapper.hpp"
@@ -11,7 +12,7 @@
 #ifndef QUANTITY_H
 #define QUANTITY_H
 
-template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
+template<typename U, typename SiPrefix = QuantityRatio<1,U>,typename T1 = double>
 class Quantity
 {
 public:
@@ -20,7 +21,7 @@ public:
 	using UnitPrefix = SiPrefix;
 	using Converter = String_::ParserTo<T1>;
 	using Type = Quantity<U,SiPrefix,T1>;	
-	using PureType = Quantity<U,Pure,T1>;	
+	using PureType = Quantity<U,Pure<U>,T1>;	
 	
     const std::string UnitSign() { return U::Sign(); }
     const std::string SiUnit() { return UnitType::SiUnit(); }
@@ -46,40 +47,44 @@ public:
 	bool operator!=(const Quantity<U,SiPrefix,T1>& y) const { return !(this->Value() == y.Value()); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
-	decltype(auto) operator+(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,Pure,T1>(value + y.PureValue()); }
+	decltype(auto) operator+(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,Pure<U>,T1>(value + y.PureValue()); }
 	
 	template<typename SiPrefix2 = SiPrefix>
-	decltype(auto) operator+(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure,T1>(value + y.PureValue()); }
+	decltype(auto) operator+(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure<U>,T1>(value + y.PureValue()); }
 	
 	// ----------------------------------------SUB-------------------------------------------------------------
-	decltype(auto) operator-(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,Pure,T1>(value - y.PureValue()); }
+	decltype(auto) operator-(const Quantity<U,SiPrefix,T1>& y) const { return Quantity<U,Pure<U>,T1>(value - y.PureValue()); }
 	
 	template<typename SiPrefix2 = SiPrefix>
-	decltype(auto) operator-(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure,T1>(value - y.PureValue()); }
+	decltype(auto) operator-(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure<U>,T1>(value - y.PureValue()); }
 	
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
 	
-	decltype(auto) operator*(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, Pure,T1>(value * q.PureValue());}
+	decltype(auto) operator*(const Quantity<U,SiPrefix,T1>& q ) const 
+	{ 
+		constexpr int ex = SiPrefix::Exponent * 2;
+		using QR = typename SiPrefix::template Creator<ex>;
+		return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, QR,T1>(value * q.PureValue());}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix>
-	decltype(auto) operator*(const Quantity<U2, SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure,T1>(value * q.PureValue());	}
+	decltype(auto) operator*(const Quantity<U2, SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	
-	decltype(auto) operator/(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, Pure,T1>(value / q.PureValue());	}
+	decltype(auto) operator/(const Quantity<U,SiPrefix,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue());	}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix>
-	decltype(auto) operator/(const Quantity<U2,SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure,T1>(value / q.PureValue()); }
+	decltype(auto) operator/(const Quantity<U2,SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue()); }
 	
 private:
 	T1 value;	
 };
 
-template<typename U, typename SiPrefix = SIPrefix<1,1>,typename T1 = double>
+template<typename U, typename SiPrefix = Pure<U>,typename T1 = double>
 std::ostream& operator<<(std::ostream& out, const Quantity<U,SiPrefix,T1>& q)
 {
-	if constexpr (std::is_same_v<SiPrefix, Days> || std::is_same_v<SiPrefix, Hours> || std::is_same_v<SiPrefix, Minutes>)
-		return out<<q.Value()<<" "<<SiPrefix::Sign;
+	//~ if constexpr (std::is_same_v<SiPrefix, Days> || std::is_same_v<SiPrefix, Hours> || std::is_same_v<SiPrefix, Minutes>)
+		//~ return out<<q.Value()<<" "<<SiPrefix::Sign;
 	return out<<q.Value()<<" "<<SiPrefix::Sign<<U::Sign();
 }
 
