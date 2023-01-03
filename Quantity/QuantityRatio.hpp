@@ -1,9 +1,7 @@
 #include <memory>
 #include <ratio>
-#include "../Math/Math.hpp"
 
 #pragma once
-
 
 template<int a,int b,int c,int d,int e,int f,int g,int h> class Unit;
 
@@ -21,15 +19,15 @@ struct QuantityRatioBase
 };
 
 template<int N, typename U>
-struct QunatityRatio: public QuantityRatioBase<1,1>
+struct QuantityRatio: public QuantityRatioBase<1000,1>
 {
-	using Base = QuantityRatioBase<1,1>;
+	using Base = QuantityRatioBase<1000,1>;
 };
 
 template<int N>
-struct QunatityRatio<N,Unit<0,0,0,N,0,0,0,0>>: public QuantityRatioBase<1,1>
+struct QuantityRatio<N,Unit<0,0,0,N,0,0,0,0>>: public QuantityRatioBase<60,1>
 {
-	using Base = QuantityRatioBase<1,1>;
+	using Base = QuantityRatioBase<60,1>;
 };
 
 
