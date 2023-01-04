@@ -31,12 +31,20 @@ int main()
     //~ std::cout<<"q12: "<<q12.Value()<<std::endl;
 	
 	
-	//~ Quantity<Mass,Kilo>::UnitType u;
-	//~ auto km1 = Quantity<Mass,Kilo>(2);
-	//~ auto km2 = Quantity<Mass,Kilo>(2);
-	//~ qT::ValueType v;
+	Quantity<Length,Kilo<Length>>::UnitType u;
+	auto km1 = Quantity<Length,Kilo<Length>>(1);
+	auto km2 = Quantity<Length,Kilo<Length>>(2);
 	
-    //~ std::cout<<"v: "<<v<<std::endl;
+    std::cout<<"km1: "<<km1<<std::endl;
+    assert(km1.PureValue()==1000);
+    assert(km1.Value()==1);
+    assert(decltype(km1)::QuantityRatioType::Exponent==1);
+	
+	auto km12 = km1 * km2;
+    std::cout<<"km12: "<<km12<<std::endl;
+    assert(km12.PureValue()==2000000);
+    assert(km12.Value()==2);
+    assert(decltype(km12)::QuantityRatioType::Exponent==2);
 	
 	//~ auto kmP = km1 + km2;
     //~ std::cout<<"km: Pure "<<kmP.Value()<<std::endl;
