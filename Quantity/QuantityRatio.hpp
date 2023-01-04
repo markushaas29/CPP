@@ -69,11 +69,12 @@ struct Pure: public QuantityRatio<0, U>
 	inline static constexpr const char* Name = "Pure"; 
 };
 
-//~ struct Kilo: public SIPrefix<1000, 1> 
-//~ {	
-	//~ inline static const std::string Sign = "k"; 
-	//~ inline static const std::string Name = "Kilo"; 
-//~ };
+template<typename U>
+struct Kilo: public QuantityRatio<1,U> 
+{	
+	inline static constexpr const char* Sign = "k"; 
+	inline static constexpr const char* Name = "Kilo"; 
+};
 
 //~ struct Hekto: public SIPrefix<100, 1> 
 //~ {	

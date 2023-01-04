@@ -48,6 +48,11 @@ int main()
     std::cout<<PL::Name<<"L: "<<PL::Num<<" / "<<PL::Denom<<std::endl;
     assert(PL::Denom==1);
     assert(PL::Num==1);
+
+	using KM = Kilo<Length>;
+    std::cout<<KM::Name<<"L: "<<KM::Num<<" / "<<KM::Denom<<std::endl;
+    assert(KM::Denom==1);
+    assert(KM::Num==1000);
     
     std::cout<<"END"<<std::endl;
 
