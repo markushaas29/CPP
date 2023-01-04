@@ -66,7 +66,7 @@ template<typename U>
 struct Pure: public QuantityRatio<0, U> 
 {	
 	inline static constexpr const char* Sign = ""; 
-	inline static constexpr const char* Name = ""; 
+	inline static constexpr const char* Name = "Pure"; 
 };
 
 //~ struct Kilo: public SIPrefix<1000, 1> 

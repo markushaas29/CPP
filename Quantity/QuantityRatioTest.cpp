@@ -30,9 +30,19 @@ int main()
     assert(L_2::Denom==1000);
     assert(T_2::Denom==60);
     
+    using M2 = Minutes<2>;
+    std::cout<<"M2: "<<M2::Num<<" / "<<M2::Denom<<std::endl;
+    std::cout<<"M2: "<<M2::Name<<std::endl;
+    assert(M2::Num==3600);
+    assert(M2::Denom==1);
+    assert(M2::Exponent==2);
+    
     using C = Minutes<1>::Creator<2>;
     std::cout<<"C: "<<C::Num<<" / "<<C::Denom<<std::endl;
     std::cout<<"C: "<<C::Name<<std::endl;
+    assert(C::Num==3600);
+    assert(C::Denom==1);
+    assert(C::Exponent==2);
 	
 	using PL = Pure<Length>;
     std::cout<<PL::Name<<"L: "<<PL::Num<<" / "<<PL::Denom<<std::endl;
