@@ -64,7 +64,7 @@ public:
 	{ 
 		constexpr int ex = SiPrefix::Exponent * 2;
 		using QR = typename SiPrefix::template Creator<ex>;
-		return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, QR,T1>(value * q.PureValue());}
+		return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, QR,T1>(Value() * q.Value());}
 	
 	template<typename U2 = U, typename SiPrefix2 = SiPrefix>
 	decltype(auto) operator*(const Quantity<U2, SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	}

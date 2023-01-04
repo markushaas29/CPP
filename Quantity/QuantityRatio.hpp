@@ -11,7 +11,6 @@ template<uint N, uint D, int Ex>
 struct QuantityRatioBase
 {
 	using Type = QuantityRatioBase<N,D,Ex>;
-	template<int E> using Creator = QuantityRatioBase<N,D,E>;
 	
 	static constexpr int Exponent = Ex;
 	static constexpr uint Num = Ex > 0 ? Math::Pow<N,Ex>::Result : 1;
@@ -26,6 +25,7 @@ template<int N, typename U>
 struct QuantityRatio: public QuantityRatioBase<1000,1,N>
 {
 	using Base = QuantityRatioBase<1000,1,N>;
+	template<int E> using Creator = QuantityRatio<E,U>;
 };
 
 template<int N>
@@ -42,8 +42,10 @@ struct QuantityRatio<N,Unit<0,0,0,1,0,0,0,0>>: public QuantityRatioBase<60,1,N>
 	//~ inline static const std::string Name = "Milli"; 
 //~ };
 
-struct Minutes: public QuantityRatio<1,Time> 
+template<int N = 1>
+struct Minutes: public QuantityRatio<N,Time> 
 {	
+	template<int E> using Creator = Minutes<E>;
 	inline static const std::string Sign = "min"; 
 	inline static const std::string Name = "Minuttes"; 
 };

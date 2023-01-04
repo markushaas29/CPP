@@ -75,7 +75,7 @@ int main()
     
     //~ auto d2 = d3 + d3;
 	//~ Quantity<Time,Hours> h1 = Quantity<Time,Hours>(1);
-	auto m1 = Quantity<Time,Minutes>(1);
+	auto m1 = Quantity<Time,Minutes<>>(1);
     //~ std::cout<<"H: "<<h1<<std::endl;
     //~ std::cout<<"M: "<<m1<<std::endl;
     //~ assert(d2.PureValue()==(2 * 86400));
@@ -89,8 +89,10 @@ int main()
     //~ assert(dhm.PureValue()==(86400+3600));
 	
 	auto m_2 = m1 * m1;
-    std::cout<<"m_2: "<<m_2<<std::endl;
+    std::cout<<"m_2: "<<m_2<<"\t"<<m_2.PureValue()<<std::endl;
     std::cout<<"m_2: "<<decltype(m_2)::UnitPrefix::Exponent<<std::endl;
+    std::cout<<"m_2: "<<decltype(m_2)::UnitPrefix::Num<<std::endl;
+    std::cout<<"m_2: "<<decltype(m_2)::UnitPrefix::Name<<std::endl;
     //~ assert(m_2.PureValue()==3600);
 	
     std::cout<<"END"<<std::endl;

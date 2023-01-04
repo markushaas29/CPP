@@ -18,9 +18,9 @@ int main()
 	using T2 = QuantityRatio<2,Time>;
     std::cout<<"L: "<<L2::Num<<" / "<<L2::Denom<<std::endl;
     std::cout<<"T: "<<T2::Num<<" / "<<T2::Denom<<std::endl;
-    std::cout<<"Minutes: "<<Minutes::Num<<" / "<<Minutes::Denom<<std::endl;
+    std::cout<<"Minutes: "<<Minutes<1>::Num<<" / "<<Minutes<1>::Denom<<std::endl;
     assert(L2::Num==1000000);
-    assert(Minutes::Num==60);
+    assert(Minutes<1>::Num==60);
     assert(T2::Num==3600);
 	
 	using L_2 = QuantityRatio<-1,Length>;
@@ -30,8 +30,9 @@ int main()
     assert(L_2::Denom==1000);
     assert(T_2::Denom==60);
     
-    using C = Minutes::Creator<4>;
+    using C = Minutes<1>::Creator<2>;
     std::cout<<"C: "<<C::Num<<" / "<<C::Denom<<std::endl;
+    std::cout<<"C: "<<C::Name<<std::endl;
     
     std::cout<<"END"<<std::endl;
 
