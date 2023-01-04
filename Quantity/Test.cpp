@@ -46,6 +46,12 @@ int main()
     assert(km12.Value()==2);
     assert(decltype(km12)::QuantityRatioType::Exponent==2);
 	
+	auto km1p2 = km1 + km2;
+    std::cout<<"km12: "<<km1p2<<std::endl;
+    assert(km1p2.PureValue()==3000);
+    assert(km1p2.Value()==3);
+    assert(decltype(km1p2)::QuantityRatioType::Exponent==1);
+	
 	//~ auto kmP = km1 + km2;
     //~ std::cout<<"km: Pure "<<kmP.Value()<<std::endl;
     //~ std::cout<<"km: Value() "<<kmP.PureValue()<<std::endl;

@@ -47,7 +47,7 @@ public:
 	bool operator!=(const Quantity<U,QR,T1>& y) const { return !(this->Value() == y.Value()); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
-	decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Quantity<U,Pure<U>,T1>(value + y.PureValue()); }
+	decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Quantity<U,QR,T1>(Value() +y.Value()); }
 	
 	template<typename SiPrefix2 = QR>
 	decltype(auto) operator+(const Quantity<U,SiPrefix2,T1>& y) const { return Quantity<U,Pure<U>,T1>(value + y.PureValue()); }
