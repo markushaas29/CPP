@@ -63,8 +63,8 @@ public:
 	decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const 
 	{ 
 		constexpr int ex = QR::Exponent * 2;
-		using QR = typename QR::template Creator<ex>;
-		return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, QR,T1>(Value() * q.Value());}
+		using QR_ = typename QR::template Creator<ex>;
+		return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR>
 	decltype(auto) operator*(const Quantity<U2, SiPrefix2,T1>& q ) const { 	return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	}

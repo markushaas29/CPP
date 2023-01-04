@@ -46,8 +46,8 @@ template<int N = 1>
 struct Minutes: public QuantityRatio<N,Time> 
 {	
 	template<int E> using Creator = Minutes<E>;
-	inline static const std::string Sign = "min"; 
-	inline static const std::string Name = "Minuttes"; 
+	inline static constexpr const char* Sign = "min"; 
+	inline static constexpr const char* Name = "Minuttes"; 
 };
 
 //~ struct Hours: public SIPrefix<3600, 1> 
@@ -63,10 +63,10 @@ struct Minutes: public QuantityRatio<N,Time>
 //~ };
 
 template<typename U>
-struct Pure: public QuantityRatio<1, U> 
+struct Pure: public QuantityRatio<0, U> 
 {	
-	inline static const std::string Sign = ""; 
-	inline static const std::string Name = ""; 
+	inline static constexpr const char* Sign = ""; 
+	inline static constexpr const char* Name = ""; 
 };
 
 //~ struct Kilo: public SIPrefix<1000, 1> 

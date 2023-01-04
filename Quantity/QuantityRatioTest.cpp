@@ -25,7 +25,7 @@ int main()
 	
 	using L_2 = QuantityRatio<-1,Length>;
 	using T_2 = QuantityRatio<-1,Time>;
-    std::cout<<"L: "<<L_2::Num<<" / "<<L_2::Denom<<std::endl;
+    std::cout<<L_2::Name<<"L: "<<L_2::Num<<" / "<<L_2::Denom<<std::endl;
     std::cout<<"T: "<<T_2::Num<<" / "<<T_2::Denom<<std::endl;
     assert(L_2::Denom==1000);
     assert(T_2::Denom==60);
@@ -33,6 +33,11 @@ int main()
     using C = Minutes<1>::Creator<2>;
     std::cout<<"C: "<<C::Num<<" / "<<C::Denom<<std::endl;
     std::cout<<"C: "<<C::Name<<std::endl;
+	
+	using PL = Pure<Length>;
+    std::cout<<PL::Name<<"L: "<<PL::Num<<" / "<<PL::Denom<<std::endl;
+    assert(PL::Denom==1);
+    assert(PL::Num==1);
     
     std::cout<<"END"<<std::endl;
 
