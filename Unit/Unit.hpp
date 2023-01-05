@@ -1,4 +1,5 @@
 #include <string>
+#include <array>
 #include <iostream>
 #include "../Logger/Logger.hpp" 
 
@@ -140,7 +141,26 @@ constexpr double CalculateFactor()
 }
 
 template<typename U1, typename U2>
-constexpr bool IsSameBaseUnit(){ return true; }
+constexpr bool IsSameBaseUnit()
+{ 
+	auto arr = std::array<double,7>();
+	
+	arr[0] = CalculateFactor<typename U1::Mass,typename U2::Mass>(); 
+	arr[1] = CalculateFactor<typename U1::Length,typename U2::Length>(); 
+	arr[2] = CalculateFactor<typename U1::Time,typename U2::Time>(); 
+	arr[3] = CalculateFactor<typename U1::Current,typename U2::Current>(); 
+	arr[4] = CalculateFactor<typename U1::Temperature,typename U2::Temperature>(); 
+	arr[5] = CalculateFactor<typename U1::SubstanceAmount,typename U2::SubstanceAmount>(); 
+	arr[5] = CalculateFactor<typename U1::LightIntensity,typename U2::LightIntensity>(); 
+	arr[6] = CalculateFactor<typename U1::Sum,typename U2::Sum>(); 
+	
+	uint num = 0;
+	for(auto val : arr)
+		if(val != 1)
+			++num;
+
+	return num > 1 ? false : true; 
+}
 
 template<int a,int b,int c,int d,int e,int f,int g,int h> const char* Unit<a,b,c,d,e,f,g,h>::Name = "unknown";
 

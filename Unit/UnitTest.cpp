@@ -69,6 +69,19 @@ int main()
 	assert(decltype(u2)::Mass::N==2);
 	assert(f1==0.5);
     
+	auto U1 = Unit<0,0,1>();
+	auto U2 = Unit<0,0,2>();
+    auto b = IsSameBaseUnit<decltype(U1), decltype(U2)>();
+	assert(b);
+    
+	auto U3 = Unit<0,0,3>();
+    b = IsSameBaseUnit<decltype(U3), decltype(U2)>();
+	assert(b);
+
+	auto U4 = Unit<0,1>();
+    b = IsSameBaseUnit<decltype(U4), decltype(U2)>();
+	assert(!b);
+    
 	std::cout<<"END"<<std::endl;
     return 0;
 }
