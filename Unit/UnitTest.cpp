@@ -81,6 +81,10 @@ int main()
 	auto U4 = Unit<0,1>();
     b = IsSameBaseUnit<decltype(U4), decltype(U2)>();
 	assert(!b);
+	
+	auto U5 = Unit<0,0,2,1>();
+    b = IsSameBaseUnit<decltype(U5), decltype(U2)>();
+	assert(b);
     
 	std::cout<<"END"<<std::endl;
     return 0;

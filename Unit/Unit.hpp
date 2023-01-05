@@ -159,6 +159,21 @@ constexpr bool IsSameBaseUnit()
 		if(val != 1)
 			++num;
 
+	if(num > 1)
+	{
+		double factor = -1;
+		for(auto val : arr)
+			if(val != 1)
+			{
+				if(factor == -1)
+					factor = val;
+		std::cout<<"Num:"<<factor<<std::endl;
+				//~ else
+					if(val != factor)
+						return false;
+			}
+		
+	}
 	return num > 1 ? false : true; 
 }
 
