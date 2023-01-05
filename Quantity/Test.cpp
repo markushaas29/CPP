@@ -52,6 +52,12 @@ int main()
     assert(km1p2.Value()==3);
     assert(decltype(km1p2)::QuantityRatioType::Exponent==1);
 	
+	auto km2m1 = km2 - km1;
+    std::cout<<"km2m1: "<<km2m1<<std::endl;
+    assert(km2m1.PureValue()==1000);
+    assert(km2m1.Value()==1);
+    assert(decltype(km2m1)::QuantityRatioType::Exponent==1);
+	
 	//~ auto kmP = km1 + km2;
     //~ std::cout<<"km: Pure "<<kmP.Value()<<std::endl;
     //~ std::cout<<"km: Value() "<<kmP.PureValue()<<std::endl;
@@ -118,7 +124,7 @@ int main()
     std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
     std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
     assert(decltype(m111)::QuantityRatioType::Exponent==3);
-    assert(m111.PureValue()==3600);
+    assert(m111.PureValue()==216000);
     assert(m111.Value()==1);
 	
 	auto m22 = m2 * m2;
