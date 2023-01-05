@@ -136,9 +136,7 @@ constexpr double CalculateFactor()
 	if(Si1::N == 0 && Si2::N == 0)
 		return 1;
 	
-	if(Si1::N != Si2::N)
-		return 0;
-	return  Si2::N == 0 ? -1 : Si1::N/Si2::N;
+	return  Si2::N == 0 ? 0 : (double)Si1::N/Si2::N;
 }
 
 template<typename U1, typename U2>

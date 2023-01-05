@@ -58,9 +58,16 @@ int main()
 	
 	std::cout<<"decltype(u2)::Time"<<decltype(u2)::Time::N<<std::endl;
 	auto f1 = CalculateFactor<decltype(u2)::Time,decltype(u2)::Time>();
+	assert(decltype(u2)::Time::N==0);
 	assert(f1==1);
 	f1 = CalculateFactor<decltype(u2)::Mass,decltype(u2)::Time>();
+	assert(decltype(u2)::Mass::N==2);
+	assert(decltype(u2)::Time::N==0);
 	assert(f1==0);
+	f1 = CalculateFactor<decltype(u1)::Mass,decltype(u2)::Mass>();
+	assert(decltype(u1)::Mass::N==1);
+	assert(decltype(u2)::Mass::N==2);
+	assert(f1==0.5);
     
 	std::cout<<"END"<<std::endl;
     return 0;
