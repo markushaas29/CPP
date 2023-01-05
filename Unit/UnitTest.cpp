@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 #include "Unit.hpp"
 #include "SIPrefix.hpp"
@@ -55,6 +56,11 @@ int main()
 	std::cout<<"Deka "<<Deka::Name<<std::endl;
     std::cout<<"Deka "<<Deka::Sign<<std::endl;
 	
+	std::cout<<"decltype(u2)::Time"<<decltype(u2)::Time::N<<std::endl;
+	auto f1 = CalculateFactor<decltype(u2)::Time,decltype(u2)::Time>();
+	assert(f1==1);
+	f1 = CalculateFactor<decltype(u2)::Mass,decltype(u2)::Time>();
+	assert(f1==0);
     
 	std::cout<<"END"<<std::endl;
     return 0;

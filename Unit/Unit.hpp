@@ -20,7 +20,7 @@ struct UnitTypeBase
 template<int n = 0>
 struct MassType: public UnitTypeBase<MassType<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = MassType<N>;
     inline static constexpr const char* Name = "Mass";
     inline static constexpr const char* Symbol = "M";
@@ -30,7 +30,7 @@ struct MassType: public UnitTypeBase<MassType<n>>
 template<int n = 0>
 struct LengthType: public UnitTypeBase<LengthType<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = LengthType<N>;
     inline static constexpr const char* Name = "Length";
     inline static constexpr const char* Symbol = "L";
@@ -40,7 +40,7 @@ struct LengthType: public UnitTypeBase<LengthType<n>>
 template<int n = 0>
 struct TimeType: public UnitTypeBase<TimeType<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = TimeType<N>;
     inline static constexpr const char* Name = "Time";
     inline static constexpr const char* Symbol = "T";
@@ -50,7 +50,7 @@ struct TimeType: public UnitTypeBase<TimeType<n>>
 template<int n = 0>
 struct CurrentType: public UnitTypeBase<CurrentType<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = CurrentType<N>;
     inline static constexpr const char* Name = "Current";
     inline static constexpr const char* Symbol = "I";
@@ -60,7 +60,7 @@ struct CurrentType: public UnitTypeBase<CurrentType<n>>
 template<int n = 0>
 struct TemperatureType: public UnitTypeBase<TemperatureType<n>>
 {
-	enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = TemperatureType<N>;
     inline static constexpr const char* Name = "Temperature";
     inline static constexpr const char* Symbol = "T";
@@ -70,7 +70,7 @@ struct TemperatureType: public UnitTypeBase<TemperatureType<n>>
 template<int n = 0>
 struct SubstanceAmount: public UnitTypeBase<SubstanceAmount<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = SubstanceAmount<N>;
     inline static constexpr const char* Name = "SubstanceAmount";
     inline static constexpr const char* Symbol = "N";
@@ -80,7 +80,7 @@ struct SubstanceAmount: public UnitTypeBase<SubstanceAmount<n>>
 template<int n = 0>
 struct LightIntensity: public UnitTypeBase<LightIntensity<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = LightIntensity<N>;
     inline static constexpr const char* Name = "LightIntensity";
     inline static constexpr const char* Symbol = "Iv";
@@ -90,7 +90,7 @@ struct LightIntensity: public UnitTypeBase<LightIntensity<n>>
 template<int n = 0>
 struct SumType: public UnitTypeBase<SumType<n>>
 {
-    enum{ N = n };
+	inline static constexpr int N = n;
 	using Type = SumType<N>;
     inline static constexpr const char* Name = "Sum";
     inline static constexpr const char* Symbol = "S";
@@ -129,6 +129,20 @@ struct Unit
 	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + SubstanceAmount::Unit() + LightIntensity::Unit() + Sum::Unit(); };
 	static const std::string Sign() { return UnitSign<Type>::Get(); }; 
 };
+
+template<typename Si1, typename Si2 = Si1>
+constexpr double CalculateFactor()
+{ 
+	if(Si1::N == 0 && Si2::N == 0)
+		return 1;
+	
+	if(Si1::N != Si2::N)
+		return 0;
+	return  Si2::N == 0 ? -1 : Si1::N/Si2::N;
+}
+
+template<typename U1, typename U2>
+constexpr bool IsSameBaseUnit(){ return true; }
 
 template<int a,int b,int c,int d,int e,int f,int g,int h> const char* Unit<a,b,c,d,e,f,g,h>::Name = "unknown";
 
