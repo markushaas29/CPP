@@ -112,6 +112,15 @@ int main()
     assert(m11.Value()==1);
     assert(decltype(m11)::QuantityRatioType::Exponent==2);
 	
+	auto m111 = m11 * m1;
+    std::cout<<"m11: "<<m111<<"\t"<<m111.PureValue()<<std::endl;
+    std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Num<<std::endl;
+    std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
+    std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
+    assert(decltype(m111)::QuantityRatioType::Exponent==3);
+    assert(m111.PureValue()==3600);
+    assert(m111.Value()==1);
+	
 	auto m22 = m2 * m2;
     std::cout<<"m11: "<<m22<<"\t"<<m22.PureValue()<<std::endl;
     assert(m22.PureValue()==14400);
