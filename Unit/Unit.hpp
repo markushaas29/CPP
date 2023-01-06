@@ -135,9 +135,9 @@ template<typename Si1, typename Si2 = Si1>
 constexpr double CalculateFactor()
 { 
 	if(Si1::N == 0 && Si2::N == 0)
-		return 1;
+		return -1.0;
 	
-	return  Si2::N == 0 ? 0 : (double)Si1::N/Si2::N;
+	return  Si2::N == 0.0 ? 0.0 : (double)Si1::N/Si2::N;
 }
 
 template<typename U1, typename U2>
@@ -153,28 +153,19 @@ constexpr bool IsSameBaseUnit()
 	arr[5] = CalculateFactor<typename U1::SubstanceAmount,typename U2::SubstanceAmount>(); 
 	arr[5] = CalculateFactor<typename U1::LightIntensity,typename U2::LightIntensity>(); 
 	arr[6] = CalculateFactor<typename U1::Sum,typename U2::Sum>(); 
-	
-	uint num = 0;
-	for(auto val : arr)
-		if(val != 1)
-			++num;
 
-	if(num > 1)
-	{
-		double factor = -1;
-		for(auto val : arr)
-			if(val != 1)
-			{
-				if(factor == -1)
-					factor = val;
-		std::cout<<"Num:"<<factor<<std::endl;
-				//~ else
-					if(val != factor)
-						return false;
-			}
+	auto zeros =  std::count(arr.cbegin(), arr.cend(),0.0);
+	auto negatives =  std::count(arr.cbegin(), arr.cend(),-1.0);
+	
+	if(zeros > 1)
+		return false;
+
+	std::sort(arr.begin(), arr.end());
+	auto uniqueCount = std::unique(arr.begin(), arr.end()) - arr.begin();
+	if(uniqueCount <= 1)
+		return true;
 		
-	}
-	return num > 1 ? false : true; 
+	return zeros == 1 && negatives > 0 && uniqueCount > 3 ? false : true; 
 }
 
 template<int a,int b,int c,int d,int e,int f,int g,int h> const char* Unit<a,b,c,d,e,f,g,h>::Name = "unknown";

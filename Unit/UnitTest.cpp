@@ -4,7 +4,7 @@
 #include "SIPrefix.hpp"
 
 int main()
-{       
+{ 
     std::cout<<"START"<<std::endl;
     std::cout<<Mass::Mass::Name<<" "<<Mass::Mass::Sign<<" "<<Mass::Mass::N<<" "<<std::endl;
     std::cout<<Sum::Sum::Name<<" "<<Sum::Sum::Sign<<" "<<std::endl;
@@ -59,7 +59,7 @@ int main()
 	std::cout<<"decltype(u2)::Time"<<decltype(u2)::Time::N<<std::endl;
 	auto f1 = CalculateFactor<decltype(u2)::Time,decltype(u2)::Time>();
 	assert(decltype(u2)::Time::N==0);
-	assert(f1==1);
+	assert(f1==-1);
 	f1 = CalculateFactor<decltype(u2)::Mass,decltype(u2)::Time>();
 	assert(decltype(u2)::Mass::N==2);
 	assert(decltype(u2)::Time::N==0);
