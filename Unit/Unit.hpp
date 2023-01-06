@@ -137,7 +137,7 @@ constexpr double CalculateFactor()
 	if(Si1::N == 0 && Si2::N == 0)
 		return -1.0;
 	
-	return  Si2::N == 0.0 ? 0.0 : (double)Si1::N/Si2::N;
+	return  Si2::N == 0.0 ? 0.0 : ((double)Si1::N)/((double)Si2::N);
 }
 
 template<typename U1, typename U2>
@@ -164,7 +164,6 @@ constexpr bool IsSameBaseUnit()
 	auto uniqueCount = std::unique(arr.begin(), arr.end()) - arr.begin();
 	if(uniqueCount <= 1)
 		return true;
-		
 	return zeros == 1 && negatives > 0 && uniqueCount > 3 ? false : true; 
 }
 
