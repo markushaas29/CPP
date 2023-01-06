@@ -1,4 +1,4 @@
-CXX      = g++
+CXX      = g++-11
 CXXC      = clang
 OBJECTS = Test.o
 ROBJECTS = QuantityRatioTest.o
