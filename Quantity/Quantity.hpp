@@ -4,10 +4,8 @@
 #include "QuantityRatio.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Logger/Logger.hpp"
-//~ #include "../Unit/SIPrefix.hpp"
 #include "../String/StringParser.hpp"
 #include "../String/String_.hpp"
-// #include "../Wrapper/Wrapper.hpp"
 
 #ifndef QUANTITY_H
 #define QUANTITY_H
@@ -72,9 +70,7 @@ public:
 		if constexpr (!IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	
 		
-		constexpr int ex = QR::Exponent + SiPrefix2::Exponent;
-		using QR_ = typename QR::template Creator<ex>;
-		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
+		return pow(q);
 	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
@@ -89,6 +85,14 @@ private:
 	
 	template<typename TQuantity>
 	static decltype(auto) transform(TQuantity t){ return Type(t.PureValue() / QR::Factor);}
+	
+	template<typename U2 = U, typename SiPrefix2 = QR>
+	decltype(auto) pow(const Quantity<U2, SiPrefix2,T1>& q) const
+	{ 
+		constexpr int ex = QR::Exponent + SiPrefix2::Exponent;
+		using QR_ = typename QR::template Creator<ex>;
+		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
+	}
 };
 
 template<typename U, typename QR = Pure<U>,typename T1 = double>
