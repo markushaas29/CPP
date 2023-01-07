@@ -36,32 +36,31 @@ public:
 	constexpr decltype(auto) ToPure() const { return PureType(value);}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
-	Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
+	constexpr Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
-	bool operator<(const Quantity<U,QR,T1>& y) const { return this->Value() < y.Value(); }
-	bool operator>(const Quantity<U,QR,T1>& y) const { return this->Value() > y.Value(); }
-	bool operator>=(const Quantity<U,QR,T1>& y) const { return this->Value() >= y.Value(); }
-	bool operator==(const Quantity<U,QR,T1>& y) const { return this->Value() == y.Value(); }
-	bool operator!=(const Quantity<U,QR,T1>& y) const { return !(this->Value() == y.Value()); }
+	constexpr bool operator<(const Quantity<U,QR,T1>& y) const { return this->Value() < y.Value(); }
+	constexpr bool operator>(const Quantity<U,QR,T1>& y) const { return this->Value() > y.Value(); }
+	constexpr bool operator>=(const Quantity<U,QR,T1>& y) const { return this->Value() >= y.Value(); }
+	constexpr bool operator==(const Quantity<U,QR,T1>& y) const { return this->Value() == y.Value(); }
+	constexpr bool operator!=(const Quantity<U,QR,T1>& y) const { return !(this->Value() == y.Value()); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
-	decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
+	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
 	
 	template<typename TQR = QR>
-	decltype(auto) operator+(const Quantity<U,TQR,T1>& y) const { return *this + transform(y); }
+	constexpr decltype(auto) operator+(const Quantity<U,TQR,T1>& y) const { return *this + transform(y); }
 	
 	// ----------------------------------------SUB-------------------------------------------------------------
-	decltype(auto) operator-(const Quantity<U,QR,T1>& y) const { return Type(Value() - y.Value()); }
+	constexpr  decltype(auto) operator-(const Quantity<U,QR,T1>& y) const { return Type(Value() - y.Value()); }
 	
 	template<typename TQR = QR>
-	decltype(auto) operator-(const Quantity<U,TQR,T1>& y) const { return *this - transform(y); }
+	constexpr decltype(auto) operator-(const Quantity<U,TQR,T1>& y) const { return *this - transform(y); }
 	
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
-	
-	decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
+	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
 	
 	template<typename U2 = U, typename TQR = QR>
-	decltype(auto) operator*(const Quantity<U2, TQR,T1>& q ) const 
+	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T1>& q ) const 
 	{
 		if constexpr (!IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	
@@ -70,20 +69,18 @@ public:
 	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
-	
-	decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue());	}
+	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue());	}
 	
 	template<typename U2 = U, typename TQR = QR>
-	decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const { 	return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue()); }
-	
+	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const { 	return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue()); }
 private:
 	T1 value;	
 	
 	template<typename TQuantity>
-	static decltype(auto) transform(TQuantity t){ return Type(t.PureValue() / QR::Factor);}
+	constexpr static decltype(auto) transform(TQuantity t){ return Type(t.PureValue() / QR::Factor);}
 	
 	template<typename U2 = U, typename TQR = QR>
-	decltype(auto) multiply(const Quantity<U2, TQR,T1>& q) const
+	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T1>& q) const
 	{ 
 		constexpr int ex = QR::Exponent + TQR::Exponent;
 		using QR_ = typename QR::template Creator<ex>;
