@@ -58,11 +58,7 @@ public:
 	
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
 	
-	decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const 
-	{ 
-		constexpr int ex = QR::Exponent * 2;
-		using QR_ = typename QR::template Creator<ex>;
-		return Quantity<typename Transform<U, U, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());}
+	decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR>
 	decltype(auto) operator*(const Quantity<U2, SiPrefix2,T1>& q ) const 
@@ -70,7 +66,7 @@ public:
 		if constexpr (!IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	
 		
-		return pow(q);
+		return multiply(q);
 	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
@@ -87,7 +83,7 @@ private:
 	static decltype(auto) transform(TQuantity t){ return Type(t.PureValue() / QR::Factor);}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR>
-	decltype(auto) pow(const Quantity<U2, SiPrefix2,T1>& q) const
+	decltype(auto) multiply(const Quantity<U2, SiPrefix2,T1>& q) const
 	{ 
 		constexpr int ex = QR::Exponent + SiPrefix2::Exponent;
 		using QR_ = typename QR::template Creator<ex>;
