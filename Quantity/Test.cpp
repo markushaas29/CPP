@@ -34,11 +34,19 @@ int main()
 	Quantity<Length,Kilo<Length>>::UnitType u;
 	auto km1 = Quantity<Length,Kilo<Length>>(1);
 	auto km2 = Quantity<Length,Kilo<Length>>(2);
+	auto m500 = Quantity<Length,Pure<Length>>(500);
 	
     std::cout<<"km1: "<<km1<<std::endl;
+    std::cout<<"m500: "<<m500<<std::endl;
     assert(km1.PureValue()==1000);
     assert(km1.Value()==1);
     assert(decltype(km1)::QuantityRatioType::Exponent==1);
+	
+	auto km15 = km1 + m500;
+    std::cout<<"km15: "<<km15<<std::endl;
+	
+	auto m1500 = m500 + km1;
+    std::cout<<"m1500: "<<m1500<<std::endl;
 	
 	auto km12 = km1 * km2;
     std::cout<<"km12: "<<km12<<std::endl;
