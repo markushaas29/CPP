@@ -30,6 +30,10 @@ int main()
 	//~ auto q12 = q7 / q5;
     //~ std::cout<<"q12: "<<q12.Value()<<std::endl;
 	
+	auto km1_7 = Quantity<Length,Kilo<Length>>("1,7");
+    std::cout<<"km1,7: "<<km1_7<<std::endl;
+    assert(km1_7.PureValue()==1700);
+    assert(km1_7.Value()==1.7);
 	
 	Quantity<Length,Kilo<Length>>::UnitType u;
 	auto km1 = Quantity<Length,Kilo<Length>>(1);

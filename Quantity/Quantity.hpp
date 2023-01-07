@@ -31,7 +31,7 @@ public:
     
 	constexpr Quantity(): value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s))))} { /*Logger::Log()<<"Value: "<<value<<std::endl;*/	}
+	explicit Quantity(const std::string& s): value{std::abs(converter(commaToPoint(String_::Remove<String_::Point>(s)))) * QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
