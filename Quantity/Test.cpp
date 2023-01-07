@@ -44,9 +44,23 @@ int main()
 	
 	auto km15 = km1 + m500;
     std::cout<<"km15: "<<km15<<std::endl;
+    assert(km15.PureValue()==1500);
+    assert(km15.Value()==1.5);
 	
 	auto m1500 = m500 + km1;
     std::cout<<"m1500: "<<m1500<<std::endl;
+    assert(m1500.PureValue()==1500);
+    assert(m1500.Value()==1500);
+	
+	auto km15m500 = km15 - m500;
+    std::cout<<"km15 minus: "<<km15m500<<std::endl;
+    assert(km15m500.PureValue()==1000);
+    assert(km15m500.Value()==1);
+	
+	auto m1500m = m1500 - km1;
+    std::cout<<"m1500m: "<<m1500m<<std::endl;
+    assert(m1500m.PureValue()==500);
+    assert(m1500m.Value()==500);
 	
 	auto km12 = km1 * km2;
     std::cout<<"km12: "<<km12<<std::endl;
