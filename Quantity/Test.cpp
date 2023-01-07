@@ -39,6 +39,7 @@ int main()
 	constexpr auto km1 = Quantity<Length,Kilo<Length>>(1);
 	constexpr auto km2 = Quantity<Length,Kilo<Length>>(2);
 	constexpr auto m500 = Quantity<Length,Pure<Length>>(500);
+	constexpr auto mm500 = Quantity<Length,Milli<Length>>(500);
 	
     std::cout<<"km1: "<<km1<<std::endl;
     std::cout<<"m500: "<<m500<<std::endl;
@@ -55,6 +56,11 @@ int main()
     std::cout<<"m1500: "<<m1500<<std::endl;
     assert(m1500.PureValue()==1500);
     assert(m1500.Value()==1500);
+	
+	constexpr auto mm1500 = mm500 + m500 + km1;
+    std::cout<<"mm1500: "<<mm1500<<std::endl;
+    //~ assert(m1500.PureValue()==1500);
+    //~ assert(m1500.Value()==1500);
 	
 	constexpr auto km15m500 = km15 - m500;
     std::cout<<"km15 minus: "<<km15m500<<std::endl;

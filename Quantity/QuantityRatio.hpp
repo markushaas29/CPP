@@ -36,12 +36,6 @@ struct QuantityRatio<N,Unit<0,0,0,1,0,0,0,0>>: public QuantityRatioBase<60,1,N>
 
 
 
-//~ struct Milli: public SIPrefix<1, 1000> 
-//~ {	
-	//~ inline static const std::string Sign = "mil"; 
-	//~ inline static const std::string Name = "Milli"; 
-//~ };
-
 template<int N = 1>
 struct Minutes: public QuantityRatio<N,Time> 
 {	
@@ -61,6 +55,13 @@ struct Minutes: public QuantityRatio<N,Time>
 	//~ inline static const std::string Sign = "d"; 
 	//~ inline static const std::string Name = "Days"; 
 //~ };
+
+template<typename U>
+struct Milli: public QuantityRatio<-1, U> 
+{	
+	inline static constexpr const char* Sign = "m"; 
+	inline static constexpr const char* Name = "Milli"; 
+};
 
 template<typename U>
 struct Pure: public QuantityRatio<0, U> 
