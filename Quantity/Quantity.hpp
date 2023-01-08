@@ -72,10 +72,16 @@ public:
 	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
-	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<typename Transform<U, U, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue());	}
+	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return divide(q);	}
 	
 	template<typename U2 = U, typename TQR = QR>
-	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const { 	return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue()); }
+	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const 
+	{ 	
+		if constexpr (!IsSameBaseUnit<U,U2>())
+			return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue());	
+		
+		return divide(q);
+	}
 private:
 	T1 value;	
 	
@@ -88,6 +94,14 @@ private:
 		constexpr int ex = QR::Exponent + TQR::Exponent;
 		using QR_ = typename QR::template Creator<ex>;
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
+	}
+	
+	template<typename U2 = U, typename TQR = QR>
+	constexpr decltype(auto) divide(const Quantity<U2, TQR,T1>& q) const
+	{ 
+		constexpr int ex = QR::Exponent - TQR::Exponent;
+		using QR_ = typename QR::template Creator<ex>;
+		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
 	}
 };
 
