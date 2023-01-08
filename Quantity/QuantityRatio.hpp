@@ -83,8 +83,9 @@ struct Kilo: public QuantityRatio<1,U>
 	//~ inline static const std::string Name = "Hekto"; 
 //~ };
 
-//~ struct Deka: public SIPrefix<10, 1> 
-//~ {	
-	//~ inline static const std::string Sign = "da"; 
-	//~ inline static const std::string Name = "Deka";
-//~ };
+template<typename U>
+struct Deka: public QuantityRatioBase<10,1,1> 
+{	
+	inline static constexpr const char* Sign = "da"; 
+	inline static constexpr const char* Name = "Deka"; 
+};

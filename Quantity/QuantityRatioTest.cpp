@@ -54,6 +54,11 @@ int main()
     assert(KM::Denom==1);
     assert(KM::Num==1000);
     
+	using DEKA = Deka<Length>;
+    std::cout<<DEKA::Name<<"L: "<<DEKA::Num<<" / "<<DEKA::Denom<<std::endl;
+    assert(DEKA::Denom==1);
+    assert(DEKA::Num==10);
+    
     std::cout<<"END"<<std::endl;
 
     return 0;
