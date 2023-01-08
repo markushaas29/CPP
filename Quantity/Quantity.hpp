@@ -10,7 +10,7 @@
 #ifndef QUANTITY_H
 #define QUANTITY_H
 
-template<typename U, typename QR = QuantityRatio<1,U>,typename T1 = double>
+template<typename U, typename QR = Pure,typename T1 = double>
 class Quantity
 {
 public:
@@ -19,7 +19,7 @@ public:
 	using QuantityRatioType = QR;
 	using Converter = String_::ParserTo<T1>;
 	using Type = Quantity<U,QR,T1>;	
-	using PureType = Quantity<U,Pure<U>,T1>;	
+	using PureType = Quantity<U,Pure,T1>;	
 	
     const std::string UnitSign() { return U::Sign(); }
     const std::string SiUnit() { return UnitType::SiUnit(); }
@@ -66,19 +66,22 @@ public:
 	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T1>& q ) const 
 	{
 		if constexpr (!IsSameBaseUnit<U,U2>())
-			return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure<U>,T1>(value * q.PureValue());	
+			return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure,T1>(value * q.PureValue());	
 		
 		return multiply(q);
 	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return divide(q);	}
+
+	template<typename TQR>
+	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return *this / transform(q);}
 	
 	template<typename U2 = U, typename TQR = QR>
 	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const 
 	{ 	
 		if constexpr (!IsSameBaseUnit<U,U2>())
-			return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure<U>,T1>(value / q.PureValue());	
+			return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure,T1>(value / q.PureValue());	
 		
 		return divide(q);
 	}
@@ -100,12 +103,13 @@ private:
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T1>& q) const
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
+		std::cout<<"Ex"<<ex<<"T"<<TQR::Exponent<<std::endl;
 		using QR_ = typename QR::template Creator<ex>;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
 	}
 };
 
-template<typename U, typename QR = Pure<U>,typename T1 = double>
+template<typename U, typename QR = Pure,typename T1 = double>
 std::ostream& operator<<(std::ostream& out, const Quantity<U,QR,T1>& q)
 {
 	//~ if constexpr (std::is_same_v<QR, Days> || std::is_same_v<QR, Hours> || std::is_same_v<QR, Minutes>)
