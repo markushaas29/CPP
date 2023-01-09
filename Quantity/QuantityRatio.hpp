@@ -13,17 +13,23 @@ struct QuantityRatioBase
 	using Type = Derived<Ex>;
 	
 	static constexpr int Exponent = Ex;
-	static constexpr uint Num = N;
-	static constexpr uint Denom = D;
+	static constexpr uint BaseNum = N;
+	static constexpr uint BaseDenom = D;
+	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
+	static constexpr uint Num = Ex > 0 ? Math::Pow<BaseNum,Ex>::Result : 1;;
+	static constexpr uint Denom = Ex < 0 ? Math::Pow<BaseDenom,-Ex>::Result : 1;;
 	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
 	static inline const std::string Sign;
 	static inline const std::string Name;
 	static constexpr double Factor = ((double)Num / Denom);	
+	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 	
-	template<int Factor>
+	template<int Fac>
 	struct MultiplyBy
 	{
-		static constexpr int T = Factor * Num;
+		static constexpr int Factor = Fac;
+		static constexpr int Multiplier = Fac * Num;
+		using Type = Derived<Multiplier>;
 	};
 };
 
