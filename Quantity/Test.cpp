@@ -47,7 +47,7 @@ int main()
     std::cout<<"m500: "<<m500<<std::endl;
     assert(km1.PureValue()==1000);
     assert(km1.Value()==1);
-    assert(decltype(km1)::QuantityRatioType::Exponent==3);
+    assert(decltype(km1)::QuantityRatioType::Exponent==1);
 	
 	constexpr auto km15 = km1 + m500;
     std::cout<<"km15: "<<km15<<std::endl;
@@ -104,7 +104,7 @@ int main()
     std::cout<<"km12: "<<km1p2<<std::endl;
     assert(km1p2.PureValue()==3000);
     assert(km1p2.Value()==3);
-    assert(decltype(km1p2)::QuantityRatioType::Exponent==3);
+    assert(decltype(km1p2)::QuantityRatioType::Exponent==1);
 	
 	//~ constexpr auto km2m1 = km2 - km1;
     //~ std::cout<<"km2m1: "<<km2m1<<std::endl;
