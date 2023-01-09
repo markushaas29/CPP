@@ -7,10 +7,10 @@
 
 //~ template<int a,int b,int c,int d,int e,int f,int g,int h> class Unit;
 
-template<uint N, uint D, int Ex>
+template<uint N, uint D, int Ex, template<int> class Derived>
 struct QuantityRatioBase
 {
-	using Type = QuantityRatioBase<N,D,Ex>;
+	using Type = Derived<Ex>;
 	
 	static constexpr int Exponent = Ex;
 	static constexpr uint Num = N;
@@ -41,7 +41,7 @@ struct QuantityRatioBase
 //~ };
 
 template<int Ex>
-struct MinutesBase: public QuantityRatioBase<60, 1, Ex> 
+struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase> 
 {	
 	//~ template<int E> using Creator = Minutes<E>;
 	inline static constexpr const char* Sign = "min"; 
@@ -49,35 +49,35 @@ struct MinutesBase: public QuantityRatioBase<60, 1, Ex>
 };
 
 template<int Ex>
-struct HoursBase: public QuantityRatioBase<3600, 1,Ex> 
+struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase> 
 {	
 	inline static constexpr const char* Sign = "h"; 
 	inline static constexpr const char* Name = "Hours"; 
 };
 
 template<int Ex>
-struct DaysBase: public QuantityRatioBase<86400, 1, Ex> 
+struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase> 
 {	
 	inline static constexpr const char* Sign = "d"; 
 	inline static constexpr const char* Name = "Days"; 
 };
 
 template<int Ex>
-struct MilliBase: public QuantityRatioBase<1, 1000, Ex> 
+struct MilliBase: public QuantityRatioBase<1, 1000, Ex, MilliBase> 
 {	
 	inline static constexpr const char* Sign = "m"; 
 	inline static constexpr const char* Name = "Milli"; 
 };
 
 template<int Ex>
-struct PureBase: public QuantityRatioBase<1,1,Ex> 
+struct PureBase: public QuantityRatioBase<1,1,Ex,PureBase> 
 {	
 	inline static constexpr const char* Sign = ""; 
 	inline static constexpr const char* Name = "Pure"; 
 };
 
 template<int Ex>
-struct KiloBase: public QuantityRatioBase<1000, 1, Ex> 
+struct KiloBase: public QuantityRatioBase<1000, 1, Ex, KiloBase> 
 {	
 	inline static constexpr const char* Sign = "k"; 
 	inline static constexpr const char* Name = "Kilo"; 
@@ -91,7 +91,7 @@ struct KiloBase: public QuantityRatioBase<1000, 1, Ex>
 //~ };
 
 template<int Ex>
-struct DekaBase: public QuantityRatioBase<10,1,Ex> 
+struct DekaBase: public QuantityRatioBase<10,1,Ex,DekaBase> 
 {	
 	inline static constexpr const char* Sign = "da"; 
 	inline static constexpr const char* Name = "Deka"; 
