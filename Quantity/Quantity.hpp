@@ -95,7 +95,7 @@ private:
 	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T1>& q) const
 	{ 
 		constexpr int ex = QR::Exponent + TQR::Exponent;
-		using QR_ = typename QR::template Creator<ex>;
+		using QR_ = typename QR::PowBy<ex>::Type;
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
 	}
 	
@@ -104,7 +104,7 @@ private:
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
 		std::cout<<"Ex"<<ex<<"T"<<TQR::Exponent<<std::endl;
-		using QR_ = typename QR::template Creator<ex>;
+		using QR_ = typename QR::PowBy<ex>::Type;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
 	}
 };
