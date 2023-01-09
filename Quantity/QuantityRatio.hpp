@@ -25,7 +25,7 @@ struct QuantityRatioBase
 	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 	
 	template<int Fac>
-	struct MultiplyBy
+	struct PowBy
 	{
 		static constexpr int Factor = Fac;
 		using Type = Derived<Fac>;

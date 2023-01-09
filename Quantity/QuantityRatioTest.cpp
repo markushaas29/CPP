@@ -13,7 +13,7 @@ int main()
     assert(K::Denom==1);
     assert(K::Exponent==1);
     
-	using K2 = Kilo::MultiplyBy<2>::Type;
+	using K2 = Kilo::PowBy<2>::Type;
     std::cout<<"L: "<<K2::Num<<" / "<<K2::Denom<<std::endl;
     assert(K2::Num==1000000);
     assert(K2::Denom==1);
@@ -25,7 +25,7 @@ int main()
     assert(M::BaseDenom==1000);
     assert(M::Exponent==1);
 	
-	using M2 = Milli::MultiplyBy<2>::Type;
+	using M2 = Milli::PowBy<2>::Type;
     std::cout<<"M2: "<<M2::Num<<" / "<<M2::Denom<<std::endl;
     assert(M2::BaseNum==1);
     assert(M2::BaseDenom==1000);
