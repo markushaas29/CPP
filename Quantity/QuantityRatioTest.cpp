@@ -9,20 +9,21 @@ int main()
 
 	using K = Kilo;
     std::cout<<"L: "<<K::Num<<" / "<<K::Denom<<std::endl;
+    std::cout<<"L: "<<K::MultiplyBy<3>::T<<std::endl;
     assert(K::Num==1000);
     assert(K::Denom==1);
-    assert(K::Exponent==3);
+    assert(K::Exponent==1);
 
 	using M = Milli;
     std::cout<<"M: "<<M::Num<<" / "<<M::Denom<<std::endl;
     assert(M::Num==1);
     assert(M::Denom==1000);
-    assert(M::Exponent==-3);
+    assert(M::Exponent==1);
 	
     std::cout<<"Pure: "<<Pure::Num<<" / "<<Pure::Denom<<std::endl;
     assert(Pure::Num==1);
     assert(Pure::Denom==1);
-    assert(Pure::Exponent==0);
+    assert(Pure::Exponent==1);
 	
     std::cout<<"Minutes: "<<Minutes::Num<<" / "<<Minutes::Denom<<std::endl;
     assert(Minutes::Num==60);
