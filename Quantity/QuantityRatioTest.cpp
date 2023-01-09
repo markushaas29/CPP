@@ -25,6 +25,12 @@ int main()
     assert(M::BaseDenom==1000);
     assert(M::Exponent==1);
 	
+	using M2 = Milli::MultiplyBy<2>::Type;
+    std::cout<<"M2: "<<M2::Num<<" / "<<M2::Denom<<std::endl;
+    assert(M2::BaseNum==1);
+    assert(M2::BaseDenom==1000);
+    assert(M2::Exponent==2);
+	
     std::cout<<"Pure: "<<Pure::Num<<" / "<<Pure::Denom<<std::endl;
     assert(Pure::BaseNum==1);
     assert(Pure::BaseDenom==1);
