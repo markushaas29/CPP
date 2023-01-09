@@ -28,8 +28,7 @@ struct QuantityRatioBase
 	struct MultiplyBy
 	{
 		static constexpr int Factor = Fac;
-		static constexpr int Multiplier = Fac * Num;
-		using Type = Derived<Multiplier>;
+		using Type = Derived<Fac>;
 	};
 };
 

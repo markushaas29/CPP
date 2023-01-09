@@ -9,10 +9,15 @@ int main()
 
 	using K = Kilo;
     std::cout<<"L: "<<K::Num<<" / "<<K::Denom<<std::endl;
-    std::cout<<"L: "<<K::MultiplyBy<3>::Multiplier<<std::endl;
     assert(K::Num==1000);
     assert(K::Denom==1);
     assert(K::Exponent==1);
+    
+	using K2 = Kilo::MultiplyBy<2>::Type;
+    std::cout<<"L: "<<K2::Num<<" / "<<K2::Denom<<std::endl;
+    assert(K2::Num==1000000);
+    assert(K2::Denom==1);
+    assert(K2::Exponent==2);
 
 	using M = Milli;
     std::cout<<"M: "<<M::Num<<" / "<<M::Denom<<std::endl;
