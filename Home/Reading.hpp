@@ -26,6 +26,7 @@ struct Reading
 	template<typename Separator = T::char_<';'>>
 	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::QuantityRatioType::Sign<<U::Sign();	}
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
+	Reading(): Date{1,1,2000}, QuantityValue{0}{};
 	
 	static decltype(auto) Create(const std::string& d, const std::string& v)
 	{

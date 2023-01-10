@@ -235,6 +235,17 @@ public:
 	{ 
 		auto curr = std::find_if(begin,end,[&](const auto t) { return t->Date == year;});
 		auto prev = std::find_if(begin,end,[&](const auto t) { return t->Date == lastYear;});
+		decltype(**curr - **prev) res;
+		if(curr == end)
+		{
+			Logger::Log<Error>("No value to calculate AnnualConumption for: ", year);
+			return res;
+		}
+		if(prev == end)
+		{
+			Logger::Log<Error>("No value to calculate AnnualConumption for: ", lastYear);
+			return res;
+		}
 		return **curr - **prev;
 	}
 private:
