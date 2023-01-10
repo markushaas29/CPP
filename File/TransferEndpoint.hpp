@@ -29,7 +29,7 @@ namespace Bank
 	template<typename ItemT, typename AccountT, typename TupleT,template<typename> class Cont>
 	const ItemT& GetTransferEndpoint(TransferEndpoint<AccountT,TupleT,Cont>const& t)	{ return std::get<ItemT>(t.types);	};
 	
-	template<typename Account, typename TupleType = std::tuple<Name,IBAN,BIC,Quantity<Sum>>,template<typename> class Cont = std::vector>
+	template<typename Account, typename TupleType = std::tuple<Name,IBAN,BIC,Quantity<Sum,Pure>>,template<typename> class Cont = std::vector>
 	class TransferEndpoint
 	{
 	public:
@@ -48,13 +48,13 @@ namespace Bank
 		using CSVSeparator = T::char_<';'> ;
 	public:
 		using KeyType = Key<std::string>;
-		using QuantityType = Quantity<Sum>;
+		using QuantityType = Quantity<Sum,Pure>;
 		
 		template<typename ItemT, typename AccountT, typename TupleT,template<typename> class C>
 		friend const ItemT& GetTransferEndpoint(TransferEndpoint<AccountT,TupleT,C> const& t);
 		
 		TransferEndpoint(std::string ownerKey, std::string i = "IBAN", std::string b = "BIC") : types(ownerKey, i, b) { };
-		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum>>(*t))	
+		TransferEndpoint(const DataType t) : types( Bank::GetTransfer<Name>(*t), Bank::GetTransfer<IBAN>(*t), Bank::GetTransfer<BIC>(*t), Bank::GetTransfer<Quantity<Sum,Pure>>(*t))	
 		{ 	
 			Logger::Log("Enpoint created ", std::get<IBAN>(types));
 			this->transfers->Add(t); 
@@ -64,7 +64,7 @@ namespace Bank
 		void Add(DataType t)
 		{
 			this->transfers->Add(t);
-			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::GetTransfer<Quantity<Sum>>(*t);
+			std::get<QuantityType>(types) = std::get<QuantityType>(types) + Bank::GetTransfer<Quantity<Sum,Pure>>(*t);
 		}
 		
 		std::ostream& Display(std::ostream& out) const
@@ -84,7 +84,7 @@ namespace Bank
 		
 					if(DateTimes::Get<DateTimes::Year>(date) == year)
 					{
-						auto s = Bank::GetTransfer<Quantity<Sum>>(**it);
+						auto s = Bank::GetTransfer<Quantity<Sum,Pure>>(**it);
 						auto d = Bank::GetTransfer<Bank::Direction>(**it).QuantityValue();
 						out<<"\tDate: "<<date<<"\tSum: "<<std::setprecision(2)<<std::fixed<<s<<std::endl;
 						out<<"\t"<<"\t"<<Bank::GetTransfer<Entry>(**it)<<std::endl;

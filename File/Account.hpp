@@ -50,7 +50,7 @@ namespace Bank
 		using TupleType = TransferItems;
 		using KeyType = IBAN;
 		using AccountContainerType = AccountContainer<TransferType>;
-		using QuantityType = Quantity<Sum>;
+		using QuantityType = Quantity<Sum,Pure>;
 		using InputIterator = std::vector<std::string>::const_iterator;
 		using KeyIndexType = CSV::KeyIndex<KeyType,uint>;
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;

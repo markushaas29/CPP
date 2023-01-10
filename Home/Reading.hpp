@@ -4,7 +4,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Quantity/Quantity.hpp"
-#include "../Unit/SIPrefix.hpp"
+#include "../Quantity/QuantityRatio.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Calculator/CalculatorResult.hpp"
@@ -13,7 +13,7 @@
 #define READING_HPP
 
 
-template<typename U, typename Pre = SIPrefix<1,1>, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
+template<typename U, typename Pre = Pure, typename Q = Quantity<U,Pure,double>, typename DateT = DateTimes::Date>
 struct Reading
 {
 	using Unit = U;
@@ -24,7 +24,7 @@ struct Reading
 	const QuantityType QuantityValue;
 	
 	template<typename Separator = T::char_<';'>>
-	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::UnitPrefix::Sign<<U::Sign();	}
+	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::QuantityRatioType::Sign<<U::Sign();	}
 	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
 	
 	static decltype(auto) Create(const std::string& d, const std::string& v)

@@ -41,7 +41,7 @@ namespace Bank
 		using TupleType = TupleT;
 		using AccountType = Account ;
 		using KeyType = typename Account::KeyType;
-		using QunatityType = Quantity<Sum>;
+		using QunatityType = Quantity<Sum,Pure>;
 		
 		Transfer() = delete;
 		Transfer(const TupleType& t) : transferItems(t) { 	};
@@ -54,7 +54,7 @@ namespace Bank
 		
 		std::ostream& Display(std::ostream& os) const 
 		{
-			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::get<Direction>(transferItems)<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum>>(transferItems)<<std::endl;
+			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::get<Direction>(transferItems)<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum,Pure>>(transferItems)<<std::endl;
 			os<<"\t"<<"\t"<<std::get<Entry>(transferItems)<<std::endl;
 			
 			return os;
