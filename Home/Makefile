@@ -17,8 +17,8 @@ Debug:	$(OBJECTS)
 %.o: 	%.hpp %.cpp
 	$(CXX) $(DEBUGFLAGS) $*.cpp
 	
-Regex: 	RegexTest.cpp
-	g++ -std=c++2a -o Regex RegexTest.cpp
+House: 	HouseTest.cpp
+	$(CXX) -std=c++2a -o House HouseTest.cpp
 
 Backup:	Backup.cpp
 	g++ -std=c++2a -o Backup Backup.cpp
