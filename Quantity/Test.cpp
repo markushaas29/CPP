@@ -74,10 +74,10 @@ int main()
     assert(m1500m.PureValue()==500);
     assert(m1500m.Value()==500);
 	
-	//~ constexpr auto qkm1 = km1 * m1000;
-    //~ std::cout<<"qkm1: "<<qkm1<<std::endl;
-    //~ assert(qkm1.Value()==1);
-    //~ assert(qkm1.PureValue()==1000000);
+	constexpr auto qkm1 = km1 * m1000;
+    std::cout<<"qkm1: "<<qkm1<<std::endl;
+    assert(qkm1.Value()==1);
+    assert(qkm1.PureValue()==1000000);
 	
 	constexpr auto km12 = km1 * km2;
     std::cout<<"km12: "<<km12<<std::endl;
@@ -86,19 +86,21 @@ int main()
     assert(decltype(km12)::QuantityRatioType::Exponent==2);
 	
 	//~ constexpr auto kmd1 = km12 / km2;
-    //~ std::cout<<"kmd1: "<<kmd1<<std::endl;
-    //~ assert(kmd1.PureValue()==1000);
-    //~ assert(kmd1.Value()==1);
-    //~ assert(decltype(kmd1)::QuantityRatioType::Exponent==1);
+	auto kmd1 = km12 / km2;
+    std::cout<<"kmd1: "<<kmd1<<std::endl;
+    assert(kmd1.PureValue()==1000);
+    assert(kmd1.Value()==1);
+    assert(decltype(kmd1)::QuantityRatioType::Exponent==1);
 	
-	//~ auto kmd1m = km12 / m2000;
+	auto kmd1m = km12 / m2000;
 	//~ constexpr auto kmd1m = km12 / m2000;
-    //~ std::cout<<"kmd1m: "<<kmd1m<<std::endl;
-    //~ assert(kmd1m.PureValue()==1000);
-    //~ assert(kmd1m.Value()==0.001);
-    //~ std::cout<<"kmd1m: "<<decltype(kmd1m)::QuantityRatioType::Name<<std::endl;
-    //~ std::cout<<"kmd1m: "<<decltype(kmd1m)::QuantityRatioType::Exponent<<std::endl;
-    //~ assert(decltype(kmd1m)::QuantityRatioType::Exponent==1);
+    std::cout<<"kmd1m: "<<kmd1m<<std::endl;
+    std::cout<<"kmd1m Pure: "<<kmd1m.PureValue()<<std::endl;
+    assert(kmd1m.PureValue()==1000);
+    assert(kmd1m.Value()==1);
+    std::cout<<"kmd1m: "<<decltype(kmd1m)::QuantityRatioType::Name<<std::endl;
+    std::cout<<"kmd1m: "<<decltype(kmd1m)::QuantityRatioType::Exponent<<std::endl;
+    assert(decltype(kmd1m)::QuantityRatioType::Exponent==1);
 	
 	constexpr auto km1p2 = km1 + km2;
     std::cout<<"km12: "<<km1p2<<std::endl;
