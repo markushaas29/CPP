@@ -11,6 +11,7 @@ template<uint N, uint D, int Ex, template<int> class Derived>
 struct QuantityRatioBase
 {
 	using Type = Derived<Ex>;
+	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int Exponent = Ex;
 	static constexpr uint BaseNum = N;
@@ -109,3 +110,9 @@ using Milli = MilliBase<1>;
 using Kilo = KiloBase<1>;
 using Pure = PureBase<1>;
 using Deka = DekaBase<1>;
+
+template <template <int> class, template<int> class> 
+struct IsSameTemplate : std::false_type{};
+
+template <template <int> class T>
+struct IsSameTemplate<T,T> : std::true_type{};

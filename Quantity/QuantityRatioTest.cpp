@@ -41,6 +41,17 @@ int main()
     assert(Minutes::BaseDenom==1);
     assert(Minutes::Exponent==1);
 	
+	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
+    assert(isSame);
+	isSame = IsSameTemplate<MinutesBase<2>::RatioType,Minutes::RatioType>::value;
+    assert(isSame);
+    isSame = IsSameTemplate<Minutes::RatioType,Pure::RatioType>::value;
+    assert(!isSame);
+
+	constexpr bool isSameC = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
+	
+	if constexpr (IsSameTemplate<MinutesBase<2>::RatioType,Minutes::RatioType>::value)
+	{}
 	
 	//~ using L_2 = QuantityRatio<-1,Length>;
 	//~ using T_2 = QuantityRatio<-1,Time>;
