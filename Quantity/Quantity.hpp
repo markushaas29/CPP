@@ -103,10 +103,10 @@ private:
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T1>& q) const
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
-		std::cout<<"Ex "<<ex<<" T "<<TQR::Exponent<<std::endl;
+		//~ std::cout<<"Ex "<<ex<<" T "<<TQR::Exponent<<std::endl;
 		using QR_ = typename QR::PowBy<ex>::Type;
 		
-		if constexpr (std::is_same_v<TQR,QuantityRatioType>)
+		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
 		
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
