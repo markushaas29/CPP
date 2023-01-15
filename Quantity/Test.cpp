@@ -43,6 +43,9 @@ int main()
 	constexpr auto m2000 = Quantity<Length,Pure>(2000);
 	constexpr auto mm500 = Quantity<Length,Milli>(500);
 	
+	constexpr auto g500 = Quantity<Mass,Pure>(500);
+	constexpr auto kg1 = Quantity<Mass,Kilo>(1);
+	constexpr auto mg1000 = Quantity<Mass,Milli>(1000);
     std::cout<<"km1: "<<km1<<std::endl;
     std::cout<<"m500: "<<m500<<std::endl;
     assert(km1.PureValue()==1000);
@@ -106,16 +109,23 @@ int main()
     assert(km1d.Value()==1);
     assert(decltype(km1d)::QuantityRatioType::Exponent==1);
 
-	auto kmd1m = km12 / m2000;
-	//~ constexpr auto kmd1m = km12 / m2000;
+	constexpr auto kmd1m = km12 / m2000;
     std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m<<std::endl;
-    std::cout<<"kmd1m: "<<kmd1m<<std::endl;
-    std::cout<<"kmd1m Pure: "<<kmd1m.PureValue()<<std::endl;
     assert(kmd1m.PureValue()==1000);
     assert(kmd1m.Value()==1);
-    std::cout<<"kmd1m: "<<decltype(kmd1m)::QuantityRatioType::Name<<std::endl;
-    std::cout<<"kmd1m: "<<decltype(kmd1m)::QuantityRatioType::Exponent<<std::endl;
     assert(decltype(kmd1m)::QuantityRatioType::Exponent==1);
+
+	constexpr auto kg1dkm1 = kg1 / km1;
+    std::cout<<kg1<<" / "<<km1<<" = "<<kg1dkm1<<std::endl;
+    assert(kg1dkm1.PureValue()==1);
+    assert(kg1dkm1.Value()==1);
+    assert(decltype(kg1dkm1)::QuantityRatioType::Exponent==0);
+	
+	constexpr auto kg1mkm1 = kg1 * km1;
+    std::cout<<kg1<<" * "<<km1<<" = "<<kg1mkm1<<std::endl;
+    assert(kg1mkm1.PureValue()==1000000);
+    assert(kg1mkm1.Value()==1);
+    assert(decltype(kg1mkm1)::QuantityRatioType::Exponent==2);
 	
 	constexpr auto km1p2 = km1 + km2;
     std::cout<<"km12: "<<km1p2<<std::endl;
