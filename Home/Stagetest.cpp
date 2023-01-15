@@ -43,5 +43,8 @@ int main()
 	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
     std::cout<<"END"<<std::endl;
 
+	std::ofstream of{"All.txt"};
+	CSV::Repository::Instance().Display(of);
+	
     return 0;
 }
