@@ -89,7 +89,13 @@ private:
 	T1 value;	
 	
 	template<typename TQuantity>
-	constexpr static decltype(auto) transform(TQuantity t){ return Type(t.PureValue() / QR::Factor);}
+	constexpr static decltype(auto) transform(TQuantity t)
+	{ 
+		using TU = typename TQuantity::UnitType;
+		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
+		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
+		//~ return Type(t.PureValue() / QR::Factor);
+	}
 	
 	template<typename U2 = U, typename TQR = QR>
 	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T1>& q) const
@@ -116,7 +122,8 @@ private:
 		
 		//~ std::cout<<"Ex2 "<<ex<<" T "<<TQR::Exponent<<std::endl;
 		if constexpr (IsSameBaseUnit<U,U2>())
-			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
+			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
+
 		//~ std::cout<<"Ex3 "<<ex<<" T "<<TQR::Exponent<<std::endl;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}

@@ -50,7 +50,9 @@ int main()
     assert(decltype(km1)::QuantityRatioType::Exponent==1);
 	
 	constexpr auto km15 = km1 + m500;
+    std::cout<<km1<<" + "<<m500<<" = "<<km15<<std::endl;
     std::cout<<"km15: "<<km15<<std::endl;
+    std::cout<<"km15Pure: "<<km15.PureValue()<<std::endl;
     assert(km15.PureValue()==1500);
     assert(km15.Value()==1.5);
 	
