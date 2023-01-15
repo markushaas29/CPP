@@ -87,34 +87,26 @@ int main()
     static_assert(std::is_same_v<decltype(km12)::QuantityRatioType,KiloBase<2>>,"Data structure requires default-constructible elements");
 	
 	constexpr auto s1 = km2 / km2;
-    std::cout<<"s1: "<<s1<<std::endl;
+    std::cout<<km2<<" / "<<km2<<" = "<<s1<<std::endl;
     assert(s1.PureValue()==1);
     assert(s1.Value()==1);
     assert(decltype(s1)::QuantityRatioType::Exponent==1);
 	
 	constexpr auto sm1 = km2 / m1000;
-    std::cout<<"sm1: "<<sm1<<std::endl;
+    std::cout<<km2<<" / "<<m1000<<" = "<<sm1<<std::endl;
     assert(sm1.PureValue()==2);
     assert(sm1.Value()==2);
     assert(decltype(sm1)::QuantityRatioType::Exponent==1);
 	
 	constexpr auto km1d = km12 / km2;
     std::cout<<km12<<" / "<<km2<<" = "<<km1d<<std::endl;
-    std::cout<<km12<<" / "<<km2<<" = "<<km1d.PureValue()<<std::endl;
     assert(km1d.PureValue()==1000);
     assert(km1d.Value()==1);
     assert(decltype(km1d)::QuantityRatioType::Exponent==1);
 
-
-	//~ constexpr auto kmd1 = km12 / km2;
-	//~ auto kmd1 = km12 / km2;
-    //~ std::cout<<"kmd1: "<<kmd1<<std::endl;
-    //~ assert(kmd1.PureValue()==1000);
-    //~ assert(kmd1.Value()==1);
-    //~ assert(decltype(kmd1)::QuantityRatioType::Exponent==1);
-	
 	auto kmd1m = km12 / m2000;
 	//~ constexpr auto kmd1m = km12 / m2000;
+    std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m<<std::endl;
     std::cout<<"kmd1m: "<<kmd1m<<std::endl;
     std::cout<<"kmd1m Pure: "<<kmd1m.PureValue()<<std::endl;
     assert(kmd1m.PureValue()==1000);

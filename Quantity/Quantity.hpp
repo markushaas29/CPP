@@ -107,10 +107,18 @@ private:
 		using QR_ = typename QR::PowBy<ex>::Type;
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
+		{
+			if constexpr (IsSameBaseUnit<U,U2>())
+				return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
+			
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
+		}
 		
+		//~ std::cout<<"Ex2 "<<ex<<" T "<<TQR::Exponent<<std::endl;
+		if constexpr (IsSameBaseUnit<U,U2>())
+			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
+		//~ std::cout<<"Ex3 "<<ex<<" T "<<TQR::Exponent<<std::endl;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
-		
 	}
 };
 
