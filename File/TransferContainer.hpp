@@ -58,16 +58,16 @@ namespace Bank
 		{ 
 			auto result = ContainerType();
 			if constexpr (std::is_same<FilterType,DateTimes::Year>::value)
-				std::copy_if(this->begin(), this->end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
+				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
 			else if constexpr (std::is_same<FilterType,Entry>::value)
-				std::copy_if(this->begin(), this->end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value(), t.Value()); });
+				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value(), t.Value()); });
 			else
-				std::copy_if(this->begin(), this->end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
+				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<FilterType>(*it) == t; });
 			
 			if(result.size() == 0)
 				Logger::Log<Warning>("No transfer by filtering with ",t);
 				
-			return result; 
+			return result;
 		}
 		
 		ContainerType getTransferOf(ContainerType&& cont){	return cont; } 
@@ -75,7 +75,9 @@ namespace Bank
 		template <typename FilterT, typename... FilterTypes>
 		ContainerType getTransferOf(ContainerType&& cont, FilterT filter, FilterTypes... filters)
 		{
+			Logger::Log<Warning>("Before ,",cont.size(), filter);
 			ContainerType result = this->filterBy(std::move(cont), filter);
+			Logger::Log<Warning>("After ",result.size(), filter);
 			return getTransferOf(std::move(result),filters...);
 		}
 		
