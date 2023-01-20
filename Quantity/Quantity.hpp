@@ -63,13 +63,7 @@ public:
 	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return *this * transform(q);}
 	
 	template<typename U2 = U, typename TQR = QR>
-	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T1>& q ) const 
-	{
-		//~ if constexpr (!IsSameBaseUnit<U,U2>())
-			//~ return Quantity<typename Transform< U, U2, MultiplyPolicy>::Type, Pure,T1>(value * q.PureValue());	
-		
-		return multiply(q);
-	}
+	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T1>& q ) const {	return multiply(q);	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<Scalar>(value / q.PureValue());	}
@@ -78,13 +72,7 @@ public:
 	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return *this / transform(q);}
 	
 	template<typename U2 = U, typename TQR = QR>
-	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const 
-	{ 	
-		//~ if constexpr (!IsSameBaseUnit<U,U2>())
-			//~ return Quantity<typename Transform< U, U2, DividePolicy>::Type, Pure,T1>(value / q.PureValue());	
-		
-		return divide(q);
-	}
+	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const {	return divide(q);	}
 private:
 	T1 value;	
 	
@@ -94,7 +82,6 @@ private:
 		using TU = typename TQuantity::UnitType;
 		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
 		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
-		//~ return Type(t.PureValue() / QR::Factor);
 	}
 	
 	template<typename U2 = U, typename TQR = QR>
@@ -109,7 +96,6 @@ private:
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T1>& q) const
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
-		//~ std::cout<<"Ex "<<ex<<" T "<<TQR::Exponent<<std::endl;
 		using QR_ = typename QR::PowBy<ex>::Type;
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
@@ -120,12 +106,10 @@ private:
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
 		}
 		
-		//~ std::cout<<"Ex2 "<<ex<<" T "<<TQR::Exponent<<std::endl;
 		if constexpr (IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
 
-		//~ std::cout<<"Ex3 "<<ex<<" T "<<TQR::Exponent<<std::endl;
-		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
+			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}
 };
 
