@@ -47,6 +47,16 @@ int main()
 	std::cout<<"Days"<<std::endl;
 	
 	auto d1 = DateTimes::Date("5.3.2022");
+	std::cout<<d1<<" Day: "<<Get<DateTimes::Day>(d1)<<std::endl;
+	assert(5==Get<DateTimes::Day>(d1));
+	
+	auto m1 = Get<DateTimes::Month>(d1);
+	std::cout<<d1<<" Month: "<<m1<<std::endl;
+	assert(3==m1);
+	
+	auto y1 = Get<DateTimes::Year>(d1);
+	std::cout<<d1<<" Month: "<<y1<<std::endl;
+	assert(2022==y1);
 	auto d2 = DateTimes::Date("28.2.2022");
 	
 	std::cout<<"Days "<<(d2 - d1)<<std::endl;
