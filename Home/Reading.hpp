@@ -82,7 +82,7 @@ decltype(auto) operator/(const QT& q, const Reading<U,P,Q,D>& r) { return Result
 template<typename U,typename P, typename Q, typename D, typename QT>
 decltype(auto) operator/(const Reading<U,P,Q,D>& r, const QT& q) { return Result<Division,Reading<U,P,Q,D>,QT,decltype(r.QuantityValue / q)>(r,q,r.QuantityValue / q);}
 
-template<typename C,typename T = double, typename DateT = Date>
+template<typename C,typename T = double, typename DateT = DateTimes::Date>
 std::ostream& operator<<(std::ostream& strm, const Reading<C,T,DateT> c)	{	return c.Display(strm);}
 
 
