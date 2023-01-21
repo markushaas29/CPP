@@ -60,7 +60,7 @@ public:
 	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
 	
 	template<typename TQR>
-	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return *this * transform(q);}
+	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return multiply(transform(q));}
 	
 	template<typename U2 = U, typename TQR = QR>
 	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T1>& q ) const {	return multiply(q);	}
@@ -69,7 +69,7 @@ public:
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<Scalar>(value / q.PureValue());	}
 
 	template<typename TQR>
-	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return *this / transform(q);}
+	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return Quantity<Scalar>( value / transform(q).PureValue());}
 	
 	template<typename U2 = U, typename TQR = QR>
 	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const {	return divide(q);	}
