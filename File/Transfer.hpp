@@ -26,10 +26,7 @@ namespace Bank
 	template<typename Account, typename TupleT>	class Transfer;
 	
 	template<typename ItemT, typename Account, typename TupleT>
-	const ItemT& GetTransfer(Transfer<Account,TupleT>const& t)
-	{
-		return std::get<ItemT>(t.transferItems);
-	};
+	const ItemT& GetTransfer(Transfer<Account,TupleT>const& t)	{	return std::get<ItemT>(t.transferItems); };
 	
 	template<typename Account, typename TupleT>
 	class Transfer

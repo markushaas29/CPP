@@ -71,7 +71,6 @@ namespace DateTimes
 		static constexpr Derived Get(int i) { return Derived((uint)i);}
 		std::string ToString() const { return ""; };
 		constexpr uint Value() const { return this->value; }
-		//~ constexpr DateTimeBase(uint v):value {v < min || v > max ? min : v}
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(ChronoValueType)v}
 		{
 			if(v > max || v == 0)
@@ -116,7 +115,6 @@ namespace DateTimes
 	};
 		
 	bool operator<(const Year& y1, const Year& y2) { return y1.Value() < y2.Value(); };
-	
 	
 	inline static Month January = Month(1);
 	inline static Month February= Month(2);
