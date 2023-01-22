@@ -22,5 +22,10 @@ int main()
 	
 	auto tp = std::make_tuple(i,b,n,dt,q,d,e);
 	auto t = TT{tp};
+	
+	auto ti = GetTransfer<I>(t);
+	std::cout<<"I: "<<ti<<std::endl;
+	assert(ti.Value()==i.Value());
+	
     return 0;
 }
