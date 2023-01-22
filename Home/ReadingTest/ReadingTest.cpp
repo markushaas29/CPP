@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../Reading.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Unit/Unit.hpp"
+#include "../Reading.hpp"
 using namespace ShortNames;
 
 int main()
@@ -11,6 +11,7 @@ int main()
 	using W = RW::QuantityType;
 	
 	auto w = W{123};
+	auto e = Q{2};
 	auto dt = DT{1,2,2003};
 	auto rw = RW{w,dt};
 	
@@ -23,8 +24,10 @@ int main()
 	assert(rw.Date == dt);
 	
 	auto drw = rw2 -rw;
+	auto c = drw / e;
     //~ std::cout<<"Watt "<<drw<<std::endl;
     std::cout<<"Watt "<<drw.Get()<<std::endl;
+    std::cout<<"Cons "<<c.Get()<<std::endl;
 	
     return 0;
 }
