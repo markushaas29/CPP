@@ -12,8 +12,15 @@ int main()
 	using TT = A::TransferType;
 	using TP = std::tuple<I, B, N, DT, Q, D, E>;
 	
-	auto tp = std::make_tuple(IBAN{},BIC{}, DateTimes::Date{1,1,2000}, Quantity<Sum>{123}, Bank::Direction(), Entry{});
-	//~ TP tp1(I{},B{}, DT{1,1,2000}, Q{123}, D(), E{});
+	auto i = I{"DE3"};
+	auto b = B{"COBA"};
+	auto n = N{"MN"};
+	auto dt = DT{1,1,2000};
+	auto q = Q{123};
+	auto d = D();
+	auto e = E{"TEST"};
 	
+	auto tp = std::make_tuple(i,b,n,dt,q,d,e);
+	auto t = TT{tp};
     return 0;
 }
