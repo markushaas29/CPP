@@ -103,6 +103,13 @@ int main()
 	assert(cm.Value() == 3);
 	auto cy = (DateTimes::Year)(d1);
 	assert(cy.Value() == 2022);
+	
+	
+	auto dy5 = DateTimes::Day{5};
+	auto m5 = DateTimes::Month{3};
+	auto y2022 = DateTimes::Year{2022};
+	assert(y2022 == d1);
+	
 	std::cout<<"END"<<std::endl;
     
 	return 0;

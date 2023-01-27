@@ -132,10 +132,7 @@ namespace DateTimes
 	using TP = std::chrono::system_clock::time_point;
 	
 	template<typename T>
-	constexpr bool isYMD(T t)
-	{
-		return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;
-	}
+	constexpr bool isYMD(T t) {	return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;	}
 	
 	class Date: public Element<Date>
 	{
@@ -189,7 +186,13 @@ namespace DateTimes
 		constexpr operator Month() { return std::get<DateTimes::Month>(tt); } 
 		constexpr operator Year() { return std::get<DateTimes::Year>(tt); } 
 		
-		constexpr bool operator==(const Year& y) const{ return ymd.year() == y; };
+		template<typename T>
+		constexpr bool operator==(const T t) const
+		{ 
+			if constexpr (std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>)
+				return (T)t == std::get<T>(tt); 
+			return false;
+		};
 		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
 		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
