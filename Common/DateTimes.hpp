@@ -185,6 +185,10 @@ namespace DateTimes
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
 		
+		constexpr operator Day() { return std::get<DateTimes::Day>(tt); } 
+		constexpr operator Month() { return std::get<DateTimes::Month>(tt); } 
+		constexpr operator Year() { return std::get<DateTimes::Year>(tt); } 
+		
 		constexpr bool operator==(const Year& y) const{ return ymd.year() == y; };
 		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}

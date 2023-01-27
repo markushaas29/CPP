@@ -97,6 +97,12 @@ int main()
 	auto id = DateTimes::isYMD(0.7);
 	assert(!id);
 	
+	auto cd = (DateTimes::Day)(d1);
+	assert(cd.Value() == 5);
+	auto cm = (DateTimes::Month)(d1);
+	assert(cm.Value() == 3);
+	auto cy = (DateTimes::Year)(d1);
+	assert(cy.Value() == 2022);
 	std::cout<<"END"<<std::endl;
     
 	return 0;
