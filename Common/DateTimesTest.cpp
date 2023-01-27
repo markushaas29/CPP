@@ -46,6 +46,7 @@ int main()
 	
 	std::cout<<"Days"<<std::endl;
 	
+	auto dy2 = DateTimes::Day{2};
 	auto d1 = DateTimes::Date("5.3.2022");
 	std::cout<<d1<<" Day: "<<Get<DateTimes::Day>(d1)<<std::endl;
 	assert(5==Get<DateTimes::Day>(d1));
@@ -89,6 +90,12 @@ int main()
 	assert(!y2021.IsLeap);
 	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::Year(2021) == DateTimes::Year(2021))<<std::endl;
 	assert((DateTimes::Year(2021) == DateTimes::Year(2021)));
+	
+	assert(isYMD(m1));
+	assert(isYMD(y1));
+	assert(isYMD(dy2));
+	auto id = DateTimes::isYMD(0.7);
+	assert(!id);
 	
 	std::cout<<"END"<<std::endl;
     

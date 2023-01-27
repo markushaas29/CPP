@@ -131,6 +131,12 @@ namespace DateTimes
 	
 	using TP = std::chrono::system_clock::time_point;
 	
+	template<typename T>
+	constexpr bool isYMD(T t)
+	{
+		return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;
+	}
+	
 	class Date: public Element<Date>
 	{
 		using Base = Element<Date>;
