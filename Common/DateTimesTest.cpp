@@ -91,10 +91,10 @@ int main()
 	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::Year(2021) == DateTimes::Year(2021))<<std::endl;
 	assert((DateTimes::Year(2021) == DateTimes::Year(2021)));
 	
-	assert(isYMD(m1));
-	assert(isYMD(y1));
-	assert(isYMD(dy2));
-	auto id = DateTimes::isYMD(0.7);
+	assert(DateTimes::isYMD<DateTimes::Year>());
+	assert(DateTimes::isYMD<DateTimes::Month>());
+	assert(DateTimes::isYMD<DateTimes::Day>());
+	auto id = DateTimes::isYMD<int>();
 	assert(!id);
 	
 	auto cd = (DateTimes::Day)(d1);
