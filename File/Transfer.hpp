@@ -43,9 +43,14 @@ namespace Bank
 		Transfer(const TupleType& t) : transferItems(t) { 	};
 		Transfer(TupleType&& t) : transferItems{std::move(t)} { 	};
 
-		bool operator==(DateTimes::Day m) const{ return std::get<DateTimes::Date>(transferItems) == m;};
-		bool operator==(DateTimes::Month m) const{ return std::get<DateTimes::Date>(transferItems) == m;};
-		bool operator==(DateTimes::Year y) const{ return std::get<DateTimes::Date>(transferItems) == y;};
+		template<typename T>
+		constexpr bool operator==(const T t) const
+		{ 
+			if constexpr (DateTimes::isYMD<T>())
+				return (T)t == std::get<DateTimes::Date>(transferItems); 
+			return false;
+		};
+		
 		bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
 		
 		std::ostream& Display(std::ostream& os) const 

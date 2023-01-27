@@ -42,6 +42,8 @@ int main()
 	assert(t != dy6);
 	assert(t == m5);
 	assert(t == y2022);
+	assert(t == dt);
+	assert(dt == t);
 	
     return 0;
 }
