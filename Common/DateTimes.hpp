@@ -182,9 +182,9 @@ namespace DateTimes
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
 		
-		constexpr operator Day() { return std::get<DateTimes::Day>(tt); } 
-		constexpr operator Month() { return std::get<DateTimes::Month>(tt); } 
-		constexpr operator Year() { return std::get<DateTimes::Year>(tt); } 
+		constexpr explicit operator Day() { return std::get<DateTimes::Day>(tt); } 
+		constexpr explicit operator Month() { return std::get<DateTimes::Month>(tt); } 
+		constexpr explicit operator Year() { return std::get<DateTimes::Year>(tt); } 
 		
 		template<typename T>
 		constexpr bool operator==(const T t) const
