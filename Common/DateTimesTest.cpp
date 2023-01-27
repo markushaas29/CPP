@@ -109,6 +109,8 @@ int main()
 	auto m5 = DateTimes::Month{3};
 	auto y2022 = DateTimes::Year{2022};
 	assert(y2022 == d1);
+	assert(d1 == m5);
+	assert(d1 == y2022);
 	
 	std::cout<<"END"<<std::endl;
     
