@@ -29,5 +29,8 @@ int main()
 	std::cout<<(**tc.Begin())<<std::endl;
 	assert(tc.Size()==1);
 	
+	auto f1 = tc.GetTransferOf(i,dt);
+	std::cout<<(*(*f1)[0])<<std::endl;
+	
     return 0;
 }
