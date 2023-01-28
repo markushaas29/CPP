@@ -37,7 +37,7 @@ namespace Bank
 		using TupleType = TupleT;
 		using AccountType = Account ;
 		using KeyType = typename Account::KeyType;
-		using QunatityType = Quantity<Sum,Pure>;
+		using QuantityType = Quantity<Sum,Pure>;
 		
 		Transfer() = delete;
 		Transfer(const TupleType& t) : transferItems(t) { 	};
@@ -51,14 +51,15 @@ namespace Bank
 			return false;
 		};
 		
+		bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
+		
 		template<typename T>
 		constexpr explicit operator T() { return std::get<T>(transferItems); } 
-		
-		bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
+		constexpr explicit operator double() { return std::get<QuantityType>(transferItems).Value(); } 
 		
 		std::ostream& Display(std::ostream& os) const 
 		{
-			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::get<Direction>(transferItems)<<std::setprecision(2)<<std::fixed<<std::get<Quantity<Sum,Pure>>(transferItems)<<std::endl;
+			os<<"\tDate: "<<std::get<DateTimes::Date>(transferItems)<<"\tSum: "<<std::get<Direction>(transferItems)<<std::setprecision(2)<<std::fixed<<std::get<QuantityType>(transferItems)<<std::endl;
 			os<<"\t"<<"\t"<<std::get<Entry>(transferItems)<<std::endl;
 			
 			return os;
