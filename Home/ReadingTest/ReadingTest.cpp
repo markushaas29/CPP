@@ -28,6 +28,10 @@ int main()
     //~ std::cout<<"Watt "<<drw<<std::endl;
     std::cout<<"Watt "<<drw.Get()<<std::endl;
     std::cout<<"Cons "<<c.Get()<<std::endl;
+    
+    auto cc = c * c;
+    std::cout<<"Cons "<<cc.Get()<<std::endl;
+    
 	
     return 0;
 }

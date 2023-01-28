@@ -23,6 +23,9 @@ Regex: 	RegexTest.cpp
 Cont:	TransferContainerTest.cpp
 	g++-11 -std=c++2a -o Cont TransferContainerTest.cpp
 
+Item:	TransferItemContainerTest.cpp
+	g++-11 -std=c++2a -o Item TransferItemContainerTest.cpp
+	
 clean:
 	rm -r  ../../../Downloads/* && rm *.o
 	
