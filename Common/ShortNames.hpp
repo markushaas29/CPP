@@ -17,6 +17,7 @@ namespace ShortNames
 	using A = Bank::Raiffeisenbank<Configuration::Raiffeisenbank>;
 	using TT = A::TransferType;
 	using TP = std::tuple<I, B, N, DT, Q, D, E>;
-	using TC = Bank::TransferContainer<TT>;
+	using ContData = std::shared_ptr<TT>;
+	using TC = Bank::TransferContainer<ContData>;
 };
 
