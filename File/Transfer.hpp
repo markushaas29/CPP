@@ -47,10 +47,10 @@ namespace Bank
 		constexpr bool operator==(const T t) const
 		{ 
 			if constexpr (DateTimes::isYMD<T>())
-				return (T)t == std::get<DateTimes::Date>(transferItems); 
+				return t == std::get<DateTimes::Date>(transferItems); 
 			return false;
-		};
 		
+		};
 		bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
 		
 		template<typename T>

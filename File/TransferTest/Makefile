@@ -17,8 +17,8 @@ Debug:	$(OBJECTS)
 %.o: 	%.hpp %.cpp
 	$(CXX) $(DEBUGFLAGS) $*.cpp
 	
-Regex: 	RegexTest.cpp
-	g++ -std=c++2a -o Regex RegexTest.cpp
+Transfer: 	TransferTest.cpp
+	g++-11 -std=c++2a -o Transfer TransferTest.cpp
 
 Cont:	TransferContainerTest.cpp
 	g++-11 -std=c++2a -o Cont TransferContainerTest.cpp
