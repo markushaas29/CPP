@@ -51,6 +51,9 @@ namespace Bank
 			return false;
 		};
 		
+		template<typename T>
+		constexpr explicit operator T() { return std::get<T>(transferItems); } 
+		
 		bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
 		
 		std::ostream& Display(std::ostream& os) const 

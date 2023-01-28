@@ -37,13 +37,20 @@ int main()
 	assert(t == y2022);
 	
 	auto dy6 = DateTimes::Day{6};
-	//~ auto m5 = DateTimes::Month{3};
-	//~ auto y2022 = DateTimes::Year{2022};
+	auto m6 = DateTimes::Month{6};
+	auto y2028 = DateTimes::Year{2028};
 	assert(t != dy6);
-	assert(t == m5);
-	assert(t == y2022);
+	assert(m6 != t);
+	assert(y2028 != t);
 	assert(t == dt);
 	assert(dt == t);
 	
+	auto ci = static_cast<I>(t);
+	std::cout<<"I: "<<ci<<std::endl;
+	assert(i == ci);
+	
+	auto cq = static_cast<Q>(t);
+	std::cout<<"Q: "<<cq<<std::endl;
+	assert(q == cq);
     return 0;
 }
