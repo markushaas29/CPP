@@ -17,6 +17,8 @@ int main()
 	auto b = B{"COBA"};
 	auto n = N{"MN"};
 	auto dt = DT{5,3,2022};
+	auto dt2 = DT{1,2,2023};
+	auto y2028 = Y{2028};
 	auto q = Q{123};
 	auto d = D();
 	auto e = E{"TEST"};
@@ -30,7 +32,10 @@ int main()
 	assert(tc.Size()==1);
 	
 	auto f1 = tc.GetTransferOf(i,dt);
-	std::cout<<(*(*f1)[0])<<std::endl;
-	
+	assert(f1->size() == 1);
+
+	auto f2 = tc.GetTransferOf(y2028);
+	assert(f2->size() == 0);
+	//~ std::cout<<(*());
     return 0;
 }

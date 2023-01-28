@@ -10,6 +10,7 @@ namespace ShortNames
 	using B = BIC;
 	using N = Name;
 	using DT = DateTimes::Date;
+	using Y = DateTimes::Year;
 	using Q = Quantity<Sum>;
 	using D = Bank::Direction;
 	using E = Entry;
