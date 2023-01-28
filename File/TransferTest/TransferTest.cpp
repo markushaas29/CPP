@@ -52,5 +52,9 @@ int main()
 	auto cq = static_cast<Q>(t);
 	std::cout<<"Q: "<<cq<<std::endl;
 	assert(q == cq);
+	
+	auto cd = static_cast<double>(t);
+	std::cout<<"D: "<<cd<<std::endl;
+	assert(q.Value() == cd);
     return 0;
 }
