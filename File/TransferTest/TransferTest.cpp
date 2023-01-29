@@ -17,8 +17,9 @@ int main()
 	auto b = B{"COBA"};
 	auto n = N{"MN"};
 	auto dt = DT{5,3,2022};
-	auto dt2 = DT{5,3,2022};
+	auto dt2 = DT{6,3,2022};
 	auto q = Q{123};
+	auto q2 = Q{124};
 	auto d = D();
 	auto e = E{"TEST"};
 	
@@ -59,7 +60,8 @@ int main()
 	assert(q.Value() == cd);
 	
 	assert(i == t);
-	assert(dt2 != t);
+	assert(t != dt2);
+	assert(t != q2);
 		
     return 0;
 }
