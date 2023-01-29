@@ -21,6 +21,10 @@ int main()
 	auto y2028 = Y{2028};
 	auto y2022 = Y{2022};
 	auto y2023 = Y{2023};
+	auto m2 = M{2};
+	auto m3 = M{3};
+	auto d1 = DY{1};
+	auto d5 = DY{5};
 	auto q = Q{123};
 	auto q2 = Q{124};
 	auto d = D();
@@ -43,20 +47,29 @@ int main()
 	std::cout<<(**tc.Begin())<<std::endl;
 	assert(tc.Size()==4);
 	
-	auto f1 = tc.GetTransferOf(i,dt);
-	assert(f1->size() == 2);
+	auto f = tc.GetTransferOf(i,dt);
+	assert(f->size() == 2);
 
-	auto f2 = tc.GetTransferOf(y2028);
-	assert(f2->size() == 0);
+	f = tc.GetTransferOf(y2028);
+	assert(f->size() == 0);
 	
-	auto f3 = tc.GetTransferOf(y2022);
-	assert(f3->size() == 2);
+	f = tc.GetTransferOf(y2022,y2023);
+	assert(f->size() == 0);
 	
-	auto f4 = tc.GetTransferOf(q);
-	assert(f4->size() == 2);
+	f = tc.GetTransferOf(y2022);
+	assert(f->size() == 2);
 	
-	auto f5 = tc.GetTransferOf(q2);
-	assert(f5->size() == 2);
+	f = tc.GetTransferOf(q);
+	assert(f->size() == 2);
+	
+	f = tc.GetTransferOf(q2);
+	assert(f->size() == 2);
+	
+	f = tc.GetTransferOf(q2,m3,d5);
+	assert(f->size() == 1);
+	
+	f = tc.GetTransferOf(q2,m3,d1);
+	assert(f->size() == 0);
 
 
     return 0;

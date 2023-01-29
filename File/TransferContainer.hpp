@@ -57,7 +57,8 @@ namespace Bank
 		decltype(auto) filterBy(ContainerType&& cont, FilterType t) 
 		{ 
 			auto result = ContainerType();
-			if constexpr (std::is_same<FilterType,DateTimes::Year>::value)
+
+			if constexpr (DateTimes::isYMD<FilterType>())
 				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return GetTransfer<DateTimes::Date>(*it) == t; });
 			else if constexpr (std::is_same<FilterType,Entry>::value)
 				std::copy_if(cont.begin(), cont.end(), std::back_inserter(result), [&t](auto it) { return String_::Contains(GetTransfer<Entry>(*it).Value(), t.Value()); });
@@ -75,9 +76,7 @@ namespace Bank
 		template <typename FilterT, typename... FilterTypes>
 		ContainerType getTransferOf(ContainerType&& cont, FilterT filter, FilterTypes... filters)
 		{
-			Logger::Log<Warning>("Before ,",cont.size(), filter);
 			ContainerType result = this->filterBy(std::move(cont), filter);
-			Logger::Log<Warning>("After ",result.size(), filter);
 			return getTransferOf(std::move(result),filters...);
 		}
 		
