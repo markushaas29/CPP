@@ -70,6 +70,9 @@ int main()
 	
 	f = tc.GetTransferOf(q2,m3,d1);
 	assert(f->size() == 0);
+	
+	f = tc.GetTransferOf(q2,dt2);
+	assert(f->size() == 1);
 
 
     return 0;
