@@ -15,6 +15,7 @@
 #include "../Visitor/Visitor.hpp"
 #include "../String/String_.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Common/TupleHelper.hpp"
 
 #ifndef TRANSFER_HPP
 #define TRANSFER_HPP
@@ -48,10 +49,12 @@ namespace Bank
 		{ 
 			if constexpr (DateTimes::isYMD<T>())
 				return t == std::get<DateTimes::Date>(transferItems); 
+			if constexpr (tuple_contains_type<T, TupleType>::value)
+				return t == std::get<T>(transferItems);
 			return false;
 		
 		};
-		bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
+		//~ bool operator==(DateTimes::Date date) const{ return std::get<DateTimes::Date>(transferItems) == date;};
 		
 		template<typename T>
 		constexpr explicit operator T() { return std::get<T>(transferItems); } 

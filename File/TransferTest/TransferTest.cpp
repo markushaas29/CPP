@@ -17,6 +17,7 @@ int main()
 	auto b = B{"COBA"};
 	auto n = N{"MN"};
 	auto dt = DT{5,3,2022};
+	auto dt2 = DT{5,3,2022};
 	auto q = Q{123};
 	auto d = D();
 	auto e = E{"TEST"};
@@ -43,7 +44,7 @@ int main()
 	assert(m6 != t);
 	assert(y2028 != t);
 	assert(t == dt);
-	assert(dt == t);
+	assert(dt == (DT)t);
 	
 	auto ci = static_cast<I>(t);
 	std::cout<<"I: "<<ci<<std::endl;
@@ -56,5 +57,9 @@ int main()
 	auto cd = static_cast<double>(t);
 	std::cout<<"D: "<<cd<<std::endl;
 	assert(q.Value() == cd);
+	
+	assert(i == t);
+	assert(dt2 != t);
+		
     return 0;
 }
