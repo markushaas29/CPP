@@ -21,8 +21,8 @@ public:
 	using Type = Quantity<U,QR,T1>;	
 	using PureType = Quantity<U,Pure,T1>;	
 	
-    const std::string UnitSign() { return U::Sign(); }
-    const std::string SiUnit() { return UnitType::SiUnit(); }
+    const std::string UnitSign() const { return U::Sign(); }
+    const std::string SiUnit() const { return UnitType::SiUnit(); }
     inline static const std::string Identifier = U::Name;
     inline static constexpr Converter converter = Converter();
     inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
@@ -71,8 +71,8 @@ public:
 	template<typename TQR>
 	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return Quantity<Scalar>( value / transform(q).PureValue());}
 	
-	template<typename U2 = U, typename TQR = QR>
-	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T1>& q ) const {	return divide(q);	}
+	template<typename U2 = U, typename TQR = QR, typename T2>
+	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T2>& q ) const {	return divide(q);	}
 private:
 	T1 value;	
 	
@@ -92,8 +92,8 @@ private:
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
 	}
 	
-	template<typename U2 = U, typename TQR = QR>
-	constexpr decltype(auto) divide(const Quantity<U2, TQR,T1>& q) const
+	template<typename U2 = U, typename TQR = QR, typename T2>
+	constexpr decltype(auto) divide(const Quantity<U2, TQR,T2>& q) const
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
 		using QR_ = typename QR::PowBy<ex>::Type;

@@ -47,6 +47,7 @@
 				//~ return strm<<Derived::Name<<"\tD: "<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
 			//~ }	
 			return strm<<Derived::Name<<"\t{"<<left<<"} "<<Derived::Sign<<" {"<<right<<"} = "<<value;	
+			//~ return strm<<"\t{"<<left<<"} "<<" {"<<right<<"} = "<<value<<value.UnitSign();	
 		}
 				
 	private:

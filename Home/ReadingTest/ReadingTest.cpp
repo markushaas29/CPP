@@ -28,21 +28,30 @@ int main()
 	assert(rw.Date == dt);
 	
 	auto drw = rw2 -rw;
-	auto c = drw / e;
+	auto drwq = rw2.QuantityValue -rw.QuantityValue;
+    auto subD = (rw2.Date - rw.Date);
+    //~ auto subD = (rw2.Date - rw.Date);
+	//~ auto c = (drw / subD) ;/// e;
+	//~ (int)drwq;
+	auto c = (drw / e) ;
     //~ std::cout<<"Watt "<<drw<<std::endl;
-    std::cout<<"Watt "<<drw.Get()<<std::endl;
-    std::cout<<"Cons "<<c.Get()<<std::endl;
+    std::cout<<"Q Watt "<<drwq<<std::endl;
+    std::cout<<"Get() )Watt "<<drw.Get()<<"\t"<<drw.Get().SiUnit()<<std::endl;
+    std::cout<<"Get Consumption "<<c.Get()<<std::endl;
+    //~ int x = (drwq / subD);
+    std::cout<<"Calc Consumption "<<(drwq / subD)<<std::endl;
     
     auto dd = rw3.Date - rw2.Date;
     std::cout<<"Days "<<dd<<std::endl;
 	auto drw2 = (rw3 -rw2) / dd;
 	auto c2 = drw2 / e;
     //~ std::cout<<"Watt "<<drw<<std::endl;
-    std::cout<<"Watt "<<drw2.Get()<<std::endl;
-    std::cout<<"Cons "<<c2.Get()<<std::endl;
+    //~ std::cout<<"Watt "<<drw2.Get()<<std::endl;
+    //~ std::cout<<"Cons "<<c2.Get()<<std::endl;
     
+    //~ decltype(drw2.Get()) d = 3;
     auto cc = c * c;
-    std::cout<<"Cons "<<cc.Get()<<std::endl;
+    //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
     
 	
     return 0;
