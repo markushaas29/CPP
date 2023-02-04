@@ -188,6 +188,23 @@ int main()
     assert(h1.PureValue()==3600);
     assert(m1.PureValue()==60);
 	
+	Quantity<Time,Days,uint> twoDays = Quantity<Time,Days,uint>(2);
+	auto kmPerDays = km1 / twoDays;
+    std::cout<<"KmPerDays: "<<kmPerDays<<std::endl;
+    assert(kmPerDays.Value()==0.5);
+    std::cout<<"KmPerDays Pure: "<<kmPerDays.PureValue()<<std::endl;
+    //~ assert(kmPerDays.PureValue()==(0.5 * 86400));
+    bool isSame = std::is_same_v<decltype(kmPerDays)::UnitType,Unit<0, 1, 0, -1, 0, 0, 0, 0>>;
+    assert(isSame);
+	
+	auto kmProDays = km1 * twoDays;
+    std::cout<<"KmPerDays: "<<kmProDays<<std::endl;
+    assert(kmProDays.Value()==2);
+    std::cout<<"KmPerDays Pure: "<<kmProDays.PureValue()<<std::endl;
+    //~ assert(kmProDays.PureValue()==(0.5 * 86400));
+    isSame = std::is_same_v<decltype(kmProDays)::UnitType,Unit<0, 1, 0, 1, 0, 0, 0, 0>>;
+    assert(isSame);
+    
 	//~ auto dhm = d3 + h1 + m1;
     //~ std::cout<<"dhm: "<<dhm<<dhm.PureValue()<<std::endl;
     //~ assert(dhm.PureValue()==(86400+3600+60));
