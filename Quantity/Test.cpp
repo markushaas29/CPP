@@ -124,8 +124,8 @@ int main()
 	constexpr auto kg1mkm1 = kg1 * km1;
     std::cout<<kg1<<" * "<<km1<<" = "<<kg1mkm1<<std::endl;
     assert(kg1mkm1.PureValue()==1000000);
-    assert(kg1mkm1.Value()==1);
-    assert(decltype(kg1mkm1)::QuantityRatioType::Exponent==2);
+    assert(kg1mkm1.Value()==1000);
+    assert(decltype(kg1mkm1)::QuantityRatioType::Exponent==1);
 	
 	constexpr auto km1p2 = km1 + km2;
     std::cout<<"km12: "<<km1p2<<std::endl;
@@ -147,33 +147,7 @@ int main()
     std::cout<<"km: Pure "<<kmP.Value()<<std::endl;
     std::cout<<"km: Value() "<<kmP.PureValue()<<std::endl;
 	
-    //~ std::cout<<"q5: Pure "<<q5.Value()<<std::endl;
-    //~ std::cout<<"q5: Value() "<<q5.PureValue()<<std::endl;
-    //~ std::cout<<"km1: Pure "<<km1.Value()<<std::endl;
-    //~ std::cout<<"km1: Value() "<<km1.PureValue()<<std::endl;
-	
-	//~ auto kmP2 = km1 + q5;
-    //~ std::cout<<"km: Pure "<<kmP2.Value()<<std::endl;
-    //~ std::cout<<"km: Value() "<<kmP2.PureValue()<<std::endl;
-		
-	//~ auto kmMi2 = km1 - q5;
-    //~ std::cout<<"km: Pure "<<kmMi2.Value()<<std::endl;
-    //~ std::cout<<"km: Value() "<<kmMi2.PureValue()<<std::endl;
-		
-	//~ auto kmM = km1 * km2;
-    //~ std::cout<<"km1 * km2: Pure "<<kmM.Value()<<std::endl;
-    //~ std::cout<<"km1 * km2: Value() "<<kmM.PureValue()<<std::endl;
-	
-	//~ auto kmM2 = km1 * q5;
-    //~ std::cout<<"km1 * q5: Pure "<<kmM2.Value()<<std::endl;
-    //~ std::cout<<"km1 * q5: Value() "<<kmM2.PureValue()<<std::endl;
-	
-	//~ auto kmD = kmM2 / q5;
-    //~ std::cout<<"kmM2 / q5: Pure "<<kmD.Value()<<std::endl;
-    //~ std::cout<<"kmM2 / q5: Value() "<<kmD.PureValue()<<std::endl;
-	
 	Quantity<Time,Days> d3 = Quantity<Time,Days>(1);
-    std::cout<<"Days: "<<d3<<std::endl;
     std::cout<<"Days: "<<d3<<std::endl;
     std::cout<<"Days: "<<d3.ToPure()<<std::endl;
     assert(d3.PureValue()==86400);
@@ -189,19 +163,17 @@ int main()
     assert(m1.PureValue()==60);
 	
 	Quantity<Time,Days,uint> twoDays = Quantity<Time,Days,uint>(2);
-	auto kmPerDays = km1 / twoDays;
-    std::cout<<"KmPerDays: "<<kmPerDays<<std::endl;
+	constexpr auto km86400 = Quantity<Length,Kilo>(86400);
+    std::cout<<"KmPerDays: "<<twoDays.PureValue()<<std::endl;
+	auto kmPerDays = km86400 / twoDays;
+    std::cout<<km86400<<" / "<<twoDays<<" = "<<kmPerDays<<" Pure: "<<kmPerDays.PureValue()<<std::endl;
     assert(kmPerDays.Value()==0.5);
-    std::cout<<"KmPerDays Pure: "<<kmPerDays.PureValue()<<std::endl;
-    //~ assert(kmPerDays.PureValue()==(0.5 * 86400));
     bool isSame = std::is_same_v<decltype(kmPerDays)::UnitType,Unit<0, 1, 0, -1, 0, 0, 0, 0>>;
     assert(isSame);
 	
 	auto kmProDays = km1 * twoDays;
-    std::cout<<"KmPerDays: "<<kmProDays<<std::endl;
-    assert(kmProDays.Value()==2);
-    std::cout<<"KmPerDays Pure: "<<kmProDays.PureValue()<<std::endl;
-    //~ assert(kmProDays.PureValue()==(0.5 * 86400));
+    assert(kmProDays.Value()==2 * 86400);
+    std::cout<<km1<<" * "<<twoDays<<" = "<<kmProDays<<" Pure: "<<kmProDays.PureValue()<<std::endl;
     isSame = std::is_same_v<decltype(kmProDays)::UnitType,Unit<0, 1, 0, 1, 0, 0, 0, 0>>;
     assert(isSame);
     

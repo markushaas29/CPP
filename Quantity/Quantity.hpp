@@ -63,7 +63,7 @@ public:
 	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return multiply(transform(q));}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return multiply(q);	}
+	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR,T1>(Value() * (T1)q.PureValue());;	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<Scalar>(value / q.PureValue());	}
@@ -109,7 +109,7 @@ private:
 		if constexpr (IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
 
-		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
+		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}
 };
 
