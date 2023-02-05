@@ -61,11 +61,17 @@ int main()
     bool isSame = std::is_same_v<decltype(pE3E6.Get())::UnitType,Sum>;
     assert(isSame);
 
-	auto sE9E3 = Subtraction::Calculate(pE3E6,e3);
+	auto sE9E3 = pE3E6 - e3;
     std::cout<<pE3E6<<" - "<<e3<<" = "<<sE9E3<<std::endl;
-    assert(sE9E3.Get().Get().Value()==6);
-    isSame = std::is_same_v<decltype(sE9E3.Get().Get())::UnitType,Sum>;
+    assert(sE9E3.Get().Value()==6);
+    isSame = std::is_same_v<decltype(sE9E3.Get())::UnitType,Sum>;
     assert(isSame);
+	
+	//~ auto sE9E3 = Subtraction::Calculate(pE3E6,e3);
+    //~ std::cout<<pE3E6<<" - "<<e3<<" = "<<sE9E3<<std::endl;
+    //~ assert(sE9E3.Get().Get().Value()==6);
+    //~ isSame = std::is_same_v<decltype(sE9E3.Get().Get())::UnitType,Sum>;
+    //~ assert(isSame);
 	
 	
 	std::cout<<"END"<<std::endl;
