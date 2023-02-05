@@ -20,11 +20,6 @@ int main()
 	auto t1 = Quantity<Time>{3};
 	auto t2 = Quantity<Time>{2};
 	
-	auto days = DateTimes::Days::Get(12);
-	auto ts = Subtraction::Calculate(t1,t2);
-	auto dts =  ts / days.AsQuantity();
-	std::cout<<Subtraction::Calculate(t1,t2)<<std::endl;
-	
 	auto a1 = Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9)+Addition::Calculate(e6,e9);
 	auto m2 = Multiplication::Calculate(e3,s2) + Multiplication::Calculate(e3,s2) +Multiplication::Calculate(e3,s2);
 	auto d = Division::Calculate(e3,s2);
@@ -50,6 +45,21 @@ int main()
 	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
 	std::cout<<"\n---------------------Division---------------------"<<std::endl;
 	std::cout<<(e6/Division::Calculate(d,d)/Multiplication::Calculate(a1,e6)/m2)<<std::endl;
+	
+	Quantity<Time,Days,uint> twoDays = Quantity<Time,Days,uint>(2);
+	constexpr auto km86400 = Quantity<Length,Kilo>(86400);
+    
+	std::cout<<"\n------------------------------------------"<<std::endl;
+	std::cout<<"\n------------------------------------------"<<std::endl;
+	std::cout<<"\n------------------------------------------"<<std::endl;
+	std::cout<<"\n---------------------Assert---------------------"<<std::endl;
+	std::cout<<"\n------------------------------------------"<<std::endl;
+
+	auto pE3E6 = Addition::Calculate(e6,e3);
+    std::cout<<e3<<" + "<<e6<<" = "<<pE3E6<<std::endl;
+    assert(pE3E6.Get().Value()==9);
+    bool isSame = std::is_same_v<decltype(pE3E6.Get())::UnitType,Sum>;
+    assert(isSame);
 	
 	
 	std::cout<<"END"<<std::endl;
