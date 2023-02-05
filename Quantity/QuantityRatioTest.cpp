@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "QuantityRatio.hpp"
+#include "Quantity.hpp"
 #include "../Unit/Unit.hpp"
 
 int main()
@@ -88,6 +89,35 @@ int main()
     std::cout<<DEKA::Name<<"L: "<<DEKA::Num<<" / "<<DEKA::Denom<<std::endl;
     assert(DEKA::Denom==1);
     assert(DEKA::Num==10);
+    
+    
+	constexpr auto m1000 = Quantity<Length,Pure>(1000);
+	constexpr auto km24 = Quantity<Length,Kilo>(24);
+	constexpr auto h24 = Quantity<Time,Hours>(24);
+	constexpr auto h1 = Quantity<Time,Hours>(1);
+	constexpr auto d1 = Quantity<Time,Days>(1);
+	
+    assert(d1.PureValue()==86400);
+    assert(h1.PureValue()==3600);
+    
+    auto mPerD = m1000 / d1;
+    auto mPerDCastD = QuantityRatio<Days>::Cast(mPerD);
+    std::cout<<mPerD<<" Cast as Day "<<mPerDCastD<<std::endl;
+    assert(mPerDCastD.Value()==1000);
+    
+    auto mPerDCastK = QuantityRatio<Kilo>::Cast(mPerD);
+    std::cout<<mPerD<<" Cast as Kilo "<<mPerDCastK<<std::endl;
+    //~ assert(mPerDCastK.Value()==11.5741);
+    
+    auto mPerDCastM = QuantityRatio<Mega>::Cast(mPerD);
+    std::cout<<mPerD<<" Cast as Mili "<<mPerDCastM<<std::endl;
+    //~ assert(mPerDCastM.Value()==11574.1);
+    
+    auto kmPerh = km24 / h24;
+    auto kmPerHCastH = QuantityRatio<Hours>::Cast(kmPerh);
+    std::cout<<kmPerh<<" Cast as Mili "<<kmPerHCastH<<std::endl;
+    assert(kmPerHCastH.Value()==1);
+    
     
     std::cout<<"END"<<std::endl;
 

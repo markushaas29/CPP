@@ -7,6 +7,15 @@
 
 //~ template<int a,int b,int c,int d,int e,int f,int g,int h> class Unit;
 
+template<typename U, typename QR,typename T1> class Quantity;
+
+template<class Type>
+struct QuantityRatio
+{
+	template<typename U, typename QR,typename T1>
+	static decltype(auto) Cast(const Quantity<U,QR,T1> q){ return Quantity<U,Type,T1>{q.PureValue() * Type::Factor};}
+};
+
 template<uint N, uint D, int Ex, template<int> class Derived>
 struct QuantityRatioBase
 {
@@ -89,6 +98,13 @@ struct KiloBase: public QuantityRatioBase<1000, 1, Ex, KiloBase>
 	inline static constexpr const char* Name = "Kilo"; 
 };
 
+template<int Ex>
+struct MegaBase: public QuantityRatioBase<1000000, 1, Ex, MegaBase> 
+{	
+	inline static constexpr const char* Sign = "M"; 
+	inline static constexpr const char* Name = "Mega"; 
+};
+
 //~ template<int Ex>
 //~ struct Hekto: public SIPrefix<100, 1> 
 //~ {	
@@ -108,6 +124,7 @@ using Hours = HoursBase<1>;
 using Days = DaysBase<1>;
 using Milli = MilliBase<1>;
 using Kilo = KiloBase<1>;
+using Mega = MegaBase<1>;
 using Pure = PureBase<1>;
 using Deka = DekaBase<1>;
 
