@@ -105,7 +105,10 @@ public:
 	constexpr decltype(auto) Begin() { return data.begin(); }
 	constexpr decltype(auto) End() { return data.begin() + size; }
 	constexpr decltype(auto) Size() { return size; }
+
 	constexpr decltype(auto) operator[](uint i) { return data[i]; }
+	constexpr bool operator==(const Element& e) const{ return Value() == e.Value(); };
+	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
 private:
 	std::size_t size;
 	constexpr std::size_t constLen(const char * a)
