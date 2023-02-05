@@ -72,6 +72,12 @@ int main()
     assert(mE6T2.Get().Value()==12);
     isSame = std::is_same_v<decltype(mE6T2.Get())::UnitType,Unit<1, 0, 0, 1, 0, 0, 0, 0>>;
     assert(isSame);
+    
+	auto dE12T3 = mE6T2 / t1;
+    std::cout<<mE6T2<<" - "<<t1<<" = "<<dE12T3<<std::endl;
+    assert(dE12T3.Get().Value()==4);
+    isSame = std::is_same_v<decltype(dE12T3.Get())::UnitType,Sum>;
+    assert(isSame);
 	
 	
 	std::cout<<"END"<<std::endl;
