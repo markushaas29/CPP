@@ -33,7 +33,7 @@ int main()
     //~ auto subD = (rw2.Date - rw.Date);
 	//~ auto c = (drw / subD) ;/// e;
 	//~ (int)drwq;
-	auto c = (drw / e) ;
+	auto c = (drw / subD) ;
     //~ std::cout<<"Watt "<<drw<<std::endl;
     std::cout<<"Q Watt "<<drwq<<std::endl;
     std::cout<<"Get() )Watt "<<drw.Get()<<"\t"<<drw.Get().SiUnit()<<std::endl;
