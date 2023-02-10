@@ -27,8 +27,8 @@ public:
 	inline static const std::string Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
 	Key* DoCreate(){return this;};
-	bool operator==(std::string s) const{ return s == this->Value; }
-	bool operator!=(std::string s) const{ return s != this->Value; }
+	bool operator==(T s) const{ return s == this->Value(); }
+	bool operator<=>(T s) const{ return s <=> this->Value(); }
 	using ValueType = T;
 	using Type = Key<T>;
 	using ContainerType  = std::vector<T>;
