@@ -33,7 +33,7 @@ public:
 	using Type = Key<T>;
 	using ContainerType  = std::vector<T>;
 	using Iterator  = std::vector<T>::const_iterator;
-	using ContainerPtrType  = std::shared_ptr<ContainerType>;
+	using ContainerPtrType  = std::unique_ptr<ContainerType>;
 
 	const ContainerPtrType Patterns() const { return this->patterns; }
 	bool Matches(const std::string& k)
@@ -41,7 +41,7 @@ public:
 		auto comparer = keyCompare(k);
 		return std::find_if(this->patterns->cbegin(), this->patterns->cend(), comparer) != this->patterns->cend(); 
 	}
-	void UpdatePatterns(Iterator begin, Iterator end) { this->patterns =  std::make_shared<ContainerType>(begin, end);}
+	void UpdatePatterns(Iterator begin, Iterator end) { this->patterns =  std::make_unique<ContainerType>(begin, end);}
 	ValueType Current() const { return this->currentPattern; }
 	void setCurrent(ValueType v) { this->currentPattern = v; }
 private:
@@ -55,7 +55,7 @@ private:
 	};
 	
 	ValueType currentPattern;
-	ContainerPtrType patterns = std::make_shared<ContainerType>();
+	ContainerPtrType patterns = std::make_unique<ContainerType>();
 };
 
 template<typename T = std::string>
