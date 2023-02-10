@@ -59,13 +59,7 @@ private:
 };
 
 template<typename T = std::string>
-bool operator==(std::string s, const Key<T>& k) { return k == s; }
-
-template<typename T = std::string>
-bool operator!=(std::string s, const Key<T>& k) { return k != s; }
-
-template<typename T = std::string>
-inline bool operator< (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() < rhs.Value(); }
+inline decltype(auto) operator<=> (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() <=> rhs.Value(); }
 
 template<typename T = std::string>
 inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
