@@ -26,6 +26,7 @@ class Key: public Element<Key<T>>
 public:
 	inline static const std::string Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
+	constexpr Key(const Key& k): Base(k.Value().c_str()){};
 	Key* DoCreate(){return this;};
 	bool operator==(T s) const{ return s == this->Value(); }
 	bool operator<=>(T s) const{ return s <=> this->Value(); }

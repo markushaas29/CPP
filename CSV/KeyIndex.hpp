@@ -43,13 +43,25 @@ namespace CSV
 	{
 		public:
 			KeyIndex(TKeyValue k): key{k}{};
-			using KeyType = Key<TKeyValue>;
+			using KeyType = Key<TKeyValue>;			
+			using ContainerType  = std::vector<KeyType>;
+			using CIterator  = std::vector<TKeyValue>::const_iterator;
+			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using IndexType = Index<TIndexValue>;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
 			using Iterator = typename KeyType::Iterator;
-			bool Is(std::string k){ return this->key.Matches(k);}
+			bool Is(std::string s)
+			{ 
+				
+				if(std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend())
+					return true;
+				return false;
+			}
 			void setIndexValue(TIndexValue i) { this->index.setValue(i); }
-			void setKeyPatterns(Iterator begin, Iterator end) { this->key.UpdatePatterns(begin,end); }
+			void setKeyPatterns(Iterator begin, Iterator end) 
+			{ 
+				std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); });
+				this->key.UpdatePatterns(begin,end); }
 			
 			std::ostream& Display(std::ostream& os) const
 			{
@@ -85,6 +97,7 @@ namespace CSV
 		private:
 			KeyType key;
 			IndexType index;
+			ContainerPtrType keys = std::make_unique<ContainerType>();
 	};
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
 	bool operator ==(const Key<TKeyValue>& k, const KeyIndex<TKeyValue,TIndexValue>& ki){ return ki == k; }
