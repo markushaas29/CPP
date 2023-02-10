@@ -62,10 +62,10 @@
 		static constexpr decltype(auto) Calculate(const T& nom, const T& denom, const Q& sum) {	return Multiplication((Division::Calculate(nom,denom)),sum); }		
 	};
 	
-	struct QuantityRatio: CalculatorOperation<QuantityRatio>
+	struct QuantityRatioOp: CalculatorOperation<QuantityRatioOp>
 	{ 
-		inline static constexpr const char* CalculatorOperation<QuantityRatio>::Name = "QuantityRatio";
-		inline static constexpr const char* CalculatorOperation<QuantityRatio>::Sign = "%";
+		inline static constexpr const char* CalculatorOperation<QuantityRatioOp>::Name = "QuantityRatioOp";
+		inline static constexpr const char* CalculatorOperation<QuantityRatioOp>::Sign = "%";
 		
 		template<typename L, typename R=L, typename Q=L>
 		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) {	return Multiplication::Calculate(Division::Calculate(nom,denom),q);	}

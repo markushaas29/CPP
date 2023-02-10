@@ -5,7 +5,7 @@
 #ifndef CALCULATORRESULT_HPP
 #define CALCULATORRESULT_HPP
 
-	struct QuantityRatio; //Fwd
+	struct QuantityRatioOp; //Fwd
 	struct Addition; //Fwd
 	struct Subtraction; //Fwd
 	struct Multiplication; //Fwd
