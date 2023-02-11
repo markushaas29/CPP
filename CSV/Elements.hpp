@@ -26,9 +26,6 @@ class Key: public Element<Key<T>>
 public:
 	using ValueType = T;
 	using Type = Key<T>;
-	using ContainerType  = std::vector<T>;
-	using Iterator  = std::vector<T>::const_iterator;
-	using ContainerPtrType  = std::unique_ptr<ContainerType>;
 	inline static const std::string Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
 	constexpr Key(const Key& k): Base(k.Value().c_str()){};

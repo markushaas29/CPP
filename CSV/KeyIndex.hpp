@@ -42,14 +42,11 @@ namespace CSV
 		public:
 			KeyIndex(TKeyValue k): key{k}{};
 			using KeyType = Key<TKeyValue>;			
-			using ContainerType  = std::vector<KeyType>;
-			using CIterator  = std::vector<TKeyValue>::const_iterator;
-			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using IndexType = Index<TIndexValue>;
+			using ContainerType  = std::vector<KeyType>;
+			using ContainerPtrType  = std::unique_ptr<ContainerType>;
+			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			using Iterator = typename KeyType::Iterator;
-			bool Is(std::string s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
-			//~ void setIndexValue(TIndexValue i) { this->index.setValue(i); }
 			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			
 			std::ostream& Display(std::ostream& os) const
@@ -66,7 +63,7 @@ namespace CSV
 			{
 				for(uint i = 0; i < values.size(); ++i)
 				{
-					if(this->Is(values.at(i)))
+					if(match(values.at(i)))
                     {
 						index = IndexType{i};
 						Logger::Log<Info>("Value: ",values.at(i), " at ", i);
@@ -83,6 +80,7 @@ namespace CSV
 			const IndexType& GetIndex() const { return this->index; }
 					
 		private:
+			bool match(const std::string& s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
 			KeyType key;
 			IndexType index;
 			ContainerPtrType keys = std::make_unique<ContainerType>();
