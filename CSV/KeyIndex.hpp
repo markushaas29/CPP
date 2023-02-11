@@ -1,3 +1,4 @@
+#include "Element.hpp"
 #include "Elements.hpp"
 #include "../Logger/Logger.hpp"
 #include <memory>
@@ -11,30 +12,29 @@
 namespace CSV
 {
 	template<typename T = uint>
-	class Index
+	class Index: public Element<Index<T>>
 	{
+			using Base = Element<Index<T>>;
+			friend class Element<Index<T>>; 
 		public:
+			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
-			Index(ValueType v = ValueType{}): value{v}{};
-			void setValue(ValueType v){ this->value = v; }
+			constexpr Index(ValueType v = ValueType{}): value{v}, Base(Identifier){};
 			ValueType Get() const { return this->value; }
-			
-			std::ostream& Display(std::ostream& os) const
-			{
-					os<<this->value;
-					
-				return os;		
-			}
-			
+			std::ostream& Display(std::ostream& os) const { return	os<<value;	}
 		private:
 			ValueType value;
+			static constexpr const char* check(const char* s) { return s; }
 	};
 	
 	template<typename TIndexValue = uint>
-	std::ostream& operator<<(std::ostream& strm, const Index<TIndexValue>& c)
-	{
-		return c.Display(strm);
-	}
+	std::ostream& operator<<(std::ostream& strm, const Index<TIndexValue>& c) {	return c.Display(strm);	}
+		
+	template<typename T>
+	inline decltype(auto) operator<=> (const Index<T>& lhs, const Index<T>& rhs){ return lhs.Get() <=> rhs.Get(); }
+
+	template<typename T>
+	inline bool operator== (const Index<T>& lhs, const Index<T>& rhs){ return lhs.Get() == rhs.Get(); }
 	
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
 	class KeyIndex
@@ -47,7 +47,7 @@ namespace CSV
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
+			void SetKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			
 			std::ostream& Display(std::ostream& os) const
 			{
@@ -127,7 +127,7 @@ namespace CSV
 				{
 					auto i = std::find(this->keyIndices->begin(),this->keyIndices->end(),k);
 					if(i != this->keyIndices->cend())
-						i->setKeyPatterns(patterns.cbegin(),patterns.cend());
+						i->SetKeyPatterns(patterns.cbegin(),patterns.cend());
 					else
 						Logger::Log<Error>()<<"UpdateKeyPatterns Key "<<k<<" not found!"<<std::endl;					
 				}
