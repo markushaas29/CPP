@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 #include "../../Common/ShortNames.hpp"
 #include "../Element.hpp"
 #include "../Elements.hpp"
@@ -29,6 +30,17 @@ int main()
     std::cout<<i12.Value()<<std::endl;
     
     assert(i12==i_12);
-		
+    auto ki12 = KeyIndex<std::string>("12");
+    std::vector<std::string> v123;
+    v123.push_back("1");
+    v123.push_back("2");
+    v123.push_back("3");
+    std::vector<std::string> v45;
+    v123.push_back("4");
+    v123.push_back("5");
+    
+    ki12.SetKeyPatterns(v123.cbegin(), v123.cend());
+    bool result = ki12.Update(v45);
+	assert(!result);
     return 0;
 }
