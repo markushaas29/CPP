@@ -27,36 +27,17 @@ public:
 	inline static const std::string Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
 	constexpr Key(const Key& k): Base(k.Value().c_str()){};
-	Key* DoCreate(){return this;};
-	bool operator==(T s) const{ return s == this->Value(); }
-	bool operator<=>(T s) const{ return s <=> this->Value(); }
+	constexpr Key(const char* k): Base(k){};
 	using ValueType = T;
 	using Type = Key<T>;
 	using ContainerType  = std::vector<T>;
 	using Iterator  = std::vector<T>::const_iterator;
 	using ContainerPtrType  = std::unique_ptr<ContainerType>;
 
-	const ContainerPtrType Patterns() const { return this->patterns; }
-	bool Matches(const std::string& k)
-	{ 
-		auto comparer = keyCompare(k);
-		return std::find_if(this->patterns->cbegin(), this->patterns->cend(), comparer) != this->patterns->cend(); 
-	}
-	void UpdatePatterns(Iterator begin, Iterator end) { this->patterns =  std::make_unique<ContainerType>(begin, end);}
-	ValueType Current() const { return this->currentPattern; }
-	void setCurrent(ValueType v) { this->currentPattern = v; }
+	bool operator==(T s) const{ return s == this->Value(); }
+	bool operator<=>(T s) const{ return s <=> this->Value(); }
 private:
 	static constexpr const char* check(const char* s) { return s; }
-	class keyCompare
-	{
-		const std::string key;
-	public:
-		keyCompare(const std::string& k): key{k}{}
-		bool operator ()(const T& t) { return t == key; }
-	};
-	
-	ValueType currentPattern;
-	ContainerPtrType patterns = std::make_unique<ContainerType>();
 };
 
 template<typename T = std::string>

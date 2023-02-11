@@ -58,10 +58,7 @@ namespace CSV
 				return false;
 			}
 			void setIndexValue(TIndexValue i) { this->index.setValue(i); }
-			void setKeyPatterns(Iterator begin, Iterator end) 
-			{ 
-				std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); });
-				this->key.UpdatePatterns(begin,end); }
+			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			
 			std::ostream& Display(std::ostream& os) const
 			{
@@ -80,7 +77,6 @@ namespace CSV
 					if(this->Is(values.at(i)))
                     {
 						this->setIndexValue(i);
-						this->key.setCurrent(values.at(i));
 						Logger::Log<Info>("Value: ",values.at(i), " at ", i);
                         return true;
                     }
