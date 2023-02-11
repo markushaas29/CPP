@@ -1,6 +1,7 @@
 #include "Element.hpp"
 #include "Elements.hpp"
 #include "../Logger/Logger.hpp"
+#include "../String/To/To.hpp"
 #include <memory>
 #include <exception>
 #include <stdexcept>
@@ -19,7 +20,8 @@ namespace CSV
 		public:
 			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
-			constexpr Index(ValueType v = ValueType{}): value{v}, Base(Identifier){};
+			Index(ValueType v = ValueType{}): value{v}, Base(String_::ParseTo(v).c_str()){};
+			//~ constexpr Index(ValueType v = ValueType{}): value{v}, Base(Identifier){};
 			ValueType Get() const { return this->value; }
 			std::ostream& Display(std::ostream& os) const { return	os<<value;	}
 		private:

@@ -20,8 +20,8 @@ int main()
     assert(k1<k12);
 
 	constexpr uint i = 12;
-	constexpr auto i12 = Index{i};
-	constexpr auto i2 = Index{(uint)2};
+	auto i12 = Index{i};
+	auto i2 = Index{(uint)2};
 	auto i_12 = Index{(uint)12};
     assert(i12==i_12);
     assert(i12!=i2);
