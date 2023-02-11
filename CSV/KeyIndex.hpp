@@ -10,8 +10,6 @@
 //--------------------------------KeyIndex------------------------------------------------
 namespace CSV
 {
-	
-	
 	template<typename T = uint>
 	class Index
 	{
@@ -50,14 +48,8 @@ namespace CSV
 			using IndexType = Index<TIndexValue>;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
 			using Iterator = typename KeyType::Iterator;
-			bool Is(std::string s)
-			{ 
-				
-				if(std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend())
-					return true;
-				return false;
-			}
-			void setIndexValue(TIndexValue i) { this->index.setValue(i); }
+			bool Is(std::string s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
+			//~ void setIndexValue(TIndexValue i) { this->index.setValue(i); }
 			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			
 			std::ostream& Display(std::ostream& os) const
@@ -76,7 +68,7 @@ namespace CSV
 				{
 					if(this->Is(values.at(i)))
                     {
-						this->setIndexValue(i);
+						index = IndexType{i};
 						Logger::Log<Info>("Value: ",values.at(i), " at ", i);
                         return true;
                     }

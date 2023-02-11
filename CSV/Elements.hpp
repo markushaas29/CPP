@@ -24,15 +24,15 @@ class Key: public Element<Key<T>>
 	using Base = Element<Key<T>>;
 	friend class Element<Key<T>>; 
 public:
-	inline static const std::string Identifier = "Key";
-	Key(std::string s = ""): Base(s.c_str()) {};
-	constexpr Key(const Key& k): Base(k.Value().c_str()){};
-	constexpr Key(const char* k): Base(k){};
 	using ValueType = T;
 	using Type = Key<T>;
 	using ContainerType  = std::vector<T>;
 	using Iterator  = std::vector<T>::const_iterator;
 	using ContainerPtrType  = std::unique_ptr<ContainerType>;
+	inline static const std::string Identifier = "Key";
+	Key(std::string s = ""): Base(s.c_str()) {};
+	constexpr Key(const Key& k): Base(k.Value().c_str()){};
+	constexpr Key(const char* k): Base(k){};
 
 	bool operator==(T s) const{ return s == this->Value(); }
 	bool operator<=>(T s) const{ return s <=> this->Value(); }
@@ -45,6 +45,7 @@ inline decltype(auto) operator<=> (const Key<T>& lhs, const Key<T>& rhs){ return
 
 template<typename T = std::string>
 inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
+
 
 class IBAN: public Element<IBAN>
 {
