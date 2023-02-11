@@ -20,8 +20,8 @@ namespace CSV
 		public:
 			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
-			Index(ValueType v = ValueType{}): value{v}, Base(String_::ParseTo(v).c_str()){};
-			//~ constexpr Index(ValueType v = ValueType{}): value{v}, Base(Identifier){};
+			Index(ValueType v): Index{v,String_::ParseTo(v).c_str()}{};
+			constexpr Index(ValueType v, const char* c): value{v}, Base{c}{};
 			ValueType Get() const { return this->value; }
 			std::ostream& Display(std::ostream& os) const { return	os<<value;	}
 		private:
@@ -84,7 +84,7 @@ namespace CSV
 		private:
 			bool match(const std::string& s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
 			KeyType key;
-			IndexType index;
+			IndexType index{0};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
 	};
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>

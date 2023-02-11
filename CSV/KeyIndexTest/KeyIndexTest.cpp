@@ -21,6 +21,7 @@ int main()
     assert(k1<k12);
 
 	constexpr uint i = 12;
+	constexpr auto i12c = Index{i,"12"};
 	auto i12 = Index{i};
 	auto i2 = Index{(uint)2};
 	auto i_12 = Index{(uint)12};
