@@ -87,11 +87,10 @@ namespace CSV
                 return false;
 			}
 			
-			bool operator ==(const KeyType& k){ return this->key == k;  }
-			bool operator ()(const std::string& s) { return this->key(s);}
+			bool operator ==(const KeyType& k) const { return key == k;  }
+			bool operator ()(const std::string& s) const { return key(s);}
 			const KeyType& GetKey() const { return this->key; }
 			const IndexType& GetIndex() const { return this->index; }
-					
 		private:
 			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			bool match(const std::string& s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
