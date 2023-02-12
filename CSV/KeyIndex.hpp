@@ -44,9 +44,13 @@ namespace CSV
 	template<typename T>
 	inline bool operator== (const Index<T>& lhs, const Index<T>& rhs){ return lhs.Get() == rhs.Get(); }
 	
+	//~ template<typename AccountT,typename TKeyValue, typename TIndexValue> class KeyIndexContainer; //fwd
+	
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
 	class KeyIndex
 	{
+			//~ template<typename A>
+			//~ friend class KeyIndexContainer<A,TKeyValue,TIndexValue>; 
 		public:
 			using KeyType = Key<TKeyValue>;			
 			using IndexType = Index<TIndexValue>;
@@ -119,21 +123,19 @@ namespace CSV
 			bool UpdateKeys(const std::vector<std::string>& values)
 			{
 				bool result = true;
-				for(auto it = this->keyIndices->begin(); it != this->keyIndices->end(); ++it)
+				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
 					if(!(it->Update(values)))
 						result = false;
 							
 				return result;
 			}
 			
-			void UpdateKeyPatterns(const KeyType&  k, const std::vector<std::string>& patterns)	{	this->UpdateKeyPatterns(k.Value(), patterns);	}
-			
 			void UpdateKeyPatterns(const TKeyValue& k, const std::vector<std::string>& patterns)
 			{
 				try
 				{
-					auto i = std::find(this->keyIndices->begin(),this->keyIndices->end(),k);
-					if(i != this->keyIndices->cend())
+					auto i = std::find(keyIndices->begin(), keyIndices->end(),k);
+					if(i != keyIndices->cend())
 						i->SetKeyPatterns(patterns.cbegin(),patterns.cend());
 					else
 						Logger::Log<Error>()<<"UpdateKeyPatterns Key "<<k<<" not found!"<<std::endl;					
@@ -147,7 +149,7 @@ namespace CSV
 			
 			std::ostream& Display(std::ostream& os) const
 			{
-				for(auto it = this->keyIndices->begin(); it != this->keyIndices->end(); ++it)
+				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
 					os<<*it;
 					
 				return os;		
@@ -155,16 +157,16 @@ namespace CSV
 			
 			IndexType Get(TKeyValue key) 
 			{
-				for(auto it = this->keyIndices->cbegin(); it != this->keyIndices->cend(); ++it)
+				for(auto it = keyIndices->cbegin(); it != keyIndices->cend(); ++it)
 					if((it->GetKey()).Value() == key)
 						return (it->GetIndex()).Get();
 					
 				throw std::invalid_argument( "received negative value" );
 			}
 			
-			IndexType operator[](TKeyValue key) {	return this->Get(key);	}
+			IndexType operator[](TKeyValue key) {	return Get(key);	}
 			
-			bool Empty() { return this->keyIndices->size() == 0;}
+			bool Empty() { return keyIndices->size() == 0;}
 		private:
 			ContainerPtrType keyIndices;
 	};	
