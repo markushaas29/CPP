@@ -1,9 +1,10 @@
+#include <memory>
+#include <limits>
+#include <exception>
 #include "Element.hpp"
 #include "Elements.hpp"
 #include "../Logger/Logger.hpp"
 #include "../String/To/To.hpp"
-#include <memory>
-#include <exception>
 #include <stdexcept>
 
 #ifndef KEYINDEX_H
@@ -17,14 +18,19 @@ namespace CSV
 	{
 			using Base = Element<Index<T>>;
 			friend class Element<Index<T>>; 
+			static constexpr uint max = std::numeric_limits<unsigned int>::max();
 		public:
 			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
 			Index(ValueType v): Index{v,String_::ParseTo(v).c_str()}{};
-			constexpr Index(ValueType v, const char* c): value{v}, Base{c}{};
-			ValueType Get() const { return this->value; }
+			constexpr Index(ValueType v, const char* c): value{v}, Base{c}, valid{v != max}{};
+			constexpr Index(): value{max}, Base{""}, valid{false}{};
+			ValueType Get() const { return value; }
+			bool Valid() const { return valid; }
+			operator bool() const { return valid; }
 			std::ostream& Display(std::ostream& os) const { return	os<<value;	}
 		private:
+			bool valid = false;
 			ValueType value;
 			static constexpr const char* check(const char* s) { return s; }
 	};

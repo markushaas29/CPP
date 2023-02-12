@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include <vector>
 #include "../../Common/ShortNames.hpp"
 #include "../Element.hpp"
@@ -27,8 +28,16 @@ int main()
 	auto i_12 = Index{(uint)12};
     assert(i12==i_12);
     assert(i12!=i2);
-    assert(i12>i2);
+    
+    assert(i12.Valid());
+    assert((bool)i12);
     std::cout<<i12.Value()<<std::endl;
+    
+    auto iMax = Index{};
+    assert(!iMax.Valid());
+    assert(!(bool)iMax);
+    assert(iMax.Get()==std::numeric_limits<unsigned int>::max());
+    std::cout<<iMax.Value()<<std::endl;
     
     assert(i12==i_12);
     auto ki12 = KeyIndex<std::string>("12");
