@@ -1,11 +1,11 @@
 #include <memory>
 #include <limits>
+#include <stdexcept>
 #include <exception>
 #include "Element.hpp"
 #include "Elements.hpp"
 #include "../Logger/Logger.hpp"
 #include "../String/To/To.hpp"
-#include <stdexcept>
 
 #ifndef KEYINDEX_H
 #define KEYINDEX_H
@@ -48,14 +48,15 @@ namespace CSV
 	class KeyIndex
 	{
 		public:
-			KeyIndex(TKeyValue k): key{k}{};
 			using KeyType = Key<TKeyValue>;			
 			using IndexType = Index<TIndexValue>;
 			using ContainerType  = std::vector<KeyType>;
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			void SetKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
+			KeyIndex(TKeyValue k): key{k}{};
+			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
+			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
 			
 			std::ostream& Display(std::ostream& os) const
 			{
@@ -88,6 +89,7 @@ namespace CSV
 			const IndexType& GetIndex() const { return this->index; }
 					
 		private:
+			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			bool match(const std::string& s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
 			KeyType key;
 			IndexType index{0};
@@ -98,10 +100,7 @@ namespace CSV
 	
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
 	bool operator ==(const KeyIndex<TKeyValue,TIndexValue>& ki, const Key<TKeyValue>& k){ return ki == k; }
-	
-	//~ template<typename TKeyValue = std::string, typename TIndexValue = uint>
-	//~ bool operator ==(const KeyIndex<TKeyValue,TIndexValue>& ki, const TKeyValue& kv){ return ki == Key<TKeyValue>(kv); }
-	
+		
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
 	std::ostream& operator<<(std::ostream& strm, const KeyIndex<TKeyValue,TIndexValue> c){	return c.Display(strm);	}
 	

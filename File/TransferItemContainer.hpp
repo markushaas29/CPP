@@ -82,7 +82,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 		using Type = std::tuple_element_t<0, Tuple>;
 		using InputIterator = std::vector<std::string>::const_iterator;
 		using ContainerType = TransferItemContainer<KeyIndexContainerType,Tuple,0>;
-		using KeyIndexContainerPtrType = std::shared_ptr<KeyIndexContainerType>;
+		using KeyIndexContainerPtrType = std::unique_ptr<KeyIndexContainerType>;
 		using TupleType = std::tuple<Type>;
 		static constexpr uint Index = 0;
 	protected:
@@ -99,7 +99,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 	public:
 		static std::ostream& Display(std::ostream& os) { return Type::Display(os);	}
 		void Read(const std::string& sourcePath = "."){	}
-		void setKeyIndexContainer(KeyIndexContainerPtrType ptr){ this->keyIndices = ptr; }
+		void SetKeyIndexContainer(KeyIndexContainerPtrType ptr){ this->keyIndices = std::unique_ptr<KeyIndexContainerType>(std::move(ptr)); }
 
 		static TransferItemContainer& Instance()
 		{

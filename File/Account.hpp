@@ -54,7 +54,7 @@ namespace Bank
 		using InputIterator = std::vector<std::string>::const_iterator;
 		using KeyIndexType = CSV::KeyIndex<KeyType,uint>;
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;
-		using KeyIndexContainerPtrType = std::shared_ptr<KeyIndexContainerType>;
+		using KeyIndexContainerPtrType = std::unique_ptr<KeyIndexContainerType>;
 		using TransferItemContainerType = TransferItemContainer<KeyIndexContainerType,TupleType>::ContainerType;
 		using ResultValueType = FS::AccountValue<TransferType>;
 	
@@ -121,7 +121,7 @@ namespace Bank
 		
 		void ReadKeyPatterns(InputIterator begin, InputIterator end)
 		{
-			TransferItemContainerType::Instance().setKeyIndexContainer(keyIndices);
+			TransferItemContainerType::Instance().SetKeyIndexContainer(std::move(keyIndices));
 			TransferItemContainerType::Instance().Read();
 			if(begin==end)
 			{
@@ -152,7 +152,7 @@ namespace Bank
 		}
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	protected:
-		inline static KeyIndexContainerPtrType keyIndices = std::make_shared<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
+		inline static KeyIndexContainerPtrType keyIndices = std::make_unique<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
 		
 		static std::string GetNumericValue(std::string s)
 		{
