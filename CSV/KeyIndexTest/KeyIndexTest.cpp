@@ -52,5 +52,7 @@ int main()
     auto ki12 = KeyIndex(v123.cbegin(), v123.cend());
     bool result = ki12.Update(v45);
 	assert(!result);
+	assert(!ki12.Valid());
+	assert(!(bool)ki12);
     return 0;
 }

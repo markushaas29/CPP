@@ -89,13 +89,15 @@ namespace CSV
 			
 			bool operator ==(const KeyType& k) const { return key == k;  }
 			bool operator ()(const std::string& s) const { return key(s);}
+			bool Valid() const { return index.Valid(); }
+			operator bool() const { return index.Valid(); }
 			const KeyType& GetKey() const { return this->key; }
 			const IndexType& GetIndex() const { return this->index; }
 		private:
 			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
 			bool match(const std::string& s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
 			KeyType key;
-			IndexType index{0};
+			IndexType index{};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
 	};
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
