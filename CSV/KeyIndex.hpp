@@ -121,7 +121,7 @@ namespace CSV
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			KeyIndexContainer(ContainerPtrType k): keyIndices{std::move(k)} { };
 			
-			bool UpdateKeys(const std::vector<std::string>& values)
+			bool Check(const std::vector<std::string>& values)
 			{
 				bool result = true;
 				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
