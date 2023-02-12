@@ -93,7 +93,7 @@ namespace Bank
 				{
 					auto values = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(*it));
 					
-					if(keyIndices->UpdateKeys(values))
+					if(keyIndices->Check(values))
 					{
 						uint valueCount = values.size();
 						Logger::Log("Updatet Keys from Line:\n\t",*it);
@@ -141,7 +141,7 @@ namespace Bank
 		 			if(keys.cbegin() != keys.cend())
 		 			{
 			 			Logger::Log<Info>(Derived::name," ReadKeyPatterns: Key found for item: ");
-						keyIndices->UpdateKeyPatterns(Key(keyItem), keys);
+						keyIndices->UpdateKeyPatterns(keyItem, keys);
 					}
 				}
 				catch(std::exception e)

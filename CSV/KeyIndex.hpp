@@ -58,7 +58,7 @@ namespace CSV
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			KeyIndex(TKeyValue k): key{k}{};
+			KeyIndex(const TKeyValue& v): identifier{v}{};
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
 			
@@ -68,34 +68,36 @@ namespace CSV
 				os<<this->key<<": "<<std::endl;	
 				for(auto it = patterns->cbegin(); it != patterns->cend(); ++it)
 					os<<"\t"<<*it<<std::endl;
-				os<<" Current: "<<this->key.Current()<<" at "<<this->index<<"\n"<<std::endl;	
+				os<<" Current: "<<key.Current()<<" at "<<index<<"\n"<<std::endl;	
 				return os;		
 			}
 			
-			bool Update(const std::vector<std::string>& values)
+			bool Check(const std::vector<std::string>& values)
 			{
 				for(uint i = 0; i < values.size(); ++i)
-				{
 					if(match(values.at(i)))
-                    {
-						index = IndexType{i};
-						Logger::Log<Info>("Value: ",values.at(i), " at ", i);
-                        return true;
-                    }
-                }
+						updateIndex(values,i);
                  
                 return false;
 			}
 			
+			const TKeyValue& Identifier() const { return identifier; }
 			bool operator ==(const KeyType& k) const { return key == k;  }
 			bool operator ()(const std::string& s) const { return key(s);}
 			bool Valid() const { return index.Valid(); }
 			operator bool() const { return index.Valid(); }
-			const KeyType& GetKey() const { return this->key; }
-			const IndexType& GetIndex() const { return this->index; }
+			const KeyType& GetKey() const { return key; }
+			const IndexType& GetIndex() const { return index; }
 		private:
+			bool updateIndex(const auto& values, const TIndexValue i)
+			{
+				index = IndexType{i};
+				Logger::Log<Info>("Value: ",values.at(i), " at ", i);
+				return true;
+            }
 			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
-			bool match(const std::string& s)	{ return std::find_if(this->keys->cbegin(), this->keys->cend(), [&](auto p){ return p == s;}) != this->keys->cend(); }
+			bool match(const std::string& s)	{ return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
+			const TKeyValue identifier;
 			KeyType key;
 			IndexType index{};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
@@ -125,7 +127,7 @@ namespace CSV
 			{
 				bool result = true;
 				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
-					if(!(it->Update(values)))
+					if(!(it->Check(values)))
 						result = false;
 							
 				return result;
