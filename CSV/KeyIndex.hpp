@@ -64,11 +64,11 @@ namespace CSV
 			
 			std::ostream& Display(std::ostream& os) const
 			{
-				auto patterns = this->key.Patterns();
-				os<<this->key<<": "<<std::endl;	
-				for(auto it = patterns->cbegin(); it != patterns->cend(); ++it)
+				//~ auto patterns = this->key.Patterns();
+				//~ os<<this->key<<": "<<std::endl;	
+				for(auto it = keys->cbegin(); it != keys->cend(); ++it)
 					os<<"\t"<<*it<<std::endl;
-				os<<" Current: "<<key.Current()<<" at "<<index<<"\n"<<std::endl;	
+				os<<" Current: "<<key<<" at "<<index<<"\n"<<std::endl;	
 				return os;		
 			}
 			
@@ -153,7 +153,7 @@ namespace CSV
 			std::ostream& Display(std::ostream& os) const
 			{
 				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
-					os<<*it;
+					it->Display(os);
 					
 				return os;		
 			}
@@ -167,6 +167,7 @@ namespace CSV
 				throw std::invalid_argument( "received negative value" );
 			}
 			
+			void Add(KeyIndexType&& ki) { keyIndices->push_back(std::move(ki)); }
 			IndexType operator[](TKeyValue key) {	return Get(key);	}
 			
 			bool Empty() { return keyIndices->size() == 0;}
