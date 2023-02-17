@@ -28,6 +28,7 @@ public:
 	using Type = Key<T>;
 	inline static constexpr const char* Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
+	operator std::string(){return this->Value();}
 	constexpr Key(const Key& k): Base(k.Value().c_str()){};
 	constexpr Key(const char* k): Base(k){};
 

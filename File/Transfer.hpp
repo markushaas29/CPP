@@ -41,8 +41,8 @@ namespace Bank
 		using QuantityType = Quantity<Sum,Pure>;
 		
 		Transfer() = delete;
-		Transfer(const TupleType& t) : transferItems(t) { 	};
-		Transfer(TupleType&& t) : transferItems{std::move(t)} { 	};
+		Transfer(const TupleType& t) : transferItems(t) { };
+		Transfer(TupleType&& t) : transferItems{std::move(t)} {	};
 
 		template<typename T>
 		constexpr bool operator==(const T t) const
@@ -74,10 +74,7 @@ namespace Bank
 	};
 	
 	template<typename A, typename TT>
-	std::ostream& operator<<(std::ostream& out, const Transfer<A,TT>& s)
-	{
-		return s.Display(out);		
-	}
+	std::ostream& operator<<(std::ostream& out, const Transfer<A,TT>& s){	return s.Display(out);	}
 }
 
 

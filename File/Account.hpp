@@ -81,7 +81,7 @@ namespace Bank
 		
 		void Parse(InputIterator begin, InputIterator end)
 		{
-			if(keyIndices->Empty())
+			if(TransferItemContainerType::Instance().Empty())
 			{
 	 			Logger::Log<Error>()<<Derived::name<<" parsing not possible, no keys!"<<std::endl;
 				return;
@@ -93,7 +93,8 @@ namespace Bank
 				{
 					auto values = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(*it));
 					
-					if(keyIndices->Check(values))
+						//~ Logger::Log("CHECK:\n\t",*it);
+					if(TransferItemContainerType::Instance().Check(values))
 					{
 						uint valueCount = values.size();
 						Logger::Log("Updatet Keys from Line:\n\t",*it);
@@ -119,40 +120,9 @@ namespace Bank
 			return;
 		}
 		
-		void ReadKeyPatterns(InputIterator begin, InputIterator end)
-		{
-			TransferItemContainerType::Instance().SetKeyIndexContainer(std::move(keyIndices));
-			TransferItemContainerType::Instance().Read();
-			if(begin==end)
-			{
-	 			Logger::Log<Error>("ReadKeyPatterns: No Items found for ",Derived::name);
-	 			// Todo weiter Fehlerbehandlung für weiter Bearbeitung
-	 			return;
-			}
-						
-			for(auto it = begin; it != end; ++it)
-			{
-				try
-				{
-					auto values = String_::Split<T::char_<':'>>(*it);
-					auto keyItem = *values.cbegin();
-					auto keys = String_::Split<T::char_<';'>>(String_::Remove<String_::CR>(*(values.cbegin()+1)));
-					
-		 			if(keys.cbegin() != keys.cend())
-		 			{
-			 			Logger::Log<Info>(Derived::name," ReadKeyPatterns: Key found for item: ");
-						keyIndices->UpdateKeyPatterns(keyItem, keys);
-					}
-				}
-				catch(std::exception e)
-				{
-		 			Logger::Log<Error>("ReadKeyPatterns: ",Derived::name,"\t",e.what());
-				}
-			}
-		}
+		void ReadKeyPatterns(InputIterator begin, InputIterator end){ TransferItemContainerType::Instance().UpdateKeyIndices(begin,end); }
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	protected:
-		inline static KeyIndexContainerPtrType keyIndices = std::make_unique<KeyIndexContainerType>(TransferItemContainerType::Instance().template Create<Derived>());
 		
 		static std::string GetNumericValue(std::string s)
 		{

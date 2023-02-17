@@ -60,9 +60,8 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 		TransferItemContainer() 
 		{ 
 			auto ki = typename KeyIndexContainerType::KeyIndexType(Type::Identifier);
-			this->keyIndices_->Add(std::move(ki));
+			this->keyIndices->Add(std::move(ki));
 			Logger::Log<Info>("TransferItemContainer created.");
-			this->keyIndices_->Display(std::cout);
 		};
 		
 		auto createTransfer(Base::InputIterator begin, Base::InputIterator end) 
@@ -75,7 +74,8 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 		template<typename T, typename Cont = T::KeyIndexContainerType::ContainerType>
 		auto Create(const std::string& sourcePath, Cont ret)
 		{
-			ret->push_back(typename T::KeyIndexContainerType::KeyIndexType(Type::Identifier));
+			auto ki = typename T::KeyIndexContainerType::KeyIndexType(Type::Identifier);
+			ret->push_back(std::move(ki));
 			return Base::template Create<T>(sourcePath, std::move(ret));	
 		}
 };
@@ -110,7 +110,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 					
 		 			if(keys.cbegin() != keys.cend())
 		 			{
-			 			Logger::Log<Info>(" ReadKeyPatterns: Key found for item: ");
+			 			Logger::Log<Info>(" ReadKeyPatterns: Key found for item: ",keyItem);
 						keyIndices->UpdateKeyPatterns(keyItem, keys);
 					}
 				}
@@ -120,10 +120,12 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 				}
 			}
 		}
+		
+		bool Check(const std::vector<std::string>& values) { return keyIndices->Check(values); }
+		bool Empty() const { return keyIndices->Empty(); }
 	
 		static std::ostream& Display(std::ostream& os) { return Type::Display(os);	}
 		void Read(const std::string& sourcePath = "."){	}
-		void SetKeyIndexContainer(KeyIndexContainerPtrType ptr){ this->keyIndices = std::unique_ptr<KeyIndexContainerType>(std::move(ptr)); }
 
 		static TransferItemContainer& Instance()
 		{
@@ -136,11 +138,10 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 			using Cont = KeyIndexContainerType::ContainerType;
 			auto cont = std::make_unique<Cont>();
 			cont->push_back(KeyIndexType(Type::Identifier));
-			keyIndices_ = std::make_unique<KeyIndexContainerType>(std::move(cont));
+			keyIndices = std::make_unique<KeyIndexContainerType>(std::move(cont));
 			Logger::Log<Info>()<<"TransferItemContainer created."<<std::endl; 
 		};
 		KeyIndexContainerPtrType keyIndices;
-		KeyIndexContainerPtrType keyIndices_;
 		auto createTransfer(InputIterator begin, InputIterator end) {	return TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier])));	}
 		
 		template<typename T, typename Cont = T::KeyIndexContainerType::ContainerType>
