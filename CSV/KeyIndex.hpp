@@ -58,8 +58,9 @@ namespace CSV
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			KeyIndex(const TKeyValue& v): identifier{v}{};
+			KeyIndex(const TKeyValue& v): identifier{v}, key{v}{};
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
+			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}{ }
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
 			
 			std::ostream& Display(std::ostream& os) const
@@ -76,7 +77,7 @@ namespace CSV
 			{
 				for(uint i = 0; i < values.size(); ++i)
 					if(match(values.at(i)))
-						updateIndex(values,i);
+						return updateIndex(values,i);
                  
                 return false;
 			}
@@ -86,6 +87,7 @@ namespace CSV
 			bool operator ()(const std::string& s) const { return key(s);}
 			bool Valid() const { return index.Valid(); }
 			operator bool() const { return index.Valid(); }
+			decltype(auto) KeysSize() const { return keys->size(); }
 			const KeyType& GetKey() const { return key; }
 			const IndexType& GetIndex() const { return index; }
 		private:
@@ -95,8 +97,10 @@ namespace CSV
 				Logger::Log<Info>("Value: ",values.at(i), " at ", i);
 				return true;
             }
-			void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
-			bool match(const std::string& s)	{ return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
+            
+            void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
+            bool match(const std::string& s)        { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
+
 			const TKeyValue identifier;
 			KeyType key;
 			IndexType index{};
@@ -121,7 +125,7 @@ namespace CSV
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
 			using ContainerType  = std::vector<KeyIndexType>;
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
-			KeyIndexContainer(ContainerPtrType k): keyIndices{std::move(k)} { };
+			KeyIndexContainer(ContainerPtrType k): keyIndices{std::move(k)} {};
 			
 			bool Check(const std::vector<std::string>& values)
 			{
@@ -129,7 +133,6 @@ namespace CSV
 				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
 					if(!(it->Check(values)))
 						result = false;
-							
 				return result;
 			}
 			
@@ -137,11 +140,17 @@ namespace CSV
 			{
 				try
 				{
-					auto i = std::find(keyIndices->begin(), keyIndices->end(),k);
+					//~ for(auto it =keyIndices->begin(); it != keyIndices->end(); ++it)
+					//~ {
+						//~ Logger::Log<Info>("Update", it->GetKey().Value()," ",it->GetKey().Value() == k);
+						//~ if(it->GetKey().Value() == k)
+							//~ it->SetKeyPatterns(patterns.cbegin(),patterns.cend());
+					//~ }
+					auto i = std::find_if(keyIndices->begin(), keyIndices->end(),[&](auto ki){ return ki.GetKey().Value()==k; });				
 					if(i != keyIndices->cend())
-						i->SetKeyPatterns(patterns.cbegin(),patterns.cend());
+							i->SetKeyPatterns(patterns.cbegin(),patterns.cend());
 					else
-						Logger::Log<Error>()<<"UpdateKeyPatterns Key "<<k<<" not found!"<<std::endl;					
+						Logger::Log<Error>("UpdateKeyPatterns Key ",k," not found!");					
 				}
 				catch(std::exception e)
 				{
