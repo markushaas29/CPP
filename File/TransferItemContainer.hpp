@@ -85,6 +85,45 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 		using KeyIndexContainerPtrType = std::unique_ptr<KeyIndexContainerType>;
 		using TupleType = std::tuple<Type>;
 		static constexpr uint Index = 0;
+		void UpdateKeyIndices(InputIterator begin, InputIterator end)
+		{
+			if(begin==end)
+			{
+	 			Logger::Log<Error>("ReadKeyPatterns: No Items found for ");
+	 			// Todo weiter Fehlerbehandlung für weiter Bearbeitung
+	 			return;
+			}
+						
+			for(auto it = begin; it != end; ++it)
+			{
+				try
+				{
+					auto values = String_::Split<T::char_<':'>>(*it);
+					auto keyItem = *values.cbegin();
+					auto keys = String_::Split<T::char_<';'>>(String_::Remove<String_::CR>(*(values.cbegin()+1)));
+					
+		 			if(keys.cbegin() != keys.cend())
+		 			{
+			 			Logger::Log<Info>(" ReadKeyPatterns: Key found for item: ");
+						keyIndices->UpdateKeyPatterns(keyItem, keys);
+					}
+				}
+				catch(std::exception e)
+				{
+		 			Logger::Log<Error>("ReadKeyPatterns: \t",e.what());
+				}
+			}
+		}
+	
+		static std::ostream& Display(std::ostream& os) { return Type::Display(os);	}
+		void Read(const std::string& sourcePath = "."){	}
+		void SetKeyIndexContainer(KeyIndexContainerPtrType ptr){ this->keyIndices = std::unique_ptr<KeyIndexContainerType>(std::move(ptr)); }
+
+		static TransferItemContainer& Instance()
+		{
+			static TransferItemContainer instance;
+			return instance;
+		}	
 	protected:
 		TransferItemContainer() { Logger::Log<Info>()<<"TransferItemContainer created."<<std::endl; };
 		KeyIndexContainerPtrType keyIndices;
@@ -96,16 +135,6 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 			ret->push_back(typename T::KeyIndexContainerType::KeyIndexType(Type::Identifier));
 			return ret;		
 		}
-	public:
-		static std::ostream& Display(std::ostream& os) { return Type::Display(os);	}
-		void Read(const std::string& sourcePath = "."){	}
-		void SetKeyIndexContainer(KeyIndexContainerPtrType ptr){ this->keyIndices = std::unique_ptr<KeyIndexContainerType>(std::move(ptr)); }
-
-		static TransferItemContainer& Instance()
-		{
-			static TransferItemContainer instance;
-			return instance;
-		}	
 };
 
 template<typename KeyIndexContainerType, typename Tuple, uint Idx>
