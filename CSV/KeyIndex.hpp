@@ -70,10 +70,10 @@ namespace CSV
 			
 			std::ostream& Display(std::ostream& os) const
 			{
-				os<<" Current: "<<key<<" at "<<index<<"\nOther keys:";	
+				os<<" Current: "<<key<<" at "<<index<<"\n Keys:";	
 				for(auto it = keys->cbegin(); it != keys->cend(); ++it)
-					os<<"\t"<<*it<<std::endl;
-				return os;		
+					os<<"\t"<<*it<<", ";
+				return os<<"\n";		
 			}
 			
 			bool Check(const std::vector<std::string>& values)
@@ -192,7 +192,7 @@ namespace CSV
 	};	
 	
 	template<typename AccountT,typename TKeyValue = std::string, typename TIndexValue = uint>
-	std::ostream& operator<<(std::ostream& strm, const KeyIndexContainer<AccountT,TKeyValue,TIndexValue> c)	{	return c.Display(strm);	}
+	std::ostream& operator<<(std::ostream& strm, const KeyIndexContainer<AccountT,TKeyValue,TIndexValue>& c)	{	return c.Display(strm);	}
 }
 
 #endif

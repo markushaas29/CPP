@@ -78,7 +78,6 @@ int main()
 	assert(ki_123.StringId()=="KeyIndex");
 	
 	KeyIndex ki1{k1};
-    std::cout<<ki1<<"TEST "<<k1.Value()<<std::endl;
 	assert(ki1.GetKey()==k1);
 	assert(ki1.KeysSize()==1);
 	assert((int)ki1.GetIndex()==0);
@@ -88,6 +87,15 @@ int main()
 	auto kip = std::make_unique<std::vector<decltype(ki45)>>(std::move(kiv));
 	
 	KIC kic {std::move(kip)};
+	std::vector<std::string> v149 {"1","4","9"};
+	result = kic.Check(v149);
+	assert(result);
+    std::cout<<"KIC "<<kic<<std::endl;
+	
+	std::vector<std::string> v169 {"1","6","9"};
+	result = kic.Check(v169);
+	assert(!result);
+    std::cout<<"KIC "<<kic<<std::endl;
 	
     return 0;
 }
