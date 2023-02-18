@@ -140,12 +140,6 @@ namespace CSV
 			{
 				try
 				{
-					//~ for(auto it =keyIndices->begin(); it != keyIndices->end(); ++it)
-					//~ {
-						//~ Logger::Log<Info>("Update", it->GetKey().Value()," ",it->GetKey().Value() == k);
-						//~ if(it->GetKey().Value() == k)
-							//~ it->SetKeyPatterns(patterns.cbegin(),patterns.cend());
-					//~ }
 					auto i = std::find_if(keyIndices->begin(), keyIndices->end(),[&](auto ki){ return ki.GetKey().Value()==k; });				
 					if(i != keyIndices->cend())
 							i->SetKeyPatterns(patterns.cbegin(),patterns.cend());

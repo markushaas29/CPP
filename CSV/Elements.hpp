@@ -14,10 +14,7 @@
 #include <ctime>
 
 #pragma once
-//~ #ifndef ELEMENTS_HPP
-//~ #define ELEMENTS_HPP
 
-//--------------------------------TYPES------------------------------------------------
 template<typename T = std::string>
 class Key: public Element<Key<T>>
 {
@@ -28,7 +25,7 @@ public:
 	using Type = Key<T>;
 	inline static constexpr const char* Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
-	operator std::string(){return this->Value();}
+	explicit operator std::string(){return this->Value();}
 	constexpr Key(const Key& k): Base(k.Value().c_str()){};
 	constexpr Key(const char* k): Base(k){};
 
@@ -43,7 +40,6 @@ inline decltype(auto) operator<=> (const Key<T>& lhs, const Key<T>& rhs){ return
 
 template<typename T = std::string>
 inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
-
 
 class IBAN: public Element<IBAN>
 {
