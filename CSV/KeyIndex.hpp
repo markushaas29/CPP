@@ -22,8 +22,8 @@ namespace CSV
 		public:
 			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
-			Index(ValueType v): Index{v,String_::ParseTo(v).c_str()}{};
-			Index(int v): Index{(T)v}{};
+			explicit Index(ValueType v): Index{v,String_::ParseTo(v).c_str()}{};
+			explicit Index(int v): Index{(T)v}{};
 			constexpr Index(ValueType v, const char* c): value{v}, Base{c}, valid{v != max}{};
 			constexpr Index(): value{max}, Base{""}, valid{false}{};
 			ValueType Get() const { return value; }
@@ -61,7 +61,7 @@ namespace CSV
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
 			//~ KeyIndex(const TKeyValue& v): identifier{v}, key{v.Value()}, index{0} { keys->push_back(); };
-			KeyIndex(const KeyType& k): identifier{k.Value()}, key{k}, index{0} { keys->push_back(k); std::cout<<keys->size()<<"T";};
+			explicit KeyIndex(const KeyType& k): identifier{k.Value()}, key{k}, index{0} { keys->push_back(k); std::cout<<keys->size()<<"T";};
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
 			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}{ }
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
@@ -121,7 +121,7 @@ namespace CSV
 	bool operator ==(const KeyIndex<TKeyValue,TIndexValue>& ki, const Key<TKeyValue>& k){ return ki == k; }
 		
 	template<typename TKeyValue = std::string, typename TIndexValue = uint>
-	std::ostream& operator<<(std::ostream& strm, const KeyIndex<TKeyValue,TIndexValue> c){	return c.Display(strm);	}
+	std::ostream& operator<<(std::ostream& strm, const KeyIndex<TKeyValue,TIndexValue>& c){	return c.Display(strm);	}
 	
 	template<typename AccountT,typename TKeyValue = std::string, typename TIndexValue = uint>
 	class KeyIndexContainer

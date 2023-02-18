@@ -65,7 +65,7 @@ int main()
 	assert((bool)ki123);
 	assert((int)ki123.GetIndex()==2);
 	
-	KeyIndex ki_123{ki123};
+	auto ki_123 = KeyIndex(ki123);
     std::cout<<ki_123<<std::endl;
 	assert(ki123.GetKey()==ki_123);
 	assert(ki_123.KeysSize()==3);
