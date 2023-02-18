@@ -52,7 +52,7 @@ int main()
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);
 	assert(ki123.KeysSize()==3);
-	assert(ki123.Identifier()=="KeyIndex");
+	assert(ki123.StringId()=="KeyIndex");
 	assert(!result);
 	assert(!ki123.Valid());
 	assert(!(bool)ki123);
@@ -69,14 +69,15 @@ int main()
     std::cout<<ki_123<<std::endl;
 	assert(ki123.GetKey()==ki_123);
 	assert(ki_123.KeysSize()==3);
-	assert(ki_123.Identifier()=="KeyIndex");
+	assert(ki_123.Identifier=="KeyIndex");
+	assert(ki_123.StringId()=="KeyIndex");
 	
 	KeyIndex ki1{k1};
     std::cout<<ki1<<"TEST "<<k1.Value()<<std::endl;
 	assert(ki1.GetKey()==k1);
 	assert(ki1.KeysSize()==1);
 	assert((int)ki1.GetIndex()==0);
-	assert(ki1.Identifier()==k1.Value());
+	assert(ki1.StringId()==k1.Value());
 	
     return 0;
 }
