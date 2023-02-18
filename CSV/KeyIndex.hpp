@@ -27,7 +27,8 @@ namespace CSV
 			constexpr Index(): value{max}, Base{""}, valid{false}{};
 			ValueType Get() const { return value; }
 			bool Valid() const { return valid; }
-			operator bool() const { return valid; }
+			explicit operator bool() const { return valid; }
+			explicit operator int() const { return static_cast<int>(value); }
 			std::ostream& Display(std::ostream& os) const { return	os<<value;	}
 		private:
 			bool valid = false;
@@ -65,9 +66,9 @@ namespace CSV
 			
 			std::ostream& Display(std::ostream& os) const
 			{
+				os<<" Current: "<<key<<" at "<<index<<"\nOther keys:";	
 				for(auto it = keys->cbegin(); it != keys->cend(); ++it)
 					os<<"\t"<<*it<<std::endl;
-				os<<" Current: "<<key<<" at "<<index<<"\n"<<std::endl;	
 				return os;		
 			}
 			
@@ -91,8 +92,9 @@ namespace CSV
 		private:
 			bool updateIndex(const auto& values, const TIndexValue i)
 			{
-				index = IndexType{i};
-				Logger::Log<Info>("Value: ",values.at(i), " at ", i);
+				index = IndexType{static_cast<TIndexValue>(i)};
+				key = keys->at(i);
+				Logger::Log<Info>("KeyIndex: set key: ",key, " at ", index);
 				return true;
             }
             

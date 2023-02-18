@@ -14,6 +14,7 @@ int main()
     
     auto k1 = Key("1");
     auto k_1 = Key("1");
+    auto k3 = Key("3");
     auto k12345 = Key("12345");
     std::cout<<k12345<<std::endl;
     assert(k1=="1");
@@ -42,6 +43,7 @@ int main()
     assert(i12==i_12);
     std::vector<std::string> v123 {"1", "2", "3"};
     std::vector<std::string> v45{"4","5"};
+    std::vector<std::string> v7839{"7","8","3","9"};
     
     auto ki123 = KeyIndex(v123.cbegin(), v123.cend());
     std::cout<<ki123<<std::endl;
@@ -50,8 +52,18 @@ int main()
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);
 	assert(ki123.KeysSize()==3);
+	assert(ki123.Identifier()=="KeyIndex");
 	assert(!result);
 	assert(!ki123.Valid());
 	assert(!(bool)ki123);
+	
+    result = ki123.Check(v7839);
+	assert(ki123.KeysSize()==3);
+	assert(k3==ki123);
+	assert(result);
+	assert(ki123.Valid());
+	assert((bool)ki123);
+	assert((int)ki123.GetIndex()==2);
+	
     return 0;
 }
