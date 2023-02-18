@@ -1,5 +1,6 @@
 #include "DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/KeyIndex.hpp"
 #include "../File/Raiffeisenbank.hpp"
 #include "../File/TransferContainer.hpp"
 #pragma once
@@ -23,5 +24,7 @@ namespace ShortNames
 	using TP = std::tuple<I, B, N, DT, Q, D, E>;
 	using ContData = std::shared_ptr<TT>;
 	using TC = Bank::TransferContainer<ContData>;
+	
+	using KIC = CSV::KeyIndexContainer<A>;
 };
 

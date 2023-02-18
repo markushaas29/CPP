@@ -46,12 +46,17 @@ int main()
     std::vector<std::string> v7839{"7","8","3","9"};
     
     auto ki123 = KeyIndex(v123.cbegin(), v123.cend());
+    auto ki45 = KeyIndex(v45.cbegin(), v45.cend());
+    auto ki7839 = KeyIndex(v7839.cbegin(), v7839.cend());
     std::cout<<ki123<<std::endl;
 
     bool result = ki123.Check(v45);
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);
 	assert(ki123.KeysSize()==3);
+	assert((int)ki123.GetIndex()==0);
+	auto i0 = Index{0};
+	assert(ki123.GetIndex()==i0);
 	assert(ki123.StringId()=="KeyIndex");
 	assert(!result);
 	assert(!ki123.Valid());
@@ -78,6 +83,11 @@ int main()
 	assert(ki1.KeysSize()==1);
 	assert((int)ki1.GetIndex()==0);
 	assert(ki1.StringId()==k1.Value());
+	
+	std::vector<decltype(ki45)> kiv {ki123,ki45,ki7839};
+	auto kip = std::make_unique<std::vector<decltype(ki45)>>(std::move(kiv));
+	
+	KIC kic {std::move(kip)};
 	
     return 0;
 }
