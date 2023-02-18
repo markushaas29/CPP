@@ -40,10 +40,10 @@ int main()
     std::cout<<iMax.Value()<<std::endl;
     
     assert(i12==i_12);
-    std::vector<std::string> v123;
-    v123.push_back("1");
-    v123.push_back("2");
-    v123.push_back("3");
+    std::vector<std::string> v123 {"1", "2", "3"};
+    //~ v123.push_back("1");
+    //~ v123.push_back("2");
+    //~ v123.push_back("3");
     std::vector<std::string> v45;
     v123.push_back("4");
     v123.push_back("5");

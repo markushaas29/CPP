@@ -58,15 +58,13 @@ namespace CSV
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			KeyIndex(const TKeyValue& v): identifier{v}, key{v}{};
+			KeyIndex(const TKeyValue& v): identifier{v}, key{v} {};
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
 			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}{ }
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
 			
 			std::ostream& Display(std::ostream& os) const
 			{
-				//~ auto patterns = this->key.Patterns();
-				//~ os<<this->key<<": "<<std::endl;	
 				for(auto it = keys->cbegin(); it != keys->cend(); ++it)
 					os<<"\t"<<*it<<std::endl;
 				os<<" Current: "<<key<<" at "<<index<<"\n"<<std::endl;	
@@ -82,12 +80,12 @@ namespace CSV
                 return false;
 			}
 			
-			const TKeyValue& Identifier() const { return identifier; }
-			bool operator ==(const KeyType& k) const { return key == k;  }
 			bool operator ()(const std::string& s) const { return key(s);}
+			bool operator ==(const KeyType& k) const { return key == k;  }
+			explicit operator bool() const { return index.Valid(); }
 			bool Valid() const { return index.Valid(); }
-			operator bool() const { return index.Valid(); }
 			decltype(auto) KeysSize() const { return keys->size(); }
+			const TKeyValue& Identifier() const { return identifier; }
 			const KeyType& GetKey() const { return key; }
 			const IndexType& GetIndex() const { return index; }
 		private:
