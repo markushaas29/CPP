@@ -23,6 +23,7 @@ namespace CSV
 			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
 			Index(ValueType v): Index{v,String_::ParseTo(v).c_str()}{};
+			Index(int v): Index{(T)v}{};
 			constexpr Index(ValueType v, const char* c): value{v}, Base{c}, valid{v != max}{};
 			constexpr Index(): value{max}, Base{""}, valid{false}{};
 			ValueType Get() const { return value; }
@@ -59,7 +60,8 @@ namespace CSV
 			using ContainerPtrType  = std::unique_ptr<ContainerType>;
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
-			KeyIndex(const TKeyValue& v): identifier{v}, key{v} {};
+			//~ KeyIndex(const TKeyValue& v): identifier{v}, key{v.Value()}, index{0} { keys->push_back(); };
+			KeyIndex(const KeyType& k): identifier{k.Value()}, key{k}, index{0} { keys->push_back(k); std::cout<<keys->size()<<"T";};
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
 			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}{ }
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
