@@ -96,11 +96,17 @@ namespace CSV
 				return true;
             }
             
-            void setKeyPatterns(Iterator begin, Iterator end) { std::for_each(begin,end,[&](auto s) { this->keys->push_back(KeyType(s)); }); }
+            void setKeyPatterns(Iterator begin, Iterator end) 
+            { 
+				if(begin==end)
+					throw "KeyINdex: setKeyPatterns => begin == end";
+				std::for_each(begin,end,[&](auto s) { keys->push_back(KeyType(s)); }); 
+				key = keys->at(0);
+			}
             bool match(const std::string& s)        { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
 
-			const TKeyValue identifier;
-			KeyType key;
+			const TKeyValue identifier="KeyIndex";
+			KeyType key{};
 			IndexType index{};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
 	};
