@@ -71,8 +71,7 @@ namespace CSV
 			std::ostream& Display(std::ostream& os) const
 			{
 				os<<" Current: "<<key<<" at "<<index<<"\n Keys:";	
-				for(auto it = keys->cbegin(); it != keys->cend(); ++it)
-					os<<"\t"<<*it<<", ";
+				std::for_each(keys->cbegin(), keys->cend(), [&](const auto& k){ os<<"\t"<<k<<", "; });
 				return os<<"\n";		
 			}
 			
@@ -182,8 +181,7 @@ namespace CSV
 			
 			std::ostream& Display(std::ostream& os) const
 			{
-				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
-					it->Display(os);	
+				std::for_each(keyIndices->cbegin(), keyIndices->cend(), [&](const auto& ki){ ki.Display(os);});
 				return os;		
 			}
 			
