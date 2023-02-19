@@ -123,13 +123,21 @@ int main()
 	
 	KIC kic {std::move(kip)};
 	std::vector<std::string> v149 {"1","4","9"};
+    std::cout<<"KIC check 1 4 9"<<std::endl;
 	result = kic.Check(v149);
 	assert(result);
     std::cout<<"KIC "<<kic<<std::endl;
 	
+    std::cout<<"KIC check 1 6 9"<<std::endl;
 	std::vector<std::string> v169 {"1","6","9"};
 	result = kic.Check(v169);
 	assert(!result);
+    std::cout<<"KIC "<<kic<<std::endl;
+	
+	std::vector<std::string> v257 {"2","5","7"};
+    std::cout<<"KIC check 2 5 7"<<std::endl;
+	result = kic.Check(v257);
+	assert(result);
     std::cout<<"KIC "<<kic<<std::endl;
 	
     return 0;

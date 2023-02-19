@@ -115,7 +115,7 @@ namespace CSV
 				index = IndexType{static_cast<TIndexValue>(i)};
 				auto k = std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == id;});
 				key = *k;
-				Logger::Log<Info>("KeyIndex: set key: ",key, " at ", index);
+				Logger::Log<Info>("KeyIndex: set",key, " @", i," in passed values");
 				return true;
             }
             
@@ -169,7 +169,7 @@ namespace CSV
 				{
 					auto i = std::find_if(keyIndices->begin(), keyIndices->end(),[&](auto ki){ return ki.GetKey().Value()==k; });				
 					if(i != keyIndices->cend())
-							i->SetKeyPatterns(patterns.cbegin(),patterns.cend());
+						i->SetKeyPatterns(patterns.cbegin(),patterns.cend());
 					else
 						Logger::Log<Error>("UpdateKeyPatterns Key ",k," not found!");					
 				}
@@ -183,8 +183,7 @@ namespace CSV
 			std::ostream& Display(std::ostream& os) const
 			{
 				for(auto it = keyIndices->begin(); it != keyIndices->end(); ++it)
-					it->Display(os);
-					
+					it->Display(os);	
 				return os;		
 			}
 			
