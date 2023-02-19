@@ -199,6 +199,8 @@ namespace CSV
 			void Add(KeyIndexType&& ki) { keyIndices->push_back(std::move(ki)); }
 			IndexType operator[](TKeyValue key) {	return Get(key);	}
 			
+            void Reset() const { std::for_each(keyIndices->cbegin(), keyIndices->cend(), [](auto ki){ ki.Reset();}); }
+            bool Valid() const { return std::find_if(keyIndices->cbegin(), keyIndices->cend(), [](auto ki){ return !ki.Valid();}) == keyIndices->cend(); }
 			bool Empty() { return keyIndices->size() == 0;}
 		private:
 			ContainerPtrType keyIndices;

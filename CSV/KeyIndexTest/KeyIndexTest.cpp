@@ -123,8 +123,11 @@ int main()
 	
 	KIC kic {std::move(kip)};
 	std::vector<std::string> v149 {"1","4","9"};
+	kic.Reset();
     std::cout<<"KIC check 1 4 9"<<std::endl;
+    //~ assert(!kic.Valid());
 	result = kic.Check(v149);
+    assert(kic.Valid());
 	assert(result);
     std::cout<<"KIC "<<kic<<std::endl;
 	
