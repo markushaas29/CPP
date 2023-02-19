@@ -125,7 +125,8 @@ int main()
 	std::vector<std::string> v149 {"1","4","9"};
 	kic.Reset();
     std::cout<<"KIC check 1 4 9"<<std::endl;
-    //~ assert(!kic.Valid());
+    std::cout<<kic<<std::endl;
+    assert(!kic.Valid());
 	result = kic.Check(v149);
     assert(kic.Valid());
 	assert(result);
@@ -133,14 +134,20 @@ int main()
 	
     std::cout<<"KIC check 1 6 9"<<std::endl;
 	std::vector<std::string> v169 {"1","6","9"};
+	kic.Reset();
+    assert(!kic.Valid());
 	result = kic.Check(v169);
 	assert(!result);
+    assert(!kic.Valid());
     std::cout<<"KIC "<<kic<<std::endl;
 	
 	std::vector<std::string> v257 {"2","5","7"};
     std::cout<<"KIC check 2 5 7"<<std::endl;
+	kic.Reset();
+    assert(!kic.Valid());
 	result = kic.Check(v257);
 	assert(result);
+    assert(kic.Valid());
     std::cout<<"KIC "<<kic<<std::endl;
 	
     return 0;
