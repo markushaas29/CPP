@@ -50,7 +50,11 @@ int main()
     auto ki7839 = KeyIndex(v7839.cbegin(), v7839.cend());
     std::cout<<ki123<<std::endl;
 
-    bool result = ki123.Check(v45);
+    bool result = ki123.HasKey("1");
+	assert(result);
+	result = ki123.HasKey("4");
+	assert(!result);
+    result = ki123.Check(v45);
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);
 	assert(ki123.KeysSize()==3);

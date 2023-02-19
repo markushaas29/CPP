@@ -93,6 +93,7 @@ namespace CSV
 			const TKeyValue& StringId() const { return stringId; }
 			const KeyType& GetKey() const { return key; }
 			const IndexType& GetIndex() const { return index; }
+            bool HasKey(const std::string& s) const { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
 		private:
 			bool updateIndex(const auto& values, const TIndexValue i)
 			{
@@ -111,7 +112,7 @@ namespace CSV
 				key = keys->at(0);
 				index = Index{TIndexValue{0}};
 			}
-            bool match(const std::string& s)        { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
+            bool match(const std::string& s)   { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
 
 			const TKeyValue stringId="KeyIndex";
 			bool valid{};
