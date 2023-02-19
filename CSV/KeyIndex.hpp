@@ -78,10 +78,11 @@ namespace CSV
 			
 			bool Check(const std::vector<std::string>& values)
 			{
+				//Reset()
 				for(uint i = 0; i < values.size(); ++i)
 				{
 					auto s = values.at(i);
-					std::cout<<"Check: "<<s<<" Has"<<HasKey(s)<<"\n";
+					//~ std::cout<<"Check: "<<s<<"@"<<i<<" Has"<<HasKey(s)<<"\n";
 					if(HasKey(s))
 						return updateIndex(s,i);
 				}

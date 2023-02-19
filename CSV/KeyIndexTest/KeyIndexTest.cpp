@@ -71,6 +71,7 @@ int main()
     assert(ki123.GetIndex()==iMax);
     assert(ki123.GetKey()==ke);
   
+    std::cout<<"Ki Check 123: "<<ki123<<std::endl;
     result = ki123.Check(v123);
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);
@@ -78,13 +79,23 @@ int main()
 	assert((int)ki123.GetIndex()==0);
 	
 	auto i0 = Index{0};
-	
-	
 	assert(ki123.GetIndex()==i0);
 	assert(ki123.StringId()=="KeyIndex");
+	assert(result);
+	assert(ki123.Valid());
+	assert((bool)ki123);
+  
+    std::cout<<"Ki Check 45: "<<ki123<<std::endl;
+    result = ki123.Check(v45);
+    std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
+	assert(k1==ki123);
+	assert(ki123.KeysSize()==3);
+	assert((int)ki123.GetIndex()==0);
+	
+	assert(ki123.GetIndex()==i0);
 	assert(!result);
-	assert(!ki123.Valid());
-	assert(!(bool)ki123);
+	assert(ki123.Valid());
+	assert((bool)ki123);
 	
     result = ki123.Check(v7839);
 	assert(ki123.KeysSize()==3);
