@@ -14,8 +14,9 @@
 
 
 template<typename U, typename Pre = Pure, typename Q = Quantity<U,Pure,double>, typename DateT = DateTimes::Date>
-struct Reading
+class Reading
 {
+public:
 	using Unit = U;
 	using QuantityType = Q;
 	using DateType = DateT;
