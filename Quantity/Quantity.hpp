@@ -38,11 +38,8 @@ public:
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
 	constexpr Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
-	constexpr bool operator<(const Quantity<U,QR,T1>& y) const { return this->Value() < y.Value(); }
-	constexpr bool operator>(const Quantity<U,QR,T1>& y) const { return this->Value() > y.Value(); }
-	constexpr bool operator>=(const Quantity<U,QR,T1>& y) const { return this->Value() >= y.Value(); }
+	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return this->Value() <=> y.Value(); }
 	constexpr bool operator==(const Quantity<U,QR,T1>& y) const { return this->Value() == y.Value(); }
-	constexpr bool operator!=(const Quantity<U,QR,T1>& y) const { return !(this->Value() == y.Value()); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }

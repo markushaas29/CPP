@@ -20,6 +20,10 @@ int main()
 	auto rw2 = RW{w2,dt2};
 	
 	auto w3 = W{148};
+	assert(w2!=w3);
+	assert(w2<w3);
+	assert(w3>w2);
+	assert(w2!=w3);
 	auto dt3 = DT{24,2,2004};
 	auto rw3 = RW{w3,dt3};
 	
