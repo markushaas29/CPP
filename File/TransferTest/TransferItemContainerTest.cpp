@@ -7,6 +7,7 @@
 #include "../../Common/DateTimes.hpp"
 #include "../../String/String_.hpp"
 using namespace ShortNames;
+using namespace Bank;
 
 int main()
 {   
@@ -29,6 +30,13 @@ int main()
 	indexValues = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(indicesLine));
 	result = TI::Instance().Check(indexValues);
 	assert(result);
+	
+	auto t1Vals= String_::Split<CSVSeparator>(String_::Remove<String_::CR>(t1Line));
+	std::for_each(t1Vals.cbegin(),t1Vals.cend(),[](auto i){std::cout<<i<<std::endl;});
+	
+	auto t1 = TI::Instance().CreateTransfer<TT>(t1Vals.cbegin(), t1Vals.cend());
+	//~ std::cout<<*t1<<"\n";
+	//~ auto d = GetTransfer<DT>(*t1);
 	
     return 0;
 }
