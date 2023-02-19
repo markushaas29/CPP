@@ -13,6 +13,7 @@ int main()
     std::cout<<"START"<<std::endl;
     
     auto k1 = Key("1");
+    auto ke = Key();
     auto k_1 = Key("1");
     auto k3 = Key("3");
     auto k12345 = Key("12345");
@@ -34,11 +35,13 @@ int main()
     assert((bool)i12);
     std::cout<<i12.Value()<<std::endl;
     
+    std::cout<<"DEfault Index"<<std::endl;
     auto iMax = Index{};
     assert(!iMax.Valid());
     assert(!(bool)iMax);
     assert(iMax.Get()==std::numeric_limits<unsigned int>::max());
-    std::cout<<iMax.Value()<<std::endl;
+    std::cout<<iMax.Get()<<std::endl;
+    std::cout<<iMax<<std::endl;
     
     assert(i12==i_12);
     std::vector<std::string> v123 {"1", "2", "3"};
@@ -62,12 +65,21 @@ int main()
 	result = ki123.HasKey(v45.cbegin(),v45.cend());
 	assert(!result);
 	
-    result = ki123.Check(v45);
+    ki123.Reset();
+    std::cout<<"Ki Reset: "<<ki123<<std::endl;
+    assert(!ki123.Valid());
+    assert(ki123.GetIndex()==iMax);
+    assert(ki123.GetKey()==ke);
+  
+    result = ki123.Check(v123);
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);
 	assert(ki123.KeysSize()==3);
 	assert((int)ki123.GetIndex()==0);
+	
 	auto i0 = Index{0};
+	
+	
 	assert(ki123.GetIndex()==i0);
 	assert(ki123.StringId()=="KeyIndex");
 	assert(!result);

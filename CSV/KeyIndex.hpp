@@ -79,29 +79,41 @@ namespace CSV
 			bool Check(const std::vector<std::string>& values)
 			{
 				for(uint i = 0; i < values.size(); ++i)
-					if(HasKey(values.at(i)))
-						return updateIndex(values,i);
+				{
+					auto s = values.at(i);
+					std::cout<<"Check: "<<s<<" Has"<<HasKey(s)<<"\n";
+					if(HasKey(s))
+						return updateIndex(s,i);
+				}
                  
                 return false;
 			}
 			
 			bool operator ()(const std::string& s) const { return key(s);}
 			bool operator ==(const KeyType& k) const { return key == k;  }
-			explicit operator bool() const { return valid; }
-			bool Valid() const { return valid; }
+			explicit operator bool() const { return Valid(); }
+			
+			bool Valid() const { return index.Valid(); }
 			decltype(auto) KeysSize() const { return keys->size(); }
 			const TKeyValue& StringId() const { return stringId; }
 			const KeyType& GetKey() const { return key; }
 			const IndexType& GetIndex() const { return index; }
+            
             bool HasKey(const std::string& s) const { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
             template<typename It>
             bool HasKey(It begin, It end) const { return std::find_if(begin,end, [&](auto s){ return HasKey(s);}) != end; }
+            void Reset() 
+            {	
+				index = {};	
+				key = {};
+			}
+			
 		private:
-			bool updateIndex(const auto& values, const TIndexValue i)
+			bool updateIndex(const std::string& id, const TIndexValue i)
 			{
 				index = IndexType{static_cast<TIndexValue>(i)};
-				key = keys->at(i);
-				valid = true;
+				auto k = std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == id;});
+				key = *k;
 				Logger::Log<Info>("KeyIndex: set key: ",key, " at ", index);
 				return true;
             }
@@ -114,10 +126,8 @@ namespace CSV
 				key = keys->at(0);
 				index = Index{TIndexValue{0}};
 			}
-            bool match(const std::string& s)   { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
 
 			const TKeyValue stringId="KeyIndex";
-			bool valid{};
 			KeyType key{};
 			IndexType index{};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
