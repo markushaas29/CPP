@@ -50,10 +50,18 @@ int main()
     auto ki7839 = KeyIndex(v7839.cbegin(), v7839.cend());
     std::cout<<ki123<<std::endl;
 
+    std::cout<<"HasKey string"<<std::endl;
     bool result = ki123.HasKey("1");
 	assert(result);
 	result = ki123.HasKey("4");
 	assert(!result);
+    
+    std::cout<<"HasKey vec"<<std::endl;
+    result = ki123.HasKey(v123.cbegin(),v123.cend());
+	assert(result);
+	result = ki123.HasKey(v45.cbegin(),v45.cend());
+	assert(!result);
+	
     result = ki123.Check(v45);
     std::cout<<ki123.GetKey()<<" / "<<k1.Value()<<std::endl;
 	assert(k1==ki123);

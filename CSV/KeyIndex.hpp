@@ -79,7 +79,7 @@ namespace CSV
 			bool Check(const std::vector<std::string>& values)
 			{
 				for(uint i = 0; i < values.size(); ++i)
-					if(match(values.at(i)))
+					if(HasKey(values.at(i)))
 						return updateIndex(values,i);
                  
                 return false;
@@ -94,6 +94,8 @@ namespace CSV
 			const KeyType& GetKey() const { return key; }
 			const IndexType& GetIndex() const { return index; }
             bool HasKey(const std::string& s) const { return std::find_if(keys->cbegin(), keys->cend(), [&](auto p){ return p == s;}) != keys->cend(); }
+            template<typename It>
+            bool HasKey(It begin, It end) const { return std::find_if(begin,end, [&](auto s){ return HasKey(s);}) != end; }
 		private:
 			bool updateIndex(const auto& values, const TIndexValue i)
 			{
