@@ -34,8 +34,10 @@ int main()
 	auto t1Vals= String_::Split<CSVSeparator>(String_::Remove<String_::CR>(t1Line));
 	std::for_each(t1Vals.cbegin(),t1Vals.cend(),[](auto i){std::cout<<i<<std::endl;});
 	
+	//~ auto t1 = TI::Instance().Create();
 	auto t1 = TI::Instance().CreateTransfer<TT>(t1Vals.cbegin(), t1Vals.cend());
-	//~ std::cout<<*t1<<"\n";
+	//~ TI::Instance();
+	//~ std::cout<<TI::Instance()<<"\n";
 	//~ auto d = GetTransfer<DT>(*t1);
 	
     return 0;
