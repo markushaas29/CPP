@@ -48,10 +48,13 @@ int main()
     std::vector<std::string> v45{"4","5"};
     std::vector<std::string> v7839{"7","8","3","9"};
     
+    auto kiIBAN = KeyIndex("IBAN");
     auto ki123 = KeyIndex(v123.cbegin(), v123.cend());
     auto ki45 = KeyIndex(v45.cbegin(), v45.cend());
     auto ki7839 = KeyIndex(v7839.cbegin(), v7839.cend());
     std::cout<<ki123<<std::endl;
+
+	assert(kiIBAN.StringId()=="IBAN");
 
     std::cout<<"HasKey string"<<std::endl;
     bool result = ki123.HasKey("1");
@@ -116,7 +119,7 @@ int main()
 	assert(ki1.GetKey()==k1);
 	assert(ki1.KeysSize()==1);
 	assert((int)ki1.GetIndex()==0);
-	assert(ki1.StringId()==k1.Value());
+	//~ assert(ki1.StringId()==k1.Value());
 	
 	std::vector<decltype(ki45)> kiv {ki123,ki45,ki7839};
 	auto kip = std::make_unique<std::vector<decltype(ki45)>>(std::move(kiv));

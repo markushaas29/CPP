@@ -64,7 +64,7 @@ namespace CSV
 			inline constexpr static const char* Identifier="KeyIndex";
 			explicit KeyIndex(const std::string& v): stringId{v}, key{v}, index{0} {  };
 			explicit KeyIndex(const char* v): stringId{v}, key{v}, index{0} {  };
-			//~ explicit KeyIndex(const char* id): stringId{k.Value()}, key{k}, index{TIndexValue{0}} { keys->push_back(k); };
+			explicit KeyIndex(KeyType k): stringId{Identifier}, key{k}, index{TIndexValue{0}} { keys->push_back(k); };
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
 			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}, stringId{k.stringId}{ }
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
@@ -126,7 +126,7 @@ namespace CSV
 				index = Index{TIndexValue{0}};
 			}
 
-			const TKeyValue stringId;
+			const TKeyValue stringId = Identifier;
 			KeyType key{};
 			IndexType index{};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
