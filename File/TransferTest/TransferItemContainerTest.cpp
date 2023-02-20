@@ -23,7 +23,7 @@ int main()
 	std::string t2Line ="Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;02.01.2023;02.01.2023;Anita Erna Brustat;DE83660623660009262008;GENODE61DET;DA-GUTSCHRIFT;MIETE;660,00;EUR;1086,53;;Sonstiges;;;";
 	std::vector<std::string> file {t1Line,t2Line};
 	
-	auto indexValues = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(indicesLineErr));
+	auto indexValues = String_::Split<CSVSeparator>(indicesLineErr);
 	bool result = TI::Instance().Check(indexValues);
 	assert(!result);
 	

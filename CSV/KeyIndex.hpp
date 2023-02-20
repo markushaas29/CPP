@@ -62,10 +62,11 @@ namespace CSV
 			using Iterator  = std::vector<TKeyValue>::const_iterator;
 			using KeyIndexType = KeyIndex<TKeyValue,TIndexValue>;
 			inline constexpr static const char* Identifier="KeyIndex";
-			//~ KeyIndex(const TKeyValue& v): identifier{v}, key{v.Value()}, index{0} { keys->push_back(); };
-			explicit KeyIndex(const KeyType& k): stringId{k.Value()}, key{k}, index{TIndexValue{0}} { keys->push_back(k); };
+			explicit KeyIndex(const std::string& v): stringId{v}, key{v}, index{0} {  };
+			explicit KeyIndex(const char* v): stringId{v}, key{v}, index{0} {  };
+			//~ explicit KeyIndex(const char* id): stringId{k.Value()}, key{k}, index{TIndexValue{0}} { keys->push_back(k); };
 			KeyIndex(Iterator begin, Iterator end){ setKeyPatterns(begin,end); };
-			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}{ }
+			KeyIndex(const KeyIndex& k): keys{std::make_unique<ContainerType>(*k.keys)}, key{k.key}, index{k.index}, stringId{k.stringId}{ }
 			void SetKeyPatterns(Iterator begin, Iterator end) { setKeyPatterns(begin,end); }
 			
 			std::ostream& Display(std::ostream& os) const
@@ -127,7 +128,7 @@ namespace CSV
 				index = Index{TIndexValue{0}};
 			}
 
-			const TKeyValue stringId="KeyIndex";
+			const TKeyValue stringId;
 			KeyType key{};
 			IndexType index{};
 			ContainerPtrType keys = std::make_unique<ContainerType>();
@@ -188,10 +189,13 @@ namespace CSV
 			IndexType Get(TKeyValue key) 
 			{
 				for(auto it = keyIndices->cbegin(); it != keyIndices->cend(); ++it)
-					if((it->GetKey()).Value() == key)
+				{
+					std::cout<<key<<"/"<<(it->GetKey()).Value()<<"\t"<<it->StringId()<<"\n";
+					if(it->StringId() == key)
 						return (it->GetIndex()).Get();
+				}
 					
-				throw std::invalid_argument( "received negative value" );
+				throw std::invalid_argument( "KeyIndexContainer received negative value" );
 			}
 			
 			void Add(KeyIndexType&& ki) { keyIndices->push_back(std::move(ki)); }

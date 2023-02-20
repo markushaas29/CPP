@@ -128,7 +128,7 @@ class TransferItemContainer<KeyIndexContainerType, Tuple, 0>
 			Logger::Log<Info>()<<"TransferItemContainer created."<<std::endl; 
 		};
 		KeyIndexContainerPtrType keyIndices;
-		auto createTransfer(InputIterator begin, InputIterator end) {	return TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier])));	}
+		auto createTransfer(InputIterator begin, InputIterator end) { return TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier])));	}
 };
 
 template<typename KeyIndexContainerType, typename Tuple, uint Idx>
