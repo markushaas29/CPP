@@ -52,7 +52,6 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 	protected:
 		TransferItemContainer() 
 		{ 
-			std::cout<<Type::Identifier<<"\n";
 			auto ki = typename KeyIndexContainerType::KeyIndexType(Type::Identifier);
 			this->keyIndices->Add(std::move(ki));
 			Logger::Log<Info>("TransferItemContainer created.");
