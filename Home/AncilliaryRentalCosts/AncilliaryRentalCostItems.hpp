@@ -42,20 +42,9 @@ struct AncilliaryRentalCostItemBase
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto account = Bank::Get<AccountType>(Derived::iban);
-		typename ResultType::TransfersPtr transfers;
-		typename ResultType::SumType sum;
-
-		if(account)
-		{
-			transfers = (*account)[year];
-			sum = TotalSum(transfers->cbegin(), transfers->cend());
-		}
-		else
-		{
-			transfers = std::make_unique<typename ResultType::Transfers>();
-			Logger::Log<Error>("No transfers for ", Derived::Identifier, " sum is ", sum);
-		}
+		auto transfers = GetTransfers(year,Derived::iban);
+		
+		auto sum = TotalSum(transfers->cbegin(), transfers->cend());
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
@@ -68,6 +57,25 @@ struct AncilliaryRentalCostItemBase
 	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
 	
 protected:
+	static decltype(auto) GetTransfers(const DateTimes::Year& year, const IBAN& iban)
+	{
+		auto account = Bank::Get<AccountType>(Derived::iban);
+		typename ResultType::TransfersPtr transfers;
+
+		if(account)
+		{
+			transfers = (*account)[year];
+		}
+		else
+		{
+			transfers = std::make_unique<typename ResultType::Transfers>();
+			Logger::Log<Error>("No transfers for ", Derived::Identifier);
+		}
+		
+		return transfers;
+	}
+	
+	
 	template <typename Acc, typename T, typename... Categories>
 	static decltype(auto) InsertSpecifiedTransfers(const Acc& account, std::unique_ptr<T>& transfers, Categories... categories)
 	{ 
@@ -109,11 +117,10 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static constexpr IBAN iban{"DE97500500000003200029"};	
 	
+	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto account = Bank::Get<typename Base::AccountType>(iban);
-		auto transfers = account->GetTransferOf(year);		
-
+		auto transfers = Base::GetTransfers(year,iban);		
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
