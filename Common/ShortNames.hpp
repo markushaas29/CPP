@@ -3,6 +3,7 @@
 #include "../CSV/KeyIndex.hpp"
 #include "../File/Raiffeisenbank.hpp"
 #include "../File/TransferContainer.hpp"
+#include "../Home/AncilliaryRentalCosts/AncilliaryRentalCostItems.hpp"
 #pragma once
 
 namespace ShortNames
@@ -26,5 +27,14 @@ namespace ShortNames
 	using TC = Bank::TransferContainer<ContData>;
 	
 	using KIC = CSV::KeyIndexContainer<A>;
+	template<typename S> using BI = BuildingInsurance<S>;
+	template<typename S> using WF = WasteFees<S>;
+	template<typename S> using CS = ChimneySweeper<S>;
+	template<typename S>using SW = Sewage<S>;
+	template<typename S>using PT = PropertyTax<S>;
+	template<typename S>using BC = BuildingCleaning<S>;
+	template<typename S> using HT = Heating<S>;
+	 
+	template<typename S> using  ARItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
 };
 

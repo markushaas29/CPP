@@ -2,6 +2,7 @@
 #include <memory>
 #include "AncilliaryRentalCostResult.hpp"
 #include "../Stage.hpp"
+#include "../StageContainer.hpp"
 #include "../../Calculator/Operations.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
