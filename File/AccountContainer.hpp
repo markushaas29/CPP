@@ -36,9 +36,6 @@ namespace Bank
 		using DataType = std::shared_ptr<T>;
 		using AccountEndpointT =TransferEndpoint<typename T::AccountType>;
 		using AccountEndpointType =std::shared_ptr<TransferEndpoint<typename T::AccountType>>;
-	private:
-		Cont<KeyType> keys;
-		TCont<KeyType, AccountEndpointType> accounts;
 	public:
 		void Insert(KeyType k, DataType t)
 		{
@@ -53,7 +50,7 @@ namespace Bank
 		}
 		
 		bool Contains(KeyType k) const { return this->accounts.find(k) != this->accounts.end(); }
-		const Cont<KeyType>& Keys() { return keys; }
+		const Cont<KeyType>& Keys() const { return keys; }
 		const AccountEndpointType& operator[](KeyType k) 
 		{
 			if(!Contains(k))
@@ -63,16 +60,11 @@ namespace Bank
 				
 		std::ostream& Display(std::ostream& out) const
 		{
-			for(auto it = accounts.cbegin(); it != accounts.cend(); ++it)
-			{
-				it->second->Display(out);
-				out<<std::endl;
-			}
-			
+			std::for_each(accounts.cbegin(),accounts.cbegin(),[&out](const auto& a) { a.second->Display(out);; out<<"\n"; });
 			return out;
 		}
 		
-		std::ostream& Display(std::ostream& out, const std::vector<std::string>& keys)
+		std::ostream& Display(std::ostream& out, const std::vector<std::string>& keys) const
 		{
 			for(auto k : keys)
 			{
@@ -91,11 +83,12 @@ namespace Bank
 		
 		std::ostream& DisplayKeys(std::ostream& out) const
 		{
-			for(auto p : this->accounts)
-				out<<p.first<<std::endl;				
-			
+			std::for_each(accounts.cbegin(),accounts.cbegin(),[&out](const auto& a) {out<<a.first<<"\n"; });
 			return out;
 		}		
+	private:
+		Cont<KeyType> keys;
+		TCont<KeyType, AccountEndpointType> accounts;
 	};
 }
 
