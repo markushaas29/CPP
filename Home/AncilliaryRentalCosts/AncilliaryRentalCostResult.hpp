@@ -7,6 +7,19 @@
 #ifndef ANCILLIARYRENTALCOSTITEM_HPP
 #define ANCILLIARYRENTALCOSTITEM_HPP
 
+template<typename Q>
+struct ItemFraction
+{
+	using QuantityType = Q;
+	using ResultType = decltype(QuantityRatioOp::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
+	ItemFraction(QuantityType n, QuantityType d, Quantity<Sum> s): Num{n}, Denom{d}, SumValue{s}{};
+	ItemFraction(ItemFraction&& i) : Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
+	ItemFraction& operator=(ItemFraction&& other) = default;
+	QuantityType Num;
+	QuantityType Denom;
+	Quantity<Sum> SumValue;
+};
+
 template<typename I,typename S, typename Q,typename T>
 class AncilliaryRentalCostItemResult
 {

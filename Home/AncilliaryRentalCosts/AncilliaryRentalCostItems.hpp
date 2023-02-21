@@ -29,20 +29,6 @@ struct CalculatorConfiguration
 	constexpr static const char* Name = "";//Derived::Name; 
 };
 
-
-template<typename Q>
-struct ItemFraction
-{
-	using QuantityType = Q;
-	using ResultType = decltype(QuantityRatioOp::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
-	ItemFraction(QuantityType n, QuantityType d, Quantity<Sum> s): Num{n}, Denom{d}, SumValue{s}{};
-	ItemFraction(ItemFraction&& i) : Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
-	ItemFraction& operator=(ItemFraction&& other) = default;
-	QuantityType Num;
-	QuantityType Denom;
-	Quantity<Sum> SumValue;
-};
-
 template<typename StageT,typename Derived, typename Q>
 struct AncilliaryRentalCostItemBase
 {
