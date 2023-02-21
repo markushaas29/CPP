@@ -4,6 +4,7 @@
 #include "../Reading.hpp"
 #include "../Counter.hpp"
 #include "../CounterConfiguration.hpp"
+#include "../CounterContainer.hpp"
 using namespace ShortNames;
 
 int main()
@@ -22,6 +23,8 @@ int main()
 	auto rw2 = RW{w2,dt2};
 	
 	auto w3 = W{148};
+
+	std::cout<<CG1::Identifier;
 
     return 0;
 }
