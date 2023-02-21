@@ -12,15 +12,16 @@ struct ItemFraction
 {
 	using QuantityType = Q;
 	using ResultType = decltype(QuantityRatioOp::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
-	ItemFraction(QuantityType n, QuantityType d, Quantity<Sum> s): Num{n}, Denom{d}, SumValue{s}{};
+	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): Num{n}, Denom{d}, SumValue{s}{};
 	ItemFraction(ItemFraction&& i) : Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
+	constexpr ItemFraction(const ItemFraction& i): Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
 	ItemFraction& operator=(ItemFraction&& other) = default;
 	QuantityType Num;
 	QuantityType Denom;
 	Quantity<Sum> SumValue;
 };
 
-template<typename I,typename S, typename Q,typename T>
+template<typename I,typename F,typename S, typename Q,typename T>
 class AncilliaryRentalCostItemResult
 {
 public:
@@ -29,10 +30,11 @@ public:
 	using StageType = S;
 	using SumType = Quantity<Sum>;
 	using QuantityType = typename Q::TQuantity;
+	using FractionType = F;
 	using ResultType = decltype(QuantityRatioOp::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t, const QuantityType& n, const QuantityType& d, const SumType& s, const DateTimes::Year y): transfers{std::move(t)}, result{QuantityRatioOp::Calculate(n,d,s)},year{y}, numerator{n},denominator{d},sum{s} {  };
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f,const QuantityType& n, const QuantityType& d, const SumType& s, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{QuantityRatioOp::Calculate(n,d,s)},year{y}, numerator{n},denominator{d},sum{s} {  };
 	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
@@ -50,6 +52,7 @@ public:
 	
 	decltype(auto) Get() { return result.Get(); }
 private:
+	const FractionType fraction;
 	const DateTimes::Year year;
 	const QuantityType numerator;
 	const QuantityType denominator;
@@ -59,7 +62,7 @@ private:
 };
 
 
-template<typename S,typename D, typename Q, typename A>
-std::ostream& operator<<(std::ostream& out, const AncilliaryRentalCostItemResult<S,D,Q,A>& s){	return s.Display(out);	}
+template<typename S,typename F,typename D, typename Q, typename A>
+std::ostream& operator<<(std::ostream& out, const AncilliaryRentalCostItemResult<S,F,D,Q,A>& s){	return s.Display(out);	}
 
 #endif
