@@ -14,12 +14,26 @@ struct ItemFraction
 	using ResultType = decltype(QuantityRatioOp::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
 	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): Num{n}, Denom{d}, SumValue{s}{};
 	ItemFraction(ItemFraction&& i) : Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
-	constexpr ItemFraction(const ItemFraction& i): Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
+	constexpr ItemFraction(const ItemFraction& i): Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{ };
 	ItemFraction& operator=(ItemFraction&& other) = default;
+	
+	std::ostream& Display(std::ostream& os) const
+	{
+		os<<"ItemFraction: \t\t"<<Num<<std::endl;
+		os<<"Numerator: \t\t"<<Num<<std::endl;
+		os<<"Denominator: \t"<<Denom<<std::endl;
+		os<<"Sum: \t"<<SumValue<<std::endl;
+		
+		return os;
+	}
+	
 	QuantityType Num;
 	QuantityType Denom;
 	Quantity<Sum> SumValue;
 };
+
+template<typename Q>
+std::ostream& operator<<(std::ostream& out, const ItemFraction<Q>& s){	return s.Display(out);	}
 
 template<typename I,typename F,typename S, typename Q,typename T>
 class AncilliaryRentalCostItemResult
@@ -39,6 +53,7 @@ public:
 	std::ostream& Display(std::ostream& os) const
 	{
 		os<<StageType::StageName<<"\t"<<ItemType::TypeIdentifier<<"\t"<<this->year<<std::endl;
+		os<<"Fraction: \t\t"<<fraction<<std::endl;
 		os<<"Numerator: \t\t"<<numerator<<std::endl;
 		os<<"Denominator: \t"<<denominator<<std::endl;
 		os<<"Sum: \t"<<sum<<std::endl;
