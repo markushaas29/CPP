@@ -31,12 +31,13 @@ struct CalculatorConfiguration
 
 
 template<typename Q>
-struct ItemFractiom
+struct ItemFraction
 {
 	using QuantityType = Q;
 	using ResultType = decltype(QuantityRatioOp::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
-	ItemFractiom(QuantityType n, QuantityType d, Quantity<Sum> s): Num{n}, Denom{d}, SumValue{s}{};
-	ItemFractiom& operator=(ItemFractiom&& other) = default;
+	ItemFraction(QuantityType n, QuantityType d, Quantity<Sum> s): Num{n}, Denom{d}, SumValue{s}{};
+	ItemFraction(ItemFraction&& i) : Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
+	ItemFraction& operator=(ItemFraction&& other) = default;
 	QuantityType Num;
 	QuantityType Denom;
 	Quantity<Sum> SumValue;
@@ -51,7 +52,7 @@ struct AncilliaryRentalCostItemBase
 	using StageQuantityType =typename StageQuantity::TQuantity;
 	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,StageType,StageQuantity,AccountType>;
-	using RatioType =  ItemFractiom<StageQuantityType>;
+	using RatioType =  ItemFraction<StageQuantityType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
 	constexpr static Name TypeIdentifier = Name{""};
 	
