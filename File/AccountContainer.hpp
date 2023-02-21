@@ -53,9 +53,10 @@ namespace Bank
 		const Cont<KeyType>& Keys() const { return keys; }
 		const AccountEndpointType& operator[](KeyType k) 
 		{
-			if(!Contains(k))
-				Logger::Log<Error>("No account found for IBAN: ",k);
-			return this->accounts[k]; 
+			if(Contains(k))
+				return this->accounts[k]; 
+			Logger::Log<Error>("No account found for IBAN: ",k, Logger::Source(""));
+			throw std::invalid_argument(k.Value());
 		}
 				
 		std::ostream& Display(std::ostream& out) const

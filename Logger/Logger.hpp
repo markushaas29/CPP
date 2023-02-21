@@ -7,26 +7,16 @@
 #include <cstdlib>
 #include <unordered_map>
 #include <cassert>
+#include <sstream>
+#include <string_view>
+#include <source_location>
 #include "LogExpression.hpp"
 #include "Colour.hpp"
 #include "../Wrapper/Wrapper.hpp"
 
-#ifndef NDEBUG
-#   define ASSERT(condition, message) \
-    do { \
-        if (! (condition)) { \
-            std::cerr << "Assertion `" #condition "` failed in " << __FILE__ \
-                      << " line " << __LINE__ << ": " << message << std::endl; \
-            std::terminate(); \
-        } \
-    } while (false)
-#else
-#   define ASSERT(condition, message) do { } while (false)
-#endif
-
-
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
+
 
 template<typename Derived, typename T>
 struct LogTypeBase
@@ -77,6 +67,13 @@ class Logger
             static Logger logger;
             return logger;
         };
+        
+		static std::string Source(const std::string& message, const std::source_location location = std::source_location::current())
+		{
+			std::stringstream result;
+			result<<"file: " << location.file_name() << "("  << location.line() + ":" <<  location.column() << ") `" << location.function_name() << "`: " << '\n';
+			return result.str();
+		}
 
         template<class LogPolicy = Debug>
         static std::ostream& Log() {	return LogPolicy::Log(Logger::Instance().file);    };
