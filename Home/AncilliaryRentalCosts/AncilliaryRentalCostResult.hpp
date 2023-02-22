@@ -12,6 +12,7 @@ class ItemFraction
 {
 public:
 	using QuantityType = Q;
+	using Type = ItemFraction<Q>;
 	using ResultType = decltype(QuantityFraction::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
 	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): num{n}, denom{d}, sumValue{s}{};
 	constexpr ItemFraction(ItemFraction&& i) : num{i.Num}, denom{i.Denom}, sumValue{i.SumValue}{ i = QuantityFraction{}; };
@@ -26,6 +27,9 @@ public:
 		
 		return os;
 	}
+	
+	constexpr bool operator==(const Type& i) const{ return (num == i.num) && (denom == i.denom) && (sumValue == i.sumValue); };
+	constexpr decltype(auto) operator<=>( const Type& i) const noexcept { return sumValue <=> i.sumValue; }
 private:	
 	QuantityType num;
 	QuantityType denom;

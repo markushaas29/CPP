@@ -14,18 +14,32 @@ int main()
 	using RW = Reading<Work>;
 	using W = RW::QuantityType;
 	
-	auto w = W{123};
-	auto e = Q{2};
+	auto w123 = W{123};
+	constexpr auto w1 = W{1};
+	constexpr auto w2 = W{2};
+	constexpr  auto e4 = Q{4};
+	auto e2 = Q{2};
 	auto dt = DT{1,2,2003};
 	auto y2022 = Y{2022};
-	auto rw = RW{w,dt};
+	auto rw = RW{w123,dt};
 	
-	auto w2 = W{124};
+	auto w124 = W{124};
 	auto dt2 = DT{1,2,2004};
-	auto rw2 = RW{w2,dt2};
+	auto rw2 = RW{w124,dt2};
 	
 	std::cout<<PT<Top>::Cause<<"\n";
 	
+	constexpr ItemFraction<W> ifD{};
+	constexpr ItemFraction<W> ifD2{};
+	constexpr ItemFraction<W> if124{w1,w2,e4};
+	assert(ifD==ifD2);
+	assert(ifD!=if124);
+	assert(ifD<if124);
+	assert(if124>ifD);
+	assert(ifD<=ifD2);
+	assert(ifD>=ifD2);
+
+
 	//~ PT<Top>::Calculate(y2022);	
 	//~ BI<Top>::Calculate(y2022);	
 	WF<Top>::Calculate(y2022);	
