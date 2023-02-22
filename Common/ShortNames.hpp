@@ -16,6 +16,7 @@ namespace ShortNames
 	using M = DateTimes::Month;
 	using DY = DateTimes::Day;
 	using Q = Quantity<Sum>;
+	using S = Quantity<Scalar>;
 	using D = Bank::Direction;
 	using E = Entry;
 	

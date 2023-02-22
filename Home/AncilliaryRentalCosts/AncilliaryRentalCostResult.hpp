@@ -29,6 +29,7 @@ public:
 		return os;
 	}
 	
+	constexpr decltype(auto) Get() const { return result;};
 	constexpr bool operator==(const Type& i) const{ return (num == i.num) && (denom == i.denom) && (sumValue == i.sumValue); };
 	constexpr decltype(auto) operator<=>( const Type& i) const noexcept { return sumValue <=> i.sumValue; }
 private:	

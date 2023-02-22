@@ -17,7 +17,8 @@ int main()
 	auto w123 = W{123};
 	constexpr auto w1 = W{1};
 	constexpr auto w2 = W{2};
-	constexpr  auto e4 = Q{4};
+	constexpr auto e4 = Q{4};
+	constexpr auto s2 = S{2};
 	auto e2 = Q{2};
 	auto dt = DT{1,2,2003};
 	auto y2022 = Y{2022};
@@ -39,6 +40,9 @@ int main()
 	assert(ifD<=ifD2);
 	assert(ifD>=ifD2);
 
+	std::cout<<if124<<std::endl;
+	std::cout<<if124.Get().Get()<<std::endl;
+	//assert(if124.Get())
 
 	//~ PT<Top>::Calculate(y2022);	
 	//~ BI<Top>::Calculate(y2022);	
