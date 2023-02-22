@@ -62,6 +62,14 @@ int main()
 	assert(result);
 	assert(rmst6==(e6*t1));
 
+	auto mstd3 =  mst6 / t2;
+	std::cout<<mstd3<<std::endl;
+	auto rmstd3 = mstd3.Get();
+	rmstd3;
+	result = std::is_same<decltype(rmstd3),decltype(e3)>::value;
+//	assert(result);
+	assert(rmstd3==e9);
+	assert(rmstd3.Value()==9);
 	//~ auto d = Division::Calculate(e3,s2);
 	//~ std::cout<<Subtraction::Calculate(e6,e3)<<std::endl;
 	//~ std::cout<<Multiplication::Calculate(e6,s2)<<std::endl;

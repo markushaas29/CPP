@@ -41,7 +41,7 @@ int main()
 	assert(ifD>=ifD2);
 
 	std::cout<<if124<<std::endl;
-	std::cout<<if124.Get().Get()<<std::endl;
+	std::cout<<if124.Get().Get().Get()<<std::endl;
 	//assert(if124.Get())
 
 	//~ PT<Top>::Calculate(y2022);	
