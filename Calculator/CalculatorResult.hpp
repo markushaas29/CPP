@@ -10,8 +10,10 @@
 	struct Subtraction; //Fwd
 	struct Multiplication; //Fwd
 	struct Division; //Fwd
+	template<typename T>
+	concept HasGet = requires(T t) { t.Get(); };
 	
-	template<class Derived, typename L, typename R=L, typename V=L>
+template<class Derived, typename L, typename R=L, typename V=L>
 	class Result
 	{
 	public:
@@ -23,7 +25,12 @@
 		
 		constexpr Result(LeftType l, RightType r, ValueType v): left{l}, right{r}, value{v}{}
 		constexpr Result() = default;
-		constexpr decltype(auto) Get() const { return value; }
+		constexpr decltype(auto) Get() const 
+		{
+			if constexpr (HasGet<decltype(value)>)
+				return value.Get();
+			return value; 
+		}
 		std::ostream& Display(std::ostream& strm) const	
 		{
 			//~ if constexpr (std::is_same<Type,QuantityRatio>::value)
