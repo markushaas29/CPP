@@ -8,28 +8,28 @@
 #define ANCILLIARYRENTALCOSTITEM_HPP
 
 template<typename Q>
-struct ItemFraction
+class ItemFraction
 {
+public:
 	using QuantityType = Q;
 	using ResultType = decltype(QuantityFraction::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
-	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): Num{n}, Denom{d}, SumValue{s}{};
-	ItemFraction(ItemFraction&& i) : Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{};
-	constexpr ItemFraction(const ItemFraction& i): Num{i.Num}, Denom{i.Denom}, SumValue{i.SumValue}{ };
-	ItemFraction& operator=(ItemFraction&& other) = default;
+	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): num{n}, denom{d}, sumValue{s}{};
+	constexpr ItemFraction(ItemFraction&& i) : num{i.Num}, denom{i.Denom}, sumValue{i.SumValue}{ i = QuantityFraction{}; };
+	constexpr ItemFraction(const ItemFraction& i): num{i.num}, denom{i.denom}, sumValue{i.sumValue}{ };
+	constexpr ItemFraction& operator=(ItemFraction&& other) = default;
 	
 	std::ostream& Display(std::ostream& os) const
 	{
-		os<<"ItemFraction: \t\t"<<Num<<std::endl;
-		os<<"Numerator: \t\t"<<Num<<std::endl;
-		os<<"Denominator: \t"<<Denom<<std::endl;
-		os<<"Sum: \t"<<SumValue<<std::endl;
+		os<<"Numerator: \t\t"<<num<<std::endl;
+		os<<"Denominator: \t"<<denom<<std::endl;
+		os<<"Sum: \t"<<sumValue<<std::endl;
 		
 		return os;
 	}
-	
-	QuantityType Num;
-	QuantityType Denom;
-	Quantity<Sum> SumValue;
+private:	
+	QuantityType num;
+	QuantityType denom;
+	Quantity<Sum> sumValue;
 };
 
 template<typename Q>
@@ -75,7 +75,6 @@ private:
 	TransfersPtr transfers;
 	ResultType result;
 };
-
 
 template<typename S,typename F,typename D, typename Q, typename A>
 std::ostream& operator<<(std::ostream& out, const AncilliaryRentalCostItemResult<S,F,D,Q,A>& s){	return s.Display(out);	}
