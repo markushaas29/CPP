@@ -265,7 +265,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 
 		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),sum};
 		Logger::Log<Info>("ITEM_RATIO: ",Base::quantityRatio.Num,Base::quantityRatio.Denom,Base::quantityRatio.SumValue);
-		Logger::Log()<<"Div"<<QuantityRatioOp::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
+		Logger::Log()<<"Div"<<QuantityFraction::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),stageWater.Get(),houseWater.Get(),sum,year}});
 		
 		return (*Base::results)[year].Get();
