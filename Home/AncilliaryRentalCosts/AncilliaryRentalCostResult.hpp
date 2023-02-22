@@ -28,7 +28,10 @@ public:
 		
 		return os;
 	}
-	
+
+	constexpr decltype(auto) Num() { return num; };
+	constexpr decltype(auto) Denom() { return denom; };
+	constexpr decltype(auto) Su() { return sumValue; };
 	constexpr decltype(auto) Get() const { return result;};
 	constexpr bool operator==(const Type& i) const{ return (num == i.num) && (denom == i.denom) && (sumValue == i.sumValue); };
 	constexpr decltype(auto) operator<=>( const Type& i) const noexcept { return sumValue <=> i.sumValue; }
@@ -55,7 +58,7 @@ public:
 	using ResultType = decltype(QuantityFraction::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f,const QuantityType& n, const QuantityType& d, const SumType& s, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{QuantityFraction::Calculate(n,d,s)},year{y}, numerator{n},denominator{d},sum{s} {  };
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{f.Get()},year{y}, numerator{f.Num()},denominator{f.Denom()},sum{f.Su()} {  };
 	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
@@ -67,8 +70,7 @@ public:
 		os<<"Result: \t"<<result<<"\n";
 		os<<"Result sum: \t"<<result.Get()<<"\n";
 		os<<"\nTransfers: \t"<<"\n";
-		for(auto t : *transfers)
-			os<<*t<<"\n";
+		std::for_each(transfers->cbegin(), transfers->cend(), [&](const auto& t) {os<<*t<<"\n";});
 		return os;
 	}
 	

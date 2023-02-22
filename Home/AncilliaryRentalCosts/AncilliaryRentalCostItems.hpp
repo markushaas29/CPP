@@ -51,7 +51,7 @@ struct AncilliaryRentalCostItemBase
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
 		quantityRatio = RatioType{num,denom,sum};
-		results->insert({year,ResultType{std::move(transfers),std::move(quantityRatio),num,denom,sum,year}});
+		results->insert({year,ResultType{std::move(transfers),std::move(quantityRatio),year}});
 		
 		return (*results)[year].Get();
 	}
@@ -134,7 +134,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 			num = num + Quantity<Scalar>(1);
 		
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),num,denom,sum,year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return (*Base::results)[year].Get();
 	}
@@ -184,7 +184,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto num = GetStage<S,HeatingProportion>().GetQuantity();
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),num,denom,sum,year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return (*Base::results)[year].Get();
 	}
@@ -225,7 +225,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 		auto num = GetStage<S,ApartmentArea>().GetQuantity();
 			
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),num,denom,sum,year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return (*Base::results)[year].Get();
 	}
@@ -260,7 +260,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 
 		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),sum};
 		Logger::Log()<<"Div"<<QuantityFraction::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),stageWater.Get(),houseWater.Get(),sum,year}});
+		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return (*Base::results)[year].Get();
 	}
