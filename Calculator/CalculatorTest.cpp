@@ -47,6 +47,21 @@ int main()
 	result = std::is_same<decltype(rd18),decltype(e3)>::value;
 	assert(result);
 	assert(rd18==e3);
+	
+	auto ms6 =  Multiplication::Calculate(e3,s2);
+	std::cout<<ms6<<std::endl;
+	auto rms6 = ms6.Get();
+	result = std::is_same<decltype(rms6),decltype(e3)>::value;
+	assert(result);
+	assert(rms6==e6);
+
+	auto mst6 =  Multiplication::Calculate(e3,s2) * t1;
+	std::cout<<mst6<<std::endl;
+	auto rmst6 = mst6.Get();
+	result = std::is_same<decltype(rmst6),decltype(e3*t2)>::value;
+	assert(result);
+	assert(rmst6==(e6*t1));
+
 	//~ auto d = Division::Calculate(e3,s2);
 	//~ std::cout<<Subtraction::Calculate(e6,e3)<<std::endl;
 	//~ std::cout<<Multiplication::Calculate(e6,s2)<<std::endl;
