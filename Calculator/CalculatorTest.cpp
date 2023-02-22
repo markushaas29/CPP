@@ -35,29 +35,18 @@ int main()
 	assert(result);
 	assert(ra1.Value()==ra12.Value());
 
-	auto a36 = Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3);
-	auto a36_2 = Addition::Calculate(e9,e9)+Addition::Calculate(e9,e9);
-	
-	auto ra2 = a36.Get();
-	auto ra2_2 = a36_2.Get();
-	
-	std::cout<<a36<<std::endl;
-	std::cout<<ra2<<std::endl;
-	result = std::is_same<decltype(ra2),Q>::value;
+	auto m18 = Multiplication::Calculate(e3,e3) + Multiplication::Calculate(e3,e3);
+	auto rm18 = m18.Get();
+	result = std::is_same<decltype(rm18),decltype(e3*e3)>::value;
 	assert(result);
-	result = std::is_same<decltype(ra2),decltype(ra2_2)>::value;
+	assert(rm18.Value()==ra1.Value());
+	
+	auto d18 = (m18 / e3)-e3;
+	std::cout<<d18<<std::endl;
+	auto rd18 = d18.Get();
+	result = std::is_same<decltype(rd18),decltype(e3)>::value;
 	assert(result);
-	assert(ra2.Value()==ra2_2.Value());
-	auto m2 = Multiplication::Calculate(e3,e3) + Multiplication::Calculate(e3,e3);
-	std::cout<<m2<<std::endl;
-	auto rm1 = m2.Get();
-	std::cout<<rm1<<std::endl;
-	result = std::is_same<decltype(rm1),Q>::value;
-	//assert(result);
-	//result = std::is_same<decltype(ra2),decltype(ra2_2)>::value;
-	//assert(result);
-	assert(rm1.Value()==ra12.Value());
-	//~ std::cout<<Addition::Calculate(e6,e3)<<std::endl;
+	assert(rd18==e3);
 	//~ auto d = Division::Calculate(e3,s2);
 	//~ std::cout<<Subtraction::Calculate(e6,e3)<<std::endl;
 	//~ std::cout<<Multiplication::Calculate(e6,s2)<<std::endl;
