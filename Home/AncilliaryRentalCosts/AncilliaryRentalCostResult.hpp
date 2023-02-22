@@ -14,16 +14,17 @@ public:
 	using QuantityType = Q;
 	using Type = ItemFraction<Q>;
 	using ResultType = decltype(QuantityFraction::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
-	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): num{n}, denom{d}, sumValue{s}{};
-	constexpr ItemFraction(ItemFraction&& i) : num{i.Num}, denom{i.Denom}, sumValue{i.SumValue}{ i = QuantityFraction{}; };
-	constexpr ItemFraction(const ItemFraction& i): num{i.num}, denom{i.denom}, sumValue{i.sumValue}{ };
+	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): num{n}, denom{d}, sumValue{s}, result{QuantityFraction::Calculate(n,d,s)}{};
+	constexpr ItemFraction(ItemFraction&& i) : num{i.Num}, denom{i.Denom}, sumValue{i.SumValue}, result{i.result} {  i = QuantityFraction{}; };
+	constexpr ItemFraction(const ItemFraction& i): num{i.num}, denom{i.denom}, sumValue{i.sumValue}, result{i.result}{ };
 	constexpr ItemFraction& operator=(ItemFraction&& other) = default;
 	
 	std::ostream& Display(std::ostream& os) const
 	{
-		os<<"Numerator: \t\t"<<num<<std::endl;
-		os<<"Denominator: \t"<<denom<<std::endl;
-		os<<"Sum: \t"<<sumValue<<std::endl;
+		os<<"Numerator: \t\t"<<num<<"\n";
+		os<<"Denominator: \t"<<denom<<"\n";
+		os<<"Sum: \t"<<sumValue<<"\n";
+		os<<"Result: \t"<<result<<"\n";
 		
 		return os;
 	}
@@ -34,6 +35,7 @@ private:
 	QuantityType num;
 	QuantityType denom;
 	Quantity<Sum> sumValue;
+	ResultType result;
 };
 
 template<typename Q>
@@ -56,16 +58,16 @@ public:
 	AncilliaryRentalCostItemResult():year{2000}, result{} {};
 	std::ostream& Display(std::ostream& os) const
 	{
-		os<<StageType::StageName<<"\t"<<ItemType::TypeIdentifier<<"\t"<<this->year<<std::endl;
-		os<<"Fraction: \t\t"<<fraction<<std::endl;
-		os<<"Numerator: \t\t"<<numerator<<std::endl;
-		os<<"Denominator: \t"<<denominator<<std::endl;
-		os<<"Sum: \t"<<sum<<std::endl;
-		os<<"Result: \t"<<result<<std::endl;
-		os<<"Result sum: \t"<<result.Get()<<std::endl;
-		os<<"\nTransfers: \t"<<std::endl;
+		os<<StageType::StageName<<"\t"<<ItemType::TypeIdentifier<<"\t"<<year<<"\n";
+		os<<"Fraction: \t\t"<<fraction<<"\n";
+		os<<"Numerator: \t\t"<<numerator<<"\n";
+		os<<"Denominator: \t"<<denominator<<"\n";
+		os<<"Sum: \t"<<sum<<"\n";
+		os<<"Result: \t"<<result<<"\n";
+		os<<"Result sum: \t"<<result.Get()<<"\n";
+		os<<"\nTransfers: \t"<<"\n";
 		for(auto t : *transfers)
-			os<<*t<<std::endl;
+			os<<*t<<"\n";
 		return os;
 	}
 	
