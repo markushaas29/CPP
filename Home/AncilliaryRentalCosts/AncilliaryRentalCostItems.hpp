@@ -20,15 +20,6 @@
 #ifndef ANCILLIARYRENTALCOST_HPP
 #define ANCILLIARYRENTALCOST_HPP
 
-template<typename Derived, typename Q>
-struct CalculatorConfiguration
-{
-	inline static const Key AccountKey = Key("");
-	using Type = Derived;
-	using QuantityType = Q;
-	constexpr static const char* Name = "";//Derived::Name; 
-};
-
 template<typename StageT,typename Derived, typename Q>
 struct AncilliaryRentalCostItemBase
 {
@@ -58,7 +49,6 @@ struct AncilliaryRentalCostItemBase
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
 	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
-	
 protected:
 	static inline RatioType quantityRatio{StageQuantityType{0},StageQuantityType{1},Quantity<Sum>(0)};
 	static decltype(auto) GetTransfers(const DateTimes::Year& year, const IBAN& iban)
@@ -79,7 +69,6 @@ protected:
 		return transfers;
 	}
 	
-	
 	template <typename Acc, typename T, typename... Categories>
 	static decltype(auto) InsertSpecifiedTransfers(const Acc& account, std::unique_ptr<T>& transfers, Categories... categories)
 	{ 
@@ -90,8 +79,6 @@ protected:
 		else
 			Logger::Log<Info>("No Transfers found for categories: ", categories...);
 	}
-		
-	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 	
 	template<typename It>
 	static decltype(auto) TotalSum(It begin, It end)
@@ -108,6 +95,8 @@ protected:
 				
 		return acc;
 	}
+
+	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 };
 
 template<typename S,typename D, typename Q>
@@ -120,7 +109,6 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	constexpr static Name TypeIdentifier{"BuildingInsurance"}; 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static constexpr IBAN iban{"DE97500500000003200029"};	
-	
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
@@ -268,6 +256,5 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 
 template<typename S>
 using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, BuildingCleaning<S>, Heating<S>>;
-//~ using CalculationItems = std::tuple<BuildingInsurance<S>,WasteFees<S>,ChimneySweeper<S>,Sewage<S>,PropertyTax<S>, Heating<S>>;
 
 #endif
