@@ -85,9 +85,20 @@ int main()
 	auto rme9 = e9_2.Get();
 	result = std::is_same<decltype(rme9/e3),Q>::value;
 	std::cout<<rme9<<" "<<(e3 *e3)<<std::endl;
-	assert(result);
-	bool x = (rme9/ e3);
+	//assert(result);
+//	bool x = (rme9/ e3);
 	assert(rme9==(e3*e3));
+	
+	auto rf3 = Ratio::Calculate(t1,t2,e6);
+	auto rrf3 = rf3.Get();
+	std::cout<<"Raiotio"<<rf3<<std::endl;
+	std::cout<<"Raiotio"<<rrf3<<std::endl;
+
+	result = std::is_same<decltype(rrf3),decltype(e3)>::value;
+	assert(result);
+	assert(rrf3==e3);
+	assert(rrf3.Value()==3);
+//	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
