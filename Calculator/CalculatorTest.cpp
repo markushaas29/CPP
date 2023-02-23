@@ -70,29 +70,15 @@ int main()
 //	assert(result);
 	assert(rmstd3==e9);
 	assert(rmstd3.Value()==9);
-	//~ auto d = Division::Calculate(e3,s2);
-	//~ std::cout<<Subtraction::Calculate(e6,e3)<<std::endl;
-	//~ std::cout<<Multiplication::Calculate(e6,s2)<<std::endl;
-	//~ std::cout<<Multiplication::Calculate(e6,e3)<<std::endl;
-	//~ std::cout<<Division::Calculate(e6,e3)<<std::endl;
-	//~ std::cout<<Division::Calculate(e3,s2)<<std::endl;
-	//~ std::cout<<QuantityFraction::Calculate(e6,e3,e9)<<std::endl;
-	//~ std::cout<<QuantityFraction::Calculate(e9,e3,e9)<<std::endl;
-	//~ std::cout<<QuantityFraction::Calculate(e9,s2,e9)<<std::endl;
 	
-	//~ std::cout<<"\n---------------------Addition---------------------"<<std::endl;
-	//~ std::cout<<(e6+a1+e6)<<std::endl;
-	//~ std::cout<<(e6+Addition::Calculate(a1,a1)+e6+Addition::Calculate(a1,m2)+a1)<<std::endl;
-	//~ std::cout<<"\n---------------------Subtraction---------------------"<<std::endl;
-	//~ std::cout<<(e6-Subtraction::Calculate(a1,a1)-e6-Subtraction::Calculate(a1,m2)+a1)<<std::endl;
-	//~ std::cout<<(a1-(e6-a1)-e6)<<std::endl;
-	//~ std::cout<<"\n---------------------Multplication---------------------"<<std::endl;
-	//~ std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
-	//~ std::cout<<"\n---------------------Division---------------------"<<std::endl;
-	//~ std::cout<<(e6/Division::Calculate(d,d)/Multiplication::Calculate(a1,e6)/m2)<<std::endl;
-	
-	//~ Quantity<Time,Days,uint> twoDays = Quantity<Time,Days,uint>(2);
-	//~ constexpr auto km86400 = Quantity<Length,Kilo>(86400);
+	//auto qf3 = QuantityFraction::Calculate(t1,t2,e6);
+	//auto rqf3 = qf3.Get();
+	//std::cout<qf3<<std::endl;
+//	result = std::is_same<decltype(rqf3),decltype(e3)>::value;
+//	assert(result);
+//	assert(rqf3==e3);
+//	assert(rqf3.Value()==3);
+//	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
     
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;

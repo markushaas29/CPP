@@ -11,7 +11,12 @@
 	struct Multiplication; //Fwd
 	struct Division; //Fwd
 	template<typename T>
-	concept HasGet = requires(T t) { t.Get(); };
+	concept IsResultType = requires(T t) 
+	{ 
+		T::ValueType;
+		T::LeftType;
+		T::RightType;
+		t.Get(); };
 	
 template<class Derived, typename L, typename R=L, typename V=L>
 	class Result
@@ -27,7 +32,7 @@ template<class Derived, typename L, typename R=L, typename V=L>
 		constexpr Result() = default;
 		constexpr decltype(auto) Get() const 
 		{
-			if constexpr (HasGet<decltype(value)>)
+			if constexpr (IsResultType<decltype(value)>)
 				return value.Get();
 			return value; 
 		}
