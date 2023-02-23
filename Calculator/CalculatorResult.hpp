@@ -10,13 +10,20 @@
 	struct Subtraction; //Fwd
 	struct Multiplication; //Fwd
 	struct Division; //Fwd
+
+	template<class Derived, typename L, typename R, typename V> class Result;
+
+	template<typename T> concept IsResultType = std::is_same<T,Result<typename T::Type, typename T::LeftType,typename T::RightType,typename T::ValueType>>::value;
+	
 	template<typename T>
-	concept IsResultType = requires(T t) 
-	{ 
-		T::ValueType;
+	concept IsResult = requires(T t) 
+	{
+		t.Get();
 		T::LeftType;
 		T::RightType;
-		t.Get(); };
+		T::ValueType;
+		T::ResultType;
+	 } && IsResultType<T>;
 	
 template<class Derived, typename L, typename R=L, typename V=L>
 	class Result
@@ -32,7 +39,8 @@ template<class Derived, typename L, typename R=L, typename V=L>
 		constexpr Result() = default;
 		constexpr decltype(auto) Get() const 
 		{
-			if constexpr (IsResultType<decltype(value)>)
+			using T = decltype(value);
+			if constexpr (IsResultType<T>)
 				return value.Get();
 			return value; 
 		}

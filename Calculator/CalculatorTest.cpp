@@ -18,7 +18,7 @@ int main()
 	auto e6 = Quantity<Sum>{6};
 	auto e9 = Quantity<Sum>{9};
 	auto s2 = Quantity<Scalar>{2};
-	auto t1 = Quantity<Time>{3};
+	auto t1 = Quantity<Time>{1};
 	auto t2 = Quantity<Time>{2};
 	
 	auto a18 = Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3);//+Addition::Calculate(e6,e9);
@@ -68,18 +68,25 @@ int main()
 	rmstd3;
 	result = std::is_same<decltype(rmstd3),decltype(e3)>::value;
 //	assert(result);
-	assert(rmstd3==e9);
-	assert(rmstd3.Value()==9);
+	assert(rmstd3==e3);
+	assert(rmstd3.Value()==3);
 	
-	//auto qf3 = QuantityFraction::Calculate(t1,t2,e6);
-	//auto rqf3 = qf3.Get();
+	auto qf3 = QuantityFraction::Calculate(t1,t2,e6);
+	auto rqf3 = qf3.Get();
 	//std::cout<qf3<<std::endl;
-//	result = std::is_same<decltype(rqf3),decltype(e3)>::value;
-//	assert(result);
-//	assert(rqf3==e3);
-//	assert(rqf3.Value()==3);
+	result = std::is_same<decltype(rqf3),decltype(e3)>::value;
+	assert(result);
+	assert(rqf3==e3);
+	assert(rqf3.Value()==3);
 //	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
-    
+   
+	auto e9_2 = qf3 * mstd3;
+	std::cout<<e9_2<<std::endl;
+	auto rme9 = e9_2.Get();
+	result = std::is_same<decltype(rme9),decltype(e3*e3)>::value;
+	std::cout<<rme9<<" "<<(e3 *e3)<<std::endl;
+	//assert(result);
+	assert(rme9==(e3*e3));
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
