@@ -13,9 +13,9 @@ class ItemFraction
 public:
 	using QuantityType = Q;
 	using Type = ItemFraction<Q>;
-	using ResultType = decltype(QuantityFraction::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
-	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): num{n}, denom{d}, sumValue{s}, result{QuantityFraction::Calculate(n,d,s)}{};
-	constexpr ItemFraction(ItemFraction&& i) : num{i.Num}, denom{i.Denom}, sumValue{i.SumValue}, result{i.result} {  i = QuantityFraction{}; };
+	using ResultType = decltype(Ratio::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<Quantity<Sum>>()));
+	constexpr ItemFraction(QuantityType n = QuantityType{0}, QuantityType d = QuantityType{1}, Quantity<Sum> s = Quantity<Sum>{1}): num{n}, denom{d}, sumValue{s}, result{Ratio::Calculate(n,d,s)}{};
+	constexpr ItemFraction(ItemFraction&& i) : num{i.Num}, denom{i.Denom}, sumValue{i.SumValue}, result{i.result} {  i = ItemFraction{}; };
 	constexpr ItemFraction(const ItemFraction& i): num{i.num}, denom{i.denom}, sumValue{i.sumValue}, result{i.result}{ };
 	constexpr ItemFraction& operator=(ItemFraction&& other) = default;
 	
@@ -55,7 +55,7 @@ public:
 	using SumType = Quantity<Sum>;
 	using QuantityType = typename Q::TQuantity;
 	using FractionType = F;
-	using ResultType = decltype(QuantityFraction::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
+	using ResultType = decltype(Ratio::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
 	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{f.Get()},year{y}, numerator{f.Num()},denominator{f.Denom()},sum{f.Su()} {  };
