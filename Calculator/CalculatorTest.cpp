@@ -83,9 +83,10 @@ int main()
 	auto e9_2 = qf3 * mstd3;
 	std::cout<<e9_2<<std::endl;
 	auto rme9 = e9_2.Get();
-	result = std::is_same<decltype(rme9),decltype(e3*e3)>::value;
+	result = std::is_same<decltype(rme9/e3),Q>::value;
 	std::cout<<rme9<<" "<<(e3 *e3)<<std::endl;
-	//assert(result);
+	assert(result);
+	bool x = (rme9/ e3);
 	assert(rme9==(e3*e3));
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;

@@ -92,8 +92,8 @@ private:
 			auto item = std::get<I>(*items);
 			auto result = decltype(item)::Calculate(year);
 			
-			total = total + result.Get();
-			Logger::Log<Info>("Sum: ", result.Get()," Total", total);
+			total = total + result;
+			Logger::Log<Info>("Sum: ", result," Total", total);
 			(*fs)<<decltype(item)::Result(year)<<std::endl;
 			
 			return Calculate<I + 1>(std::move(fs), *items);
