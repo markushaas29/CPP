@@ -20,17 +20,12 @@ int main()
 	Logger::Log()<<j.Prev().Value()<<std::endl;
 	std::cout<<"END"<<std::endl;
     
-	auto y = DateTimes::Year::Get(2021);
-	Logger::Log()<<y.Value()<<std::endl;
-	Logger::Log()<<y.Prev().Value()<<std::endl;
-	
-	Logger::Log()<<DateTimes::July.Value()<<std::endl;
-	Logger::Log()<<DateTimes::July.Prev().Value()<<std::endl;
-	
-	Logger::Log()<<DateTimes::January.Value()<<std::endl;
-	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
-	Logger::Log()<<DateTimes::January.Prev().Value()<<std::endl;
-	
+	uint uint2021{2021};
+	auto y2021 = DateTimes::Year::Get(uint2021);
+	assert(y2021.Value()==uint2021);
+	assert(y2021.ToString()=="2021");
+
+
 	std::cout<<"TODAY"<<DateTimes::Date::Today().Value()<<std::endl;
 	std::cout<<"Get"<<DateTimes::Day::Get(1)<<std::endl;
 	std::cout<<"Get"<<DateTimes::Month::Get(2)<<std::endl;
@@ -82,7 +77,6 @@ int main()
 	assert(d3 == d3);
 	std::cout<<DateTimes::July<<"== "<<DateTimes::July<<"\t"<<(DateTimes::July == DateTimes::July)<<std::endl;
 	assert(DateTimes::July== DateTimes::July);
-	auto y2021 = DateTimes::Year(2021);
 	auto y2020 = DateTimes::Year(2020);
 	std::cout<<"Leap 2020"<<"\t"<<y2020.IsLeap<<std::endl;
 	assert(y2020.IsLeap);

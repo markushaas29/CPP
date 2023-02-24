@@ -69,7 +69,7 @@ namespace DateTimes
 		constexpr Derived Prev() const { return T{this->value - 1}; };
 		static constexpr Derived Get(uint i) { return Derived{i};}
 		static constexpr Derived Get(int i) { return Derived((uint)i);}
-		std::string ToString() const { return ""; };
+		std::string ToString() const { return String_::ParseTo(value); };
 		constexpr uint Value() const { return this->value; }
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(ChronoValueType)v}
 		{
@@ -78,6 +78,7 @@ namespace DateTimes
 		}
 		constexpr operator uint() const { return this->value; }
 		constexpr operator ChronoType() const { return chronoValue;}
+		std::ostream& Display(std::ostream& os) { return os<<value; }
 	protected:
 		const uint value;
 	private:
