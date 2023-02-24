@@ -38,36 +38,12 @@ template<class Derived, typename L, typename R=L, typename V=L>
 		constexpr Result() = default;
 		constexpr decltype(auto) Get() const 
 		{
-			using T = decltype(value);
-			if constexpr (IsResultType<T>)
+			if constexpr (IsResultType<decltype(value)>)
 				return value.Get();
 			return value; 
 		}
-		std::ostream& Display(std::ostream& strm) const	
-		{
-			//~ if constexpr (std::is_same<Type,QuantityRatio>::value)
-			//~ {
-				//~ return strm<<Derived::Name<<"\tTEST"<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
-			//~ }
-			//~ if constexpr (std::is_same<Type,Addition>::value)
-			//~ {
-				//~ return strm<<Derived::Name<<"\tA: "<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
-			//~ }	
-			//~ if constexpr (std::is_same<Type,Subtraction>::value)
-			//~ {
-				//~ return strm<<Derived::Name<<"\tS: "<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
-			//~ }	
-			//~ if constexpr (std::is_same<Type,Multiplication>::value)
-			//~ {
-				//~ return strm<<Derived::Name<<"\tM: "<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
-			//~ }	
-			//~ if constexpr (std::is_same<Type,Division>::value)
-			//~ {
-				//~ return strm<<Derived::Name<<"\tD: "<<left<<" "<<Derived::Sign<<" "<<right<<" = "<<value;
-			//~ }	
-			return strm<<Derived::Name<<"\t{"<<left<<"} "<<Derived::Sign<<" {"<<right<<"} = "<<value;	
-			//~ return strm<<"\t{"<<left<<"} "<<" {"<<right<<"} = "<<value<<value.UnitSign();	
-		}
+
+		std::ostream& Display(std::ostream& strm) const	{ return strm<<Derived::Name<<"\t{"<<left<<"} "<<Derived::Sign<<" {"<<right<<"} = "<<value; }
 				
 	private:
 		LeftType left;

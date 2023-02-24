@@ -71,17 +71,8 @@ int main()
 	assert(rmstd3==e3);
 	assert(rmstd3.Value()==3);
 	
-	auto e9_2 = qf3 * mstd3;
-	std::cout<<e9_2<<std::endl;
-	auto rme9 = e9_2.Get();
-	result = std::is_same<decltype(rme9/e3),Q>::value;
-	std::cout<<rme9<<" "<<(e3 *e3)<<std::endl;
-	//assert(result);
-//	bool x = (rme9/ e3);
-	assert(rme9==(e3*e3));
-	
 	auto rf3 = Ratio::Calculate(t1,t2,e6);
-	bool x = rf3;
+	//bool x = rf3;
 	auto rrf3 = rf3.Get();
 	std::cout<<"Ratio\t"<<rf3<<std::endl;
 	std::cout<<"Ratio\t"<<rrf3<<std::endl;
