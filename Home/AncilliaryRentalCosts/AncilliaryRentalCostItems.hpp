@@ -44,7 +44,7 @@ struct AncilliaryRentalCostItemBase
 		quantityRatio = RatioType{num,denom,sum};
 		results->insert({year,ResultType{std::move(transfers),std::move(quantityRatio),year}});
 		
-		return (*results)[year].Get();
+		return get(year).Get();
 	}
 	
 	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
@@ -96,6 +96,14 @@ protected:
 		return acc;
 	}
 
+	static decltype(auto) get(const DateTimes::Year y)
+	{
+		if(results->contains(y))
+			return (*results)[y];
+		Logger::Log<Error>("No result found for year: ",y, Logger::Source(""));
+		throw std::invalid_argument(y.ToString());
+	}
+//private:
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
 };
 
@@ -124,7 +132,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
-		return (*Base::results)[year].Get();
+		return Base::get(year).Get();
 	}
 };
 
@@ -174,7 +182,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
-		return (*Base::results)[year].Get();
+		return Base::get(year).Get();
 	}
 };
 
@@ -215,7 +223,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
-		return (*Base::results)[year].Get();
+		return Base::get(year).Get();
 	}
 };
 
@@ -249,7 +257,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),sum};
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
-		return (*Base::results)[year].Get();
+		return Base::get(year).Get();
 	}
 };
 

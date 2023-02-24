@@ -60,7 +60,6 @@
 		
 		template<typename L, typename R=L,typename Q = L>
 		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& sum) {	return Division::Calculate(nom,denom) * sum; }		
-		//static constexpr decltype(auto) Calculate(const L nom, const R denom, const Q sum) {	return Multiplication::Calculate(Division::Calculate(nom,denom),sum); }		
 	};
 	
 #endif
