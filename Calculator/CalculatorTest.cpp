@@ -71,15 +71,6 @@ int main()
 	assert(rmstd3==e3);
 	assert(rmstd3.Value()==3);
 	
-	auto qf3 = QuantityFraction::Calculate(t1,t2,e6);
-	auto rqf3 = qf3.Get();
-	//std::cout<qf3<<std::endl;
-	result = std::is_same<decltype(rqf3),decltype(e3)>::value;
-	assert(result);
-	assert(rqf3==e3);
-	assert(rqf3.Value()==3);
-//	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
-   
 	auto e9_2 = qf3 * mstd3;
 	std::cout<<e9_2<<std::endl;
 	auto rme9 = e9_2.Get();
@@ -90,9 +81,10 @@ int main()
 	assert(rme9==(e3*e3));
 	
 	auto rf3 = Ratio::Calculate(t1,t2,e6);
+	bool x = rf3;
 	auto rrf3 = rf3.Get();
-	std::cout<<"Raiotio"<<rf3<<std::endl;
-	std::cout<<"Raiotio"<<rrf3<<std::endl;
+	std::cout<<"Ratio\t"<<rf3<<std::endl;
+	std::cout<<"Ratio\t"<<rrf3<<std::endl;
 
 	result = std::is_same<decltype(rrf3),decltype(e3)>::value;
 	assert(result);

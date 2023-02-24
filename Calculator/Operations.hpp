@@ -63,18 +63,4 @@
 		//static constexpr decltype(auto) Calculate(const L nom, const R denom, const Q sum) {	return Multiplication::Calculate(Division::Calculate(nom,denom),sum); }		
 	};
 	
-	struct QuantityFraction: CalculatorOperation<QuantityFraction>
-	{ 
-		inline static constexpr const char* CalculatorOperation<QuantityFraction>::Name = "QuantityFraction";
-		inline static constexpr const char* CalculatorOperation<QuantityFraction>::Sign = "%";
-		
-		template<typename L, typename R=L, typename Q=L>
-		static constexpr decltype(auto) Calculate(const L& nom, const R& denom, const Q& q) {	
-			auto fraction = nom / denom;
-			using FractionType =  decltype(fraction);
-			return Result<QuantityFraction,FractionType,Q,decltype((nom/denom) * q)>(fraction,q,fraction*q);	}
-	};
-
-
-
 #endif

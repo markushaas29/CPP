@@ -247,7 +247,6 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto houseWater = houseHotWater + houseColdWater;
 
 		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),sum};
-		Logger::Log()<<"Div"<<QuantityFraction::Calculate(stageColdWater.Get(),houseWater.Get(),sum)<<std::endl;
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return (*Base::results)[year].Get();
