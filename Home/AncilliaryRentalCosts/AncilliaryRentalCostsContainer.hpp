@@ -39,7 +39,7 @@ private:
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
 		fs = this->printHead(std::move(fs));
 		
-		fs = this->Calculate(std::move(fs),*items);
+		fs = this->Calculate(std::move(fs));
 		
 		fs = this->printResult(std::move(fs));
 		
@@ -82,10 +82,10 @@ private:
 	
 	~AncilliaryRentalCostsContainer()	{  }
 	
-	template <size_t I = 0, typename... Ts>
-	constexpr std::unique_ptr<std::ofstream> Calculate(std::unique_ptr<std::ofstream> fs, std::tuple<Ts...> tup) 
+	template <size_t I = 0>
+	constexpr std::unique_ptr<std::ofstream> Calculate(std::unique_ptr<std::ofstream> fs) 
 	{
-		if constexpr(I == sizeof...(Ts))    
+		if constexpr(I ==std::tuple_size_v<Items>)    
 			return fs;
 		else 
 		{
@@ -93,13 +93,14 @@ private:
 			auto result = decltype(item)::Calculate(year);
 			
 			total = total + result;
+			std::cout<<decltype(item)::Result(year)<<std::endl;
 			Logger::Log<Info>("Sum: ", result," Total", total);
 			(*fs)<<decltype(item)::Result(year)<<std::endl;
 			
-			return Calculate<I + 1>(std::move(fs), *items);
+			return Calculate<I + 1>(std::move(fs));
 		}
 	}
-	
+
 	std::ostream& Display(std::ostream& os) {	return os;	}
 	YearType year;
 	const Quantity<Scalar> paymentsPerYear = Quantity<Scalar>{12};

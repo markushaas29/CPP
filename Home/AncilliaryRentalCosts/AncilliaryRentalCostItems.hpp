@@ -30,7 +30,6 @@ struct AncilliaryRentalCostItemBase
 	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;
 	using RatioType =  ItemFraction<StageQuantityType>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,RatioType,StageType,StageQuantity,AccountType>;
-	using MapType = std::map<DateTimes::Year,ResultType>;
 	using ContType = std::vector<ResultType>;
 	constexpr static Name TypeIdentifier = Name{""};
 	
@@ -43,12 +42,12 @@ struct AncilliaryRentalCostItemBase
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
 		quantityRatio = RatioType{num,denom,sum};
-		results->insert({year,ResultType{std::move(transfers),std::move(quantityRatio),year}});
+		insert(ResultType{std::move(transfers),std::move(quantityRatio),year});
 		
 		return get(year).Get();
 	}
 	
-	static const ResultType& Result(const DateTimes::Year& y){ return (*results)[y]; }
+	static const ResultType& Result(const DateTimes::Year& y){ return get(y); }
 	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
 protected:
 	static inline RatioType quantityRatio{StageQuantityType{0},StageQuantityType{1},Quantity<Sum>(0)};
@@ -97,17 +96,19 @@ protected:
 		return acc;
 	}
 
-	static decltype(auto) get(const DateTimes::Year y)
+	static const ResultType& get(const DateTimes::Year& y)
 	{
-		if(results->contains(y))
-			return (*results)[y];
+		auto it = std::find_if(results->cbegin(), results->cend(),[&y](const auto& r){ return r.Year()==y;});
+		Logger::Log<Info>("Get: ", y);
+	Logger::Log<Info>("GET: \n", results->size()); it->Display(std::cout);		
+		if(it != results->cend())
+			return *it;
 		Logger::Log<Error>("No result found for year: ",y, Logger::Source(""));
 		throw std::invalid_argument(y.ToString());
 	}
-	static decltype(auto) insert(ResultType&& r) { result->push_back(std::move(r)); Logger::Log<Error>("INSERT", result->size()); }
-//private:
-	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
-	inline static std::unique_ptr<ContType> result = std::make_unique<ContType>();
+	static decltype(auto) insert(ResultType&& r) { results->push_back(std::move(r)); Logger::Log<Info>("Insert: \n", results->size()); results->at(0).Display(std::cout);}
+private:
+	inline static std::unique_ptr<ContType> results = std::make_unique<ContType>();
 };
 
 template<typename S,typename D, typename Q>
@@ -134,7 +135,6 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 		
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
 		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return Base::get(year).Get();
 	}
@@ -184,7 +184,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto num = GetStage<S,HeatingProportion>().GetQuantity();
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
+		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
@@ -225,7 +225,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 		auto num = GetStage<S,ApartmentArea>().GetQuantity();
 			
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
+		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
@@ -259,7 +259,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto houseWater = houseHotWater + houseColdWater;
 
 		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),sum};
-		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
+		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
