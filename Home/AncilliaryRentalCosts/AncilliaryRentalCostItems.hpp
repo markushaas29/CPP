@@ -31,6 +31,7 @@ struct AncilliaryRentalCostItemBase
 	using RatioType =  ItemFraction<StageQuantityType>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,RatioType,StageType,StageQuantity,AccountType>;
 	using MapType = std::map<DateTimes::Year,ResultType>;
+	using ContType = std::vector<ResultType>;
 	constexpr static Name TypeIdentifier = Name{""};
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
@@ -103,8 +104,10 @@ protected:
 		Logger::Log<Error>("No result found for year: ",y, Logger::Source(""));
 		throw std::invalid_argument(y.ToString());
 	}
+	static decltype(auto) insert(ResultType&& r) { result->push_back(std::move(r)); Logger::Log<Error>("INSERT", result->size()); }
 //private:
 	inline static std::unique_ptr<MapType> results = std::make_unique<MapType>();	
+	inline static std::unique_ptr<ContType> result = std::make_unique<ContType>();
 };
 
 template<typename S,typename D, typename Q>
@@ -130,6 +133,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 			num = num + Quantity<Scalar>(1);
 		
 		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
+		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
 		Base::results->insert({year,typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year}});
 		
 		return Base::get(year).Get();

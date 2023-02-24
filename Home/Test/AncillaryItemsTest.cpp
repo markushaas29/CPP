@@ -46,6 +46,7 @@ int main()
 
 	//~ PT<Top>::Calculate(y2022);	
 	//~ BI<Top>::Calculate(y2022);	
+	BI<Top>::Calculate(y2022);
 	WF<Top>::Calculate(y2022);	
 	//~ CS<Top>::Calculate(y2022);	
 	//~ SW<Top>::Calculate(y2022);	
