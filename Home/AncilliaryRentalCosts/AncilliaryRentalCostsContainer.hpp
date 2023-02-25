@@ -35,7 +35,6 @@ private:
 	std::unique_ptr<Items> items = std::unique_ptr<Items>();
 	AncilliaryRentalCostsContainer(): year(2022)
 	{ 
-		Logger::Log()<<"CTOR: "<<"AncilliaryRentalCostsContainer"<<std::endl;
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
 		fs = this->printHead(std::move(fs));
 		
@@ -94,7 +93,6 @@ private:
 			
 			total = total + result;
 			std::cout<<decltype(item)::Result(year)<<std::endl;
-			Logger::Log<Info>("Sum: ", result," Total", total);
 			(*fs)<<decltype(item)::Result(year)<<std::endl;
 			
 			return Calculate<I + 1>(std::move(fs));
@@ -106,9 +104,5 @@ private:
 	const Quantity<Scalar> paymentsPerYear = Quantity<Scalar>{12};
 	Quantity<Sum> total = Quantity<Sum>(0.0);
 };
-
-//~ template<typename C, typename S = T::char_<'\t'>>
-//~ std::ostream& operator<<(std::ostream& strm, const AncilliaryRentalCostsContainer<C,Y>& c){	return c.Display(strm); }
-
 
 #endif

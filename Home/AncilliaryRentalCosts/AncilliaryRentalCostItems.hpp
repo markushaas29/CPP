@@ -35,7 +35,7 @@ struct AncilliaryRentalCostItemBase
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto transfers = GetTransfers(year,Derived::iban);
+		auto transfers = getTransfers(year,Derived::iban);
 		
 		auto sum = TotalSum(transfers->cbegin(), transfers->cend());
 		
@@ -51,7 +51,7 @@ struct AncilliaryRentalCostItemBase
 	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
 protected:
 	static inline RatioType quantityRatio{StageQuantityType{0},StageQuantityType{1},Quantity<Sum>(0)};
-	static decltype(auto) GetTransfers(const DateTimes::Year& year, const IBAN& iban)
+	static decltype(auto) getTransfers(const DateTimes::Year& year, const IBAN& iban)
 	{
 		auto account = Bank::Get<AccountType>(Derived::iban);
 		typename ResultType::TransfersPtr transfers;
@@ -70,7 +70,7 @@ protected:
 	}
 	
 	template <typename Acc, typename T, typename... Categories>
-	static decltype(auto) InsertSpecifiedTransfers(const Acc& account, std::unique_ptr<T>& transfers, Categories... categories)
+	static decltype(auto) insertSpecifiedTransfers(const Acc& account, std::unique_ptr<T>& transfers, Categories... categories)
 	{ 
 		auto specifiedtransfers = account.GetTransferOf(categories...);
 		
@@ -124,7 +124,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto transfers = Base::GetTransfers(year,iban);		
+		auto transfers = Base::getTransfers(year,iban);		
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
@@ -173,11 +173,11 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	{
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
 		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
-		Base::InsertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
+		Base::insertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
 		
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		Base::InsertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
-		Base::InsertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());
+		Base::insertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
+		Base::insertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());
 		
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 				
@@ -245,7 +245,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	{
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account->GetTransferOf(Cause,year);		
-		Base::InsertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
+		Base::insertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
 
 		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(AnnualConsumption(year));

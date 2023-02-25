@@ -59,10 +59,8 @@ public:
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
 	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{fraction.Get()},year{y}, numerator{fraction.Num()},denominator{fraction.Denom()},sum{fraction.Su()} { std::cout<<"MOVE C"<<fraction; };
-	//AncilliaryRentalCostItemResult():year{2000}, result{} { std::cout<<"Standard" ;} 
 	AncilliaryRentalCostItemResult() = delete; 
-	//AncilliaryRentalCostItemResult(const AncilliaryRentalCostItemResult&) = default; 
-	AncilliaryRentalCostItemResult(const AncilliaryRentalCostItemResult& a): year{a.year}, result{a.fraction.Get()}, numerator{a.fraction.Num()},denominator{a.fraction.Denom()},sum{a.fraction.Su()} { std::cout<<"Copy AncResult\n: "; transfers = std::make_unique<Transfers>(a.transfers->begin(), a.transfers->end()); Display(std::cout);}; 
+	AncilliaryRentalCostItemResult(const AncilliaryRentalCostItemResult& a): year{a.year}, result{a.fraction.Get()}, numerator{a.fraction.Num()},denominator{a.fraction.Denom()},sum{a.fraction.Su()} {  transfers = std::make_unique<Transfers>(a.transfers->begin(), a.transfers->end());}; 
 	std::ostream& Display(std::ostream& os) const
 	{
 		os<<StageType::StageName<<"\t"<<ItemType::TypeIdentifier<<"\t"<<year<<"\n";
