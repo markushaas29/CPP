@@ -20,6 +20,9 @@ Debug:	$(OBJECTS)
 Transfer: 	TransferTest.cpp
 	g++-11 -std=c++2a -o Transfer TransferTest.cpp
 
+Query: 	QueryTest.cpp
+	g++-11 -std=c++2a -o Query QueryTest.cpp
+
 Cont:	TransferContainerTest.cpp
 	g++-11 -std=c++2a -o Cont TransferContainerTest.cpp
 
