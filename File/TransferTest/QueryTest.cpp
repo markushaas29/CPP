@@ -25,7 +25,9 @@ int main()
 	auto d = D();
 	auto e = E{"TEST"};
 
-	AccountQuery<A,DT> aq{i,dt};
+	AccountQuery<A,DT,N,E> aq{i,dt,n,e};
+	aq.Execute();
+	//	aq.Display(std::cout);
 		
     return 0;
 }

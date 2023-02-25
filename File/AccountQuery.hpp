@@ -31,15 +31,35 @@ namespace Bank
 			return false;
 		
 		};
-		
+		constexpr static Entry AdvancePayment{"Abschlag"};
+		decltype(auto) Execute()
+		{
+			auto accGas = Get<AccountType>(iban);
+			auto transfers = accGas->GetTransferOf(AdvancePayment);
+		}		
 		
 		std::ostream& Display(std::ostream& os) const 
-		{
+		{	
+			os = printFilters(os);
 			return os;
 		}
 	private:
 		IBAN iban;	
 		TupleType filters;
+
+		template <size_t I = 0>
+		constexpr std::ostream& printFilters(std::ostream& os) 
+		{
+			if constexpr(I ==std::tuple_size_v<filters>)    
+				return os;
+			else 
+			{
+				auto item = std::get<I>(filters);
+				os<<item<<"\n";
+			
+				return printFilters<I + 1>(os);
+			}
+		}
 	};
 	
 	//template<typename A, typename TT>
