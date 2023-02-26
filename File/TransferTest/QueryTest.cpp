@@ -15,19 +15,25 @@ int main()
 	using TT = A::TransferType;
 	using TP = std::tuple<I, B, N, DT, Q, D, E>;
 	
-	auto i = I{"DE3"};
-	auto b = B{"COBA"};
-	auto n = N{"MN"};
-	auto dt = DT{5,3,2022};
-	auto dt2 = DT{6,3,2022};
-	auto q = Q{123};
-	auto q2 = Q{124};
+	constexpr auto i = I{"DE3"};
+	constexpr auto b = B{"COBA"};
+	constexpr auto n = N{"MN"};
+	constexpr auto dt = DT{5,3,2022};
+	constexpr auto dt2 = DT{6,3,2022};
+	constexpr auto q = Q{123};
+	constexpr auto q2 = Q{124};
 	auto d = D();
-	auto e = E{"TEST"};
+	constexpr auto e = E{"TEST"};
 
-	AccountQuery<A,DT,N,E> aq{i,dt,n,e};
+	constexpr AccountQuery<A,DT,N,E> aq{i,dt,n,e};
+	constexpr AccountQuery<A,DT,E> aq2{i,dt,e};
 	//aq.Execute();
 	aq.Display(std::cout);
+
+	using AQDTNE = AccountQuery<A,DT,N,E>;
+	using AQDTE = AccountQuery<A,DT,E>;
+	constexpr AccountQueryContainer<AQDTNE,AQDTE> aqc{aq,aq2};
+	aqc.Display(std::cout);
 		
     return 0;
 }
