@@ -29,20 +29,20 @@ namespace Bank
 		constexpr bool operator==(const T t) const
 		{ 
 			return false;
-		
 		};
-		constexpr static Entry AdvancePayment{"Abschlag"};
+
 		decltype(auto) Execute()
 		{
 			auto accGas = Get<AccountType>(iban);
-			auto transfers = accGas->GetTransferOf(AdvancePayment);
+			auto transfers = accGas->GetTransferOf(std::get<0>(filters));
+			return transfers;
 		}		
 		
 		std::ostream& Display(std::ostream& os) const 
-		{
-			return printFilters(os);	
-			//return os;
-		}
+		{ 
+			os<<AccountType::Identifier<<"\n";
+			os<<iban<<"\n";
+			return printFilters(os); }
 	private:
 		IBAN iban;	
 		TupleType filters;
