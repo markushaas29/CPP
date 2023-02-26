@@ -16,7 +16,6 @@ namespace Bank
 	public:
 		using Type = AccountQuery<A,Ts...> ;
 		using TupleType = std::tuple<Ts...>;
-		//using FilterTypes = Ts... ;
 		using AccountType = A ;
 		using QuantityType = Quantity<Sum,Pure>;
 		
@@ -54,9 +53,7 @@ namespace Bank
 				return os;
 			else 
 			{
-				auto item = std::get<I>(filters);
 				os<<std::get<I>(filters)<<"\n";
-			
 				return printFilters<I + 1>(os);
 			}
 		}
@@ -64,5 +61,47 @@ namespace Bank
 	
 	//template<typename A, typename TT>
 	//std::ostream& operator<<(std::ostream& out, const Transfer<A,TT>& s){	return s.Display(out);	}
+	
+	template<typename... Ts> 
+	class AccountQueryContainer 
+	{
+	public:
+		using Type = AccountQueryContainer<Ts...> ;
+		using TupleType = std::tuple<Ts...>;
+		using AccountType = int;
+		using QuantityType = Quantity<Sum,Pure>;
+		
+		AccountQueryContainer() = delete;
+		constexpr AccountQueryContainer(Ts... t) : queries{TupleType(t...)} { };
+
+		template<typename T>
+		constexpr bool operator==(const T t) const
+		{ 
+			return false;
+		};
+
+		decltype(auto) Execute()
+		{
+		}		
+		
+		std::ostream& Display(std::ostream& os) const 
+		{ 
+			return os; 
+		}
+	private:
+		TupleType queries;
+
+		template <size_t I = 0>
+		constexpr std::ostream& printQueries(std::ostream& os) const
+		{
+			if constexpr(I ==std::tuple_size_v<TupleType>)    
+				return os;
+			else 
+			{
+				os<<std::get<I>(queries)<<"\n";
+				return printFilters<I + 1>(os);
+			}
+		}
+	};
 }
 
