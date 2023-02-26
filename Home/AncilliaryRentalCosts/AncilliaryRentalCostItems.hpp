@@ -37,7 +37,7 @@ struct AncilliaryRentalCostItemBase
 	{
 		auto transfers = getTransfers(year,Derived::iban);
 		
-		auto sum = TotalSum(transfers->cbegin(), transfers->cend());
+		auto sum = totalSum(transfers->cbegin(), transfers->cend());
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
@@ -81,7 +81,7 @@ protected:
 	}
 	
 	template<typename It>
-	static decltype(auto) TotalSum(It begin, It end)
+	static decltype(auto) totalSum(It begin, It end)
 	{
 		auto acc = Quantity<Sum>{0};
 		if(begin == end)
@@ -125,7 +125,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto transfers = Base::getTransfers(year,iban);		
-		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
 		auto num = GetStage<S,IndividualUnit>().GetQuantity();
@@ -179,7 +179,7 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());
 		
-		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto num = GetStage<S,HeatingProportion>().GetQuantity();
@@ -219,7 +219,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account->GetTransferOf(Cause,year);		
 
-		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<ApartmentArea>();
 		auto num = GetStage<S,ApartmentArea>().GetQuantity();
@@ -247,7 +247,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto transfers = account->GetTransferOf(Cause,year);		
 		Base::insertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
 
-		auto sum = Base::TotalSum(transfers->cbegin(), transfers->cend());
+		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(AnnualConsumption(year));
 		auto stageHotWater = S::HotWaterCounter::Instance().Get(AnnualConsumption(year));
 		

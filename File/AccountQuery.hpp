@@ -59,8 +59,8 @@ namespace Bank
 		}
 	};
 	
-	//template<typename A, typename TT>
-	//std::ostream& operator<<(std::ostream& out, const Transfer<A,TT>& s){	return s.Display(out);	}
+	template<typename A, typename... Ts>
+	std::ostream& operator<<(std::ostream& out, const AccountQuery<A,Ts...>& s){ return s.Display(out);	}
 	
 	template<typename... Ts> 
 	class AccountQueryContainer 
@@ -85,8 +85,8 @@ namespace Bank
 		}		
 		
 		std::ostream& Display(std::ostream& os) const 
-		{ 
-			return os; 
+		{
+			return printQueries(os); 
 		}
 	private:
 		TupleType queries;
@@ -99,7 +99,7 @@ namespace Bank
 			else 
 			{
 				os<<std::get<I>(queries)<<"\n";
-				return printFilters<I + 1>(os);
+				return printQueries<I + 1>(os);
 			}
 		}
 	};
