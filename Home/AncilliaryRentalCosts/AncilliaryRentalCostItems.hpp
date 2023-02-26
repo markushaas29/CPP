@@ -15,6 +15,7 @@
 #include "../../Home/StageQuantities.hpp"
 #include "../../File/Raiffeisenbank.hpp"
 #include "../../File/Account.hpp"
+#include "../../File/AccountQuery.hpp"
 #include "../../Common/Configuration.hpp"
 
 #ifndef ANCILLIARYRENTALCOST_HPP
@@ -171,6 +172,9 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
+		auto aq = Bank::AccountQuery<typename Base::AccountType,DateTimes::Year>{ibanGas,year};
+		auto r = aq.Execute();
+		Logger::Log<Info>("QUERY: ", r->size());
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
 		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
 		Base::insertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());

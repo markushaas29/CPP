@@ -6,7 +6,7 @@
 #include "../String/String_.hpp"
 #include "../Common/TupleHelper.hpp"
 
-#pragma
+#pragma once
 
 namespace Bank
 {	
@@ -41,7 +41,8 @@ namespace Bank
 		{ 
 			os<<AccountType::Identifier<<"\n";
 			os<<iban<<"\n";
-			return printFilters(os); }
+			return printFilters(os); 
+		}
 	private:
 		IBAN iban;	
 		TupleType filters;
