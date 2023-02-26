@@ -39,23 +39,23 @@ namespace Bank
 		}		
 		
 		std::ostream& Display(std::ostream& os) const 
-		{	
-			os = printFilters(os);
-			return os;
+		{
+			return printFilters(os);	
+			//return os;
 		}
 	private:
 		IBAN iban;	
 		TupleType filters;
 
 		template <size_t I = 0>
-		constexpr std::ostream& printFilters(std::ostream& os) 
+		constexpr std::ostream& printFilters(std::ostream& os) const
 		{
-			if constexpr(I ==std::tuple_size_v<filters>)    
+			if constexpr(I ==std::tuple_size_v<TupleType>)    
 				return os;
 			else 
 			{
 				auto item = std::get<I>(filters);
-				os<<item<<"\n";
+				os<<std::get<I>(filters)<<"\n";
 			
 				return printFilters<I + 1>(os);
 			}
