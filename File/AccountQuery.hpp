@@ -30,10 +30,10 @@ namespace Bank
 			return false;
 		};
 
-		decltype(auto) Execute()
+		decltype(auto) Execute() const
 		{
 			auto accGas = Get<AccountType>(iban);
-			auto transfers = accGas->GetTransferOf(std::get<0>(filters));
+			auto transfers = accGas->GetTransferOf(filters);
 			return transfers;
 		}		
 		
