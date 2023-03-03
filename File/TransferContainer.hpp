@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include <tuple>
 #include <algorithm>    // std::find
 #include <chrono>    // std::find
 #include "TransferComparer.hpp"
@@ -35,9 +36,17 @@ namespace Bank
 		TransferContainer(): Base{std::make_unique<ContainerType>()}{}
 		
 		template <typename... FilterTypes>
-		decltype(auto) GetTransferOf(FilterTypes... filters)
+		decltype(auto) GetTransferOf(std::tuple<FilterTypes...> filters)
 		{ 
-			auto result = this->getTransferOf(ContainerType(this->CBegin(), this->CEnd()), filters...);		
+			auto result = this->getTransferOf(ContainerType(this->CBegin(), this->CEnd()), filters);		
+			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
+		}
+
+		template <typename... FilterTypes>
+		decltype(auto) GetTransferOf(FilterTypes... filters)
+		{
+			auto fsT = std::tuple<FilterTypes...>(filters...);
+			auto result = this->getTransferOf(ContainerType(this->CBegin(), this->CEnd()), fsT);		
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
 
@@ -73,11 +82,16 @@ namespace Bank
 		
 		ContainerType getTransferOf(ContainerType&& cont){	return cont; } 
 
-		template <typename FilterT, typename... FilterTypes>
-		ContainerType getTransferOf(ContainerType&& cont, FilterT filter, FilterTypes... filters)
+		template <size_t I = 0, typename... FilterTypes>
+		ContainerType getTransferOf(ContainerType&& cont, std::tuple<FilterTypes...> filters)
 		{
-			ContainerType result = this->filterBy(std::move(cont), filter);
-			return getTransferOf(std::move(result),filters...);
+			if constexpr (I == std::tuple_size_v<std::tuple<FilterTypes...>>)
+				return cont;
+			else
+			{
+				ContainerType result = this->filterBy(std::move(cont), std::get<I>(filters));
+				return getTransferOf<I+1>(std::move(result),filters);
+			}
 		}
 		
 	};
