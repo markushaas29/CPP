@@ -83,6 +83,19 @@ namespace Bank
 
 		decltype(auto) Execute()
 		{
+			//~ auto specifiedtransfers = account.GetTransferOf(categories...);
+		
+		//~ if(specifiedtransfers->begin() != specifiedtransfers->end())
+			//~ transfers->insert(transfers->end(), specifiedtransfers->begin(), specifiedtransfers->end());
+		//~ else
+			//~ Logger::Log<Info>("No Transfers found for categories: ", categories...);
+			//~ if constexpr(I ==std::tuple_size_v<TupleType>)    
+				//~ return os;
+			//~ else 
+			//~ {
+				//~ os<<std::get<I>(queries)<<"\n";
+				//~ return printQueries<I + 1>(os);
+			//~ }
 		}		
 		
 		std::ostream& Display(std::ostream& os) const 

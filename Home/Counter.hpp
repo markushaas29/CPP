@@ -85,7 +85,7 @@ public:
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->CBegin(),readings->CEnd());	}
 	
-	decltype(auto) GetValue(const std::string& s) { Logger::Log("GET in",Number); return std::make_unique<FS::CounterValue<DataType>>(*(readings->CBegin())); }
+	decltype(auto) GetValue(const std::string& s) { return std::make_unique<FS::CounterValue<DataType>>(*(readings->CBegin())); }
 	decltype(auto) ReadingsBegin() { return readings->CBegin(); }
 	decltype(auto) ReadingsEnd() { return readings->CEnd(); }		
 

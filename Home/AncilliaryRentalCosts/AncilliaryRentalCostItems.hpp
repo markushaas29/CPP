@@ -100,14 +100,12 @@ protected:
 	static const ResultType& get(const DateTimes::Year& y)
 	{
 		auto it = std::find_if(results->cbegin(), results->cend(),[&y](const auto& r){ return r.Year()==y;});
-		Logger::Log<Info>("Get: ", y);
-	Logger::Log<Info>("GET: \n", results->size()); it->Display(std::cout);		
 		if(it != results->cend())
 			return *it;
 		Logger::Log<Error>("No result found for year: ",y, Logger::Source(""));
 		throw std::invalid_argument(y.ToString());
 	}
-	static decltype(auto) insert(ResultType&& r) { results->push_back(std::move(r)); Logger::Log<Info>("Insert: \n", results->size()); results->at(0).Display(std::cout);}
+	static decltype(auto) insert(ResultType&& r) { results->push_back(std::move(r));}
 private:
 	inline static std::unique_ptr<ContType> results = std::make_unique<ContType>();
 };
@@ -169,16 +167,19 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	constexpr static Entry AdvancePayment{"Abschlag"}; 
 	inline static constexpr IBAN ibanGas{"DE68600501010002057075"};	
 	inline static constexpr IBAN ibanEnergy{"DE56600501017402051588"};	
+	//~ constexpr static Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year> AccQueryGas{ibanGas,AdvancePayment,year};
+	//~ constexpr static Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year> AccQueryEnergy{ibanEnergy,AdvancePayment,year};
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto aq = Bank::AccountQuery<typename Base::AccountType,DateTimes::Year>{ibanGas,year};
-		auto r = aq.Execute();
-		Logger::Log<Info>("QUERY: ", r->size());
+		//~ auto r = AccQueryGas.Execute();
+		//~ Logger::Log<Info>("QUERY: ", r->size());
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
 		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
+		//~ assert(r->size()==transfers->size());
 		Base::insertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
 		
+		//~ r = AccQueryEnergy.Execute();
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());

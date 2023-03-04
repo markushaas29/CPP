@@ -74,8 +74,8 @@ public:
 		ExtractValues(csvValues.cbegin(),csvValues.cend());
 	}
 	
-	std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { Logger::Log("GET in",Name); return std::make_unique<FS::RepositoryValue>();}
-	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",Name); return true; }
+	std::unique_ptr<FS::RepositoryValue> Get(const std::string& s) { return std::make_unique<FS::RepositoryValue>();}
+	bool Update(InputIterator begin, InputIterator end) { return true; }
 	
 	template<typename Cont>
 	void RegisterTo(Cont& cont){ cont.insert(std::make_pair(GetFileName(),  typename Cont::mapped_type(GetFileName(), Identifier,

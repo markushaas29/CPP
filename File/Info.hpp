@@ -115,11 +115,7 @@ namespace FS
 		
 		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::vector<Metainfo*> n):Metainfo(p,lm, 0), nodes(n){	this->size = this->Size();	};
 		
-		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm):Metainfo(p,lm, 0), nodes{}
-		{
-			this->size = this->Size();
-			Logger::Log(" Size: ", size);
-		};
+		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm):Metainfo(p,lm, 0), nodes{}{	this->size = this->Size();	};
 		
 		long Size() const
 		{
