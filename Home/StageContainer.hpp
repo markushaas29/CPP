@@ -56,7 +56,7 @@ protected:
 	{ 
 		if constexpr (std::is_same<T,Hot>::value)
 			return op(Head::HotWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd());
-		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd());	
+		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::ColdWaterCounter::Instance().ReadingsEnd());	
 	}
 public:
 	inline static constexpr const char* Identifier = Name;
@@ -141,7 +141,7 @@ protected:
 	{ 
 		if constexpr (std::is_same<T,Hot>::value)
 			return op(Head::HotWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd()) + Base::template GetCounterTotalInternal<T>(std::move(op));
-		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::HotWaterCounter::Instance().ReadingsEnd()) + Base::template GetCounterTotalInternal<T>(std::move(op));	
+		return op(Head::ColdWaterCounter::Instance().ReadingsBegin(), Head::ColdWaterCounter::Instance().ReadingsEnd()) + Base::template GetCounterTotalInternal<T>(std::move(op));	
 	}
 public:
 	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Instance().Display(os));	}
