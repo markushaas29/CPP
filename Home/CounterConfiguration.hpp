@@ -76,7 +76,7 @@ using Bottom_HWaterConfiguration = CounterConfiguration<Water,15018324, Volume, 
 using Bottom_CWaterConfiguration = CounterConfiguration<Water,15007241, Volume, AdditionalInformation<Cold>>;
 using Middle_HWaterConfiguration = CounterConfiguration<Water,23267492, Volume, AdditionalInformation<Hot>>;
 using Middle_CWaterConfiguration = CounterConfiguration<Water,14524889, Volume, AdditionalInformation<Cold>>;
-using Top_CWaterConfiguration = CounterConfiguration<Water,14524889, Volume, AdditionalInformation<Cold>>;
+using Top_CWaterConfiguration = CounterConfiguration<Water,25489823, Volume, AdditionalInformation<Cold>>;
 using Top_HWaterConfiguration = CounterConfiguration<Water,25470737, Volume, AdditionalInformation<Hot>>;
 
 #endif

@@ -258,7 +258,7 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto houseHotWater = StageContainerType::Instance().GetCounterTotal<Hot>(AnnualConsumption(year));
 		auto houseColdWater = StageContainerType::Instance().GetCounterTotal<Cold>(AnnualConsumption(year));
 		
-		Logger::Log<Info>("AnnualConsumption: ", stageColdWater,stageHotWater,houseColdWater,houseHotWater);
+		Logger::Log<Info>("AnnualConsumption Sewage: \n",S::StageName,"\nStage cold" ,stageColdWater,"\nStage Hot",stageHotWater,"\nHouse Cold" ,houseColdWater,"\nHouse Hot",houseHotWater);
 		auto stageWater = stageColdWater + stageHotWater;
 		auto houseWater = houseHotWater + houseColdWater;
 
