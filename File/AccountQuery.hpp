@@ -71,7 +71,7 @@ namespace Bank
 		using TupleType = std::tuple<Ts...>;
 		using AccountType = int;
 		using QuantityType = Quantity<Sum,Pure>;
-		
+		static constexpr size_t QueryCount = std::tuple_size_v<TupleType>;
 		AccountQueryContainer() = delete;
 		constexpr AccountQueryContainer(Ts... t) : queries{TupleType(t...)} { };
 
@@ -81,21 +81,12 @@ namespace Bank
 			return false;
 		};
 
-		decltype(auto) Execute()
+		auto Execute() const
 		{
-			//~ auto specifiedtransfers = account.GetTransferOf(categories...);
-		
-		//~ if(specifiedtransfers->begin() != specifiedtransfers->end())
-			//~ transfers->insert(transfers->end(), specifiedtransfers->begin(), specifiedtransfers->end());
-		//~ else
-			//~ Logger::Log<Info>("No Transfers found for categories: ", categories...);
-			//~ if constexpr(I ==std::tuple_size_v<TupleType>)    
-				//~ return os;
-			//~ else 
-			//~ {
-				//~ os<<std::get<I>(queries)<<"\n";
-				//~ return printQueries<I + 1>(os);
-			//~ }
+			auto query = std::get<0>(queries).Execute();
+			if constexpr (QueryCount==1)
+				return query;
+			return execute<1>(std::move(query));
 		}		
 		
 		std::ostream& Display(std::ostream& os) const 
@@ -105,6 +96,22 @@ namespace Bank
 	private:
 		TupleType queries;
 
+		template<size_t I = 0>
+		auto execute(auto cont) const
+		{
+			
+			if constexpr(I == QueryCount)    
+				return cont;
+			else 
+			{
+				auto query = std::get<I>(queries).Execute();
+				if(query->begin() != query->end())
+					cont->insert(cont->end(), query->begin(), query->end());
+				else
+					Logger::Log<Info>("No Transfers found for categories: ", std::get<I>(queries));
+				return execute<I+1>(std::move(cont));
+			}
+		}		
 		template <size_t I = 0>
 		constexpr std::ostream& printQueries(std::ostream& os) const
 		{

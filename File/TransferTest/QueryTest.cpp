@@ -32,8 +32,12 @@ int main()
 
 	using AQDTNE = AccountQuery<A,DT,N,E>;
 	using AQDTE = AccountQuery<A,DT,E>;
-	constexpr AccountQueryContainer<AQDTNE,AQDTE> aqc{aq,aq2};
-	aqc.Display(std::cout);
+	//constexpr AccountQueryContainer<> aqc_e{};
+	constexpr AccountQueryContainer<AQDTNE> aqc1{aq};
+	constexpr AccountQueryContainer<AQDTNE,AQDTE> aqc2{aq,aq2};
+	assert(decltype(aqc1)::QueryCount==1);
+	aqc1.Execute();
+	aqc1.Display(std::cout);
 		
     return 0;
 }

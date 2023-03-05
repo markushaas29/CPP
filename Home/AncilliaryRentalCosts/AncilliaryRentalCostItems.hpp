@@ -167,23 +167,29 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	constexpr static Entry AdvancePayment{"Abschlag"}; 
 	inline static constexpr IBAN ibanGas{"DE68600501010002057075"};	
 	inline static constexpr IBAN ibanEnergy{"DE56600501017402051588"};	
-	//~ constexpr static Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year> AccQueryGas{ibanGas,AdvancePayment,year};
+	using QueryType = Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year>;
+	using QueryContainer =  Bank::AccountQueryContainer<QueryType,QueryType>;
 	//~ constexpr static Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year> AccQueryEnergy{ibanEnergy,AdvancePayment,year};
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		//~ auto r = AccQueryGas.Execute();
-		//~ Logger::Log<Info>("QUERY: ", r->size());
+		auto qEnergy = QueryType{ibanEnergy,AdvancePayment,year};
+		auto qGas = QueryType{ibanGas,AdvancePayment,year};
+		auto qCont = QueryContainer{qEnergy,qGas};
+
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
 		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
-		//~ assert(r->size()==transfers->size());
+		auto&& r = qCont.Execute();
 		Base::insertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
+		Logger::Log<Info>("Size: ",transfers->size(),r->size());
+		Logger::Log(r->cbegin(),r->cend());
+		Logger::Log<Info>("Size: ",transfers->size(),r->size());
+		//~ assert(transfers->size()==r->size());
 		
 		//~ r = AccQueryEnergy.Execute();
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());
-		
 		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
