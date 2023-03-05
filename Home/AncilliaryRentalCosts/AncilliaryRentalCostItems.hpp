@@ -179,14 +179,10 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 
 		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
 		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
-		auto&& r = qCont.Execute();
+		auto r = qCont.Execute();
 		Base::insertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
-		Logger::Log<Info>("Size: ",transfers->size(),r->size());
-		Logger::Log(r->cbegin(),r->cend());
-		Logger::Log<Info>("Size: ",transfers->size(),r->size());
-		//~ assert(transfers->size()==r->size());
-		
-		//~ r = AccQueryEnergy.Execute();
+		Logger::Log<Info>("Size: ",transfers->size(),r->size(),*(r->at(0)));
+		qCont.Display(std::cout);
 		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
 		Base::insertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());

@@ -18,17 +18,11 @@ namespace Bank
 		using TupleType = std::tuple<Ts...>;
 		using AccountType = A ;
 		using QuantityType = Quantity<Sum,Pure>;
-		
-		AccountQuery() = delete;
 		constexpr AccountQuery(const IBAN& i) : iban{i} { };
 		constexpr AccountQuery(const IBAN& i, Ts... t) : iban{i}, filters{TupleType(t...)} { };
-		//AccountQuery(TupleType&& t) : transferItems{std::move(t)} {	};
 
 		template<typename T>
-		constexpr bool operator==(const T t) const
-		{ 
-			return false;
-		};
+		constexpr bool operator==(const T t) const { return false; };
 
 		decltype(auto) Execute() const
 		{
@@ -46,6 +40,7 @@ namespace Bank
 	private:
 		IBAN iban;	
 		TupleType filters;
+		AccountQuery() = delete;
 
 		template <size_t I = 0>
 		constexpr std::ostream& printFilters(std::ostream& os) const
@@ -72,14 +67,10 @@ namespace Bank
 		using AccountType = int;
 		using QuantityType = Quantity<Sum,Pure>;
 		static constexpr size_t QueryCount = std::tuple_size_v<TupleType>;
-		AccountQueryContainer() = delete;
 		constexpr AccountQueryContainer(Ts... t) : queries{TupleType(t...)} { };
 
 		template<typename T>
-		constexpr bool operator==(const T t) const
-		{ 
-			return false;
-		};
+		constexpr bool operator==(const T t) const {	return false;	};
 
 		auto Execute() const
 		{
@@ -89,17 +80,14 @@ namespace Bank
 			return execute<1>(std::move(query));
 		}		
 		
-		std::ostream& Display(std::ostream& os) const 
-		{
-			return printQueries(os); 
-		}
+		std::ostream& Display(std::ostream& os) const 	{ return printQueries(os); }
 	private:
 		TupleType queries;
+		AccountQueryContainer() = delete;
 
 		template<size_t I = 0>
 		auto execute(auto cont) const
 		{
-			
 			if constexpr(I == QueryCount)    
 				return cont;
 			else 
@@ -115,7 +103,7 @@ namespace Bank
 		template <size_t I = 0>
 		constexpr std::ostream& printQueries(std::ostream& os) const
 		{
-			if constexpr(I ==std::tuple_size_v<TupleType>)    
+			if constexpr(I == QueryCount)    
 				return os;
 			else 
 			{
