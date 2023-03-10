@@ -32,12 +32,15 @@ struct AncilliaryRentalCostItemBase
 	using RatioType =  ItemFraction<StageQuantityType>;
 	using ResultType =  AncilliaryRentalCostItemResult<Derived,RatioType,StageType,StageQuantity,AccountType>;
 	using ContType = std::vector<ResultType>;
+	using QueryType = Bank::AccountQuery<AccountType,DateTimes::Year>;
+	using QueryContainer =  Bank::AccountQueryContainer<QueryType>;
 	constexpr static Name TypeIdentifier = Name{""};
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto transfers = getTransfers(year,Derived::iban);
-		
+		auto query = QueryType{Derived::iban,year};
+		auto qCont = QueryContainer{query};
+		auto transfers = qCont.Execute();
 		auto sum = totalSum(transfers->cbegin(), transfers->cend());
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
@@ -215,6 +218,8 @@ template<typename S, typename Server = LocalCommunity>
 struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea> 
 { 
 	using Base = AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>, ApartmentArea>; 
+	using QueryType = Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year>;
+	using QueryContainer =  Bank::AccountQueryContainer<QueryType>;
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
 	constexpr static Name TypeIdentifier{"PropertyTax"}; 
@@ -223,9 +228,14 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
+		auto query = QueryType{iban,Cause,year};
+		auto qCont = QueryContainer{query};
+		auto transfsers = qCont.Execute();
+		
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account->GetTransferOf(Cause,year);		
 
+		assert(transfsers->size()==transfers->size());
 		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<ApartmentArea>();
@@ -242,6 +252,8 @@ template<typename S, typename Server = LocalCommunity>
 struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>
 { 
 	using Base = AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>; 
+	using QueryType = Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year>;
+	using QueryContainer =  Bank::AccountQueryContainer<QueryType>;
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
 	constexpr static Entry Cause{"Abschlag/Abwasser"}; 
@@ -250,8 +262,15 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
+		auto query = QueryType{iban,Cause,year};
+		auto qCont = QueryContainer{query};
+		auto transfsers = qCont.Execute();
+		
 		auto account = Bank::Get<typename Base::AccountType>(iban);
 		auto transfers = account->GetTransferOf(Cause,year);		
+		
+		assert(transfsers->size()==transfers->size());
+
 		Base::insertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
 
 		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
