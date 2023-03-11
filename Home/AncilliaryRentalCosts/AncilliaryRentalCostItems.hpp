@@ -169,25 +169,18 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	inline static constexpr IBAN ibanGas{"DE68600501010002057075"};	
 	inline static constexpr IBAN ibanEnergy{"DE56600501017402051588"};	
 	using QueryType = Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year>;
-	using QueryContainer =  Bank::AccountQueryContainer<QueryType,QueryType>;
-	//~ constexpr static Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year> AccQueryEnergy{ibanEnergy,AdvancePayment,year};
+	using QueryContainer =  Bank::AccountQueryContainer<QueryType,QueryType,QueryType,QueryType>;
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto qEnergy = QueryType{ibanEnergy,AdvancePayment,year};
-		auto qGas = QueryType{ibanGas,AdvancePayment,year};
-		auto qCont = QueryContainer{qEnergy,qGas};
+		auto qEnergyAdvance = QueryType{ibanEnergy,AdvancePayment,year};
+		auto qEnergyInvoice = QueryType{ibanEnergy,Invoice,year.Next()};
+		auto qGasAdvance = QueryType{ibanGas,AdvancePayment,year};
+		auto qGasInvoice = QueryType{ibanGas,Invoice,year.Next()};
+		auto qCont = QueryContainer{qEnergyAdvance,qGasAdvance,qEnergyInvoice,qGasInvoice};
 
-		auto accGas = Bank::Get<typename Base::AccountType>(ibanGas);
-		auto transfers = accGas->GetTransferOf(AdvancePayment,year);
-		auto r = qCont.Execute();
-		Base::insertSpecifiedTransfers(*accGas, transfers, Invoice,year.Next());
-		Logger::Log<Info>("Size: ",transfers->size(),r->size(),*(r->at(0)));
-		qCont.Display(std::cout);
-		auto accEnergy = Bank::Get<typename Base::AccountType>(ibanEnergy);
-		Base::insertSpecifiedTransfers(*accEnergy, transfers, AdvancePayment,year.Next());
-		Base::insertSpecifiedTransfers(*accEnergy, transfers, Invoice,year.Next());
-		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
+		auto transfers = qCont.Execute();
+		auto sum =  Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto num = GetStage<S,HeatingProportion>().GetQuantity();
