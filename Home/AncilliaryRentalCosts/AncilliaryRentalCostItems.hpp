@@ -71,17 +71,6 @@ protected:
 		return transfers;
 	}
 	
-	template <typename Acc, typename T, typename... Categories>
-	static decltype(auto) insertSpecifiedTransfers(const Acc& account, std::unique_ptr<T>& transfers, Categories... categories)
-	{ 
-		auto specifiedtransfers = account.GetTransferOf(categories...);
-		
-		if(specifiedtransfers->begin() != specifiedtransfers->end())
-			transfers->insert(transfers->end(), specifiedtransfers->begin(), specifiedtransfers->end());
-		else
-			Logger::Log<Info>("No Transfers found for categories: ", categories...);
-	}
-	
 	template<typename It>
 	static decltype(auto) totalSum(It begin, It end)
 	{
