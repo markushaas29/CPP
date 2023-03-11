@@ -238,21 +238,20 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 { 
 	using Base = AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCounter>; 
 	using QueryType = Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year>;
+	using QueryContainer =  Bank::AccountQueryContainer<QueryType,QueryType>;
 	constexpr static const char* Identifier = Server::Identifier;	
 	inline static constexpr IBAN iban = Server::iban;
 	constexpr static Entry Cause{"Abschlag/Abwasser"}; 
-	constexpr static Name TypeIdentifier{"Sewage"}; 
 	constexpr static Entry Invoice{"Rechnung/Abwasser"}; 
+	constexpr static Name TypeIdentifier{"Sewage"}; 
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto query = QueryType{iban,Cause,year};
-		auto transfers = query.Execute();
-		
-		auto account = Bank::Get<typename Base::AccountType>(iban);
-
-		Base::insertSpecifiedTransfers(*account, transfers, Invoice,year.Next());
-
+		auto queryCause = QueryType{iban,Cause,year};
+		auto queryInvoice = QueryType{iban,Invoice,year.Next()};
+		auto qCont = QueryContainer{queryCause,queryInvoice};
+		auto transfers = qCont.Execute();
+	
 		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(AnnualConsumption(year));
 		auto stageHotWater = S::HotWaterCounter::Instance().Get(AnnualConsumption(year));
