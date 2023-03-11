@@ -10,6 +10,24 @@
 
 namespace Bank
 {	
+
+         template<typename It>
+         static decltype(auto) TotalSum(It begin, It end) 
+         { 
+                 auto acc = Quantity<Sum>{0};
+                 if(begin == end)
+                 {
+                         Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
+                         return acc;
+                 }
+                  
+                 acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
+                 std::for_each(begin+1, end, [&](const auto t){ acc = acc + Bank::GetTransfer<Quantity<Sum>>(*t); });
+                                  
+                 return acc;
+      	}                                    
+             
+
 	template<typename A, typename... Ts> 
 	class AccountQuery 
 	{
@@ -28,6 +46,9 @@ namespace Bank
 		{
 			auto accGas = Get<AccountType>(iban);
 			auto transfers = accGas->GetTransferOf(filters);
+			auto sum{TotalSum(transfers->cbegin(), transfers->cend())};
+			Logger::Log<Error>("Sum ", sum);
+
 			return transfers;
 		}		
 		
@@ -40,6 +61,7 @@ namespace Bank
 	private:
 		IBAN iban;	
 		TupleType filters;
+		Quantity<Sum> sum{0};
 		AccountQuery() = delete;
 
 		template <size_t I = 0>
@@ -83,6 +105,7 @@ namespace Bank
 		std::ostream& Display(std::ostream& os) const 	{ return printQueries(os); }
 	private:
 		TupleType queries;
+		Quantity<Sum> sum{0};
 		AccountQueryContainer() = delete;
 
 		template<size_t I = 0>
