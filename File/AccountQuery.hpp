@@ -38,6 +38,7 @@ namespace Bank
 		using TransferPtr = std::unique_ptr<std::vector<std::shared_ptr<TransferType>>>;
 		using QuantityType = Quantity<Sum,Pure>;
 		QueryResult(TransferPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { Logger::Log<Error>("RESULT_SUM ",sum);};
+		QuantityType GetSum() { return sum; }
 	private:
 		TransferPtr transfers;
 		QuantityType sum;

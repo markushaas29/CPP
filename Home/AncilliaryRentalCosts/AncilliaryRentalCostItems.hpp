@@ -38,12 +38,13 @@ struct AncilliaryRentalCostItemBase
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto query = QueryType{Derived::iban,year};
+		auto queryResult = query.Execute_();
 		auto transfers = query.Execute();
 		auto sum = totalSum(transfers->cbegin(), transfers->cend());
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
-		quantityRatio = RatioType{num,denom,sum};
+		quantityRatio = RatioType{num,denom,queryResult.GetSum()};
 		insert(ResultType{std::move(transfers),std::move(quantityRatio),year});
 		
 		return get(year).Get();
