@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <tuple>
+#include <memory>
+#include <vector>
 #include "../Logger/Logger.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -27,6 +29,19 @@ namespace Bank
                  return acc;
       	}                                    
              
+	
+	template<typename A>
+	class QueryResult
+	{
+	public:
+		using TransferType = A::TransferType;
+		using TransferPtr = std::unique_ptr<std::vector<TransferType>>;
+		using QuantityType = Quantity<Sum,Pure>;
+		QueryResult();
+	private:
+		TransferPtr transfers;
+		QuantityType sum;
+	};
 
 	template<typename A, typename... Ts> 
 	class AccountQuery 
@@ -35,7 +50,7 @@ namespace Bank
 		using Type = AccountQuery<A,Ts...> ;
 		using TupleType = std::tuple<Ts...>;
 		using AccountType = A ;
-		using QuantityType = Quantity<Sum,Pure>;
+		using ResultType = QueryResult<A> ;
 		constexpr AccountQuery(const IBAN& i) : iban{i} { };
 		constexpr AccountQuery(const IBAN& i, Ts... t) : iban{i}, filters{TupleType(t...)} { };
 
@@ -61,9 +76,8 @@ namespace Bank
 	private:
 		IBAN iban;	
 		TupleType filters;
-		Quantity<Sum> sum{0};
 		AccountQuery() = delete;
-
+	
 		template <size_t I = 0>
 		constexpr std::ostream& printFilters(std::ostream& os) const
 		{
