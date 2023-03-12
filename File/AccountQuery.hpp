@@ -35,9 +35,9 @@ namespace Bank
 	{
 	public:
 		using TransferType = A::TransferType;
-		using TransferPtr = std::unique_ptr<std::vector<TransferType>>;
+		using TransferPtr = std::unique_ptr<std::vector<std::shared_ptr<TransferType>>>;
 		using QuantityType = Quantity<Sum,Pure>;
-		QueryResult();
+		QueryResult(TransferPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { Logger::Log<Error>("RESULT_SUM ",sum);};
 	private:
 		TransferPtr transfers;
 		QuantityType sum;
@@ -67,6 +67,13 @@ namespace Bank
 			return transfers;
 		}		
 		
+		decltype(auto) Execute_() const
+		{
+			auto accGas = Get<AccountType>(iban);
+			auto transfers = accGas->GetTransferOf(filters);
+
+			return ResultType{std::move(transfers)};
+		}		
 		std::ostream& Display(std::ostream& os) const 
 		{ 
 			os<<AccountType::Identifier<<"\n";
