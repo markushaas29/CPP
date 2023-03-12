@@ -35,12 +35,22 @@ namespace Bank
 	{
 	public:
 		using TransferType = A::TransferType;
-		using TransferPtr = std::unique_ptr<std::vector<std::shared_ptr<TransferType>>>;
+		using ContType = std::vector<std::shared_ptr<TransferType>>;
+		using ContPtr = std::unique_ptr<ContType>;
 		using QuantityType = Quantity<Sum,Pure>;
-		QueryResult(TransferPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { Logger::Log<Error>("RESULT_SUM ",sum);};
+		QueryResult(ContPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { Logger::Log<Error>("RESULT_SUM ",sum); };
 		QuantityType GetSum() { return sum; }
+		decltype(auto) Items() { return std::make_unique<ContType>(transfers->cbegin(), transfers->cend()); }
+
+		std::ostream& Display(std::ostream& os) const 
+		{ 
+			for(auto transfer : *transfers)
+				os<<*transfer<<"\n";
+			return os; 
+		}
+		friend 	std::ostream& operator<<(std::ostream& out, const QueryResult<A>& s){	return s.Display(out);	}
 	private:
-		TransferPtr transfers;
+		ContPtr transfers;
 		QuantityType sum;
 	};
 
@@ -74,7 +84,8 @@ namespace Bank
 			auto transfers = accGas->GetTransferOf(filters);
 
 			return ResultType{std::move(transfers)};
-		}		
+		}
+
 		std::ostream& Display(std::ostream& os) const 
 		{ 
 			os<<AccountType::Identifier<<"\n";

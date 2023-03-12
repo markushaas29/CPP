@@ -29,6 +29,8 @@ int main()
 	constexpr AccountQuery<A,DT,E> aq2{i,dt,e};
 	auto r = aq.Execute_();
 	r.GetSum();
+	r.Items();
+	r.Display(std::cout);
 	aq.Display(std::cout);
 
 	using AQDTNE = AccountQuery<A,DT,N,E>;
