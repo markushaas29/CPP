@@ -39,13 +39,11 @@ struct AncilliaryRentalCostItemBase
 	{
 		auto query = QueryType{Derived::iban,year};
 		auto queryResult = query.Execute_();
-		auto transfers = query.Execute();
-		auto sum = totalSum(transfers->cbegin(), transfers->cend());
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
 		quantityRatio = RatioType{num,denom,queryResult.GetSum()};
-		insert(ResultType{std::move(transfers),std::move(quantityRatio),year});
+		insert(ResultType{std::move(queryResult.Items()),std::move(quantityRatio),year});
 		
 		return get(year).Get();
 	}
@@ -108,6 +106,7 @@ template<typename S>
 struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, IndividualUnit> 
 { 
 	using Base = AncilliaryRentalCostItemBase<S, BuildingInsurance<S>,IndividualUnit>; 
+	using QueryType = Bank::AccountQuery<typename Base::AccountType,DateTimes::Year>;
 	constexpr static Name TypeIdentifier{"BuildingInsurance"}; 
 	constexpr static const char* Identifier = "SV Gebaeudeversicherung"; 
 	inline static constexpr IBAN iban{"DE97500500000003200029"};	
@@ -115,7 +114,8 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto transfers = Base::getTransfers(year,iban);		
-		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
+		auto query = QueryType{iban,year};
+		auto queryResult = query.Execute_();
 				
 		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
 		auto num = GetStage<S,IndividualUnit>().GetQuantity();
@@ -123,8 +123,8 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 		if constexpr (std::is_same<S,Top>::value)
 			num = num + Quantity<Scalar>(1);
 		
-		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
+		Base::quantityRatio = typename Base::RatioType{num,denom,queryResult.GetSum()};
+		Base::insert(typename Base::ResultType{std::move(queryResult.Items()),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
@@ -209,15 +209,13 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto query = QueryType{iban,Cause,year};
-		auto transfers = query.Execute();
+		auto queryResult = query.Execute_();
 		
-		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
-				
 		auto denom = StageContainerType::Instance().GetTotal<ApartmentArea>();
 		auto num = GetStage<S,ApartmentArea>().GetQuantity();
 			
-		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
+		Base::quantityRatio = typename Base::RatioType{num,denom,queryResult.GetSum()};
+		Base::insert(typename Base::ResultType{std::move(queryResult.Items()),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
