@@ -52,23 +52,6 @@ struct AncilliaryRentalCostItemBase
 	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
 protected:
 	static inline RatioType quantityRatio{StageQuantityType{0},StageQuantityType{1},Quantity<Sum>(0)};
-	static decltype(auto) getTransfers(const DateTimes::Year& year, const IBAN& iban)
-	{
-		auto account = Bank::Get<AccountType>(Derived::iban);
-		typename ResultType::TransfersPtr transfers;
-
-		if(account)
-		{
-			transfers = (*account)[year];
-		}
-		else
-		{
-			transfers = std::make_unique<typename ResultType::Transfers>();
-			Logger::Log<Error>("No transfers for ", Derived::Identifier);
-		}
-		
-		return transfers;
-	}
 	
 	template<typename It>
 	static decltype(auto) totalSum(It begin, It end)
@@ -113,7 +96,6 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto transfers = Base::getTransfers(year,iban);		
 		auto query = QueryType{iban,year};
 		auto queryResult = query.Execute_();
 				
