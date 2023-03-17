@@ -38,7 +38,7 @@ struct AncilliaryRentalCostItemBase
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto query = QueryType{Derived::iban,year};
-		auto queryResult = query.Execute_();
+		auto queryResult = query.Execute();
 		
 		auto denom = StageContainerType::Instance().GetTotal<Q>();
 		auto num = GetStage<StageType,Q>().GetQuantity();
@@ -97,7 +97,7 @@ struct BuildingInsurance: AncilliaryRentalCostItemBase<S, BuildingInsurance<S>, 
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto query = QueryType{iban,year};
-		auto queryResult = query.Execute_();
+		auto queryResult = query.Execute();
 				
 		auto denom = StageContainerType::Instance().GetTotal<IndividualUnit>() + Quantity<Scalar>(1);
 		auto num = GetStage<S,IndividualUnit>().GetQuantity();
@@ -191,7 +191,7 @@ struct PropertyTax: public AncilliaryRentalCostItemBase<S, PropertyTax<S,Server>
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
 		auto query = QueryType{iban,Cause,year};
-		auto queryResult = query.Execute_();
+		auto queryResult = query.Execute();
 		
 		auto denom = StageContainerType::Instance().GetTotal<ApartmentArea>();
 		auto num = GetStage<S,ApartmentArea>().GetQuantity();

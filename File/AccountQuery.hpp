@@ -68,7 +68,7 @@ namespace Bank
 		template<typename T>
 		constexpr bool operator==(const T t) const { return false; };
 
-		decltype(auto) Execute_() const
+		decltype(auto) Execute() const
 		{
 			auto accGas = Get<AccountType>(iban);
 			auto transfers = accGas->GetTransferOf(filters);
@@ -119,7 +119,7 @@ namespace Bank
 
 		auto Execute() const
 		{
-			auto query = std::get<0>(queries).Execute_();
+			auto query = std::get<0>(queries).Execute();
 			if constexpr (QueryCount==1)
 				return query.Items();
 			return execute<1>(std::move(query.Items()));
@@ -138,7 +138,7 @@ namespace Bank
 				return cont;
 			else 
 			{
-				auto queryResult = std::get<I>(queries).Execute_();
+				auto queryResult = std::get<I>(queries).Execute();
 				auto query = queryResult.Items();
 				if(query->begin() != query->end())
 					cont->insert(cont->end(), query->begin(), query->end());
