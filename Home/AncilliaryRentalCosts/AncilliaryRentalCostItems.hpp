@@ -3,6 +3,7 @@
 #include "AncilliaryRentalCostResult.hpp"
 #include "../Stage.hpp"
 #include "../StageContainer.hpp"
+#include "../CounterHelper.hpp"
 #include "../../Calculator/Operations.hpp"
 #include "../../String/String_.hpp"
 #include "../../Logger/Logger.hpp"
