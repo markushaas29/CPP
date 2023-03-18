@@ -52,22 +52,6 @@ struct AncilliaryRentalCostItemBase
 	static std::ostream& Display(std::ostream& os){	return os<<results->cbegin()->first<<" Result "<<std::endl;	}
 protected:
 	static inline RatioType quantityRatio{StageQuantityType{0},StageQuantityType{1},Quantity<Sum>(0)};
-	
-	template<typename It>
-	static decltype(auto) totalSum(It begin, It end)
-	{
-		auto acc = Quantity<Sum>{0};
-		if(begin == end)
-		{
-			Logger::Log<Error>("No transfers for ", Derived::TypeIdentifier,"and sum is ", acc);
-			return acc;
-		}
-		
-		acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
-		std::for_each(begin+1, end, [&](const auto t){ acc = acc + Bank::GetTransfer<Quantity<Sum>>(*t); });
-				
-		return acc;
-	}
 
 	static const ResultType& get(const DateTimes::Year& y)
 	{
