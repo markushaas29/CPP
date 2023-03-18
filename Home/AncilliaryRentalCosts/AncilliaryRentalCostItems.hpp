@@ -152,12 +152,11 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 		auto qCont = QueryContainer{qEnergyAdvance,qGasAdvance,qEnergyInvoice,qGasInvoice};
 
 		auto transfers = qCont.Execute();
-		auto sum =  Base::totalSum(transfers->cbegin(), transfers->cend());
 				
 		auto denom = StageContainerType::Instance().GetTotal<HeatingProportion>();
 		auto num = GetStage<S,HeatingProportion>().GetQuantity();
-		Base::quantityRatio = typename Base::RatioType{num,denom,sum};
-		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
+		Base::quantityRatio = typename Base::RatioType{num,denom,transfers.GetSum()};
+		Base::insert(typename Base::ResultType{std::move(transfers.Items()),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
@@ -222,7 +221,6 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto qCont = QueryContainer{queryCause,queryInvoice};
 		auto transfers = qCont.Execute();
 	
-		auto sum = Base::totalSum(transfers->cbegin(), transfers->cend());
 		auto stageColdWater = S::ColdWaterCounter::Instance().Get(AnnualConsumption(year));
 		auto stageHotWater = S::HotWaterCounter::Instance().Get(AnnualConsumption(year));
 		
@@ -233,8 +231,8 @@ struct Sewage: public AncilliaryRentalCostItemBase<S, Sewage<S,Server>, WaterCou
 		auto stageWater = stageColdWater + stageHotWater;
 		auto houseWater = houseHotWater + houseColdWater;
 
-		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),sum};
-		Base::insert(typename Base::ResultType{std::move(transfers),std::move(Base::quantityRatio),year});
+		Base::quantityRatio = typename Base::RatioType{stageWater.Get(),houseWater.Get(),transfers.GetSum()};
+		Base::insert(typename Base::ResultType{std::move(transfers.Items()),std::move(Base::quantityRatio),year});
 		
 		return Base::get(year).Get();
 	}
