@@ -109,7 +109,8 @@ namespace Bank
 	public:
 		using Type = AccountQueryContainer<Ts...> ;
 		using TupleType = std::tuple<Ts...>;
-		using AccountType = int;
+		using AccountType = std::tuple_element<0,TupleType>::type::AccountType;
+		using ResultType = QueryResult<AccountType> ;
 		using QuantityType = Quantity<Sum,Pure>;
 		static constexpr size_t QueryCount = std::tuple_size_v<TupleType>;
 		constexpr AccountQueryContainer(Ts... t) : queries{TupleType(t...)} { };
@@ -121,8 +122,9 @@ namespace Bank
 		{
 			auto query = std::get<0>(queries).Execute();
 			if constexpr (QueryCount==1)
-				return query.Items();
-			return execute<1>(std::move(query.Items()));
+				return ResultType(query.Items());
+			auto items =  execute<1>(std::move(query.Items()));
+			return ResultType(std::move(items));
 		}		
 		
 		std::ostream& Display(std::ostream& os) const 	{ return printQueries(os); }
