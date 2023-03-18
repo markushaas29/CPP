@@ -23,8 +23,9 @@ namespace Bank
 	//-----------------------------------------------------------------------------------------------Tranfers-----------------------------------------------------------------------
 
 	template<typename Config>
-	struct Comdirect: public Account<Comdirect<Config>>
+	class Comdirect: public Account<Comdirect<Config>>
 	{
+	public:
 		using Type = Config;
 		using TransferTypes = Configuration::Account::TransferType;
 		using TransferType = Transfer<Comdirect,TransferTypes>;
@@ -37,7 +38,18 @@ namespace Bank
 		inline static constexpr const char* Filename = "Umsaetze_DE832004113306947527";
 				
 		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os); }
-	protected:
+	private:
+		Comdirect()	{ 	};
+		~Comdirect()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Comdirect& operator=(const Comdirect&) = delete;
+		Comdirect(const Comdirect& c) = delete;
+	
+		template<typename A, typename T>
+		friend decltype(auto) Get(const T& t);
+
+		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
+		inline static constexpr const char* name = "Comdirect";
+		
 		template<typename T>
 		static std::string Extract(std::string s)
 		{
@@ -62,18 +74,6 @@ namespace Bank
 			
 			return vals.begin()->second;
 		}
-		
-	private:
-		Comdirect()	{ 	};
-		~Comdirect()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
-		Comdirect& operator=(const Comdirect&) = delete;
-		Comdirect(const Comdirect& c) = delete;
-	
-		template<typename A, typename T>
-		friend decltype(auto) Get(const T& t);
-
-		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
-		inline static constexpr const char* name = "Comdirect";
 	};
 }
 

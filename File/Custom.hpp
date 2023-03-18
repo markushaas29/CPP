@@ -20,7 +20,7 @@ namespace fs = std::filesystem;
 namespace Bank
 {
 	template<typename Config>
-	struct Custom: public Account<Custom<Config>>
+	class Custom: public Account<Custom<Config>>
 	{
 		using Type = Config;
 		using TransferTypes = Configuration::Account::TransferType;
@@ -33,11 +33,7 @@ namespace Bank
 		inline static constexpr const char* Filename = "RaibaKonten2021_1.csv";
 		
 		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
-	protected:
-		template<typename T>
-		static std::string Extract(std::string s){	return s;	}		
-		static std::string ExtractKey(std::string s){	return s;	}
-		
+		static std::string ExtractKey(std::string s){	return s;	}	
 	private:
 		Custom()	{ 	};
 		~Custom()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
@@ -48,7 +44,11 @@ namespace Bank
 		friend decltype(auto) Get(const T& t);
 		
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
+	
 		inline static constexpr const char* name = "Custom";
+		template<typename T>
+		static std::string Extract(std::string s){	return s;	}		
+	
 	};
 }
 

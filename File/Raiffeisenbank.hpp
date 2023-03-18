@@ -22,8 +22,9 @@ namespace fs = std::filesystem;
 namespace Bank
 {	
 	template<typename Config>
-	struct Raiffeisenbank: public Account<Raiffeisenbank<Config>>
+	class Raiffeisenbank: public Account<Raiffeisenbank<Config>>
 	{
+	public:
 		using Type = Config;
 		using TransferItems = Configuration::Account::TransferType;
 		using TransferType = Transfer<Raiffeisenbank, TransferItems>;
@@ -34,22 +35,8 @@ namespace Bank
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
 				
-		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}
-	protected:
-		template<typename T>
-		static std::string Extract(std::string s)
-		{
-			Parser::JSON json;
-			auto vals = json.Parse(s);
+		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}	
 
-			auto it = std::find_if (vals.begin(),vals.end(), [](std::pair<std::string, std::string> const& item) { return String_::Contains(item.first,T::Identifier); } );
-			
-			if(it == vals.end())
-				return "";
-						
-			return (it)->second;
-		}
-	public:
 		static Raiffeisenbank& Instance()
 		{
 			static Raiffeisenbank instance;
@@ -67,6 +54,20 @@ namespace Bank
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static String_::Parser parser = String_::Parser();
 		inline static constexpr const char* const name = "Raiba";
+		
+		template<typename T>
+		static std::string Extract(std::string s)
+		{
+			Parser::JSON json;
+			auto vals = json.Parse(s);
+
+			auto it = std::find_if (vals.begin(),vals.end(), [](std::pair<std::string, std::string> const& item) { return String_::Contains(item.first,T::Identifier); } );
+			
+			if(it == vals.end())
+				return "";
+						
+			return (it)->second;
+		}
 	};
 }
 
