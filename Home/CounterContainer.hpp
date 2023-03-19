@@ -42,6 +42,10 @@ public:
 		static CounterContainer instance;
 		return instance;
 	}	
+protected:
+	~CounterContainer()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+	CounterContainer& operator=(const CounterContainer&) = delete;
+	CounterContainer(const CounterContainer& c) = delete;
 };
 
 template<typename Head, typename... Tail>
@@ -76,10 +80,14 @@ public:
 		static CounterContainer instance;
 		return instance;
 	}	
+protected:
+	~CounterContainer()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+	CounterContainer& operator=(const CounterContainer&) = delete;
+	CounterContainer(const CounterContainer& c) = delete;
 };
 
 template<typename Head, typename... Tail>
-std::ostream& operator<<(std::ostream& strm, const CounterContainer<Head,Tail...> c){	return c.Display(strm); }
+std::ostream& operator<<(std::ostream& strm, const CounterContainer<Head,Tail...>& c){	return c.Display(strm); }
 
 
 using CG1 = Counter<GasConfiguration>;
