@@ -66,7 +66,11 @@ public:
 	}
 	
 	template<unsigned N>
-	auto Get() { return At<CounterTypes,N>::Type; }
+	auto Get() 
+	{ 
+		using C = At<CounterTypes,N>; 
+		return C::Number;
+	}
 
 	static CounterContainer& Instance()
 	{

@@ -27,5 +27,7 @@ int main()
 
 	House<HouseConfiguration>::Instance();
 	CounterContainerType::Instance().Display(std::cout);
+	std::cout<<CounterContainerType::Instance().Get<1>()<<std::endl;
+	assert(11144078==CounterContainerType::Instance().Get<1>());
     	return 0;
 }
