@@ -34,10 +34,10 @@ int main()
 
 	auto outFile = std::ofstream("out.txt");
 	auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
-    CSV::Repository::Instance();
+    CSV::Repository<CSV::CommonParsers>::Instance();
 
 	std::cout<<"\n TEST ID"<<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>::Identifier<<std::endl;
-	CSV::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>();
+	//~ CSV::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>();
 	std::cout<<"\n TEST Transfers"<<std::endl;
 	
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;

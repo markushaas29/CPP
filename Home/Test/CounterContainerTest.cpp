@@ -1,11 +1,13 @@
 #include <iostream>
-#include "../../Common/ShortNames.hpp"
+#include <iostream>
+#include "../../File/Repository.hpp"
 #include "../../Unit/Unit.hpp"
 #include "../Reading.hpp"
 #include "../House.hpp"
 #include "../Counter.hpp"
 #include "../CounterConfiguration.hpp"
 #include "../CounterContainer.hpp"
+#include "../../Common/ShortNames.hpp"
 using namespace ShortNames;
 
 int main()
@@ -25,7 +27,8 @@ int main()
 	
 	auto w3 = W{148};
 
-	House<HouseConfiguration>::Instance();
+	//House<HouseConfiguration>::Instance();
+	CSV::Repository<CSV::CounterParsers>::Instance();
 	CounterContainerType::Instance().Display(std::cout);
 	std::cout<<CounterContainerType::Instance().Get<1>()<<std::endl;
 	assert(11144078==CounterContainerType::Instance().Get<1>());

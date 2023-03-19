@@ -37,6 +37,10 @@ namespace CSV
 	
 	template<typename T, typename ResultT = typename T::ResultValueType> decltype(auto) Get();
 	
+	using CommonParsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, InputManager<Counter>,CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Comdirect<Configuration::Comdirect>, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
+	using CounterParsers = Typelist<CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW>::Type;
+	
+	template<typename ParserTypes>
 	class Repository
 	{
 	public:
@@ -44,7 +48,7 @@ namespace CSV
 		using FileTypes = Configuration::Repository::FileTypes;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
-		using Parsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, InputManager<Counter>,CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Comdirect<Configuration::Comdirect>, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
+		using Parsers = ParserTypes;
 		using ParserContainer = FS::FileTypeContainer<Parsers>;
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
@@ -160,10 +164,10 @@ namespace CSV
 		
 	};
 	
-	template<typename T, typename ResultT>
+	template<typename T, typename ResultT, typename P>
 	decltype(auto) Get()
 	{
-		for (auto it = Repository::visitors.begin(); it != Repository::visitors.end(); it++)
+		for (auto it = Repository<P>::visitors.begin(); it != Repository<P>::visitors.end(); it++)
 		{
 			Logger::Log<Info>("ID: ", Bank::Raiffeisenbank<Configuration::Raiffeisenbank>::Identifier);
 			if(it->second.Identifier() == T::Identifier)

@@ -55,7 +55,7 @@ private:
 	
 	House(): quantities(0, 0, 0, ""){ 
 		Logger::Log()<<"CTOR: "<<Name<<std::endl;
-		CSV::Repository::Instance();
+		CSV::Repository<CSV::CommonParsers>::Instance();
 	
 		auto outFile = std::ofstream("out.txt");
 		auto inFile = std::ofstream("//home//markus//Downloads//in.txt");

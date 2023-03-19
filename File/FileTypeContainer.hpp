@@ -11,6 +11,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Typelist/Typelist.hpp"
 #include "../Visitor/Visitor.hpp"
+#include "../String/String_.hpp"
 #include "Info.hpp"
 #include "Node.hpp"
 

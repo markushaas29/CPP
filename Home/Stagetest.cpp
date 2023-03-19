@@ -38,13 +38,13 @@ int main()
     std::cout<<"b: "<<GetStage<Bottom,Persons>().GetQuantity()<<std::endl;
     std::cout<<"TOTAL: "<<StageContainerType::Instance().GetTotal<Persons>()<<std::endl;
 	
-	CSV::Get<CEHouse>();
+	//~ CSV::Get<CEHouse>();
 	
 	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
     std::cout<<"END"<<std::endl;
 
 	std::ofstream of{"All.txt"};
-	CSV::Repository::Instance().Display(of);
+	CSV::Repository<CSV::CommonParsers>::Instance().Display(of);
 	
     return 0;
 }
