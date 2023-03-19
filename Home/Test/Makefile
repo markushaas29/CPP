@@ -19,6 +19,8 @@ Debug:	$(OBJECTS)
 	
 Counter: 	CounterTest.cpp
 	$(CXX) -std=c++2a -o Counter CounterTest.cpp
+CC: 	CounterContainerTest.cpp
+	$(CXX) -std=c++2a -o CounterContainer CounterContainerTest.cpp
 
 Reading:	ReadingTest.cpp
 	$(CXX) -std=c++2a -o Reading ReadingTest.cpp

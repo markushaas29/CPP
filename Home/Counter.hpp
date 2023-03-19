@@ -17,15 +17,12 @@
 #include "CounterConfiguration.hpp"
 #include "Reading.hpp"
 #include "ReadingContainer.hpp"
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/vector.hpp>
 #include <map>
 #include <chrono>
 #include <ctime>
 #include <memory>
 
-#ifndef COUNTER_H
-#define COUNTER_H
+#pragma once
 
 template<typename ConfigT>
 class Counter
@@ -183,5 +180,3 @@ template<> inline const char* InputManager<Counter>::Filename = "Counter";
 
 template<typename C, typename S = T::char_<'\t'>>
 std::ostream& operator<<(std::ostream& strm, const Counter<C>& c){	return c.Display(strm);}
-
-#endif
