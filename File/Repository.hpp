@@ -37,8 +37,9 @@ namespace CSV
 	
 	template<typename T, typename ResultT = typename T::ResultValueType> decltype(auto) Get();
 	
-	struct Repository
+	class Repository
 	{
+	public:
 		using InputIterator = std::vector<std::string>::const_iterator;
 		using FileTypes = Configuration::Repository::FileTypes;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
@@ -65,7 +66,7 @@ namespace CSV
 		void SetRootPath(std::string s) { Root = s; }
 		void SetDestPath(std::string s) { Dest = s; }
 		
-		void Map(std::string path)
+		void Map(const std::string& path)
 		{
 			auto infos = FileSystem::List(path);
 			
@@ -90,7 +91,7 @@ namespace CSV
 		}
 		
 		template<typename ParseType>
-		typename ParseType::ParseCont Parse(std::string s)
+		typename ParseType::ParseCont Parse(const std::string& s)
 		{
 			Logger::Log("Parsing: ",s);
 			return types.Parse<ParseType>(s);			
@@ -114,7 +115,7 @@ namespace CSV
 			
 			InputManager<Counter>::Instance().CreateFile();
 		}
-	public:
+		
 		static Repository& Instance()
 		{
 			static Repository instance;
