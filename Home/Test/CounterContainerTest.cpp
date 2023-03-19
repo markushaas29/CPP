@@ -2,6 +2,7 @@
 #include "../../Common/ShortNames.hpp"
 #include "../../Unit/Unit.hpp"
 #include "../Reading.hpp"
+#include "../House.hpp"
 #include "../Counter.hpp"
 #include "../CounterConfiguration.hpp"
 #include "../CounterContainer.hpp"
@@ -23,7 +24,8 @@ int main()
 	auto rw2 = RW{w2,dt2};
 	
 	auto w3 = W{148};
-	std::cout<<CounterContainerType::Instance();
 
-    return 0;
+	House<HouseConfiguration>::Instance();
+	CounterContainerType::Instance().Display(std::cout);
+    	return 0;
 }

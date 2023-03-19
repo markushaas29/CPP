@@ -27,9 +27,7 @@ public:
 	using Type = Head;
 	using CounterTypes = Typelist<Head>;
 	using ContainerType = CounterContainer<Typelist<Head>>;
-protected:
-	CounterContainer() { Logger::Log<Info>()<<"CounterContainer created."<<std::endl; };
-public:
+
 	static std::ostream& Display(std::ostream& os) 	{	return Type::Display(os);	}
 	void Write(const std::string sourcePath = ".")	{	Type::Write(sourcePath);	}
 	void Read(const std::string sourcePath = ".")	{	Type::Read();	}
@@ -43,6 +41,7 @@ public:
 		return instance;
 	}	
 protected:
+	CounterContainer() { Logger::Log<Info>()<<"CounterContainer created."<<std::endl; };
 	~CounterContainer()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 	CounterContainer& operator=(const CounterContainer&) = delete;
 	CounterContainer(const CounterContainer& c) = delete;
@@ -56,20 +55,14 @@ public:
 	using CounterTypes = Typelist<Head,Tail...>;
 	using ContainerType = CounterContainer<Typelist<Head,Tail...>>;
 	using Base = CounterContainer<Typelist<Tail...>>;
-protected:
-	CounterContainer() { Logger::Log<Info>()<<"CounterContainer created."<<std::endl; };
-public:
+	
 	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Display(os));	}
 	void Write(const std::string sourcePath = ".")	
 	{	
-		Type::Write(sourcePath);	
-		Base::Write(sourcePath);		
 	}
 	
 	void Read(const std::string sourcePath = ".")
 	{
-		Type::Read();
-		Base::Read();		
 	}
 	
 	template<unsigned N>
@@ -81,6 +74,7 @@ public:
 		return instance;
 	}	
 protected:
+	CounterContainer() { Logger::Log<Info>()<<"CounterContainer created."<<std::endl; };
 	~CounterContainer()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 	CounterContainer& operator=(const CounterContainer&) = delete;
 	CounterContainer(const CounterContainer& c) = delete;
