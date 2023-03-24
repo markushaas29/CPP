@@ -140,8 +140,8 @@ namespace CSV
 		Repository& operator=(const Repository&) = delete;
 		Repository(const Repository& c) = delete;
 	
-		template<typename T, typename ResultT>
-		friend decltype(auto) Get();
+		template<typename T, typename ResultT,typename P>
+		friend ResultT Get();
 		
 		static inline VisitorContainer visitors = VisitorContainer();
 		static inline TypeContainer types = TypeContainer();
@@ -165,7 +165,7 @@ namespace CSV
 	};
 	
 	template<typename T, typename ResultT, typename P>
-	decltype(auto) Get()
+	ResultT Get()
 	{
 		for (auto it = Repository<P>::visitors.begin(); it != Repository<P>::visitors.end(); it++)
 		{
@@ -173,13 +173,15 @@ namespace CSV
 			if(it->second.Identifier() == T::Identifier)
 			{
 				Logger::Log<Info>("FOUND ID: ", it->second.Identifier());
-				auto p = it->second.Get("");
-				std::cout<<"GET OUT"<<*p<<std::endl;
-				auto cv = Cast::static_unique_ptr<ResultT>(std::move(p)); 
-				std::cout<<"GET OUT"<<*(cv)<<std::endl;
+				//~ auto p = it->second.Get("");
+				//~ std::cout<<"GET OUT"<<*p<<std::endl;
+				return Cast::static_unique_ptr<ResultT>(std::move(it->second.Get(""))); 
+				//~ std::cout<<"GET OUT"<<*(cv)<<std::endl;
 				
-				//~ return cv;
+				//~ return cv;:
 			}
+			
+			return ResultT{};
 		}
 	};
 }

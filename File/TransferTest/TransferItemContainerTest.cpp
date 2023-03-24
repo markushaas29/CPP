@@ -42,10 +42,24 @@ int main()
 	auto dt1 = GetTransfer<DT>(*t1);
 	auto q1 = GetTransfer<Q>(*t1);
 	std::cout<<*t1<<std::endl;
+	std::cout<<q1<<std::endl;
 	auto dt02012023 = DT{2,1,2023};
-	auto q1917 = Q{1917.62};
+	auto q1917 = Q{-1917.62};
 	assert(dt02012023==dt1);
 	assert(q1==q1917);
+	assert(q1917.Value()<0);
 	
+	auto t2Vals = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(t2Line));
+	
+	t1 = TI::Instance().CreateTransfer<TT>(t2Vals.cbegin(), t2Vals.cend());
+	auto dt2 = GetTransfer<DT>(*t1);
+	auto q2 = GetTransfer<Q>(*t1);
+	std::cout<<*t1<<std::endl;
+	std::cout<<q2<<std::endl;
+	auto q660 = Q{660.00};
+	std::cout<<q660<<std::endl;
+	assert(dt02012023==dt2);
+	assert(q2==q660);
+	assert(q660.Value()>0);
     return 0;
 }
