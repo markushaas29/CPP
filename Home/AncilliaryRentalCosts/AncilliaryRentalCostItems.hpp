@@ -122,15 +122,17 @@ struct Heating: AncilliaryRentalCostItemBase<S,Heating<S>, HeatingProportion>
 	constexpr static const char* IdentifierEnergy = "EnBW Energie Bad-Wuertt AG"; 
 	constexpr static const char* IdentifierGas = "Erdgas Suedwest GmbH"; 
 	constexpr static Entry Invoice{"Rechnung"}; 
+	constexpr static Entry EnergyEREF{"701006843905"}; 
 	constexpr static Entry AdvancePayment{"Abschlag"}; 
 	inline static constexpr IBAN ibanGas{"DE68600501010002057075"};	
 	inline static constexpr IBAN ibanEnergy{"DE56600501017402051588"};	
 	using QueryType = Bank::AccountQuery<typename Base::AccountType,Entry,DateTimes::Year>;
-	using QueryContainer =  Bank::AccountQueryContainer<QueryType,QueryType,QueryType,QueryType>;
+	using EnergyQueryType = Bank::AccountQuery<typename Base::AccountType,Entry,Entry,DateTimes::Year>;
+	using QueryContainer =  Bank::AccountQueryContainer<EnergyQueryType,QueryType,QueryType,QueryType>;
 	
 	static decltype(auto) Calculate(const DateTimes::Year& year)
 	{
-		auto qEnergyAdvance = QueryType{ibanEnergy,AdvancePayment,year};
+		auto qEnergyAdvance = EnergyQueryType{ibanEnergy,AdvancePayment,EnergyEREF,year};
 		auto qEnergyInvoice = QueryType{ibanEnergy,Invoice,year.Next()};
 		auto qGasAdvance = QueryType{ibanGas,AdvancePayment,year};
 		auto qGasInvoice = QueryType{ibanGas,Invoice,year.Next()};
