@@ -61,7 +61,7 @@ private:
 		*fs<<"\nSum: "<<total<<std::endl;
 		
 		*fs<<"\n--------TotalResult-----\n"<<std::endl;
-		*fs<<"\nSum: "<<Subtraction::Calculate(advancePays,total)<<std::endl;
+		*fs<<"\nSum: "<<Addition::Calculate(advancePays,total)<<std::endl;
 		
 		return fs;
 	}

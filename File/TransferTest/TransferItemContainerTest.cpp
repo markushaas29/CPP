@@ -20,6 +20,7 @@ int main()
 	std::string indicesLineErr = "Bezeichnung Auftragskonto;IBN Auftragskonto;BI Auftragskonto;Bankname Auftragkonto;Buungstag;Valutatum;Namet Zahlungsbeteihjligter;IBN Zahlungeteiligter;BC (SWIFT-Code) Zahlungsteiligter;Bucungstext;Verwenungszweck;Berag;Waerung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz";
 	std::string t1Line =	"Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;02.01.2023;02.01.2023;SV Gebaeudeversicherung;DE97500500000003200029;HELADEFFXXX;Basislastschrift;SV AgrarPolice V50042043040 1917,62.EUR. EREF: 060033695188 0485614667 MREF: IGS00004749611 CRED: DE9300200000021090 IBAN: DE97500500000003200029 BIC: HELADEFF ABWA: SV SparkassenVersicherung Gebaudeversicherung AG;-1917,62;EUR;-831,09;;Sonstiges;;DE9300200000021090;IGS00004749611";
 	std::string t2Line ="Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;02.01.2023;02.01.2023;Anita Erna Brustat;DE83660623660009262008;GENODE61DET;DA-GUTSCHRIFT;MIETE;660,00;EUR;1086,53;;Sonstiges;;;";
+	std::string bug ="Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;15.02.2023;15.02.2023;Erdgas Sudwest GmbH;DE68600501010002057075;SOLADEST600;Basislastschrift;8201090081 Gas Rechnung EREF: B20000310300 8201090081 MREF: V9501052639983 CRED: DE4500000000102076 IBAN: DE68600501010002057075 BIC: SOLADEST600;490,83;EUR;827,33;;Sonstiges;;DE4500000000102076;V9501052639983";
 	auto t1Vals= String_::Split<CSVSeparator>(String_::Remove<String_::CR>(t1Line));
 	TI::Instance().UpdateKeyIndices(errorKeys.cbegin(), errorKeys.end());
 	auto indexValues = String_::Split<CSVSeparator>(indicesLine);
@@ -49,8 +50,16 @@ int main()
 	assert(q1==q1917);
 	assert(q1917.Value()<0);
 	
+	auto bugVals = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(bug));
+	t1 = TI::Instance().CreateTransfer<TT>(bugVals.cbegin(), bugVals.cend());
+	auto q3 = GetTransfer<Q>(*t1);
+	std::cout<<*t1<<std::endl;
+	std::cout<<q3<<std::endl;
+	auto q490 = Q{490.83};
+	assert(q3==q490);
+	assert(q490.Value()>0);
+
 	auto t2Vals = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(t2Line));
-	
 	t1 = TI::Instance().CreateTransfer<TT>(t2Vals.cbegin(), t2Vals.cend());
 	auto dt2 = GetTransfer<DT>(*t1);
 	auto q2 = GetTransfer<Q>(*t1);

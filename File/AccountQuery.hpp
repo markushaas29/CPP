@@ -38,7 +38,7 @@ namespace Bank
 		using ContType = std::vector<std::shared_ptr<TransferType>>;
 		using ContPtr = std::unique_ptr<ContType>;
 		using QuantityType = Quantity<Sum,Pure>;
-		QueryResult(ContPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { Logger::Log<Error>("RESULT_SUM ",sum); };
+		QueryResult(ContPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { };
 		QuantityType GetSum() { return sum; }
 		decltype(auto) Items() { return std::make_unique<ContType>(transfers->cbegin(), transfers->cend()); }
 

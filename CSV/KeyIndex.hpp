@@ -187,11 +187,8 @@ namespace CSV
 			IndexType Get(TKeyValue key) 
 			{
 				for(auto it = keyIndices->cbegin(); it != keyIndices->cend(); ++it)
-				{
-					std::cout<<key<<"/"<<(it->GetKey()).Value()<<"\t"<<it->StringId()<<"\n";
 					if(it->StringId() == key)
 						return (it->GetIndex()).Get();
-				}
 					
 				throw std::invalid_argument( "KeyIndexContainer received negative value" );
 			}
