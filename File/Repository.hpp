@@ -120,6 +120,28 @@ namespace CSV
 			InputManager<Counter>::Instance().CreateFile();
 		}
 		
+		void Write()
+		{
+			for (auto it = visitors.begin(); it != visitors.end(); it++)
+			{
+				for(auto itNode = nodes->cbegin(); itNode != nodes->cend(); ++itNode )
+				{
+					if((it->second.IsVisitorOf( (*itNode)->Name() )))
+					{
+						Logger::Log<Info>("Repository Write: ",it->first);
+						if (FS::FileInfo* d = dynamic_cast<FS::FileInfo*>(*itNode); d != nullptr)
+						{
+							auto fi = FS::File(d);
+							fi.Write();
+						}
+						//it->second.Update(lines.cbegin(), lines.cend());
+					}
+				}			
+			}
+			
+			InputManager<Counter>::Instance().CreateFile();
+		}
+
 		static Repository& Instance()
 		{
 			static Repository instance;

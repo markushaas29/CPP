@@ -28,9 +28,12 @@ int main()
 	auto w3 = W{148};
 
 	//House<HouseConfiguration>::Instance();
-	CSV::Repository<CSV::CounterParsers>::Instance();
+	using Rep = CSV::Repository<CSV::CounterParsers>;
+	Rep::Instance();
 	CounterContainerType::Instance().Display(std::cout);
 	std::cout<<CounterContainerType::Instance().Get<1>()<<std::endl;
+	
+	Rep::Instance().Write();
 	assert(11144078==CounterContainerType::Instance().Get<1>());
     	return 0;
 }

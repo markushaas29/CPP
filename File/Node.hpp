@@ -105,7 +105,10 @@ namespace FS
 	
 		
 		std::vector<std::string> Read() const {	return ReadLines(this->info.Path());};
-		void Write(std::vector<std::string> lines)	{	};
+		
+		//~ template<typename It>
+		//~ void Write(It begin, It end)	{ std::cout<<"WRITE NODE"<<Sstd::endl;	};
+		void Write()	{ std::cout<<"WRITE NODE"<<std::endl;	};
 		
 		template<typename ParseType, typename ParseTypeContainer = ParseType::ParseCont>
 		ParseTypeContainer Parse() const
