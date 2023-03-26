@@ -72,7 +72,9 @@ public:
 	void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,
 		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 		[&](const std::string& s){ return GetValue(s); }, 
-		[&](InputIterator begin, InputIterator end){ return Update(begin,end); })));	
+		[&](InputIterator begin, InputIterator end){ return Update(begin,end); },
+		[&](){ std::cout<<"OS"<<std::endl ;return std::vector<std::string>(); }
+		)));	
 		
 		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, 
 		[&](InputIterator b, InputIterator e) { add(b,e); },
