@@ -73,7 +73,7 @@ public:
 		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 		[&](const std::string& s){ return GetValue(s); }, 
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); },
-		[&](std::ostream& s){ s<<"OS"<<std::endl ;return std::vector<std::string>(); }
+		[&](std::ostream& s){ s<<"OS"<<std::endl ; Display(s); }
 		)));	
 		
 		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, 
@@ -83,7 +83,6 @@ public:
 
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->CBegin(),readings->CEnd());	}
-	
 	decltype(auto) GetValue(const std::string& s) { return std::make_unique<FS::CounterValue<DataType>>(*(readings->CBegin())); }
 	decltype(auto) ReadingsBegin() { return readings->CBegin(); }
 	decltype(auto) ReadingsEnd() { return readings->CEnd(); }		
