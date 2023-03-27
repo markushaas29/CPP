@@ -132,7 +132,7 @@ namespace CSV
 						if (FS::FileInfo* d = dynamic_cast<FS::FileInfo*>(*itNode); d != nullptr)
 						{
 							auto fi = FS::File(d);
-							it->second.Print();
+							it->second.Print(std::cout);
 							fi.Write();
 						}
 						//it->second.Update(lines.cbegin(), lines.cend());

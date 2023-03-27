@@ -73,7 +73,7 @@ public:
 		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 		[&](const std::string& s){ return GetValue(s); }, 
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); },
-		[&](){ std::cout<<"OS"<<std::endl ;return std::vector<std::string>(); }
+		[&](std::ostream& s){ s<<"OS"<<std::endl ;return std::vector<std::string>(); }
 		)));	
 		
 		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, 
