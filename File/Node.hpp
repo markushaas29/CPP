@@ -8,6 +8,7 @@
 #include <vector>
 #include <filesystem>
 #include "Info.hpp"
+#include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Visitor/Visitor.hpp"
 
@@ -85,8 +86,9 @@ namespace FS
 	
 	struct Directory: Node<Directory, DirectoryInfo>{	Directory(DirectoryInfo * di): Node(di){};	};
 	
-	struct File: Node<File, FileInfo>
+	class File: public Node<File, FileInfo>
 	{
+	public:
 		File(FileInfo* fi): Node(fi){};
 		void CopyTo(std::string destinationName) const 
 		{ 
@@ -109,7 +111,8 @@ namespace FS
 		//~ template<typename It>
 		//~ void Write(It begin, It end)	{ std::cout<<"WRITE NODE"<<Sstd::endl;	};
 		void Write()	{ std::cout<<"WRITE NODE"<<std::endl;	};
-		
+
+
 		template<typename ParseType, typename ParseTypeContainer = ParseType::ParseCont>
 		ParseTypeContainer Parse() const
 		{
@@ -118,6 +121,8 @@ namespace FS
 			
 			return ParseType::Transactions;
 		}
+	private:
+		friend  File& operator<<(File& out, const auto& s){   std::cout<<"<<"<<std::endl; return out;  }
 	};
 
 	template<typename FileT>
