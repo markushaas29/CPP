@@ -122,6 +122,7 @@ namespace CSV
 		
 		void Write()
 		{
+			std::ofstream file("/home/markus/Dokumente/cpp/Home/Test/TestFiles/Counter.txt");
 			for (auto it = visitors.begin(); it != visitors.end(); it++)
 			{
 				for(auto itNode = nodes->cbegin(); itNode != nodes->cend(); ++itNode )
@@ -132,7 +133,7 @@ namespace CSV
 						if (FS::FileInfo* d = dynamic_cast<FS::FileInfo*>(*itNode); d != nullptr)
 						{
 							auto fi = FS::File(d);
-							it->second.Print(std::cout);
+							it->second.Print(file);
 							fi.Write();
 						}
 						//it->second.Update(lines.cbegin(), lines.cend());
