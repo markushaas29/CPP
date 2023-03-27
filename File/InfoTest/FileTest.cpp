@@ -18,5 +18,8 @@ int main()
 
 	auto f = File(&fi);
 
+//	File::Display(std::cout);
+	f<<"TEST"<<std::endl;
+	f<<"TEST";
 	return 0;
 }

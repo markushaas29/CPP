@@ -7,6 +7,7 @@
 #include <iterator>
 #include <vector>
 #include <filesystem>
+#include <memory>
 #include "Info.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
@@ -112,6 +113,7 @@ namespace FS
 		//~ void Write(It begin, It end)	{ std::cout<<"WRITE NODE"<<Sstd::endl;	};
 		void Write()	{ std::cout<<"WRITE NODE"<<std::endl;	};
 
+		std::unique_ptr<std::ofstream> Handle() { return std::make_unique<std::ofstream>("/home/markus/Dokumente/cpp/Home/Test/TestFiles/NodeTest.txt");}
 
 		template<typename ParseType, typename ParseTypeContainer = ParseType::ParseCont>
 		ParseTypeContainer Parse() const
