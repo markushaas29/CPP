@@ -58,9 +58,6 @@ constexpr decltype(auto) convertIntegerToChar(uint N)
         N /= 10;
     }
     
-    
-    std::cout<<index<<std::endl;
-
     for (uint i= 0; i < S; i++) {
         arr[i] = arr1[S - i -1];
 		if(!(int)arr[i])

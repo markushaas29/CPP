@@ -34,7 +34,6 @@ class TransferItemContainer: public TransferItemContainer<KeyIndexContainerType,
 		template<typename TransferType>
 		auto CreateTransfer(Base::InputIterator begin, Base::InputIterator end)
 		{
-			std::cout<<Type::Identifier<<"\n";
 			auto bT = Base::createTransfer(begin,end);
 			auto result = std::tuple_cat(bT, TupleType(Type(*(begin + (*(this->keyIndices))[Type::Identifier]))));
 			typename TransferType::TupleType t = result;

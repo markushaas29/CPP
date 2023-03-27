@@ -48,10 +48,8 @@ namespace Algorithms
 		while(begin != end)
 		{
 			if(predicate(*begin))
-			{
 				*dest = *begin;
-				std::cout<<*(*begin)<<std::endl;
-			}
+
 			++dest; 
 			++begin;
 		}
