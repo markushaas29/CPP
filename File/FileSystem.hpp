@@ -19,14 +19,14 @@ class FileSystem
 {
 	using Delimiter = T::char_<'/'> ;
 	inline static int level = 0;
-	inline static std::unique_ptr<std::vector<FS::Metainfo*>> nodes = std::make_unique<std::vector<FS::Metainfo*>>();
+	inline static std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> nodes = std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
 		
 public:
 	using Iterator = std::vector<FS::Metainfo*>::const_iterator;
 	using ContainerType = std::vector<FS::Metainfo*>;
 	
-	static std::unique_ptr<std::vector<FS::Metainfo*>> List(const fs::path& pathToScan) {
-		std::unique_ptr<std::vector<FS::Metainfo*>> result = std::make_unique<std::vector<FS::Metainfo*>>();
+	static std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> List(const fs::path& pathToScan) {
+		auto result = std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
 
 		std::cout<<"|->"<<pathToScan<<std::endl;
 		for (const auto& entry : fs::directory_iterator(pathToScan)) {
@@ -36,15 +36,15 @@ public:
 			
 			if (entry.is_directory()) {
 				++level;
-				auto dirnodes = FileSystem::List(entry.path());
-				FS::DirectoryInfo* dir = new FS::DirectoryInfo(entry.path(),entry.last_write_time(),*dirnodes);
-				result->push_back(dir);
-				nodes->push_back(dir);
+				std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> dirnodes = FileSystem::List(entry.path());
+				auto dir = std::make_unique<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
+				result->push_back(std::move(dir));
+				nodes->push_back(std::move(dir));
 			}
 			else {
-				FS::FileInfo* file = new FS::FileInfo(entry.path(), entry.last_write_time(), entry.file_size());
-				result->push_back(file);
-				nodes->push_back(file);
+				auto file = std::make_unique<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
+				result->push_back(std::move(file));
+				nodes->push_back(std::move(file));
 				std::cout<<"|--"<<*file<<std::endl;
 			}
 		}
@@ -54,20 +54,20 @@ public:
 		return result;
 	}
 	
-	static std::unique_ptr<std::vector<FS::Metainfo*>> GetInfos(const FS::DirectoryInfo& di) {
-		std::unique_ptr<std::vector<FS::Metainfo*>> result = std::make_unique<std::vector<FS::Metainfo*>>();
+	static decltype(auto) GetInfos(const FS::DirectoryInfo& di) {
+		std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> result = std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
 
 		for (const auto& entry : fs::directory_iterator(di.Path())) {
 			const auto filenameStr = entry.path().filename().string();
 			
 			if (entry.is_directory()) {
 				auto dirnodes = FileSystem::List(entry.path());
-				FS::DirectoryInfo* dir = new FS::DirectoryInfo(entry.path(),entry.last_write_time(),*dirnodes);
-				result->push_back(dir);
+				auto dir = std::make_unique<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
+				result->push_back(std::move(dir));
 			}
 			else {
-				FS::FileInfo* file = new FS::FileInfo(entry.path(), entry.last_write_time(), entry.file_size());
-				result->push_back(file);
+				auto file = std::make_unique<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
+				result->push_back(std::move(file));
 			}
 		}
 		
@@ -77,7 +77,7 @@ public:
 	static std::unique_ptr<FS::DirectoryInfo> GetInfos(std::unique_ptr<FS::DirectoryInfo> di) 
 	{	
 		auto infos = GetInfos(*di);
-		return std::make_unique<FS::DirectoryInfo>(di->Path(), di->LastWriteTime(), *infos);	
+		return std::make_unique<FS::DirectoryInfo>(di->Path(), di->LastWriteTime(), std::move(infos));	
 	}
 	
 	static decltype(auto) Begin(){ return nodes->cbegin(); }
@@ -95,7 +95,7 @@ public:
 		{
 			if((*it)->BelongsTo(srcPath))
 			{
-				auto destPath = BuildDestPath(srcPath, (*it)->Info().Path(),dstPath);
+				auto destPath = BuildDestPath(srcPath, (*it)->Path(),dstPath);
 				fs::create_directories(destPath);
 				Logger::Log<Info>()<<"Directory created :"<<destPath<<std::endl;
 			}
@@ -112,7 +112,7 @@ public:
 		{
 			if(it->BelongsTo(srcPath))
 			{
-				auto destPath = BuildDestPath(srcPath, it->Info().Path(),dstPath);
+				auto destPath = BuildDestPath(srcPath, it->Path(),dstPath);
 				fs::create_directories(destPath);
 				Logger::Log()<<"Directory created :"<<destPath<<std::endl;
 			}

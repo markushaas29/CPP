@@ -51,30 +51,26 @@ namespace FS
 	struct Node
 	{
 		using Type = Derived;
+		using PtrType = std::unique_ptr<DerivedInfo>;
 		using ElementType = T;
 		using ContainerType = std::vector<ElementType>;
-	protected:
-		static inline ContainerType elements = ContainerType();
-		const DerivedInfo info;
-	public:		
-		Node(DerivedInfo* fi): info(*fi){};
+	
+		Node(PtrType fi): info(std::move(fi)){};
 		static void Add(Metainfo* fi){ elements.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 	};
 		static ElementType Get(Metainfo* fi){return ElementType();};
 		static const ContainerType& Nodes() { return elements; };
-		const DerivedInfo& Info() const {return info;}
 		
-		static void Display(std::ostream& os)
+		void Display(std::ostream& os)
 		{
-			os<<Type::Extension<<std::endl;
-			for(auto e : elements)
-				os<<"-"<<e.Info()<<std::endl;
+			//os<<info->Extension()<<std::endl;
+			std::for_each(elements.cbegin(), elements.cend(),[&](auto& e){ os<<"-"<<e.info<<std::endl;});
 		}
-		
+		const std::string& Path() const { return info->Path(); };
+		const std::string& Name() const { return info->Name(); };
 		bool BelongsTo(const fs::path& p) const
 		{  
-			auto path = fs::path(this->info.Path());
+			auto path = fs::path(info->Path());
 			auto pIt = path.begin();
-
 			for(auto sp = p.begin(); sp != p.end(); ++sp, ++pIt)
 			{
 				if(*sp != *pIt)
@@ -83,31 +79,34 @@ namespace FS
 				
 			return true;
 		};
+	protected:
+		static inline ContainerType elements = ContainerType();
+		std::unique_ptr<DerivedInfo> info;
 	};
 	
-	struct Directory: Node<Directory, DirectoryInfo>{	Directory(DirectoryInfo * di): Node(di){};	};
+	struct Directory: Node<Directory, DirectoryInfo>{	Directory(std::unique_ptr<DirectoryInfo> di): Node(std::move(di)){};	};
 	
 	class File: public Node<File, FileInfo>
 	{
 	public:
-		File(FileInfo* fi): Node(fi){};
+		File(std::unique_ptr<FileInfo> fi): Node(std::move(fi)){};
 		void CopyTo(std::string destinationName) const 
 		{ 
 			try
 			{
-				auto srcName = fs::path(this->info.Path()).parent_path().string() +"/"+ this->info.Name();
+				auto srcName = fs::path(info->Path()).parent_path().string() +"/"+ info->Name();
 				fs::copy(srcName, fs::path(destinationName));
 				Logger::Log<::Info>(srcName," copied.");
 			}
 			catch (const std::exception& e)
 			{
-				Logger::Log<Error>("File", this->info.Name(), "could not copied!");
+				Logger::Log<Error>("File", info->Name(), "could not copied!");
 				Logger::Log<Error>("Reason", e.what());
 			} 
 		};
 	
 		
-		std::vector<std::string> Read() const {	return ReadLines(this->info.Path());};
+		std::vector<std::string> Read() const {	return ReadLines(info->Path());};
 		
 		//~ template<typename It>
 		//~ void Write(It begin, It end)	{ std::cout<<"WRITE NODE"<<Sstd::endl;	};
@@ -130,7 +129,7 @@ namespace FS
 	template<typename FileT>
 	struct FileTypeBase: Node<FileTypeBase<FileT>, FileInfo, File>
 	{
-		FileTypeBase(FileInfo* fi): Node<FileTypeBase<FileT>, FileInfo, File>(fi){};
+		FileTypeBase(std::unique_ptr<FileInfo> fi): Node<FileTypeBase<FileT>, FileInfo, File>(std::move(fi)){};
 		using ParsedType = std::string;
 		using ParserContainer = std::vector<ParsedType>;
 		static const char* Extension;		
@@ -156,7 +155,7 @@ namespace FS
 	
 	struct CSV: public FileTypeBase<CSV>
 	{
-		CSV(FileInfo* fi): FileTypeBase(fi), destinationPath(this->Info().Path() + CSV::Extension){};
+		CSV(std::unique_ptr<FileInfo> fi): FileTypeBase(std::move(fi)), destinationPath(info->Path() + CSV::Extension){};
 
 		template<typename Ctr, typename Separator = T::char_<';'>>
 		void Write()

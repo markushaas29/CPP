@@ -75,12 +75,12 @@ namespace CSV
 			auto infos = FileSystem::List(path);
 			
 			for(auto i : *infos)
-				nodes->push_back(i);
+				nodes->push_back(std::move(i));
 
 			auto root = fs::directory_entry(path);
-			auto dir = new FS::DirectoryInfo(root.path(),root.last_write_time(),*infos);
+			auto dir = std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time(),infos);
 			
-			nodes->push_back(dir);
+			nodes->push_back(std::move(dir));
 			Map(nodes->cbegin(), nodes->cend());
 		}
 		
@@ -184,7 +184,7 @@ namespace CSV
 		};	
 		
 		static inline TreeParserVisitor treeParser = TreeParserVisitor();
-		static inline std::unique_ptr<std::vector<FS::Metainfo*>> nodes = std::unique_ptr<std::vector<FS::Metainfo*>>(new std::vector<FS::Metainfo*>());
+		static inline std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> nodes = std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>>(new std::vector<std::unique_ptr<FS::Metainfo>>());
 		
 	};
 	

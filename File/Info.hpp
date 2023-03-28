@@ -106,22 +106,21 @@ namespace FS
 	class DirectoryInfo : public Metainfo
 	{   
 	private:
-		std::vector<Metainfo*> nodes;
+		std::unique_ptr<std::vector<std::unique_ptr<Metainfo>>> nodes;
 	protected:
 		virtual Metainfo* Child(int n) { return 0; }
 	public: 
 		DEFINE_VISITABLE();
 		~DirectoryInfo(){};
 		
-		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::vector<Metainfo*> n):Metainfo(p,lm, 0), nodes(n){	this->size = this->Size();	};
-		
+		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::unique_ptr<std::vector<std::unique_ptr<Metainfo>>> n):Metainfo(p,lm, 0), nodes(std::move(n)){	this->size = this->Size();	};
 		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm):Metainfo(p,lm, 0), nodes{}{	this->size = this->Size();	};
 		
 		long Size() const
 		{
 			long result = 0;
 			Metainfo* child;
-			for(auto it = nodes.cbegin(); it != nodes.cend(); ++it)
+			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
 				result += (*it)->Size();
 							
 			return result;
@@ -130,7 +129,7 @@ namespace FS
 		std::unique_ptr<std::vector<const Metainfo*>> GetNodes(std::unique_ptr<std::vector<const Metainfo*>> ptr) const
 		{
 			ptr->push_back(this);
-			for(auto it = nodes.cbegin(); it != nodes.cend(); ++it)
+			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
 				ptr = (*it)->GetNodes(std::move(ptr));
 							
 			return ptr;
@@ -139,13 +138,21 @@ namespace FS
 		const std::string virtual PrintInfo(std::ostream& out) const 
 		{ 
 			auto s = this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path() ; 
-			for(auto n : nodes)
-				out<<"|-->"<<*n<<std::endl;
+			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
+				out<<"|-->"<<*it<<std::endl;
 				
 			return s;
 		};
 		
-		const std::vector<Metainfo*>& Nodes() { return this->nodes; }
+//		std::vector<std::unique_ptr<Metainfo>> Nodes() 
+//		{ 
+//			std::vector<std::unique_ptr<Metainfo>> result;
+//			std::for_each(nodes->cbegin(),nodes->cend(),[&](auto& m)
+//					{
+//					if
+//					result.push_back(std::make_unique<Metainfo>(m)); });
+//			return result; 
+//		}
 	};
 	
 	std::ostream& operator<<(std::ostream& out, const DirectoryInfo* n)	

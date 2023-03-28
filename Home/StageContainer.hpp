@@ -39,7 +39,7 @@ private:
 protected:
 	inline static std::unique_ptr<StagesMap, DebugDeleter<StagesMap>> stages = std::unique_ptr<StagesMap, DebugDeleter<StagesMap>>(new StagesMap(),DebugDeleter<StagesMap>());
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(filePath)));
-	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(new FS::CSV(fileInfo.get()));
+	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(std::move(fileInfo));
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using CsvValuesIterator = std::vector<std::vector<std::string>>::const_iterator;
 	

@@ -137,7 +137,7 @@ namespace FS
 			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{
-				std::string dst = this->BuildDestPath(it->Info().Path(),dest);
+				std::string dst = this->BuildDestPath(it->Path(),dest);
 				if(it->BelongsTo(this->rootPath))
 					it->CopyTo(dst);
 			}
@@ -149,7 +149,7 @@ namespace FS
 		void List()
 		{
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-				Logger::Log()<<it->Info()<<std::endl;
+				Logger::Log()<<it->Path()<<it->Name()<<std::endl;
 			
 			FileTypeContainer<Typelist<Tail...>>::List();
 		}
@@ -159,10 +159,10 @@ namespace FS
 			std::vector<std::string> r, result;
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
-				if(String_::Contains(it->Info().Name() ,name) && std::find(this->readFile.begin(), this->readFile.end(), it->Info().Name()) == this->readFile.end())
+				if(String_::Contains(it->Name() ,name) && std::find(this->readFile.begin(), this->readFile.end(), it->Name()) == this->readFile.end())
 				{
-					Logger::Log()<<it->Info().Name()<<"\t"<<name<<std::endl;
-					this->readFile.push_back(it->Info().Name());
+					Logger::Log()<<it->Name()<<"\t"<<name<<std::endl;
+					this->readFile.push_back(it->Name());
 					result = it->Read();
 					return result;
 				}
