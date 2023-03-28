@@ -35,6 +35,13 @@ public:
 	template<unsigned N>
 	auto Get() { return At<CounterTypes,N>::Type; }
 
+	bool Exec(uint N)
+	{
+		if (N==Head::Number)
+			return true;
+		return false;
+	}
+
 	static CounterContainer& Instance()
 	{
 		static CounterContainer instance;
@@ -57,6 +64,14 @@ public:
 	using Base = CounterContainer<Typelist<Tail...>>;
 	
 	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Display(os));	}
+	
+	bool Exec(uint N)
+	{
+		if (N==Head::Number)
+			return true;
+		return Base::Exec(N);
+
+	}
 	void Write(const std::string sourcePath = ".")	
 	{	
 	}

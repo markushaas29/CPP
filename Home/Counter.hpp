@@ -103,6 +103,7 @@ public:
 		Display(std::cout);
 	}	
 
+	bool Exec() { whlie(1) };
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
 	void write(const std::string sourcePath = ".")
