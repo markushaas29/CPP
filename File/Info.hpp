@@ -58,9 +58,9 @@ namespace FS
 		virtual ~Metainfo(){};
 		
 		virtual long Size() const {return size; };
-		virtual std::unique_ptr<std::vector<const Metainfo*>> GetNodes(std::unique_ptr<std::vector<const Metainfo*>> nodes) const 
+		virtual std::unique_ptr<std::vector<std::unique_ptr<Metainfo>>> GetNodes(std::unique_ptr<std::vector<std::unique_ptr<Metainfo>>> nodes) 
 		{ 
-			nodes->push_back(this); 
+			nodes->push_back(std::unique_ptr<Metainfo>(this)); 
 			return nodes;
 		};
 		const std::string& Name() const{ return name; };
@@ -126,9 +126,9 @@ namespace FS
 			return result;
 		}
 		
-		std::unique_ptr<std::vector<const Metainfo*>> GetNodes(std::unique_ptr<std::vector<const Metainfo*>> ptr) const
+		std::unique_ptr<std::vector<std::unique_ptr<Metainfo>>> GetNodes(std::unique_ptr<std::vector<std::unique_ptr<Metainfo>>> ptr)
 		{
-			ptr->push_back(this);
+			ptr->push_back(std::unique_ptr<DirectoryInfo>(this));
 			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
 				ptr = (*it)->GetNodes(std::move(ptr));
 							

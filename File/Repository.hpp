@@ -73,12 +73,11 @@ namespace CSV
 		void Map(const std::string& path)
 		{
 			auto infos = FileSystem::List(path);
-			
-			for(auto i : *infos)
-				nodes->push_back(std::move(i));
+		
+			std::for_each(infos->cbegin(), infos->cend(), [&](auto& i) {nodes->push_back(std::move(i));});
 
 			auto root = fs::directory_entry(path);
-			auto dir = std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time(),infos);
+			auto dir = std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time(),std::move(infos));
 			
 			nodes->push_back(std::move(dir));
 			Map(nodes->cbegin(), nodes->cend());
@@ -212,95 +211,95 @@ namespace CSV
 
 namespace Backup
 {
-	struct Repository
-	{
-		using FileTypes = Configuration::Backup::FileTypes;
-		using TypeContainer = FS::FileTypeContainer<FileTypes>;
-	
-		static Repository& Instance()
-		{
-			static Repository instance;
-			return instance;
-		}
-		
-		void Backup(std::string from, std::string to)
-		{
-			Repository::Root = from;
-			Repository::Dest = to;
-			
-			auto root = fs::directory_entry(from);
-			auto di =  std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time());
-			auto newDi = FileSystem::GetInfos(std::move(di));
-			
-			auto vec =  std::make_unique<std::vector<const FS::Metainfo*>>();
-			auto result = newDi->GetNodes(std::move(vec));
-
-			for(auto r : *result)
-				std::cout<<r->GetInfo()<<std::endl;
-			
-			Backup::Repository::Map(result->cbegin(), result->cend());
-			typeContainer.Display(std::cout);
-			FileSystem::CreateDirectories(directories->cbegin(), directories->cend(),from,to);
-			Backup::Repository::CopyTo(to);
-		}
-		
-		template<typename Iterator>
-		void Map(const Iterator& begin, const Iterator& end)
-		{
-			for(Iterator it = begin; it != end; ++it)
-			{
-				(*it)->AcceptConst(treeParser);
-
-				Logger::Log<Info>("Map: ", (*it)->Name());
-				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Metainfo*>(*it)))
-					typeContainer.Add(fi); 
-				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Metainfo*>(*it)))
-					directories->push_back(std::make_unique<FS::Directory>(di));
-			}
-			Logger::Log<Info>("Directories: ", directories->size());
-		}
-		
-		void CopyTo(std::string dest)
-		{
-			typeContainer.SetRootPath(Repository::Root);
-			typeContainer.CopyTo(dest);
-		}
-		
-		void List()	{ typeContainer.List();	}
-		
-		void SetRootPath(std::string s) { Root = s; }
-		void SetDestPath(std::string s) { Dest = s; }
-		std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }
-		
-		template<typename ParseType>
-		typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
-	private:
-		Repository()	
-		{ 
-			Logger::Log<Info>("Repository constructor");
-		};
-		
-		~Repository()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
-		Repository& operator=(const Repository&) = delete;
-		Repository(const Repository& c) = delete;
-	
-		inline static std::unique_ptr<std::vector<std::unique_ptr<FS::Directory>>> directories = std::make_unique<std::vector<std::unique_ptr<FS::Directory>>>();
-		static inline TypeContainer typeContainer = TypeContainer();
-		inline static std::string Root = ""; 
-		inline static std::string Dest = ""; 
-		
-		class TreeParserVisitor: 
-			public BaseVisitor,
-			public ConstVisitor<FS::DirectoryInfo>,
-			public ConstVisitor<FS::FileInfo>
-		{
-		public:
-			virtual void Visit(const FS::DirectoryInfo& di) { Logger::Log<Info>("Visit Directory");	 };
-			virtual void Visit(const FS::FileInfo& fi) { Logger::Log<Info>("Visit File"); };
-		};
-		
-		static inline TreeParserVisitor treeParser = TreeParserVisitor();	
-	};
+//	struct Repository
+//	{
+//		using FileTypes = Configuration::Backup::FileTypes;
+//		using TypeContainer = FS::FileTypeContainer<FileTypes>;
+//	
+//		static Repository& Instance()
+//		{
+//			static Repository instance;
+//			return instance;
+//		}
+//		
+//		void Backup(std::string from, std::string to)
+//		{
+//			Repository::Root = from;
+//			Repository::Dest = to;
+//			
+//			auto root = fs::directory_entry(from);
+//			auto di =  std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time());
+//			auto newDi = FileSystem::GetInfos(std::move(di));
+//			
+//			auto vec =  std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
+//			auto result = newDi->GetNodes(std::move(vec));
+//
+////			for(auto r : *result)
+////				std::cout<<r->GetInfo()<<std::endl;
+//			
+//			Backup::Repository::Map(result->cbegin(), result->cend());
+//			typeContainer.Display(std::cout);
+//			FileSystem::CreateDirectories(directories->cbegin(), directories->cend(),from,to);
+//			Backup::Repository::CopyTo(to);
+//		}
+//		
+//		template<typename Iterator>
+//		void Map(const Iterator& begin, const Iterator& end)
+//		{
+//			for(Iterator it = begin; it != end; ++it)
+//			{
+//				(*it)->AcceptConst(treeParser);
+//
+//				Logger::Log<Info>("Map: ", (*it)->Name());
+//				if(FS::FileInfo* fi = dynamic_cast<FS::FileInfo*>(const_cast<FS::Metainfo*>(*it)))
+//					typeContainer.Add(fi); 
+//				if(FS::DirectoryInfo* di = dynamic_cast<FS::DirectoryInfo*>(const_cast<FS::Metainfo*>(*it)))
+//					directories->push_back(std::make_unique<FS::Directory>(di));
+//			}
+//			Logger::Log<Info>("Directories: ", directories->size());
+//		}
+//		
+//		void CopyTo(std::string dest)
+//		{
+//			typeContainer.SetRootPath(Repository::Root);
+//			typeContainer.CopyTo(dest);
+//		}
+//		
+//		void List()	{ typeContainer.List();	}
+//		
+//		void SetRootPath(std::string s) { Root = s; }
+//		void SetDestPath(std::string s) { Dest = s; }
+//		std::vector<std::string> Read(std::string s)	{	return typeContainer.Read(s); }
+//		
+//		template<typename ParseType>
+//		typename ParseType::ParseCont Parse(std::string s){	return typeContainer.Parse<ParseType>(s); }
+//	private:
+//		Repository()	
+//		{ 
+//			Logger::Log<Info>("Repository constructor");
+//		};
+//		
+//		~Repository()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+//		Repository& operator=(const Repository&) = delete;
+//		Repository(const Repository& c) = delete;
+//	
+//		inline static std::unique_ptr<std::vector<std::unique_ptr<FS::Directory>>> directories = std::make_unique<std::vector<std::unique_ptr<FS::Directory>>>();
+//		static inline TypeContainer typeContainer = TypeContainer();
+//		inline static std::string Root = ""; 
+//		inline static std::string Dest = ""; 
+//		
+//		class TreeParserVisitor: 
+//			public BaseVisitor,
+//			public ConstVisitor<FS::DirectoryInfo>,
+//			public ConstVisitor<FS::FileInfo>
+//		{
+//		public:
+//			virtual void Visit(const FS::DirectoryInfo& di) { Logger::Log<Info>("Visit Directory");	 };
+//			virtual void Visit(const FS::FileInfo& fi) { Logger::Log<Info>("Visit File"); };
+//		};
+//		
+//		static inline TreeParserVisitor treeParser = TreeParserVisitor();	
+//	};
 }
 
 #endif
