@@ -53,12 +53,12 @@ namespace CSV
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
 	
-		template<typename Iterator>
-		void Map(const Iterator& begin, const Iterator& end)
-		{
-			for(Iterator it = begin; it != end; ++it)
-				(*it)->Accept(treeParser);
-		}
+		//~ template<typename Iterator>
+		//~ void Map(const Iterator& begin, const Iterator& end)
+		//~ {
+			//~ for(Iterator it = begin; it != end; ++it)
+				//~ (*it)->Accept(treeParser);
+		//~ }
 		
 		void CopyTo(std::string dest)
 		{
@@ -72,15 +72,20 @@ namespace CSV
 		
 		void Map(const std::string& path)
 		{
-			auto infos = FileSystem::List(path);
-		
-			std::for_each(infos->cbegin(), infos->cend(), [&](auto& i) {nodes->push_back(std::move(i));});
+			nodes = FileSystem::List(path);
+			auto infos = std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>>(new std::vector<std::shared_ptr<FS::Metainfo>>());
+
+			for(auto it = nodes->begin(); it != nodes->end(); ++it )
+			{
+				std::shared_ptr<FS::Metainfo> m = std::move(*it);
+				infos->push_back(m);
+			}
 
 			auto root = fs::directory_entry(path);
 			auto dir = std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time(),std::move(infos));
 			
 			nodes->push_back(std::move(dir));
-			Map(nodes->cbegin(), nodes->cend());
+			//Map(nodes->cbegin(), nodes->cend());
 		}
 		
 		std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
@@ -172,18 +177,18 @@ namespace CSV
 		inline static std::string Root = ""; 
 		inline static std::string Dest = ""; 
 				
-		class TreeParserVisitor: 
-			public BaseVisitor,
-			public Visitor<FS::DirectoryInfo>,
-			public Visitor<FS::FileInfo>
-		{
-		public:
-			virtual void Visit(FS::DirectoryInfo& di) {	FS::Directory::Add(&di); };
-			virtual void Visit(FS::FileInfo& fi) { types.Add(&fi); };
-		};	
+		//~ class TreeParserVisitor: 
+			//~ public BaseVisitor,
+			//~ public Visitor<FS::DirectoryInfo>,
+			//~ public Visitor<FS::FileInfo>
+		//~ {
+		//~ public:
+			//~ virtual void Visit(FS::DirectoryInfo& di) {	FS::Directory::Add(&di); };
+			//~ virtual void Visit(FS::FileInfo& fi) { types.Add(&fi); };
+		//~ };	
 		
-		static inline TreeParserVisitor treeParser = TreeParserVisitor();
-		static inline std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> nodes = std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>>(new std::vector<std::unique_ptr<FS::Metainfo>>());
+		//~ static inline TreeParserVisitor treeParser = TreeParserVisitor();
+		static inline std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>> nodes = std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>>(new std::vector<std::shared_ptr<FS::Metainfo>>());
 		
 	};
 	

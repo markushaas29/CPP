@@ -25,8 +25,8 @@ public:
 	using Iterator = std::vector<FS::Metainfo*>::const_iterator;
 	using ContainerType = std::vector<FS::Metainfo*>;
 	
-	static std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> List(const fs::path& pathToScan) {
-		auto result = std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
+	static std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>> List(const fs::path& pathToScan) {
+		auto result = std::make_unique<std::vector<std::shared_ptr<FS::Metainfo>>>();
 
 		std::cout<<"|->"<<pathToScan<<std::endl;
 		for (const auto& entry : fs::directory_iterator(pathToScan)) {
@@ -36,7 +36,7 @@ public:
 			
 			if (entry.is_directory()) {
 				++level;
-				std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> dirnodes = FileSystem::List(entry.path());
+				std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>> dirnodes = FileSystem::List(entry.path());
 				auto dir = std::make_unique<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
 				result->push_back(std::move(dir));
 				nodes->push_back(std::move(dir));
@@ -55,7 +55,7 @@ public:
 	}
 	
 	static decltype(auto) GetInfos(const FS::DirectoryInfo& di) {
-		std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> result = std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
+		std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>> result = std::make_unique<std::vector<std::shared_ptr<FS::Metainfo>>>();
 
 		for (const auto& entry : fs::directory_iterator(di.Path())) {
 			const auto filenameStr = entry.path().filename().string();

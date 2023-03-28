@@ -56,7 +56,7 @@ namespace FS
 		using ContainerType = std::vector<ElementType>;
 	
 		Node(PtrType fi): info(std::move(fi)){};
-		static void Add(Metainfo* fi){ elements.push_back(ElementType(static_cast<DerivedInfo*>(fi))); 	};
+		static void Add(Metainfo* fi){ elements.push_back(ElementType(std::make_unique<DerivedInfo>(static_cast<DerivedInfo*>(fi)))); 	};
 		static ElementType Get(Metainfo* fi){return ElementType();};
 		static const ContainerType& Nodes() { return elements; };
 		

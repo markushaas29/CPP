@@ -85,10 +85,10 @@ namespace FS
 			std::vector<std::string> r, result;
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{				
-				if(String_::Contains(it->Info().Name() ,name) && std::find(this->readFile.begin(), this->readFile.end(), it->Info().Name()) == this->readFile.end())
+				if(String_::Contains(it->Name() ,name) && std::find(readFile.begin(), readFile.end(), it->Name()) == readFile.end())
 				{
-					Logger::Log()<<it->Info().Path()<<"\t"<<name<<std::endl;
-					this->readFile.push_back(it->Info().Name());
+					Logger::Log()<<it->Path()<<"\t"<<name<<std::endl;
+					readFile.push_back(it->Name());
 					result = it->Read();
 					return result;
 				}
