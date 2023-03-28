@@ -38,7 +38,7 @@ public:
 	bool Exec(uint N)
 	{
 		if (N==Head::Number)
-			return true;
+			return Head::Instance().Exec();
 		return false;
 	}
 
@@ -68,7 +68,7 @@ public:
 	bool Exec(uint N)
 	{
 		if (N==Head::Number)
-			return true;
+			return Head::Instance().Exec();
 		return Base::Exec(N);
 
 	}
