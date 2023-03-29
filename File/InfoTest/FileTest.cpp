@@ -21,20 +21,21 @@ int main()
 	
 	auto fi = std::make_shared<FS::FileInfo>(path);
 	auto ci = std::make_shared<FS::FileInfo>(cpath);
-	auto di = std::make_shared<FS::DirectoryInfo>(dpath,lm);
+	auto di = std::make_shared<FS::DirectoryInfo>(d2Path,lm);
 
-	auto f = File(std::move(fi));
-	auto c = File(std::move(ci));
-	auto d = Directory(std::move(di));
+	auto f = File(fi);
+	auto c = File(ci);
+	auto d = Directory(di);
 
       	f.Display(std::cout);
       	c.Display(std::cout);
       	d.Display(std::cout);
 
       	std::cout<<d.Path()<<std::endl;
+      	std::cout<<di->Path()<<std::endl;
 
 	FileSystem::List(dpath);
-	FileSystem::List(d2Path);
+	//FileSystem::List(d2Path);
 	FileSystem::GetInfos(di);
 
 	return 0;

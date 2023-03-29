@@ -52,18 +52,16 @@ public:
 	
 	static decltype(auto) GetInfos(std::shared_ptr<FS::DirectoryInfo> di) {
 		std::unique_ptr<ContainerType> result = std::make_unique<ContainerType>();
-
 		for (const auto& entry : fs::directory_iterator(di->Path())) {
 			const auto filenameStr = entry.path().filename().string();
 			
 			if (entry.is_directory()) {
 				auto dirnodes = FileSystem::List(entry.path());
-				auto dir = std::make_shared<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
+				auto dir = std::make_shared<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::make_shared<ContainerType>(dirnodes->cbegin(),dirnodes->cend()));
 				result->push_back(dir);
 			}
 			else 
 				result->push_back(std::make_shared<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size()));
-			
 		}
 		
 		return result;

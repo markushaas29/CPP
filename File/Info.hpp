@@ -48,7 +48,7 @@ namespace FS
 		virtual ~Metainfo(){};
 		
 		virtual long Size() const {return size; };
-		virtual std::unique_ptr<NodesType> GetNodes(std::unique_ptr<NodesType> nodes) 
+		virtual std::shared_ptr<NodesType> GetNodes(std::shared_ptr<NodesType> nodes) 
 		{ 
 			nodes->push_back(std::shared_ptr<Metainfo>(this)); 
 			return nodes;
@@ -110,7 +110,7 @@ namespace FS
 		DEFINE_VISITABLE();
 		~DirectoryInfo(){};
 		
-		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::unique_ptr<NodesType> n = std::make_unique<NodesType>()):Metainfo(p,lm, 0), nodes(std::move(n)){	size = Size();	};
+		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::shared_ptr<NodesType> n = std::make_shared<NodesType>()):Metainfo(p,lm, 0), nodes(n){ size = Size();	};
 		
 		long Size() const
 		{
@@ -122,9 +122,9 @@ namespace FS
 			return result;
 		}
 		
-		std::unique_ptr<NodesType> GetNodes(std::unique_ptr<NodesType> ptr)
+		std::shared_ptr<NodesType> GetNodes(std::shared_ptr<NodesType> ptr)
 		{
-			ptr->push_back(std::unique_ptr<DirectoryInfo>(this));
+			ptr->push_back(std::shared_ptr<DirectoryInfo>(this));
 			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
 				ptr = (*it)->GetNodes(std::move(ptr));
 							
@@ -140,19 +140,19 @@ namespace FS
 			return s;
 		};
 		
-//		std::vector<std::unique_ptr<Metainfo>> Nodes() 
+//		std::vector<std::shared_ptr<Metainfo>> Nodes() 
 //		{ 
-//			std::vector<std::unique_ptr<Metainfo>> result;
+//			std::vector<std::shared_ptr<Metainfo>> result;
 //			std::for_each(nodes->cbegin(),nodes->cend(),[&](auto& m)
 //					{
 //					if
-//					result.push_back(std::make_unique<Metainfo>(m)); });
+//					result.push_back(std::make_shared<Metainfo>(m)); });
 //			return result; 
 //		}
 	protected:
 		virtual Metainfo* Child(int n) { return 0; }
 	private:
-		std::unique_ptr<NodesType> nodes;
+		std::shared_ptr<NodesType> nodes;
 	};
 	
 	std::ostream& operator<<(std::ostream& out, const DirectoryInfo* n)	
