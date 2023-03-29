@@ -50,10 +50,10 @@ public:
 		return result;
 	}
 	
-	static decltype(auto) GetInfos(const FS::DirectoryInfo& di) {
+	static decltype(auto) GetInfos(std::shared_ptr<FS::DirectoryInfo> di) {
 		std::unique_ptr<ContainerType> result = std::make_unique<ContainerType>();
 
-		for (const auto& entry : fs::directory_iterator(di.Path())) {
+		for (const auto& entry : fs::directory_iterator(di->Path())) {
 			const auto filenameStr = entry.path().filename().string();
 			
 			if (entry.is_directory()) {
@@ -61,20 +61,19 @@ public:
 				auto dir = std::make_shared<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
 				result->push_back(dir);
 			}
-			else {
-				auto file = std::make_shared<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
-				result->push_back(file);
-			}
+			else 
+				result->push_back(std::make_shared<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size()));
+			
 		}
 		
 		return result;
 	}
 	
-	static std::unique_ptr<FS::DirectoryInfo> GetInfos(std::unique_ptr<FS::DirectoryInfo> di) 
-	{	
-		auto infos = GetInfos(*di);
-		return std::make_unique<FS::DirectoryInfo>(di->Path(), di->LastWriteTime(), std::move(infos));	
-	}
+	//static std::unique_ptr<FS::DirectoryInfo> GetInfos(std::unique_ptr<FS::DirectoryInfo> di) 
+	//{	
+	//	auto infos = GetInfos(*di);
+	//	return std::make_unique<FS::DirectoryInfo>(di->Path(), di->LastWriteTime(), std::move(infos));	
+	//}
 	
 	static decltype(auto) Begin(){ return nodes->cbegin(); }
 	static decltype(auto) End(){ return nodes->cend(); }

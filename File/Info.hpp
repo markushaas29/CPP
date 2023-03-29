@@ -56,13 +56,13 @@ namespace FS
 		const std::string& Name() const{ return name; };
 		const std::string& Path() const { return path; };
 		bool Exists() const {  return exists; };
-		const std::time_t LastModification()const { return to_time_t(this->lastModification); };
-		decltype(auto) LastWriteTime()const { return this->lastModification; };
-		decltype(auto) GetInfo() const { return this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path();}
-		const std::string virtual PrintInfo(std::ostream& out) const { return this->GetInfo() ; };
+		const std::time_t LastModification()const { return to_time_t(lastModification); };
+		decltype(auto) LastWriteTime()const { return lastModification; };
+		decltype(auto) GetInfo() const { return Name() + std::string("\t") + std::to_string(Size()) + std::string("\t") + to_timestring(LastModification()) + std::string("\t") + Path();}
+		const std::string virtual PrintInfo(std::ostream& out) const { return GetInfo() ; };
 		
 		std::ostream& Display(std::ostream& out) const { 
-			auto i = this->PrintInfo(out); 
+			auto i = PrintInfo(out); 
 			return out<<i;
 		};
 	protected:
@@ -99,7 +99,7 @@ namespace FS
 			strcpy( extension, p.extension().c_str() );
 		};
 		
-		const char*  Extension() const { return this->extension; };
+		const char*  Extension() const { return extension; };
 	};
 	
 	std::ostream& operator<<(std::ostream& out, const FileInfo* n)	{	return out<<n->PrintInfo(out);	}
@@ -133,7 +133,7 @@ namespace FS
 		
 		const std::string virtual PrintInfo(std::ostream& out) const 
 		{ 
-			auto s = this->Name() + std::string("\t") + std::to_string(this->Size()) + std::string("\t") + to_timestring(this->LastModification()) + std::string("\t") + this->Path() ; 
+			auto s = Name() + std::string("\t") + std::to_string(Size()) + std::string("\t") + to_timestring(LastModification()) + std::string("\t") + Path() ; 
 			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
 				out<<"|-->"<<*it<<std::endl;
 				

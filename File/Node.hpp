@@ -51,12 +51,12 @@ namespace FS
 	struct Node
 	{
 		using Type = Derived;
-		using PtrType = std::unique_ptr<DerivedInfo>;
+		using PtrType = std::shared_ptr<DerivedInfo>;
 		using ElementType = T;
 		using ContainerType = std::vector<ElementType>;
 	
-		Node(PtrType fi): info(std::move(fi)){};
-		static void Add(Metainfo* fi){ elements.push_back(ElementType(std::make_unique<DerivedInfo>(static_cast<DerivedInfo*>(fi)))); 	};
+		Node(PtrType fi): info(fi){};
+		static void Add(Metainfo* fi){ elements.push_back(ElementType(std::make_shared<DerivedInfo>(static_cast<DerivedInfo*>(fi)))); 	};
 		static ElementType Get(Metainfo* fi){return ElementType();};
 		static const ContainerType& Nodes() { return elements; };
 		
@@ -81,15 +81,15 @@ namespace FS
 		};
 	protected:
 		static inline ContainerType elements = ContainerType();
-		std::unique_ptr<DerivedInfo> info;
+		std::shared_ptr<DerivedInfo> info;
 	};
 	
-	struct Directory: Node<Directory, DirectoryInfo>{	Directory(std::unique_ptr<DirectoryInfo> di): Node(std::move(di)){};	};
+	struct Directory: Node<Directory, DirectoryInfo>{	Directory(std::shared_ptr<DirectoryInfo> di): Node(di){};	};
 	
 	class File: public Node<File, FileInfo>
 	{
 	public:
-		File(std::unique_ptr<FileInfo> fi): Node(std::move(fi)){};
+		File(std::shared_ptr<FileInfo> fi): Node(fi){};
 		void CopyTo(std::string destinationName) const 
 		{ 
 			try
@@ -129,7 +129,7 @@ namespace FS
 	template<typename FileT>
 	struct FileTypeBase: Node<FileTypeBase<FileT>, FileInfo, File>
 	{
-		FileTypeBase(std::unique_ptr<FileInfo> fi): Node<FileTypeBase<FileT>, FileInfo, File>(std::move(fi)){};
+		FileTypeBase(std::shared_ptr<FileInfo> fi): Node<FileTypeBase<FileT>, FileInfo, File>(fi){};
 		using ParsedType = std::string;
 		using ParserContainer = std::vector<ParsedType>;
 		static const char* Extension;		
@@ -155,7 +155,7 @@ namespace FS
 	
 	struct CSV: public FileTypeBase<CSV>
 	{
-		CSV(std::unique_ptr<FileInfo> fi): FileTypeBase(std::move(fi)), destinationPath(info->Path() + CSV::Extension){};
+		CSV(std::shared_ptr<FileInfo> fi): FileTypeBase(fi), destinationPath(info->Path() + CSV::Extension){};
 
 		template<typename Ctr, typename Separator = T::char_<';'>>
 		void Write()

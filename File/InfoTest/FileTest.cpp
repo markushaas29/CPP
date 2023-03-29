@@ -19,9 +19,9 @@ int main()
 	auto d2Path = fs::path{ "/home/markus/Dokumente/cpp" };
 	std::filesystem::file_time_type lm;	
 	
-	auto fi = std::make_unique<FS::FileInfo>(path);
-	auto ci = std::make_unique<FS::FileInfo>(cpath);
-	auto di = std::make_unique<FS::DirectoryInfo>(dpath,lm);
+	auto fi = std::make_shared<FS::FileInfo>(path);
+	auto ci = std::make_shared<FS::FileInfo>(cpath);
+	auto di = std::make_shared<FS::DirectoryInfo>(dpath,lm);
 
 	auto f = File(std::move(fi));
 	auto c = File(std::move(ci));
@@ -35,7 +35,7 @@ int main()
 
 	FileSystem::List(dpath);
 	FileSystem::List(d2Path);
-	FileSystem::GetInfos(*di);
+	FileSystem::GetInfos(di);
 
 	return 0;
 }
