@@ -17,10 +17,6 @@
 
 class FileSystem
 {
-	using Delimiter = T::char_<'/'> ;
-	inline static int level = 0;
-	inline static std::unique_ptr<std::vector<std::unique_ptr<FS::Metainfo>>> nodes = std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
-		
 public:
 	using Iterator = std::vector<FS::Metainfo*>::const_iterator;
 	using ContainerType = std::vector<std::shared_ptr<FS::Metainfo>>;
@@ -37,14 +33,14 @@ public:
 			if (entry.is_directory()) {
 				++level;
 				std::unique_ptr<ContainerType> dirnodes = FileSystem::List(entry.path());
-				auto dir = std::make_unique<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
-				result->push_back(std::move(dir));
-				nodes->push_back(std::move(dir));
+				auto dir = std::make_shared<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
+				result->push_back(dir);
+				nodes->push_back(dir);
 			}
 			else {
-				auto file = std::make_unique<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
-				result->push_back(std::move(file));
-				nodes->push_back(std::move(file));
+				auto file = std::make_shared<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
+				result->push_back(file);
+				nodes->push_back(file);
 				std::cout<<"|--"<<*file<<std::endl;
 			}
 		}
@@ -62,12 +58,12 @@ public:
 			
 			if (entry.is_directory()) {
 				auto dirnodes = FileSystem::List(entry.path());
-				auto dir = std::make_unique<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
-				result->push_back(std::move(dir));
+				auto dir = std::make_shared<FS::DirectoryInfo>(entry.path(),entry.last_write_time(),std::move(dirnodes));
+				result->push_back(dir);
 			}
 			else {
-				auto file = std::make_unique<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
-				result->push_back(std::move(file));
+				auto file = std::make_shared<FS::FileInfo>(entry.path(), entry.last_write_time(), entry.file_size());
+				result->push_back(file);
 			}
 		}
 		
@@ -130,6 +126,11 @@ public:
 		
 		return dst / rootFolder / result;
 	}
+private:
+	using Delimiter = T::char_<'/'> ;
+	inline static int level = 0;
+	inline static std::unique_ptr<ContainerType> nodes = std::make_unique<ContainerType>();
+		
 };
 
 #endif
