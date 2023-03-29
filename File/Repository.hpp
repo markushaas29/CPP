@@ -73,18 +73,18 @@ namespace CSV
 		void Map(const std::string& path)
 		{
 			nodes = FileSystem::List(path);
-			auto infos = std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>>(new std::vector<std::shared_ptr<FS::Metainfo>>());
+			auto infos = std::shared_ptr<std::vector<std::shared_ptr<FS::Metainfo>>>(new std::vector<std::shared_ptr<FS::Metainfo>>());
 
 			for(auto it = nodes->begin(); it != nodes->end(); ++it )
 			{
-				std::shared_ptr<FS::Metainfo> m = std::move(*it);
+				std::shared_ptr<FS::Metainfo> m = *it;
 				infos->push_back(m);
 			}
 
 			auto root = fs::directory_entry(path);
-			auto dir = std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time(),std::move(infos));
+			auto dir = std::make_shared<FS::DirectoryInfo>(root.path(),root.last_write_time(),infos);
 			
-			nodes->push_back(std::move(dir));
+			nodes->push_back(dir);
 			//Map(nodes->cbegin(), nodes->cend());
 		}
 		
@@ -111,6 +111,8 @@ namespace CSV
 			{
 				for(auto itNode = nodes->cbegin(); itNode != nodes->cend(); ++itNode )
 				{
+
+			Logger::Log<Info>("StartParse", (*itNode)->Name());
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						Logger::Log("Repository start parsing: ",it->first);
@@ -134,7 +136,7 @@ namespace CSV
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						Logger::Log<Info>("Repository Write: ",it->first);
-						if (FS::FileInfo* d = dynamic_cast<FS::FileInfo*>(*itNode); d != nullptr)
+						if (FS::FileInfo* d = dynamic_cast<FS::FileInfo>(*itNode); d != nullptr)
 						{
 							auto fi = FS::File(d);
 							it->second.Print(*(fi.Handle()));
@@ -234,10 +236,10 @@ namespace Backup
 //			
 //			auto root = fs::directory_entry(from);
 //			auto di =  std::make_unique<FS::DirectoryInfo>(root.path(),root.last_write_time());
-//			auto newDi = FileSystem::GetInfos(std::move(di));
+//			auto newDi = FileSystem::GetInfos(std::(di));
 //			
 //			auto vec =  std::make_unique<std::vector<std::unique_ptr<FS::Metainfo>>>();
-//			auto result = newDi->GetNodes(std::move(vec));
+//			auto result = newDi->GetNodes(std::(vec));
 //
 ////			for(auto r : *result)
 ////				std::cout<<r->GetInfo()<<std::endl;
