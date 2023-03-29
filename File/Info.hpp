@@ -41,24 +41,14 @@ namespace FS
 	
 	class Metainfo : public BaseVisitable<>
 	{
-	protected:
-		const std::string name;
-		const std::string path;
-		bool exists = std::filesystem::exists(path);
-		std::filesystem::path fs_path;
-		const std::filesystem::file_time_type lastModification;
-		std::uintmax_t size;
-
-		Metainfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(p), name(p.filename()), path(p), size(s), lastModification(lm){ };
-		Metainfo(std::filesystem::path p, std::filesystem::path pp, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(pp), name(p.filename()), path(p), size(s), lastModification(lm){ };
-		virtual Metainfo* Child(int n) = 0;
 	public:
+		using NodesType = std::vector<std::shared_ptr<Metainfo>>;
 		DEFINE_VISITABLE();
 		DEFINE_CONSTVISITABLE();
 		virtual ~Metainfo(){};
 		
 		virtual long Size() const {return size; };
-		virtual std::unique_ptr<std::vector<std::shared_ptr<Metainfo>>> GetNodes(std::unique_ptr<std::vector<std::shared_ptr<Metainfo>>> nodes) 
+		virtual std::unique_ptr<NodesType> GetNodes(std::unique_ptr<NodesType> nodes) 
 		{ 
 			nodes->push_back(std::shared_ptr<Metainfo>(this)); 
 			return nodes;
@@ -75,6 +65,17 @@ namespace FS
 			auto i = this->PrintInfo(out); 
 			return out<<i;
 		};
+	protected:
+		const std::string name;
+		const std::string path;
+		bool exists = std::filesystem::exists(path);
+		std::filesystem::path fs_path;
+		const std::filesystem::file_time_type lastModification;
+		std::uintmax_t size;
+
+		Metainfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(p), name(p.filename()), path(p), size(s), lastModification(lm){ };
+		Metainfo(std::filesystem::path p, std::filesystem::path pp, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(pp), name(p.filename()), path(p), size(s), lastModification(lm){ };
+		virtual Metainfo* Child(int n) = 0;
 	};
 	
 	std::ostream& operator<<(std::ostream& out, const Metainfo& n)	{	return n.Display(out);	}
@@ -105,16 +106,11 @@ namespace FS
 	
 	class DirectoryInfo : public Metainfo
 	{   
-	private:
-		std::unique_ptr<std::vector<std::shared_ptr<Metainfo>>> nodes;
-	protected:
-		virtual Metainfo* Child(int n) { return 0; }
 	public: 
 		DEFINE_VISITABLE();
 		~DirectoryInfo(){};
 		
-		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::unique_ptr<std::vector<std::shared_ptr<Metainfo>>> n):Metainfo(p,lm, 0), nodes(std::move(n)){	this->size = this->Size();	};
-		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm):Metainfo(p,lm, 0), nodes{}{	this->size = this->Size();	};
+		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::unique_ptr<NodesType> n = std::make_unique<NodesType>()):Metainfo(p,lm, 0), nodes(std::move(n)){	size = Size();	};
 		
 		long Size() const
 		{
@@ -126,7 +122,7 @@ namespace FS
 			return result;
 		}
 		
-		std::unique_ptr<std::vector<std::shared_ptr<Metainfo>>> GetNodes(std::unique_ptr<std::vector<std::shared_ptr<Metainfo>>> ptr)
+		std::unique_ptr<NodesType> GetNodes(std::unique_ptr<NodesType> ptr)
 		{
 			ptr->push_back(std::unique_ptr<DirectoryInfo>(this));
 			for(auto it = nodes->cbegin(); it != nodes->cend(); ++it)
@@ -153,6 +149,10 @@ namespace FS
 //					result.push_back(std::make_unique<Metainfo>(m)); });
 //			return result; 
 //		}
+	protected:
+		virtual Metainfo* Child(int n) { return 0; }
+	private:
+		std::unique_ptr<NodesType> nodes;
 	};
 	
 	std::ostream& operator<<(std::ostream& out, const DirectoryInfo* n)	

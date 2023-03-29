@@ -26,17 +26,14 @@ int main()
 	auto c = File(std::move(ci));
 	auto d = Directory(std::move(di));
 
-//	File::Display(std::cout);
-	//f<<"TEST"<<std::endl;
-//	f<<"TEST";
+      	f.Display(std::cout);
+      	c.Display(std::cout);
+      	d.Display(std::cout);
 
-	f.Display(std::cout);
-	c.Display(std::cout);
-	d.Display(std::cout);
+      	std::cout<<d.Path()<<std::endl;
 
-	std::cout<<d.Path()<<std::endl;
-
-	FileSystem::GetInfos(*di);
+	FileSystem::List(dpath);
+	//FileSystem::GetInfos(*di);
 
 	return 0;
 }
