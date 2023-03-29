@@ -33,7 +33,7 @@ int main()
 	CounterContainerType::Instance().Display(std::cout);
 	std::cout<<CounterContainerType::Instance().Get<1>()<<std::endl;
 	
-	Rep::Instance().Write();
+//	Rep::Instance().Write();
 	assert(11144078==CounterContainerType::Instance().Get<1>());
     	return 0;
 }
