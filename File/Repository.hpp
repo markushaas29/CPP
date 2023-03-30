@@ -53,13 +53,6 @@ namespace CSV
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
 	
-		//~ template<typename Iterator>
-		//~ void Map(const Iterator& begin, const Iterator& end)
-		//~ {
-			//~ for(Iterator it = begin; it != end; ++it)
-				//~ (*it)->Accept(treeParser);
-		//~ }
-		
 		void CopyTo(std::string dest)
 		{
 			types.SetRootPath(Root);
@@ -85,7 +78,6 @@ namespace CSV
 			auto dir = std::make_shared<FS::DirectoryInfo>(root.path(),root.last_write_time(),infos);
 			
 			nodes->push_back(dir);
-			//Map(nodes->cbegin(), nodes->cend());
 		}
 		
 		std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
@@ -93,16 +85,7 @@ namespace CSV
 		void Register()
 		{
 			parsers.RegisterTo(visitors);	
-			
-			for(auto kv : visitors)
-				Logger::Log<Info>("Register:",kv.first);
-		}
-		
-		template<typename ParseType>
-		typename ParseType::ParseCont Parse(const std::string& s)
-		{
-			Logger::Log("Parsing: ",s);
-			return types.Parse<ParseType>(s);			
+			std::for_each(visitors.cbegin(), visitors.cend(), [&](const auto& kv) {Logger::Log<Info>("Register:",kv.first);});
 		}
 		
 		void ParseAll()
@@ -111,15 +94,11 @@ namespace CSV
 			{
 				for(auto itNode = nodes->cbegin(); itNode != nodes->cend(); ++itNode )
 				{
-
-			Logger::Log<Info>("StartParse", (*itNode)->Name(), it->first, (it->second.IsVisitorOf( (*itNode)->Name() )));
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						auto f = FS::File( std::dynamic_pointer_cast<FS::FileInfo>(*itNode));
 						auto lines = f.Read();	
-						Logger::Log<Info>("Repository start parsing: ",it->first, lines[1]);
 						it->second.Parse(lines.cbegin(), lines.cend());
-						Logger::Log<Info>("Repository start parsing: ",it->first);
 						it->second.Update(lines.cbegin(), lines.cend());
 					}
 				}			
@@ -180,18 +159,6 @@ namespace CSV
 		static inline ParserContainer parsers = ParserContainer();
 		inline static std::string Root = ""; 
 		inline static std::string Dest = ""; 
-				
-		//~ class TreeParserVisitor: 
-			//~ public BaseVisitor,
-			//~ public Visitor<FS::DirectoryInfo>,
-			//~ public Visitor<FS::FileInfo>
-		//~ {
-		//~ public:
-			//~ virtual void Visit(FS::DirectoryInfo& di) {	FS::Directory::Add(&di); };
-			//~ virtual void Visit(FS::FileInfo& fi) { types.Add(&fi); };
-		//~ };	
-		
-		//~ static inline TreeParserVisitor treeParser = TreeParserVisitor();
 		static inline std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>> nodes = std::unique_ptr<std::vector<std::shared_ptr<FS::Metainfo>>>(new std::vector<std::shared_ptr<FS::Metainfo>>());
 		
 	};
