@@ -27,6 +27,34 @@ namespace FS
 	template<typename Head>
 	class FileTypeContainer<Typelist<Head>>
 	{
+	public:
+		void SetRootPath(std::string p){ this->rootPath = std::filesystem::path(p);;}
+		using Type = Head;
+		
+		void Add(FileInfo* fi)
+		{
+			if(strcmp(Type::Extension, fi->Extension()) == 0)
+				Head::Add(fi); 
+		}
+		
+		void CopyTo(std::string dest)
+		{
+			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
+			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
+			{
+				std::string dst = this->BuildDestPath(it->Info().Path(),dest);
+				if(it->BelongsTo(this->rootPath))
+					it->CopyTo(dst);
+			}
+			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
+		}
+		
+		void List(){ std::for_each(Head::Nodes().cbegin(), Head::Nodes().cend(), [&](const auto& it) {Logger::Log()<<it.Path()<<it.Name()<<std::endl;}); }
+
+		template<typename Cont>
+		void RegisterTo(Cont& cont)	{	Head::Instance().RegisterTo(cont);	}
+		void Display(std::ostream& os)	{	Head::Display(os);	}
+		FileTypeContainer()	{ }
 	protected:
 		std::filesystem::path rootPath;
 		std::filesystem::path BuildDestPath(const std::string& src, const std::string &dst)
@@ -52,70 +80,8 @@ namespace FS
 		}
 		
 		 std::vector<std::string> readFile = std::vector<std::string>();
-	public:
-		void SetRootPath(std::string p){ this->rootPath = std::filesystem::path(p);;}
-		using Type = Head;
-		
-		void Add(FileInfo* fi)
-		{
-			if(strcmp(Type::Extension, fi->Extension()) == 0)
-				Head::Add(fi); 
-		}
-		
-		void CopyTo(std::string dest)
-		{
-			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{
-				std::string dst = this->BuildDestPath(it->Info().Path(),dest);
-				if(it->BelongsTo(this->rootPath))
-					it->CopyTo(dst);
-			}
-			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
-		}
-		
-		void List()
-		{
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-				Logger::Log()<<it->Info()<<std::endl;
-		}
-		
-		std::vector<std::string> Read(std::string name)
-		{
-			std::vector<std::string> r, result;
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{				
-				if(String_::Contains(it->Name() ,name) && std::find(readFile.begin(), readFile.end(), it->Name()) == readFile.end())
-				{
-					Logger::Log()<<it->Path()<<"\t"<<name<<std::endl;
-					readFile.push_back(it->Name());
-					result = it->Read();
-					return result;
-				}
-			}			
-
-			return result;
-		}
-		
-		template<typename ParseType>
-		decltype(auto) Parse(const std::string& name)
-		{
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{				
-				if(it->Info().Name() == name)
-				{
-					Logger::Log<Info>("Parsing: ", name);
-					return it->template Parse<ParseType>();
-				}
-			}
-			
-			return typename ParseType::ParseCont();
-		}
-		
-		template<typename Cont>
-		void RegisterTo(Cont& cont)	{	Head::Instance().RegisterTo(cont);	}
-		void Display(std::ostream& os)	{	Head::Display(os);	}
-		FileTypeContainer()	{ }
+	private:
+	//	 inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	};
 	
 	template<typename Head, typename... Tail>
@@ -123,14 +89,8 @@ namespace FS
 	{
 	public:
 		using Type = Head;
+		using Base = FileTypeContainer<Typelist<Tail...>>;
 
-		void Add(FileInfo* fi)
-		{
-			if(strcmp(Type::Extension, fi->Extension()) == 0)
-				Head::Add(fi); 
-			else
-				FileTypeContainer<Typelist<Tail...>>::Add(fi);
-		}
 		
 		void CopyTo(std::string dest)
 		{
@@ -143,15 +103,13 @@ namespace FS
 			}
 			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
 			
-			FileTypeContainer<Typelist<Tail...>>::CopyTo(dest);
+			Base::CopyTo(dest);
 		}
 		
 		void List()
 		{
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-				Logger::Log()<<it->Path()<<it->Name()<<std::endl;
-			
-			FileTypeContainer<Typelist<Tail...>>::List();
+			std::for_each(Head::Nodes().cbegin(), Head::Nodes().cend(), [&](const auto& it) {Logger::Log()<<it.Path()<<it.Name()<<std::endl;});
+			Base::List();
 		}
 		
 		std::vector<std::string> Read(std::string name)
@@ -168,35 +126,20 @@ namespace FS
 				}
 			}						
 
-			return FileTypeContainer<Typelist<Tail...>>::Read(name);
+			return Base::Read(name);
 		}
-		
-		template<typename ParseType>
-		decltype(auto) Parse(const std::string& name)
-		{
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{				
-				if(it->Info().Name() == name)
-				{
-					Logger::Log<Info>("Parsing: ", name);
-					return it->template Parse<ParseType>();
-				}
-			}
-			
-			return FileTypeContainer<Typelist<Tail...>>::template Parse<ParseType>(name);
-		}
-		
+	
 		template<typename Cont>
 		void RegisterTo(Cont& cont)
 		{
 			Head::Instance().RegisterTo(cont);
-			FileTypeContainer<Typelist<Tail...>>::RegisterTo(cont);
+			Base::RegisterTo(cont);
 		}
 		
 		void Display(std::ostream& os)
 		{
 			Head::Display(os);
-			FileTypeContainer<Typelist<Tail...>>::Display(os);
+			Base::Display(os);
 		}
 		
 		FileTypeContainer() { };
