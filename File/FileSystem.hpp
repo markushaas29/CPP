@@ -95,23 +95,6 @@ public:
 		}			
 	}
 	
-	
-	static void CreateDirectories(std::string src, std::string dest)
-	{
-		auto srcPath = std::filesystem::path(src);
-		auto dstPath = std::filesystem::path(dest);
-		
-		for(auto it = FS::Directory::Nodes().cbegin(); it != FS::Directory::Nodes().cend(); ++it)
-		{
-			if(it->BelongsTo(srcPath))
-			{
-				auto destPath = BuildDestPath(srcPath, it->Path(),dstPath);
-				fs::create_directories(destPath);
-				Logger::Log()<<"Directory created :"<<destPath<<std::endl;
-			}
-		}			
-	}
-	
 	static std::filesystem::path BuildDestPath(const fs::path& root, const fs::path& src, const fs::path& dst)
 	{
 		auto folder = src.end();

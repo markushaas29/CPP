@@ -56,15 +56,8 @@ namespace FS
 		using ContainerType = std::vector<ElementType>;
 	
 		Node(PtrType fi): info(fi){};
-		static void Add(Metainfo* fi){ elements.push_back(ElementType(std::make_shared<DerivedInfo>(static_cast<DerivedInfo*>(fi)))); 	};
 		static ElementType Get(Metainfo* fi){return ElementType();};
-		static const ContainerType& Nodes() { return elements; };
-		
-		void Display(std::ostream& os)
-		{
-			//os<<info->Extension()<<std::endl;
-			std::for_each(elements.cbegin(), elements.cend(),[&](auto& e){ os<<"-"<<e.info<<std::endl;});
-		}
+		std::ostream& Display(std::ostream& os)	{ return os;	}
 		const std::string& Path() const { return info->Path(); };
 		const std::string& Name() const { return info->Name(); };
 		bool BelongsTo(const fs::path& p) const
@@ -80,7 +73,6 @@ namespace FS
 			return true;
 		};
 	protected:
-		static inline ContainerType elements = ContainerType();
 		std::shared_ptr<DerivedInfo> info;
 	};
 	
@@ -107,9 +99,6 @@ namespace FS
 	
 		
 		std::vector<std::string> Read() const {	return ReadLines(info->Path());};
-		
-		//~ template<typename It>
-		//~ void Write(It begin, It end)	{ std::cout<<"WRITE NODE"<<Sstd::endl;	};
 		void Write()	{ std::cout<<"WRITE NODE"<<std::endl;	};
 
 		std::unique_ptr<std::ofstream> Handle() { return std::make_unique<std::ofstream>("/home/markus/Dokumente/cpp/Home/Test/TestFiles/NodeTest.txt");}

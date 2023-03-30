@@ -30,12 +30,13 @@ namespace FS
 	public:
 		void SetRootPath(std::string p){ rootPath = std::filesystem::path(p);;}
 		using Type = Head;
+		using DataType = std::unique_ptr<Type>;
+		using ContainerType = std::vector<DataType>;
 		
-		void Add(std::shared_ptr<Metainfo> fi)
+		void Add(std::shared_ptr<FileInfo> fi)
 		{
 			std::cout<<"ADD"<<*fi<<std::endl;
-			//if(strcmp(Type::Extension, fi->Extension()) == 0)
-			//	Head::Add(fi); 
+			container->push_back(std::make_unique<Type>(fi));
 		}
 		
 		void CopyTo(std::string dest)
@@ -54,12 +55,7 @@ namespace FS
 
 		template<typename Cont>
 		void RegisterTo(Cont& cont)	{	Head::Instance().RegisterTo(cont);	}
-		std::ostream& Display(std::ostream& os)	
-		{	
-			Head::Display(os); 	
-			return os; 
-		}
-		FileTypeContainer()	{ }
+		std::ostream& Display(std::ostream& os)	{	return	Head::Display(os); 	}
 	protected:
 		std::filesystem::path rootPath;
 		std::filesystem::path BuildDestPath(const std::string& src, const std::string &dst)
@@ -84,7 +80,7 @@ namespace FS
 			return std::filesystem::path(std::string(result.cbegin(),(--result.cend())));
 		}
 	private:
-	//	 inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
+		inline static std::unique_ptr<ContainerType> container = std::make_unique<ContainerType>();
 	};
 	
 	template<typename Head, typename... Tail>
@@ -92,8 +88,16 @@ namespace FS
 	{
 	public:
 		using Type = Head;
+		using DataType = std::unique_ptr<Type>;
+		using ContainerType = std::vector<DataType>;
 		using Base = FileTypeContainer<Typelist<Tail...>>;
 		
+		void Add(std::shared_ptr<FileInfo> fi)
+		{
+			std::cout<<"ADD"<<*fi<<std::endl;
+			container->push_back(std::make_unique<Type>(fi));
+		}
+
 		void CopyTo(std::string dest)
 		{
 			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
@@ -121,14 +125,9 @@ namespace FS
 			Base::RegisterTo(cont);
 		}
 		
-		std::ostream& Display(std::ostream& os)
-		{
-			Head::Display(os);
-			Base::Display(os);
-			return os;
-		}
-		
-		FileTypeContainer() { };
+		std::ostream& Display(std::ostream& os)	{ return Base::Display(Head::Display(os)); }
+	private:
+		inline static std::unique_ptr<ContainerType> container = std::make_unique<ContainerType>();
 	};
 
 }
