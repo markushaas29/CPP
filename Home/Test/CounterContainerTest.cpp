@@ -31,6 +31,7 @@ int main()
 	using Rep = CSV::Repository<CSV::CounterParsers>;
 	Rep::Instance();
 	CounterContainerType::Instance().Display(std::cout);
+	CounterContainerType::Instance().DisplayInfos(std::cout);
 	std::cout<<CounterContainerType::Instance().Get<1>()<<std::endl;
 
 	uint n = 11144078;

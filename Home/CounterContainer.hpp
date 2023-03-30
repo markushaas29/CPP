@@ -27,7 +27,9 @@ public:
 	using Type = Head;
 	using CounterTypes = Typelist<Head>;
 	using ContainerType = CounterContainer<Typelist<Head>>;
+	static constexpr uint Number = 0;
 
+	static std::ostream& DisplayInfos(std::ostream& os) { return os<<Number<<"\t"<<Type::Number<<"\t"<<Type::Unit::Sign()<<"\t"<<Type::Config::CounterName<<"\n";	}
 	static std::ostream& Display(std::ostream& os) 	{	return Type::Display(os);	}
 	void Write(const std::string sourcePath = ".")	{	Type::Write(sourcePath);	}
 	void Read(const std::string sourcePath = ".")	{	Type::Read();	}
@@ -62,7 +64,13 @@ public:
 	using CounterTypes = Typelist<Head,Tail...>;
 	using ContainerType = CounterContainer<Typelist<Head,Tail...>>;
 	using Base = CounterContainer<Typelist<Tail...>>;
+	static constexpr uint Number = Base::Number + 1;
 	
+	static std::ostream& DisplayInfos(std::ostream& os) 	
+	{	
+		os<<Number<<"\t"<<Type::Number<<"\t"<<Type::Unit::Sign()<<"\t"<<Type::Config::CounterName<<"\n";
+		return Base::DisplayInfos(os);	
+	}
 	static std::ostream& Display(std::ostream& os) 	{	return Base::Display(Type::Display(os));	}
 	
 	bool Exec(uint N)
