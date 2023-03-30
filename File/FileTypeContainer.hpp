@@ -31,10 +31,11 @@ namespace FS
 		void SetRootPath(std::string p){ rootPath = std::filesystem::path(p);;}
 		using Type = Head;
 		
-		void Add(FileInfo* fi)
+		void Add(std::shared_ptr<Metainfo> fi)
 		{
-			if(strcmp(Type::Extension, fi->Extension()) == 0)
-				Head::Add(fi); 
+			std::cout<<"ADD"<<*fi<<std::endl;
+			//if(strcmp(Type::Extension, fi->Extension()) == 0)
+			//	Head::Add(fi); 
 		}
 		
 		void CopyTo(std::string dest)

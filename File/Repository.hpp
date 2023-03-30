@@ -71,6 +71,8 @@ namespace CSV
 			for(auto it = nodes->begin(); it != nodes->end(); ++it )
 			{
 				std::shared_ptr<FS::Metainfo> m = *it;
+				if(auto fi = std::dynamic_pointer_cast<FS::FileInfo>(m))
+					types.Add(fi);
 				infos->push_back(m);
 			}
 
