@@ -80,8 +80,6 @@ namespace CSV
 			nodes->push_back(dir);
 		}
 		
-		std::vector<std::string> Read(std::string s)	{	return types.Read(s);	}
-		
 		void Register()
 		{
 			parsers.RegisterTo(visitors);	

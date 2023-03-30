@@ -28,7 +28,7 @@ namespace FS
 	class FileTypeContainer<Typelist<Head>>
 	{
 	public:
-		void SetRootPath(std::string p){ this->rootPath = std::filesystem::path(p);;}
+		void SetRootPath(std::string p){ rootPath = std::filesystem::path(p);;}
 		using Type = Head;
 		
 		void Add(FileInfo* fi)
@@ -42,8 +42,8 @@ namespace FS
 			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{
-				std::string dst = this->BuildDestPath(it->Info().Path(),dest);
-				if(it->BelongsTo(this->rootPath))
+				std::string dst = BuildDestPath(it->Info().Path(),dest);
+				if(it->BelongsTo(rootPath))
 					it->CopyTo(dst);
 			}
 			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
@@ -53,7 +53,11 @@ namespace FS
 
 		template<typename Cont>
 		void RegisterTo(Cont& cont)	{	Head::Instance().RegisterTo(cont);	}
-		void Display(std::ostream& os)	{	Head::Display(os);	}
+		std::ostream& Display(std::ostream& os)	
+		{	
+			Head::Display(os); 	
+			return os; 
+		}
 		FileTypeContainer()	{ }
 	protected:
 		std::filesystem::path rootPath;
@@ -65,7 +69,7 @@ namespace FS
 
 			for (auto it = --srcPath.end() ; it != srcPath.begin(); --it)
 			{
-				if(*it == *(--this->rootPath.end()))
+				if(*it == *(--rootPath.end()))
 				{
 					result = (*it).string() + "/" + result ;
 					break;
@@ -78,8 +82,6 @@ namespace FS
 			
 			return std::filesystem::path(std::string(result.cbegin(),(--result.cend())));
 		}
-		
-		 std::vector<std::string> readFile = std::vector<std::string>();
 	private:
 	//	 inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	};
@@ -90,14 +92,13 @@ namespace FS
 	public:
 		using Type = Head;
 		using Base = FileTypeContainer<Typelist<Tail...>>;
-
 		
 		void CopyTo(std::string dest)
 		{
 			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
 			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
 			{
-				std::string dst = this->BuildDestPath(it->Path(),dest);
+				std::string dst = BuildDestPath(it->Path(),dest);
 				if(it->BelongsTo(this->rootPath))
 					it->CopyTo(dst);
 			}
@@ -112,23 +113,6 @@ namespace FS
 			Base::List();
 		}
 		
-		std::vector<std::string> Read(std::string name)
-		{
-			std::vector<std::string> r, result;
-			for(auto it = Head::Nodes().cbegin(); it != Head::Nodes().cend(); ++it)
-			{				
-				if(String_::Contains(it->Name() ,name) && std::find(this->readFile.begin(), this->readFile.end(), it->Name()) == this->readFile.end())
-				{
-					Logger::Log()<<it->Name()<<"\t"<<name<<std::endl;
-					this->readFile.push_back(it->Name());
-					result = it->Read();
-					return result;
-				}
-			}						
-
-			return Base::Read(name);
-		}
-	
 		template<typename Cont>
 		void RegisterTo(Cont& cont)
 		{
@@ -136,10 +120,11 @@ namespace FS
 			Base::RegisterTo(cont);
 		}
 		
-		void Display(std::ostream& os)
+		std::ostream& Display(std::ostream& os)
 		{
 			Head::Display(os);
 			Base::Display(os);
+			return os;
 		}
 		
 		FileTypeContainer() { };
