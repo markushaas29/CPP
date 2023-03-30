@@ -36,14 +36,6 @@ namespace Bank
 	class Account
 	{
 		using TransferItems = Configuration::Account::TransferType;
-		inline static constexpr IBAN iban = Derived::Type::Iban;
-		inline static constexpr BIC bic = Derived::Type::Bic;
-		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
-		
-		inline static std::unique_ptr<FS::FileInfo> keyFileInfo = std::make_unique<FS::FileInfo>(std::filesystem::path( std::string(Configuration::Repository::SourcePath) + "/" + std::string(Derived::name) + ".keys"));
-	protected:		
-		using CSVSeparator = T::char_<';'> ;
-		
 	public:
 		using Type = Account<Derived> ;
 		using TransferType = Transfer<Derived, TransferItems>;
@@ -75,7 +67,41 @@ namespace Bank
 			static Account instance;
 			return instance;
 		}
+	
+	protected:
+		using CSVSeparator = T::char_<';'> ;
+		
+		static std::string GetNumericValue(std::string s)
+		{
+			std::string result;
+			for (unsigned int i = 0; i < s.size(); ++i)
+			{
+				if(std::isdigit(s.at(i)))
+					result += s.at(i);
+			}
+			
+			if(result.size() > 2)
+				result.insert(result.size()-2, ".");
+			
+			return result;
+		}
+			
+		Account()
+		{
+			if(!keyFileInfo->Exists())
+				Logger::Log<Error>("No Keys for ", Derived::name, " under ", *keyFileInfo);
+				
+			auto lines = FS::ReadLines(keyFileInfo->Path());
+			ReadKeyPatterns(lines.cbegin(), lines.cend());
+		};
+		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
+		Account& operator=(const Account&) = delete;
+		Account(const Account& c) = delete;
 	private:
+		inline static constexpr IBAN iban = Derived::Type::Iban;
+		inline static constexpr BIC bic = Derived::Type::Bic;
+		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
+		inline static std::unique_ptr<FS::FileInfo> keyFileInfo = std::make_unique<FS::FileInfo>(std::filesystem::path( std::string(Configuration::Repository::SourcePath) + "/" + std::string(Derived::name) + ".keys"));
 		//~ decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
 		decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		
@@ -122,34 +148,6 @@ namespace Bank
 		
 		void ReadKeyPatterns(InputIterator begin, InputIterator end){ TransferItemContainerType::Instance().UpdateKeyIndices(begin,end); }
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
-	protected:
-		
-		static std::string GetNumericValue(std::string s)
-		{
-			std::string result;
-			for (unsigned int i = 0; i < s.size(); ++i)
-			{
-				if(std::isdigit(s.at(i)))
-					result += s.at(i);
-			}
-			
-			if(result.size() > 2)
-				result.insert(result.size()-2, ".");
-			
-			return result;
-		}
-			
-		Account()
-		{
-			if(!keyFileInfo->Exists())
-				Logger::Log<Error>("No Keys for ", Derived::name, " under ", *keyFileInfo);
-				
-			auto lines = FS::ReadLines(keyFileInfo->Path());
-			ReadKeyPatterns(lines.cbegin(), lines.cend());
-		};
-		~Account()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
-		Account& operator=(const Account&) = delete;
-		Account(const Account& c) = delete;
 	};
 }
 
