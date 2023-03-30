@@ -24,5 +24,7 @@ int main()
 	auto f = File(fi);
 	auto d = Directory(di);
 
+	TypeContainer t;
+	t.List();
 	return 0;
 }

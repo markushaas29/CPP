@@ -51,7 +51,7 @@ namespace FS
 			Logger::Log<Success>("All files of type ", Head::Extension," copied:");
 		}
 		
-		void List(){ std::for_each(Head::Nodes().cbegin(), Head::Nodes().cend(), [&](const auto& it) {Logger::Log()<<it.Path()<<it.Name()<<std::endl;}); }
+		void List(){ std::for_each(container->cbegin(), container->cend(), [&](const auto& it) {Logger::Log()<<it->Path()<<it->Name()<<std::endl;}); }
 
 		template<typename Cont>
 		void RegisterTo(Cont& cont)	{	Head::Instance().RegisterTo(cont);	}
@@ -114,7 +114,7 @@ namespace FS
 		
 		void List()
 		{
-			std::for_each(Head::Nodes().cbegin(), Head::Nodes().cend(), [&](const auto& it) {Logger::Log()<<it.Path()<<it.Name()<<std::endl;});
+			std::for_each(container->cbegin(), container->cend(), [&](const auto& it) {Logger::Log()<<it->Path()<<it->Name()<<std::endl;});
 			Base::List();
 		}
 		

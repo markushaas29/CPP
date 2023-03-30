@@ -78,7 +78,7 @@ namespace CSV
 
 			auto root = fs::directory_entry(path);
 			auto dir = std::make_shared<FS::DirectoryInfo>(root.path(),root.last_write_time(),infos);
-			
+			types.List();
 			nodes->push_back(dir);
 		}
 		
