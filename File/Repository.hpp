@@ -112,12 +112,14 @@ namespace CSV
 				for(auto itNode = nodes->cbegin(); itNode != nodes->cend(); ++itNode )
 				{
 
-			Logger::Log<Info>("StartParse", (*itNode)->Name());
+			Logger::Log<Info>("StartParse", (*itNode)->Name(), it->first, (it->second.IsVisitorOf( (*itNode)->Name() )));
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
-						Logger::Log("Repository start parsing: ",it->first);
-						auto lines = Read((*itNode)->Name());	
+						auto f = FS::File( std::dynamic_pointer_cast<FS::FileInfo>(*itNode));
+						auto lines = f.Read();	
+						Logger::Log<Info>("Repository start parsing: ",it->first, lines[1]);
 						it->second.Parse(lines.cbegin(), lines.cend());
+						Logger::Log<Info>("Repository start parsing: ",it->first);
 						it->second.Update(lines.cbegin(), lines.cend());
 					}
 				}			
