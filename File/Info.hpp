@@ -39,14 +39,11 @@ namespace FS
 		return formattedFileInfoTime;
 	}
 	
-	class Metainfo : public BaseVisitable<>
+	class Metainfo 
 	{
 	public:
 		using NodesType = std::vector<std::shared_ptr<Metainfo>>;
-		DEFINE_VISITABLE();
-		DEFINE_CONSTVISITABLE();
 		virtual ~Metainfo(){};
-		
 		virtual long Size() const {return size; };
 		virtual std::shared_ptr<NodesType> GetNodes(std::shared_ptr<NodesType> nodes) 
 		{ 
@@ -82,16 +79,8 @@ namespace FS
 
 	class FileInfo : public Metainfo
 	{
-	private:
-		char* extension;
-		const fs::file_time_type lastModification;
-		
-	protected:
-		virtual Metainfo* Child(int n) { return 0; }
 	public:
-		DEFINE_VISITABLE();
 		~FileInfo(){};
-
 		FileInfo(std::filesystem::path p, std::filesystem::file_time_type lm = std::filesystem::file_time_type(), std::uintmax_t s = 0): Metainfo(p, p.parent_path(),lm, s)
 		{ 
 			size_t length = strlen( p.extension().c_str() );
@@ -100,6 +89,11 @@ namespace FS
 		};
 		
 		const char*  Extension() const { return extension; };
+	protected:
+		virtual Metainfo* Child(int n) { return 0; }
+	private:
+		char* extension;
+		const fs::file_time_type lastModification;
 	};
 	
 	std::ostream& operator<<(std::ostream& out, const FileInfo* n)	{	return out<<n->PrintInfo(out);	}
@@ -107,9 +101,7 @@ namespace FS
 	class DirectoryInfo : public Metainfo
 	{   
 	public: 
-		DEFINE_VISITABLE();
 		~DirectoryInfo(){};
-		
 		DirectoryInfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::shared_ptr<NodesType> n = std::make_shared<NodesType>()):Metainfo(p,lm, 0), nodes(n){ size = Size();	};
 		
 		long Size() const
