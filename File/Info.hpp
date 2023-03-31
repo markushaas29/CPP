@@ -81,18 +81,12 @@ namespace FS
 	{
 	public:
 		~FileInfo(){};
-		FileInfo(std::filesystem::path p, std::filesystem::file_time_type lm = std::filesystem::file_time_type(), std::uintmax_t s = 0): Metainfo(p, p.parent_path(),lm, s)
-		{ 
-			size_t length = strlen( p.extension().c_str() );
-			extension = new char[ length + 1 ];
-			strcpy( extension, p.extension().c_str() );
-		};
-		
-		const char*  Extension() const { return extension; };
+		FileInfo(std::filesystem::path p, std::filesystem::file_time_type lm = std::filesystem::file_time_type(), std::uintmax_t s = 0): Metainfo(p, p.parent_path(),lm, s), extension{p.extension()} { 	};
+		const std::string&  Extension() const { return extension; };
 	protected:
 		virtual Metainfo* Child(int n) { return 0; }
 	private:
-		char* extension;
+		const std::string extension;
 		const fs::file_time_type lastModification;
 	};
 	
