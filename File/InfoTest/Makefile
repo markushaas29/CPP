@@ -17,6 +17,8 @@ Debug:	$(OBJECTS)
 %.o: 	%.hpp %.cpp
 	$(CXX) $(DEBUGFLAGS) $*.cpp
 	
+Cont:	FileTypeContainer.cpp
+	g++-11 -std=c++2a -o Cont FileTypeContainer.cpp
 Node:	FileTest.cpp
 	g++-11 -std=c++2a -o File FileTest.cpp
 Info:	InfoTest.cpp

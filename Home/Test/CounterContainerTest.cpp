@@ -37,6 +37,7 @@ int main()
 	uint n = 11144078;
 	bool res = CounterContainerType::Instance().Exec(n);
 	assert(res);
+
 	assert(11144078==CounterContainerType::Instance().Get<1>());
     	return 0;
 }
