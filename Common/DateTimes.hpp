@@ -202,7 +202,7 @@ namespace DateTimes
 		const std::chrono::year_month_day ymd;
 		TP tp;
 		String_::ParserFrom<uint> converter;
-		
+		friend decltype(auto) operator<=>(const DateTimes::Date& d1, const DateTimes::Date& d2) noexcept { return d1.ymd <=> d2.ymd; }; 
 		static TupleType extract(const std::string& s)
 		{
 			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
@@ -283,7 +283,6 @@ namespace DateTimes
 }
 
 decltype(auto) operator-(const DateTimes::Date& d1, const DateTimes::Date& d2)  { return DateTimes::NumberOfDays(d1,d2); }
-
 template<typename T, typename TC>
 decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;	}
 

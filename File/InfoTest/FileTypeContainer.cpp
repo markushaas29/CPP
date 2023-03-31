@@ -15,11 +15,11 @@ int main()
 {      
     	std::cout<<"START"<<std::endl;
 	using TypeContainer = FS::FileTypeContainer<Typelist<FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>>;
-	auto dPath = fs::path{ "/home/markus/Dokumente/cpp" };
+	auto dPath = fs::path{ "/home/markus/Downloads/CSV_TestFiles/Test.cpp" };
 	auto d2Path = fs::path{ "/home/markus/Dokumente/cpp" };
 	std::filesystem::file_time_type lm;	
 	
-	auto fi = std::make_shared<FS::FileInfo>(d2Path);
+	auto fi = std::make_shared<FS::FileInfo>(dPath);
 	auto di = std::make_shared<FS::DirectoryInfo>(d2Path,lm);
 
 	auto f = File(fi);
@@ -27,6 +27,7 @@ int main()
 
 	TypeContainer t;
 	t.SetRootPath("/home/markus/Dokumente/cpp");
+	t.Add(fi);
 	t.List();
 
 	auto i = t.Get(fi);

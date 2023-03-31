@@ -103,7 +103,12 @@ public:
 		Display(std::cout);
 	}	
 
-	bool Exec() { while(1); };
+	bool Exec() 
+	{ 
+		double d;
+		uint u;
+		while(std::cin>>d>>u); 
+	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
 	void write(const std::string sourcePath = ".")
