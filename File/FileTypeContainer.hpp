@@ -32,11 +32,15 @@ namespace FS
 		using Type = Head;
 		using DataType = std::unique_ptr<Type>;
 		using ContainerType = std::vector<DataType>;
+		inline static const std::string Extension = Type::Extension;		
 		
-		void Add(std::shared_ptr<FileInfo> fi)
+		bool Add(std::shared_ptr<FileInfo> fi)
 		{
-			std::cout<<"ADD"<<*fi<<std::endl;
+			if(Extension != fi->Extension())
+				return false;
+
 			container->push_back(std::make_unique<Type>(fi));
+			return true; 
 		}
 		
 		void CopyTo(std::string dest)
@@ -53,6 +57,8 @@ namespace FS
 		
 		void List()
 		{
+		//	auto c = container->at(0);
+		//	int s = c->Get();
 			Logger::Log<Info>(Type::Extension,": ",container->size());
 			std::for_each(container->cbegin(), container->cend(), [&](const auto& it) {Logger::Log<Info>("\t- ",it->Path(),it->Name());}); 
 		}
@@ -95,11 +101,15 @@ namespace FS
 		using DataType = std::unique_ptr<Type>;
 		using ContainerType = std::vector<DataType>;
 		using Base = FileTypeContainer<Typelist<Tail...>>;
-		
-		void Add(std::shared_ptr<FileInfo> fi)
+		inline static const std::string Extension = Type::Extension;		
+		bool Add(std::shared_ptr<FileInfo> fi)
 		{
-			std::cout<<"ADD"<<*fi<<std::endl;
-			container->push_back(std::make_unique<Type>(fi));
+			if(Extension == fi->Extension())
+			{
+				container->push_back(std::make_unique<Type>(fi));
+				return true; 
+			}
+			return Base::Add(fi);
 		}
 
 		void CopyTo(std::string dest)
