@@ -43,6 +43,14 @@ namespace FS
 			return true; 
 		}
 		
+		decltype(auto) Get(std::shared_ptr<FileInfo> fi)
+		{
+			auto i = std::find_if(container->cbegin(), container->cend(), [&](auto& it) { return *(it->Info()) == *fi; });
+			if(i==container->cend())
+				return std::make_unique<File>(std::make_shared<FileInfo>());
+			return std::make_unique<File>((*i)->Info());
+		}
+		
 		void CopyTo(std::string dest)
 		{
 			Logger::Log<Info>("Begin copy files of type: ", Head::Extension);
@@ -110,6 +118,14 @@ namespace FS
 				return true; 
 			}
 			return Base::Add(fi);
+		}
+
+		decltype(auto) Get(std::shared_ptr<FileInfo> fi)
+		{
+			auto i = std::find_if(container->cbegin(), container->cend(), [&](auto& it) { return *(it->Info()) == *fi; });
+			if(i==container->cend())
+				return Base::Get(fi);
+			return std::make_unique<File>((*i)->Info());
 		}
 
 		void CopyTo(std::string dest)

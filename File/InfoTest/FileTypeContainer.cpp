@@ -15,6 +15,7 @@ int main()
 {      
     	std::cout<<"START"<<std::endl;
 	using TypeContainer = FS::FileTypeContainer<Typelist<FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>>;
+	auto dPath = fs::path{ "/home/markus/Dokumente/cpp" };
 	auto d2Path = fs::path{ "/home/markus/Dokumente/cpp" };
 	std::filesystem::file_time_type lm;	
 	
@@ -25,6 +26,11 @@ int main()
 	auto d = Directory(di);
 
 	TypeContainer t;
+	t.SetRootPath("/home/markus/Dokumente/cpp");
 	t.List();
+
+	auto i = t.Get(fi);
+
+	std::cout<<(i)->Name()<<std::endl;
 	return 0;
 }

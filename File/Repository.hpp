@@ -97,6 +97,7 @@ namespace CSV
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						auto f = FS::File( std::dynamic_pointer_cast<FS::FileInfo>(*itNode));
+						types.Get(std::dynamic_pointer_cast<FS::FileInfo>(*itNode));
 						auto lines = f.Read();	
 						it->second.Parse(lines.cbegin(), lines.cend());
 						it->second.Update(lines.cbegin(), lines.cend());
