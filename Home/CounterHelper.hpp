@@ -53,8 +53,8 @@ public:
 	template<typename It>
 	decltype(auto) operator()(It begin, It end) const 
 	{ 
-		auto curr = std::find_if(begin,end,[&](const auto t) { return t->Date == year;});
-		auto prev = std::find_if(begin,end,[&](const auto t) { return t->Date == lastYear;});
+		auto curr = std::find_if(begin,end,[&](const auto t) { return t->Date() == year;});
+		auto prev = std::find_if(begin,end,[&](const auto t) { return t->Date() == lastYear;});
 		decltype(**curr - **prev) res;
 		if(curr == end)
 		{

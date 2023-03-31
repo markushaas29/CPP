@@ -28,12 +28,12 @@ int main()
 	auto rw3 = RW{w3,dt3};
 	
     std::cout<<"Watt "<<rw<<std::endl;
-	assert(rw.QuantityValue == w);
-	assert(rw.Date == dt);
+	assert(rw.Value() == w);
+	assert(rw.Date() == dt);
 	
 	auto drw = rw2 -rw;
-	auto drwq = rw2.QuantityValue -rw.QuantityValue;
-    auto subD = (rw2.Date - rw.Date);
+	auto drwq = rw2.Value() -rw.Value();
+    auto subD = (rw2.Date() - rw.Date());
     //~ auto subD = (rw2.Date - rw.Date);
 	//~ auto c = (drw / subD) ;/// e;
 	//~ (int)drwq;
@@ -45,7 +45,7 @@ int main()
     //~ int x = (drwq / subD);
     std::cout<<"Calc Consumption "<<(drwq / subD)<<std::endl;
     
-    auto dd = rw3.Date - rw2.Date;
+    auto dd = rw3.Date() - rw2.Date();
     std::cout<<"Days "<<dd<<std::endl;
 	auto drw2 = (rw3 -rw2) / dd;
 	auto c2 = drw2 / e;

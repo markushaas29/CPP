@@ -21,13 +21,11 @@ public:
 	using QuantityType = Q;
 	using DateType = DateT;
 	using Type = Reading<Unit,Pre,QuantityType,DateType>;
-	const DateType Date;
-	const QuantityType QuantityValue;
 	
 	template<typename Separator = T::char_<';'>>
-	std::ostream& Display(std::ostream& out) const	{ return out<<Date<<Separator::Value<<QuantityValue.Value()<<Separator::Value<<QuantityType::QuantityRatioType::Sign<<U::Sign();	}
-	Reading(QuantityType val, DateType d): Date(d), QuantityValue(val)	{}
-	Reading(): Date{1,1,2000}, QuantityValue{0}{};
+	std::ostream& Display(std::ostream& out) const	{ return out<<date<<Separator::Value<<value.Value()<<Separator::Value<<QuantityType::QuantityRatioType::Sign<<U::Sign();	}
+	Reading(QuantityType val, DateType d): date(d), value(val)	{}
+	Reading(): date{1,1,2000}, value{0}{};
 	
 	static decltype(auto) Create(const std::string& d, const std::string& v)
 	{
@@ -37,14 +35,19 @@ public:
 				
 		return std::make_shared<Type>(QuantityType(value), DateType(date));
 	}
+
+	decltype(auto) Date() const { return date; }
+	decltype(auto) Value() const { return value; }
+	decltype(auto) operator+(const Type& left) const {return Result<Addition,Type,Type,QuantityType>(*this,left, value + left.value);}
+	decltype(auto) operator-(const Type& left) const {return Result<Subtraction,Type,Type,QuantityType>(*this,left, value - left.value);}
+	decltype(auto) operator*(const Type& left) const {return Result<Multiplication,Type,Type,decltype(value * left.value)>(*this,left, value * left.value);}
+	decltype(auto) operator/(const Type& left) const {return Result<Division,Type,Type,decltype(value / left.value)>(*this,left, value / left.value);}
 	
-	decltype(auto) operator+(const Type& left) const {return Result<Addition,Type,Type,QuantityType>(*this,left, this->QuantityValue + left.QuantityValue);}
-	decltype(auto) operator-(const Type& left) const {return Result<Subtraction,Type,Type,QuantityType>(*this,left, this->QuantityValue - left.QuantityValue);}
-	decltype(auto) operator*(const Type& left) const {return Result<Multiplication,Type,Type,decltype(this->QuantityValue * left.QuantityValue)>(*this,left, this->QuantityValue * left.QuantityValue);}
-	decltype(auto) operator/(const Type& left) const {return Result<Division,Type,Type,decltype(this->QuantityValue / left.QuantityValue)>(*this,left, this->QuantityValue / left.QuantityValue);}
-	
-	decltype(auto) operator<=>(const Type& left) const {return this->QuantityValue <=> left.QuantityValue;}
-	bool operator==(const Type& left) const {return this->QuantityValue == left.QuantityValue;}
+	decltype(auto) operator<=>(const Type& left) const {return value <=> left.value;}
+	bool operator==(const Type& left) const {return value == left.value;}
+private:
+	const DateType date;
+	const QuantityType value;
 };
 
 template<typename U, typename Pre = Pure, typename Q = Quantity<U,Pre,double>, typename DateT = DateTimes::Date>
@@ -52,34 +55,34 @@ std::ostream& operator<<(std::ostream& strm, const Reading<U,Pre,Q,DateT>& r){	r
 //--------------------------------------------Addition---------------------------------------------------------
 
 template<typename U,typename P, typename Q, typename D>
-decltype(auto) operator+(const Q& q, const Reading<U,P,Q,D>& r) { return Result<Addition,Q,Reading<U,P,Q,D>,decltype(q + r.QuantityValue)>(q,r,q + r.QuantityValue);}
+decltype(auto) operator+(const Q& q, const Reading<U,P,Q,D>& r) { return Result<Addition,Q,Reading<U,P,Q,D>,decltype(q + r.value)>(q,r,q + r.value);}
 
 template<typename U,typename P, typename Q, typename D>
-decltype(auto) operator+(const Reading<U,P,Q,D>& r, const Q& q) { return Result<Addition,Reading<U,P,Q,D>,Q,decltype(q + r.QuantityValue)>(r,q,q + r.QuantityValue);}
+decltype(auto) operator+(const Reading<U,P,Q,D>& r, const Q& q) { return Result<Addition,Reading<U,P,Q,D>,Q,decltype(q + r.value)>(r,q,q + r.value);}
 
 //--------------------------------------------Subtraction---------------------------------------------------------
 
 template<typename U,typename P, typename Q, typename D>
-decltype(auto) operator-(const Q& q, const Reading<U,P,Q,D>& r) { return Result<Subtraction,Q,Reading<U,P,Q,D>,decltype(q - r.QuantityValue)>(q,r,q - r.QuantityValue);}
+decltype(auto) operator-(const Q& q, const Reading<U,P,Q,D>& r) { return Result<Subtraction,Q,Reading<U,P,Q,D>,decltype(q - r.value)>(q,r,q - r.value);}
 
 template<typename U,typename P, typename Q, typename D>
-decltype(auto) operator-(const Reading<U,P,Q,D>& r, const Q& q) { return Result<Subtraction,Reading<U,P,Q,D>,Q,decltype(r.QuantityValue - q)>(r,q,r.QuantityValue - q);}
+decltype(auto) operator-(const Reading<U,P,Q,D>& r, const Q& q) { return Result<Subtraction,Reading<U,P,Q,D>,Q,decltype(r.value - q)>(r,q,r.value - q);}
 
 //--------------------------------------------Multiplication---------------------------------------------------------
 
 template<typename U,typename P, typename Q, typename D, typename QT>
-decltype(auto) operator*(const QT& q, const Reading<U,P,Q,D>& r) { return Result<Multiplication,QT,Reading<U,P,Q,D>,decltype(q * r.QuantityValue)>(q,r,q * r.QuantityValue);}
+decltype(auto) operator*(const QT& q, const Reading<U,P,Q,D>& r) { return Result<Multiplication,QT,Reading<U,P,Q,D>,decltype(q * r.value)>(q,r,q * r.value);}
 
 template<typename U,typename P, typename Q, typename D, typename QT>
-decltype(auto) operator*(const Reading<U,P,Q,D>& r, const QT& q) { return Result<Multiplication,Reading<U,P,Q,D>,QT,decltype(q * r.QuantityValue)>(r,q,q * r.QuantityValue);}
+decltype(auto) operator*(const Reading<U,P,Q,D>& r, const QT& q) { return Result<Multiplication,Reading<U,P,Q,D>,QT,decltype(q * r.value)>(r,q,q * r.value);}
 
 //--------------------------------------------Division---------------------------------------------------------
 
 template<typename U,typename P, typename Q, typename D, typename QT>
-decltype(auto) operator/(const QT& q, const Reading<U,P,Q,D>& r) { return Result<Division,QT,Reading<U,P,Q,D>,decltype(q / r.QuantityValue)>(q,r,q / r.QuantityValue);}
+decltype(auto) operator/(const QT& q, const Reading<U,P,Q,D>& r) { return Result<Division,QT,Reading<U,P,Q,D>,decltype(q / r.value)>(q,r,q / r.value);}
 
 template<typename U,typename P, typename Q, typename D, typename QT>
-decltype(auto) operator/(const Reading<U,P,Q,D>& r, const QT& q) { return Result<Division,Reading<U,P,Q,D>,QT,decltype(r.QuantityValue / q)>(r,q,r.QuantityValue / q);}
+decltype(auto) operator/(const Reading<U,P,Q,D>& r, const QT& q) { return Result<Division,Reading<U,P,Q,D>,QT,decltype(r.value / q)>(r,q,r.value / q);}
 
 template<typename C,typename T = double, typename DateT = DateTimes::Date>
 std::ostream& operator<<(std::ostream& strm, const Reading<C,T,DateT> c)	{	return c.Display(strm);}
