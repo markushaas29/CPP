@@ -43,8 +43,8 @@ public:
 	decltype(auto) operator*(const Type& left) const {return Result<Multiplication,Type,Type,decltype(value * left.value)>(*this,left, value * left.value);}
 	decltype(auto) operator/(const Type& left) const {return Result<Division,Type,Type,decltype(value / left.value)>(*this,left, value / left.value);}
 	
-	decltype(auto) operator<=>(const Type& left) const {return value <=> left.value;}
-	bool operator==(const Type& left) const {return value == left.value;}
+	decltype(auto) operator<=>(const Type& left) const {return value <=> left.value ;}//&& date == left.date;}
+	bool operator==(const Type& left) const {return value == left.value && date == left.date;}
 private:
 	const DateType date;
 	const QuantityType value;

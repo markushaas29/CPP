@@ -25,7 +25,10 @@ int main()
 	assert(w3>w2);
 	assert(w2!=w3);
 	auto dt3 = DT{24,2,2004};
-	auto rw3 = RW{w3,dt3};
+	auto rw5 = RW{w2,dt3};
+	auto rw6 = RW{w3,dt3};
+	auto rw3 = RW{w2,dt2};
+	auto rw4 = RW{w3,dt2};
 	
     std::cout<<"Watt "<<rw<<std::endl;
 	assert(rw.Value() == w);
@@ -38,23 +41,23 @@ int main()
 	//~ auto c = (drw / subD) ;/// e;
 	//~ (int)drwq;
 	auto c = (drw / subD) ;
-    //~ std::cout<<"Watt "<<drw<<std::endl;
-    std::cout<<"Q Watt "<<drwq<<std::endl;
-    std::cout<<"Get() )Watt "<<drw.Get()<<"\t"<<drw.Get().SiUnit()<<std::endl;
-    std::cout<<"Get Consumption "<<c.Get()<<std::endl;
-    //~ int x = (drwq / subD);
-    std::cout<<"Calc Consumption "<<(drwq / subD)<<std::endl;
+    	std::cout<<"Watt "<<drw<<std::endl;
+   	std::cout<<"Q Watt "<<drwq<<std::endl;
+    	std::cout<<"Get() )Watt "<<drw.Get()<<"\t"<<drw.Get().SiUnit()<<std::endl;
+    	std::cout<<"Get Consumption "<<c.Get()<<std::endl;
+   	std::cout<<"Calc Consumption "<<(drwq / subD)<<std::endl;
     
-    auto dd = rw3.Date() - rw2.Date();
-    std::cout<<"Days "<<dd<<std::endl;
+   	auto dd = rw3.Date() - rw2.Date();
+    	std::cout<<"Days "<<dd<<std::endl;
 	auto drw2 = (rw3 -rw2) / dd;
 	auto c2 = drw2 / e;
-    //~ std::cout<<"Watt "<<drw<<std::endl;
-    //~ std::cout<<"Watt "<<drw2.Get()<<std::endl;
-    //~ std::cout<<"Cons "<<c2.Get()<<std::endl;
     
-    //~ decltype(drw2.Get()) d = 3;
-    auto cc = c * c;
+	assert(rw3==rw3);
+	//assert(rw3!=rw5);
+	assert(rw3<rw5);
+	assert(rw3<rw6);
+	assert(rw3<rw4);
+    	auto cc = c * c;
     //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
     
 	
