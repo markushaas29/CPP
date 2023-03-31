@@ -57,7 +57,9 @@ namespace FS
 		decltype(auto) LastWriteTime()const { return lastModification; };
 		decltype(auto) GetInfo() const { return Name() + std::string("\t") + std::to_string(Size()) + std::string("\t") + to_timestring(LastModification()) + std::string("\t") + Path();}
 		const std::string virtual PrintInfo(std::ostream& out) const { return GetInfo() ; };
-		
+		bool operator==(const Metainfo& m) const { return m.name == name && m.path == path; 	}
+		//constexpr std::strong_ordering operator<=>( const Metainfo& ) noexcept { return ymd <=> d.ymd; }
+
 		std::ostream& Display(std::ostream& out) const { 
 			auto i = PrintInfo(out); 
 			return out<<i;
