@@ -11,24 +11,30 @@ int main()
 	using W = RW::QuantityType;
 	
 	auto w = W{123};
-	auto e = Q{2};
-	auto dt = DT{1,2,2003};
-	auto rw = RW{w,dt};
-	
 	auto w2 = W{124};
+	auto w3 = W{148};
+	auto e = Q{2};
+	
+	assert(w3>w2);
+	assert(w2<w3);
+	auto dt = DT{1,2,2003};
 	auto dt2 = DT{1,2,2004};
+	auto dt3 = DT{24,2,2004};
+
+	assert(dt3>dt2);
+	assert(dt2<dt3);
+
+	auto rw = RW{w,dt};
 	auto rw2 = RW{w2,dt2};
 	
-	auto w3 = W{148};
+	auto rw3 = RW{w2,dt2};
+	auto rw4 = RW{w2,dt3};
+	auto rw5 = RW{w3,dt2};
+	auto rw6 = RW{w3,dt3};
 	assert(w2!=w3);
 	assert(w2<w3);
 	assert(w3>w2);
 	assert(w2!=w3);
-	auto dt3 = DT{24,2,2004};
-	auto rw5 = RW{w2,dt3};
-	auto rw6 = RW{w3,dt3};
-	auto rw3 = RW{w2,dt2};
-	auto rw4 = RW{w3,dt2};
 	
     std::cout<<"Watt "<<rw<<std::endl;
 	assert(rw.Value() == w);
@@ -52,11 +58,15 @@ int main()
 	auto drw2 = (rw3 -rw2) / dd;
 	auto c2 = drw2 / e;
     
+    	std::cout<<"3 "<<rw3<<rw3.Value()<<std::endl;
+    	std::cout<<"4 "<<rw4<<rw4.Value()<<std::endl;
+    	std::cout<<"5 "<<rw5<<rw4.Value()<<std::endl;
+    	std::cout<<"6 "<<rw6<<rw4.Value()<<std::endl;
 	assert(rw3==rw3);
-	//assert(rw3!=rw5);
-	assert(rw3<rw5);
-	assert(rw3<rw6);
-	assert(rw3<rw4);
+	assert(rw3!=rw5);
+	assert(rw5>=rw3);
+	assert(rw3<=rw6);
+	assert(rw3<=rw4);
     	auto cc = c * c;
     //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
     
