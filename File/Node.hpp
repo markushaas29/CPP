@@ -118,14 +118,14 @@ namespace FS
 	};
 
 	template<typename FileT>
-	struct FileTypeBase: public Node<FileTypeBase<FileT>, FileInfo, File>
+	struct FileTypeBase: File
 	{
-		using Base = Node<FileTypeBase<FileT>, FileInfo, File>;
+		using Base = File;
 		using ParsedType = std::string;
 		using ParserContainer = std::vector<ParsedType>;
 		static constexpr const char* Extension = "";		
 		FileTypeBase(std::shared_ptr<FileInfo> fi): Base(fi){};
-		decltype(auto) Handle( std::shared_ptr<FileInfo> fi) { return Base::Get(fi); }
+		//decltype(auto) Handle( std::shared_ptr<FileInfo> fi) { return Base::Get(fi); }
 
 		template<typename Separator = T::char_<';'>>
 		static std::vector<std::string> ExtractValues(std::string line)	{		return String_::Split<Separator>(line);	};
