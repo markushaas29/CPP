@@ -107,7 +107,8 @@ public:
 	{ 
 		double d;
 		uint u;
-		while(std::cin>>d>>u); 
+		while(std::cin>>d>>u){};
+		return true;		 
 	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:

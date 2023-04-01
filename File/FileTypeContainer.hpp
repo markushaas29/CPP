@@ -30,6 +30,7 @@ namespace FS
 	public:
 		void SetRootPath(std::string p){ rootPath = std::filesystem::path(p);;}
 		using Type = Head;
+		using PtrType = std::unique_ptr<File>;
 		using DataType = std::unique_ptr<Type>;
 		using ContainerType = std::vector<DataType>;
 		inline static const std::string Extension = Type::Extension;		
@@ -43,12 +44,12 @@ namespace FS
 			return true; 
 		}
 		
-		decltype(auto) Get(std::shared_ptr<FileInfo> fi)
+		PtrType Get(std::shared_ptr<FileInfo> fi)
 		{
 			auto i = std::find_if(container->cbegin(), container->cend(), [&](auto& it) { return *(it->Info()) == *fi; });
 			if(i==container->cend())
-				return std::make_unique<File>(std::make_shared<FileInfo>());
-			return std::make_unique<File>((*i)->Info());
+				return std::make_unique<Type>(std::make_shared<FileInfo>());
+			return std::make_unique<Type>((*i)->Info());
 		}
 		
 		void CopyTo(std::string dest)
@@ -120,7 +121,7 @@ namespace FS
 			return Base::Add(fi);
 		}
 
-		decltype(auto) Get(std::shared_ptr<FileInfo> fi)
+		Base::PtrType Get(std::shared_ptr<FileInfo> fi)
 		{
 			auto i = std::find_if(container->cbegin(), container->cend(), [&](auto& it) { return *(it->Info()) == *fi; });
 			if(i==container->cend())

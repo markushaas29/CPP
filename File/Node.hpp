@@ -55,9 +55,7 @@ namespace FS
 		using ContainerType = std::vector<Type>; 
 	
 		Node(PtrType fi): info(fi){};
-		static Type Get(Metainfo* fi){return Type();};
 		std::ostream& Display(std::ostream& os)	{ return os;	}
-		decltype(auto) Get() { return Type(info); }
 		const std::string& Path() const { return info->Path(); };
 		const std::string& Name() const { return info->Name(); };
 		std::shared_ptr<DerivedInfo> Info() const { return info; };
