@@ -47,18 +47,17 @@ namespace FS
 		}
 	}
 	
-	template<typename Derived, typename DerivedInfo,typename T = Derived>
+	template<typename Derived, typename DerivedInfo>
 	struct Node
 	{
 		using Type = Derived;
 		using PtrType = std::shared_ptr<DerivedInfo>;
-		using ElementType = T;
-		using ContainerType = std::vector<ElementType>; 
+		using ContainerType = std::vector<Type>; 
 	
 		Node(PtrType fi): info(fi){};
-		static ElementType Get(Metainfo* fi){return ElementType();};
+		static Type Get(Metainfo* fi){return Type();};
 		std::ostream& Display(std::ostream& os)	{ return os;	}
-		decltype(auto) Get() { return ElementType(info); }
+		decltype(auto) Get() { return Type(info); }
 		const std::string& Path() const { return info->Path(); };
 		const std::string& Name() const { return info->Name(); };
 		std::shared_ptr<DerivedInfo> Info() const { return info; };
@@ -121,11 +120,11 @@ namespace FS
 	struct FileTypeBase: File
 	{
 		using Base = File;
+		using FileType = FileT;
 		using ParsedType = std::string;
 		using ParserContainer = std::vector<ParsedType>;
 		static constexpr const char* Extension = "";		
 		FileTypeBase(std::shared_ptr<FileInfo> fi): Base(fi){};
-		//decltype(auto) Handle( std::shared_ptr<FileInfo> fi) { return Base::Get(fi); }
 
 		template<typename Separator = T::char_<';'>>
 		static std::vector<std::string> ExtractValues(std::string line)	{		return String_::Split<Separator>(line);	};
