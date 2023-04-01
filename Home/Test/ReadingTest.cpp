@@ -65,8 +65,11 @@ int main()
 	assert(rw3==rw3);
 	assert(rw3!=rw5);
 	assert(rw5>=rw3);
+	assert(rw5>=rw3);
 	assert(rw3<=rw6);
-	assert(rw3<=rw4);
+	assert(rw3<rw4);
+	assert(rw3<rw6);
+	assert(rw3<rw4);
     	auto cc = c * c;
     //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
     
