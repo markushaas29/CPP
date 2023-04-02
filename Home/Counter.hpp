@@ -105,6 +105,8 @@ public:
 
 	bool Exec() 
 	{ 
+		auto today = DateTimes::Date::Today();
+		std::cout<<today<<std::endl;
 		double d;
 		uint u;
 		while(std::cin>>d>>u){};

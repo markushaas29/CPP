@@ -14,10 +14,50 @@
 
 #pragma once
 
-namespace Parsers{	template<typename, typename, typename>	struct Parser;}
+static std::array<char,512> Chars(uint d = 0, uint m = 0, uint y = 0)
+{
+	std::array<char,512> result= {};
+	auto day = IntToChars<2>(d);
+	auto month = IntToChars<2>(m);
+	auto year1 = IntToChars<2>(20);
+	auto year = IntToChars<2>(y);
+		
+		std::cout<<"D "<<d<<std::endl;	
+		std::cout<<"M "<<m<<std::endl;	
+		std::cout<<"Y "<<y<<std::endl;	
+			
+			//~ result[0] = year1[0];
+			//~ result[1] = year[1];
+			//~ result[2] = year[0];
+			//~ result[3] = year[1];
+			//~ result[4] = '\0';
+			result[0] = month[0];
+			result[1] = month[1];
+			result[2] = year[0];
+			result[3] = year[1];
+			result[4] = '\0';
+			
+			//~ std::array<char,512> result = {day[0], day[1], month[0], month[1], year1[0], year[1], year[0], year[1],'\0'};
+			return result;
+		}
+
+
+namespace Parsers
+{
+	template<typename, typename, typename>
+	struct Parser;
+}
 
 namespace DateTimes
 {
+	template<class T, size_t N>
+	using c_array = T[N];
+
+	template<class T, size_t N>
+	constexpr c_array<T, N>& as_c_array(std::array<T, N> a) {
+		return reinterpret_cast<T(&)[N]>(*a.data());
+	}
+	
 	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint>
 	class DateTimeBase
 	{
@@ -114,7 +154,7 @@ namespace DateTimes
 		inline static constexpr const char* Identifier = "Date";
 						
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): 
-			Element(std::array<char,512> {}), 
+			Element(getChars(d,m,y)), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))},
 			ymd{DateTimes::Year{y}, DateTimes::Month{m}, DateTimes::Day{d}}{	}; 
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}, ymd{std::get<DateTimes::Year>(tt), std::get<DateTimes::Month>(tt), std::get<DateTimes::Day>(tt) }{    };
@@ -184,10 +224,10 @@ namespace DateTimes
 		static TupleType extractByValue(const std::string& s)
 		{
 			std::string res;
-						
-			std::for_each(s.cbegin(), s.cend(),[&](auto c) 
-				{ if(isdigit(c))
-					res += c;	});
+										
+			for(auto c : s)
+				if(isdigit(c))
+					res += c;
 			
 			if(res.size() > 0)
 			{
@@ -205,6 +245,26 @@ namespace DateTimes
 		}
 		
 		static constexpr const char* check(const char* s) { return s; }
+		static constexpr std::array<char,512> getChars(uint d = 0, uint m = 0, uint y = 0)
+		{
+			std::array<char,512> result= {};
+			//~ auto day = IntToChars<2>(d);
+			//~ auto month = IntToChars<2>(m);
+			//~ auto year1 = IntToChars<2>(20);
+			//~ auto year = IntToChars<2>(y);
+			
+			//~ result[0] = day[0];
+			//~ result[1] = day[1];
+			//~ result[2] = month[0];
+			//~ result[3] = month[1];
+			//~ result[4] = year1[0];
+			//~ result[5] = year[1];
+			//~ result[6] = year[0];
+			//~ result[7] = year[1];
+			//~ result[8] = '\0';
+			
+			return result;
+		}
 	};
 
 	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
