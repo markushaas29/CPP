@@ -71,8 +71,6 @@ namespace FS
 		std::filesystem::path fs_path;
 		const std::filesystem::file_time_type lastModification;
 		std::uintmax_t size;
-
-		Metainfo() = default;
 		Metainfo(std::filesystem::path p, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(p), name(p.filename()), path(p), size(s), lastModification(lm){ };
 		Metainfo(std::filesystem::path p, std::filesystem::path pp, std::filesystem::file_time_type lm, std::uintmax_t s): fs_path(pp), name(p.filename()), path(p), size(s), lastModification(lm){ };
 		virtual Metainfo* Child(int n) = 0;
@@ -83,7 +81,6 @@ namespace FS
 	class FileInfo : public Metainfo
 	{
 	public:
-		FileInfo(){};
 		~FileInfo(){};
 		FileInfo(std::filesystem::path p, std::filesystem::file_time_type lm = std::filesystem::file_time_type(), std::uintmax_t s = 0): Metainfo(p, p.parent_path(),lm, s), extension{p.extension()} { 	};
 		const std::string&  Extension() const { return extension; };

@@ -99,13 +99,12 @@ namespace FS
 		
 		std::vector<std::string> Read() const {	return ReadLines(info->Path());};
 		void Write()	{ std::cout<<"WRITE NODE"<<std::endl;	};
-
-		std::unique_ptr<std::ofstream> Handle() { return std::make_unique<std::ofstream>("/home/markus/Dokumente/cpp/Home/Test/TestFiles/NodeTest.txt");}
+		std::unique_ptr<std::ofstream> Handle() { return std::make_unique<std::ofstream>(Path());}
 
 		template<typename ParseType, typename ParseTypeContainer = ParseType::ParseCont>
 		ParseTypeContainer Parse() const
 		{
-			auto content = this->Read();
+			auto content = Read();
 			ParseType::Parse(content);
 			
 			return ParseType::Transactions;

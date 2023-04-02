@@ -48,7 +48,7 @@ namespace FS
 		{
 			auto i = std::find_if(container->cbegin(), container->cend(), [&](auto& it) { return *(it->Info()) == *fi; });
 			if(i==container->cend())
-				return std::make_unique<Type>(std::make_shared<FileInfo>());
+				return std::make_unique<Type>(nullptr);
 			return std::make_unique<Type>((*i)->Info());
 		}
 		
