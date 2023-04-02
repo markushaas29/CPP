@@ -106,10 +106,18 @@ public:
 	bool Exec() 
 	{ 
 		auto today = DateTimes::Date::Today();
+		auto r = readings->CBegin();
 		std::cout<<today<<std::endl;
+		auto p = *(*r);
+		std::cout<<p<<std::endl;
 		double d;
 		uint u;
-		while(std::cin>>d>>u){};
+		//while(std::cin>>d>>u){};
+		std::cin>>u;
+		std::cin>>d;
+		auto n = ReadingType(QuantityType(d), DateType(12,4,u));
+		std::cout<<n<<std::endl;
+		assert(p<n);
 		return true;		 
 	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
@@ -173,7 +181,6 @@ private:
 		else
 			Logger::Log<Error>()<<"Error: CreateReading-> Not enough values"<<std::endl;
 			
-		//~ return ReadingType::Create("1,0","01.01.2000");
 		return  DataType(new ReadingType(QuantityType(0.0), DateType(Parsers::Parser<std::string,DateType>::Parse("01.01.2000"))));
 	}
 	

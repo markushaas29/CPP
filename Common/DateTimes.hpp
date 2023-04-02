@@ -99,12 +99,8 @@ namespace DateTimes
 	{
 		using Base = Element<Date>;
 		friend class Element<Date>;
-		
-		template<typename ItemT>
-		friend const ItemT& Get(Date const& t);
-		
-		template<typename, typename, typename>
-		friend class Parsers::Parser;
+		template<typename ItemT> friend const ItemT& Get(Date const& t);
+		template<typename, typename, typename>	friend class Parsers::Parser;
 	public:
 		using DayType = DateTimes::Day;
         using MonthType = DateTimes::Month;
