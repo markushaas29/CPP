@@ -31,12 +31,15 @@ int main()
       	c.Display(std::cout);
       	d.Display(std::cout);
 
+	assert(path==f.Path());
+	f.Handle();
+
       	std::cout<<d.Path()<<std::endl;
       	std::cout<<di->Path()<<std::endl;
 
 	FileSystem::List(dpath);
 	//FileSystem::List(d2Path);
-	FileSystem::GetInfos(di);
+	//FileSystem::GetInfos(di);
 
 	return 0;
 }
