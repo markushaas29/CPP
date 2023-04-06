@@ -39,6 +39,26 @@ namespace CSV
 	
 	using CommonParsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, InputManager<Counter>,CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Comdirect<Configuration::Comdirect>, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
 	using CounterParsers = Typelist<CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW>::Type;
+
+	
+	template<typename ParserTypes>
+	class RepositoryConfiguration
+	{
+	public:
+		using Parsers = ParserTypes;
+	};
+
+	class CommonRepositoryConfiguration: public RepositoryConfiguration<CommonParsers>
+	{ 
+	public:
+		static constexpr const char* Path = "";
+	};
+	
+	class CounterRepositoryConfiguration: public RepositoryConfiguration<CounterParsers>
+	{ 
+	public:
+		static constexpr const char* Path = "";
+	};
 	
 	template<typename ParserTypes>
 	class Repository
