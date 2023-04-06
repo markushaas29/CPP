@@ -51,7 +51,7 @@ namespace CSV
 	class CommonRepositoryConfiguration: public RepositoryConfiguration<CommonParsers>
 	{ 
 	public:
-		static constexpr const char* Path = "";
+		static constexpr const char* Path = Configuration::Repository::SourcePath;
 	};
 	
 	class CounterRepositoryConfiguration: public RepositoryConfiguration<CounterParsers>
@@ -72,6 +72,7 @@ namespace CSV
 		using ParserContainer = FS::FileTypeContainer<Parsers>;
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;
+		static constexpr const char* Path = Config::Path;
 	
 		void CopyTo(std::string dest)
 		{
@@ -163,7 +164,7 @@ namespace CSV
 		Repository()	
 		{ 
 			Logger::Log<Info>("Repository constructor");
-			Map(std::string(Configuration::Repository::SourcePath));
+			Map(std::string(Path));
 			Register();
 			ParseAll();	
 		};
