@@ -44,7 +44,7 @@ int main()
     std::cout<<"END"<<std::endl;
 
 	std::ofstream of{"All.txt"};
-	CSV::Repository<CSV::CommonParsers>::Instance().Display(of);
+	CSV::Repository<CSV::CommonRepositoryConfiguration>::Instance().Display(of);
 	
     return 0;
 }
