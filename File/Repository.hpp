@@ -60,7 +60,7 @@ namespace CSV
 		static constexpr const char* Path = "";
 	};
 	
-	template<typename ParserTypes>
+	template<typename Config>
 	class Repository
 	{
 	public:
@@ -68,7 +68,7 @@ namespace CSV
 		using FileTypes = Configuration::Repository::FileTypes;
 		using TypeContainer = FS::FileTypeContainer<FileTypes>;
 		using DirectionType = Bank::Direction;
-		using Parsers = ParserTypes;
+		using Parsers = Config::Parsers;
 		using ParserContainer = FS::FileTypeContainer<Parsers>;
 		using VisitorType = FS::RepositoryObjectVisitor<InputIterator>;
 		using VisitorContainer = std::map<std::string, VisitorType>;

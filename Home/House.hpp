@@ -47,15 +47,13 @@ public:
 	}
 	
 	std::ostream& Display(std::ostream& os) {	return os;	}
-	
 	void Calculate() {	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();	}
-	
 private:
 	HouseQuantitiesType quantities; 
 	
 	House(): quantities(0, 0, 0, ""){ 
 		Logger::Log()<<"CTOR: "<<Name<<std::endl;
-		CSV::Repository<CSV::CommonParsers>::Instance();
+		CSV::Repository<CSV::CommonRepositoryConfiguration>::Instance();
 	
 		auto outFile = std::ofstream("out.txt");
 		auto inFile = std::ofstream("//home//markus//Downloads//in.txt");

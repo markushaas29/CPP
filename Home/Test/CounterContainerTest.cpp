@@ -28,7 +28,7 @@ int main()
 	auto w3 = W{148};
 
 	//House<HouseConfiguration>::Instance();
-	using Rep = CSV::Repository<CSV::CounterParsers>;
+	using Rep = CSV::Repository<CSV::CounterRepositoryConfiguration>;
 	Rep::Instance();
 	CounterContainerType::Instance().Display(std::cout);
 	CounterContainerType::Instance().DisplayInfos(std::cout);
