@@ -57,7 +57,7 @@ namespace CSV
 	class CounterRepositoryConfiguration: public RepositoryConfiguration<CounterParsers>
 	{ 
 	public:
-		static constexpr const char* Path = "";
+		static constexpr const char* Path = "/home/markus/Downloads/CSV_TestFiles_2";
 	};
 	
 	template<typename Config>
