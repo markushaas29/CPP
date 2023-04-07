@@ -65,6 +65,7 @@ private:
 		
 		*fs<<"\n--------TotalItemCosts-----\n"<<std::endl;
 		*fs<<"\nSum: "<<totalOut<<std::endl;
+		*fs<<"\nSum: "<<Division::Calculate(total,totalOut)<<std::endl;
 		
 		return fs;
 	}
