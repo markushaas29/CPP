@@ -92,12 +92,13 @@ private:
 		else 
 		{
 			auto item = std::get<I>(*items);
-			auto result = decltype(item)::Calculate(year);
+			using ItemType = decltype(item);
+			auto result = ItemType::Calculate(year);
 			
 			total = total + result;
-			totalOut = totalOut + decltype(item)::Result(year).ItemCosts();
-			std::cout<<decltype(item)::Result(year)<<std::endl;
-			(*fs)<<decltype(item)::Result(year)<<std::endl;
+			auto itemResult = ItemType::Result(year);
+			totalOut = totalOut + ItemType::Result(year).ItemCosts();
+			(*fs)<<ItemType::Result(year)<<std::endl;
 			
 			return Calculate<I + 1>(std::move(fs));
 		}
