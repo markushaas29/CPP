@@ -76,6 +76,7 @@ public:
 	}
 	
 	decltype(auto) Year() const { return year; }
+	decltype(auto) ItemCosts() const { return sum; }
 	decltype(auto) Get() const { return result.Get(); }
 private:
 	const FractionType fraction;

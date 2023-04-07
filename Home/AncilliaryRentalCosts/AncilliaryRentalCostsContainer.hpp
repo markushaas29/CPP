@@ -63,6 +63,9 @@ private:
 		*fs<<"\n--------TotalResult-----\n"<<std::endl;
 		*fs<<"\nSum: "<<Addition::Calculate(advancePays,total)<<std::endl;
 		
+		*fs<<"\n--------TotalItemCosts-----\n"<<std::endl;
+		*fs<<"\nSum: "<<totalOut<<std::endl;
+		
 		return fs;
 	}
 	
@@ -92,6 +95,7 @@ private:
 			auto result = decltype(item)::Calculate(year);
 			
 			total = total + result;
+			totalOut = totalOut + decltype(item)::Result(year).ItemCosts();
 			std::cout<<decltype(item)::Result(year)<<std::endl;
 			(*fs)<<decltype(item)::Result(year)<<std::endl;
 			
@@ -103,6 +107,7 @@ private:
 	YearType year;
 	const Quantity<Scalar> paymentsPerYear = Quantity<Scalar>{12};
 	Quantity<Sum> total = Quantity<Sum>(0.0);
+	Quantity<Sum> totalOut = Quantity<Sum>(0.0);
 };
 
 #endif
