@@ -31,7 +31,7 @@ public:
 
 	constexpr decltype(auto) Num() const { return num; };
 	constexpr decltype(auto) Denom() const { return denom; };
-	constexpr decltype(auto) Su() const { return sumValue; };
+	constexpr decltype(auto) ItemSum() const { return sumValue; };
 	constexpr decltype(auto) Get() const { return result;};
 	constexpr bool operator==(const Type& i) const{ return (num == i.num) && (denom == i.denom) && (sumValue == i.sumValue); };
 	constexpr decltype(auto) operator<=>( const Type& i) const noexcept { return sumValue <=> i.sumValue; }
@@ -58,9 +58,9 @@ public:
 	using ResultType = decltype(Ratio::Calculate(std::declval<QuantityType>(),std::declval<QuantityType>(),std::declval<SumType>()));
 	using Transfers = std::vector<std::shared_ptr<typename Type::TransferType>>;
 	using TransfersPtr = std::unique_ptr<Transfers>;
-	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{fraction.Get()},year{y}, numerator{fraction.Num()},denominator{fraction.Denom()},sum{fraction.Su()} { };
+	AncilliaryRentalCostItemResult(TransfersPtr&& t, FractionType&& f, const DateTimes::Year y): transfers{std::move(t)}, fraction{f},result{fraction.Get()},year{y}, numerator{fraction.Num()},denominator{fraction.Denom()},sum{fraction.ItemSum()} { };
 	AncilliaryRentalCostItemResult() = delete; 
-	AncilliaryRentalCostItemResult(const AncilliaryRentalCostItemResult& a): year{a.year}, result{a.fraction.Get()}, numerator{a.fraction.Num()},denominator{a.fraction.Denom()},sum{a.fraction.Su()} {  transfers = std::make_unique<Transfers>(a.transfers->begin(), a.transfers->end());}; 
+	AncilliaryRentalCostItemResult(const AncilliaryRentalCostItemResult& a): year{a.year}, result{a.fraction.Get()}, numerator{a.fraction.Num()},denominator{a.fraction.Denom()},sum{a.fraction.ItemSum()} {  transfers = std::make_unique<Transfers>(a.transfers->begin(), a.transfers->end());}; 
 	std::ostream& Display(std::ostream& os) const
 	{
 		os<<StageType::StageName<<"\t"<<ItemType::TypeIdentifier<<"\t"<<year<<"\n";
