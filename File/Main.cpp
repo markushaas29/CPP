@@ -36,10 +36,14 @@ int main()
 	auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
     CSV::Repository<CSV::CommonRepositoryConfiguration>::Instance();
 
-	std::cout<<"\n TEST ID"<<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>::Identifier<<std::endl;
+    	
+	Bank::Raiffeisenbank<Configuration::Raiffeisenbank>::Instance().Display(std::cout);
 	//~ CSV::Get<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>,int>();
 	std::cout<<"\n TEST Transfers"<<std::endl;
-	
+
+	constexpr static DateTimes::Year Y{2022};
+	Bank::FilterBy<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>(Y);
+
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;
 
 	//~ auto out = Transfers<Bank::Raiba<0>>();

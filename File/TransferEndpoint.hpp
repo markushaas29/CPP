@@ -60,6 +60,9 @@ namespace Bank
 			this->transfers->Add(t); 
 		};
 		TransferEndpoint():types("ownerKey", "iban", "bic", 0) { };
+		
+		template<typename FilterType>
+		decltype(auto) FilterBy(FilterType t) { std::cout<<"SIZE"<<t<<std::endl;	transfers->FilterBy(t); }
 				
 		void Add(DataType t)
 		{

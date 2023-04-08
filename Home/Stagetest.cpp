@@ -46,5 +46,9 @@ int main()
 	std::ofstream of{"All.txt"};
 	CSV::Repository<CSV::CommonRepositoryConfiguration>::Instance().Display(of);
 	
+	constexpr static DateTimes::Year Y{2022};    
+	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;         
+        Bank::FilterBy<AccountType>(Y);
+	
     return 0;
 }

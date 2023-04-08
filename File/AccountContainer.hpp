@@ -82,6 +82,16 @@ namespace Bank
 			return out;
 		}
 		
+		template<typename FilterType>
+		decltype(auto) FilterBy(FilterType t) 
+		{
+			std::cout<<"SIZE"<<t<<accounts.size()<<std::endl;	
+			for(auto a : accounts)
+				a.second->FilterBy(t);
+			
+			//~ std::for_each(accounts.cbegin(),accounts.cbegin(),[&](const auto& a) { std::cout<<"SIZE"<<t<<std::endl;a.second->FilterBy(t); }); 
+		}
+		
 		std::ostream& DisplayKeys(std::ostream& out) const
 		{
 			std::for_each(accounts.cbegin(),accounts.cbegin(),[&out](const auto& a) {out<<a.first<<"\n"; });

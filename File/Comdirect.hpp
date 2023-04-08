@@ -47,6 +47,9 @@ namespace Bank
 		template<typename A, typename T>
 		friend decltype(auto) Get(const T& t);
 
+		template<typename A, typename T>
+		friend decltype(auto) FilterBy(T t);
+
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static constexpr const char* name = "Comdirect";
 		

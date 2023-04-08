@@ -32,6 +32,9 @@ namespace Bank
 	template<typename A, typename T>
 	decltype(auto) Get(const T& t){	return A::cont[t];	};
 	
+	template<typename A, typename T>
+	decltype(auto) FilterBy(T t) {	A::cont.FilterBy(t);	};
+	
 	template<typename Derived>
 	class Account
 	{
