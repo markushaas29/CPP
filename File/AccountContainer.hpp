@@ -36,6 +36,7 @@ namespace Bank
 		using DataType = std::shared_ptr<T>;
 		using AccountEndpointT =TransferEndpoint<typename T::AccountType>;
 		using AccountEndpointType =std::shared_ptr<TransferEndpoint<typename T::AccountType>>;
+		using ContainerType = TCont<KeyType, AccountEndpointType>;
 	public:
 		void Insert(KeyType k, DataType t)
 		{
@@ -85,11 +86,17 @@ namespace Bank
 		template<typename FilterType>
 		decltype(auto) FilterBy(FilterType t) 
 		{
-			std::cout<<"SIZE"<<t<<accounts.size()<<std::endl;	
+			auto result = typename AccountEndpointT::ResultContainer();
 			for(auto a : accounts)
-				a.second->FilterBy(t);
-			
+			{
+                  auto r = a.second->FilterBy(t);
+                  std::copy(r->begin(), r->end(), std::back_inserter(result));
+			 }
 			//~ std::for_each(accounts.cbegin(),accounts.cbegin(),[&](const auto& a) { std::cout<<"SIZE"<<t<<std::endl;a.second->FilterBy(t); }); 
+			
+			//~ for(auto x : result)
+				//~ std::cout<(**x)<<std::endl;
+			std::cout<<"SIZE"<<result.size()<<std::endl;
 		}
 		
 		std::ostream& DisplayKeys(std::ostream& out) const
@@ -99,7 +106,7 @@ namespace Bank
 		}		
 	private:
 		Cont<KeyType> keys;
-		TCont<KeyType, AccountEndpointType> accounts;
+		ContainerType accounts;
 	};
 }
 
