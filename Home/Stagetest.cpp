@@ -48,7 +48,7 @@ int main()
 	
 	constexpr static DateTimes::Year Y{2022};    
 	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;         
-        Bank::FilterBy<AccountType>(Y);
+        Bank::GetTransfersOf<AccountType>(Y);
 	
     return 0;
 }

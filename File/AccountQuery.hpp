@@ -71,7 +71,7 @@ namespace Bank
 		decltype(auto) Execute() const
 		{
 			auto accGas = Get<AccountType>(iban);
-			auto transfers = accGas->GetTransferOf(filters);
+			auto transfers = accGas->GetTransfersOf(filters);
 
 			return ResultType{std::move(transfers)};
 		}

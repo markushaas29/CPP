@@ -36,14 +36,14 @@ namespace Bank
 		TransferContainer(): Base{std::make_unique<ContainerType>()}{}
 		
 		template <typename... FilterTypes>
-		decltype(auto) GetTransferOf(std::tuple<FilterTypes...> filters)
+		decltype(auto) GetTransfersOf(std::tuple<FilterTypes...> filters)
 		{ 
 			auto result = this->getTransferOf(ContainerType(this->CBegin(), this->CEnd()), filters);		
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
 
 		template <typename... FilterTypes>
-		decltype(auto) GetTransferOf(FilterTypes... filters)
+		decltype(auto) GetTransfersOf(FilterTypes... filters)
 		{
 			auto fsT = std::tuple<FilterTypes...>(filters...);
 			auto result = this->getTransferOf(ContainerType(this->CBegin(), this->CEnd()), fsT);		

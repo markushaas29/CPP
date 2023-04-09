@@ -62,7 +62,7 @@ namespace Bank
 		TransferEndpoint():types("ownerKey", "iban", "bic", 0) { };
 		
 		template <typename... FilterTypes>
-		decltype(auto) GetTransferOf(FilterTypes... filters) { return transfers->GetTransfersOf(filters...); }
+		decltype(auto) GetTransfersOf(FilterTypes... filters) { return transfers->GetTransfersOf(filters...); }
 				
 		void Add(DataType t)
 		{
@@ -106,9 +106,6 @@ namespace Bank
 		template<typename T>
 		decltype(auto) operator[](T t) { return transfers->FilterBy(t); 	}
 		
-		template<typename... FilterTypes>
-		decltype(auto) GetTransfersOf(FilterTypes... filters) const { return transfers->GetTransferOf(filters...); }
-				
 		template<typename T>
 		decltype(auto) All() const
 		{
