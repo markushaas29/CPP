@@ -48,7 +48,10 @@ int main()
 	
 	constexpr static DateTimes::Year Y{2022};    
 	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;         
-        Bank::GetTransfersOf<AccountType>(Y);
+    auto rc = Bank::GetTransfersOf<AccountType>(Y);
+    
+    for(auto cx : *rc)
+		std::cout<<*cx<<std::endl;
 	
     return 0;
 }
