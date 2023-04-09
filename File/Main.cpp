@@ -42,7 +42,7 @@ int main()
 	std::cout<<"\n TEST Transfers"<<std::endl;
 
 	constexpr static DateTimes::Year Y{2022};
-	Bank::FilterBy<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>(Y);
+	Bank::GetTransfersOf<Bank::Raiffeisenbank<Configuration::Raiffeisenbank>>(Y);
 
 	std::cout<<"\n-------------------------------------------------------- Transfers OUT --------------------------------------------------------------"<<std::endl;
 

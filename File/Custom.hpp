@@ -39,15 +39,11 @@ namespace Bank
 		~Custom()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Custom& operator=(const Custom&) = delete;
 		Custom(const Custom& c) = delete;
-	
-		template<typename A, typename T>
-		friend decltype(auto) Get(const T& t);
 		
-		template<typename A, typename T>
-		friend decltype(auto) FilterBy(T t);
+		template<typename A, typename T> friend decltype(auto) Get(const T& t);
+		template <typename A, typename... FilterTypes>	friend decltype(auto) GetTransfersOf(FilterTypes... filters);
 		
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
-	
 		inline static constexpr const char* name = "Custom";
 		template<typename T>
 		static std::string Extract(std::string s){	return s;	}		

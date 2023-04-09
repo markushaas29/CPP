@@ -83,13 +83,13 @@ namespace Bank
 			return out;
 		}
 		
-		template<typename FilterType>
-		decltype(auto) FilterBy(FilterType t) 
+		template <typename... FilterTypes>
+		decltype(auto) GetTransfersOf(FilterTypes... filters)
 		{
 			auto result = typename AccountEndpointT::ResultContainer();
 			for(auto a : accounts)
 			{
-                  auto r = a.second->FilterBy(t);
+                  auto r = a.second->GetTransfersOf(filters...);
                   std::copy(r->begin(), r->end(), std::back_inserter(result));
 			 }
 			//~ std::for_each(accounts.cbegin(),accounts.cbegin(),[&](const auto& a) { std::cout<<"SIZE"<<t<<std::endl;a.second->FilterBy(t); }); 

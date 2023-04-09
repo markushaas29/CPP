@@ -48,11 +48,8 @@ namespace Bank
 		Raiffeisenbank& operator=(const Raiffeisenbank&) = delete;
 		Raiffeisenbank(const Raiffeisenbank& c) = delete;
 	
-		template<typename A, typename T>
-		friend decltype(auto) Get(const T& t);
-		
-		template<typename A, typename T>
-		friend decltype(auto) FilterBy(T t);
+		template<typename A, typename T> friend decltype(auto) Get(const T& t);
+		template <typename A, typename... FilterTypes> friend decltype(auto) GetTransfersOf(FilterTypes... filters);
 				
 		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
 		inline static String_::Parser parser = String_::Parser();
