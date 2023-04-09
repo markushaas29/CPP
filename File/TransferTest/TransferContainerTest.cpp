@@ -75,53 +75,53 @@ int main()
 	std::cout<<(**tc.Begin())<<std::endl;
 	assert(tc.Size()==8);
 	
-	auto f = tc.GetTransferOf(i,dt);
+	auto f = tc.GetTransfersOf(i,dt);
 	assert(f->size() == 5);
 	
 	auto idtT = std::make_tuple(i,dt);
-	auto rT = tc.GetTransferOf(idtT);
+	auto rT = tc.GetTransfersOf(idtT);
 	assert(rT->size() == 5);
 
 
-	f = tc.GetTransferOf(y2028);
+	f = tc.GetTransfersOf(y2028);
 	assert(f->size() == 0);
 	
-	f = tc.GetTransferOf(y2022,y2023);
+	f = tc.GetTransfersOf(y2022,y2023);
 	assert(f->size() == 0);
-	rT = tc.GetTransferOf(std::make_tuple(y2022,y2023));
+	rT = tc.GetTransfersOf(std::make_tuple(y2022,y2023));
 	//std::cout<<"Size\t"<<rT->size();
 	assert(rT->size() == 0);
 	
-	f = tc.GetTransferOf(y2022);
+	f = tc.GetTransfersOf(y2022);
 	assert(f->size() == 6);
 	
-	f = tc.GetTransferOf(q);
+	f = tc.GetTransfersOf(q);
 	assert(f->size() == 6);
 	
-	f = tc.GetTransferOf(q2);
+	f = tc.GetTransfersOf(q2);
 	assert(f->size() == 2);
 	
-	f = tc.GetTransferOf(q2,m3,d5);
+	f = tc.GetTransfersOf(q2,m3,d5);
 	assert(f->size() == 1);
-	rT = tc.GetTransferOf(std::make_tuple(q2,m3,d5));
+	rT = tc.GetTransfersOf(std::make_tuple(q2,m3,d5));
 	assert(rT->size() == 1);
 	
-	f = tc.GetTransferOf(q2,m3,d1);
+	f = tc.GetTransfersOf(q2,m3,d1);
 	assert(f->size() == 0);
 	
-	f = tc.GetTransferOf(q2,dt2);
+	f = tc.GetTransfersOf(q2,dt2);
 	assert(f->size() == 1);
 	
-	f = tc.GetTransferOf(i2);
+	f = tc.GetTransfersOf(i2);
 	assert(f->size() == 1);
 	
-	f = tc.GetTransferOf(b2);
+	f = tc.GetTransfersOf(b2);
 	assert(f->size() == 1);
 
-	f = tc.GetTransferOf(n2);
+	f = tc.GetTransfersOf(n2);
 	assert(f->size() == 1);
 	
-	f = tc.GetTransferOf(e2);
+	f = tc.GetTransfersOf(e2);
 	assert(f->size() == 1);
 
 
