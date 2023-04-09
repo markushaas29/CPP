@@ -77,18 +77,18 @@ namespace DateTimes
 		
 	bool operator<(const Year& y1, const Year& y2) { return y1.Value() < y2.Value(); };
 	
-	inline static Month January = Month(1);
-	inline static Month February= Month(2);
-	inline static Month March= Month(3);
-	inline static Month April= Month(4);
-	inline static Month May= Month(5);
-	inline static Month June= Month(6);
-	inline static Month July= Month(7);
-	inline static Month August= Month(8);
-	inline static Month September= Month(9);
-	inline static Month October= Month(10);
-	inline static Month November= Month(11);
-	inline static Month December= Month(12);
+	inline constexpr static Month January = Month(1);
+	inline constexpr static Month February= Month(2);
+	inline constexpr static Month March= Month(3);
+	inline constexpr static Month April= Month(4);
+	inline constexpr static Month May= Month(5);
+	inline constexpr static Month June= Month(6);
+	inline constexpr static Month July= Month(7);
+	inline constexpr static Month August= Month(8);
+	inline constexpr static Month September= Month(9);
+	inline constexpr static Month October= Month(10);
+	inline constexpr static Month November= Month(11);
+	inline constexpr static Month December= Month(12);
 	
 	using TP = std::chrono::system_clock::time_point;
 	

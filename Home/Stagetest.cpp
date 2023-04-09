@@ -4,6 +4,7 @@
 #include "Stage.hpp"
 #include "StageContainer.hpp"
 #include "House.hpp"
+#include "../File/AccountQuery.hpp"
 #include "AncilliaryRentalCosts/AncilliaryRentalCostsContainer.hpp"
 #include "../Tuple/Tuple.hpp"
 #include "../Unit/Unit.hpp"
@@ -50,8 +51,17 @@ int main()
 	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;         
     auto rc = Bank::GetTransfersOf<AccountType>(Y);
     
+    constexpr Bank::ItemQuery<AccountType,DateTimes::Year, DateTimes::Month> iq{Y,DateTimes::July};
+    
+    auto riq = iq.Execute();
+    
     for(auto cx : *rc)
 		std::cout<<*cx<<std::endl;
 	
+	auto items = riq.Items();
+	 for(auto cx : *items)
+		std::cout<<*cx<<std::endl;
+	
+	std::cout<<riq.GetSum()<<std::endl;
     return 0;
 }
