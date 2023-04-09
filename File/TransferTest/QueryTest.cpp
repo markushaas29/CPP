@@ -29,6 +29,7 @@ int main()
 	constexpr ItemQuery<A,DT,N,E> iq{dt,n,e};
 	constexpr AccountQuery<A,DT,E> aq2{i,dt,e};
 	auto r = aq.Execute();
+	auto ri = iq.Execute();
 	r.GetSum();
 	r.Items();
 	r.Display(std::cout);

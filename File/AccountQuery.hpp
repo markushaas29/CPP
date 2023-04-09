@@ -2,6 +2,7 @@
 #include <tuple>
 #include <memory>
 #include <vector>
+#include "Account.hpp"
 #include "../Logger/Logger.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -69,7 +70,7 @@ namespace Bank
 
 		decltype(auto) Execute() const
 		{
-			auto transfers = GetTransersOf<AccountType>(filters);
+			auto transfers = Bank::GetTransfersOf<AccountType>(filters);
 			return ResultType{std::move(transfers)};
 		}
 
