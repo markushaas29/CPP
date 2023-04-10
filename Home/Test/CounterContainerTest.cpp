@@ -38,6 +38,8 @@ int main()
 	bool res = CounterContainerType::Instance().Exec(n);
 	assert(res);
 
+	Rep::Instance().Write();
+
 	assert(11144078==CounterContainerType::Instance().Get<1>());
     	return 0;
 }
