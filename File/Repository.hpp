@@ -139,9 +139,11 @@ namespace CSV
 					if((it->second.IsVisitorOf( (*itNode)->Name() )))
 					{
 						Logger::Log<Info>("Repository Write: ",it->first);
-						if (FS::FileInfo* d = dynamic_cast<FS::FileInfo>(*itNode); d != nullptr)
+						if (auto d = std::dynamic_pointer_cast<FS::FileInfo>(*itNode); d != nullptr)
 						{
-							auto fi = FS::File(d);
+							auto fi = FS::File(std::shared_ptr<FS::FileInfo>(d));
+							
+							it->second.Print(std::cout);
 							it->second.Print(*(fi.Handle()));
 							fi.Write();
 						}
@@ -150,7 +152,7 @@ namespace CSV
 				}			
 			}
 			
-			InputManager<Counter>::Instance().CreateFile();
+			//InputManager<Counter>::Instance().CreateFile();
 		}
 
 		static Repository& Instance()

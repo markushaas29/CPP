@@ -73,7 +73,7 @@ public:
 		[&](InputIterator begin, InputIterator end){ Parse(begin,end); }, 
 		[&](const std::string& s){ return GetValue(s); }, 
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); },
-		[&](std::ostream& s){ s<<"OS"<<std::endl ; Display(s); }
+		[&](std::ostream& s){ Display(s); }
 		)));	
 		
 		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, 
@@ -113,11 +113,15 @@ public:
 		double d;
 		uint u;
 		//while(std::cin>>d>>u){};
-		std::cin>>u;
-		std::cin>>d;
-		auto n = ReadingType(QuantityType(d), DateType(12,4,u));
-		std::cout<<n<<std::endl;
-		assert(p<n);
+	//	std::cin>>u;
+	//	std::cin>>d;
+		//auto n = ReadingType(QuantityType(d), DateType(12,4,u));
+		auto n = std::make_shared<ReadingType>(QuantityType(500001), DateType(12,4,2023));
+		std::cout<<*n<<std::endl;
+		//assert(p<*n);
+
+		addReading(n);
+
 		return true;		 
 	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
