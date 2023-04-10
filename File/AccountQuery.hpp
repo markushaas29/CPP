@@ -55,15 +55,14 @@ namespace Bank
 		QuantityType sum;
 	};
 
-	template<typename A, typename... Ts> 
-	class ItemQuery 
+	template<template<typename, typename...> class D,typename A, typename... Ts> 
+	class QueryBase 
 	{
 	public:
-		using Type = ItemQuery<A,Ts...> ;
+		using Type = D<A,Ts...>;
 		using TupleType = std::tuple<Ts...>;
 		using AccountType = A ;
 		using ResultType = QueryResult<A> ;
-		constexpr ItemQuery(Ts... t) :  filters{TupleType(t...)} { };
 
 		template<typename T>
 		constexpr bool operator==(const T t) const { return false; };
@@ -77,13 +76,14 @@ namespace Bank
 		std::ostream& Display(std::ostream& os) const 
 		{ 
 			os<<AccountType::Identifier<<"\n";
-			os<<iban<<"\n";
 			return printFilters(os); 
 		}
+	protected:
+		constexpr QueryBase(Ts... t) :  filters{TupleType(t...)} { };
+		constexpr TupleType getFilters() const { return filters; };
 	private:
-		IBAN iban;	
 		TupleType filters;
-		ItemQuery() = delete;
+		QueryBase() = delete;
 	
 		template <size_t I = 0>
 		constexpr std::ostream& printFilters(std::ostream& os) const
@@ -98,49 +98,45 @@ namespace Bank
 		}
 	};
 	template<typename A, typename... Ts> 
-	class AccountQuery 
+	class ItemQuery: public QueryBase<ItemQuery,A,Ts...>
 	{
 	public:
-		using Type = AccountQuery<A,Ts...> ;
-		using TupleType = std::tuple<Ts...>;
-		using AccountType = A ;
-		using ResultType = QueryResult<A> ;
-		constexpr AccountQuery(const IBAN& i) : iban{i} { };
-		constexpr AccountQuery(const IBAN& i, Ts... t) : iban{i}, filters{TupleType(t...)} { };
-
-		template<typename T>
-		constexpr bool operator==(const T t) const { return false; };
+		using Base = QueryBase<ItemQuery,A,Ts...>;
+		constexpr ItemQuery(Ts... t) :  Base{t...} { };
 
 		decltype(auto) Execute() const
 		{
-			auto acc = Get<AccountType>(iban);
-			auto transfers = acc->GetTransfersOf(filters);
+			auto transfers = Bank::GetTransfersOf<typename Base::AccountType>(Base::getFilters());
+			return typename Base::ResultType{std::move(transfers)};
+		}
+	private:
+		ItemQuery() = delete;
+	};
 
-			return ResultType{std::move(transfers)};
+	template<typename A, typename... Ts> 
+	class AccountQuery: public QueryBase<ItemQuery,A,Ts...>
+	{
+	public:
+		using Base = QueryBase<ItemQuery,A,Ts...>;
+		constexpr AccountQuery(const IBAN& i) : iban{i} { };
+		constexpr AccountQuery(const IBAN& i, Ts... t) : iban{i}, Base{t...} { };
+
+		decltype(auto) Execute() const
+		{
+			auto acc = Get<typename Base::AccountType>(iban);
+			auto transfers = acc->GetTransfersOf(Base::getFilters());
+
+			return typename Base::ResultType{std::move(transfers)};
 		}
 
 		std::ostream& Display(std::ostream& os) const 
 		{ 
-			os<<AccountType::Identifier<<"\n";
 			os<<iban<<"\n";
-			return printFilters(os); 
+			return Base::Display(os); 
 		}
 	private:
 		IBAN iban;	
-		TupleType filters;
 		AccountQuery() = delete;
-	
-		template <size_t I = 0>
-		constexpr std::ostream& printFilters(std::ostream& os) const
-		{
-			if constexpr(I ==std::tuple_size_v<TupleType>)    
-				return os;
-			else 
-			{
-				os<<std::get<I>(filters)<<"\n";
-				return printFilters<I + 1>(os);
-			}
-		}
 	};
 	
 	template<typename A, typename... Ts>
