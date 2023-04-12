@@ -71,6 +71,9 @@ int main()
 	assert(rw3<rw6);
 	assert(rw3<rw4);
     	auto cc = c * c;
+
+	auto in = RW::Create(std::cin);
+	assert(std::cin);
     //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
     
 	

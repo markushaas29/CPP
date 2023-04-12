@@ -133,6 +133,13 @@ namespace DateTimes
 			return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));			
 		} 
 		
+		static decltype(auto) Create(std::istream& is)
+		{
+			DayType::ChronoValueType d;
+			MonthType::ChronoValueType m;
+			YearType::ChronoValueType y;
+			return Type{d,m,static_cast<uint>(y)};
+		}
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
 
 		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 

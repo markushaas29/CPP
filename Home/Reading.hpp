@@ -36,6 +36,13 @@ public:
 		return std::make_shared<Type>(QuantityType(value), DateType(date));
 	}
 
+	static decltype(auto) Create(std::istream& is)
+	{
+		auto q =QuantityType::Create(is);
+		auto d = DateType::Create(is);
+		return Type{q,d};
+	}
+
 	decltype(auto) Date() const { return date; }
 	decltype(auto) Value() const { return value; }
 	decltype(auto) operator+(const Type& left) const {return Result<Addition,Type,Type,QuantityType>(*this,left, value + left.value);}
