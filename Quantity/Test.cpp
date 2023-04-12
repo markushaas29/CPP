@@ -177,8 +177,11 @@ int main()
     assert(kmProDays.Value()==2 * 86400);
     std::cout<<km1<<" * "<<twoDays<<" = "<<kmProDays<<" Pure: "<<kmProDays.PureValue()<<std::endl;
     isSame = std::is_same_v<decltype(kmProDays)::UnitType,Unit<0, 1, 0, 1, 0, 0, 0, 0>>;
-    assert(isSame);
-    
+    	assert(isSame);
+
+	Quantity<Time,Hours>::Create(std::cin);
+	assert(std::cin);
+
 	//~ auto dhm = d3 + h1 + m1;
     //~ std::cout<<"dhm: "<<dhm<<dhm.PureValue()<<std::endl;
     //~ assert(dhm.PureValue()==(86400+3600+60));

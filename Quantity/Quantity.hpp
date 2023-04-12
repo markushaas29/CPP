@@ -21,11 +21,11 @@ public:
 	using Type = Quantity<U,QR,T1>;	
 	using PureType = Quantity<U,Pure,T1>;	
 	
-    const std::string UnitSign() const { return U::Sign(); }
-    const std::string SiUnit() const { return UnitType::SiUnit(); }
-    inline static const std::string Identifier = U::Name;
-    inline static constexpr Converter converter = Converter();
-    inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
+    	const std::string UnitSign() const { return U::Sign(); }
+	const std::string SiUnit() const { return UnitType::SiUnit(); }
+    	inline static const std::string Identifier = U::Name;
+    	inline static constexpr Converter converter = Converter();
+    	inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
 	constexpr Quantity(): value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): value(v * QR::Factor) {	}
@@ -40,7 +40,13 @@ public:
 	
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return this->Value() <=> y.Value(); }
 	constexpr bool operator==(const Quantity<U,QR,T1>& y) const { return this->Value() == y.Value(); }
-	
+
+	static decltype(auto) Create(std::istream& is)
+	{
+		ValueType val;
+		is>>val;
+		return Type{val};
+	}
 	// ----------------------------------------ADD-------------------------------------------------------------
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
 	
