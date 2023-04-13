@@ -3,6 +3,7 @@
 #include "../../Unit/Unit.hpp"
 #include "../Reading.hpp"
 #include "../Counter.hpp"
+#include "../../Common/Analyzer.hpp"
 #include "../CounterConfiguration.hpp"
 #include "../CounterContainer.hpp"
 using namespace ShortNames;
@@ -26,5 +27,8 @@ int main()
 
 	std::cout<<CG1::Identifier;
 
-    return 0;
+	using A = Analyzer<CG1,int>;
+	A::Get();
+
+    	return 0;
 }
