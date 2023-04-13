@@ -33,7 +33,7 @@ namespace DateTimes
 		constexpr uint Value() const { return this->value; }
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(ChronoValueType)v}
 		{
-			if(v > max || v == 0)
+			if(v > max || v < min || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
 		constexpr operator uint() const { return this->value; }
@@ -103,8 +103,8 @@ namespace DateTimes
 		template<typename, typename, typename>	friend class Parsers::Parser;
 	public:
 		using DayType = DateTimes::Day;
-        using MonthType = DateTimes::Month;
-        using YearType = DateTimes::Year;
+        	using MonthType = DateTimes::Month;
+        	using YearType = DateTimes::Year;
 		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
 		using Type = DateTimes::Date;
 		inline static constexpr const char* Identifier = "Date";
@@ -138,6 +138,10 @@ namespace DateTimes
 			DayType::ChronoValueType d;
 			MonthType::ChronoValueType m;
 			YearType::ChronoValueType y;
+			
+			auto dt = Today();
+			std::cout<<(Year)(dt)<<std::endl;
+			is>>y;
 			return Type{d,m,static_cast<uint>(y)};
 		}
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
