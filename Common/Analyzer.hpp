@@ -8,14 +8,11 @@ concept CounterConcept = requires(T t)
 
 template<typename T, typename A> class Analyzer {
 public:
-	static decltype(auto) Get()
-	{
-		std::cout<<"\nT"<<std::endl;
-	};
 };
-//template<typename ConfigT> class Counter;
-template<CounterConcept C, typename A>
-class Analyzer<C,A>
+template<typename ConfigT> class Counter;
+
+template<typename C, typename A>
+class Analyzer<Counter<C>,A>
 {
 public:
 	static decltype(auto) Get()
