@@ -2,6 +2,7 @@
 #include <chrono>
 #include <vector>
 #include "../Logger/Logger.hpp"
+#include "../Quantity/ToQuantity.hpp"
 #include "DateTimes.hpp"
 
 using namespace std::chrono;
@@ -106,9 +107,11 @@ int main()
 	assert(d1 == m5);
 	assert(d1 == y2022);
 	
+	auto tq = ToQuantity<DateTimes::Year>(std::cin);
+	std::cout<<"TQ: "<<tq<<std::endl;
 	auto c = DateTimes::Date::Create(std::cin);
 	std::cout<<c<<std::endl;
 	std::cout<<"END"<<std::endl;
-    
+
 	return 0;
 }
