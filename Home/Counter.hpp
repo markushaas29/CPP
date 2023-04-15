@@ -128,7 +128,7 @@ public:
 	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
-	//~ template<typename T, typename A> friend class Analyzer;
+	template<typename T, typename A> friend class Analyzer;
 	void write(const std::string sourcePath = ".")
 	{
 		Logger::Log<Info>()<<"Write Counter: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
