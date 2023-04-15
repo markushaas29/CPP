@@ -30,7 +30,6 @@ namespace Bank
 		using TransferType = Transfer<Raiffeisenbank, TransferItems>;
 		using IsOutTransferSign = T::char_<'S'>;
 		using Base = Account<Raiffeisenbank<Type>>;
-		friend class Account<Raiffeisenbank<Type>>;
 		
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
@@ -43,6 +42,8 @@ namespace Bank
 			return instance;
 		}
 	private:
+		friend class Account<Raiffeisenbank<Type>>;
+		template<typename T, typename A> friend class Analyzer;
 		Raiffeisenbank()	{ 	};
 		~Raiffeisenbank()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Raiffeisenbank& operator=(const Raiffeisenbank&) = delete;

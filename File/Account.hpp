@@ -39,6 +39,7 @@ namespace Bank
 	class Account
 	{
 		using TransferItems = Configuration::Account::TransferType;
+		template<typename T, typename A> friend class Analyzer;
 	public:
 		using Type = Account<Derived> ;
 		using TransferType = Transfer<Derived, TransferItems>;

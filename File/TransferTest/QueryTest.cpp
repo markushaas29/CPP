@@ -3,6 +3,7 @@
 #include "../AccountQuery.hpp"
 #include "../Raiffeisenbank.hpp"
 #include "../../Common/Configuration.hpp"
+#include "../../Common/Analyzer.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 using namespace ShortNames;
@@ -14,6 +15,9 @@ int main()
 	using A = Bank::Raiffeisenbank<Configuration::Raiffeisenbank>;
 	using TT = A::TransferType;
 	using TP = std::tuple<I, B, N, DT, Q, D, E>;
+	
+	using AN = Analyzer<A::Base,int>;
+        AN::Get();
 	
 	constexpr auto i = I{"DE3"};
 	constexpr auto b = B{"COBA"};
@@ -43,6 +47,6 @@ int main()
 	assert(decltype(aqc1)::QueryCount==1);
 	aqc1.Execute();
 	aqc1.Display(std::cout);
-		
+	
     return 0;
 }

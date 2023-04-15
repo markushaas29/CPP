@@ -22,6 +22,17 @@ public:
 		std::cout<<"Counter"<<std::endl;
 	};
 };
+namespace Bank{ template<typename ConfigT> class Account; }
 
-	
+template<typename T, typename A>
+class Analyzer<Bank::Account<T> ,A>
+{
+public:
+	using Type = Bank::Account<T>;
+	static decltype(auto) Get()
+	{
+		//T::cont;
+		std::cout<<"Account"<<std::endl;
+	};
+};
 	
