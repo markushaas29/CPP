@@ -18,11 +18,12 @@ namespace Parsers{	template<typename, typename, typename>	struct Parser;}
 
 namespace DateTimes
 {
-	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint>
+	template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint, typename TValue = TChronoVal>
 	class DateTimeBase
 	{
 	public:
 		using Derived = T;
+		using ValueType = TValue;
 		using ChronoType = TChrono;
 		using ChronoValueType = TChronoVal;
 		constexpr Derived Next() const { return T{this->value + 1}; };

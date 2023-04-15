@@ -10,7 +10,8 @@ decltype(auto) ToQuantity(std::istream& is)
 	std::getline(is,s);
 	if(!s.size())
 		return T{0};
-	if(auto v = String_::TryTo<typename T::ChronoValueType>(s))
-		return T{(uint)v};
+	using VT = typename T::ValueType;
+	if(auto v = String_::TryTo<VT>(s))
+		return T{(VT)v};
 	return  T{1};
 }
