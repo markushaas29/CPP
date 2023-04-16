@@ -1,8 +1,11 @@
 #include "../String/To/To.hpp"
 #pragma once
 
-//template<typename T, typename U>
-//decltype(auto) ToQuantity(std::istream& is, U u = U{})
+template<typename T>
+concept ValueTypeConcept = requires(T)
+{
+	T::ValueType;
+};
 
 template<typename T>
 T ToQuantity(std::istream& is, const T& t)
