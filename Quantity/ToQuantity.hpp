@@ -3,6 +3,21 @@
 
 //template<typename T, typename U>
 //decltype(auto) ToQuantity(std::istream& is, U u = U{})
+
+template<typename T>
+T ToQuantity(std::istream& is, const T& t)
+{
+	std::cout<<t<<std::endl;
+	std::string s;
+	std::getline(is,s);
+	if(!s.size())
+		return t;
+	using VT = typename T::ValueType;
+	if(auto v = String_::TryTo<VT>(s))
+		return T{(VT)v};
+	return  T{1};
+}
+
 template<typename T>
 decltype(auto) ToQuantity(std::istream& is)
 {

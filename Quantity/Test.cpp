@@ -181,7 +181,7 @@ int main()
     	assert(isSame);
     	
     
-    auto tq1 = ToQuantity<decltype(h1)>(std::cin);
+    auto tq1 = ToQuantity<decltype(h1)>(std::cin,d3);
 	std::cout<<tq1<<std::endl;
 	Quantity<Time,Hours>::Create(std::cin);
 	assert(std::cin);
