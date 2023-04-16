@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../../File/Repository.hpp"
 #include "../../Unit/Unit.hpp"
+#include "../../Quantity/ToQuantity.hpp"
 #include "../Reading.hpp"
 #include "../House.hpp"
 #include "../Counter.hpp"
@@ -26,6 +27,13 @@ int main()
 	auto rw2 = RW{w2,dt2};
 	
 	auto w3 = W{148};
+
+
+        auto tqw = ToQuantity<W>(std::cin);
+        auto tqe = ToQuantity<Q>(std::cin); 
+
+	std::cout<<"TQ: "<<tqw<<std::endl;
+	std::cout<<"TQ: "<<tqe<<std::endl;
 
 	//House<HouseConfiguration>::Instance();
 	using Rep = CSV::Repository<CSV::CounterRepositoryConfiguration>;

@@ -117,7 +117,7 @@ int main()
     auto kmPerHCastH = QuantityRatio<Hours>::Cast(kmPerh);
     std::cout<<kmPerh<<" Cast as Mili "<<kmPerHCastH<<std::endl;
     assert(kmPerHCastH.Value()==1);
-    
+
     
     std::cout<<"END"<<std::endl;
 

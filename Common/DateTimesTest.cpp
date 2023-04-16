@@ -108,7 +108,9 @@ int main()
 	assert(d1 == y2022);
 	
 	auto tq = ToQuantity<DateTimes::Year>(std::cin);
-	std::cout<<"TQ: "<<tq<<std::endl;
+	auto tq1 = ToQuantity<DateTimes::Month>(std::cin);
+	auto tq2 = ToQuantity<DateTimes::Day>(std::cin);
+	std::cout<<"TQ: "<<tq1<<std::endl;
 	auto c = DateTimes::Date::Create(std::cin);
 	std::cout<<c<<std::endl;
 	std::cout<<"END"<<std::endl;

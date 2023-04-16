@@ -67,10 +67,10 @@ namespace DateTimes
 		constexpr Month(int v): Base(v){};
 	};
 	
-	class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int>
+	class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int, uint>
 	{
 	public:
-		using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int>;
+		using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int, uint>;
 		static constexpr const char* TypeIdentifier = "Year";
 		constexpr Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
 		bool IsLeap;

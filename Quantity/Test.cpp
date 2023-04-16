@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "Quantity.hpp"
+#include "ToQuantity.hpp"
 
 int main()
 {       
@@ -178,7 +179,10 @@ int main()
     std::cout<<km1<<" * "<<twoDays<<" = "<<kmProDays<<" Pure: "<<kmProDays.PureValue()<<std::endl;
     isSame = std::is_same_v<decltype(kmProDays)::UnitType,Unit<0, 1, 0, 1, 0, 0, 0, 0>>;
     	assert(isSame);
-
+    	
+    
+    auto tq1 = ToQuantity<decltype(h1)>(std::cin);
+	std::cout<<tq1<<std::endl;
 	Quantity<Time,Hours>::Create(std::cin);
 	assert(std::cin);
 
