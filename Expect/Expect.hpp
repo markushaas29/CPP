@@ -18,14 +18,23 @@ constexpr ErrorAction defaultErrorActon = ErrorAction::Logging;
 
 template<class LogLevel = Debug, ErrorAction action = defaultErrorActon,class C>
 //~ constexpr void expect(C cond, const std::source_location location =  std::source_location::current())
-constexpr void expect(C cond, const std::string& message)
+constexpr bool expect(C cond, const std::string& message)
 {
 	if constexpr(action == ErrorAction::Logging)
+	{
 		if(!cond)
+		{
 			Logger::Log<LogLevel>(message);
+			return false;
+		}
+		return true;
+	}
 	if constexpr(action == ErrorAction::Throwing)
+	{	
 		if(!cond)
 			throw "Test";
+		return true;
+	}	
 }
 
 #endif
