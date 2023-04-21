@@ -6,6 +6,7 @@
 #include <charconv>
 #include <array>
 #include "../CSV/Element.hpp"
+#include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../String/String_.hpp"
 #include "../String/StringParser.hpp"
@@ -40,6 +41,14 @@ namespace DateTimes
 		constexpr bool Valid() const { return valid; }
 		constexpr operator uint() const { return value; }
 		constexpr operator ChronoType() const { return chronoValue;}
+		static decltype(auto) Create(std::istream& is)
+		{
+			ValueType cv;
+			is>>cv;
+			if(!is && !RangeValidator<uint,min,max>::Condition(cv))
+				Logger::Log<Error>("Invalid Input",cv);		
+			return Derived{cv};
+		}
 		std::ostream& Display(std::ostream& os) { return os<<value; }
 	protected:
 		const uint value;
@@ -116,6 +125,10 @@ namespace DateTimes
 			Element(std::array<char,512> {}), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))},
 			ymd{DateTimes::Year{y}, DateTimes::Month{m}, DateTimes::Day{d}}{	}; 
+		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y): 
+			Element(std::array<char,512> {}), 
+			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(d,m,y)},
+			ymd{y,m, d}{	}; 
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}, ymd{std::get<DateTimes::Year>(tt), std::get<DateTimes::Month>(tt), std::get<DateTimes::Day>(tt) }{    };
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date("", 0,0, 0) { };
@@ -144,7 +157,7 @@ namespace DateTimes
 			
 			auto dt = Today();
 			std::cout<<(Year)(dt)<<std::endl;
-			is>>y;
+			y = DateTimes::Year::Create(is);
 			return Type{d,m,static_cast<uint>(y)};
 		}
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}

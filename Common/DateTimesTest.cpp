@@ -110,6 +110,9 @@ int main()
 	assert(d1 == m5);
 	assert(d1 == y2022);
 
+
+	auto date = DateTimes::Date{dy5,m5,y2022}; 
+
 	auto dyi = DateTimes::Day{45};
 	auto mi = DateTimes::Month{16};
 	auto yi = DateTimes::Year{600};
