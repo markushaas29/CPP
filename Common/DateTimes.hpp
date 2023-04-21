@@ -26,18 +26,19 @@ namespace DateTimes
 		using ValueType = TValue;
 		using ChronoType = TChrono;
 		using ChronoValueType = TChronoVal;
-		constexpr Derived Next() const { return T{this->value + 1}; };
-		constexpr Derived Prev() const { return T{this->value - 1}; };
+		constexpr Derived Next() const { return T{value + 1}; };
+		constexpr Derived Prev() const { return T{value - 1}; };
 		static constexpr Derived Get(uint i) { return Derived{i};}
 		static constexpr Derived Get(int i) { return Derived((uint)i);}
 		std::string ToString() const { return String_::ParseTo(value); };
-		constexpr uint Value() const { return this->value; }
-		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, chronoValue{(ChronoValueType)v}
+		constexpr uint Value() const { return value; }
+		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
 		{
 			if(v > max || v < min || v == 0)
 				Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 		}
-		constexpr operator uint() const { return this->value; }
+		constexpr bool Valid() const { return valid; }
+		constexpr operator uint() const { return value; }
 		constexpr operator ChronoType() const { return chronoValue;}
 		std::ostream& Display(std::ostream& os) { return os<<value; }
 	protected:
@@ -46,6 +47,7 @@ namespace DateTimes
 		template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
 		template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
 		const ChronoType chronoValue;
+		const bool valid;
 		constexpr static uint min = Min;
 		constexpr static uint max = Max;
 	};

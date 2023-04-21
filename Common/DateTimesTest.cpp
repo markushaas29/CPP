@@ -94,10 +94,13 @@ int main()
 	
 	auto cd = (DateTimes::Day)(d1);
 	assert(cd.Value() == 5);
+	assert(cd.Valid());
 	auto cm = (DateTimes::Month)(d1);
 	assert(cm.Value() == 3);
+	assert(cd.Valid());
 	auto cy = (DateTimes::Year)(d1);
 	assert(cy.Value() == 2022);
+	assert(cy.Valid());
 	
 	
 	auto dy5 = DateTimes::Day{5};
@@ -107,6 +110,13 @@ int main()
 	assert(d1 == m5);
 	assert(d1 == y2022);
 
+	auto dyi = DateTimes::Day{45};
+	auto mi = DateTimes::Month{16};
+	auto yi = DateTimes::Year{600};
+	assert(!dyi.Valid());
+	assert(!mi.Valid());
+	assert(!yi.Valid());
+	
 	auto today = DateTimes::Date::Today();
 	auto tq = ToQuantity<DateTimes::Year>(std::cin, (DateTimes::Year)today);
 	auto tq1 = ToQuantity<DateTimes::Month>(std::cin);
