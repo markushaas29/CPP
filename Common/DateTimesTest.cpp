@@ -21,8 +21,8 @@ int main()
 	Logger::Log()<<j.Prev().Value()<<std::endl;
 	std::cout<<"END"<<std::endl;
     
-	uint uint2021{2021};
-	auto y2021 = DateTimes::Year::Get(uint2021);
+	constexpr uint uint2021{2021};
+	constexpr auto y2021 = DateTimes::Year::Get(uint2021);
 	assert(y2021.Value()==uint2021);
 	assert(y2021.ToString()=="2021");
 
@@ -104,13 +104,20 @@ int main()
 	
 	
 	constexpr auto dy5 = DateTimes::Day{5};
+	constexpr auto d29 = DateTimes::Day{29};
 	constexpr auto m5 = DateTimes::Month{3};
+	constexpr auto m2 = DateTimes::Month{2};
 	constexpr auto y2022 = DateTimes::Year{2022};
+	constexpr auto y2024 = DateTimes::Year{2024};
 	assert(y2022 == d1);
 	assert(d1 == m5);
 	assert(d1 == y2022);
 
 	constexpr auto cd12122021 = DateTimes::Date{12,12,2021};
+	constexpr auto cd29022024 = DateTimes::Date{d29,m2,y2024};
+	constexpr auto cd29022021 = DateTimes::Date{d29,m2,y2021};
+	assert(!cd29022021.Valid());
+	assert(cd29022024.Valid());
 	constexpr auto date = DateTimes::Date{dy5,m5,y2022}; 
 
 	auto dyi = DateTimes::Day{45};

@@ -135,14 +135,6 @@ namespace DateTimes
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
 		Date(): Date("", 0,0, 0) { };
 		Date* DoCreate(){return this;};
-
-		std::string TimeString()
-		{
-			std::time_t t = std::chrono::system_clock::to_time_t(this->tp);
-			std::string ts = ctime(&t);
-			ts.resize(ts.size()-1);
-			return ts;
-		}
 		
 		static Date Today()
 		{
@@ -151,23 +143,36 @@ namespace DateTimes
 			return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));			
 		} 
 		
+		static decltype(auto) Create(std::istream& is, std::ostream& os) {};
 		static decltype(auto) Create(std::istream& is)
 		{
-			DayType::ChronoValueType d;
-			MonthType::ChronoValueType m;
-			YearType::ChronoValueType y;
+			DayType::ValueType d;
+			MonthType::ValueType m;
+			YearType::ValueType y;
 			
 			auto dt = Today();
 			std::cout<<(Year)(dt)<<std::endl;
-			y = DateTimes::Year::Create(is);
-			return Type{d,m,static_cast<uint>(y)};
+			y = DateTimes::Year::Create(is,std::cout);
+			return Type{d,m,y};
 		}
+		
+
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
 
 		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
 		
+		std::string TimeString()
+		{
+			std::time_t t = std::chrono::system_clock::to_time_t(this->tp);
+			std::string ts = ctime(&t);
+			ts.resize(ts.size()-1);
+			return ts;
+		}
+
+		constexpr bool Valid() const noexcept { return ymd.ok(); };
+
 		constexpr explicit operator Day() { return std::get<DateTimes::Day>(tt); } 
 		constexpr explicit operator Month() { return std::get<DateTimes::Month>(tt); } 
 		constexpr explicit operator Year() { return std::get<DateTimes::Year>(tt); } 
