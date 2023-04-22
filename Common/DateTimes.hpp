@@ -41,6 +41,11 @@ namespace DateTimes
 		constexpr bool Valid() const { return valid; }
 		constexpr operator uint() const { return value; }
 		constexpr operator ChronoType() const { return chronoValue;}
+		static decltype(auto) Create(std::istream& is, std::ostream& os)
+		{
+			os<<Derived::TypeIdentifier<<": ";
+			return Create(is);
+		}
 		static decltype(auto) Create(std::istream& is)
 		{
 			ValueType cv;

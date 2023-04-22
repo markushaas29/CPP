@@ -121,10 +121,11 @@ int main()
 	assert(!yi.Valid());
 	
 	auto today = DateTimes::Date::Today();
-	auto tq = ToQuantity<DateTimes::Year>(std::cin, (DateTimes::Year)today);
-	auto tq1 = ToQuantity<DateTimes::Month>(std::cin);
-	auto tq2 = ToQuantity<DateTimes::Day>(std::cin);
+	//auto tq = ToQuantity<DateTimes::Year>(std::cin, (DateTimes::Year)today);
+	auto tq1 = ToQuantity<DateTimes::Month>(std::cin,std::cout);
+	auto tq2 = ToQuantity<DateTimes::Day>(std::cin,std::cout);
 	std::cout<<"TQ: "<<tq1<<std::endl;
+	DateTimes::Day::Create(std::cin,std::cout);
 	auto c = DateTimes::Date::Create(std::cin);
 	std::cout<<c<<std::endl;
 	std::cout<<"END"<<std::endl;

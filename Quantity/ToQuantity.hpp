@@ -8,6 +8,12 @@ concept ValueTypeConcept = requires(T)
 };
 
 template<typename T>
+T ToQuantity(std::istream& is, std::ostream& os)
+{
+	return T::Create(is,os);
+}
+
+template<typename T>
 T ToQuantity(std::istream& is, const T& t)
 {
 	std::cout<<t<<std::endl;
