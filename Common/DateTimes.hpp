@@ -143,16 +143,20 @@ namespace DateTimes
 			return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));			
 		} 
 		
-		static decltype(auto) Create(std::istream& is, std::ostream& os) {};
-		static decltype(auto) Create(std::istream& is)
+		static Type Create(std::istream& is, std::ostream& os) 
 		{
-			DayType::ValueType d;
-			MonthType::ValueType m;
-			YearType::ValueType y;
-			
 			auto dt = Today();
-			std::cout<<(Year)(dt)<<std::endl;
-			y = DateTimes::Year::Create(is,std::cout);
+			os<<Identifier<<dt<<std::endl;
+dt.Display(os);
+			return Create(is);
+		};
+
+		static Type Create(std::istream& is)
+		{
+			DayType::ValueType d = DateTimes::Day::Create(is);
+			MonthType::ValueType m = DateTimes::Month::Create(is);
+			YearType::ValueType y = DateTimes::Year::Create(is);
+			
 			return Type{d,m,y};
 		}
 		

@@ -133,7 +133,7 @@ int main()
 	auto tq2 = ToQuantity<DateTimes::Day>(std::cin,std::cout);
 	std::cout<<"TQ: "<<tq1<<std::endl;
 	DateTimes::Day::Create(std::cin,std::cout);
-	auto c = DateTimes::Date::Create(std::cin);
+	auto c = DateTimes::Date::Create(std::cin,std::cout);
 	std::cout<<c<<std::endl;
 	std::cout<<"END"<<std::endl;
 
