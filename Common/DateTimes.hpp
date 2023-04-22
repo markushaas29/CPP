@@ -126,10 +126,7 @@ namespace DateTimes
 		using Type = DateTimes::Date;
 		inline static constexpr const char* Identifier = "Date";
 						
-		constexpr Date(uint d = 0, uint m = 0, uint y = 0): 
-			Element(std::array<char,512> {}), 
-			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y))},
-			ymd{DateTimes::Year{y}, DateTimes::Month{m}, DateTimes::Day{d}}{	}; 
+		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
 		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y): 
 			Element(std::array<char,512> {}), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(d,m,y)},

@@ -103,15 +103,15 @@ int main()
 	assert(cy.Valid());
 	
 	
-	auto dy5 = DateTimes::Day{5};
-	auto m5 = DateTimes::Month{3};
-	auto y2022 = DateTimes::Year{2022};
+	constexpr auto dy5 = DateTimes::Day{5};
+	constexpr auto m5 = DateTimes::Month{3};
+	constexpr auto y2022 = DateTimes::Year{2022};
 	assert(y2022 == d1);
 	assert(d1 == m5);
 	assert(d1 == y2022);
 
-
-	auto date = DateTimes::Date{dy5,m5,y2022}; 
+	constexpr auto cd12122021 = DateTimes::Date{12,12,2021};
+	constexpr auto date = DateTimes::Date{dy5,m5,y2022}; 
 
 	auto dyi = DateTimes::Day{45};
 	auto mi = DateTimes::Month{16};

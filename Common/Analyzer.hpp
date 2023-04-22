@@ -31,7 +31,7 @@ public:
 	using Type = Bank::Account<T>;
 	static decltype(auto) Get()
 	{
-		//T::cont;
+		T::cont;
 		std::cout<<"Account"<<std::endl;
 	};
 };
