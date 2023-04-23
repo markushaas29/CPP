@@ -5,6 +5,7 @@
 #include <vector>
 #include "Account.hpp"
 #include "Direction.hpp"
+#include "../Common/Analyzer.hpp"
 #include "../Logger/Logger.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -21,6 +22,7 @@ namespace fs = std::filesystem;
 
 namespace Bank
 {	
+	
 	template<typename Config>
 	class Raiffeisenbank: public Account<Raiffeisenbank<Config>>
 	{
@@ -43,7 +45,7 @@ namespace Bank
 		}
 	private:
 		friend class Account<Raiffeisenbank<Type>>;
-		template<typename T, typename A> friend class Analyzer;
+		friend class Analyzer<Base,int>;
 		Raiffeisenbank()	{ 	};
 		~Raiffeisenbank()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }
 		Raiffeisenbank& operator=(const Raiffeisenbank&) = delete;

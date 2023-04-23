@@ -32,7 +32,7 @@ public:
 	static decltype(auto) Get()
 	{
 		T::cont;
-		std::cout<<"Account"<<std::endl;
+		std::cout<<"Account"<<Type::Identifier<<std::endl;
 	};
 };
 	
