@@ -182,6 +182,7 @@ using Work = Unit<0,1,2,-3>;
 using Area = Unit<0,2>;
 
 template<> const char* Sum::Name = SumType<0>::Name;
+template<> const char* Work::Name = "Work";
 template<> const char* Current::Name = CurrentType<0>::Name;
 template<> const char* Scalar::Name = "Scalar";
 
