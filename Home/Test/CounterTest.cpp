@@ -31,7 +31,7 @@ int main()
  	Rep::Instance();
 
 	CEHall::Display(std::cout);
-	CEHall::Instance().Exec();
+	CEHall::Instance().Exec(std::cin, std::cout);
 
 	using A = Analyzer<CG1,int>;
 	A::Get();

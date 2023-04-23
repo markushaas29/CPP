@@ -4,6 +4,7 @@
 #include "../Unit/Unit.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Quantity/Quantity.hpp"
+#include "../Quantity/ToQuantity.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Common/Configuration.hpp"
 #include "../File/Info.hpp"
@@ -105,14 +106,16 @@ public:
 		Display(std::cout);
 	}	
 
-	bool Exec() 
+	bool Exec(std::istream& is, std::ostream& os) { return AddReading(is,os);}
+	bool AddReading(std::istream& is, std::ostream& os) 
 	{ 
-		auto date = DateTimes::Date::Create(std::cin, std::cout);
 		auto r = readings->CBegin();
 		auto p = *(*r);
-		std::cout<<"Last: "<<p<<std::endl;
-		auto n = std::make_shared<ReadingType>(QuantityType(500001), date);
-		std::cout<<*n<<std::endl;
+		os<<QuantityType::Identifier<<"\n";
+		auto q = ToQuantity<QuantityType>(is,p.Value());
+		auto date = DateTimes::Date::Create(is, os);
+		auto n = std::make_shared<ReadingType>(q, date);
+		os<<*n<<std::endl;
 		//assert(p<*n);
 
 		//addReading(n);

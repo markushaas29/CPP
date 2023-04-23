@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <sstream>
 #include "../Logger/Logger.hpp"
 #include "../Quantity/ToQuantity.hpp"
 #include "DateTimes.hpp"
@@ -129,10 +130,13 @@ int main()
 	
 	auto today = DateTimes::Date::Today();
 	//auto tq = ToQuantity<DateTimes::Year>(std::cin, (DateTimes::Year)today);
-	auto tq1 = ToQuantity<DateTimes::Month>(std::cin,std::cout);
-	auto tq2 = ToQuantity<DateTimes::Day>(std::cin,std::cout);
-	std::cout<<"TQ: "<<tq1<<std::endl;
-	DateTimes::Day::Create(std::cin,std::cout);
+
+    std::istringstream is("12");
+
+	auto tq1 = ToQuantity<DateTimes::Month>(is,std::cout);
+	auto tq2 = ToQuantity<DateTimes::Day>(is,std::cout);
+	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<std::endl;
+	DateTimes::Day::Create(is,std::cout);
 	auto c = DateTimes::Date::Create(std::cin,std::cout);
 	std::cout<<c<<std::endl;
 	std::cout<<"END"<<std::endl;
