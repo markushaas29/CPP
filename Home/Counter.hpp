@@ -107,22 +107,15 @@ public:
 
 	bool Exec() 
 	{ 
-		auto today = DateTimes::Date::Today();
+		auto date = DateTimes::Date::Create(std::cin, std::cout);
 		auto r = readings->CBegin();
-		std::cout<<today<<std::endl;
 		auto p = *(*r);
-		std::cout<<p<<std::endl;
-		double d;
-		uint u;
-		//while(std::cin>>d>>u){};
-	//	std::cin>>u;
-	//	std::cin>>d;
-		//auto n = ReadingType(QuantityType(d), DateType(12,4,u));
-		auto n = std::make_shared<ReadingType>(QuantityType(500001), DateType(12,4,2023));
+		std::cout<<"Last: "<<p<<std::endl;
+		auto n = std::make_shared<ReadingType>(QuantityType(500001), date);
 		std::cout<<*n<<std::endl;
 		//assert(p<*n);
 
-		addReading(n);
+		//addReading(n);
 
 		return true;		 
 	};

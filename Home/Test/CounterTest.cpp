@@ -1,4 +1,5 @@
 #include <iostream>
+#include "../../File/Repository.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Unit/Unit.hpp"
 #include "../Reading.hpp"
@@ -26,6 +27,11 @@ int main()
 	auto w3 = W{148};
 
 	std::cout<<CG1::Identifier;
+	using Rep = CSV::Repository<CSV::CounterRepositoryConfiguration>;
+ 	Rep::Instance();
+
+	CEHall::Display(std::cout);
+	CEHall::Instance().Exec();
 
 	using A = Analyzer<CG1,int>;
 	A::Get();
