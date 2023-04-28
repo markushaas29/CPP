@@ -60,8 +60,24 @@ int main()
 		std::cout<<*cx<<std::endl;
 	
 	auto items = riq.Items();
-	 for(auto cx : *items)
-		std::cout<<*cx<<std::endl;
+	
+	
+	
+	for(auto cx : *items)
+		if(Bank::GetTransfer<Quantity<Sum>>(*cx).Value() > 0)
+			std::cout<<*cx<<std::endl;
+	
+	for(auto cx : *items)
+		if(Bank::GetTransfer<Quantity<Sum>>(*cx).Value() > 0)
+			std::cout<<Bank::GetTransfer<Quantity<Sum>>(*cx).Value()<<std::endl;
+	
+	for(auto cx : *items)
+		if(Bank::GetTransfer<Quantity<Sum>>(*cx).Value() < 0)
+			std::cout<<*cx<<std::endl;
+	
+	for(auto cx : *items)
+		if(Bank::GetTransfer<Quantity<Sum>>(*cx).Value() < 0)
+			std::cout<<Bank::GetTransfer<Quantity<Sum>>(*cx).Value()<<std::endl;
 	
 	std::cout<<riq.GetSum()<<std::endl;
 	std::cout<<riq.In()<<std::endl;

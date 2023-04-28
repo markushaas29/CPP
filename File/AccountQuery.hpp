@@ -39,17 +39,36 @@ namespace Bank
             return acc;
         }
                   
-        acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
-        std::for_each(begin+1, end, [&](const auto t)
+        std::for_each(begin, end, [&](const auto t)
 				{ 
 					auto s = Bank::GetTransfer<Quantity<Sum>>(*t);
-					if(s.Value() < 0)
+					if(s.Value() > 0)
 						acc = acc + s;  
 						});
                                   
         return acc;
     }                                    
-             
+   
+
+	template<typename It, typename Pred>
+    static decltype(auto) Total(It begin, It end) 
+    { 
+    	auto acc = Quantity<Sum>{0};
+        if(begin == end)
+        {
+        	Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
+            return acc;
+        }
+                  
+        std::for_each(begin, end, [&](const auto t)
+				{ 
+					auto s = Bank::GetTransfer<Quantity<Sum>>(*t);
+					if(Pred(s))
+						acc = acc + s;  
+						});
+                                  
+        return acc;
+    }                                    
 	
 	template<typename A>
 	class QueryResult
