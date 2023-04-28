@@ -29,6 +29,26 @@ namespace Bank
                                   
                  return acc;
       	}                                    
+	template<typename It>
+    static decltype(auto) TotalIn(It begin, It end) 
+    { 
+    	auto acc = Quantity<Sum>{0};
+        if(begin == end)
+        {
+        	Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
+            return acc;
+        }
+                  
+        acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
+        std::for_each(begin+1, end, [&](const auto t)
+				{ 
+					auto s = Bank::GetTransfer<Quantity<Sum>>(*t);
+					if(s.Value() < 0)
+						acc = acc + s;  
+						});
+                                  
+        return acc;
+    }                                    
              
 	
 	template<typename A>
@@ -39,8 +59,9 @@ namespace Bank
 		using ContType = std::vector<std::shared_ptr<TransferType>>;
 		using ContPtr = std::unique_ptr<ContType>;
 		using QuantityType = Quantity<Sum,Pure>;
-		QueryResult(ContPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())} { };
+		QueryResult(ContPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())}, in{TotalIn(transfers->cbegin(), transfers->cend())} { };
 		QuantityType GetSum() { return sum; }
+		QuantityType In() { return in; }
 		decltype(auto) Items() { return std::make_unique<ContType>(transfers->cbegin(), transfers->cend()); }
 
 		std::ostream& Display(std::ostream& os) const 
@@ -53,6 +74,7 @@ namespace Bank
 	private:
 		ContPtr transfers;
 		QuantityType sum;
+		QuantityType in;
 	};
 
 	template<template<typename, typename...> class D,typename A, typename... Ts> 

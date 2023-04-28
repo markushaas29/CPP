@@ -54,7 +54,6 @@ namespace Bank
 		decltype(auto) FilterBy(FilterType t) 
 		{ 
 			auto result = filterBy(ContainerType(this->CBegin(), this->CEnd()), t); 
-			std::cout<<"SIZE"<<result.size()<<std::endl;
 			return std::make_unique<ContainerType>(result.cbegin(), result.cend());
 		}
 		

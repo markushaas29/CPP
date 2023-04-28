@@ -51,7 +51,8 @@ int main()
 	using AccountType = Configuration::AncilliaryRentalCosts::AccountType;         
     auto rc = Bank::GetTransfersOf<AccountType>(Y);
     
-    constexpr Bank::ItemQuery<AccountType,DateTimes::Year, DateTimes::Month> iq{Y,DateTimes::July};
+    constexpr Bank::ItemQuery<AccountType,DateTimes::Year> iq{Y};
+    //~ constexpr Bank::ItemQuery<AccountType,DateTimes::Year, DateTimes::Month> iq{Y,DateTimes::July};
     
     auto riq = iq.Execute();
     
@@ -63,5 +64,6 @@ int main()
 		std::cout<<*cx<<std::endl;
 	
 	std::cout<<riq.GetSum()<<std::endl;
+	std::cout<<riq.In()<<std::endl;
     return 0;
 }
