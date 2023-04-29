@@ -30,6 +30,8 @@ int main()
 	auto d = D();
 	constexpr auto e = E{"TEST"};
 
+	Less l0 = Less{0};
+
 	constexpr AccountQuery<A,DT,N,E> aq{i,dt,n,e};
 	constexpr ItemQuery<A,DT,N,E> iq{dt,n,e};
 	constexpr AccountQuery<A,DT,E> aq2{i,dt,e};
