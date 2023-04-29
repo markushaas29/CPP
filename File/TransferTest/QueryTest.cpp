@@ -31,6 +31,7 @@ int main()
 	constexpr auto e = E{"TEST"};
 
 	Less l0 = Less{0.0};
+	//Less::Check(q);
 	assert(!l0(q));
 	assert(l0(q));
 

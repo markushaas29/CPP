@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <numeric>
 #include "Account.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.hpp"

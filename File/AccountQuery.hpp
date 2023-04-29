@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <numeric>
 #include <tuple>
 #include <memory>
 #include <vector>
@@ -17,17 +18,14 @@ namespace Bank
          template<typename It>
          static decltype(auto) TotalSum(It begin, It end) 
          { 
-                 auto acc = Quantity<Sum>{0};
-                 if(begin == end)
-                 {
-                         Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
-                         return acc;
-                 }
+			auto acc = Quantity<Sum>{0};
+        	if(begin == end)
+            {
+            	Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
+                return acc;
+            }
                   
-                 acc = Bank::GetTransfer<Quantity<Sum>>(**(begin));
-                 std::for_each(begin+1, end, [&](const auto t){ acc = acc + Bank::GetTransfer<Quantity<Sum>>(*t); });
-                                  
-                 return acc;
+			return std::accumulate(begin, end,acc,[](auto q, auto t){ return q + Bank::GetTransfer<Quantity<Sum>>(*t);});                                  
       	}                                    
 	template<typename It>
     static decltype(auto) TotalIn(It begin, It end) 
