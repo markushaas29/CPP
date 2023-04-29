@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../Transfer.hpp"
 #include "../AccountQuery.hpp"
+#include "../QueryOperations.hpp"
 #include "../Raiffeisenbank.hpp"
 #include "../../Common/Configuration.hpp"
 #include "../../Common/Analyzer.hpp"
