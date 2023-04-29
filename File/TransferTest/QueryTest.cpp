@@ -41,7 +41,8 @@ int main()
 	auto r = aq.Execute();
 	auto ri = iq.Execute();
 	r.GetSum();
-	r.Items();
+	auto it = r.Items();
+	Total<Less<double>>(it->cbegin(),it->cend());
 	r.Display(std::cout);
 	aq.Display(std::cout);
 
