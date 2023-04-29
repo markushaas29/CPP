@@ -40,6 +40,7 @@ public:
 	
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return this->Value() <=> y.Value(); }
 	constexpr bool operator==(const Quantity<U,QR,T1>& y) const { return this->Value() == y.Value(); }
+	constexpr operator ValueType() const { return Value(); }
 
 	static decltype(auto) Create(std::istream& is)
 	{
