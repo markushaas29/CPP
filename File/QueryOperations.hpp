@@ -18,19 +18,19 @@ namespace Bank
 			constexpr bool operator ()(auto v) const { return Type::check(v, value); }
 		protected:
 			constexpr PredicateBase(ValueType v = ValueType{0}): value{v} {}
+			constexpr PredicateBase(): value{} {}
 		private:
 			ValueType value;
 	};
 	
-	template<typename T = double>
-	class Turnover: public PredicateBase<Turnover<T>, T>
+	class Turnover: public PredicateBase<Turnover, double>
 	{
-		using Base = PredicateBase<Turnover<T>,T>; 
-		friend class PredicateBase<Turnover<T>,T>;
+		using Base = PredicateBase<Turnover, double>; 
+		friend class PredicateBase<Turnover, double>;
 	public:
-		constexpr Turnover(T v): Base{v}{}
+		constexpr Turnover(double v = double{}): Base{v}{}
 	private:
-		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) < v; } 
+		static constexpr bool check(auto val, double v) { return static_cast<Base::ValueType>(val) < v; } 
 	};
 
 	template<typename T = double>

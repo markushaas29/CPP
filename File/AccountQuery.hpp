@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 #include "Account.hpp"
+#include "QueryOperations.hpp"
 #include "../Logger/Logger.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -55,9 +56,8 @@ namespace Bank
 		using ContType = std::vector<std::shared_ptr<TransferType>>;
 		using ContPtr = std::unique_ptr<ContType>;
 		using QuantityType = Quantity<Sum,Pure>;
-		QueryResult(ContPtr t): transfers{std::move(t)}, sum{TotalSum(transfers->cbegin(), transfers->cend())}, in{TotalIn(transfers->cbegin(), transfers->cend())} { };
+		QueryResult(ContPtr t): transfers{std::move(t)}, sum{Total<Turnover>(transfers->cbegin(), transfers->cend())}{ };
 		QuantityType GetSum() { return sum; }
-		QuantityType In() { return in; }
 		decltype(auto) Items() { return std::make_unique<ContType>(transfers->cbegin(), transfers->cend()); }
 
 		std::ostream& Display(std::ostream& os) const 
@@ -70,7 +70,6 @@ namespace Bank
 	private:
 		ContPtr transfers;
 		QuantityType sum;
-		QuantityType in;
 	};
 
 	template<template<typename, typename...> class D,typename A, typename... Ts> 
