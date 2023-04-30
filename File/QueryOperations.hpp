@@ -14,7 +14,7 @@ namespace Bank
 		public:
 			using Type = Derived; 
 			using ValueType = T; 
-			static constexpr bool Check(auto v) { return Type::check(v); } 
+			static constexpr bool Check(auto v, ValueType val) { return Type::check(v,val); } 
 			constexpr bool operator ()(auto v) const { return Type::check(v, value); }
 		protected:
 			constexpr PredicateBase(ValueType v = ValueType{0}): value{v} {}
@@ -44,6 +44,12 @@ namespace Bank
 		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) < v; } 
 	};
 
+	class Income: public Less<double>
+	{
+		using Base = Less<double>;
+	public:
+		constexpr Income(): Base{0.0}{}
+	};
 	template<typename Pred, typename It>
     decltype(auto) Total(It begin, It end)
     { 

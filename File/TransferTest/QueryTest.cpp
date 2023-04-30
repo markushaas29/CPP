@@ -31,9 +31,11 @@ int main()
 	constexpr auto e = E{"TEST"};
 
 	Less l0 = Less{0.0};
-	//Less::Check(q);
+	assert(!Less<>::Check(q,0.0));
 	assert(!l0(q));
-	assert(l0(q));
+
+	auto in = Income{};
+	assert((q));
 
 	constexpr AccountQuery<A,DT,N,E> aq{i,dt,n,e};
 	constexpr ItemQuery<A,DT,N,E> iq{dt,n,e};
