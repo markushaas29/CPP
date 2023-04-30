@@ -15,39 +15,6 @@
 
 namespace Bank
 {	
-
-         template<typename It>
-         static decltype(auto) TotalSum(It begin, It end) 
-         { 
-			auto acc = Quantity<Sum>{0};
-        	if(begin == end)
-            {
-            	Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
-                return acc;
-            }
-                  
-			return std::accumulate(begin, end,acc,[](auto q, auto t){ return q + Bank::GetTransfer<Quantity<Sum>>(*t);});                                  
-      	}                                    
-	template<typename It>
-    static decltype(auto) TotalIn(It begin, It end) 
-    { 
-    	auto acc = Quantity<Sum>{0};
-        if(begin == end)
-        {
-        	Logger::Log<Error>("No transfers! Cant calculate sum is ", acc);
-            return acc;
-        }
-                  
-        std::for_each(begin, end, [&](const auto t)
-				{ 
-					auto s = Bank::GetTransfer<Quantity<Sum>>(*t);
-					if(s.Value() > 0)
-						acc = acc + s;  
-						});
-                                  
-        return acc;
-    }                                    
-	
 	template<typename A>
 	class QueryResult
 	{

@@ -17,8 +17,7 @@ namespace Bank
 			static constexpr bool Check(auto v, ValueType val) { return Type::check(v,val); } 
 			constexpr bool operator ()(auto v) const { return Type::check(v, value); }
 		protected:
-			constexpr PredicateBase(ValueType v = ValueType{0}): value{v} {}
-			constexpr PredicateBase(): value{} {}
+			constexpr PredicateBase(ValueType v): value{v} {}
 		private:
 			ValueType value;
 	};
@@ -39,7 +38,7 @@ namespace Bank
 		using Base = PredicateBase<Greater<T>,T>; 
 		friend class PredicateBase<Greater<T>,T>;
 	public:
-		constexpr Greater(T v): Base{v}{}
+		constexpr Greater(T v = T{0}): Base{v}{}
 	private:
 		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) > v; } 
 	};
@@ -50,7 +49,7 @@ namespace Bank
 		using Base = PredicateBase<Less<T>,T>; 
 		friend class PredicateBase<Less<T>,T>;
 	public:
-		constexpr Less(T v): Base{v}{}
+		constexpr Less(T v = T{0}): Base{v}{}
 	private:
 		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) < v; } 
 	};
