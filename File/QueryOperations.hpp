@@ -92,5 +92,10 @@ namespace Bank
 	}
 
 	template<typename A> class QueryResult;
+	
+	template<typename Pred, typename A>
+    decltype(auto) Total(QueryResult<A>& r)
+    { 
+	}
 }
 

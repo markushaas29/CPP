@@ -37,6 +37,7 @@ int main()
 	auto in = Income{};
 	assert((q));
 
+
 	constexpr AccountQuery<A,DT,N,E> aq{i,dt,n,e};
 	constexpr ItemQuery<A,DT,N,E> iq{dt,n,e};
 	constexpr AccountQuery<A,DT,E> aq2{i,dt,e};
@@ -45,6 +46,8 @@ int main()
 	r.GetSum();
 	auto it = r.Items();
 	Total<Less<double>>(it->cbegin(),it->cend());
+	Total<Income>(r);
+	
 	r.Display(std::cout);
 	aq.Display(std::cout);
 
