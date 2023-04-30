@@ -32,6 +32,7 @@ int main()
 
 	Less l0 = Less{0.0};
 	assert(!Less<>::Check(q,0.0));
+	//assert(!Less<1.9>::Check(q,0.0));
 	assert(!l0(q));
 
 	auto in = Income{};

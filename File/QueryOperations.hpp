@@ -69,7 +69,7 @@ namespace Bank
 	};
 
 	template<typename Pred, typename It>
-    decltype(auto) Total(It begin, It end)
+    decltype(auto) Total(It begin, It end, Pred p = Pred{})
     { 
     	auto acc = Quantity<Sum>{0};              
         if(begin == end)
@@ -78,7 +78,7 @@ namespace Bank
             return acc;
         }
            
-        auto p = Pred{0};
+        
     	acc = std::accumulate(begin, end,acc,[p](auto q, auto t)
 				{
 					auto s = Bank::GetTransfer<Quantity<Sum>>(*t);
