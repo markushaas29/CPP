@@ -30,7 +30,7 @@ namespace Bank
 	public:
 		constexpr Turnover(double v = double{}): Base{v}{}
 	private:
-		static constexpr bool check(auto val, double v) { return static_cast<Base::ValueType>(val) < v; } 
+		static constexpr bool check(auto val, double v) { return true; } 
 	};
 
 	template<typename T = double>
