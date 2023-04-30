@@ -34,6 +34,17 @@ namespace Bank
 	};
 
 	template<typename T = double>
+	class Greater: public PredicateBase<Greater<T>, T>
+	{
+		using Base = PredicateBase<Greater<T>,T>; 
+		friend class PredicateBase<Greater<T>,T>;
+	public:
+		constexpr Greater(T v): Base{v}{}
+	private:
+		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) > v; } 
+	};
+
+	template<typename T = double>
 	class Less: public PredicateBase<Less<T>, T>
 	{
 		using Base = PredicateBase<Less<T>,T>; 
@@ -44,12 +55,20 @@ namespace Bank
 		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) < v; } 
 	};
 
-	class Income: public Less<double>
+	class Expenses: public Less<double>
 	{
 		using Base = Less<double>;
 	public:
+		constexpr Expenses(): Base{0.0}{}
+	};
+
+	class Income: public Greater<double>
+	{
+		using Base = Greater<double>;
+	public:
 		constexpr Income(): Base{0.0}{}
 	};
+
 	template<typename Pred, typename It>
     decltype(auto) Total(It begin, It end)
     { 
@@ -70,6 +89,8 @@ namespace Bank
 				});
 		
 		return acc;
-	}    
+	}
+
+	template<typename A> class QueryResult;
 }
 
