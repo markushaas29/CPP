@@ -59,14 +59,14 @@ namespace Bank
 	{
 		using Base = Less<double>;
 	public:
-		constexpr Expenses(): Base{0.0}{}
+		constexpr Expenses(double v = 0.0): Base{0.0}{}
 	};
 
 	class Income: public Greater<double>
 	{
 		using Base = Greater<double>;
 	public:
-		constexpr Income(): Base{0.0}{}
+		constexpr Income(double v = 0.0): Base{0.0}{}
 	};
 
 	template<typename Pred, typename It>
@@ -95,7 +95,9 @@ namespace Bank
 	
 	template<typename Pred, typename A>
     decltype(auto) Total(QueryResult<A>& r)
-    { 
+    {
+		auto it = r.Items();
+      	return Total<Pred>(it->cbegin(),it->cend());
 	}
 }
 

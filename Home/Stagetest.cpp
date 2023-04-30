@@ -5,6 +5,7 @@
 #include "StageContainer.hpp"
 #include "House.hpp"
 #include "../File/AccountQuery.hpp"
+#include "../File/QueryOperations.hpp"
 #include "AncilliaryRentalCosts/AncilliaryRentalCostsContainer.hpp"
 #include "../Tuple/Tuple.hpp"
 #include "../Unit/Unit.hpp"
@@ -80,6 +81,6 @@ int main()
 			std::cout<<Bank::GetTransfer<Quantity<Sum>>(*cx).Value()<<std::endl;
 	
 	std::cout<<riq.GetSum()<<std::endl;
-	std::cout<<riq.In()<<std::endl;
+	std::cout<<Bank::Total<Bank::Expenses>(riq)<<std::endl;
     return 0;
 }
