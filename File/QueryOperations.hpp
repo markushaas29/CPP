@@ -17,20 +17,31 @@ namespace Bank
 			static constexpr bool Check(auto v) { return Type::check(v); } 
 			constexpr bool operator ()(auto v) const { return Type::check(v, value); }
 		protected:
-			PredicateBase(ValueType v = ValueType{0}): value{v} {}
+			constexpr PredicateBase(ValueType v = ValueType{0}): value{v} {}
 		private:
 			ValueType value;
 	};
 	
-	template<typename VT = double>
-	class Less: public PredicateBase<Less<VT>, VT>
+	template<typename T = double>
+	class Turnover: public PredicateBase<Turnover<T>, T>
 	{
-		using Base = PredicateBase<Less<VT>,VT>; 
-		friend class PredicateBase<Less<VT>,VT>;
+		using Base = PredicateBase<Turnover<T>,T>; 
+		friend class PredicateBase<Turnover<T>,T>;
 	public:
-		Less(VT v): Base{v}{}
+		constexpr Turnover(T v): Base{v}{}
 	private:
-		static constexpr bool check(auto val, VT v) { return static_cast<Base::ValueType>(val) < v; } 
+		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) < v; } 
+	};
+
+	template<typename T = double>
+	class Less: public PredicateBase<Less<T>, T>
+	{
+		using Base = PredicateBase<Less<T>,T>; 
+		friend class PredicateBase<Less<T>,T>;
+	public:
+		constexpr Less(T v): Base{v}{}
+	private:
+		static constexpr bool check(auto val, T v) { return static_cast<Base::ValueType>(val) < v; } 
 	};
 
 	template<typename Pred, typename It>
