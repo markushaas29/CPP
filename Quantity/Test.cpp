@@ -181,9 +181,9 @@ int main()
     	assert(isSame);
     	
     
-    auto tq1 = ToQuantity<decltype(h1)>(std::cin,d3);
-	std::cout<<tq1<<std::endl;
-	Quantity<Time,Hours>::Create(std::cin);
+	std::istringstream is("1000");
+	auto toKm1000 = ToQuantity<decltype(km2)>(is);
+	std::cout<<toKm1000<<std::endl;
 	assert(std::cin);
 
 	//~ auto dhm = d3 + h1 + m1;
