@@ -30,11 +30,8 @@ public:
 	
 	static decltype(auto) Create(const std::string& d, const std::string& v)
 	{
-		auto date = Parsers::Parser<std::string,DateType>::Parse(d);
-		Logger::Log("Date: ",date); 
-		auto value = String_::ParseTo<double,std::string>(v);
-				
-		return std::make_shared<Type>(QuantityType(value), DateType(date));
+		std::istringstream is(d + " " + v);	
+		return std::make_shared<Type>(Create(is));
 	}
 
 	static decltype(auto) Create(std::istream& is) 

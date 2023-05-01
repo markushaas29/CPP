@@ -32,14 +32,7 @@ template<typename T, Input>
 T ToQuantity(std::istream& is, const T& t)
 {
 	std::cout<<t<<std::endl;
-	std::string s;
-	std::getline(is,s);
-	if(!s.size())
-		return t;
-	using VT = typename T::ValueType;
-	if(auto v = String_::TryTo<VT>(s))
-		return T{(VT)v};
-	return  T{1};
+	return ToQuantity<T,void>(is,t);
 }
 
 
