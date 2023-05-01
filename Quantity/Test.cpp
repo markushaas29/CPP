@@ -186,7 +186,8 @@ int main()
 	std::cout<<toKm1000<<std::endl;
 	
 	std::istringstream is2("12.9");
-	auto km12_9 = ToQuantity<decltype(km2)>(is2, km2);
+	auto km12_9 = ToQuantity<decltype(km2), Input>(is2, km2);
+	assert(km12_9.Value()==12.9);
 	std::cout<<km12_9<<std::endl;
 
 	//~ auto dhm = d3 + h1 + m1;

@@ -138,7 +138,7 @@ int main()
 	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<std::endl;
 	DateTimes::Day::Create(is,std::cout);
 	auto c = DateTimes::Date::Create(is,std::cout);
-	std::cout<<c<<std::endl;
+	std::cout<<"\n"<<c<<std::endl;
 	std::cout<<"END"<<std::endl;
 
 	return 0;
