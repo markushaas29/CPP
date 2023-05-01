@@ -72,7 +72,9 @@ int main()
 	assert(rw3<rw4);
     	auto cc = c * c;
 
-	auto in = RW::Create(std::cin);
+	std::istringstream is(std::string("1 1 2022") + " " + std::string("123"));
+	auto in = RW::Create(is);
+	std::cout<<in<<std::endl;
 	assert(std::cin);
     //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
     

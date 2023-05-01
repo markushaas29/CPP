@@ -5,6 +5,7 @@
 #include "../Unit/Unit.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/QuantityRatio.hpp"
+#include "../Quantity/ToQuantity.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Calculator/CalculatorResult.hpp"
@@ -36,11 +37,11 @@ public:
 		return std::make_shared<Type>(QuantityType(value), DateType(date));
 	}
 
-	static decltype(auto) Create(std::istream& is)
-	{
-		auto q =QuantityType::Create(is);
-		auto d = DateType::Create(is);
-		return Type{q,d};
+	static decltype(auto) Create(std::istream& is) 
+	{ 
+		auto d = DateType::Create(is); 
+		auto q = ToQuantity<QuantityType>(is); 
+		return Type{ q, d};	
 	}
 
 	decltype(auto) Date() const { return date; }
