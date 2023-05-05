@@ -104,6 +104,7 @@ public:
 	bool AddReading(std::istream& is, std::ostream& os) 
 	{
 		inputComp->input();
+		inputComp->Update();
 		auto r = readings->CBegin();
 		auto p = *(*r);
 		os<<QuantityType::Identifier<<"\n";

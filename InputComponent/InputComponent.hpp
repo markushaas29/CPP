@@ -11,41 +11,48 @@
 class IInput
 {
 public:
+	virtual void Update() = 0;
+//private:
 	virtual void input() = 0;
 };
 
-template<typename Config>
+template<typename T>
 class InputImpl : public IInput
 {
 public:
-	using InputImplType = InputImpl<Config>;
+	using InputImplType = InputImpl<T>;
 	using InputContainerType = std::vector<std::string>;
 	using InputIterator = std::vector<std::string>::const_iterator;
 
-	friend Config;
+	friend T;
 	inline static const char* Filename;
 	inline static const char* TypeIdentifier = Filename;
 	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
 	
-	void input() 
+	void Update() 
 	{
-		std::cout<<"InputComp initialized "<<Config::Instance().readings->Size()<<std::endl;};
+		std::cout<<"InputComp Update"<<T::Instance().readings->Size()<<std::endl;
+	};
 	InputImpl()	{ 	Logger::Log<Info>()<<"InputImpl initialized "<<std::endl; 	};
 	~InputImpl()	{ }
 	InputImpl& operator=(const InputImpl&) = delete;
 	InputImpl(const InputImpl& c) = delete;
 private:
+	void input() 
+	{
+		std::cout<<"InputComp initialized "<<T::Instance().readings->Size()<<std::endl;
+	};
 };
 
 //template<template<typename...> class C, typename S = T::char_<'\t'>>
 //std::ostream& operator<<(std::ostream& strm, const InputImpl<C> c){	return c.Display(strm);}
 
-template<typename Config>
+template<typename T>
 class TestInput : public IInput
 {
 public:
-	using TestInputType = TestInput<Config>;
+	using TestInputType = TestInput<T>;
 	using InputContainerType = std::vector<std::string>;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	
