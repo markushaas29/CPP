@@ -15,10 +15,10 @@ public:
 };
 
 template<typename Config>
-class InputComponent : public IInput
+class InputImpl : public IInput
 {
 public:
-	using InputComponentType = InputComponent<Config>;
+	using InputImplType = InputImpl<Config>;
 	using InputContainerType = std::vector<std::string>;
 	using InputIterator = std::vector<std::string>::const_iterator;
 
@@ -31,15 +31,15 @@ public:
 	void input() 
 	{
 		std::cout<<"InputComp initialized "<<Config::Instance().readings->Size()<<std::endl;};
-	InputComponent()	{ 	Logger::Log<Info>()<<"InputComponent initialized "<<std::endl; 	};
-	~InputComponent()	{ }
-	InputComponent& operator=(const InputComponent&) = delete;
-	InputComponent(const InputComponent& c) = delete;
+	InputImpl()	{ 	Logger::Log<Info>()<<"InputImpl initialized "<<std::endl; 	};
+	~InputImpl()	{ }
+	InputImpl& operator=(const InputImpl&) = delete;
+	InputImpl(const InputImpl& c) = delete;
 private:
 };
 
 //template<template<typename...> class C, typename S = T::char_<'\t'>>
-//std::ostream& operator<<(std::ostream& strm, const InputComponent<C> c){	return c.Display(strm);}
+//std::ostream& operator<<(std::ostream& strm, const InputImpl<C> c){	return c.Display(strm);}
 
 template<typename Config>
 class TestInput : public IInput

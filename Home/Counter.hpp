@@ -37,7 +37,7 @@ public:
 	using DateType = ReadingType::DateType;
 	using DataType = std::shared_ptr<ReadingType>;
 	using ResultValueType = FS::CounterValue<DataType>;
-	using InputType = InputComponent<Counter<Config>>;
+	using InputType = InputImpl<Counter<Config>>;
 	using ReadingContainerType = ReadingContainer<DataType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;
@@ -104,7 +104,6 @@ public:
 	bool AddReading(std::istream& is, std::ostream& os) 
 	{
 		inputComp->input();
-		testInput->input();
 		auto r = readings->CBegin();
 		auto p = *(*r);
 		os<<QuantityType::Identifier<<"\n";
@@ -165,7 +164,6 @@ private:
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IInput> inputComp = std::make_unique<InputType>();
-	inline static std::unique_ptr<IInput> testInput = std::make_unique<TestInput<Counter<Config>>>();
 	
 	template<typename Iterator>
 	static DataType CreateReading(Iterator cbegin, Iterator cend)
