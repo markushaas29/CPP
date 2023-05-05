@@ -102,7 +102,9 @@ public:
 
 	bool Exec(std::istream& is, std::ostream& os) { return AddReading(is,os);}
 	bool AddReading(std::istream& is, std::ostream& os) 
-	{ 
+	{
+		inputComp->input();
+		testInput->input();
 		auto r = readings->CBegin();
 		auto p = *(*r);
 		os<<QuantityType::Identifier<<"\n";
@@ -118,7 +120,9 @@ public:
 	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
+	friend InputType;
 	template<typename T, typename A> friend class Analyzer;
+	
 	void write(const std::string sourcePath = ".")
 	{
 		Logger::Log<Info>()<<"Write Counter: "<<GetName()<<" to: "<<csv->GetDestinationPath()<<std::endl;
@@ -161,6 +165,7 @@ private:
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IInput> inputComp = std::make_unique<InputType>();
+	inline static std::unique_ptr<IInput> testInput = std::make_unique<TestInput<Counter<Config>>>();
 	
 	template<typename Iterator>
 	static DataType CreateReading(Iterator cbegin, Iterator cend)
