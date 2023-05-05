@@ -160,7 +160,7 @@ private:
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
-	inline static std::unique_ptr<InputType> inputComp = std::make_unique<InputType>();
+	inline static std::unique_ptr<IInput> inputComp = std::make_unique<InputType>();
 	
 	template<typename Iterator>
 	static DataType CreateReading(Iterator cbegin, Iterator cend)
