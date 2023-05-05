@@ -131,11 +131,16 @@ int main()
 	auto today = DateTimes::Date::Today();
 	//auto tq = ToQuantity<DateTimes::Year>(std::cin, (DateTimes::Year)today);
 
-    std::istringstream is("12 12 13 1 1 2022");
+    std::istringstream is("12 12 1999 13 1 1 2022");
 
 	auto tq1 = ToQuantity<DateTimes::Month>(is,std::cout);
 	auto tq2 = ToQuantity<DateTimes::Day>(is,std::cout);
-	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<std::endl;
+	auto tq3 = ToQuantity<DateTimes::Year>(is,std::cout);
+	assert(tq1.Value()==12);
+	assert(tq2.Value()==12);
+	assert(tq3.Value()==1999);
+
+	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<" "<<tq3<<std::endl;
 	DateTimes::Day::Create(is,std::cout);
 	auto c = DateTimes::Date::Create(is,std::cout);
 	std::cout<<"\n"<<c<<std::endl;
