@@ -20,7 +20,6 @@
 #include "RepositoryObjectVisitor.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
-#include "../InputManager/InputManager.hpp"
 #include "../Typelist/Typelist.hpp"
 #include "../Home/CounterContainer.hpp"
 #include "../Home/StageContainer.hpp"
@@ -37,7 +36,7 @@ namespace CSV
 	
 	template<typename T, typename ResultT = typename T::ResultValueType> decltype(auto) Get();
 	
-	using CommonParsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, InputManager<Counter>,CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Comdirect<Configuration::Comdirect>, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
+	using CommonParsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Comdirect<Configuration::Comdirect>, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
 	using CounterParsers = Typelist<CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW>::Type;
 
 	
@@ -125,8 +124,6 @@ namespace CSV
 					}
 				}			
 			}
-			
-			InputManager<Counter>::Instance().CreateFile();
 		}
 		
 		void Write()
@@ -151,8 +148,6 @@ namespace CSV
 					}
 				}			
 			}
-			
-			//InputManager<Counter>::Instance().CreateFile();
 		}
 
 		static Repository& Instance()

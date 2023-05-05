@@ -2,30 +2,6 @@
 
 #pragma once
 
-template<> 
-void InputManager<Counter>::Parse(InputIterator begin, InputIterator end)
-{
-	Instance();
-	try
-	{
-		auto it = begin;
-		auto dateLine = String_::Split<T::char_<':'>>(*it);
-		auto date = dateLine.cbegin() + 1 != dateLine.cend() ? dateLine[1] : "1.1.2022" ;
-		++it;
-		for(; it != end; ++it)
-		{
-			auto vals = String_::Split<T::char_<':'>>(*it);
-			auto values = String_::Split<T::char_<';'>>(*(vals.cbegin()+1));
-			values.insert(values.begin(), date);
-			visitors->at(vals[0])->Add(values.cbegin(),values.cend());
-		}
-	}
-	catch(const std::exception& e)
-	{
-		Logger::Log<Error>("InputManager<Counter>::Parse ",e.what());
-	}
-}
-
 struct CurrentValue
 { 
 	template<typename It>

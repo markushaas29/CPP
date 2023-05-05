@@ -12,8 +12,6 @@
 #include "../Wrapper/Wrapper.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../File/RepositoryValue.hpp"
-#include "../InputManager/InputVisitor.hpp"
-#include "../InputManager/InputManager.hpp"
 #include "Parser.hpp"
 #include "CounterConfiguration.hpp"
 #include "Reading.hpp"
@@ -77,12 +75,7 @@ public:
 		[&](const std::string& s){ return GetValue(s); }, 
 		[&](InputIterator begin, InputIterator end){ return Update(begin,end); },
 		[&](std::ostream& s){ Display(s); }
-		)));	
-		
-		InputManager<Counter>::Instance().Register(std::make_unique<InputVisitor>(Name, 
-		[&](InputIterator b, InputIterator e) { add(b,e); },
-		[&](std::unique_ptr<std::ofstream> of) { return input(std::move(of)); }));
-		}
+		)));	}
 
 	template<typename Op>
 	decltype(auto) Get(const Op&& op){ return op(readings->CBegin(),readings->CEnd());	}
@@ -192,8 +185,6 @@ private:
 	Counter& operator=(const Counter&) = delete;
 	Counter(const Counter& c) = delete;
 };
-
-template<> inline const char* InputManager<Counter>::Filename = "Counter";
 
 template<typename C, typename S = T::char_<'\t'>>
 std::ostream& operator<<(std::ostream& strm, const Counter<C>& c){	return c.Display(strm);}
