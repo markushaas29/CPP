@@ -8,8 +8,14 @@
 
 #pragma once
 
+class IInput
+{
+public:
+	virtual void input() = 0;
+};
+
 template<typename Config>
-class InputComponent
+class InputComponent : public IInput
 {
 public:
 	using InputComponentType = InputComponent<Config>;
@@ -21,6 +27,7 @@ public:
 	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
 	
+	void input() {};
 	InputComponent()	{ 	Logger::Log<Info>()<<"InputComponent initialized "<<std::endl; 	};
 	~InputComponent()	{ }
 	InputComponent& operator=(const InputComponent&) = delete;
