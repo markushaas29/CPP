@@ -107,6 +107,7 @@ public:
 	{
 		(*io)(std::cin);
 		(*io)(std::cout);
+		(*io)(std::cin);
 		auto r = readings->CBegin();
 		auto p = *(*r);
 		os<<QuantityType::Identifier<<"\n";

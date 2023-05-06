@@ -69,17 +69,24 @@ public:
 	virtual std::ostream& operator()(std::ostream& o)
 	{
 		std::cout<<"OutputComp Update"<<T::Instance().readings->Size()<<std::endl;
-		return o;
+		return display(o);
 	};
 	OutputImpl()	{ 	Logger::Log<Info>()<<"OutputImpl initialized "<<std::endl; 	};
 	~OutputImpl()	{ }
 	OutputImpl& operator=(const OutputImpl&) = delete;
 	OutputImpl(const OutputImpl& c) = delete;
 private:
-	void Output() 
-	{
-		std::cout<<"OutputComp initialized "<<T::Instance().readings->Size()<<std::endl;
-	};
+    std::ostream& display(std::ostream& out)
+    {
+		T::Config::Display(out);
+        for(auto it = T::readings->CBegin(); it != T::readings->CEnd(); ++it)
+        {
+              (*it)->Display(out);
+              out<<std::endl;
+        }
+          
+    	return out;
+	}
 };
 
 template<typename T>
