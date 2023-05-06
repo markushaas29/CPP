@@ -14,6 +14,14 @@ public:
 	virtual std::istream& operator()(std::istream& i) = 0;
 //private:
 	virtual void input() = 0;
+	virtual ~IInput(){};
+};
+
+class IOutput
+{
+public:
+	virtual std::ostream& operator()(std::ostream& i) = 0;
+	virtual ~IOutput(){};
 };
 
 template<typename T>
@@ -46,6 +54,35 @@ private:
 	};
 };
 
+template<typename T>
+class OutputImpl : public IOutput
+{
+public:
+	using OutputImplType = OutputImpl<T>;
+	using OutputContainerType = std::vector<std::string>;
+	using OutputIterator = std::vector<std::string>::const_iterator;
+
+	friend T;
+	inline static const char* Filename;
+	inline static const char* TypeIdentifier = Filename;
+	inline static constexpr const char* FileExtension = "Output";
+	inline static constexpr const char* Identifier = "Output";
+	
+	virtual std::istream& operator()(std::istream& i)
+	{
+		std::cout<<"OutputComp Update"<<T::Instance().readings->Size()<<std::endl;
+		return i;
+	};
+	OutputImpl()	{ 	Logger::Log<Info>()<<"OutputImpl initialized "<<std::endl; 	};
+	~OutputImpl()	{ }
+	OutputImpl& operator=(const OutputImpl&) = delete;
+	OutputImpl(const OutputImpl& c) = delete;
+private:
+	void Output() 
+	{
+		std::cout<<"OutputComp initialized "<<T::Instance().readings->Size()<<std::endl;
+	};
+};
 //template<template<typename...> class C, typename S = T::char_<'\t'>>
 //std::ostream& operator<<(std::ostream& strm, const InputImpl<C> c){	return c.Display(strm);}
 
