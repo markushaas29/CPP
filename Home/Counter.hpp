@@ -57,17 +57,7 @@ public:
 	}
 	
 	template<typename Separator = T::char_<'\t'>>
-	static std::ostream& Display(std::ostream& out)
-	{
-		Config::Display(out);
-		for(auto it = readings->CBegin(); it != readings->CEnd(); ++it)
-		{
-			(*it)->Display(out);
-			out<<std::endl;
-		}
-		
-		return out;
-	}
+	static std::ostream& Display(std::ostream& out)	{	return (*io)(out);	}
 	
 	constexpr const char* GetName(){ return Name; }
 	std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
