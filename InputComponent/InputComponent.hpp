@@ -22,9 +22,20 @@ public:
 	virtual ~IOutput(){};
 };
 
-template<typename T>
-class InputImpl : public IInput
+class IIO: public IInput, public IOutput
 {
+public:
+	virtual ~IIO(){};
+};
+
+template<typename> class Counter;
+
+template<typename T> class InputImpl : public IInput {};
+
+template<typename C>
+class InputImpl<Counter<C>> : public IInput
+{
+	using T = Counter<C>;
 public:
 	using Type = InputImpl<T>;
 	inline static constexpr const char* Identifier = "Input";
@@ -46,9 +57,12 @@ private:
 	};
 };
 
-template<typename T>
-class OutputImpl : public IOutput
+template<typename T> class OutputImpl : public IOutput {};
+
+template<typename C>
+class OutputImpl<Counter<C>> : public IOutput
 {
+	using T = Counter<C>;
 public:
 	using Type = OutputImpl<T>;
 	inline static constexpr const char* Identifier = "Output";
@@ -74,7 +88,7 @@ private:
 };
 
 template<typename T>
-class IO : public IOutput, public IInput
+class IO : public IIO
 {
 public:
 	virtual std::istream& operator()(std::istream& i)	{		return (*in)(i);	};
