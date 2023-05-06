@@ -11,7 +11,7 @@
 class IInput
 {
 public:
-	virtual void Update() = 0;
+	virtual std::istream& operator()(std::istream& i) = 0;
 //private:
 	virtual void input() = 0;
 };
@@ -30,9 +30,10 @@ public:
 	inline static constexpr const char* FileExtension = "input";
 	inline static constexpr const char* Identifier = "Input";
 	
-	void Update() 
+	virtual std::istream& operator()(std::istream& i)
 	{
 		std::cout<<"InputComp Update"<<T::Instance().readings->Size()<<std::endl;
+		return i;
 	};
 	InputImpl()	{ 	Logger::Log<Info>()<<"InputImpl initialized "<<std::endl; 	};
 	~InputImpl()	{ }
