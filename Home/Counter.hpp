@@ -105,9 +105,8 @@ public:
 	bool Exec(std::istream& is, std::ostream& os) { return AddReading(is,os);}
 	bool AddReading(std::istream& is, std::ostream& os) 
 	{
-		inputComp->input();
-		(*inputComp)(std::cin);
-		(*outputComp)(std::cout);
+		(*io)(std::cin);
+		(*io)(std::cout);
 		auto r = readings->CBegin();
 		auto p = *(*r);
 		os<<QuantityType::Identifier<<"\n";
@@ -170,7 +169,7 @@ private:
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IInput> inputComp = std::make_unique<InputType>();
 	inline static std::unique_ptr<IOutput> outputComp = std::make_unique<OutputType>();
-	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>();
+	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>(std::make_unique<InputType>(), std::make_unique<OutputType>());
 	
 	template<typename Iterator>
 	static DataType CreateReading(Iterator cbegin, Iterator cend)
