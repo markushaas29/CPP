@@ -83,6 +83,22 @@ private:
 		std::cout<<"OutputComp initialized "<<T::Instance().readings->Size()<<std::endl;
 	};
 };
+
+template<typename T>
+class IO : public IOutput, public IInput
+{
+public:
+	virtual std::istream& operator()(std::istream& i)	{		return (*in)(i);	};
+	virtual std::ostream& operator()(std::ostream& o)	{		return (*out)(o);	};
+	IO(std::unique_ptr<IInput> i, std::unique_ptr<IOutput> o): in{i}, out{o}	{ 	Logger::Log<Info>("IO initialized ");	};
+	~IO()	{ }
+	IO& operator=(const IO&) = delete;
+	IO(const IO& c) = delete;
+private:
+	friend T;
+	std::unique_ptr<IOutput> out;
+	std::unique_ptr<IInput> in;
+};
 //template<template<typename...> class C, typename S = T::char_<'\t'>>
 //std::ostream& operator<<(std::ostream& strm, const InputImpl<C> c){	return c.Display(strm);}
 

@@ -39,6 +39,7 @@ public:
 	using ResultValueType = FS::CounterValue<DataType>;
 	using InputType = InputImpl<Counter<Config>>;
 	using OutputType = OutputImpl<Counter<Config>>;
+	using IOType = IO<Counter<Config>>;
 	using ReadingContainerType = ReadingContainer<DataType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;
@@ -169,6 +170,7 @@ private:
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IInput> inputComp = std::make_unique<InputType>();
 	inline static std::unique_ptr<IOutput> outputComp = std::make_unique<OutputType>();
+	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>();
 	
 	template<typename Iterator>
 	static DataType CreateReading(Iterator cbegin, Iterator cend)
