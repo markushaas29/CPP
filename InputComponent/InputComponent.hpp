@@ -68,10 +68,10 @@ public:
 	inline static constexpr const char* FileExtension = "Output";
 	inline static constexpr const char* Identifier = "Output";
 	
-	virtual std::istream& operator()(std::istream& i)
+	virtual std::ostream& operator()(std::ostream& o)
 	{
 		std::cout<<"OutputComp Update"<<T::Instance().readings->Size()<<std::endl;
-		return i;
+		return o;
 	};
 	OutputImpl()	{ 	Logger::Log<Info>()<<"OutputImpl initialized "<<std::endl; 	};
 	~OutputImpl()	{ }

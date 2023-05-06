@@ -38,6 +38,7 @@ public:
 	using DataType = std::shared_ptr<ReadingType>;
 	using ResultValueType = FS::CounterValue<DataType>;
 	using InputType = InputImpl<Counter<Config>>;
+	using OutputType = OutputImpl<Counter<Config>>;
 	using ReadingContainerType = ReadingContainer<DataType>;
 	using Type = MeterType;
 	using CounterType = Counter<ConfigT>;
@@ -105,6 +106,7 @@ public:
 	{
 		inputComp->input();
 		(*inputComp)(std::cin);
+		(*outputComp)(std::cout);
 		auto r = readings->CBegin();
 		auto p = *(*r);
 		os<<QuantityType::Identifier<<"\n";
@@ -121,6 +123,7 @@ public:
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
 	friend InputType;
+	friend OutputType;
 	template<typename T, typename A> friend class Analyzer;
 	
 	void write(const std::string sourcePath = ".")
@@ -165,6 +168,7 @@ private:
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IInput> inputComp = std::make_unique<InputType>();
+	inline static std::unique_ptr<IOutput> outputComp = std::make_unique<OutputType>();
 	
 	template<typename Iterator>
 	static DataType CreateReading(Iterator cbegin, Iterator cend)
