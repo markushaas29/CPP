@@ -26,14 +26,7 @@ template<typename T>
 class InputImpl : public IInput
 {
 public:
-	using InputImplType = InputImpl<T>;
-	using InputContainerType = std::vector<std::string>;
-	using InputIterator = std::vector<std::string>::const_iterator;
-
-	friend T;
-	inline static const char* Filename;
-	inline static const char* TypeIdentifier = Filename;
-	inline static constexpr const char* FileExtension = "input";
+	using Type = InputImpl<T>;
 	inline static constexpr const char* Identifier = "Input";
 	
 	virtual std::istream& operator()(std::istream& i)
@@ -46,6 +39,7 @@ public:
 	InputImpl& operator=(const InputImpl&) = delete;
 	InputImpl(const InputImpl& c) = delete;
 private:
+	friend T;
 	void input() 
 	{
 		std::cout<<"InputComp initialized "<<T::Instance().readings->Size()<<std::endl;
@@ -56,14 +50,7 @@ template<typename T>
 class OutputImpl : public IOutput
 {
 public:
-	using OutputImplType = OutputImpl<T>;
-	using OutputContainerType = std::vector<std::string>;
-	using OutputIterator = std::vector<std::string>::const_iterator;
-
-	friend T;
-	inline static const char* Filename;
-	inline static const char* TypeIdentifier = Filename;
-	inline static constexpr const char* FileExtension = "Output";
+	using Type = OutputImpl<T>;
 	inline static constexpr const char* Identifier = "Output";
 	
 	virtual std::ostream& operator()(std::ostream& o)	{	return display(o);	};
@@ -72,6 +59,7 @@ public:
 	OutputImpl& operator=(const OutputImpl&) = delete;
 	OutputImpl(const OutputImpl& c) = delete;
 private:
+	friend T;
     std::ostream& display(std::ostream& out)
     {
 		T::Config::Display(out);
