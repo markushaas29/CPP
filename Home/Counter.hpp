@@ -7,6 +7,7 @@
 #include "../Quantity/ToQuantity.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Components/Components.hpp"
+#include "../Components/Interfaces.hpp"
 #include "../Common/Configuration.hpp"
 #include "../File/Info.hpp"
 #include "../File/Node.hpp"
@@ -37,8 +38,8 @@ public:
 	using DateType = ReadingType::DateType;
 	using DataType = std::shared_ptr<ReadingType>;
 	using ResultValueType = FS::CounterValue<DataType>;
-	using InputType = InputImpl<Counter<Config>>;
-	using OutputType = OutputImpl<Counter<Config>>;
+	using InType = InImpl<Counter<Config>>;
+	using OutType = OutImpl<Counter<Config>>;
 	using IOType = IO<Counter<Config>>;
 	using ReadingContainerType = ReadingContainer<DataType>;
 	using Type = MeterType;
@@ -113,8 +114,8 @@ public:
 	};
 	bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in",*(begin), *(++begin)); return true; }
 private:
-	friend InputType;
-	friend OutputType;
+	friend InType;
+	friend OutType;
 	template<typename T, typename A> friend class Analyzer;
 	
 	void write(const std::string sourcePath = ".")
@@ -150,7 +151,7 @@ private:
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
-	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>(std::make_unique<InputType>(), std::make_unique<OutputType>());
+	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>(std::make_unique<InType>(), std::make_unique<OutType>());
 	
 	template<typename Iterator>
 	static DataType createReading(Iterator cbegin, Iterator cend)
