@@ -1,6 +1,7 @@
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Common/Forwards.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "Interfaces.hpp"
@@ -8,8 +9,6 @@
 #include <memory>
 
 #pragma once
-
-template<typename> class Counter;
 
 template<typename T> class InImpl : public IIn {};
 
