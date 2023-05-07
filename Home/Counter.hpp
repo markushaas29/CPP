@@ -59,8 +59,8 @@ public:
 	template<typename Separator = T::char_<'\t'>>
 	static std::ostream& Display(std::ostream& out)	{	return (*io)(out);	}
 	
-	constexpr const char* GetName(){ return Name; }
-	std::string GetFileName(){	return std::string(Name) + std::string(".ctrv");	}
+	constexpr const char* GetName(){ return name; }
+	std::string GetFileName(){	return std::string(name) + std::string(".ctrv");	}
 
 	template<typename Cont>
 	void RegisterTo(Cont& cont) { cont.insert(std::make_pair(Instance().GetFileName(),  typename Cont::mapped_type(Instance().GetFileName(), Identifier,
@@ -83,7 +83,7 @@ public:
 			if(it->size() > 0)
 			{
 				auto v = csv->ExtractValues(*it);
-				DataType reading = CreateReading(v.cbegin(), v.cend());
+				DataType reading = createReading(v.cbegin(), v.cend());
 				addReading(reading);
 			}
 		}
@@ -141,19 +141,19 @@ private:
 	void addReading(DataType reading)
 	{			
 		readings->Add(reading);
-		Logger::Log<Info>("Reading added",Name, *reading);
+		Logger::Log<Info>("Reading added",name, *reading);
 	}
 	
 	std::unique_ptr<std::ofstream> write(std::unique_ptr<std::ofstream> of)	{	return (*io)(std::move(of));	}
 	
-	inline static const char* Name = Config::CounterName.c_str();	
+	inline static const char* name = Config::CounterName.c_str();	
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
-	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(Name) )));
+	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>(std::make_unique<InputType>(), std::make_unique<OutputType>());
 	
 	template<typename Iterator>
-	static DataType CreateReading(Iterator cbegin, Iterator cend)
+	static DataType createReading(Iterator cbegin, Iterator cend)
 	{
 		if(cbegin != cend)
 		{
