@@ -79,22 +79,7 @@ public:
 	decltype(auto) ReadingsBegin() { return readings->CBegin(); }
 	decltype(auto) ReadingsEnd() { return readings->CEnd(); }		
 
-	void Parse(InputIterator begin, InputIterator end)
-	{
-		for(auto it = (begin + Config::Size); it != end; ++it)
-		{
-			if(it->size() > 0)
-			{
-				auto v = csv->ExtractValues(*it);
-				DataType reading = createReading(v.cbegin(), v.cend());
-				addReading(reading);
-			}
-		}
-		
-		std::cout<<"Parsed"<<std::endl;
-		Display(std::cout);
-	}	
-
+	void Parse(InputIterator begin, InputIterator end) {	(*iParse)(begin,end);	}
 	bool Exec(std::istream& is, std::ostream& os) { return AddReading(is,os);}
 	bool AddReading(std::istream& is, std::ostream& os) 
 	{
@@ -118,6 +103,7 @@ public:
 private:
 	friend InType;
 	friend OutType;
+	friend ParseType;
 	template<typename T, typename A> friend class Analyzer;
 	
 	void write(const std::string sourcePath = ".")
