@@ -10,14 +10,22 @@
 
 #pragma once
 
-template<typename T> class InImpl : public IIn {};
+
+template<typename T> struct ImplBase
+{
+	using Type = T;
+};
+
+template<typename T> class InImpl : public IIn, public ImplBase<InImpl<T>> 
+{
+	 virtual std::istream& operator()(std::istream& i){  return i;  };
+};
 
 template<typename C>
 class InImpl<Counter<C>> : public IIn
 {
 	using T = Counter<C>;
 public:
-	using Type = InImpl<T>;
 	inline static constexpr const char* Identifier = "In";
 	
 	virtual std::istream& operator()(std::istream& i)
