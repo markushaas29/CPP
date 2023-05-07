@@ -7,6 +7,7 @@
 #include "../Quantity/ToQuantity.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Components/IOComponents.hpp"
+#include "../Components/ParseComponents.hpp"
 #include "../Components/Interfaces.hpp"
 #include "../Common/Configuration.hpp"
 #include "../File/Info.hpp"
