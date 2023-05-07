@@ -21,6 +21,8 @@
 #include "../String/String_.hpp"
 #include "../CSV/KeyIndex.hpp"
 #include "../Common/Configuration.hpp"
+#include "../Components/ParseComponents.hpp"
+#include "../Components/Interfaces.hpp"
 
 #ifndef ACCOUNT_HPP
 #define ACCOUNT_HPP
@@ -48,6 +50,7 @@ namespace Bank
 		using AccountContainerType = AccountContainer<TransferType>;
 		using QuantityType = Quantity<Sum,Pure>;
 		using InputIterator = std::vector<std::string>::const_iterator;
+		using ParseType = ParseImpl<Type>;
 		using KeyIndexType = CSV::KeyIndex<KeyType,uint>;
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;
 		using KeyIndexContainerPtrType = std::unique_ptr<KeyIndexContainerType>;
@@ -106,6 +109,7 @@ namespace Bank
 		inline static constexpr BIC bic = Derived::Type::Bic;
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 		inline static std::unique_ptr<FS::FileInfo> keyFileInfo = std::make_unique<FS::FileInfo>(std::filesystem::path( std::string(Configuration::Repository::SourcePath) + "/" + std::string(Derived::name) + ".keys"));
+		//inline static std::unique_ptr<IParse> iParse = std::make_unique<ParseType>();
 		//~ decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
 		decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		
