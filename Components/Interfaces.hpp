@@ -28,3 +28,11 @@ class IIO: public IIn, public IOut
 public:
 	virtual ~IIO(){};
 };
+
+class IParse
+{
+public:
+	using Iterator = std::vector<std::string>::const_iterator;
+	virtual void operator()(Iterator begin, Iterator end) = 0;
+	virtual ~IParse(){};
+};
