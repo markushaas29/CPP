@@ -50,7 +50,7 @@ namespace Bank
 		using AccountContainerType = AccountContainer<TransferType>;
 		using QuantityType = Quantity<Sum,Pure>;
 		using InputIterator = std::vector<std::string>::const_iterator;
-		using ParseType = ParseImpl<Type>;
+		using ParseType = ParseImpl<Derived>;
 		using KeyIndexType = CSV::KeyIndex<KeyType,uint>;
 		using KeyIndexContainerType = CSV::KeyIndexContainer<Derived, std::string,uint>;
 		using KeyIndexContainerPtrType = std::unique_ptr<KeyIndexContainerType>;
@@ -109,51 +109,11 @@ namespace Bank
 		inline static constexpr BIC bic = Derived::Type::Bic;
 		inline static constexpr uint TransferItemsCount = std::tuple_size_v<TransferItems>;
 		inline static std::unique_ptr<FS::FileInfo> keyFileInfo = std::make_unique<FS::FileInfo>(std::filesystem::path( std::string(Configuration::Repository::SourcePath) + "/" + std::string(Derived::name) + ".keys"));
-		//inline static std::unique_ptr<IParse> iParse = std::make_unique<ParseType>();
+		inline static std::unique_ptr<IParse> iParse = std::make_unique<ParseType>();
 		//~ decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<TransferType>>(Derived::cont[IBAN("DE97500500000003200029")]->All()); }
 		decltype(auto) Get(const std::string& s) { return std::make_unique<FS::AccountValue<IBAN>>(); }
 		
-		void Parse(InputIterator begin, InputIterator end)
-		{
-			if(TransferItemContainerType::Instance().Empty())
-			{
-	 			Logger::Log<Error>()<<Derived::name<<" parsing not possible, no keys!"<<std::endl;
-				return;
-			}
-			
-			if(begin != end)
-			{
-				for(auto it = begin;it != end; ++it)
-				{
-					auto values = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(*it));
-					
-						//~ Logger::Log("CHECK:\n\t",*it);
-					if(TransferItemContainerType::Instance().Check(values))
-					{
-						uint valueCount = values.size();
-						Logger::Log("Updatet Keys from Line:\n\t",*it);
-										
-						++it;		
-						for(;it != end; ++it)
-						{
-							auto values = String_::Split<CSVSeparator>(String_::Remove<String_::CR>(*it));
-							if(valueCount != values.size())
-							{
-					 			Logger::Log<Error>(Derived::name,": Not enough values to create a transfer in line",*it);
-					 			continue;
-							}
-							auto tt = TransferItemContainerType::Instance().template CreateTransfer<TransferType>(values.cbegin(),values.end());
-							Derived::cont.Insert(Bank::GetTransfer<KeyType>(*tt).Value(), tt);
-						}
-						
-						return;
-					}
-				}
-			}
-
-			return;
-		}
-		
+		void Parse(InputIterator begin, InputIterator end) { (*iParse)(begin,end); }
 		void ReadKeyPatterns(InputIterator begin, InputIterator end){ TransferItemContainerType::Instance().UpdateKeyIndices(begin,end); }
 		bool Update(InputIterator begin, InputIterator end) { Logger::Log("Update in"); return true; }
 	};

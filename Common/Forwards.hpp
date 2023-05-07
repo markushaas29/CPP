@@ -2,5 +2,8 @@
 
 
 template<typename> class Counter;
-template<typename>	class Account;
-
+namespace Bank
+{
+	template<typename>	class Account;
+	template<typename>	class Raiffeisenbank;
+}

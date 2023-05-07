@@ -2,6 +2,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Common/Forwards.hpp"
+#include "../File/Transfer.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "Interfaces.hpp"
@@ -10,6 +11,9 @@
 
 #pragma once
 template<typename T> class ParseImpl : public IParse {};
+{
+	 void operator()(Iterator begin, Iterator end){   }
+}
 
 template<typename C>
 class ParseImpl<Counter<C>> : public IParse
@@ -43,9 +47,9 @@ private:
 };
 
 template<typename D>
-class ParseImpl<Account<D>> : public IParse
+class ParseImpl<Bank::Raiffeisenbank<D>> : public IParse
 {
-	using T = Account<D>;
+	using T = Bank::Raiffeisenbank<D>;
 public:
 	using Type = ParseImpl<T>;
 	inline static constexpr const char* Identifier = "Parse";
@@ -86,7 +90,7 @@ private:
 				 			continue;
 						}
 						auto tt = T::TransferItemContainerType::Instance().template CreateTransfer<typename T::TransferType>(values.cbegin(),values.end());
-						//D::cont.Insert(Bank::GetTransfer<T::KeyType>(*tt).Value(), tt);
+						D::cont.Insert(Bank::GetTransfer<T::KeyType>(*tt).Value(), tt);
 					}
 						
 					return;
