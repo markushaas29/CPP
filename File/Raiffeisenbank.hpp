@@ -45,6 +45,7 @@ namespace Bank
 		}
 	private:
 		friend class Account<Raiffeisenbank<Type>>;
+		friend class Base::ParseType;
 		friend class Analyzer<Base,int>;
 		Raiffeisenbank()	{ 	};
 		~Raiffeisenbank()	{ /*Logger::Log()<<"Destructor"<<std::endl;*/ }

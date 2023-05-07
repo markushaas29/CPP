@@ -36,7 +36,7 @@ namespace CSV
 	
 	template<typename T, typename ResultT = typename T::ResultValueType> decltype(auto) Get();
 	
-	using CommonParsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Comdirect<Configuration::Comdirect>, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
+	using CommonParsers = Typelist<Bank::Raiffeisenbank<Configuration::Raiffeisenbank::House>, CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW, Bank::Raiffeisenbank<Configuration::Raiffeisenbank::Private>, StageContainerType>::Type;
 	using CounterParsers = Typelist<CEHouse, CEHall,CVat,CG1,CWA,CWO,CWOut, CBCW,CBHW, CMCW,CMHW,CTCW,CTHW>::Type;
 
 	

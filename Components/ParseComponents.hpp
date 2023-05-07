@@ -10,10 +10,10 @@
 #include <memory>
 
 #pragma once
-template<typename T> class ParseImpl : public IParse {};
+template<typename T> class ParseImpl : public IParse //{};
 {
 	 void operator()(Iterator begin, Iterator end){   }
-}
+};
 
 template<typename C>
 class ParseImpl<Counter<C>> : public IParse
@@ -66,7 +66,7 @@ private:
 	{
 		if(T::TransferItemContainerType::Instance().Empty())
 		{
-			Logger::Log<Error>()<<D::name<<" parsing not possible, no keys!"<<std::endl;
+			Logger::Log<Error>()<<T::name<<" parsing not possible, no keys!"<<std::endl;
 			return;
 		}
 			
@@ -86,7 +86,7 @@ private:
 						auto values = String_::Split<T::CSVSeparator>(String_::Remove<String_::CR>(*it));
 						if(valueCount != values.size())
 						{
-				 			Logger::Log<Error>(D::name,": Not enough values to create a transfer in line",*it);
+				 			Logger::Log<Error>(T::name,": Not enough values to create a transfer in line",*it);
 				 			continue;
 						}
 						auto tt = T::TransferItemContainerType::Instance().template CreateTransfer<typename T::TransferType>(values.cbegin(),values.end());
