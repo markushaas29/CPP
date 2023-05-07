@@ -27,7 +27,7 @@ int main()
 	
 	auto w3 = W{148};
 
-	std::unique_ptr<IO<int>> io = std::make_unique<IO<int>>(std::make_unique<InputImpl<int>>(), std::make_unique<OutputImpl<int>>());
+	//~ std::unique_ptr<IO<int>> io = std::make_unique<IO<int>>(std::make_unique<InputImpl<int>>(), std::make_unique<OutputImpl<int>>());
 	std::cout<<CG1::Identifier;
 	using Rep = CSV::Repository<CSV::CounterRepositoryConfiguration>;
  	Rep::Instance();

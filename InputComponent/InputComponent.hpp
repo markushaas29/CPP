@@ -19,6 +19,7 @@ class IOutput
 {
 public:
 	virtual std::ostream& operator()(std::ostream& i) = 0;
+	virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> of) = 0;
 	virtual ~IOutput(){};
 };
 
@@ -68,6 +69,7 @@ public:
 	inline static constexpr const char* Identifier = "Output";
 	
 	virtual std::ostream& operator()(std::ostream& o)	{	return display(o);	};
+	virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> of) { return write(std::move(of)); }
 	OutputImpl()	{ 	Logger::Log<Info>()<<"OutputImpl initialized "<<std::endl; 	};
 	~OutputImpl()	{ }
 	OutputImpl& operator=(const OutputImpl&) = delete;
@@ -85,6 +87,16 @@ private:
           
     	return out;
 	}
+
+	std::unique_ptr<std::ofstream> write(std::unique_ptr<std::ofstream> of)
+    {
+    	(*of)<<T::Name<<":"<<";;"<<T::Config::Unit::Sign()<<";"<<T::MeterType::Name<<";";
+        if(T::readings->CBegin() != T::readings->CEnd())
+            (*of)<<*(*(T::readings->CEnd() - 1));
+        (*of)<<std::endl;
+         
+        return of;
+    }
 };
 
 template<typename T>
@@ -93,6 +105,7 @@ class IO : public IIO
 public:
 	virtual std::istream& operator()(std::istream& i)	{		return (*in)(i);	};
 	virtual std::ostream& operator()(std::ostream& o)	{		return (*out)(o);	};
+	virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> of) { return (*out)(std::move(of)); }
 	IO(std::unique_ptr<IInput> i, std::unique_ptr<IOutput> o): in{std::move(i)}, out{std::move(o)}	{ 	Logger::Log<Info>("IO initialized ");	};
 	~IO()	{ }
 	IO& operator=(const IO&) = delete;
