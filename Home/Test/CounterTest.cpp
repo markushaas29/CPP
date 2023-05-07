@@ -5,7 +5,7 @@
 #include "../Reading.hpp"
 #include "../Counter.hpp"
 #include "../../Common/Analyzer.hpp"
-#include "../../Components/Components.hpp"
+#include "../../Components/IOComponents.hpp"
 #include "../CounterConfiguration.hpp"
 #include "../CounterContainer.hpp"
 using namespace ShortNames;
