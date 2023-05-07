@@ -6,7 +6,7 @@
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/ToQuantity.hpp"
 #include "../CSV/Elements.hpp"
-#include "../InputComponent/InputComponent.hpp"
+#include "../Components/Components.hpp"
 #include "../Common/Configuration.hpp"
 #include "../File/Info.hpp"
 #include "../File/Node.hpp"
