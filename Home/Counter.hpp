@@ -41,6 +41,7 @@ public:
 	using ResultValueType = FS::CounterValue<DataType>;
 	using InType = InImpl<Counter<Config>>;
 	using OutType = OutImpl<Counter<Config>>;
+	using ParseType = ParseImpl<Counter<Config>>;
 	using IOType = IO<Counter<Config>>;
 	using ReadingContainerType = ReadingContainer<DataType>;
 	using Type = MeterType;
@@ -153,6 +154,7 @@ private:
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(std::string(Configuration::Repository::SourcePath) + "/" + std::string(name) )));
 	inline static std::unique_ptr<FS::CSV> csv = std::make_unique<FS::CSV>(std::move(fileInfo));
 	inline static std::unique_ptr<IOType> io = std::make_unique<IOType>(std::make_unique<InType>(), std::make_unique<OutType>());
+	inline static std::unique_ptr<IParse> iParse = std::make_unique<ParseType>();
 	
 	template<typename Iterator>
 	static DataType createReading(Iterator cbegin, Iterator cend)
