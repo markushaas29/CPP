@@ -144,15 +144,7 @@ private:
 		Logger::Log<Info>("Reading added",Name, *reading);
 	}
 	
-	std::unique_ptr<std::ofstream> input(std::unique_ptr<std::ofstream> of)
-	{
-		(*of)<<Name<<":"<<";;"<<Config::Unit::Sign()<<";"<<MeterType::Name<<";";
-		if(readings->CBegin() != readings->CEnd())
-			(*of)<<*(*(readings->CEnd() - 1));
-		(*of)<<std::endl;
-		
-		return of;
-	}
+	std::unique_ptr<std::ofstream> write(std::unique_ptr<std::ofstream> of)	{	return (*io)(std::move(of));	}
 	
 	inline static const char* Name = Config::CounterName.c_str();	
 	inline static std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>> readings = std::unique_ptr<ReadingContainerType, DebugDeleter<ReadingContainerType>>(new ReadingContainerType(),DebugDeleter<ReadingContainerType>());
