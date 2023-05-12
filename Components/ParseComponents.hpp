@@ -74,7 +74,7 @@ private:
 		{
 			for(auto it = begin;it != end; ++it)
 			{
-				auto values = String_::Split<T::CSVSeparator>(String_::Remove<String_::CR>(*it));
+				auto values = String_::Split<typename T::CSVSeparator>(String_::Remove<String_::CR>(*it));
 				if(T::TransferItemContainerType::Instance().Check(values))
 				{
 					uint valueCount = values.size();
@@ -83,14 +83,14 @@ private:
 					++it;		
 					for(;it != end; ++it)
 					{
-						auto values = String_::Split<T::CSVSeparator>(String_::Remove<String_::CR>(*it));
+						auto values = String_::Split<typename T::CSVSeparator>(String_::Remove<String_::CR>(*it));
 						if(valueCount != values.size())
 						{
 				 			Logger::Log<Error>(T::name,": Not enough values to create a transfer in line",*it);
 				 			continue;
 						}
 						auto tt = T::TransferItemContainerType::Instance().template CreateTransfer<typename T::TransferType>(values.cbegin(),values.end());
-						D::cont.Insert(Bank::GetTransfer<T::KeyType>(*tt).Value(), tt);
+						T::cont->Insert(Bank::GetTransfer<typename T::KeyType>(*tt).Value(), tt);
 					}
 						
 					return;

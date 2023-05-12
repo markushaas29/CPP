@@ -36,7 +36,7 @@ namespace Bank
 		inline static T::Is_<IsOutTransferSign> IsOutTransfer;
 		inline static constexpr const char* Filename = "Umsaetze_DE19660623660009232702";
 				
-		static std::ostream& Display(std::ostream& os)	{	return cont.Display(os);	}	
+		static std::ostream& Display(std::ostream& os)	{	return cont->Display(os);	}	
 
 		static Raiffeisenbank& Instance()
 		{
@@ -55,7 +55,7 @@ namespace Bank
 		template<typename A, typename T> friend decltype(auto) Get(const T& t);
 		template <typename A, typename... FilterTypes> friend decltype(auto) GetTransfersOf(FilterTypes... filters);
 				
-		inline static Base::AccountContainerType cont = typename Base::AccountContainerType();
+		inline static std::unique_ptr<typename Base::AccountContainerType> cont = std::make_unique<typename Base::AccountContainerType>();
 		inline static String_::Parser parser = String_::Parser();
 		inline static constexpr const char* const name = "Raiba";
 		

@@ -32,10 +32,10 @@ namespace fs = std::filesystem;
 namespace Bank
 {
 	template<typename A, typename T>
-	decltype(auto) Get(const T& t){	return A::cont[t];	};
+	decltype(auto) Get(const T& t){	return (*A::cont)[t];	};
 	
 	template <typename A, typename... FilterTypes>
-	decltype(auto) GetTransfersOf(FilterTypes... filters){ return A::cont.GetTransfersOf(filters...);	};
+	decltype(auto) GetTransfersOf(FilterTypes... filters){ return A::cont->GetTransfersOf(filters...);	};
 	
 	template<typename Derived>
 	class Account
