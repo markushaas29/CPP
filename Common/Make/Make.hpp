@@ -1,8 +1,18 @@
 #include <sstream>
 #include "../../Logger/Logger.hpp"
+#include "../../String/To/To.hpp"
 #include "../../Wrapper/Wrapper.hpp"
 
 #pragma once
+
+template<typename Target=std::string>
+decltype(auto) TryMake(std::istream& arg)
+{
+	Target result;
+	if(!(arg >> result) || !(arg >> std::ws).eof())
+		return String_::ParseResult<Target>();
+	return String_::ParseResult<Target>(result);
+}
 
 template<typename Target>
 Target Make(std::string arg)
@@ -25,17 +35,8 @@ Target Make(std::string arg)
 template<typename Target>
 Target Make(std::istream& is)
 {
-//	if constexpr (std::is_same_v<Target,double> && std::is_same_v<Source,std::string>)
-//	{
-//		Logger::Log("String_::ParseTo: comma by point in ", arg);
-//		std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
-//	}
-//	
-//	auto result = TryTo<Target,Source>(arg);
-//
-//	if(!result.Valid)
-//		throw std::runtime_error("to<>() failed");
-//	return result;
-	std::cout<<"istream"<<std::endl;
-	return Target{};
+	auto result = TryMake<Target>(is);
+	if(!result.Valid)
+		throw std::runtime_error("Make() failed");
+	return result;
 }
