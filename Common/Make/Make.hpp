@@ -22,8 +22,7 @@ decltype(auto) Make(std::istream& is)
 		throw std::runtime_error("Make() failed");
 	return result;
 }
-
-//template<>
+//
 //decltype(auto) TryMake<DateTimes::Date>(std::istream& arg)
 //{
 //	using Target = DateTimes::Date;

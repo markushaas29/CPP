@@ -17,7 +17,7 @@ int main()
 	std::cout<<"END"<<std::endl;
     
 	std::istringstream isd("12 12 2011");
-	auto id = Make<DateTimes::Date>(isd);
-	std::cout<<id<<std::endl;
+//	auto id = Make<DateTimes::Date>(isd);
+	//std::cout<<id<<std::endl;
 	return 0;
 }
