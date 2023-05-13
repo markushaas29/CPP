@@ -19,7 +19,7 @@ decltype(auto) TryTo(std::string arg)
 	
 	if(!(buf << arg) )
 		return ParseResult<Target>();
-	auto result = Make<Target>(buf);
+	auto result = TryMake<Target>(buf);
 	if(!result)
 		return ParseResult<Target>();
 	return result;

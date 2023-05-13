@@ -6,7 +6,6 @@
 #include "Element.hpp"
 #include "Elements.hpp"
 #include "../Logger/Logger.hpp"
-#include "../String/To/To.hpp"
 
 #ifndef KEYINDEX_H
 #define KEYINDEX_H
