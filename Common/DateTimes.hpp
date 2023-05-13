@@ -2,6 +2,7 @@
 #include <ratio>
 #include <chrono>
 #include <ctime>
+#include <string>
 #include <tuple>
 #include <charconv>
 #include <array>
@@ -31,7 +32,7 @@ namespace DateTimes
 		constexpr Derived Prev() const { return T{value - 1}; };
 		static constexpr Derived Get(uint i) { return Derived{i};}
 		static constexpr Derived Get(int i) { return Derived((uint)i);}
-		std::string ToString() const { return String_::ParseTo(value); };
+		std::string ToString() const { return std::to_string(value); };
 		constexpr uint Value() const { return value; }
 		constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
 		{

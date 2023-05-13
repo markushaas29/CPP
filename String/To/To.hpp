@@ -1,6 +1,7 @@
 #include <sstream>
 #include "../../Logger/Logger.hpp"
 #include "../../Common/ParseResult.hpp"
+#include "../../Common/Make/Make.hpp"
 #include "../../Wrapper/Wrapper.hpp"
 
 #pragma once
@@ -11,28 +12,30 @@ namespace String_
 using Comma = T::char_<','>;
 using Point = T::char_<'.'>;
 
-template<typename Target=std::string, typename Source=std::string>
-decltype(auto) TryTo(Source arg)
+template<typename Target=std::string>
+decltype(auto) TryTo(std::string arg)
 {
 	std::stringstream buf;
-	Target result;
 	
-	if(!(buf << arg) || !(buf >> result) || !(buf >> std::ws).eof())
+	if(!(buf << arg) )
 		return ParseResult<Target>();
-	return ParseResult<Target>(result);
+	auto result = Make<Target>(buf);
+	if(!result)
+		return ParseResult<Target>();
+	return result;
 }
 
 	
-template<typename Target=std::string, typename Source=std::string>
-Target ParseTo(Source arg)
+template<typename Target=std::string>
+Target ParseTo(std::string arg)
 {
-	if constexpr (std::is_same_v<Target,double> && std::is_same_v<Source,std::string>)
+	if constexpr (std::is_same_v<Target,double>)
 	{
 		Logger::Log("String_::ParseTo: comma by point in ", arg);
 		std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
 	}
 	
-	auto result = TryTo<Target,Source>(arg);
+	auto result = TryTo<Target>(arg);
 
 	if(!result.Valid)
 		throw std::runtime_error("to<>() failed");

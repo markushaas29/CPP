@@ -10,7 +10,6 @@ int main()
 	std::string arg = "1,3";
 	std::istringstream is("12");
 
-	Make<double>(arg);
 	auto i12 = Make<double>(is);
 	std::cout<<i12<<std::endl;
 	assert(i12.Value==12.0);

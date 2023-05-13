@@ -2,6 +2,7 @@
 #include <limits>
 #include <stdexcept>
 #include <exception>
+#include <string>
 #include "Element.hpp"
 #include "Elements.hpp"
 #include "../Logger/Logger.hpp"
@@ -22,7 +23,7 @@ namespace CSV
 		public:
 			inline static constexpr const char* Identifier = "Index";
 			using ValueType = T;
-			explicit Index(ValueType v): Index{v,String_::ParseTo(v).c_str()}{};
+			explicit Index(ValueType v): Index{v,std::to_string(v).c_str()}{};
 			explicit Index(int v): Index{(T)v}{};
 			constexpr Index(ValueType v, const char* c): value{v}, Base{c}, valid{v != max}{};
 			constexpr Index(): value{max}, Base{""}, valid{false}{};
