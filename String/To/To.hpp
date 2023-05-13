@@ -1,5 +1,6 @@
 #include <sstream>
 #include "../../Logger/Logger.hpp"
+#include "../../Common/ParseResult.hpp"
 #include "../../Wrapper/Wrapper.hpp"
 
 #pragma once
@@ -9,23 +10,6 @@ namespace String_
 
 using Comma = T::char_<','>;
 using Point = T::char_<'.'>;
-
-template<typename Target=std::string>
-struct ParseResult
-{
-	ParseResult(Target t): Valid{true}, Value{t} {};
-	ParseResult(bool v = false): Valid{v}, Value{} {};
-	Target Value;
-	bool Valid;
-	operator Target () { return Value; }
-	operator bool () { return Valid; }
-	
-	std::ostream& Display(std::ostream& out) const	{	return out<<"Valid: "<<Valid<<"\t Value:"<<Value; }
-};
-
-
-template<typename T>
-std::ostream& operator<<(std::ostream& strm, const ParseResult<T>& p){	return p.Display(strm);}
 
 template<typename Target=std::string, typename Source=std::string>
 decltype(auto) TryTo(Source arg)
