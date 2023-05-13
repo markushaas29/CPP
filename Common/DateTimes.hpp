@@ -7,6 +7,7 @@
 #include <charconv>
 #include <array>
 #include "../CSV/Element.hpp"
+#include "Make/Make.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../String/String_.hpp"
@@ -268,6 +269,25 @@ template<typename T, typename TC>
 std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){	return out<<s.Value();	}
 
 std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return d.Display(out);	}
+
+template<>
+decltype(auto) TryMake<DateTimes::Date>(std::istream& arg)
+{
+	using Target = DateTimes::Date;
+	auto result = DateTimes::Date::Create(arg);
+	if(!result.Valid())
+		return ParseResult<Target>();
+	return ParseResult<Target>(result);
+}
+
+template<>
+decltype(auto) Make<DateTimes::Date>(std::istream& is)
+{
+	auto result = TryMake<DateTimes::Date>(is);
+	if(!result.Valid)
+		throw std::runtime_error("Make() failed");
+	return result;
+}
 
 namespace Parsers
 {	
