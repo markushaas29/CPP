@@ -5,6 +5,7 @@
 #include "../Unit/Unit.hpp"
 #include "../Logger/Logger.hpp"
 #include "../String/StringParser.hpp"
+#include "../Common/Make/Make.hpp"
 #include "../String/String_.hpp"
 
 #ifndef QUANTITY_H
@@ -114,6 +115,33 @@ private:
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
 
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
+	}
+};
+
+template<typename U, typename QR,typename T1>
+class TryMake<Quantity<U,QR,T1>>
+{
+public:
+	decltype(auto) operator()(std::istream& arg)
+	{
+		using Target = Quantity<U,QR,T1>;
+		auto result = Target::Create(arg);
+//		if(!result.Valid())
+//			return ParseResult<Target>();
+		return ParseResult<Target>(result);
+	}
+};
+
+template<typename U, typename QR,typename T1>
+class Make<Quantity<U,QR,T1>>
+{
+public:
+	decltype(auto) operator()(std::istream& is)
+	{
+		auto result = TryMake<Quantity<U,QR,T1>>(is);
+		if(!result.Valid)
+			throw std::runtime_error("Make() failed");
+		return result;
 	}
 };
 

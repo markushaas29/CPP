@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
+#include "To.hpp"
+#include "../../Common/DateTimes.hpp"
+#include "../../Quantity/Quantity.hpp"
 #include "../../Logger/Logger.hpp"
 #include "../../Common/ParseResult.hpp"
-#include "To.hpp"
 using namespace String_;
+using namespace DateTimes;
 
 int main()
 {       
@@ -17,18 +20,24 @@ int main()
 	std::cout<<"1,3_"<<ParseTo<double>("1,3")<<" "<<std::endl;
 	std::cout<<"1,4_"<<ParseTo<double>("1,4")<<" "<<std::endl;
 
-//	std::cout<<"\"\"""_"<<TryTo<double>("")<<" "<<std::endl;
-//	std::cout<<"1.2_"<<TryTo<double,char>(1.2)<<" "<<std::endl;
-//	if(!TryTo<double,char>(1.2))
-//		std::cout<<"1.2_TryTo<double,char>(1.2) false "<<std::endl;
-//	std::cout<<"1.2_"<<ParseTo<double,char>(1.2)<<" "<<std::endl;
-
 	assert(TryTo<double>("1.123"));
 	assert(TryTo<uint>("123"));
 	assert(!TryTo<uint>("s"));
 	assert(!TryTo<uint>(""));
 
-	std::cout<<"END"<<std::endl;
+	std::string ds1{"24 12 2022"};
+	assert(TryTo<Date>(ds1));
+
+	std::string ds2{"32 12 2022"};
+	auto d2 = TryTo<Date>(ds2);
+	
+	std::cout<<d2<<" "<<std::endl;
+	assert(!d2);
+
+	using QL = Quantity<Length,Kilo>;
+	std::string dq1{"32"};
+	auto ql = TryTo<QL>(ds2);
+	std::cout<<ql<<std::endl;
     
 	return 0;
 }

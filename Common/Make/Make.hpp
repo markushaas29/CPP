@@ -4,39 +4,39 @@
 #include "../../Wrapper/Wrapper.hpp"
 
 #pragma once
-
-template<typename Target=std::string>
-decltype(auto) TryMake(std::istream& arg)
+template<typename D, typename T>
+struct MakeBase
 {
-	Target result;
-	if(!(arg >> result) || !(arg >> std::ws).eof())
-		return ParseResult<Target>();
-	return ParseResult<Target>(result);
-}
+	using Target = T;
+	using Type = D;
+	using ResultType = ParseResult<T>;
 
-template<typename Target>
-decltype(auto) Make(std::istream& is)
+};
+
+template<typename T=std::string>
+class TryMake: public MakeBase<TryMake<T>,T>
 {
-	auto result = TryMake<Target>(is);
-	if(!result.Valid)
-		throw std::runtime_error("Make() failed");
-	return result;
-}
-//
-//decltype(auto) TryMake<DateTimes::Date>(std::istream& arg)
-//{
-//	using Target = DateTimes::Date;
-//	auto result = DateTimes::Date::Create(arg);
-//	if(!result.Valid())
-//		return ParseResult<Target>();
-//	return ParseResult<Target>(result);
-//}
-//
-//template<>
-//decltype(auto) Make<DateTimes::Date>(std::istream& is)
-//{
-//	auto result = TryMake<DateTimes::Date>(is);
-//	if(!result.Valid)
-//		throw std::runtime_error("Make() failed");
-//	return result;
-//}
+	using Base = MakeBase<TryMake<T>,T>;
+public:
+	decltype(auto) operator()(std::istream& arg)
+	{
+		typename Base::Target result{};
+		if(!(arg >> result) || !(arg >> std::ws).eof())
+			return typename Base::ResultType();
+		return typename Base::ResultType(result);
+	}
+};
+
+template<typename T>
+class Make: public MakeBase<Make<T>,T>
+{
+public:
+	decltype(auto) operator()(std::istream& is)
+	{
+		auto m = TryMake<T>();
+		auto result = m(is);
+		if(!result.Valid)
+			throw std::runtime_error("Make() failed");
+		return result;
+	}
+};

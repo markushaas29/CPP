@@ -19,9 +19,8 @@ decltype(auto) TryTo(std::string arg)
 	
 	if(!(buf << arg) )
 		return ParseResult<Target>();
-	auto result = TryMake<Target>(buf);
-	if(!result)
-		return ParseResult<Target>();
+	auto tm = TryMake<Target>();
+	auto result = tm(buf);
 	return result;
 }
 
@@ -36,7 +35,6 @@ Target ParseTo(std::string arg)
 	}
 	
 	auto result = TryTo<Target>(arg);
-
 	if(!result.Valid)
 		throw std::runtime_error("to<>() failed");
 	return result;
