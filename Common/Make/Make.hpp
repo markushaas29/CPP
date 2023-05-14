@@ -9,26 +9,25 @@ struct MakeBase
 {
 	using Target = T;
 	using Type = D;
-	using ResultType = ParseResult<T>;
+	using ResultType = ParseResult<Target>;
 
 };
 
 template<typename T=std::string>
-class TryMake: public MakeBase<TryMake<T>,T>
+class TryMake
 {
-	using Base = MakeBase<TryMake<T>,T>;
 public:
 	decltype(auto) operator()(std::istream& arg)
 	{
-		typename Base::Target result{};
+		T result;
 		if(!(arg >> result) || !(arg >> std::ws).eof())
-			return typename Base::ResultType();
-		return typename Base::ResultType(result);
+			return ParseResult<T>();
+		return ParseResult<T>(result);
 	}
 };
 
 template<typename T>
-class Make: public MakeBase<Make<T>,T>
+class Make
 {
 public:
 	decltype(auto) operator()(std::istream& is)
