@@ -130,7 +130,7 @@ namespace DateTimes
 		inline static constexpr const char* Identifier = "Date";
 						
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
-		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y): 
+		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y, const char* t = nullptr): 
 			valid{d.Valid() && m.Valid() && y.Valid()},
 			Element(std::array<char,512> {}), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(d,m,y)},
@@ -179,7 +179,6 @@ namespace DateTimes
 		}
 
 		constexpr bool Valid() const noexcept { return valid && ymd.ok(); };
-
 		constexpr explicit operator Day() { return std::get<DateTimes::Day>(tt); } 
 		constexpr explicit operator Month() { return std::get<DateTimes::Month>(tt); } 
 		constexpr explicit operator Year() { return std::get<DateTimes::Year>(tt); } 
