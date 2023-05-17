@@ -65,6 +65,7 @@ int main()
 	auto d3 = DateTimes::Date("5.3.2020");
 	auto d4 = DateTimes::Date("28.2.2020");
 	
+	std::cout<<"Value "<<d3.Value()<<std::endl;
 	std::cout<<"Days "<<(d3 - d1)<<std::endl;
 	assert((d3 - d1).Value()==730);
 	std::cout<<"Days "<<(d4 - d3)<<std::endl;

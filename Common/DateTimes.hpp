@@ -129,14 +129,14 @@ namespace DateTimes
 		using Type = DateTimes::Date;
 		inline static constexpr const char* Identifier = "Date";
 						
-		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
-		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y, const char* t = nullptr): 
+		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y, const char* t = ""): 
 			valid{d.Valid() && m.Valid() && y.Valid()},
-			Element(std::array<char,512> {}), 
+			Element(t), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(d,m,y)},
 			ymd{y,m, d}{	}; 
-		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}, ymd{std::get<DateTimes::Year>(tt), std::get<DateTimes::Month>(tt), std::get<DateTimes::Day>(tt) }{    };
-		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
+		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
+		constexpr Date(const char* e, const TupleType& t): Date(std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value(), e) { };
+		Date(const std::string& s): Date{s.c_str(), extract(s) }{    };
 		Date* DoCreate(){return this;};
 		
 		static Date Today()
@@ -300,7 +300,7 @@ namespace Parsers
 	template<>
 	struct Parser<std::string, DateTimes::Date,std::string>
 	{
-		static DateTimes::Date Parse(std::string s) { return DateTimes::Date(s, DateTimes::Date::extract(s)); }
+		static DateTimes::Date Parse(std::string s) { return DateTimes::Date(s); }
 	};
 }
 
