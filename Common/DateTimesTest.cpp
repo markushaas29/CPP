@@ -127,7 +127,16 @@ int main()
 	assert(!dyi.Valid());
 	assert(!mi.Valid());
 	assert(!yi.Valid());
-	
+
+	auto dated45 = DateTimes::Date{dyi,m2,y2024};
+	auto datem16 = DateTimes::Date{d29,mi,y2024};
+	auto datey600 = DateTimes::Date{dy5,m2,yi};
+	assert(!dated45.Valid());
+	assert(!datem16.Valid());
+	assert(!datey600.Valid());
+
+	std::cout<<dated45<<std::endl;
+
 	auto today = DateTimes::Date::Today();
 	//auto tq = ToQuantity<DateTimes::Year>(std::cin, (DateTimes::Year)today);
 

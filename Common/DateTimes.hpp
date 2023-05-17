@@ -118,24 +118,25 @@ namespace DateTimes
 	{
 		using Base = Element<Date>;
 		friend class Element<Date>;
+		friend decltype(auto) operator<=>(const DateTimes::Date& d1, const DateTimes::Date& d2) noexcept { return d1.ymd <=> d2.ymd; }; 
 		template<typename ItemT> friend const ItemT& Get(Date const& t);
 		template<typename, typename, typename>	friend class Parsers::Parser;
 	public:
 		using DayType = DateTimes::Day;
-        	using MonthType = DateTimes::Month;
-        	using YearType = DateTimes::Year;
+        using MonthType = DateTimes::Month;
+        using YearType = DateTimes::Year;
 		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
 		using Type = DateTimes::Date;
 		inline static constexpr const char* Identifier = "Date";
 						
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
 		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y): 
+			valid{d.Valid() && m.Valid() && y.Valid()},
 			Element(std::array<char,512> {}), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(d,m,y)},
 			ymd{y,m, d}{	}; 
 		Date(std::string s, uint d = 0, uint m = 0, uint y = 0): Element{s.c_str()}, tt{extract(s)}, ymd{std::get<DateTimes::Year>(tt), std::get<DateTimes::Month>(tt), std::get<DateTimes::Day>(tt) }{    };
 		Date(const std::string& s, const TupleType& t): Date(s.c_str(),  std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value() ) { };
-		//Date(): Date("", 0,0, 0) { };
 		Date* DoCreate(){return this;};
 		
 		static Date Today()
@@ -149,7 +150,7 @@ namespace DateTimes
 		{
 			auto dt = Today();
 			os<<Identifier<<dt<<std::endl;
-dt.Display(os);
+			dt.Display(os);
 			return Create(is);
 		};
 
@@ -177,7 +178,7 @@ dt.Display(os);
 			return ts;
 		}
 
-		constexpr bool Valid() const noexcept { return ymd.ok(); };
+		constexpr bool Valid() const noexcept { return valid && ymd.ok(); };
 
 		constexpr explicit operator Day() { return std::get<DateTimes::Day>(tt); } 
 		constexpr explicit operator Month() { return std::get<DateTimes::Month>(tt); } 
@@ -194,11 +195,12 @@ dt.Display(os);
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
 		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
 	private:
+		bool valid = false;
 		TupleType tt;
 		const std::chrono::year_month_day ymd;
 		TP tp;
 		String_::ParserFrom<uint> converter;
-		friend decltype(auto) operator<=>(const DateTimes::Date& d1, const DateTimes::Date& d2) noexcept { return d1.ymd <=> d2.ymd; }; 
+		
 		static TupleType extract(const std::string& s)
 		{
 			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
@@ -271,7 +273,9 @@ std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>&
 std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return d.Display(out);	}
 
 template<>
-decltype(auto) TryMake<DateTimes::Date>(std::istream& arg)
+struct TryMake<DateTimes::Date>
+{
+decltype(auto) operator()(std::istream& arg)
 {
 	using Target = DateTimes::Date;
 	auto result = DateTimes::Date::Create(arg);
@@ -279,16 +283,19 @@ decltype(auto) TryMake<DateTimes::Date>(std::istream& arg)
 		return ParseResult<Target>();
 	return ParseResult<Target>(result);
 }
-
+};
 template<>
-decltype(auto) Make<DateTimes::Date>(std::istream& is)
+struct Make<DateTimes::Date>
 {
-	auto result = TryMake<DateTimes::Date>(is);
+decltype(auto) operator()(std::istream& is)
+{
+	auto tm = TryMake<DateTimes::Date>();
+	auto result = tm(is);
 	if(!result.Valid)
 		throw std::runtime_error("Make() failed");
 	return result;
 }
-
+};
 namespace Parsers
 {	
 	template<>
