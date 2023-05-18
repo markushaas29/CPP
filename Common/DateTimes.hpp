@@ -136,6 +136,7 @@ namespace DateTimes
 			ymd{y,m, d}{	}; 
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
 		constexpr Date(const char* e, const TupleType& t): Date(std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value(), e) { };
+		Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, tt{d.tt}, tp{d.tp}, converter{d.converter}  { };
 		Date(const std::string& s): Date{s.c_str(), extract(s) }{    };
 		Date* DoCreate(){return this;};
 		

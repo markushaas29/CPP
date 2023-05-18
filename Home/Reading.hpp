@@ -24,13 +24,17 @@ public:
 	
 	template<typename Separator = T::char_<';'>>
 	std::ostream& Display(std::ostream& out) const	{ return out<<date<<Separator::Value<<value.Value()<<Separator::Value<<QuantityType::QuantityRatioType::Sign<<U::Sign();	}
-	Reading(QuantityType val, DateType d): date(d), value(val)	{}
+	Reading(QuantityType val, DateType d): date(d), value(val)	{  }
 	Reading(): date{1,1,2000}, value{0}{};
 	
 	static decltype(auto) Create(const std::string& d, const std::string& v)
 	{
-		std::istringstream is(d + " " + v);	
-		return std::make_shared<Type>(Create(is));
+		std::istringstream is(d);	
+		std::istringstream iv(v);	
+		auto q = ToQuantity<QuantityType>(iv);
+		auto dt = DateType{d}; 
+		std::cout<<"PC"<<dt<<q<<std::endl;
+		return std::make_shared<Type>(Type{ q, dt});
 	}
 
 	static decltype(auto) Create(std::istream& is) 
