@@ -11,6 +11,7 @@ int main()
 	using W = RW::QuantityType;
 	
 	auto w = W{123};
+	auto wp = W{123.456};
 	auto w2 = W{124};
 	auto w3 = W{148};
 	auto e = Q{2};
@@ -72,12 +73,25 @@ int main()
 	assert(rw3<rw4);
     	auto cc = c * c;
 
-	std::istringstream is(std::string("1 1 2022") + " " + std::string("123"));
+	std::istringstream is(std::string("1 2 2003") + " " + std::string("123"));
 	auto in = RW::Create(is);
-	std::cout<<in<<std::endl;
+	assert(in.Value()==w);
+	assert(in.Date()==dt);
+	
+	std::istringstream isp2(std::string("1 2 2003") + " " + std::string("123.456"));
+	auto inp2 = RW::Create(isp2);
+    std::cout<<"inp2 "<<inp2<<std::endl;
+	assert(inp2.Value()==wp);
+	assert(inp2.Date()==dt);
+	std::cout<<inp2<<std::endl;
+
+	std::istringstream isp(std::string("1.2.2003") + " " + std::string("123.456"));
+	auto inp = RW::Create(isp);
+    std::cout<<"inp "<<inp<<std::endl;
+	assert(inp.Value()==wp);
+	assert(inp.Date()==dt);
 	assert(std::cin);
-    //~ std::cout<<"Cons "<<cc.Get()<<std::endl;
-    
+   	std::cout<<in<<std::endl;
 	
     return 0;
 }
