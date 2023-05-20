@@ -8,7 +8,8 @@ int main()
 {       
     std::cout<<"START"<<std::endl;
 		
-	Is<CompileTime>()(2 == 3);
+	Is<CompileTime,3==3>()(2 == 3);
+	//Is<CompileTime,2==3>()(2 == 3);
 	Is<Logging>()(2 == 3);
 	Is<Logging>()(3 == 3);
 	Is<Throwing>()(2 == 3);
