@@ -4,26 +4,26 @@
 
 #pragma once
 
-template<typename T> class Is;
+template<typename T, bool B> class Is;
 class CompileTime 
 {
-	template<typename T> friend class Is;
+	template<typename T, bool B> friend class Is;
 	constexpr static void exec(const char* m)	{	; }
 };
 class Ignore {};
 class Throwing 
 {
-	template<typename T> friend class Is;
+	template<typename T, bool B> friend class Is;
 	static void exec(const std::string& m)	{	throw m; }
 };
 class Termiating 
 {
-	template<typename T> friend class Is;
+	template<typename T, bool B> friend class Is;
 	static void exec(const std::string& m)	{	throw m; }
 };
 class Logging 
 {
-	template<typename T> friend class Is;
+	template<typename T, bool B> friend class Is;
 	static void exec(const std::string& m)	{	throw m; }
 };
 
@@ -44,11 +44,11 @@ private:
 	const char*  message;
 };
 
-template<typename T>
+template<typename T, bool B = true>
 class Is: public IsBase<Is<T>> 
 {
 	using Policy = T; 
-	using Base = IsBase<Is<T>>;
+	using Base = IsBase<Is<T,true>>;
 public:
 	Is(const std::string& m = ""): Base{m.c_str()} {}
 	bool operator()(bool c)
@@ -58,15 +58,15 @@ public:
 	}
 };
 
-template<>
-class Is<CompileTime>: public IsBase<Is<CompileTime>>
+template<bool B>
+class Is<CompileTime, B>: public IsBase<Is<CompileTime,B>>
 {
 	using Base = IsBase<Is<CompileTime>>;
 public:
 	constexpr Is(const char* m = ""): Base{m} {}
 	constexpr bool operator()(bool con)
 	{
-		CompileTime::exec(c());
+		static_assert(B);
 		return con;
 	}
 };
