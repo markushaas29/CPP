@@ -8,7 +8,7 @@ template<typename T> class Is;
 class CompileTime 
 {
 	template<typename T> friend class Is;
-	static void exec(const std::string& m)	{	throw m; }
+	constexpr static void exec(const char* m)	{	; }
 };
 class Ignore {};
 class Throwing 
@@ -32,22 +32,25 @@ template<typename D>
 class IsBase 
 {
 public:
-	bool operator()(bool c)
-	{
-		return c;
-	}
+//	bool operator()(bool c)
+//	{
+//		return c;
+//	}
 protected:
-	IsBase(const std::string& m): message{m} {}
+	constexpr IsBase(const char* m): message{m} {}
+	const std::string ToString() { return std::string{message}; };
+	constexpr const char* c() { return message; };
 private:
-	const std::string message;
+	const char*  message;
 };
 
 template<typename T>
 class Is: public IsBase<Is<T>> 
 {
+	using Policy = T; 
 	using Base = IsBase<Is<T>>;
 public:
-	Is(const std::string& m = ""): Base{m} {}
+	Is(const std::string& m = ""): Base{m.c_str()} {}
 	bool operator()(bool c)
 	{
 		return c;
@@ -59,10 +62,11 @@ class Is<CompileTime>: public IsBase<Is<CompileTime>>
 {
 	using Base = IsBase<Is<CompileTime>>;
 public:
-	Is(const std::string& m = ""): Base{m} {}
-	constexpr bool operator()(bool c)
+	constexpr Is(const char* m = ""): Base{m} {}
+	constexpr bool operator()(bool con)
 	{
-		return c;
+		CompileTime::exec(c());
+		return con;
 	}
 };
 
