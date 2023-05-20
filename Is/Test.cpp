@@ -10,8 +10,8 @@ int main()
 		
 	Is<CompileTime>()(2 == 3);
 	Is<Logging>()(2 == 3);
-	Is<Logging,Throwing>()(3 == 3);
-	Is<Logging,Throwing>()(2 == 3);
+	Is<Logging>()(3 == 3);
+	Is<Throwing>()(2 == 3);
 	//Is<int>()(2 == 3);
 		
 	std::cout<<"END"<<std::endl;
