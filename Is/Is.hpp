@@ -53,6 +53,7 @@ public:
 	Is(const std::string& m = ""): Base{m.c_str()} {}
 	bool operator()(bool c)
 	{
+		Policy::exec(Base::ToString());
 		return c;
 	}
 };
