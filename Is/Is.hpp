@@ -1,3 +1,5 @@
+#include<cassert> 
+#include<iostream> 
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 //~ #include <source_location>
@@ -20,7 +22,7 @@ class Throwing
 		throw m; 
 	}
 };
-class Termiating 
+class Terminating 
 {
 	template<typename T, bool B> friend class Is;
 	static void exec(const std::string& m)	{	std::terminate(); }
@@ -57,7 +59,8 @@ public:
 	Is(const std::string& m = ""): Base{m.c_str()} {}
 	bool operator()(bool c)
 	{
-		Policy::exec(Base::ToString());
+		if(!c)
+			Policy::exec(Base::ToString());
 		return c;
 	}
 };

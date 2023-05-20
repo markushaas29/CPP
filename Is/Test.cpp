@@ -16,10 +16,13 @@ int main()
 	il(2 == 3);
 	il(3 == 3);
 	auto it = Is<Throwing>(s);
-	it(2 == 3);
+	//it(2 == 3);
+	it(3 == 3);
+	auto itt = Is<Terminating>(s);
+	itt(3==3);
 	//Is<int>()(2 == 3);
-		
 	std::cout<<"END"<<std::endl;
 
+	//assert(2>3);	
     return 0;
 }
