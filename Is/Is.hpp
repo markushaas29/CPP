@@ -14,17 +14,21 @@ class Ignore {};
 class Throwing 
 {
 	template<typename T, bool B> friend class Is;
-	static void exec(const std::string& m)	{	throw m; }
+	static void exec(const std::string& m)	
+	{
+		Logger::Log<Error>(m);
+		throw m; 
+	}
 };
 class Termiating 
 {
 	template<typename T, bool B> friend class Is;
-	static void exec(const std::string& m)	{	throw m; }
+	static void exec(const std::string& m)	{	std::terminate(); }
 };
 class Logging 
 {
 	template<typename T, bool B> friend class Is;
-	static void exec(const std::string& m)	{	throw m; }
+	static void exec(const std::string& m)	{	Logger::Log<Info>(m); }
 };
 
 
