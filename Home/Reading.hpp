@@ -29,12 +29,8 @@ public:
 	
 	static decltype(auto) Create(const std::string& d, const std::string& v)
 	{
-		std::istringstream is(d);	
-		std::istringstream iv(v);	
-		auto q = ToQuantity<QuantityType>(iv);
-		auto dt = DateType{d}; 
-		std::cout<<"PC"<<dt<<q<<std::endl;
-		return std::make_shared<Type>(Type{ q, dt});
+		std::istringstream is(d + " " + v);     
+        return std::make_shared<Type>(Create(is));
 	}
 
 	static decltype(auto) Create(std::istream& is) 

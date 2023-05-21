@@ -149,6 +149,26 @@ int main()
 	assert(tq1.Value()==12);
 	assert(tq2.Value()==12);
 	assert(tq3.Value()==1999);
+    
+    std::istringstream isp("12.12.1999");
+	auto cp = DateTimes::Date::Create(isp);
+	
+	std::cout<<"\n"<<cp<<std::endl;
+	auto mcd = Get<DateTimes::Month>(cp);
+	assert(12==mcd);
+	auto ycd = Get<DateTimes::Year>(cp);
+	assert(1999==ycd);
+	
+    std::istringstream ise("11 11 1998");
+	auto ce = DateTimes::Date::Create(ise);
+	
+	std::cout<<"\n"<<ce<<std::endl;
+	auto mce = Get<DateTimes::Month>(ce);
+	assert(11==mce);
+	auto yce = Get<DateTimes::Year>(ce);
+	assert(1998==yce);
+	std::cout<<"\nISP"""<<std::endl;
+	
 
 	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<" "<<tq3<<std::endl;
 	DateTimes::Day::Create(is,std::cout);

@@ -73,6 +73,12 @@ int main()
 	assert(rw3<rw4);
     	auto cc = c * c;
 
+	std::istringstream isp(std::string("1.2.2003") + " " + std::string("123.456"));
+	auto inp = RW::Create(isp);
+    std::cout<<"inp "<<inp<<std::endl;
+	assert(inp.Value()==wp);
+	assert(inp.Date()==dt);
+	
 	std::istringstream is(std::string("1 2 2003") + " " + std::string("123"));
 	auto in = RW::Create(is);
 	assert(in.Value()==w);
@@ -85,11 +91,6 @@ int main()
 	assert(inp2.Date()==dt);
 	std::cout<<inp2<<std::endl;
 
-	std::istringstream isp(std::string("1.2.2003") + " " + std::string("123.456"));
-	auto inp = RW::Create(isp);
-    std::cout<<"inp "<<inp<<std::endl;
-	assert(inp.Value()==wp);
-	assert(inp.Date()==dt);
 	assert(std::cin);
    	std::cout<<in<<std::endl;
 	

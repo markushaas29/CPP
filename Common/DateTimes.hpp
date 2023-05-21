@@ -157,11 +157,10 @@ namespace DateTimes
 
 		static Type Create(std::istream& is)
 		{
-			DayType::ValueType d = DateTimes::Day::Create(is);
-			MonthType::ValueType m = DateTimes::Month::Create(is);
-			YearType::ValueType y = DateTimes::Year::Create(is);
+			std::string d;
+			is>>d;
 			
-			return Type{d,m,y};
+			return Type{d};
 		}
 		
 
@@ -204,6 +203,10 @@ namespace DateTimes
 		static TupleType extract(const std::string& s)
 		{
 			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
+			auto is = std::find_if(s.cbegin(),s.cend(),[](auto c){ return isspace(c); });
+			//~ std::cout<<"BYVAL:"<<*it<<"END"<<std::endl;
+			//~ if(is != s.cend())
+				//~ return extractBySeparation(s,' ');
 			if(it != s.cend())
 				return extractBySeparation(s,*it);
 			else
