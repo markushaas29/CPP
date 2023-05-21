@@ -2,20 +2,21 @@
 #include<iostream> 
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
+#include "../String/Literal.hpp"
 //~ #include <source_location>
 
 #pragma once
 
-template<typename T, bool B> class Is;
+template<typename T, Literal L, bool B> class Is;
 class CompileTime 
 {
-	template<typename T, bool B> friend class Is;
+	template<typename T, Literal L, bool B> friend class Is;
 	constexpr static void exec(const char* m)	{	; }
 };
 class Ignore {};
 class Asserting 
 {
-	template<typename T, bool B> friend class Is;
+	template<typename T, Literal L, bool B> friend class Is;
 	static void exec(const std::string& m)	
 	{	
 		Logger::Log<Info>(m);
@@ -24,7 +25,7 @@ class Asserting
 };
 class Throwing 
 {
-	template<typename T, bool B> friend class Is;
+	template<typename T, Literal L, bool B> friend class Is;
 	static void exec(const std::string& m)	
 	{
 		Logger::Log<Error>(m);
@@ -33,12 +34,12 @@ class Throwing
 };
 class Terminating 
 {
-	template<typename T, bool B> friend class Is;
+	template<typename T, Literal L, bool B> friend class Is;
 	static void exec(const std::string& m)	{	std::terminate(); }
 };
 class Logging 
 {
-	template<typename T, bool B> friend class Is;
+	template<typename T, Literal L, bool B> friend class Is;
 	static void exec(const std::string& m)	{	Logger::Log<Info>(m); }
 };
 
@@ -59,25 +60,27 @@ private:
 	const char*  message;
 };
 
-template<typename T, bool B = true>
-class Is: public IsBase<Is<T>> 
+template<typename T, Literal L = "", bool B = true>
+class Is: public IsBase<Is<T,L,B>> 
 {
 	using Policy = T; 
-	using Base = IsBase<Is<T,true>>;
+	using Base = IsBase<Is<T,L,B>>;
 public:
 	Is(const std::string& m = ""): Base{m.c_str()} {}
 	bool operator()(bool c)
 	{
 		if(!c)
-			Policy::exec(Base::ToString());
+			Policy::exec( Base::ToString());
 		return c;
 	}
+private:
+	const std::string literal{L.Value()};
 };
 
-template<bool B>
-class Is<CompileTime, B>: public IsBase<Is<CompileTime,B>>
+template<Literal L, bool B>
+class Is<CompileTime, L,B>: public IsBase<Is<CompileTime,L,B>>
 {
-	using Base = IsBase<Is<CompileTime>>;
+	using Base = IsBase<Is<CompileTime,L,B>>;
 public:
 	constexpr Is(const char* m = ""): Base{m} {}
 	constexpr bool operator()(bool con)

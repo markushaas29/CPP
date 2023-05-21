@@ -13,12 +13,13 @@ struct I
 int main()
 {       
     std::cout<<"START"<<std::endl;
-	I<"Test"> i;	
-	Is<CompileTime,3==3>()(2 == 3);
+	I<"Test"> i;
+	constexpr Literal L{"Main"};
+	Is<CompileTime, L,3==3>()(2 == 3);
 	//Is<CompileTime,2==3>()(2 == 3);
 	
 	auto s = "2==3";
-	auto il = Is<Logging>(s);
+	auto il = Is<Logging,L>(s);
 	il(2 == 3);
 	il(3 == 3);
 
