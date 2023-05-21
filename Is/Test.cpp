@@ -13,7 +13,7 @@ struct I
 int main()
 {       
     std::cout<<"START"<<std::endl;
-	I<"Test"> i();	
+	I<"Test"> i;	
 	Is<CompileTime,3==3>()(2 == 3);
 	//Is<CompileTime,2==3>()(2 == 3);
 	
@@ -21,6 +21,11 @@ int main()
 	auto il = Is<Logging>(s);
 	il(2 == 3);
 	il(3 == 3);
+
+	auto ia = Is<Asserting>(s);
+	ia(2 == 3);
+	ia(3 == 3);
+
 	auto it = Is<Throwing>(s);
 	//it(2 == 3);
 	it(3 == 3);

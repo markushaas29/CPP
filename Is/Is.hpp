@@ -13,6 +13,15 @@ class CompileTime
 	constexpr static void exec(const char* m)	{	; }
 };
 class Ignore {};
+class Asserting 
+{
+	template<typename T, bool B> friend class Is;
+	static void exec(const std::string& m)	
+	{	
+		Logger::Log<Info>(m);
+		assert(false); 
+	}
+};
 class Throwing 
 {
 	template<typename T, bool B> friend class Is;
@@ -77,46 +86,3 @@ public:
 		return con;
 	}
 };
-
-//template<>
-//class Is<Logging> 
-//{
-//public:
-//	bool operator()(bool c)
-//	{
-//		Logger::Log("Is false");
-//		return c;
-//	}
-//};
-//
-//template<>
-//class Is<Logging, Throwing> 
-//{
-//public:
-//	bool operator()(bool c)
-//	{
-//		Logger::Log("Is false");
-//		if(!c)
-//			throw "Test";
-//		return c;
-//	}
-//};
-//constexpr bool expect(C cond, const std::string& message)
-//{
-//	if constexpr(action == ErrorAction::Logging)
-//	{
-//		if(!cond)
-//		{
-//			Logger::Log<LogLevel>(message);
-//			return false;
-//		}
-//		return true;
-//	}
-//	if constexpr(action == ErrorAction::Throwing)
-//	{	
-//		if(!cond)
-//			throw "Test";
-//		return true;
-//	}	
-//}
-
