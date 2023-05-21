@@ -2,12 +2,18 @@
 #include <typeinfo>
 #include <typeindex>
 #include "Is.hpp"
+#include "../String/Literal.hpp"
 
+template<Literal L>
+struct I
+{
+	I() {  }
+};
 
 int main()
 {       
     std::cout<<"START"<<std::endl;
-		
+	I<"Test"> i();	
 	Is<CompileTime,3==3>()(2 == 3);
 	//Is<CompileTime,2==3>()(2 == 3);
 	

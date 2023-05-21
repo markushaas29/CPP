@@ -1,8 +1,9 @@
-CXX      = g++
+CXX      = g++-11
 CXXC      = clang
 OBJECTS = *.o
-CXXFLAGS  = -c -D NDEBUG -std=c++2a
-DEBUGFLAGS  = -c -std=c++17 -NDEBUG
+CXXFLAGS  = -c -std=c++23
+NFLAGS  = -c -D NDEBUG -std=c++23
+DEBUGFLAGS  = -c -g -std=c++17
 
 SRCDIR := src
 OBJDIR := obj
@@ -14,12 +15,12 @@ Release: $(OBJECTS)
 Debug: $(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) 
 
-%.o: 	%.hpp %.cpp %.h
-	$(CXX) $(DEBUGFLAGS) $<
+NDebug: $(OBJECTS)
+	$(CXX) -o $@ $(OBJECTS) 
+
+%.o: %.cpp %.h %.hpp
+	$(CXX) $(NFLAGS) $<
 
 clean:
 	rm *.o test
-
-
-
 
