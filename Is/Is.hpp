@@ -70,7 +70,7 @@ public:
 	bool operator()(bool c)
 	{
 		if(!c)
-			Policy::exec( Base::ToString());
+			Policy::exec( literal + Base::ToString());
 		return c;
 	}
 private:
