@@ -1,4 +1,5 @@
 #include<cassert> 
+#include<array> 
 #include<iostream> 
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
@@ -49,25 +50,25 @@ class Logging
 };
 
 
-template<typename D>
+template<typename D, size_t N>
 class IsBase 
 {
 public:
 protected:
-	constexpr IsBase(const char* m, const char* l): message{m}, literal{l} {}
+	constexpr IsBase(const char* m, std::array<char,N> l): message{m}, literal{l} {}
 	const std::string ToString() { return std::string(literal) + " > " + std::string{message}; };
 	constexpr const char* mes() { return message; };
-	constexpr const char* lit() { return literal; };
+	constexpr auto lit() { return literal; };
 private:
-	const char* literal;
+	std::array<char,N> literal;
 	const char*  message;
 };
 
 template<typename T, Literal L = "", bool B = true>
-class Is: public IsBase<Is<T,L,B>> 
+class Is: public IsBase<Is<T,L,B>, L.Size> 
 {
-	using Policy = T; 
-	using Base = IsBase<Is<T,L,B>>;
+	using Policy = T;
+	using Base = IsBase<Is<T,L,B>, L.Size>;
 public:
 	Is(const std::string& m = ""): Base{m.c_str(), L.Value()} {}
 	bool operator()(bool c)
@@ -76,13 +77,14 @@ public:
 			Policy::exec( Base::ToString());
 		return c;
 	}
+	static constexpr std::size_t N = L.Size;
 private:
 };
 
 template<Literal L, bool B>
-class Is<CompileTime, L,B>: public IsBase<Is<CompileTime,L,B>>
+class Is<CompileTime, L,B>: public IsBase<Is<CompileTime,L,B>, L.Size>
 {
-	using Base = IsBase<Is<CompileTime,L,B>>;
+	using Base = IsBase<Is<CompileTime,L,B>, L.Size>;
 public:
 	constexpr Is(const char* m = ""): Base{m, L.Value()} {}
 	constexpr bool operator()(bool con)
