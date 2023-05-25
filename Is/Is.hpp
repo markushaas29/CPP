@@ -50,27 +50,29 @@ class Logging
 };
 
 
-template<typename D, size_t N>
+template<typename D, Literal L>
 class IsBase 
 {
 public:
+	constexpr auto Arr() { return literal; };
 protected:
-	constexpr IsBase(const char* m, std::array<char,N> l): message{m}, literal{l} {}
-	const std::string ToString() { return std::string(literal) + " > " + std::string{message}; };
+	constexpr IsBase(const char* m, Literal<L.Size> l): message{m}, literal{l} {}
+	const std::string ToString() { return std::string(literal.value.cbegin(), literal.value.cend()) + " > " + std::string{message}; };
 	constexpr const char* mes() { return message; };
 	constexpr auto lit() { return literal; };
+	friend std::ostream& operator<<(std::ostream& s, const IsBase& i) { return s<<i.literal;  }  
 private:
-	std::array<char,N> literal;
+	Literal<L.Size> literal;
 	const char*  message;
 };
 
 template<typename T, Literal L = "", bool B = true>
-class Is: public IsBase<Is<T,L,B>, L.Size> 
+class Is: public IsBase<Is<T,L,B>, L> 
 {
 	using Policy = T;
-	using Base = IsBase<Is<T,L,B>, L.Size>;
+	using Base = IsBase<Is<T,L,B>, L>;
 public:
-	Is(const std::string& m = ""): Base{m.c_str(), L.Value()} {}
+	Is(const std::string& m = ""): Base{m.c_str(), L} {}
 	bool operator()(bool c)
 	{
 		if(!c)
@@ -82,11 +84,11 @@ private:
 };
 
 template<Literal L, bool B>
-class Is<CompileTime, L,B>: public IsBase<Is<CompileTime,L,B>, L.Size>
+class Is<CompileTime, L,B>: public IsBase<Is<CompileTime,L,B>, L>
 {
-	using Base = IsBase<Is<CompileTime,L,B>, L.Size>;
+	using Base = IsBase<Is<CompileTime,L,B>, L>;
 public:
-	constexpr Is(const char* m = ""): Base{m, L.Value()} {}
+	constexpr Is(const char* m = ""): Base{m, L} {}
 	constexpr bool operator()(bool con)
 	{
 		static_assert(B);

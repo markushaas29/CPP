@@ -25,6 +25,10 @@ int main()
 	il(3 == 3);
 
 	auto il2 = Is<Logging,L2>(s);
+	using IL2 = Is<Logging,L2>;
+	std::cout<<"Size: "<<IL2::N<<std::endl;
+	std::cout<<"Lit: "<<L<<std::endl;
+	std::cout<<"Il2: "<<il2<<std::endl;
 	il2(2 == 3);
 	il2(3 == 3);
 	
