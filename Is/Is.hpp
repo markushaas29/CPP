@@ -57,7 +57,7 @@ public:
 	constexpr auto Arr() { return literal; };
 protected:
 	constexpr IsBase(const char* m, Literal<L.Size> l): message{m}, literal{l} {}
-	const std::string ToString() { return std::string(literal.value.cbegin(), literal.value.cend()) + " > " + std::string{message}; };
+	const std::string ToString() { return std::string(literal.Value.cbegin(), literal.Value.cend()) + " > " + std::string{message}; };
 	constexpr const char* mes() { return message; };
 	constexpr auto lit() { return literal; };
 	friend std::ostream& operator<<(std::ostream& s, const IsBase& i) { return s<<i.literal;  }  

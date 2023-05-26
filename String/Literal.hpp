@@ -12,14 +12,13 @@ struct Literal
 	constexpr Literal(const char(&s)[N]) 
 	{
 		for(int i= 0; i<N; ++i)
-			value[i] = s[i];
+			Value[i] = s[i];
 	}
 	static constexpr std::size_t Size = N;
-	decltype(auto) Value() const { return value; }
-	std::array<char,N> value;
+	std::array<char,N> Value;
 	friend std::ostream& operator<<(std::ostream& s, const Literal& l) 
 	{ 
-		std::copy(l.value.cbegin(), l.value.cend(), std::ostream_iterator<char>(s, ""));
+		std::copy(l.Value.cbegin(), l.Value.cend(), std::ostream_iterator<char>(s, ""));
     	return s;
 	}
 };
