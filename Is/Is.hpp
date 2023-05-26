@@ -54,12 +54,11 @@ template<typename D, Literal L>
 class IsBase 
 {
 public:
-	constexpr auto Arr() { return literal; };
+	constexpr auto Lit() { return literal; };
+	constexpr const char* Message() { return message; };
 protected:
 	constexpr IsBase(const char* m, Literal<L.Size> l): message{m}, literal{l} {}
 	const std::string ToString() { return std::string(literal.Value.cbegin(), literal.Value.cend()) + " > " + std::string{message}; };
-	constexpr const char* mes() { return message; };
-	constexpr auto lit() { return literal; };
 	friend std::ostream& operator<<(std::ostream& s, const IsBase& i) { return s<<i.literal;  }  
 private:
 	Literal<L.Size> literal;
