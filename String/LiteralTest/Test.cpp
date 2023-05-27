@@ -7,8 +7,10 @@ int main()
 {       
     std::cout<<"START"<<std::endl;
 	constexpr Literal L{"Main"};
-	//constexpr Literal L2{"2ain"};
+	constexpr const char C[] ="Main2";
+	constexpr Literal L2{C};
 	std::cout<<L<<std::endl;
+	std::cout<<L2<<std::endl;
 	std::cout<<L.Ptr()<<std::endl;
 
 	const auto P = L.Ptr();

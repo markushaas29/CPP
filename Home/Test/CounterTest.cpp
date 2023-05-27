@@ -2,6 +2,8 @@
 #include "../../File/Repository.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Unit/Unit.hpp"
+#include "../../Is/Is.hpp"
+#include "../../String/Literal.hpp"
 #include "../Reading.hpp"
 #include "../Counter.hpp"
 #include "../../Common/Analyzer.hpp"
@@ -32,6 +34,7 @@ int main()
 	auto b = std::is_same<InImpl<int>,T>::value;
 	auto b1 = std::is_same<int,T>::value;
 	std::cout<<CG1::Identifier;
+	auto lit = Literal{CG1::TypeIdentifier};
 	using Rep = CSV::Repository<CSV::CounterRepositoryConfiguration>;
  	Rep::Instance();
 

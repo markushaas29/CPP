@@ -7,15 +7,31 @@
 #pragma once
 
 template< auto N>
+constexpr decltype(auto) ToArray(const char(&s)[N])
+{
+	std::array<char,N> value;
+	for(int i= 0; i<N; ++i)
+		value[i] = s[i];
+
+	return value;
+}
+
+constexpr std::size_t Len(const char * a)
+	{
+		const char* end = a;
+		while(*end) ++end;
+		return end - a;
+	}
+
+template< auto N>
 struct Literal 
 {
-	constexpr Literal(const char(&s)[N]) 
+	constexpr Literal(const char(&s)[N]): Value{ToArray(s)}
 	{
-		for(int i= 0; i<N; ++i)
-			Value[i] = s[i];
 	}
 	static constexpr std::size_t Size = N;
-	std::array<char,N> Value;
+	const std::array<char,N> Value;
+	constexpr decltype(auto) Ptr() const { return Value.data(); };
 	friend std::ostream& operator<<(std::ostream& s, const Literal& l) 
 	{ 
 		std::copy(l.Value.cbegin(), l.Value.cend(), std::ostream_iterator<char>(s, ""));
@@ -24,3 +40,4 @@ struct Literal
 };
 
 template<std::size_t N> Literal(const char(&)[N]) -> Literal<N>;
+//template<std::size_t N> Literal(const char* s) -> Literal<Len(s)>;
