@@ -1,6 +1,6 @@
 #include<cassert> 
-#include<cassert> 
 #include<array> 
+#include "../Common/ArrayHelper.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 
@@ -40,4 +40,3 @@ struct Literal
 };
 
 template<std::size_t N> Literal(const char(&)[N]) -> Literal<N>;
-//template<std::size_t N> Literal(const char* s) -> Literal<Len(s)>;
