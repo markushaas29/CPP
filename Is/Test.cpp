@@ -16,6 +16,10 @@ int main()
 	I<"Test"> i;
 	constexpr Literal L{"Main"};
 	constexpr Literal L2{"2ain"};
+	Literal L3{"2ain"};
+
+	//L3.Value[0] = "T";
+
 	Is<CompileTime, L,3==3>()(2 == 3);
 	//Is<CompileTime,2==3>()(2 == 3);
 	
