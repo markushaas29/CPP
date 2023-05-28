@@ -4,6 +4,9 @@
 #include "Matrix_Ref.hpp" 
 #include "Matrix_Slice.hpp" 
 #include "Matrix_Initializer.hpp" 
+#include "Matrix_Impl.hpp" 
+
+#pragma once
 
 template<size_t N, typename T = std::string>
 class Matrix
@@ -28,8 +31,8 @@ public:
 
 	Matrix(MatrixInitializer<T,N> init) 
 	{
-//		descriptor.extents = MatrixImpl::derive_extents(init);
-//		MatrixImpl::compute_strides(descriptor);
+		descriptor.extents = MI::derive_extents(init);
+		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.size);
 	};
 	Matrix& operator=(MatrixInitializer<T,N>) {};
@@ -44,6 +47,7 @@ public:
 	decltype(auto) Data() { return elements.data(); }
 
 private:
+	using MI = MatrixImpl<N>;
 	MatrixSlice<N> descriptor;
 	std::unique_ptr<std::vector<T>> elements;
 };
