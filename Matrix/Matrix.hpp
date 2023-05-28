@@ -21,24 +21,29 @@ public:
 	Matrix& operator=(Matrix&) = default;
 	~Matrix() = default;
 
-	template<typename U> Matrix(const Matrix_Ref<U,N>&);
-	template<typename U> Matrix& operator=(const Matrix_Ref<U,N>&);
+	template<typename U> Matrix(const MatrixRef<U,N>&);
+	template<typename U> Matrix& operator=(const MatrixRef<U,N>&);
 
 	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...}, elements{std::make_unique(descriptor.size())} {};
 
-	Matrix(Matrix_Initializer<T,N>) {};
-	Matrix& operator=(Matrix_Initializer<T,N>) {};
+	Matrix(MatrixInitializer<T,N> init) 
+	{
+//		descriptor.extents = MatrixImpl::derive_extents(init);
+//		MatrixImpl::compute_strides(descriptor);
+		elements->reserve(descriptor.size);
+	};
+	Matrix& operator=(MatrixInitializer<T,N>) {};
 	
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
 	size_t Extent(size_t n) const { return descriptor.extents[n]; }
 	size_t Size() const { return elements.size(); }
-	const Matrix_Slice<N>& Descriptor() const { return descriptor; }
+	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements.data(); }
 
 private:
-	Matrix_Slice<N> descriptor;
+	MatrixSlice<N> descriptor;
 	std::unique_ptr<std::vector<T>> elements;
 };

@@ -1,7 +1,7 @@
 #include <vector>
 
 template<size_t N>
-class MatrixSlice
+class Matrix_Slice
 {
 public:
 private:
