@@ -24,10 +24,10 @@ public:
 	template<typename U> Matrix(const Matrix_Ref<U,N>&);
 	template<typename U> Matrix& operator=(const Matrix_Ref<U,N>&);
 
-	template<typename... Exts> explicit Matrix(Exts... exts);
+	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...}, elements{std::make_unique(descriptor.size())} {};
 
-	Matrix(Matrix_Initializer<T,N>);
-	Matrix& operator=(Matrix_Initializer<T,N>);
+	Matrix(Matrix_Initializer<T,N>) {};
+	Matrix& operator=(Matrix_Initializer<T,N>) {};
 	
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
