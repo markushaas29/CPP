@@ -5,10 +5,11 @@
 #include "Matrix_Slice.hpp" 
 #include "Matrix_Initializer.hpp" 
 #include "Matrix_Impl.hpp" 
+#include "MatrixCell.hpp" 
 
 #pragma once
 
-template<size_t N, typename T = std::string>
+template<size_t N, typename T = MatrixCell>
 class Matrix
 {
 public:
