@@ -6,6 +6,8 @@
 #include "Matrix_Initializer.hpp" 
 #include "Matrix_Impl.hpp" 
 #include "MatrixCell.hpp" 
+#include "../Is/Is.hpp" 
+#include "../String/Literal.hpp" 
 
 #pragma once
 
@@ -14,6 +16,8 @@ class Matrix
 {
 public:
 	static constexpr size_t Order = N;
+	inline static constexpr const char TypeIdentifier[] = "Matrix";
+	inline static constexpr Literal LiteralType{TypeIdentifier};
 	using ValueType = T;
 	using Iterator = typename std::vector<T>::iterator;
 	using ConstIterator = typename std::vector<T>::const_iterator;
@@ -49,6 +53,7 @@ public:
 
 private:
 	using MI = MatrixImpl<N>;
+	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	MatrixSlice<N> descriptor;
 	std::unique_ptr<std::vector<T>> elements;
 };

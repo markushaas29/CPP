@@ -5,7 +5,8 @@ int main()
 {       
 	std::cout<<"START"<<std::endl;
 	
-	Matrix<3> m;
+	using M3 = Matrix<3>;
+	std::cout<<M3::LiteralType<<std::endl;
 
 	std::cout<<"END"<<std::endl;
 
