@@ -1,3 +1,4 @@
+#include <initializer_list>
 #include <array>
 #include "Matrix_Ref.hpp"   
 #include "Matrix_Slice.hpp"   
@@ -49,6 +50,24 @@ private:
 		*first++ = list.size();
 	}
 
+	template<typename T, typename V> 
+	void add_list(const std::initializer_list<T> list, V& v)
+	{
+		add_list(list.begin(),list.end(),v);
+	}
+	
+	template<typename T, typename V> 
+	void add_list(const std::initializer_list<T>* first, const std::initializer_list<T>* last,V& v)
+	{
+		for(;first !=last; ++first)
+			add_list(first->begin(), first->end(),v);
+	}
+
+	template<typename T, typename V> 
+	void add_list(const T* first, const T* last,V& v)
+	{
+		v.insert(v.end(),first,last);
+	}
 
 	template<std::size_t N1,typename List> 
 	bool check_non_jagged(const List list)
