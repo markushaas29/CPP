@@ -42,6 +42,8 @@ public:
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.size);
 		MI::insert_flat(init,elements);
+
+		std::cout<<elements->size()<<(*elements)[2]<<std::endl;
 	};
 	Matrix& operator=(MatrixInitializer<T,N>) {};
 	
@@ -58,5 +60,5 @@ private:
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	MatrixSlice<N> descriptor;
-	std::unique_ptr<std::vector<T>> elements;
+	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
