@@ -11,7 +11,8 @@
 
 #pragma once
 
-template<size_t N, typename T = MatrixCell>
+template<std::size_t N, typename T = int>
+//template<std::size_t N, typename T = MatrixCell>
 class Matrix
 {
 public:
@@ -21,6 +22,7 @@ public:
 	using ValueType = T;
 	using Iterator = typename std::vector<T>::iterator;
 	using ConstIterator = typename std::vector<T>::const_iterator;
+	//template<typename T1, std::size_t N1> using MatrixInitializer = typename MatrixInit<T1,N1>::Type;
 
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
