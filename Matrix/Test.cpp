@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert> 
 #include "Matrix.hpp"
 
 int main()
@@ -19,19 +20,27 @@ int main()
 		{3,4,3,4},
 		{3,4,3,4},
 	};
-	M2 m22 {
-		{1,2,1,2,5},
-		{3,4,3,4,5},
-		{3,4,3,4,5},
+	M2 m35 {
+		{1,2,3,4,5},
+		{6,7,8,9,10},
+		{11,12,13,14,15},
 	};
+	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
+	std::cout<<"Columns: "<<m35.Columns()<<std::endl;
+	std::cout<<"Columns: "<<m35(1,0)<<std::endl;
+	assert(m35(1,0)==6);
+	assert(m35(0,0)==1);
+	assert(m35(2,0)==11);
+	assert(m35(2,4)==15);
 	M3 m3 {
 		{{1,2},{3,4}},
 		{{5,6},{7,8}},
 		{{9,10},{11,12}}
 	};
 
-	m3.Row(1);
+	auto r = m3.Row(1);
 
+	std::cout<<"Row: "<<r<<std::endl;
 	std::cout<<"END"<<std::endl;
 
     return 0;

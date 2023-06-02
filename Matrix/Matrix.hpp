@@ -60,28 +60,33 @@ public:
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
+	decltype(auto) Rows() { return descriptor.extents[0]; }
+	decltype(auto) Columns() { return descriptor.strides[0]; }
+	decltype(auto) operator()(size_t r, size_t c) 
+	{
+		auto i = r * descriptor.strides[0] + c * descriptor.strides[1];
+		return elements->at(i); 
+	}
 	size_t Extent(size_t n) const { return descriptor.extents[n]; }
 	size_t Size() const { return elements.size(); }
 	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
-	decltype(auto) Data() { return elements.data(); }
+	decltype(auto) Data() { return elements->data(); }
 	//template<typename... Args> 
 
 	MatrixRef<N-1,T> operator[](size_t i);// { return Row(i); }
 	MatrixRef<N-1,const T> operator[](size_t i) const;// { return Row(i); }
 	MatrixRef<N-1, T> Row(size_t i)
     {  
-    	assert(i<rows());
+    	assert(i<Rows());
     	MatrixSlice<N-1> row;
     	//MI::slice_dim<0>(i,descriptor,row);
-    	return {row,data()};
+    	return {row,Data()};
     }
 //	MatrixRef<N-1,const T> Row(size_t i) const; //{  }
 //	MatrixRef<N-1,T> Col(size_t i); //{ }
 //	MatrixRef<N-1, const T> Col(size_t i) const; //{  }
 private:
-	decltype(auto) rows() { return descriptor.extents[N-1]; }
-	decltype(auto) data() { return new T{}; }
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	MatrixSlice<N> descriptor;

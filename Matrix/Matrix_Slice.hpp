@@ -31,6 +31,7 @@ public:
 	std::array<std::size_t,N> extents;
 	std::array<std::size_t,N> strides;
 private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixSlice& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 
 template<>
@@ -53,6 +54,7 @@ public:
 	std::array<std::size_t,2> extents;
 	std::array<std::size_t,2> strides;
 private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixSlice& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 
 template<>
@@ -75,4 +77,5 @@ public:
 	std::array<std::size_t,1> extents;
 	std::array<std::size_t,1> strides;
 private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixSlice& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };

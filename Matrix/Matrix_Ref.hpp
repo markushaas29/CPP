@@ -9,6 +9,7 @@ class MatrixRef
 public:
 	MatrixRef(const MatrixSlice<N>& s, T* p): descriptor{s}, ptr{p} {}
 private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixRef& i) { return s<<i.descriptor;  }
 	MatrixSlice<N> descriptor;
 	T* ptr;
 };
