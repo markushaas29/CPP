@@ -1,13 +1,14 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
-#include "Matrix_Ref.hpp" 
-#include "Matrix_Slice.hpp" 
-#include "Matrix_Initializer.hpp" 
-#include "Matrix_Impl.hpp" 
-#include "MatrixCell.hpp" 
-#include "../Is/Is.hpp" 
-#include "../String/Literal.hpp" 
+#include <cassert>
+#include "Matrix_Ref.hpp"
+#include "Matrix_Slice.hpp"
+#include "Matrix_Initializer.hpp"
+#include "Matrix_Impl.hpp"
+#include "MatrixCell.hpp"
+#include "../Is/Is.hpp"
+#include "../String/Literal.hpp"
 
 #pragma once
 
@@ -31,22 +32,31 @@ public:
 	Matrix& operator=(Matrix&) = default;
 	~Matrix() = default;
 
-	template<typename U> Matrix(const MatrixRef<U,N>&);
-	template<typename U> Matrix& operator=(const MatrixRef<U,N>&);
+	template<typename U> Matrix(const MatrixRef<N,U>&);
+	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
 
 	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...}, elements{std::make_unique(descriptor.size())} {};
 
-	Matrix(MatrixInitializer<T,N> init) 
+	Matrix(MatrixInitializer<T,N> init)
 	{
 		descriptor.extents = MI::derive_extents(init);
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.size);
 		MI::insert_flat(init,elements);
-
-		std::cout<<elements->size()<<(*elements)[2]<<std::endl;
+		for(auto i : *elements)
+			std::cout<<i<<"\t";
+		std::cout<<"SIZE: "<<elements->size()<<std::endl;
+		std::cout<<"EX: "<<std::endl;
+		for(auto i : descriptor.extents)
+			std::cout<<i<<"\t";
+		std::cout<<"SIZE: "<<elements->size()<<std::endl;
+		std::cout<<"STrides: "<<std::endl;
+		for(auto i : descriptor.strides)
+			std::cout<<i<<"\t";
+		std::cout<<std::endl;
 	};
 	Matrix& operator=(MatrixInitializer<T,N>) {};
-	
+
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
@@ -55,10 +65,43 @@ public:
 	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements.data(); }
+	//template<typename... Args> 
 
+	MatrixRef<N-1,T> operator[](size_t i);// { return Row(i); }
+	MatrixRef<N-1,const T> operator[](size_t i) const;// { return Row(i); }
+	MatrixRef<N-1, T> Row(size_t i)
+    {  
+    	assert(i<rows());
+    	MatrixSlice<N-1> row;
+    	//MI::slice_dim<0>(i,descriptor,row);
+    	return {row,data()};
+    }
+//	MatrixRef<N-1,const T> Row(size_t i) const; //{  }
+//	MatrixRef<N-1,T> Col(size_t i); //{ }
+//	MatrixRef<N-1, const T> Col(size_t i) const; //{  }
 private:
+	decltype(auto) rows() { return descriptor.extents[N-1]; }
+	decltype(auto) data() { return new T{}; }
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	MatrixSlice<N> descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
+
+//template<typename T>
+//T& Matrix<0,T>::Row(size_t i) = delete;
+//
+//template<typename T>
+//T& Matrix<1,T>::Row(size_t i) 
+//{  
+//	return elements->at(1);
+//}
+//
+//template<typename T, size_t N>
+//MatrixRef<N-1,T> Matrix<N,T>::Row(size_t i) 
+//{  
+//	assert(i<rows());
+//	MatrixSlice<N-1> row;
+//	MatrixImpl<N>::slice_dim<0>(i.descriptor,row);
+//	return {row,data()};
+//}
