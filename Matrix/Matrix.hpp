@@ -12,10 +12,11 @@
 
 #pragma once
 
-template<std::size_t N, typename T = std::shared_ptr<int>>
+template<std::size_t N, typename BT=int>
 //template<std::size_t N, typename T = MatrixCell>
 class Matrix
 {
+	using T = std::shared_ptr<BT>;
 public:
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
