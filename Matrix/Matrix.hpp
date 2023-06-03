@@ -44,7 +44,7 @@ public:
 		elements->reserve(descriptor.size);
 		MI::insert_flat(init,elements);
 		for(auto& i : *elements)
-			std::cout<<i<<"\t";
+			std::cout<<*i<<"\t";
 		std::cout<<"SIZE: "<<elements->size()<<std::endl;
 		std::cout<<"EX: "<<std::endl;
 		for(auto i : descriptor.extents)
