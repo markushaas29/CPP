@@ -105,4 +105,10 @@ private:
 		size_t indexes[N] { size_t(d)... };
 		return equal(indexes,indexes+N, s.extents.begin(), std::less<size_t>{});
 	}
+
+	template<typename... Args>
+	constexpr bool Requesting_element()
+	{
+		return All(std::is_convertible<Args,size_t>{}...);
+	}
 };
