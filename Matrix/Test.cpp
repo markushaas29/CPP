@@ -3,15 +3,24 @@
 #include <memory> 
 #include "Matrix.hpp"
 
-template<typename T>  T& Matrix<0,T>::Row(size_t i) = delete;
-
 int main()
 {
 	std::cout<<"START"<<std::endl;
 
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
+	using M1 = Matrix<1>;
+	using M0 = Matrix<0>;
 	std::cout<<M3::LiteralType<<std::endl;
+	std::cout<<M1::LiteralType<<std::endl;
+	std::cout<<M0::LiteralType<<std::endl;
+
+	M0 m0{std::make_shared<int>(1)};
+	assert(m0.Rows()==0);
+	assert(m0.Cols()==0);
+	assert((*m0())==1);
+
+	M1 m1{};
 
 	M2
 	{
@@ -35,7 +44,7 @@ int main()
 		{std::make_shared<int>(11),std::make_shared<int>(12),std::make_shared<int>(13),std::make_shared<int>(14),std::make_shared<int>(15)},
 	};
 	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
-	std::cout<<"Columns: "<<m35.Columns()<<std::endl;
+	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
 	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
 	assert(*m35(1,0)==6);
 	assert(*m35(0,0)==1);
@@ -49,7 +58,8 @@ int main()
 //
 //	auto r = m3.Row(1);
 //
-	std::cout<<"M\n "<<m35<<std::endl;
+	std::cout<<"M35\n "<<m35<<std::endl;
+	std::cout<<"M0\n "<<m0<<std::endl;
 	std::cout<<"END"<<std::endl;
 
     return 0;
