@@ -101,7 +101,13 @@ private:
 	MatrixSlice<N> descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
-
+template<typename BT>
+//template<std::size_t N, typename T = MatrixCell>
+class Matrix<0,BT>
+{
+	BT& Row(size_t i);
+};
+//
 //template<typename T>
 //T& Matrix<0,T>::Row(size_t i) = delete;
 //

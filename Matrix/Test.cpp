@@ -3,6 +3,8 @@
 #include <memory> 
 #include "Matrix.hpp"
 
+template<typename T>  T& Matrix<0,T>::Row(size_t i) = delete;
+
 int main()
 {
 	std::cout<<"START"<<std::endl;
