@@ -98,4 +98,11 @@ private:
 				return false;
 		return true;
 	}
+
+	template<std::size_t N1,typename... Dims>
+	bool check_bounds(const MatrixSlice<N>& s, Dims... d)
+	{
+		size_t indexes[N] { size_t(d)... };
+		return equal(indexes,indexes+N, s.extents.begin(), std::less<size_t>{});
+	}
 };

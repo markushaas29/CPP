@@ -1,4 +1,5 @@
 #include <vector>
+#include <cassert>
 #include "Matrix_Slice.hpp"
 
 #pragma once
