@@ -47,7 +47,7 @@ int main()
 //
 //	auto r = m3.Row(1);
 //
-//	std::cout<<"Row: "<<r<<std::endl;
+	std::cout<<"M\n "<<m35<<std::endl;
 	std::cout<<"END"<<std::endl;
 
     return 0;

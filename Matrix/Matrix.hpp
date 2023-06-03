@@ -44,26 +44,15 @@ public:
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.size);
 		MI::insert_flat(init,elements);
-		for(auto& i : *elements)
-			std::cout<<*i<<"\t";
-		std::cout<<"SIZE: "<<elements->size()<<std::endl;
-		std::cout<<"EX: "<<std::endl;
-		for(auto i : descriptor.extents)
-			std::cout<<i<<"\t";
-		std::cout<<"SIZE: "<<elements->size()<<std::endl;
-		std::cout<<"STrides: "<<std::endl;
-		for(auto i : descriptor.strides)
-			std::cout<<i<<"\t";
-		std::cout<<std::endl;
 	};
 	Matrix& operator=(MatrixInitializer<T,N>) {};
 
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
-	decltype(auto) Rows() { return descriptor.extents[0]; }
-	decltype(auto) Columns() { return descriptor.strides[0]; }
-	decltype(auto) operator()(size_t r, size_t c) 
+	decltype(auto) Rows() const { return descriptor.extents[0]; }
+	decltype(auto) Columns() const { return descriptor.strides[0]; }
+	decltype(auto) operator() (size_t r, size_t c) const
 	{
 		auto i = r * descriptor.strides[0] + c * descriptor.strides[1];
 		return elements->at(i); 
@@ -88,6 +77,25 @@ public:
 //	MatrixRef<N-1,T> Col(size_t i); //{ }
 //	MatrixRef<N-1, const T> Col(size_t i) const; //{  }
 private:
+	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
+	{
+		s<<"Extents: \n";
+		std::for_each(m.descriptor.extents.cbegin(), m.descriptor.extents.cend(), [&s](const auto& i) { s<<i<<"\t"; });
+		s<<"\nStride: \n";
+		std::for_each(m.descriptor.strides.cbegin(), m.descriptor.strides.cend(), [&s](const auto& i) { s<<i<<"\t"; });
+		s<<"\n{\n";
+		for(auto i = 0; i != m.Rows(); ++i)
+		{
+			for(auto j = 0; j != m.Columns(); ++j)
+			{
+				s<<*m(i,j)<<", ";
+			}
+			//if(i+1!=m.Rows())
+				s<<"\n";
+		}
+		return s<<"}";  
+	}
+
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	MatrixSlice<N> descriptor;

@@ -111,4 +111,10 @@ private:
 	{
 		return All(std::is_convertible<Args,size_t>{}...);
 	}
+	
+//	template<typename... Args>
+//	constexpr bool Requesting_slice()
+//	{
+//		return All((std::is_convertible<Args,size_t>{} || std::is_same<Args, slice>{})...);
+//	}
 };
