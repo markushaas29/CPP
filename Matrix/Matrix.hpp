@@ -12,7 +12,7 @@
 
 #pragma once
 
-template<std::size_t N, typename T = int>
+template<std::size_t N, typename T = std::shared_ptr<int>>
 //template<std::size_t N, typename T = MatrixCell>
 class Matrix
 {
@@ -43,7 +43,7 @@ public:
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.size);
 		MI::insert_flat(init,elements);
-		for(auto i : *elements)
+		for(auto& i : *elements)
 			std::cout<<i<<"\t";
 		std::cout<<"SIZE: "<<elements->size()<<std::endl;
 		std::cout<<"EX: "<<std::endl;
