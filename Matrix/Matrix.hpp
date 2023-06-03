@@ -85,14 +85,18 @@ private:
 		s<<"\n{\n";
 		for(auto i = 0; i != m.Rows(); ++i)
 		{
+			s<<" {";
 			for(auto j = 0; j != m.Cols(); ++j)
 			{
-				s<<*m(i,j)<<", ";
+				s<<*m(i,j);
+				if(j+1!=m.Cols())
+					s<<", ";
 			}
-			//if(i+1!=m.Rows())
-				s<<"\n";
+			s<<"}";
+			if(i+1!=m.Rows())
+				s<<",\n";
 		}
-		return s<<"}";  
+		return s<<"\n}";  
 	}
 
 	using MI = MatrixImpl<N>;
