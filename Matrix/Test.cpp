@@ -50,11 +50,21 @@ int main()
 	assert(*m35(0,0)==1);
 	assert(*m35(2,0)==11);
 	assert(*m35(2,4)==15);
+	M3 m3 {
+		{
+			{std::make_shared<int>(1),std::make_shared<int>(2)},
+			{std::make_shared<int>(3),std::make_shared<int>(4)}
+		},
+		{
+			{std::make_shared<int>(6),std::make_shared<int>(7)},
+			{std::make_shared<int>(8),std::make_shared<int>(9)}},
+	};
 //
 //	auto r = m3.Row(1);
 //
 	std::cout<<"M35\n "<<m35<<std::endl;
 	std::cout<<"M0\n "<<m0<<std::endl;
+	std::cout<<"M0\n "<<*m3(0,0,0)<<std::endl;
 	std::cout<<"END"<<std::endl;
 
     return 0;
