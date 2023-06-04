@@ -50,6 +50,14 @@ private:
 		ms.size = st;
 	}
 
+	template<uint I> 
+	static decltype(auto) computeIndex(const std::array<std::size_t, N> indices, const std::array<std::size_t, N> extents, const std::array<std::size_t, N> strides)
+	{
+		if constexpr (I==N)
+			return 0;
+		else
+			return indices[I] * strides[I] + computeIndex<I+1>(indices,extents,strides);
+	}
 	template<typename T, typename V> 
 	static void insert_flat(std::initializer_list<T> list, V& v)
 	{

@@ -51,9 +51,15 @@ public:
 
 	decltype(auto) Rows() const { return descriptor.extents[0]; }
 	decltype(auto) Cols() const { return descriptor.strides[0]; }
-	decltype(auto) operator() (size_t r, size_t c) const
+	decltype(auto) operator() (auto... I) const
 	{
-		auto i = r * descriptor.strides[0] + c * descriptor.strides[1];
+		auto Dim = sizeof...(I);
+		//static_assert(Dim!=N,"Not");
+		std::array<size_t, sizeof...(I)> indices;
+		std::initializer_list<int> il({I...} );
+    	std::copy (il.begin(), il.end(), indices.begin());
+		auto i = MI::template computeIndex<0>(indices,descriptor.extents,descriptor.strides);
+
 		return elements->at(i); 
 	}
 	size_t Extent(size_t n) const { return descriptor.extents[n]; }
