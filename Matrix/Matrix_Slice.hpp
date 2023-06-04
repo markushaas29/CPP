@@ -16,8 +16,12 @@ public:
 	MatrixSlice() = default;
 	MatrixSlice(std::size_t o, std::initializer_list<size_t> e);
 	MatrixSlice(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);
-	template<typename... Dims>
-		MatrixSlice(Dims... dims);
+	MatrixSlice(auto... dims)
+	{
+          //IsT<Throwing>("Dim != N")(Dim==N);
+       std::initializer_list<int> il({dims...} );
+ 	   std::copy (il.begin(), il.end(), extents.begin());
+	};
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(Dims... dims) const
 	{
@@ -41,8 +45,12 @@ public:
 	MatrixSlice() = default;
 	MatrixSlice(std::size_t o, std::initializer_list<size_t> e);
 	MatrixSlice(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);
-	template<typename... Dims>
-		MatrixSlice(Dims... dims);
+	template<typename... Dims>	MatrixSlice(Dims... dims)
+	{
+          //IsT<Throwing>("Dim != N")(Dim==N);
+       std::initializer_list<int> il({dims...} );
+ 	   std::copy (il.begin(), il.end(), extents.begin());
+	};
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const
 	{

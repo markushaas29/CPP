@@ -35,7 +35,7 @@ public:
 	template<typename U> Matrix(const MatrixRef<N,U>&);
 	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
 
-	//template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...}, elements{std::make_unique<std::>(descriptor.size())} {};
+	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...} { std::cout<<"SLI";};
 	explicit Matrix(MatrixSlice<N> d): descriptor{d}{	std::cout<<"Slice";	};
 
 	Matrix(MatrixInitializer<T,N> init)

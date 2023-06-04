@@ -77,8 +77,11 @@ int main()
 
 	MS2 ms2;
 	M2 m2ms2(ms2);
+	M2 m2I(10,20);
 	//m3(3,1,1);
-	//assert(*m3(3,1,1)==9);
+	auto e0 =m2I.Extent(0);
+	std::cout<<"E"<<e0<<std::endl;
+	assert(e0==10);
 	std::cout<<"END"<<std::endl;
 
     return 0;
