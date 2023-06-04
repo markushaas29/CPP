@@ -53,8 +53,7 @@ public:
 	decltype(auto) Cols() const { return descriptor.strides[0]; }
 	decltype(auto) operator() (auto... I) const
 	{
-		auto i = MI::template computeIndex<0>(descriptor.extents,descriptor.strides, I...);
-
+		auto i = MI::computePosition(descriptor.extents,descriptor.strides, I...);
 		return elements->at(i); 
 	}
 	size_t Extent(size_t n) const { return descriptor.extents[n]; }

@@ -59,16 +59,14 @@ private:
 			return indices[I] * strides[I] + computeIndex<I+1>(indices,extents,strides);
 	}
 	
-	template<uint I> 
-	static decltype(auto) computeIndex(const std::array<std::size_t, N> extents, const std::array<std::size_t, N> strides, auto... Is)
+	static decltype(auto) computePosition(const std::array<std::size_t, N> extents, const std::array<std::size_t, N> strides, auto... Is)
 	{
 		auto Dim = sizeof...(Is);
- 		//static_assert(Dim!=N,"Not");
- 		std::array<size_t, N> indices;
  	    std::initializer_list<int> il({Is...} );
+		std::array<size_t, N> indices;
         std::copy (il.begin(), il.end(), indices.begin());
 		
-		return indices[0] * strides[0] + computeIndex<I+1>(indices,extents,strides);
+		return indices[0] * strides[0] + computeIndex<1>(indices,extents,strides);
 	}
 	template<typename T, typename V> 
 	static void insert_flat(std::initializer_list<T> list, V& v)
