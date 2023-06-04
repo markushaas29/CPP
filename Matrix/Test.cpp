@@ -2,6 +2,7 @@
 #include <cassert> 
 #include <memory> 
 #include "Matrix.hpp"
+#include "Matrix_Slice.hpp"
 
 int main()
 {
@@ -9,6 +10,7 @@ int main()
 
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
+	using MS2 = MatrixSlice<2>;
 	using M1 = Matrix<1>;
 	using M0 = Matrix<0>;
 	std::cout<<M3::LiteralType<<std::endl;
@@ -17,10 +19,14 @@ int main()
 
 	M0 m0{std::make_shared<int>(1)};
 	assert(m0.Rows()==0);
-	assert(m0.Cols()==0);
+	assert(m0.Rows()==0);
 	assert((*m0())==1);
 
-	M1 m1{};
+	M1 m1{		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)}	};
+	std::cout<<"Rows: "<<m1.Rows()<<std::endl;
+	std::cout<<"Columns: "<<m1.Cols()<<std::endl;
+	assert(m1.Rows()==5);
+	assert(m1.Cols()==1);
 
 	M2
 	{
@@ -64,7 +70,15 @@ int main()
 //
 	std::cout<<"M35\n "<<m35<<std::endl;
 	std::cout<<"M0\n "<<m0<<std::endl;
-	std::cout<<"M0\n "<<*m3(0,0,0)<<std::endl;
+	assert(*m3(0,1,1)==4);
+	assert(*m3(1,0,1)==7);
+	assert(*m3(1,1,1)==9);
+
+
+	MS2 ms2;
+	M2 m2ms2(ms2);
+	//m3(3,1,1);
+	//assert(*m3(3,1,1)==9);
 	std::cout<<"END"<<std::endl;
 
     return 0;

@@ -35,7 +35,8 @@ public:
 	template<typename U> Matrix(const MatrixRef<N,U>&);
 	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
 
-	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...}, elements{std::make_unique(descriptor.size())} {};
+	//template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...}, elements{std::make_unique<std::>(descriptor.size())} {};
+	explicit Matrix(MatrixSlice<N> d): descriptor{d}{	std::cout<<"Slice";	};
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
@@ -105,34 +106,34 @@ private:
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
 
-template<typename BT>
-class Matrix<1,BT>
-{
-	using T = std::shared_ptr<BT>;
-public:
-	static constexpr size_t Order = 1;
-	inline static constexpr const char TypeIdentifier[] = "Matrix<1>";
-	inline static constexpr Literal LiteralType{TypeIdentifier};
-	using ValueType = T;
-
-	//Matrix(std::initializer_list<U> l): element{e} {}
-	//Matrix& operator=(const BT& v)
-	//{
-	//	element = v;
-	//	return *this;
-	//}
-
-	T& Row(size_t i) 	{ return elements->at(1); }
-	decltype(auto) Rows() const { return 1; }
-	decltype(auto) Cols() const { return 0; }
-	decltype(auto) operator() () const	{	return elements;	}
-	size_t Extent(size_t n) const { return elements->size(); }
-	size_t Size() const { return elements->size(); }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
-	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
-};
-
+//template<typename BT>
+//class Matrix<1,BT>
+//{
+//	using T = std::shared_ptr<BT>;
+//public:
+//	static constexpr size_t Order = 1;
+//	inline static constexpr const char TypeIdentifier[] = "Matrix<1>";
+//	inline static constexpr Literal LiteralType{TypeIdentifier};
+//	using ValueType = T;
+//
+//	//Matrix(std::initializer_list<U> l): element{e} {}
+//	//Matrix& operator=(const BT& v)
+//	//{
+//	//	element = v;
+//	//	return *this;
+//	//}
+//
+//	T& Row(size_t i) 	{ return elements->at(1); }
+//	decltype(auto) Rows() const { return 1; }
+//	decltype(auto) Cols() const { return 0; }
+//	decltype(auto) operator() () const	{	return elements;	}
+//	size_t Extent(size_t n) const { return elements->size(); }
+//	size_t Size() const { return elements->size(); }
+//private:
+//	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
+//	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
+//};
+//
 template<typename BT>
 class Matrix<0,BT>
 {

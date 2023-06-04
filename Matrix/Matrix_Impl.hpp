@@ -4,6 +4,7 @@
 #include "Matrix_Ref.hpp"   
 #include "Matrix_Slice.hpp"   
 #include "Matrix_Initializer.hpp"   
+#include "../Is/Is.hpp"   
 
 #pragma once
 
@@ -14,7 +15,10 @@ template<size_t N>
 class MatrixImpl
 {
 public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixImpl";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
 private:
+	template<typename T> using IsT = Is<T,LiteralType>;
 	template<size_t,typename> friend class Matrix;
 	
 	template<typename List> 
@@ -56,12 +60,16 @@ private:
 		if constexpr (I==N)
 			return 0;
 		else
+		{
+			IsT<Throwing>("Index exceeds extents")(indices[I]<extents[I]);
 			return indices[I] * strides[I] + computeIndex<I+1>(indices,extents,strides);
+		}
 	}
 	
 	static decltype(auto) computePosition(const std::array<std::size_t, N> extents, const std::array<std::size_t, N> strides, auto... Is)
 	{
 		auto Dim = sizeof...(Is);
+		IsT<Throwing>("Dim != N")(Dim==N);
  	    std::initializer_list<int> il({Is...} );
 		std::array<size_t, N> indices;
         std::copy (il.begin(), il.end(), indices.begin());
@@ -69,10 +77,7 @@ private:
 		return indices[0] * strides[0] + computeIndex<1>(indices,extents,strides);
 	}
 	template<typename T, typename V> 
-	static void insert_flat(std::initializer_list<T> list, V& v)
-	{
-		add_list(list.begin(), list.end(),v);
-	}
+	static void insert_flat(std::initializer_list<T> list, V& v){	add_list(list.begin(), list.end(),v);	}
 
 	template<size_t N1,typename I, typename List> 
 	static typename std::enable_if<(N1>1),void>::type add_extents(I& first, const List& list)
@@ -83,16 +88,10 @@ private:
 	}
 	
 	template<size_t N1,typename I, typename List> 
-	static typename std::enable_if<N1==1,void>::type add_extents(I& first, const List& list)
-	{
-		*first++ = list.size();
-	}
+	static typename std::enable_if<N1==1,void>::type add_extents(I& first, const List& list){	*first++ = list.size();	}
 
 	template<typename T, typename V> 
-	static void add_list(const std::initializer_list<T> list, V& v)
-	{
-		add_list(list.begin(),list.end(),v);
-	}
+	static void add_list(const std::initializer_list<T> list, V& v)	{	add_list(list.begin(),list.end(),v);	}
 	
 	template<typename T, typename V> 
 	static void add_list(const std::initializer_list<T>* first, const std::initializer_list<T>* last,V& v)
@@ -102,10 +101,7 @@ private:
 	}
 
 	template<typename T, typename V> 
-	static void add_list(const T* first, const T* last,V& v)
-		{
-		v->insert(v->end(),first,last);
-	}
+	static void add_list(const T* first, const T* last,V& v){	v->insert(v->end(),first,last);	}
 
 	template<std::size_t N1,typename List> 
 	bool check_non_jagged(const List list)
@@ -125,10 +121,7 @@ private:
 	}
 
 	template<typename... Args>
-	constexpr bool Requesting_element()
-	{
-		return All(std::is_convertible<Args,size_t>{}...);
-	}
+	constexpr bool Requesting_element()	{	return All(std::is_convertible<Args,size_t>{}...);	}
 	
 //	template<typename... Args>
 //	constexpr bool Requesting_slice()
