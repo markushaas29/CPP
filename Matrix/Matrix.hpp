@@ -53,12 +53,7 @@ public:
 	decltype(auto) Cols() const { return descriptor.strides[0]; }
 	decltype(auto) operator() (auto... I) const
 	{
-		auto Dim = sizeof...(I);
-		//static_assert(Dim!=N,"Not");
-		std::array<size_t, sizeof...(I)> indices;
-		std::initializer_list<int> il({I...} );
-    	std::copy (il.begin(), il.end(), indices.begin());
-		auto i = MI::template computeIndex<0>(indices,descriptor.extents,descriptor.strides);
+		auto i = MI::template computeIndex<0>(descriptor.extents,descriptor.strides, I...);
 
 		return elements->at(i); 
 	}
