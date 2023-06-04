@@ -68,7 +68,7 @@ private:
  	    std::initializer_list<int> il({Is...} );
         std::copy (il.begin(), il.end(), indices.begin());
 		
-		return indices[I] * strides[I] + computeIndex<I+1>(indices,extents,strides);
+		return indices[0] * strides[0] + computeIndex<I+1>(indices,extents,strides);
 	}
 	template<typename T, typename V> 
 	static void insert_flat(std::initializer_list<T> list, V& v)
