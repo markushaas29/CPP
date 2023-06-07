@@ -81,6 +81,7 @@ int main()
 	auto d = m3[0];//.Descriptor();
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
+	assert(d.Size()==4);
 //
 //	auto r = m3.Row(1);
 //

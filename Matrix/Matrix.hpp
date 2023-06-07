@@ -58,7 +58,7 @@ public:
 		return elements->at(i); 
 	}
 	size_t Extent(size_t n) const { return descriptor.extents[n]; }
-	size_t Size() const { return elements.size(); }
+	size_t Size() const { return descriptor.strides[0] * descriptor.extents[0]; }
 	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
@@ -78,10 +78,7 @@ public:
 	decltype(auto) Row(size_t i)
     {  
     	assert(i<Rows());
-    	//MatrixSlice<N-1> row;
-    	//MI::slice_dim<0>(i,descriptor,row);
 		std::vector<T> result;
-		//std::copy(elements->begin(), elements->begin() + Cols(), result.begin());
 		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
 			result.push_back(elements->at(r));
 		return result;
