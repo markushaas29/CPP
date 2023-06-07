@@ -57,7 +57,12 @@ int main()
 	for(auto x : r1)
 		std::cout<<*x<<std::endl;
 
+	auto c1 = m35.Col(1);
+
+	for(auto x : c1)
+		std::cout<<*x<<std::endl;
 	assert(*r1[0]==6);
+	assert(*c1[0]==2);
 	assert(*m35(1,0)==6);
 	assert(*m35(0,0)==1);
 	assert(*m35(2,0)==11);

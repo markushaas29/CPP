@@ -77,6 +77,14 @@ public:
 			result.push_back(elements->at(r));
 		return result;
     }
+	decltype(auto) Col(size_t i)
+    {  
+    	assert(i<Cols());
+		std::vector<T> result;
+		for(auto r = 0; r < Rows(); r++)
+			result.push_back(elements->at(i + (r * Cols())));
+		return result;
+    }
 //	MatrixRef<N-1,const T> Row(size_t i) const; //{  }
 //	MatrixRef<N-1,T> Col(size_t i); //{ }
 //	MatrixRef<N-1, const T> Col(size_t i) const; //{  }
