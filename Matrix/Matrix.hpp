@@ -66,12 +66,16 @@ public:
 
 	MatrixRef<N-1,T> operator[](size_t i);// { return Row(i); }
 	MatrixRef<N-1,const T> operator[](size_t i) const;// { return Row(i); }
-	MatrixRef<N-1, T> Row(size_t i)
+	decltype(auto) Row(size_t i)
     {  
     	assert(i<Rows());
-    	MatrixSlice<N-1> row;
+    	//MatrixSlice<N-1> row;
     	//MI::slice_dim<0>(i,descriptor,row);
-    	return {row,Data()};
+		std::vector<T> result;
+		//std::copy(elements->begin(), elements->begin() + Cols(), result.begin());
+		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
+			result.push_back(elements->at(r));
+		return result;
     }
 //	MatrixRef<N-1,const T> Row(size_t i) const; //{  }
 //	MatrixRef<N-1,T> Col(size_t i); //{ }

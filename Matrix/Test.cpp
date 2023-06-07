@@ -52,6 +52,12 @@ int main()
 	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
 	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
 	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
+	auto r1 = m35.Row(1);
+
+	for(auto x : r1)
+		std::cout<<*x<<std::endl;
+
+	assert(*r1[0]==6);
 	assert(*m35(1,0)==6);
 	assert(*m35(0,0)==1);
 	assert(*m35(2,0)==11);
