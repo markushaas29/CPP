@@ -51,6 +51,7 @@ public:
        std::initializer_list<int> il({dims...} );
  	   std::copy (il.begin(), il.end(), extents.begin());
 	};
+	MatrixSlice(std::array<std::size_t,2> e, std::array<std::size_t,2> s): extents{e}, strides{s} {};
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const
 	{

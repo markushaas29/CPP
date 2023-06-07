@@ -64,8 +64,17 @@ public:
 	decltype(auto) Data() { return elements->data(); }
 	//template<typename... Args> 
 
-	MatrixRef<N-1,T> operator[](size_t i);// { return Row(i); }
-	MatrixRef<N-1,const T> operator[](size_t i) const;// { return Row(i); }
+	decltype(auto) operator[](size_t i) 
+	{
+		std::array<size_t,N-1> e;
+		std::array<size_t,N-1> s;
+		std::copy(descriptor.extents.begin()+1, descriptor.extents.end(), e.begin());
+		std::copy(descriptor.strides.begin()+1, descriptor.strides.end(), s.begin());
+
+		return Matrix<N-1>(MatrixSlice<N-1>{e,s});
+	}
+
+	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
 	decltype(auto) Row(size_t i)
     {  
     	assert(i<Rows());

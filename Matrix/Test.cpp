@@ -67,6 +67,8 @@ int main()
 	assert(*m35(0,0)==1);
 	assert(*m35(2,0)==11);
 	assert(*m35(2,4)==15);
+	
+
 	M3 m3 {
 		{
 			{std::make_shared<int>(1),std::make_shared<int>(2)},
@@ -76,6 +78,9 @@ int main()
 			{std::make_shared<int>(6),std::make_shared<int>(7)},
 			{std::make_shared<int>(8),std::make_shared<int>(9)}},
 	};
+	auto d = m3[0];//.Descriptor();
+	assert(d.Rows()==2);
+	assert(d.Cols()==2);
 //
 //	auto r = m3.Row(1);
 //
