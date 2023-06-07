@@ -23,7 +23,6 @@ public:
 	using ValueType = T;
 	using Iterator = typename std::vector<T>::iterator;
 	using ConstIterator = typename std::vector<T>::const_iterator;
-	//template<typename T1, std::size_t N1> using MatrixInitializer = typename MatrixInit<T1,N1>::Type;
 
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
@@ -62,8 +61,6 @@ public:
 	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
-	//template<typename... Args> 
-
 	decltype(auto) operator[](size_t i) 
 	{
 		std::array<size_t,N-1> e;

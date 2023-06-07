@@ -28,22 +28,17 @@ int main()
 	assert(m1.Rows()==5);
 	assert(m1.Cols()==1);
 
-	M2
+	M2 m2
 	{
 		{std::make_shared<int>(1)},
 		{std::make_shared<int>(2)},
 	};
+	assert(m2.Rows()==2);
+	assert(m2.Cols()==1);
+	assert(m2.Size()==2);
+	auto r11 = m2.Row(0);
+	assert(*r11[0]==1);
 
-//	M2 m2 {
-//		{1,2},
-//		{3,4},
-//	};
-
-//	M2 m21 {
-//		{1,2,1,2},
-//		{3,4,3,4},
-//		{3,4,3,4},
-//	};
 	M2 m35 {
 		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)},
 		{std::make_shared<int>(6),std::make_shared<int>(7),std::make_shared<int>(8),std::make_shared<int>(9),std::make_shared<int>(10)},
@@ -52,6 +47,7 @@ int main()
 	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
 	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
 	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
+	assert(m35.Size()==15);
 	auto r1 = m35.Row(1);
 
 	for(auto x : r1)
