@@ -78,10 +78,12 @@ int main()
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
+
 //
 //	auto r = m3.Row(1);
 //
 	std::cout<<"M35\n "<<m35<<std::endl;
+	std::cout<<"M3_SLICE\n "<<d<<std::endl;
 	std::cout<<"M0\n "<<m0<<std::endl;
 	assert(*m3(0,1,1)==4);
 	assert(*m3(1,0,1)==7);

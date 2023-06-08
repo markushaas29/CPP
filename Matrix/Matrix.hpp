@@ -34,8 +34,8 @@ public:
 	template<typename U> Matrix(const MatrixRef<N,U>&);
 	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
 
-	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...} { std::cout<<"SLI";};
-	explicit Matrix(MatrixSlice<N> d): descriptor{d}{	std::cout<<"Slice";	};
+	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...} { };
+	explicit Matrix(MatrixSlice<N> d, const std::vector<T> v): descriptor{d}, elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
@@ -68,7 +68,7 @@ public:
 		std::copy(descriptor.extents.begin()+1, descriptor.extents.end(), e.begin());
 		std::copy(descriptor.strides.begin()+1, descriptor.strides.end(), s.begin());
 
-		return Matrix<N-1>(MatrixSlice<N-1>{e,s});
+		return Matrix<N-1>(MatrixSlice<N-1>{e,s}, Row(i));
 	}
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
