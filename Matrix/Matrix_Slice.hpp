@@ -21,17 +21,16 @@ public:
        std::initializer_list<int> il({dims...} );
  	   std::copy (il.begin(), il.end(), extents.begin());
 	};
-	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{e}, strides{s}, size{e[0] * s[0]} {
-
-	   std::cout<<"Base "<<extents[0]<<std::endl;
-	};
+	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{e}, strides{s}, size{e[0] * s[0]} { };
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(Dims... dims) const
 	{
 		std::size_t args[N] { size_t(dims)... };
 		return start+std::inner_product(args,args+N,strides.begin(),size_t{0});
 	}
-	
+
+	decltype(auto) Stride(auto i) { return strides[i]; }
+	decltype(auto) Extent(auto i) { return extents[i]; }
 private:
 	std::size_t size;
 	std::size_t start;
@@ -63,7 +62,6 @@ public:
 	std::array<std::size_t,N> extents;
 	std::array<std::size_t,N> strides;
 private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixSlice& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 
 template<>
@@ -87,7 +85,6 @@ public:
 	std::array<std::size_t,2> extents;
 	std::array<std::size_t,2> strides;
 private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixSlice& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 
 template<>
@@ -106,5 +103,4 @@ public:
 	std::array<std::size_t,1> extents;
 	std::array<std::size_t,1> strides;
 private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixSlice& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };

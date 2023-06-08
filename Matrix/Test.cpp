@@ -78,11 +78,18 @@ int main()
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
-
+	auto db = m3[0].Descriptor();
+	std::cout<<"S1: "<<db<<"\n";
+	assert(db.Stride(1)==1);
+	assert(db.Extent(0)==2);
+	assert(db.Extent(1)==2);
+	assert(db.Extent(2)==2);
+	assert(db.Stride(0)==2);
+	auto i = db.Stride(155);
 //
 //	auto r = m3.Row(1);
 //
-	std::cout<<"M35\n "<<m35<<std::endl;
+	std::cout<<i<<"M35\n "<<m35<<std::endl;
 	std::cout<<"M3_SLICE\n "<<d<<std::endl;
 	std::cout<<"M0\n "<<m0<<std::endl;
 	assert(*m3(0,1,1)==4);
