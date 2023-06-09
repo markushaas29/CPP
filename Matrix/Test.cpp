@@ -85,11 +85,11 @@ int main()
 	assert(db.Extent(1)==2);
 	assert(db.Extent(2)==2);
 	assert(db.Stride(0)==2);
-	auto i = db.Stride(155);
+	auto i = db.Strides();
 //
 //	auto r = m3.Row(1);
 //
-	std::cout<<i<<"M35\n "<<m35<<std::endl;
+	std::cout<<i[0]<<"M35\n "<<m35<<std::endl;
 	std::cout<<"M3_SLICE\n "<<d<<std::endl;
 	std::cout<<"M0\n "<<m0<<std::endl;
 	assert(*m3(0,1,1)==4);

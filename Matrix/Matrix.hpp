@@ -50,14 +50,14 @@ public:
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
 	decltype(auto) Rows() const { return descriptor.extents[0]; }
-	decltype(auto) Cols() const { return descriptor.strides[0]; }
+	decltype(auto) Cols() const { return descriptor.Stride(0); }
 	decltype(auto) operator() (auto... I) const
 	{
-		auto i = MI::computePosition(descriptor.extents,descriptor.strides, I...);
+		auto i = MI::computePosition(descriptor.extents,descriptor.Strides(), I...);
 		return elements->at(i); 
 	}
 	size_t Extent(size_t n) const { return descriptor.extents[n]; }
-	size_t Size() const { return descriptor.strides[0] * descriptor.extents[0]; }
+	size_t Size() const { return descriptor.Stride(0) * descriptor.extents[0]; }
 	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
@@ -66,7 +66,7 @@ public:
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.extents.begin()+1, descriptor.extents.end(), e.begin());
-		std::copy(descriptor.strides.begin()+1, descriptor.strides.end(), s.begin());
+		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
 
 		return Matrix<N-1>(MatrixSlice<N-1>{e,s}, Row(i));
 	}
@@ -97,7 +97,7 @@ private:
 		s<<"Extents: \n";
 		std::for_each(m.descriptor.extents.cbegin(), m.descriptor.extents.cend(), [&s](const auto& i) { s<<i<<"\t"; });
 		s<<"\nStride: \n";
-		std::for_each(m.descriptor.strides.cbegin(), m.descriptor.strides.cend(), [&s](const auto& i) { s<<i<<"\t"; });
+		std::for_each(m.descriptor.Strides().cbegin(), m.descriptor.Strides().cend(), [&s](const auto& i) { s<<i<<"\t"; });
 		s<<"\n{\n";
 		for(auto i = 0; i != m.Rows(); ++i)
 		{
