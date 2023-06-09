@@ -39,7 +39,7 @@ public:
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
-		descriptor.extents = MI::derive_extents(init);
+		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.size);
 		MI::insert_flat(init,elements);
@@ -49,15 +49,15 @@ public:
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
-	decltype(auto) Rows() const { return descriptor.extents[0]; }
+	decltype(auto) Rows() const { return descriptor.Extents()[0]; }
 	decltype(auto) Cols() const { return descriptor.Stride(0); }
 	decltype(auto) operator() (auto... I) const
 	{
-		auto i = MI::computePosition(descriptor.extents,descriptor.Strides(), I...);
+		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
 		return elements->at(i); 
 	}
-	size_t Extent(size_t n) const { return descriptor.extents[n]; }
-	size_t Size() const { return descriptor.Stride(0) * descriptor.extents[0]; }
+	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
+	size_t Size() const { return descriptor.Stride(0) * descriptor.Extents()[0]; }
 	const MatrixSlice<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
@@ -65,7 +65,7 @@ public:
 	{
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
-		std::copy(descriptor.extents.begin()+1, descriptor.extents.end(), e.begin());
+		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
 		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
 
 		return Matrix<N-1>(MatrixSlice<N-1>{e,s}, Row(i));
@@ -95,7 +95,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{
 		s<<"Extents: \n";
-		std::for_each(m.descriptor.extents.cbegin(), m.descriptor.extents.cend(), [&s](const auto& i) { s<<i<<"\t"; });
+		std::for_each(m.descriptor.Extents().cbegin(), m.descriptor.Extents().cend(), [&s](const auto& i) { s<<i<<"\t"; });
 		s<<"\nStride: \n";
 		std::for_each(m.descriptor.Strides().cbegin(), m.descriptor.Strides().cend(), [&s](const auto& i) { s<<i<<"\t"; });
 		s<<"\n{\n";

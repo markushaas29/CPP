@@ -36,6 +36,7 @@ public:
 	const std::array<size_t,N>& Extents() const { return extents; }
 	decltype(auto) Stride(auto i) const { return strides[i]; }
 	decltype(auto) Extent(auto i) const { return extents[i]; }
+	decltype(auto) SetExtents(auto e) { extents = e; }
 private:
 	std::size_t size;
 	std::size_t start;
@@ -49,22 +50,13 @@ class MatrixSlice: public MatrixDescriptorBase<N>
 	using Base = MatrixDescriptorBase<N>;
 public:
 	MatrixSlice() = default;
-	MatrixSlice(auto... dims): Base(dims...)
-	{
-       std::initializer_list<int> il({dims...} );
- 	   std::copy (il.begin(), il.end(), extents.begin());
-	};
-	MatrixSlice(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s}, extents{e},  size{e[0] * s[0]} {};
+	MatrixSlice(auto... dims): Base(dims...) {	};
+	MatrixSlice(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s},  size{e[0] * s[0]} {};
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
-	std::size_t operator()(Dims... dims) const
-	{
-		std::size_t args[N] { size_t(dims)... };
-		return start+std::inner_product(args,args+N, Base::Strides().begin(),size_t{0});
-	}
+	std::size_t operator()(Dims... dims) const{	}
 	
 	std::size_t size;
 	std::size_t start;
-	std::array<std::size_t,N> extents;
 private:
 };
 
@@ -74,19 +66,14 @@ class MatrixSlice<2>: public MatrixDescriptorBase<2>
 	using Base = MatrixDescriptorBase<2>;
 public:
 	MatrixSlice() = default;
-	MatrixSlice(auto... dims): Base(dims...)
-	{
-       std::initializer_list<int> il({dims...} );
- 	   std::copy (il.begin(), il.end(), extents.begin());
-	};
-	MatrixSlice(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s}, extents{e},  size{e[0] * s[0]} {};
+	MatrixSlice(auto... dims): Base(dims...) {	};
+	MatrixSlice(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s},  size{e[0] * s[0]} {};
 
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const	{	return start+i*strides[0]+j;	}
 	
 	std::size_t size;
 	std::size_t start;
-	std::array<std::size_t,2> extents;
 private:
 };
 
@@ -96,13 +83,12 @@ class MatrixSlice<1>: public MatrixDescriptorBase<1>
 	using Base = MatrixDescriptorBase<1>;
 public:
 	MatrixSlice() = default;
-	MatrixSlice(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s},extents{e}, size{e[0] * s[0]} {};
+	MatrixSlice(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s}, size{e[0] * s[0]} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
 	
 	std::size_t size;
 	std::size_t start;
-	std::array<std::size_t,1> extents;
 private:
 };
