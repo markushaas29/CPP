@@ -96,7 +96,19 @@ int main()
 	assert(*m3(1,0,1)==7);
 	assert(*m3(1,1,1)==9);
 
+	auto v1 = std::make_shared<ValueCell<int>>(1);
+	auto vc1 = v1;
 
+	std::cout<<v1<<vc1<<std::endl;
+	std::cout<<*v1<<*vc1<<std::endl;
+	vc1->value=11;
+	std::cout<<*v1<<*vc1<<std::endl;
+
+	auto uv1 = vc1->Clone();
+	auto duv1 = dynamic_cast<ValueCell<int>*>(uv1.get());
+	duv1->value=12;
+	std::cout<<*duv1<<*v1<<std::endl;
+	
 	MS2 ms2;
 	M2 m2ms2(ms2);
 	M2 m2I(10,20);
