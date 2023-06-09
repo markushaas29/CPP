@@ -41,7 +41,7 @@ public:
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
-		elements->reserve(descriptor.size);
+		elements->reserve(descriptor.Size());
 		MI::insert_flat(init,elements);
 	};
 	Matrix& operator=(MatrixInitializer<T,N>) {};

@@ -34,6 +34,8 @@ public:
 
 	const std::array<size_t,N>& Strides() const { return strides; }
 	const std::array<size_t,N>& Extents() const { return extents; }
+	decltype(auto) Size() const { return size; }
+	decltype(auto) Start() const { return start; }
 	decltype(auto) Stride(auto i) const { return strides[i]; }
 	decltype(auto) Extent(auto i) const { return extents[i]; }
 	decltype(auto) SetExtents(auto e) { extents = e; }
@@ -51,13 +53,7 @@ class MatrixSlice: public MatrixDescriptorBase<N>
 public:
 	MatrixSlice() = default;
 	MatrixSlice(auto... dims): Base(dims...) {	};
-	MatrixSlice(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s},  size{e[0] * s[0]} {};
-	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
-	std::size_t operator()(Dims... dims) const{	}
-	
-	std::size_t size;
-	std::size_t start;
-private:
+	MatrixSlice(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s} {};
 };
 
 template<>
@@ -67,14 +63,10 @@ class MatrixSlice<2>: public MatrixDescriptorBase<2>
 public:
 	MatrixSlice() = default;
 	MatrixSlice(auto... dims): Base(dims...) {	};
-	MatrixSlice(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s},  size{e[0] * s[0]} {};
+	MatrixSlice(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
 
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const	{	return start+i*strides[0]+j;	}
-	
-	std::size_t size;
-	std::size_t start;
-private:
 };
 
 template<>
@@ -83,12 +75,8 @@ class MatrixSlice<1>: public MatrixDescriptorBase<1>
 	using Base = MatrixDescriptorBase<1>;
 public:
 	MatrixSlice() = default;
-	MatrixSlice(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s}, size{e[0] * s[0]} {};
+	MatrixSlice(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
-	
-	std::size_t size;
-	std::size_t start;
-private:
 };
