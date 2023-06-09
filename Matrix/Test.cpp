@@ -36,6 +36,10 @@ int main()
 	assert(m2.Rows()==2);
 	assert(m2.Cols()==1);
 	assert(m2.Size()==2);
+
+	auto m20 = m2[0];
+	assert(m20.Size()==1);
+
 	auto r11 = m2.Row(0);
 	assert(*r11[0]==1);
 
@@ -75,6 +79,11 @@ int main()
 			{std::make_shared<int>(8),std::make_shared<int>(9)}},
 	};
 	auto d = m3[0];//.Descriptor();
+	auto dd = d[0];//.Descriptor();
+	auto ddd = dd[0];//.Descriptor();
+	std::cout<<"Matrix Element "<<ddd<<"\n";
+	//assert(dd.Size()==1);
+
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);

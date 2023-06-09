@@ -67,8 +67,16 @@ public:
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
 		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
-
-		return Matrix<N-1>(MatrixSlice<N-1>{e,s}, Row(i));
+		auto row = Row(i);
+		if constexpr ((N-1)==0)
+		{
+			auto ret = row[0];
+			auto m = Matrix<0>(ret);
+			//return ret;
+			return m;
+		}
+		else
+			return Matrix<N-1>(MatrixSlice<N-1>{e,s}, row);
 	}
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
@@ -160,6 +168,8 @@ public:
 	using ValueType = T;
 
 	Matrix(const T& e): element{e} {}
+	//explicit Matrix(MatrixSlice<0> d, const std::vector<T> v) : descriptor{d}, element{v.at(0)}{	};
+	explicit Matrix(MatrixSlice<0> d, const std::vector<T> v)  { std::cout<<"V"<<v[0];	};
 	Matrix& operator=(const BT& v)
 	{
 		element = v;
@@ -174,5 +184,6 @@ public:
 	size_t Size() const { return 1; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
+	MatrixSlice<0> descriptor;
 	T element;
 };
