@@ -115,7 +115,11 @@ int main()
 	auto duv1 = dynamic_cast<ValueCell<int>*>(uv1.get());
 	duv1->value=12;
 	std::cout<<*duv1<<*v1<<std::endl;
-	
+
+	ms2.AddRow();
+	ms2.AddRow();
+	std::cout<<"E"<<ms2.Extent(0)<<std::endl;
+	assert(ms2.Extent(0)==2);
 	M2 m2ms2(ms2,r1);
 	M2 m2I(10,20);
 	//m3(3,1,1);

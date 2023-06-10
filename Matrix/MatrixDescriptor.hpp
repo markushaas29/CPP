@@ -39,6 +39,11 @@ public:
 	decltype(auto) Stride(auto i) const { return strides[i]; }
 	decltype(auto) Extent(auto i) const { return extents[i]; }
 	decltype(auto) SetExtents(auto e) { extents = e; }
+	decltype(auto) AddRow() { 
+		std::array<std::size_t,N> e;
+		e = extents;
+		e[0] = extents[0] + 1;
+		extents = e; }
 private:
 	std::size_t size;
 	std::size_t start;

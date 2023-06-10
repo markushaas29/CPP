@@ -37,7 +37,7 @@ public:
 
 	template<typename... Exts> 
 	explicit Matrix(Exts... exts): descriptor{exts...} { };
-	explicit Matrix(DescriptorType d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
+	explicit Matrix(DescriptorType d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	std::cout<<"MD "<<elements->size()<<*(elements->at(0)); };
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
