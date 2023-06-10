@@ -120,7 +120,7 @@ int main()
 	M2 m2I(10,20);
 	//m3(3,1,1);
 	auto e0 =m2I.Extent(0);
-	std::cout<<"E"<<e0<<std::endl;
+	//std::cout<<"E"<<m2ms2[0]<<std::endl;
 	assert(e0==10);
 	std::cout<<"END"<<std::endl;
 
