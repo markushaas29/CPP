@@ -158,11 +158,12 @@ private:
 //	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 //};
 //
-template<typename BT>
-class Matrix<0,BT>
+template<typename BT,typename DT>
+class Matrix<0,BT,DT>
 {
 	using T = std::shared_ptr<BT>;
 public:
+	using Type = DT;
 	static constexpr size_t Order = 0;
 	inline static constexpr const char TypeIdentifier[] = "Matrix<0>";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
