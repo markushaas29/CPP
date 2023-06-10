@@ -2,7 +2,7 @@
 #include <cassert> 
 #include <memory> 
 #include "Matrix.hpp"
-#include "Matrix_Slice.hpp"
+#include "MatrixDescriptor.hpp"
 
 int main()
 {

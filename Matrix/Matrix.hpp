@@ -3,7 +3,7 @@
 #include <memory>
 #include <cassert>
 #include "Matrix_Ref.hpp"
-#include "Matrix_Slice.hpp"
+#include "MatrixDescriptor.hpp"
 #include "Matrix_Initializer.hpp"
 #include "Matrix_Impl.hpp"
 #include "MatrixCell.hpp"

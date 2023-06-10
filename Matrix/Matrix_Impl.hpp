@@ -2,7 +2,7 @@
 #include <array>
 #include <cassert>
 #include "Matrix_Ref.hpp"   
-#include "Matrix_Slice.hpp"   
+#include "MatrixDescriptor.hpp"   
 #include "Matrix_Initializer.hpp"   
 #include "../Is/Is.hpp"   
 

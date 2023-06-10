@@ -1,6 +1,6 @@
 #include <vector>
 #include <cassert>
-#include "Matrix_Slice.hpp"
+#include "MatrixDescriptor.hpp"
 
 #pragma once
 
