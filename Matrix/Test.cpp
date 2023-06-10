@@ -1,8 +1,11 @@
 #include <iostream>
 #include <cassert> 
+#include <vector> 
 #include <memory> 
 #include "Matrix.hpp"
 #include "MatrixDescriptor.hpp"
+#include "../Common/ShortNames.hpp"
+using namespace ShortNames;
 
 int main()
 {
@@ -22,9 +25,9 @@ int main()
 	assert(m0.Rows()==0);
 	assert((*m0())==1);
 
-	M1 m1{		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)}	};
-	std::cout<<"Rows: "<<m1.Rows()<<std::endl;
-	std::cout<<"Columns: "<<m1.Cols()<<std::endl;
+	M1 m1{
+		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)}	
+	};
 	assert(m1.Rows()==5);
 	assert(m1.Cols()==1);
 
@@ -54,13 +57,7 @@ int main()
 	assert(m35.Size()==15);
 	auto r1 = m35.Row(1);
 
-	for(auto x : r1)
-		std::cout<<*x<<std::endl;
-
 	auto c1 = m35.Col(1);
-
-	for(auto x : c1)
-		std::cout<<*x<<std::endl;
 	assert(*r1[0]==6);
 	assert(*c1[0]==2);
 	assert(*m35(1,0)==6);
@@ -88,24 +85,22 @@ int main()
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
 	auto db = m3[0].Descriptor();
-	std::cout<<"S1: "<<db<<"\n";
 	assert(db.Stride(1)==1);
 	assert(db.Extent(0)==2);
 	assert(db.Extent(1)==2);
 	assert(db.Extent(2)==2);
 	assert(db.Stride(0)==2);
 	auto i = db.Strides();
-//
-//	auto r = m3.Row(1);
-//
-	std::cout<<i[0]<<"M35\n "<<m35<<std::endl;
-	std::cout<<"M3_SLICE\n "<<d<<std::endl;
-	std::cout<<"M0\n "<<m0<<std::endl;
 	assert(*m3(0,1,1)==4);
 	assert(*m3(1,0,1)==7);
 	assert(*m3(1,1,1)==9);
 
 	auto v1 = std::make_shared<ValueCell<int>>(1);
+	auto q1 = std::make_shared<QuantityCell<Q>>(1);
+	std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
+
+	for(auto c : mcv)
+		c->Display(std::cout);
 	auto vc1 = v1;
 
 	std::cout<<v1<<vc1<<std::endl;

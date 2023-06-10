@@ -65,8 +65,8 @@ public:
 	MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
 
-	//template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
-	//std::size_t operator()(size_t i, size_t j) const	{	return start+i*strides[0]+j;	}
+	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
+	std::size_t operator()(size_t i, size_t j) const	{	return Base::Start()+i*Base::Strides(0)+j;	}
 };
 
 template<typename T>
