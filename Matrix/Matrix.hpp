@@ -35,7 +35,7 @@ public:
 	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
 
 	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...} { };
-	explicit Matrix(MatrixSlice<N> d, const std::vector<T> v): descriptor{d}, elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
+	explicit Matrix(MatrixDescriptor<N> d, const std::vector<T> v): descriptor{d}, elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
@@ -58,7 +58,7 @@ public:
 	}
 	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
 	size_t Size() const { return descriptor.Stride(0) * descriptor.Extents()[0]; }
-	const MatrixSlice<N>& Descriptor() const { return descriptor; }
+	const MatrixDescriptor<N>& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[](size_t i) 
@@ -76,7 +76,7 @@ public:
 			return m;
 		}
 		else
-			return Matrix<N-1>(MatrixSlice<N-1>{e,s}, row);
+			return Matrix<N-1>(MatrixDescriptor<N-1>{e,s}, row);
 	}
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
@@ -125,7 +125,7 @@ private:
 
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
-	MatrixSlice<N> descriptor;
+	MatrixDescriptor<N> descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
 
@@ -168,8 +168,8 @@ public:
 	using ValueType = T;
 
 	Matrix(const T& e): element{e} {}
-	//explicit Matrix(MatrixSlice<0> d, const std::vector<T> v) : descriptor{d}, element{v.at(0)}{	};
-	explicit Matrix(MatrixSlice<0> d, const std::vector<T> v)  { std::cout<<"V"<<v[0];	};
+	//explicit Matrix(MatrixDescriptor<0> d, const std::vector<T> v) : descriptor{d}, element{v.at(0)}{	};
+	explicit Matrix(MatrixDescriptor<0> d, const std::vector<T> v)  { std::cout<<"V"<<v[0];	};
 	Matrix& operator=(const BT& v)
 	{
 		element = v;
@@ -184,6 +184,6 @@ public:
 	size_t Size() const { return 1; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
-	MatrixSlice<0> descriptor;
+	MatrixDescriptor<0> descriptor;
 	T element;
 };

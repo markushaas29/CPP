@@ -10,7 +10,7 @@ int main()
 
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
-	using MS2 = MatrixSlice<2>;
+	using MS2 = MatrixDescriptor<2>;
 	using M1 = Matrix<1>;
 	using M0 = Matrix<0>;
 	std::cout<<M3::LiteralType<<std::endl;

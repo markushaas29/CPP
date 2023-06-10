@@ -31,7 +31,7 @@ private:
 	};   
 
 	template<int N1>
- 	decltype(auto) compute_strides(MatrixSlice<N>& ms) 
+ 	decltype(auto) compute_strides(MatrixDescriptor<N>& ms) 
 	{
 		std::size_t st = 1;
 		for(int i=N1-1; i>=0; --i)
@@ -42,7 +42,7 @@ private:
 		ms.size = st;
 	};
 	
-	static void compute_strides(MatrixSlice<N>& ms)
+	static void compute_strides(MatrixDescriptor<N>& ms)
 	{
 		size_t st = 1;
 		for(int i = N-1; i>= 0; --i)
@@ -114,7 +114,7 @@ private:
 	}
 
 	template<std::size_t N1,typename... Dims>
-	bool check_bounds(const MatrixSlice<N>& s, Dims... d)
+	bool check_bounds(const MatrixDescriptor<N>& s, Dims... d)
 	{
 		size_t indexes[N] { size_t(d)... };
 		return equal(indexes,indexes+N, s.extents.begin(), std::less<size_t>{});

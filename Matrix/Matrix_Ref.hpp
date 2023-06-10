@@ -8,9 +8,9 @@ template< size_t N, typename T>
 class MatrixRef
 {
 public:
-	MatrixRef(const MatrixSlice<N>& s, T* p): descriptor{s}, ptr{p} {}
+	MatrixRef(const MatrixDescriptor<N>& s, T* p): descriptor{s}, ptr{p} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixRef& i) { return s<<i.descriptor;  }
-	MatrixSlice<N> descriptor;
+	MatrixDescriptor<N> descriptor;
 	T* ptr;
 };

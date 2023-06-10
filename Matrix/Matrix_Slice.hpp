@@ -47,35 +47,35 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixDescriptorBase& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 template<size_t N>
-class MatrixSlice: public MatrixDescriptorBase<N>
+class MatrixDescriptor: public MatrixDescriptorBase<N>
 {
 	using Base = MatrixDescriptorBase<N>;
 public:
-	MatrixSlice() = default;
-	MatrixSlice(auto... dims): Base(dims...) {	};
-	MatrixSlice(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s} {};
+	MatrixDescriptor() = default;
+	MatrixDescriptor(auto... dims): Base(dims...) {	};
+	MatrixDescriptor(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s} {};
 };
 
 template<>
-class MatrixSlice<2>: public MatrixDescriptorBase<2>
+class MatrixDescriptor<2>: public MatrixDescriptorBase<2>
 {
 	using Base = MatrixDescriptorBase<2>;
 public:
-	MatrixSlice() = default;
-	MatrixSlice(auto... dims): Base(dims...) {	};
-	MatrixSlice(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
+	MatrixDescriptor() = default;
+	MatrixDescriptor(auto... dims): Base(dims...) {	};
+	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
 
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const	{	return start+i*strides[0]+j;	}
 };
 
 template<>
-class MatrixSlice<1>: public MatrixDescriptorBase<1>
+class MatrixDescriptor<1>: public MatrixDescriptorBase<1>
 {
 	using Base = MatrixDescriptorBase<1>;
 public:
-	MatrixSlice() = default;
-	MatrixSlice(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s} {};
+	MatrixDescriptor() = default;
+	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
