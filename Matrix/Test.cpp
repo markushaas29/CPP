@@ -10,7 +10,7 @@ int main()
 
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
-	using MS2 = MatrixDescriptor<2>;
+	using MS2 = MatrixDescriptor<2,std::string>;
 	using M1 = Matrix<1>;
 	using M0 = Matrix<0>;
 	std::cout<<M3::LiteralType<<std::endl;
@@ -119,7 +119,7 @@ int main()
 	std::cout<<*duv1<<*v1<<std::endl;
 	
 	MS2 ms2;
-	M2 m2ms2(ms2);
+	M2 m2ms2(ms2,r1);
 	M2 m2I(10,20);
 	//m3(3,1,1);
 	auto e0 =m2I.Extent(0);

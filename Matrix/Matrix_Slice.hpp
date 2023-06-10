@@ -11,7 +11,7 @@ constexpr bool All(bool b, Args... a) { return b && All(a...); }
 
 template<size_t N> class MatrixImpl;
 
-template<size_t N, typename T>
+template<size_t N, typename T=void>
 class MatrixDescriptorBase
 {
 	friend class MatrixImpl<N>;
@@ -56,7 +56,7 @@ public:
 	MatrixDescriptor(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s} {};
 };
 
-template<typename T>
+template<typename T=std::string>
 class MatrixDescriptor<2,T>: public MatrixDescriptorBase<2,T>
 {
 	using Base = MatrixDescriptorBase<2,T>;
@@ -65,11 +65,11 @@ public:
 	MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
 
-	//template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
-	//std::size_t operator()(size_t i, size_t j) const	{	return start+i*strides[0]+j;	}
+	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
+	std::size_t operator()(size_t i, size_t j) const	{	return start+i*strides[0]+j;	}
 };
 
-template<typename T>
+template<typename T=std::string>
 class MatrixDescriptor<1,T>: public MatrixDescriptorBase<1,T>
 {
 	using Base = MatrixDescriptorBase<1,T>;
@@ -80,4 +80,3 @@ public:
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
 };
-

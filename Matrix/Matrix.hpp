@@ -12,7 +12,7 @@
 
 #pragma once
 
-template<std::size_t N, typename BT=int>
+template<std::size_t N, typename BT=int, typename DT=std::string>
 class Matrix
 {
 	using T = std::shared_ptr<BT>;
@@ -34,8 +34,9 @@ public:
 	template<typename U> Matrix(const MatrixRef<N,U>&);
 	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
 
-	template<typename... Exts> explicit Matrix(Exts... exts): descriptor{exts...} { };
-	explicit Matrix(MatrixDescriptor<N> d, const std::vector<T> v): descriptor{d}, elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
+	template<typename... Exts> 
+	explicit Matrix(Exts... exts): descriptor{exts...} { };
+	explicit Matrix(MatrixDescriptor<N,DT> d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
@@ -125,7 +126,7 @@ private:
 
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
-	MatrixDescriptor<N> descriptor;
+	MatrixDescriptor<N,DT> descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
 
