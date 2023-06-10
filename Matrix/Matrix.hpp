@@ -12,10 +12,11 @@
 
 #pragma once
 
-template<std::size_t N, typename BT=int, typename DT=std::string>
+template<std::size_t N, typename DT=MatrixDescriptor<N,std::string>, typename BT=int>
 class Matrix
 {
 	using T = std::shared_ptr<BT>;
+	using DescriptorType = DT;
 public:
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
@@ -36,7 +37,7 @@ public:
 
 	template<typename... Exts> 
 	explicit Matrix(Exts... exts): descriptor{exts...} { };
-	explicit Matrix(MatrixDescriptor<N,DT> d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
+	explicit Matrix(DescriptorType d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	};
 
 	Matrix(MatrixInitializer<T,N> init)
 	{
@@ -59,7 +60,7 @@ public:
 	}
 	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
 	size_t Size() const { return descriptor.Stride(0) * descriptor.Extents()[0]; }
-	const MatrixDescriptor<N>& Descriptor() const { return descriptor; }
+	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[](size_t i) 
@@ -72,12 +73,12 @@ public:
 		if constexpr ((N-1)==0)
 		{
 			auto ret = row[0];
-			auto m = Matrix<0>(ret);
-			//return ret;
-			return m;
+			//auto m = Matrix<0,MatrixDescriptor<N-1,std::string>>(ret);
+			return ret;
+			//return m;
 		}
 		else
-			return Matrix<N-1>(MatrixDescriptor<N-1>{e,s}, row);
+			return Matrix<N-1,MatrixDescriptor<N-1,std::string>>(MatrixDescriptor<N-1,std::string>{e,s}, row);
 	}
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
@@ -126,7 +127,7 @@ private:
 
 	using MI = MatrixImpl<N>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
-	MatrixDescriptor<N,DT> descriptor;
+	DescriptorType descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };
 
@@ -158,20 +159,21 @@ private:
 //	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 //};
 //
-template<typename BT,typename DT>
-class Matrix<0,BT,DT>
+template<typename BT>
+class Matrix<0,MatrixDescriptor<0,BT>,BT>
 {
 	using T = std::shared_ptr<BT>;
 public:
-	using Type = DT;
+	using DescriptorType = MatrixDescriptor<0,BT>;
+	using Type = BT;
 	static constexpr size_t Order = 0;
 	inline static constexpr const char TypeIdentifier[] = "Matrix<0>";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	using ValueType = T;
 
 	Matrix(const T& e): element{e} {}
-	//explicit Matrix(MatrixDescriptor<0> d, const std::vector<T> v) : descriptor{d}, element{v.at(0)}{	};
-	explicit Matrix(MatrixDescriptor<0> d, const std::vector<T> v)  { std::cout<<"V"<<v[0];	};
+	//explicit Matrix(DescriptorType<0> d, const std::vector<T> v) : descriptor{d}, element{v.at(0)}{	};
+	explicit Matrix(DescriptorType d, const std::vector<T> v)  { std::cout<<"V"<<v[0];	};
 	Matrix& operator=(const BT& v)
 	{
 		element = v;
@@ -186,6 +188,6 @@ public:
 	size_t Size() const { return 1; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
-	MatrixDescriptor<0> descriptor;
+	DescriptorType descriptor;
 	T element;
 };

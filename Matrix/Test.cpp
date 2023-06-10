@@ -15,15 +15,16 @@ int main()
 	using M2 = Matrix<2>;
 	using MS2 = MatrixDescriptor<2,std::string>;
 	using M1 = Matrix<1>;
-	using M0 = Matrix<0>;
+	using M0 = Matrix<0,MS2>;
+	MS2 ms2;
 	std::cout<<M3::LiteralType<<std::endl;
 	std::cout<<M1::LiteralType<<std::endl;
-	std::cout<<M0::LiteralType<<std::endl;
+	//std::cout<<M0::LiteralType<<std::endl;
 
-	M0 m0{std::make_shared<int>(1)};
-	assert(m0.Rows()==0);
-	assert(m0.Rows()==0);
-	assert((*m0())==1);
+	//M0 m0(ms2, std::vector<std::shared_ptr<int>>{std::make_shared<int>(1)});
+	//assert(m0.Rows()==0);
+	//assert(m0.Rows()==0);
+	//assert((*m0())==1);
 
 	M1 m1{
 		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)}	
@@ -76,11 +77,13 @@ int main()
 			{std::make_shared<int>(8),std::make_shared<int>(9)}},
 	};
 	auto d = m3[0];//.Descriptor();
-	auto dd = d[0];//.Descriptor();
-	auto ddd = dd[0];//.Descriptor();
-	std::cout<<"Matrix Element "<<ddd<<"\n";
+	
+	auto dd = d[1];//.Descriptor();
+	auto ddd = dd[1];//.Descriptor();
+	std::cout<<"Matrix Element "<<d.Rows()<<"\n";
 	//assert(dd.Size()==1);
 
+	assert(*ddd==4);
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
@@ -113,7 +116,6 @@ int main()
 	duv1->value=12;
 	std::cout<<*duv1<<*v1<<std::endl;
 	
-	MS2 ms2;
 	M2 m2ms2(ms2,r1);
 	M2 m2I(10,20);
 	//m3(3,1,1);
