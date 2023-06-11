@@ -43,12 +43,10 @@ public:
 	decltype(auto) Start() const { return start; }
 	decltype(auto) Stride(auto i) const { return strides[i]; }
 	decltype(auto) Extent(auto i) const { return extents[i]; }
+	decltype(auto) Cols() const { return strides[0]; }
+	decltype(auto) Rows() const { return extents[0]; }
 	decltype(auto) SetExtents(auto e) { extents = e; }
-	decltype(auto) AddRow() { 
-		std::array<std::size_t,N> e;
-		e = extents;
-		e[0] = extents[0] + 1;
-		extents = e; }
+	decltype(auto) AddRow() { extents[0] = extents[0] + 1; }
 private:
 	std::size_t start;
 	std::array<std::size_t,N> extents;

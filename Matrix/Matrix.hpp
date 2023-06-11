@@ -45,8 +45,8 @@ public:
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
-	decltype(auto) Rows() const { return descriptor.Extents()[0]; }
-	decltype(auto) Cols() const { return descriptor.Stride(0); }
+	decltype(auto) Rows() const { return descriptor.Rows(); }
+	decltype(auto) Cols() const { return descriptor.Cols(); }
 	decltype(auto) operator() (auto... I) const
 	{
 		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);

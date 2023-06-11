@@ -111,6 +111,8 @@ int main()
 	std::cout<<*duv1<<*v1<<std::endl;
 
 	ms2.AddRow();
+	assert(ms2.Extent(0)==1);
+	assert(ms2.Size()==1);
 	ms2.AddRow();
 	std::cout<<"E"<<ms2.Extent(0)<<ms2.Stride(0)<<std::endl;
 	assert(ms2.Extent(0)==2);
