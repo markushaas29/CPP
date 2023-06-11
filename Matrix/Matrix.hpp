@@ -16,8 +16,7 @@ template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {
 	using DescriptorType = DT;
-	//using T = typename DescriptorType::DataType;
-	using T = std::shared_ptr<int>;
+	using T = typename DescriptorType::DataType;
 public:
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
@@ -126,7 +125,7 @@ private:
 		return s<<"\n}";  
 	}
 
-	using MI = MatrixImpl<N>;
+	using MI = MatrixImpl<N,DescriptorType>;
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	DescriptorType descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();

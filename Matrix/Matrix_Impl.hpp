@@ -11,7 +11,7 @@
 template<size_t, typename> class Matrix;
 
 
-template<size_t N>
+template<size_t N, typename DescriptorType>
 class MatrixImpl
 {
 public:
@@ -30,19 +30,7 @@ private:
 		return a;
 	};   
 
-	template<int N1>
- 	decltype(auto) compute_strides(MatrixDescriptor<N>& ms) 
-	{
-		std::size_t st = 1;
-		for(int i=N1-1; i>=0; --i)
-		{
-			ms.strides[i] = st;
-			st *= ms.extents[i];
-		}
-		ms.size = st;
-	};
-	
-	static void compute_strides(MatrixDescriptor<N>& ms)
+	static void compute_strides(DescriptorType& ms)
 	{
 		size_t st = 1;
 		for(int i = N-1; i>= 0; --i)
@@ -114,7 +102,7 @@ private:
 	}
 
 	template<std::size_t N1,typename... Dims>
-	bool check_bounds(const MatrixDescriptor<N>& s, Dims... d)
+	bool check_bounds(const DescriptorType& s, Dims... d)
 	{
 		size_t indexes[N] { size_t(d)... };
 		return equal(indexes,indexes+N, s.extents.begin(), std::less<size_t>{});

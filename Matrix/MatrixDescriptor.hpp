@@ -10,12 +10,14 @@ constexpr bool All() { return true; }
 template<typename... Args>
 constexpr bool All(bool b, Args... a) { return b && All(a...); }
 
-template<size_t N> class MatrixImpl;
+template<size_t N, typename> class MatrixImpl;
+
+template<size_t, typename> class MatrixDescriptor;
 
 template<size_t N, typename T>
 class MatrixDescriptorBase
 {
-	friend class MatrixImpl<N>;
+	friend class MatrixImpl<N,MatrixDescriptor<N,T>>;
 public:
 	using InputType = T;
 	using DataType = std::shared_ptr<InputType>;

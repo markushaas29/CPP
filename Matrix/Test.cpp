@@ -16,21 +16,15 @@ int main()
 	using MS2 = MatrixDescriptor<2,std::string>;
 	using M1 = Matrix<1>;
 	using M0 = Matrix<0,MS2>;
-//	MS2 ms2;
-//	std::cout<<M3::LiteralType<<std::endl;
-//	std::cout<<M1::LiteralType<<std::endl;
-//	//std::cout<<M0::LiteralType<<std::endl;
-//
-//	//M0 m0(ms2, std::vector<std::shared_ptr<int>>{std::make_shared<int>(1)});
-//	//assert(m0.Rows()==0);
-//	//assert(m0.Rows()==0);
-//	//assert((*m0())==1);
-//
-//	M1 m1{
-//		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)}	
-//	};
-//	assert(m1.Rows()==5);
-//	assert(m1.Cols()==1);
+	MS2 ms2;
+	std::cout<<M3::LiteralType<<std::endl;
+	std::cout<<M1::LiteralType<<std::endl;
+
+	M1 m1{
+		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)}	
+	};
+	assert(m1.Rows()==5);
+	assert(m1.Cols()==1);
 //
 //	M2 m2
 //	{
