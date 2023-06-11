@@ -72,7 +72,6 @@ class MatrixDescriptor<2,T>: public MatrixDescriptorBase<2,T>
 	using Base = MatrixDescriptorBase<2,T>;
 public:
 	MatrixDescriptor() = default;
-	MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
 
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
@@ -85,7 +84,6 @@ class MatrixDescriptor<1,T>: public MatrixDescriptorBase<1,T>
 	using Base = MatrixDescriptorBase<1,T>;
 public:
 	MatrixDescriptor() = default;
-	//MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
