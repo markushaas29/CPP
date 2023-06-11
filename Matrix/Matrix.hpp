@@ -68,9 +68,7 @@ public:
 		if constexpr ((N-1)==0)
 		{
 			auto ret = row[0];
-			//auto m = Matrix<0,MatrixDescriptor<N-1,std::string>>(ret);
 			return ret;
-			//return m;
 		}
 		else
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
@@ -93,9 +91,6 @@ public:
 			result.push_back(elements->at(i + (r * Cols())));
 		return result;
     }
-//	MatrixRef<N-1,const T> Row(size_t i) const; //{  }
-//	MatrixRef<N-1,T> Col(size_t i); //{ }
-//	MatrixRef<N-1, const T> Col(size_t i) const; //{  }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{

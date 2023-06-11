@@ -30,6 +30,7 @@ public:
  	   std::copy (il.begin(), il.end(), extents.begin());
 	};
 	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{e}, strides{s} { };
+	MatrixDescriptorBase(std::array<std::size_t,N> e): extents{e} { computeStrides(); };
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(Dims... dims) const
 	{
@@ -52,6 +53,15 @@ private:
 	std::array<std::size_t,N> extents;
 	std::array<std::size_t,N> strides;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixDescriptorBase& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
+	decltype(auto) computeStrides()     
+  	{
+       size_t st = 1;
+       for(int i = N-1; i>= 0; --i)
+       {
+           strides[i] = st;
+           st *= extents[i];
+       }
+   	}
 };
 template<size_t N, typename T=int>
 class MatrixDescriptor: public MatrixDescriptorBase<N,T>
@@ -61,6 +71,7 @@ public:
 	MatrixDescriptor() = default;
 	MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s} {};
+	MatrixDescriptor(std::array<std::size_t,N> e): Base{e} {};
 };
 
 template<typename T>
@@ -68,8 +79,8 @@ class MatrixDescriptor<2,T>: public MatrixDescriptorBase<2,T>
 {
 	using Base = MatrixDescriptorBase<2,T>;
 public:
-	MatrixDescriptor(std::array<std::size_t,2> e = {0,0}, std::array<std::size_t,2> s = {0,1}): Base{e,s} {};
-
+	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
+	MatrixDescriptor(std::array<std::size_t,2> e = {0,0}): Base{e} {};
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const	{	return Base::Start()+i*Base::Strides(0)+j;	}
 };
@@ -79,7 +90,8 @@ class MatrixDescriptor<1,T>: public MatrixDescriptorBase<1,T>
 {
 	using Base = MatrixDescriptorBase<1,T>;
 public:
-	MatrixDescriptor(std::array<std::size_t,1> e = {0}, std::array<std::size_t,1> s = {0}): Base{e,{1}} {};
+	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,{1}} {};
+	MatrixDescriptor(std::array<std::size_t,1> e = {0}): Base{e} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}

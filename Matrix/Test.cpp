@@ -16,7 +16,11 @@ int main()
 	using MS2 = MatrixDescriptor<2,int>;
 	using M1 = Matrix<1>;
 	using M0 = Matrix<0,MS2>;
-	MS2 ms2{{0,1},{1,1}};
+	MS2 ms2{{0,1}};
+	MS2 ms254{{5,4}};
+	assert(ms254.Rows()==5);
+	assert(ms254.Cols()==4);
+	assert(ms254.Size()==20);
 	std::cout<<M3::LiteralType<<std::endl;
 	std::cout<<M1::LiteralType<<std::endl;
 
@@ -121,6 +125,7 @@ int main()
 	assert(ms2.Extent(0)==3);
 	M2 m2ms2(ms2,r1);
 
+	std::cout<<"m2ms2"<<std::endl;
 	std::cout<<m2ms2<<std::endl;
 	std::cout<<"END"<<std::endl;
 //
