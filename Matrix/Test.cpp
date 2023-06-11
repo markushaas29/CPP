@@ -16,7 +16,7 @@ int main()
 	using MS2 = MatrixDescriptor<2,int>;
 	using M1 = Matrix<1>;
 	using M0 = Matrix<0,MS2>;
-	MS2 ms2;
+	MS2 ms2{{0,1},{1,1}};
 	std::cout<<M3::LiteralType<<std::endl;
 	std::cout<<M1::LiteralType<<std::endl;
 
@@ -112,8 +112,9 @@ int main()
 
 	ms2.AddRow();
 	ms2.AddRow();
-	std::cout<<"E"<<ms2.Extent(0)<<std::endl;
+	std::cout<<"E"<<ms2.Extent(0)<<ms2.Stride(0)<<std::endl;
 	assert(ms2.Extent(0)==2);
+	assert(ms2.Size()==2);
 	ms2.AddRow();
 	assert(ms2.Extent(0)==3);
 	M2 m2ms2(ms2,r1);
