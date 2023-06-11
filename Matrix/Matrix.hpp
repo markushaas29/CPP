@@ -12,11 +12,12 @@
 
 #pragma once
 
-template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
+template<std::size_t N, typename DT=MatrixDescriptor<N,int,int>>
 class Matrix
 {
 	using DescriptorType = DT;
 	using T = typename DescriptorType::DataType;
+	using OutputTypes = typename DescriptorType::OutputTypes;
 public:
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert> 
 #include <vector> 
+#include <tuple> 
 #include <memory> 
 #include "Matrix.hpp"
 #include "MatrixDescriptor.hpp"
@@ -14,12 +15,13 @@ int main()
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
 	using MS3 = MatrixDescriptor<3,double>;
-	using MS2 = MatrixDescriptor<2,int>;
-	using MS1 = MatrixDescriptor<1,std::string>;
+	using MS2 = MatrixDescriptor<2,int,std::tuple<std::unique_ptr<int>,std::string>>;
+	using MS1 = MatrixDescriptor<1,std::string,DT>;
 	using M3D = Matrix<3,MS3>;
 	using M1S = Matrix<1,MS1>;
+	using M2M = Matrix<2,MS2>;
 	using M1 = Matrix<1>;
-	MS2 ms2{{0,1}};
+	MS2 ms2{{2,2}};
 	MS2 ms254{{5,4}};
 	assert(ms254.Rows()==5);
 	assert(ms254.Cols()==4);
@@ -123,19 +125,14 @@ int main()
 	duv1->value=12;
 	std::cout<<*duv1<<*v1<<std::endl;
 
+	assert(ms2.Rows()==2);
+	assert(ms2.Size()==4);
 	ms2.AddRow();
-	assert(ms2.Extent(0)==1);
-	assert(ms2.Size()==1);
-	ms2.AddRow();
-	std::cout<<"E"<<ms2.Extent(0)<<ms2.Stride(0)<<std::endl;
-	assert(ms2.Extent(0)==2);
-	assert(ms2.Size()==2);
-	ms2.AddRow();
-	assert(ms2.Extent(0)==3);
-	M2 m2ms2(ms2,r1);
+	M2M m2ms2(ms2,r1);
 
 	std::cout<<"m2ms2"<<std::endl;
 	std::cout<<m2ms2<<std::endl;
+	assert(ms2.Rows()==3);
 	std::cout<<"END"<<std::endl;
 //
     return 0;

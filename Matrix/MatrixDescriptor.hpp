@@ -12,14 +12,15 @@ constexpr bool All(bool b, Args... a) { return b && All(a...); }
 
 template<size_t N, typename> class MatrixImpl;
 
-template<size_t, typename> class MatrixDescriptor;
+template<size_t, typename, typename> class MatrixDescriptor;
 
-template<size_t N, typename T>
+template<size_t N, typename T, typename OT>
 class MatrixDescriptorBase
 {
-	friend class MatrixImpl<N,MatrixDescriptor<N,T>>;
+	friend class MatrixImpl<N,MatrixDescriptor<N,T,OT>>;
 public:
 	using InputType = T;
+	using OutputTypes = OT;
 	using DataType = std::shared_ptr<InputType>;
 	MatrixDescriptorBase() = default;
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e);
@@ -63,10 +64,10 @@ private:
        }
    	}
 };
-template<size_t N, typename T=int>
-class MatrixDescriptor: public MatrixDescriptorBase<N,T>
+template<size_t N, typename T=int, typename OT=T>
+class MatrixDescriptor: public MatrixDescriptorBase<N,T,OT>
 {
-	using Base = MatrixDescriptorBase<N,T>;
+	using Base = MatrixDescriptorBase<N,T,OT>;
 public:
 	MatrixDescriptor() = default;
 	MatrixDescriptor(auto... dims): Base(dims...) {	};
@@ -74,10 +75,10 @@ public:
 	MatrixDescriptor(std::array<std::size_t,N> e): Base{e} {};
 };
 
-template<typename T>
-class MatrixDescriptor<2,T>: public MatrixDescriptorBase<2,T>
+template<typename T, typename OT>
+class MatrixDescriptor<2,T,OT>: public MatrixDescriptorBase<2,T,OT>
 {
-	using Base = MatrixDescriptorBase<2,T>;
+	using Base = MatrixDescriptorBase<2,T,OT>;
 public:
 	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
 	MatrixDescriptor(std::array<std::size_t,2> e = {0,0}): Base{e} {};
@@ -85,10 +86,10 @@ public:
 	std::size_t operator()(size_t i, size_t j) const	{	return Base::Start()+i*Base::Strides(0)+j;	}
 };
 
-template<typename T>
-class MatrixDescriptor<1,T>: public MatrixDescriptorBase<1,T>
+template<typename T, typename OT>
+class MatrixDescriptor<1,T,OT>: public MatrixDescriptorBase<1,T,OT>
 {
-	using Base = MatrixDescriptorBase<1,T>;
+	using Base = MatrixDescriptorBase<1,T,OT>;
 public:
 	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,{1}} {};
 	MatrixDescriptor(std::array<std::size_t,1> e = {0}): Base{e} {};
