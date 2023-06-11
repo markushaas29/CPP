@@ -12,11 +12,12 @@
 
 #pragma once
 
-template<std::size_t N, typename DT=MatrixDescriptor<N,std::string>, typename BT=int>
+template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {
-	using T = std::shared_ptr<BT>;
 	using DescriptorType = DT;
+	//using T = typename DescriptorType::DataType;
+	using T = std::shared_ptr<int>;
 public:
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
@@ -160,7 +161,7 @@ private:
 //};
 //
 template<typename BT>
-class Matrix<0,MatrixDescriptor<0,BT>,BT>
+class Matrix<0,MatrixDescriptor<0,BT>>
 {
 	using T = std::shared_ptr<BT>;
 public:

@@ -1,5 +1,6 @@
 #include <array>
 #include <numeric>
+#include <memory>
 #include <initializer_list>
 
 #pragma once
@@ -16,6 +17,8 @@ class MatrixDescriptorBase
 {
 	friend class MatrixImpl<N>;
 public:
+	using InputType = T;
+	using DataType = std::shared_ptr<InputType>;
 	MatrixDescriptorBase() = default;
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e);
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);

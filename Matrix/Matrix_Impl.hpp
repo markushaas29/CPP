@@ -8,7 +8,7 @@
 
 #pragma once
 
-template<size_t, typename, typename> class Matrix;
+template<size_t, typename> class Matrix;
 
 
 template<size_t N>
@@ -19,7 +19,7 @@ public:
     inline static constexpr Literal LiteralType{TypeIdentifier};
 private:
 	template<typename T> using IsT = Is<T,LiteralType>;
-	template<size_t,typename,typename> friend class Matrix;
+	template<size_t,typename> friend class Matrix;
 	
 	template<typename List> 
 	static decltype(auto) derive_extents(const List& list) 
