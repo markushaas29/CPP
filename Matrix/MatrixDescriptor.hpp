@@ -56,7 +56,7 @@ private:
 	std::array<std::size_t,N> strides;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixDescriptorBase& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
-template<size_t N, typename T=std::string>
+template<size_t N, typename T=int>
 class MatrixDescriptor: public MatrixDescriptorBase<N,T>
 {
 	using Base = MatrixDescriptorBase<N,T>;
@@ -85,6 +85,7 @@ class MatrixDescriptor<1,T>: public MatrixDescriptorBase<1,T>
 	using Base = MatrixDescriptorBase<1,T>;
 public:
 	MatrixDescriptor() = default;
+	//MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>

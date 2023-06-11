@@ -32,13 +32,7 @@ public:
 	Matrix& operator=(Matrix&) = default;
 	~Matrix() = default;
 
-	template<typename U> Matrix(const MatrixRef<N,U>&);
-	template<typename U> Matrix& operator=(const MatrixRef<N,U>&);
-
-	template<typename... Exts> 
-	explicit Matrix(Exts... exts): descriptor{exts...} { };
 	explicit Matrix(DescriptorType d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	std::cout<<"MD "<<elements->size()<<*(elements->at(0)); };
-
 	Matrix(MatrixInitializer<T,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
@@ -65,6 +59,7 @@ public:
 	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[](size_t i) 
 	{
+		using MDT = MatrixDescriptor<N-1,typename DescriptorType::InputType>;
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
@@ -78,7 +73,7 @@ public:
 			//return m;
 		}
 		else
-			return Matrix<N-1,MatrixDescriptor<N-1,std::string>>(MatrixDescriptor<N-1,std::string>{e,s}, row);
+			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
@@ -129,65 +124,4 @@ private:
 	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
 	DescriptorType descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
-};
-
-//template<typename BT>
-//class Matrix<1,BT>
-//{
-//	using T = std::shared_ptr<BT>;
-//public:
-//	static constexpr size_t Order = 1;
-//	inline static constexpr const char TypeIdentifier[] = "Matrix<1>";
-//	inline static constexpr Literal LiteralType{TypeIdentifier};
-//	using ValueType = T;
-//
-//	//Matrix(std::initializer_list<U> l): element{e} {}
-//	//Matrix& operator=(const BT& v)
-//	//{
-//	//	element = v;
-//	//	return *this;
-//	//}
-//
-//	T& Row(size_t i) 	{ return elements->at(1); }
-//	decltype(auto) Rows() const { return 1; }
-//	decltype(auto) Cols() const { return 0; }
-//	decltype(auto) operator() () const	{	return elements;	}
-//	size_t Extent(size_t n) const { return elements->size(); }
-//	size_t Size() const { return elements->size(); }
-//private:
-//	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
-//	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
-//};
-//
-template<typename BT>
-class Matrix<0,MatrixDescriptor<0,BT>>
-{
-	using T = std::shared_ptr<BT>;
-public:
-	using DescriptorType = MatrixDescriptor<0,BT>;
-	using Type = BT;
-	static constexpr size_t Order = 0;
-	inline static constexpr const char TypeIdentifier[] = "Matrix<0>";
-	inline static constexpr Literal LiteralType{TypeIdentifier};
-	using ValueType = T;
-
-	Matrix(const T& e): element{e} {}
-	//explicit Matrix(DescriptorType<0> d, const std::vector<T> v) : descriptor{d}, element{v.at(0)}{	};
-	explicit Matrix(DescriptorType d, const std::vector<T> v)  { std::cout<<"V"<<v[0];	};
-	Matrix& operator=(const BT& v)
-	{
-		element = v;
-		return *this;
-	}
-
-	const BT& Row(size_t i) = delete;
-	decltype(auto) Rows() const { return 0; }
-	decltype(auto) Cols() const { return 0; }
-	decltype(auto) operator() () const	{	return element;	}
-	size_t Extent(size_t n) const { return 1; }
-	size_t Size() const { return 1; }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 	{	return s<<*(m.element);	}
-	DescriptorType descriptor;
-	T element;
 };
