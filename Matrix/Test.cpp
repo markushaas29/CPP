@@ -13,9 +13,12 @@ int main()
 
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
+	using MS3 = MatrixDescriptor<3,double>;
 	using MS2 = MatrixDescriptor<2,int>;
+	using MS1 = MatrixDescriptor<1,std::string>;
+	using M3D = Matrix<3,MS3>;
+	using M1S = Matrix<1,MS1>;
 	using M1 = Matrix<1>;
-	using M0 = Matrix<0,MS2>;
 	MS2 ms2{{0,1}};
 	MS2 ms254{{5,4}};
 	assert(ms254.Rows()==5);
@@ -30,6 +33,12 @@ int main()
 	assert(m1.Rows()==5);
 	assert(m1.Cols()==1);
 
+	M1S m1s{
+		{std::make_shared<std::string>("1"),std::make_shared<std::string>("2")}	
+	};
+	assert(m1s.Rows()==2);
+	assert(m1s.Cols()==1);
+	
 	M2 m2
 	{
 		{std::make_shared<int>(1)},
