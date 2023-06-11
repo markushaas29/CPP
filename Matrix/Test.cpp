@@ -117,6 +117,7 @@ int main()
 	assert(ms2.Extent(0)==3);
 	M2 m2ms2(ms2,r1);
 
+	std::cout<<m2ms2<<std::endl;
 	std::cout<<"END"<<std::endl;
 //
     return 0;

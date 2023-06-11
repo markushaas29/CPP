@@ -71,8 +71,7 @@ class MatrixDescriptor<2,T>: public MatrixDescriptorBase<2,T>
 {
 	using Base = MatrixDescriptorBase<2,T>;
 public:
-	MatrixDescriptor() = default;
-	MatrixDescriptor(std::array<std::size_t,2> e, std::array<std::size_t,2> s): Base{e,s} {};
+	MatrixDescriptor(std::array<std::size_t,2> e = {0,0}, std::array<std::size_t,2> s = {0,0}): Base{e,s} {};
 
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t i, size_t j) const	{	return Base::Start()+i*Base::Strides(0)+j;	}
@@ -83,8 +82,7 @@ class MatrixDescriptor<1,T>: public MatrixDescriptorBase<1,T>
 {
 	using Base = MatrixDescriptorBase<1,T>;
 public:
-	MatrixDescriptor() = default;
-	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,s} {};
+	MatrixDescriptor(std::array<std::size_t,1> e = {0}, std::array<std::size_t,1> s = {0}): Base{e,s} {};
 	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
