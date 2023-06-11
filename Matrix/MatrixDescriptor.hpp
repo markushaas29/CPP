@@ -29,7 +29,7 @@ public:
        std::initializer_list<int> il({dims...} );
  	   std::copy (il.begin(), il.end(), extents.begin());
 	};
-	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{e}, strides{s}, size{e[0] * s[0]} { };
+	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{e}, strides{s} { };
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(Dims... dims) const
 	{
@@ -39,7 +39,7 @@ public:
 
 	const std::array<size_t,N>& Strides() const { return strides; }
 	const std::array<size_t,N>& Extents() const { return extents; }
-	decltype(auto) Size() const { return size; }
+	decltype(auto) Size() const { return strides[0] * extents[0]; }
 	decltype(auto) Start() const { return start; }
 	decltype(auto) Stride(auto i) const { return strides[i]; }
 	decltype(auto) Extent(auto i) const { return extents[i]; }
@@ -50,7 +50,6 @@ public:
 		e[0] = extents[0] + 1;
 		extents = e; }
 private:
-	std::size_t size;
 	std::size_t start;
 	std::array<std::size_t,N> extents;
 	std::array<std::size_t,N> strides;

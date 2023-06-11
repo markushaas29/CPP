@@ -53,7 +53,7 @@ public:
 		return elements->at(i); 
 	}
 	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
-	size_t Size() const { return descriptor.Stride(0) * descriptor.Extents()[0]; }
+	size_t Size() const { return descriptor.Size(); }
 	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }

@@ -46,6 +46,7 @@ int main()
 		{std::make_shared<int>(6),std::make_shared<int>(7),std::make_shared<int>(8),std::make_shared<int>(9),std::make_shared<int>(10)},
 		{std::make_shared<int>(11),std::make_shared<int>(12),std::make_shared<int>(13),std::make_shared<int>(14),std::make_shared<int>(15)},
 	};
+	std::cout<<"Matrix m3 "<<m35<<"\n";
 	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
 	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
 	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;

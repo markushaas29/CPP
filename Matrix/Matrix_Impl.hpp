@@ -38,8 +38,6 @@ private:
 			ms.strides[i] = st;
 			st *= ms.extents[i];
 		}
-	
-		ms.size = st;
 	}
 
 	template<uint I> 
