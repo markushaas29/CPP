@@ -13,6 +13,7 @@ struct I
 int main()
 {       
     std::cout<<"START"<<std::endl;
+    std::cout<<Format("1",2,"2")<<std::endl;
 	I<"Test"> i;
 	constexpr Literal L{"Main"};
 	constexpr Literal L2{"2ain"};
