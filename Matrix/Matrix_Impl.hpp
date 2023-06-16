@@ -60,7 +60,7 @@ private:
 		std::array<size_t, N> indices;
         std::copy (il.begin(), il.end(), indices.begin());
 		
-		return indices[0] * strides[0] + computeIndex<1>(indices,extents,strides);
+		return computeIndex<0>(indices,extents,strides);
 	}
 	template<typename T, typename V> 
 	static void insert_flat(std::initializer_list<T> list, V& v){	add_list(list.begin(), list.end(),v);	}

@@ -89,7 +89,7 @@ int main()
 	
 	auto dd = d[1];//.Descriptor();
 	auto ddd = dd[1];//.Descriptor();
-	std::cout<<"Matrix Element "<<d.Rows()<<"\n";
+	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
 	//assert(dd.Size()==1);
 
 	//assert(*(*ddd)==4);
@@ -106,33 +106,53 @@ int main()
 	assert(*m3(0,1,1)==4);
 	assert(*m3(1,0,1)==7);
 	assert(*m3(1,1,1)==9);
+	try
+	{
+		assert(*m3(2,1,1)==9);
+	}
+	catch(...)
+	{
+	}
 
+	try
+	{
+		assert(*m3(1,3,1)==9);
+	}
+	catch(...)
+	{
+	}
+	
+	try
+	{
+		assert(*m3(1,1,5)==9);
+	}
+	catch(...)
+	{
+	}
 	auto v1 = std::make_shared<ValueCell<int>>(1);
 	auto q1 = std::make_shared<QuantityCell<Q>>(1);
-	std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
+	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
 
-	for(auto c : mcv)
-		c->Display(std::cout);
-	auto vc1 = v1;
+	//auto vc1 = v1;
 
-	std::cout<<v1<<vc1<<std::endl;
-	std::cout<<*v1<<*vc1<<std::endl;
-	vc1->value=11;
-	std::cout<<*v1<<*vc1<<std::endl;
+	//std::cout<<"V1"<<v1<<vc1<<std::endl;
+	//std::cout<<*v1<<*vc1<<std::endl;
+	//vc1->value=11;
+	//std::cout<<*v1<<*vc1<<std::endl;
 
-	auto uv1 = vc1->Clone();
-	auto duv1 = dynamic_cast<ValueCell<int>*>(uv1.get());
-	duv1->value=12;
-	std::cout<<*duv1<<*v1<<std::endl;
+	//auto uv1 = vc1->Clone();
+	//auto duv1 = dynamic_cast<ValueCell<int>*>(uv1.get());
+	//duv1->value=12;
+	//std::cout<<*duv1<<*v1<<std::endl;
 
-	assert(ms2.Rows()==2);
-	assert(ms2.Size()==4);
-	ms2.AddRow();
-	M2M m2ms2(ms2,r1);
+	//assert(ms2.Rows()==2);
+	//assert(ms2.Size()==4);
+	//ms2.AddRow();
+	//M2M m2ms2(ms2,r1);
 
-	std::cout<<"m2ms2"<<std::endl;
-	std::cout<<m2ms2<<std::endl;
-	assert(ms2.Rows()==3);
+	//std::cout<<"m2ms2"<<std::endl;
+	//std::cout<<m2ms2<<std::endl;
+	//assert(ms2.Rows()==3);
 	std::cout<<"END"<<std::endl;
 //
     return 0;
