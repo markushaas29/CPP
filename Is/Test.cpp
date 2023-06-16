@@ -13,10 +13,10 @@ struct I
 int main()
 {       
     std::cout<<"START"<<std::endl;
-    std::cout<<Format("1",2,"2")<<std::endl;
 	I<"Test"> i;
 	constexpr Literal L{"Main"};
 	constexpr Literal L2{"2ain"};
+    std::cout<<Format("1",2,'c', 1.2456,L)<<std::endl;
 	Literal L3{"2ain"};
 
 	//L3.Value[0] = "T";

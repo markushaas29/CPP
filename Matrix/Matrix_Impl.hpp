@@ -47,7 +47,7 @@ private:
 			return 0;
 		else
 		{
-			IsT<Throwing>("Index exceeds extents")(indices[I]<extents[I]);
+			IsT<Throwing>(Format("Index exceeds extents: Index: ",indices[I]," >= Extent: ",extents[I]))(indices[I]<extents[I]);
 			return indices[I] * strides[I] + computeIndex<I+1>(indices,extents,strides);
 		}
 	}
