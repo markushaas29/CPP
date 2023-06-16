@@ -124,6 +124,7 @@ int main()
 	
 	try
 	{
+		//assert(*m3(1,2,1,5)==9);
 		assert(*m3(1,1,5)==9);
 	}
 	catch(...)

@@ -50,6 +50,7 @@ public:
 	decltype(auto) Cols() const { return descriptor.Cols(); }
 	decltype(auto) operator() (auto... I) const
 	{
+		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
 		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
 		return elements->at(i); 
 	}
