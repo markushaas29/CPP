@@ -3,6 +3,7 @@
 #include <typeindex>
 #include "Is.hpp"
 #include "../String/Literal.hpp"
+#include "../String/Format.hpp"
 
 template<Literal L>
 struct I

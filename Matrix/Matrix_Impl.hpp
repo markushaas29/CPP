@@ -5,6 +5,7 @@
 #include "MatrixDescriptor.hpp"   
 #include "Matrix_Initializer.hpp"   
 #include "../Is/Is.hpp"   
+#include "../String/Format.hpp"   
 
 #pragma once
 
