@@ -137,6 +137,10 @@ int main()
 
 	MC2 mc2{};
 	mc2.Create("");
+	auto mc2m = mc2.C("");
+	
+	std::cout<<*mc2m(3,1)<<std::endl;
+	std::cout<<*mc2m(5,1)<<std::endl;
 	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
 
 	//auto vc1 = v1;
