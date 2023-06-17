@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "Matrix.hpp"
+#include "MatrixCreator.hpp"
 #include "MatrixDescriptor.hpp"
 #include "../Common/ShortNames.hpp"
 using namespace ShortNames;
