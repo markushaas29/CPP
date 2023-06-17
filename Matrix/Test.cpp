@@ -46,6 +46,7 @@ int main()
 	std::vector<std::shared_ptr<std::string>> v1s{{std::make_shared<std::string>("3")}};
 	m1s.AddRow(v1s);
 	assert(m1s.Rows()==3);
+	assert(*m1s(2)=="3");
 	
 	M2 m2
 	{
@@ -143,8 +144,9 @@ int main()
 	mc2.Create("");
 	auto mc2m = mc2.C("");
 	
-	std::cout<<*mc2m(3,1)<<std::endl;
-	std::cout<<*mc2m(5,1)<<std::endl;
+	std::cout<<*mc2m(15,5)<<std::endl;
+	assert(mc2m.Rows()==125);
+	assert(mc2m.Cols()==19);
 	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
 
 	//auto vc1 = v1;

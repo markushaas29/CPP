@@ -35,14 +35,16 @@ public:
         auto fi = std::make_shared<FS::FileInfo>(path);
         auto f = FS::File(fi);
 		auto lines = f.Read();
+		uint rows = 0;
 		std::vector<DataType> data;
 		std::for_each(lines.cbegin(), lines.cend(), [&](const auto& l)
 				{
 					auto vals = String_::Split<CSVSeparator>(l);
+					rows = vals.size();
 					std::for_each(vals.cbegin(), vals.cend(), [&](const auto& v) { data.push_back(std::make_shared<InputType>(v)); });
 				});
 
-		std::array<std::size_t,2> e { lines.size(), 2 };
+		std::array<std::size_t,2> e { lines.size(), rows };
 		auto desc = DescriptorType{e};
 		m = Type(desc,data);
 		
