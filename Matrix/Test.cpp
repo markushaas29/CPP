@@ -144,7 +144,7 @@ int main()
 	mc2.Create("");
 	auto mc2m = mc2.Get();
 	
-	std::cout<<*mc2m(15,5)<<std::endl;
+	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
 	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
