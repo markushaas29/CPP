@@ -16,11 +16,12 @@ int main()
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
 	using MS3 = MatrixDescriptor<3,double>;
-	using MS2 = MatrixDescriptor<2,int,std::tuple<std::unique_ptr<int>,std::string>>;
+	using MS2 = MatrixDescriptor<2,std::string,std::tuple<std::unique_ptr<int>,std::string>>;
 	using MS1 = MatrixDescriptor<1,std::string,DT>;
 	using M3D = Matrix<3,MS3>;
 	using M1S = Matrix<1,MS1>;
 	using M2M = Matrix<2,MS2>;
+	using MC2 = MatrixCreator<M2M>;
 	using M1 = Matrix<1>;
 	MS2 ms2{{2,2}};
 	MS2 ms254{{5,4}};
@@ -133,6 +134,9 @@ int main()
 	}
 	auto v1 = std::make_shared<ValueCell<int>>(1);
 	auto q1 = std::make_shared<QuantityCell<Q>>(1);
+
+	MC2 mc2{};
+	mc2.Create("");
 	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
 
 	//auto vc1 = v1;

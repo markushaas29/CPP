@@ -22,6 +22,7 @@ public:
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
+	using InputType = typename DT::InputType;
 	using ValueType = T;
 	using Iterator = typename std::vector<T>::iterator;
 	using ConstIterator = typename std::vector<T>::const_iterator;
@@ -33,7 +34,7 @@ public:
 	Matrix& operator=(Matrix&) = default;
 	~Matrix() = default;
 
-	explicit Matrix(DescriptorType d, const std::vector<T> v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	std::cout<<"MD "<<elements->size()<<*(elements->at(0)); };
+	explicit Matrix(DescriptorType d, const std::vector<T>& v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{	std::cout<<"MD "<<elements->size()<<*(elements->at(0)); };
 	Matrix(MatrixInitializer<T,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
