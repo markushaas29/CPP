@@ -28,8 +28,7 @@ public:
 	using InputType = typename MT::InputType;
 	using DataType = typename MT::ValueType;
 	using CSVSeparator = T::char_<';'> ;
-	void Create(const std::string& s) {}
-	Type&& C(const std::string& s) 
+	void Create(const std::string& s) 
 	{
 		auto path = fs::path{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
         auto fi = std::make_shared<FS::FileInfo>(path);
@@ -47,9 +46,9 @@ public:
 		std::array<std::size_t,2> e { lines.size(), rows };
 		auto desc = DescriptorType{e};
 		m = Type(desc,data);
-		
-		return std::move(m);
 	}
+
+	Type&& Get() { return std::move(m); } 
 private:
 	Type m;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixCreator& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }

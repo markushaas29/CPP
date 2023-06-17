@@ -142,7 +142,7 @@ int main()
 
 	MC2 mc2{};
 	mc2.Create("");
-	auto mc2m = mc2.C("");
+	auto mc2m = mc2.Get();
 	
 	std::cout<<*mc2m(15,5)<<std::endl;
 	assert(mc2m.Rows()==125);
