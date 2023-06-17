@@ -78,6 +78,13 @@ public:
 	}
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
+	
+	decltype(auto) AddRow(const std::vector<T>& v)
+	{
+		elements->insert(elements->end(), v.begin(), v.end());
+		descriptor.AddRow();
+	}
+
 	decltype(auto) Row(size_t i)
     {  
     	assert(i<Rows());
@@ -86,6 +93,7 @@ public:
 			result.push_back(elements->at(r));
 		return result;
     }
+
 	decltype(auto) Col(size_t i)
     {  
     	assert(i<Cols());

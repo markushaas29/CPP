@@ -43,6 +43,10 @@ int main()
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
 	
+	std::vector<std::shared_ptr<std::string>> v1s{{std::make_shared<std::string>("3")}};
+	m1s.AddRow(v1s);
+	assert(m1s.Rows()==3);
+	
 	M2 m2
 	{
 		{std::make_shared<int>(1)},

@@ -31,7 +31,7 @@ public:
 	void Create(const std::string& s) {}
 	Type&& C(const std::string& s) 
 	{
-		auto path = fs::path{ "/home/markus/Downloads/CSV_TestFiles_2/11144078_Energy.ctrv" };
+		auto path = fs::path{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
         auto fi = std::make_shared<FS::FileInfo>(path);
         auto f = FS::File(fi);
 		auto lines = f.Read();
