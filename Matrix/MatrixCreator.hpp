@@ -50,6 +50,6 @@ public:
 
 	Type&& Get() { return std::move(m); } 
 private:
-	Type m;
+	Type m{};
 	friend std::ostream& operator<<(std::ostream& s, const MatrixCreator& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };

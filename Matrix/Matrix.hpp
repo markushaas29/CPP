@@ -82,6 +82,7 @@ public:
 	decltype(auto) AddRow(const std::vector<T>& v)
 	{
 		elements->insert(elements->end(), v.begin(), v.end());
+		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
 		descriptor.AddRow();
 	}
 
@@ -127,7 +128,7 @@ private:
 	}
 
 	using MI = MatrixImpl<N,DescriptorType>;
-	template<typename U, bool B> using IsT =  Is<U,LiteralType,B>;
+	template<typename U> using IsT =  Is<U,LiteralType>;
 	DescriptorType descriptor;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };

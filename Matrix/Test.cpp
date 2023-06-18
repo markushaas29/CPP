@@ -57,6 +57,7 @@ int main()
 	assert(m2.Cols()==1);
 	assert(m2.Size()==2);
 
+
 	auto m20 = m2[0];
 	assert(m20.Size()==1);
 
@@ -83,6 +84,11 @@ int main()
 	assert(*m35(2,0)==11);
 	assert(*m35(2,4)==15);
 
+	bool t = false;
+	try	{ m35.AddRow({std::make_shared<int>(2)});	}
+	catch(...){ t = true;	}
+	assert(t);
+	
 	M3 m3 {
 		{
 			{std::make_shared<int>(1),std::make_shared<int>(2)},

@@ -26,7 +26,7 @@ public:
 			return extents;
 		else
 		{
-			IsT<Logging>(Format(": Extent is zero at Index: ",IA))(extents[IA]>0);
+			IsT<Logging>(Format(": Extent is zero at Dimension: ",I))(extents[I]>0);
 			return checkExtents<I+1>(extents);
 		}
 	}
@@ -53,6 +53,8 @@ private:
 			st *= ms.extents[i];
 		}
 	}
+
+	static constexpr decltype(auto) checkJagged(size_t s, const DescriptorType& d)	{	return s % d.strides[0];	}
 
 	template<uint I> 
 	static decltype(auto) computeIndex(const std::array<std::size_t, N> indices, const std::array<std::size_t, N> extents, const std::array<std::size_t, N> strides)
