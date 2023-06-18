@@ -18,6 +18,7 @@ template<size_t N, typename T, typename OT>
 class MatrixDescriptorBase
 {
 	friend class MatrixImpl<N,MatrixDescriptor<N,T,OT>>;
+	using MI = MatrixImpl<N,MatrixDescriptor<N,T,OT>>;
 public:
 	using InputType = T;
 	using OutputTypes = OT;
@@ -30,8 +31,8 @@ public:
        std::initializer_list<int> il({dims...} );
  	   std::copy (il.begin(), il.end(), extents.begin());
 	};
-	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{e}, strides{s} { };
-	MatrixDescriptorBase(std::array<std::size_t,N> e): extents{e} { computeStrides(); };
+	MatrixDescriptorBase(std::array<std::size_t,N> e, std::array<std::size_t,N> s): extents{MI::template checkExtents<1>(e)}, strides{s} { };
+	MatrixDescriptorBase(std::array<std::size_t,N> e): extents{MI::template checkExtents<1>(e)} { MI::template checkExtents<1>(e); computeStrides(); };
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(Dims... dims) const
 	{

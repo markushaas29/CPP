@@ -18,9 +18,22 @@ class MatrixImpl
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixImpl";
     inline static constexpr Literal LiteralType{TypeIdentifier};
+
+	template<uint I, uint IA=I-1> 
+	static decltype(auto) checkExtents(const std::array<std::size_t, N> extents)
+	{
+		if constexpr (I==N)
+			return extents;
+		else
+		{
+			IsT<Logging>(Format(": Extent is zero at Index: ",IA))(extents[IA]>0);
+			return checkExtents<I+1>(extents);
+		}
+	}
 private:
 	template<typename T> using IsT = Is<T,LiteralType>;
 	template<size_t,typename> friend class Matrix;
+	friend DescriptorType;
 	
 	template<typename List> 
 	static decltype(auto) derive_extents(const List& list) 
