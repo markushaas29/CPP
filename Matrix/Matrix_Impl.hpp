@@ -1,6 +1,7 @@
 #include <initializer_list>
 #include <array>
 #include <cassert>
+#include <algorithm>
 #include "Matrix_Ref.hpp"   
 #include "MatrixDescriptor.hpp"   
 #include "Matrix_Initializer.hpp"   
@@ -26,8 +27,10 @@ public:
 			return extents;
 		else
 		{
-			IsT<Logging>(Format(": Extent is zero at Dimension: ",I))(extents[I]>0);
-			return checkExtents<I+1>(extents);
+			if(std::all_of(extents.begin(), extents.end(), [](auto i){ return i==0;})) 
+				return extents;
+			IsT<Throwing>(Format(": Extent is zero at Dimension: ",I))(extents[I]>0);
+			return  checkExtents<I+1>(extents);
 		}
 	}
 private:

@@ -119,30 +119,11 @@ int main()
 	assert(*m3(0,1,1)==4);
 	assert(*m3(1,0,1)==7);
 	assert(*m3(1,1,1)==9);
-	try
-	{
-		assert(*m3(2,1,1)==9);
-	}
-	catch(...)
-	{
-	}
+	try	{ assert(*m3(2,1,1)==9); }	catch(...)	{	}
 
-	try
-	{
-		assert(*m3(1,3,1)==9);
-	}
-	catch(...)
-	{
-	}
+	try	{ assert(*m3(1,3,1)==9);	}	catch(...)	{	}
 	
-	try
-	{
-		//assert(*m3(1,2,1,5)==9);
-		assert(*m3(1,1,5)==9);
-	}
-	catch(...)
-	{
-	}
+	try	{	assert(*m3(1,1,5)==9);	}catch(...)	{	}
 	auto v1 = std::make_shared<ValueCell<int>>(1);
 	auto q1 = std::make_shared<QuantityCell<Q>>(1);
 

@@ -38,7 +38,7 @@ int main()
 	assert(ms254.Size()==20);
 
 	bool t = false;
-	try	{	MD2 md2{{0,2}};	}
+	try	{	MD2 md2{{1,0}};	}
 	catch(...){	t = true; }
 	assert(t);
 	

@@ -70,7 +70,6 @@ class MatrixDescriptor: public MatrixDescriptorBase<N,T,OT>
 {
 	using Base = MatrixDescriptorBase<N,T,OT>;
 public:
-	MatrixDescriptor() = default;
 	MatrixDescriptor(auto... dims): Base(dims...) {	};
 	MatrixDescriptor(std::array<std::size_t,N> e, std::array<std::size_t,N> s): Base{e,s} {};
 	MatrixDescriptor(std::array<std::size_t,N> e): Base{e} {};
@@ -94,7 +93,6 @@ class MatrixDescriptor<1,T,OT>: public MatrixDescriptorBase<1,T,OT>
 public:
 	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,{1}} {};
 	MatrixDescriptor(std::array<std::size_t,1> e = {0}): Base{e} {};
-	
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
 };
