@@ -16,6 +16,7 @@ public:
 	using PtrType = std::shared_ptr<Element<T>>;
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {}
+	decltype(auto) get() const { return element; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return s<<*me;  }
 	PtrType element;
@@ -48,6 +49,7 @@ template<typename QT>
 class QuantityElement: public MatrixElement<QT>, public IMatrixCell
 {
 	using Type = QT;
+	using Base = MatrixElement<QT>;
 	inline static constexpr const char TypeIdentifier[] = "QCell";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
@@ -56,6 +58,6 @@ public:
 	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity;  }
+	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<*me.Base::get();  }
 	Type quantity;
 };
