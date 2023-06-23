@@ -52,9 +52,10 @@ class QuantityElement: public MatrixElement<QT>, public IMatrixCell
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
 	QuantityElement(double v): quantity{v} {};
-	QuantityElement(std::string s): MatrixElement<QT>(std::make_unique<Element<QT>>(s.c_str())) {};
+	QuantityElement(std::string s): MatrixElement<QT>{std::make_unique<Element<QT>>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {};
 	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
+	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity;  }
 	Type quantity;
 };
