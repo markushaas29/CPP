@@ -12,11 +12,12 @@ template<typename T>
 class MatrixElement
 {
 public:
-	//using PtrType = std::unique_ptr<Element<T>>;
-	using PtrType = std::shared_ptr<Element<T>>;
+	using PtrType = std::unique_ptr<Element<T>>;
+	//using PtrType = std::shared_ptr<Element<T>>;
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {}
-	decltype(auto) get() const { return element; }
+	MatrixElement(const MatrixElement& m): element{m.get()} {}
+	decltype(auto) get() const { return std::make_unique<T>(element->Value()); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return s<<*me;  }
 	PtrType element;
@@ -58,6 +59,6 @@ public:
 	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<*me.Base::get();  }
+	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity; }//<<*me.Base::get();  }
 	Type quantity;
 };
