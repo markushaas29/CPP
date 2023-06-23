@@ -1,43 +1,54 @@
 #include <memory>
 #include "../Is/Is.hpp"
+#include "../CSV/Element.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/QuantityRatio.hpp"
 
 #pragma once
 
-class MatrixCell
+template<typename T>
+class MatrixElement
 {
 public:
-	virtual std::unique_ptr<MatrixCell> Clone() = 0;
-	virtual std::ostream& Display(std::ostream& s) = 0;
+	using PtrType = std::unique_ptr<Element<T>>;
+protected:
+	MatrixElement(PtrType p): element{std::move(p)} {}
 private:
+	PtrType element;
+};
+
+class IMatrixCell
+{
+public:
+	virtual std::unique_ptr<IMatrixCell> Clone() = 0;
+	virtual std::ostream& Display(std::ostream& s) = 0;
 };
 
 template<typename V>
-class ValueCell: public MatrixCell
+class ValueElement: public MatrixElement<V>, public IMatrixCell
 {
-	inline static constexpr const char TypeIdentifier[] = "ValueCell";
+	inline static constexpr const char TypeIdentifier[] = "ValueElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
-	ValueCell(V v): value{v} {};
-	std::unique_ptr<MatrixCell> Clone() { return std::make_unique<ValueCell<V>>(*this); }
+	ValueElement(V v): value{v} {};
+	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<ValueElement<V>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 	V value;
 private:
-	friend std::ostream& operator<<(std::ostream& s, const ValueCell& vc) { return s<<vc.value;  }
+	friend std::ostream& operator<<(std::ostream& s, const ValueElement& vc) { return s<<vc.value;  }
 };
 
 //template<typename UT, typename QR=Pure,typename T1=double>
 template<typename QT>
-class QuantityCell: public MatrixCell
+class QuantityElement: public MatrixElement<QT>, public IMatrixCell
 {
 	using Type = QT;
 	inline static constexpr const char TypeIdentifier[] = "QCell";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
-	QuantityCell(double v): quantity{v} {};
-	std::unique_ptr<MatrixCell> Clone() { return std::make_unique<QuantityCell<Type>>(*this); }
+	QuantityElement(double v): quantity{v} {};
+	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
 	Type quantity;
