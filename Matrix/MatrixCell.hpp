@@ -2,6 +2,7 @@
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
 #include "../String/Literal.hpp"
+#include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/QuantityRatio.hpp"
 
@@ -11,10 +12,12 @@ template<typename T>
 class MatrixElement
 {
 public:
-	using PtrType = std::unique_ptr<Element<T>>;
+	//using PtrType = std::unique_ptr<Element<T>>;
+	using PtrType = std::shared_ptr<Element<T>>;
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {}
 private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return s<<*me;  }
 	PtrType element;
 };
 
@@ -31,7 +34,8 @@ class ValueElement: public MatrixElement<V>, public IMatrixCell
 	inline static constexpr const char TypeIdentifier[] = "ValueElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
-	ValueElement(V v): MatrixElement<V>{std::make_unique<V>("Value")} {};
+	//ValueElement(V v): MatrixElement<V>{std::make_unique<V>("Value")} {};
+	ValueElement(std::string v): MatrixElement<V>{std::make_unique<V>("Value")} {};
 	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<ValueElement<V>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 	V value;
@@ -48,7 +52,7 @@ class QuantityElement: public MatrixElement<QT>, public IMatrixCell
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
 	QuantityElement(double v): quantity{v} {};
-	QuantityElement(QT qt): MatrixElement<QT>{std::make_unique<QT>("Value")} {};
+	QuantityElement(std::string s): MatrixElement<QT>(std::make_unique<Element<QT>>(s.c_str())) {};
 	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:

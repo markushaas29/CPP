@@ -11,6 +11,8 @@
 #ifndef QUANTITY_H
 #define QUANTITY_H
 
+template<typename> class Element;
+
 template<typename U, typename QR = Pure,typename T1 = double>
 class Quantity
 {
@@ -79,7 +81,9 @@ public:
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T2>& q ) const {	return divide(q);	}
 private:
-	T1 value;	
+	T1 value;
+	friend class Element<Type>;
+	static constexpr const char* check(const char* s) { return s; }
 	
 	template<typename TQuantity>
 	constexpr static decltype(auto) transform(TQuantity t)
