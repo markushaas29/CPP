@@ -14,10 +14,12 @@ int main()
 
 	auto vei = ValueElement<IBAN>("IBANT");
 	std::cout<<vei<<std::endl;
+	std::cout<<vei.getT()<<std::endl;
 
 	auto qe = QuantityElement<Q>("1.53");
 	//QuantityElement<Q> qe("1.53");
 	std::cout<<qe<<std::endl;
+	std::cout<<qe.getT()<<std::endl;
 
 	assert(false);
 	
