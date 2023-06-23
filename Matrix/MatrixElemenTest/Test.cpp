@@ -16,6 +16,7 @@ int main()
 	std::cout<<vei<<std::endl;
 
 	//auto qe = QuantityElement<Q>("1.53");
+	QuantityElement<Q> qe("1.53");
 	//std::cout<<qe<<std::endl;
 
 	assert(false);

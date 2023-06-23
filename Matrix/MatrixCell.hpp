@@ -16,7 +16,7 @@ public:
 	//using PtrType = std::shared_ptr<Element<T>>;
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {}
-	MatrixElement(const MatrixElement& m): element{m.get()} {}
+	MatrixElement(const MatrixElement& m): element{std::make_unique<Element<T>>((element->Value()).c_str())} {}
 	decltype(auto) get() const { return std::make_unique<T>(element->Value()); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return s<<*me;  }
