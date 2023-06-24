@@ -3,7 +3,7 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
-#include "../MatrixCell.hpp"
+#include "../MatrixElement.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Common/DateTimes.hpp"

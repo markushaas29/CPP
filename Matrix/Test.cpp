@@ -124,8 +124,6 @@ int main()
 	try	{ assert(*m3(1,3,1)==9);	}	catch(...)	{	}
 	
 	try	{	assert(*m3(1,1,5)==9);	}catch(...)	{	}
-	auto v1 = std::make_shared<ValueCell<int>>(1);
-	auto q1 = std::make_shared<QuantityCell<Q>>(1);
 
 	MC2 mc2{};
 	mc2.Create("");

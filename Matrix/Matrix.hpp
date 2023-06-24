@@ -6,7 +6,7 @@
 #include "MatrixDescriptor.hpp"
 #include "Matrix_Initializer.hpp"
 #include "Matrix_Impl.hpp"
-#include "MatrixCell.hpp"
+#include "MatrixElement.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
