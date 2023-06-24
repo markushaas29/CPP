@@ -31,6 +31,7 @@ int main()
 
 	auto vd = ValueElement<DateTimes::Date>("01.01.2022");
 	std::cout<<vd<<std::endl;
+	auto dp = vd.Ptr();
 	auto d = vd.Get();
 	same = std::is_same_v<decltype(d),DateTimes::Date>;
 	assert(same);
