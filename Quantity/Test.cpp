@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Quantity.hpp"
 #include "ToQuantity.hpp"
+#include "../CSV/Element.hpp"
 
 int main()
 {       

@@ -14,11 +14,12 @@
 template<typename> class Element;
 
 template<typename U, typename QR = Pure,typename T1 = double>
-class Quantity
+class Quantity: public Element<Quantity<U,QR,T1>>
 {
 public:
 	using ValueType = T1;
 	using UnitType = U;
+	using Base = Element<Quantity<U,QR,T1>>;
 	using QuantityRatioType = QR;
 	using Converter = String_::ParserTo<T1>;
 	using Type = Quantity<U,QR,T1>;	
@@ -30,9 +31,9 @@ public:
     	inline static constexpr Converter converter = Converter();
     	inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
-	constexpr Quantity(): value(0 * QR::Factor) {	}
-	explicit constexpr Quantity(const T1& v): value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): value{(converter(commaToPoint(String_::Remove<String_::Point>(s)))) * QR::Factor} { 	}
+	constexpr Quantity(): Base(""), value(0 * QR::Factor) {	}
+	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
+	explicit Quantity(const std::string& s): Base(""), value{(converter(commaToPoint(String_::Remove<String_::Point>(s)))) * QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
