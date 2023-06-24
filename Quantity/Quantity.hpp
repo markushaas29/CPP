@@ -31,9 +31,9 @@ public:
     	inline static constexpr Converter converter = Converter();
     	inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
-	constexpr Quantity(): Base(""), value(0 * QR::Factor) {	}
+	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(""), value{(converter(commaToPoint(String_::Remove<String_::Point>(s)))) * QR::Factor} { 	}
+	explicit Quantity(const std::string& s): Base(s.c_str()), value{(converter(commaToPoint(String_::Remove<String_::Point>(s)))) * QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
