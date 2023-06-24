@@ -6,7 +6,9 @@
 #include "../MatrixCell.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
+#include "../../Common/DateTimes.hpp"
 using QS = Quantity<Sum>; 
+using namespace DateTimes; 
 
 int main()
 {
@@ -20,7 +22,6 @@ int main()
 	assert(same);
 
 	auto qe = QuantityElement<QS>("1.53");
-	//QuantityElement<Q> qe("1.53");
 	std::cout<<qe<<std::endl;
 	auto q = qe.Get();
 	same = std::is_same_v<decltype(q),QS>;
@@ -28,6 +29,11 @@ int main()
 	
 	std::unique_ptr<Element<QS>> ptr = std::make_unique<QS>("");
 
+	auto vd = ValueElement<DateTimes::Date>("01.01.2022");
+	std::cout<<vd<<std::endl;
+	auto d = vd.Get();
+	same = std::is_same_v<decltype(d),DateTimes::Date>;
+	assert(same);
 	std::cout<<"END"<<std::endl;
 //
     return 0;
