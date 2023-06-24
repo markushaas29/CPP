@@ -29,10 +29,10 @@ int main()
 	
 	std::unique_ptr<Element<QS>> ptr = std::make_unique<QS>("");
 
-	auto vd = ValueElement<DateTimes::Date>("01.01.2022");
-	std::cout<<vd<<std::endl;
+	auto vd = ValueElement<DateTimes::Date>("1.1.2022");
 	auto dp = vd.Ptr();
 	auto d = vd.Get();
+	std::cout<<d<<std::endl;
 	same = std::is_same_v<decltype(d),DateTimes::Date>;
 	assert(same);
 	std::cout<<"END"<<std::endl;

@@ -8,20 +8,20 @@
 
 #pragma once
 
-class IMatrixCell
+class IMatrixElement
 {
 public:
-	virtual std::unique_ptr<IMatrixCell> Clone() = 0;
+	virtual std::unique_ptr<IMatrixElement> Clone() = 0;
 	virtual std::ostream& Display(std::ostream& s) = 0;
 };
 
 template<typename T>
-class MatrixElement: public IMatrixCell
+class MatrixElement: public IMatrixElement
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
 	decltype(auto) Get() const { return T{element->Value()}; }
-	std::unique_ptr<Element<T>> Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
+	PtrType Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
 	MatrixElement(const MatrixElement& m): element{std::make_unique<T>((element->Value()).c_str())} {  }
@@ -36,11 +36,11 @@ class ValueElement: public MatrixElement<V>
 	inline static constexpr const char TypeIdentifier[] = "ValueElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
-	ValueElement(std::string v): MatrixElement<V>{std::make_unique<V>(v.c_str())} {};
-	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<ValueElement<V>>(*this); }
+	ValueElement(std::string v): MatrixElement<V>{std::make_unique<V>(v.c_str())}, value{v} {};
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<ValueElement<V>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
-	V value;
 private:
+	V value;
 	friend std::ostream& operator<<(std::ostream& s, const ValueElement& vc) { return s<<vc.value;  }
 };
 
@@ -49,14 +49,14 @@ class QuantityElement: public MatrixElement<QT>
 {
 	using Type = QT;
 	using Base = MatrixElement<QT>;
-	inline static constexpr const char TypeIdentifier[] = "QCell";
+	inline static constexpr const char TypeIdentifier[] = "QElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
 	QuantityElement(double v): quantity{v} {};
 	QuantityElement(std::string s): MatrixElement<QT>{std::make_unique<QT>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {  }
-	std::unique_ptr<IMatrixCell> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<*me.Base::Ptr();  }
+	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<"..."<<me.Base::Get();  }
 	Type quantity;
 };
