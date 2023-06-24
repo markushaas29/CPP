@@ -15,11 +15,12 @@ public:
 	virtual std::ostream& Display(std::ostream& s) = 0;
 };
 
-template<typename T>
+template<typename T, typename D>
 class MatrixElement: public IMatrixElement
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
+	using Derived = D;
 	decltype(auto) Get() const { return T{element->Value()}; }
 	PtrType Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
 protected:
@@ -31,12 +32,14 @@ private:
 };
 
 template<typename V>
-class ValueElement: public MatrixElement<V>
+class ValueElement: public MatrixElement<V,ValueElement<V>>
 {
+	using Type = V;
+	using Base = MatrixElement<V,ValueElement<V>>;
 	inline static constexpr const char TypeIdentifier[] = "ValueElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
-	ValueElement(std::string v): MatrixElement<V>{std::make_unique<V>(v.c_str())}, value{v} {};
+	ValueElement(std::string v): Base{std::make_unique<V>(v.c_str())}, value{v} {};
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<ValueElement<V>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
@@ -45,15 +48,15 @@ private:
 };
 
 template<typename QT>
-class QuantityElement: public MatrixElement<QT>
+class QuantityElement: public MatrixElement<QT,QuantityElement<QT>>
 {
 	using Type = QT;
-	using Base = MatrixElement<QT>;
+	using Base = MatrixElement<QT,QuantityElement<QT>>;
 	inline static constexpr const char TypeIdentifier[] = "QElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
 	QuantityElement(double v): quantity{v} {};
-	QuantityElement(std::string s): MatrixElement<QT>{std::make_unique<QT>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {  }
+	QuantityElement(std::string s): Base{std::make_unique<QT>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {  }
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
 	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
 private:
