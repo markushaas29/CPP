@@ -20,7 +20,7 @@ class MatrixElement: public IMatrixCell
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
-	decltype(auto) getT() const { return T(element->Value()); }
+	decltype(auto) Get() const { return T{element->Value()}; }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
 	MatrixElement(const MatrixElement& m): element{std::make_unique<Element<T>>((element->Value()).c_str())} {  }
