@@ -8,8 +8,15 @@
 
 #pragma once
 
+class IMatrixCell
+{
+public:
+	virtual std::unique_ptr<IMatrixCell> Clone() = 0;
+	virtual std::ostream& Display(std::ostream& s) = 0;
+};
+
 template<typename T>
-class MatrixElement
+class MatrixElement: public IMatrixCell
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
@@ -23,15 +30,9 @@ private:
 	PtrType element;
 };
 
-class IMatrixCell
-{
-public:
-	virtual std::unique_ptr<IMatrixCell> Clone() = 0;
-	virtual std::ostream& Display(std::ostream& s) = 0;
-};
 
 template<typename V>
-class ValueElement: public MatrixElement<V>, public IMatrixCell
+class ValueElement: public MatrixElement<V>
 {
 	inline static constexpr const char TypeIdentifier[] = "ValueElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
@@ -47,7 +48,7 @@ private:
 
 //template<typename UT, typename QR=Pure,typename T1=double>
 template<typename QT>
-class QuantityElement: public MatrixElement<QT>, public IMatrixCell
+class QuantityElement: public MatrixElement<QT>
 {
 	using Type = QT;
 	using Base = MatrixElement<QT>;
