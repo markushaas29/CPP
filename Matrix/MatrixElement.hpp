@@ -17,13 +17,11 @@ public:
 
 class MatrixElementBase: public IMatrixElement
 {
-	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
-	inline static constexpr Literal LiteralType{TypeIdentifier};
 public:
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElementBase>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
 	virtual ~MatrixElementBase() {  }
 protected:
+	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
+	inline static constexpr Literal LiteralType{TypeIdentifier};
 	MatrixElementBase() {  }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
@@ -36,14 +34,16 @@ class MatrixElement: public MatrixElementBase
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
 	using Derived = D;
+	MatrixElement(const MatrixElement& m): element{std::make_unique<T>((element->Value()).c_str())} {  }
 	decltype(auto) Get() const { return T{element->Value()}; }
 	decltype(auto) Cast() const { return static_cast<const Derived*>(this); }
 	PtrType Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,D>>(*this); }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<*element; }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
-	MatrixElement(const MatrixElement& m): element{std::make_unique<T>((element->Value()).c_str())} {  }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return s<<*me;  }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return Display(s);  }
 	PtrType element;
 };
 
