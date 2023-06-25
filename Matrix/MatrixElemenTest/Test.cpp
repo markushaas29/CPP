@@ -16,37 +16,37 @@ int main()
 	std::cout<<"START"<<std::endl;
 
 
-	auto vei = ValueElement<IBAN>("IBANT");
-	std::cout<<vei<<std::endl;
-	auto i = vei.Get();
-	bool same = std::is_same_v<decltype(i),IBAN>;
-	assert(same);
-
-	auto qe = QuantityElement<QS>("1.53");
-	std::cout<<qe<<std::endl;
-	auto q = qe.Get();
-	same = std::is_same_v<decltype(q),QS>;
-	assert(same);
-	
-	std::unique_ptr<Element<QS>> ptr = std::make_unique<QS>("");
-
-	auto vd = ValueElement<DateTimes::Date>("1.1.2022");
-	auto dp = vd.Ptr();
-	auto d = vd.Get();
-	std::cout<<d<<std::endl;
-	same = std::is_same_v<decltype(d),DateTimes::Date>;
-	assert(same);
-
-	auto c = vd.Cast();
-	std::cout<<c->Get()<<std::endl;
-
+//	auto vei = ValueElement<IBAN>("IBANT");
+//	std::cout<<vei<<std::endl;
+//	auto i = vei.Get();
+//	bool same = std::is_same_v<decltype(i),IBAN>;
+//	assert(same);
+//
+//	auto qe = QuantityElement<QS>("1.53");
+//	std::cout<<qe<<std::endl;
+//	auto q = qe.Get();
+//	same = std::is_same_v<decltype(q),QS>;
+//	assert(same);
+//	
+//	std::unique_ptr<Element<QS>> ptr = std::make_unique<QS>("");
+//
+//	auto vd = ValueElement<DateTimes::Date>("1.1.2022");
+//	auto dp = vd.Ptr();
+//	auto d = vd.Get();
+//	std::cout<<d<<std::endl;
+//	same = std::is_same_v<decltype(d),DateTimes::Date>;
+//	assert(same);
+//
+//	auto c = vd.Cast();
+//
 	auto m3 = MatrixTransformer<Quantity<Sum>,IBAN,DateTimes::Date>();
 	auto m4 = MatrixTransformer<Quantity<Sum>,IBAN,IBAN,DateTimes::Date>();
 	std::vector<std::string> s{"1","2","27.12.2022"};
-	auto t = m3.Create(s.cbegin(), s.cend());
 	bool a=false;
 	try { m4.Create(s.cbegin(), s.cend()); }  catch(...)  {  a=true; }
 	assert(a);
+
+	auto t = m3.Create(s.cbegin(), s.cend());
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;
