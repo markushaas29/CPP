@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "../MatrixElement.hpp"
+#include "../MatrixTransformer.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Common/DateTimes.hpp"
@@ -35,6 +36,12 @@ int main()
 	std::cout<<d<<std::endl;
 	same = std::is_same_v<decltype(d),DateTimes::Date>;
 	assert(same);
+
+	auto c = vd.Cast();
+	std::cout<<c->Get()<<std::endl;
+
+	auto m = MatrixTransformer<int>();
+
 	std::cout<<"END"<<std::endl;
 //
     return 0;

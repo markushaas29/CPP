@@ -22,6 +22,7 @@ public:
 	using PtrType = std::unique_ptr<Element<T>>;
 	using Derived = D;
 	decltype(auto) Get() const { return T{element->Value()}; }
+	decltype(auto) Cast() const { return static_cast<const Derived*>(this); }
 	PtrType Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
