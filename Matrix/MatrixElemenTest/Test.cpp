@@ -40,10 +40,13 @@ int main()
 	auto c = vd.Cast();
 	std::cout<<c->Get()<<std::endl;
 
-	using Tuple = std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>;
-	auto m = MatrixTransformer<Quantity<Sum>,IBAN,DateTimes::Date>();
+	auto m3 = MatrixTransformer<Quantity<Sum>,IBAN,DateTimes::Date>();
+	auto m4 = MatrixTransformer<Quantity<Sum>,IBAN,IBAN,DateTimes::Date>();
 	std::vector<std::string> s{"1","2","27.12.2022"};
-	auto t = m.Create(s.cbegin(), s.cend());
+	auto t = m3.Create(s.cbegin(), s.cend());
+	bool a=false;
+	try { m4.Create(s.cbegin(), s.cend()); }  catch(...)  {  a=true; }
+	assert(a);
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;

@@ -21,16 +21,13 @@ public:
 	using InputIterator = std::vector<std::string>::const_iterator;
 	auto Create(InputIterator begin, InputIterator end) 
 	{
-		Tuple t{};
-		auto d = std::distance(begin,end);
-		std::cout<<d<<Size;
-		IsT<Throwing>("Create")(d==Size);
-		return createIntern<0>(t,begin,end);
+		IsT<Throwing>("Create")(std::distance(begin,end)==Size);
+		return createIntern<0>(Tuple{},begin,end);
 	} 	
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<int N>
-	auto createIntern(auto& t, InputIterator begin, InputIterator end) 
+	auto createIntern(auto t, InputIterator begin, InputIterator end) 
 	{
 		if constexpr (N==Size)
 			return t;
