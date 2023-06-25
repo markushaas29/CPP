@@ -15,7 +15,6 @@ public:
 	virtual std::ostream& Display(std::ostream& s) const = 0;
 };
 
-
 class MatrixElementBase: public IMatrixElement
 {
 	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
@@ -31,7 +30,8 @@ private:
 };
 
 template<typename T, typename D>
-class MatrixElement: public IMatrixElement
+class MatrixElement: public MatrixElementBase
+//class MatrixElement: public IMatrixElement
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
