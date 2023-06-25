@@ -12,7 +12,22 @@ class IMatrixElement
 {
 public:
 	virtual std::unique_ptr<IMatrixElement> Clone() = 0;
-	virtual std::ostream& Display(std::ostream& s) = 0;
+	virtual std::ostream& Display(std::ostream& s) const = 0;
+};
+
+
+class MatrixElementBase: public IMatrixElement
+{
+	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
+	inline static constexpr Literal LiteralType{TypeIdentifier};
+public:
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElementBase>(*this); }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
+	virtual ~MatrixElementBase() {  }
+protected:
+	MatrixElementBase() {  }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
 
 template<typename T, typename D>
@@ -42,7 +57,7 @@ class ValueElement: public MatrixElement<V,ValueElement<V>>
 public:
 	ValueElement(std::string v): Base{std::make_unique<V>(v.c_str())}, value{v} {};
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<ValueElement<V>>(*this); }
-	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
 private:
 	V value;
 	friend std::ostream& operator<<(std::ostream& s, const ValueElement& vc) { return s<<vc.value;  }
@@ -59,7 +74,7 @@ public:
 	QuantityElement(double v): quantity{v} {};
 	QuantityElement(std::string s): Base{std::make_unique<QT>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {  }
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
-	std::ostream& Display(std::ostream& os) { return os<<LiteralType; }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<"..."<<me.Base::Get();  }
 	Type quantity;
