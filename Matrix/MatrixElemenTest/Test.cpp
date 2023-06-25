@@ -40,11 +40,11 @@ int main()
 	auto c = vd.Cast();
 	std::cout<<c->Get()<<std::endl;
 
-	using Tuple = std::tuple<Quantity<Sum>,IBAN,BIC>;//DateTimes::Date>
-	auto m = MatrixTransformer<Quantity<Sum>,IBAN,BIC>();
+	using Tuple = std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>;
+	auto m = MatrixTransformer<Quantity<Sum>,IBAN,DateTimes::Date>();
 	auto t = m.Create();
 	std::cout<<std::get<0>(t)<<std::endl;
-	std::cout<<std::get<1>(t)<<std::endl;
+	std::cout<<std::get<2>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;
 //
     return 0;
