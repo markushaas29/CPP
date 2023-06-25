@@ -40,7 +40,8 @@ int main()
 	auto c = vd.Cast();
 	std::cout<<c->Get()<<std::endl;
 
-	auto m = MatrixTransformer<int>();
+	using Tuple = std::tuple<Quantity<Sum>,IBAN,BIC>;//DateTimes::Date>
+	auto m = MatrixTransformer<Quantity<Sum>,IBAN,BIC>();
 	auto t = m.Create();
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<std::get<1>(t)<<std::endl;

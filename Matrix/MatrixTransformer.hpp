@@ -10,11 +10,11 @@
 #include "../Common/DateTimes.hpp"
 #pragma once
 
-template<typename T=int>
+template<typename... T>
 class MatrixTransformer 
 {
 public:
-	using Tuple = std::tuple<Quantity<Sum>,IBAN,BIC>;//DateTimes::Date>;
+	using Tuple = std::tuple<T...>;
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	auto Create() 
