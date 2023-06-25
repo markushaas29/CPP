@@ -48,6 +48,9 @@ int main()
 
 	auto t = m3.Create(s.cbegin(), s.cend());
 	std::cout<<std::get<0>(t)<<std::endl;
+	auto st = std::get<0>(t);
+
+	std::cout<<st.Get()<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;
 //

@@ -27,24 +27,27 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
 
-template<typename T, typename D>
+template<typename T, typename D=int>
 class MatrixElement: public MatrixElementBase
-//class MatrixElement: public IMatrixElement
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
+	using Type = T;
 	using Derived = D;
-	MatrixElement(const MatrixElement& m): element{std::make_unique<T>((element->Value()).c_str())} {  }
-	decltype(auto) Get() const { return T{element->Value()}; }
-	decltype(auto) Cast() const { return static_cast<const Derived*>(this); }
-	PtrType Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
+	MatrixElement(const MatrixElement& m): element{m.element} {  }
+	MatrixElement(const std::string& v): element{T(v.c_str())} { }
+	
+	decltype(auto) Get() const { return T(element.Value()); }
+	decltype(auto) Cast() const { return static_cast<const Derived*>(this); };
+	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
+	
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,D>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<*element; }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element; }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return Display(s);  }
-	PtrType element;
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
+	Type element;
 };
 
 template<typename V>

@@ -1,8 +1,8 @@
 #include <memory>
 #include <tuple>
 #include <vector>
-#include "../Is/Is.hpp"
 #include "MatrixElement.hpp"
+#include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -37,12 +37,12 @@ private:
 			auto s = begin + N;
 			if constexpr (N==0)
 			{
-				auto tN =  std::make_tuple(Type{*s});
+				auto tN =  std::make_tuple(MatrixElement<Type>(*s));
 				return createIntern<N+1>(tN,begin,end);
 			}
 			else
 			{
-				auto tN = std::tuple_cat(t,std::tuple<Type>{*s});
+				auto tN = std::tuple_cat(t,std::tuple<MatrixElement<Type>>{*s});
 				return createIntern<N+1>(tN,begin,end);
 			}
 		}
