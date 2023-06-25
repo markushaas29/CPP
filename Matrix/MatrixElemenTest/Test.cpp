@@ -41,7 +41,9 @@ int main()
 	std::cout<<c->Get()<<std::endl;
 
 	auto m = MatrixTransformer<int>();
-
+	auto t = m.Create();
+	std::cout<<std::get<0>(t)<<std::endl;
+	std::cout<<std::get<1>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;
 //
     return 0;

@@ -1,26 +1,43 @@
 #include <memory>
+#include <tuple>
+#include <vector>
 #include "../Is/Is.hpp"
-#include "../CSV/Element.hpp"
+#include "MatrixElement.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
-#include "../Quantity/QuantityRatio.hpp"
-
+#include "../CSV/Elements.hpp"    
+#include "../Common/DateTimes.hpp"
 #pragma once
 
 template<typename T=int>
-class MatrixElement: public IMatrixElement
+class MatrixTransformer 
 {
 public:
-	using PtrType = std::unique_ptr<Element<T>>;
-	using Derived = D;
-	decltype(auto) Get() const { return T{element->Value()}; }
-	decltype(auto) Cast() const { return static_cast<const Derived*>(this); }
-	PtrType Ptr() const { return std::make_unique<T>((element->Value()).c_str()); }
-protected:
-	MatrixElement(PtrType p): element{std::move(p)} {  }
-	MatrixElement(const MatrixElement& m): element{std::make_unique<T>((element->Value()).c_str())} {  }
+	using Tuple = std::tuple<Quantity<Sum>,IBAN,BIC>;//DateTimes::Date>;
+	static int constexpr Size = std::tuple_size_v<Tuple>;
+	using InputIterator = std::vector<std::string>::const_iterator;
+	auto Create() 
+	{
+		std::vector<std::string> s{"1","2","3"};
+		Tuple t{};
+		std::cout<<"S: "<<Size<<std::endl;
+		return createIntern<0>(t,s.cbegin(),s.cend());
+		//return t;
+	} 	
 private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return s<<*me;  }
-	PtrType element;
+	template<int N>
+	auto createIntern(Tuple& t, InputIterator begin, InputIterator end) 
+	{
+		if constexpr (N==Size)
+			return t;
+		else
+		{
+			using Type = std::tuple_element_t<N, Tuple>;
+			auto s = begin + N;
+			std::get<N>(t)=Type{*s};
+			return createIntern<N+1>(t,begin,end);
+		}
+	} 	
+	friend std::ostream& operator<<(std::ostream& s, const MatrixTransformer& me) { return s;  }
 };
