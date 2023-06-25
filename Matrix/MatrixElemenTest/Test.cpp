@@ -42,7 +42,8 @@ int main()
 
 	using Tuple = std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>;
 	auto m = MatrixTransformer<Quantity<Sum>,IBAN,DateTimes::Date>();
-	auto t = m.Create();
+	std::vector<std::string> s{"1","2","27.12.2022"};
+	auto t = m.Create(s.cbegin(), s.cend());
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;

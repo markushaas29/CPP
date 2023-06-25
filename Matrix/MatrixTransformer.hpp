@@ -15,17 +15,20 @@ class MatrixTransformer
 {
 public:
 	using Tuple = std::tuple<T...>;
+	inline static constexpr const char TypeIdentifier[] = "MatrixTransformer";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
-	auto Create() 
+	auto Create(InputIterator begin, InputIterator end) 
 	{
-		std::vector<std::string> s{"1","2","27.12.2022"};
 		Tuple t{};
-		std::cout<<"S: "<<Size<<std::endl;
-		return createIntern<0>(t,s.cbegin(),s.cend());
-		//return t;
+		auto d = std::distance(begin,end);
+		std::cout<<d<<Size;
+		IsT<Throwing>("Create")(d==Size);
+		return createIntern<0>(t,begin,end);
 	} 	
 private:
+	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<int N>
 	auto createIntern(auto& t, InputIterator begin, InputIterator end) 
 	{
@@ -35,7 +38,6 @@ private:
 		{
 			using Type = std::tuple_element_t<N, Tuple>;
 			auto s = begin + N;
-			//std::get<N>(t)=std::move(Type{*s});
 			if constexpr (N==0)
 			{
 				auto tN =  std::make_tuple(Type{*s});
