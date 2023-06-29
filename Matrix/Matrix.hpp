@@ -17,6 +17,7 @@ class Matrix
 {
 public:
 	using DescriptorType = DT;
+	using ParserType = typename DescriptorType::ParserType;
 	using T = typename DescriptorType::DataType;
 	using OutputTypes = typename DescriptorType::OutputTypes;
 	static constexpr size_t Order = N;
@@ -94,6 +95,12 @@ public:
 			result.push_back(elements->at(r));
 		return result;
     }
+	
+	decltype(auto) ElementsAt(size_t i)
+    {
+		auto r = Row(i);
+		return parser.Parse(r.cbegin(),r.cend());
+    }
 
 	decltype(auto) Col(size_t i)
     {  
@@ -130,5 +137,6 @@ private:
 	using MI = MatrixImpl<N,DescriptorType>;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	DescriptorType descriptor;
+	ParserType parser;
 	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
 };

@@ -8,26 +8,34 @@
 #include "../Quantity/Quantity.hpp"
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
+#include "../Common/TupleHelper.hpp"
 #pragma once
 
-template<typename... T>
+template<typename T>
 class MatrixParser 
 {
 public:
-	using Tuple = std::tuple<T...>;
+	using Tuple = T;
 	inline static constexpr const char TypeIdentifier[] = "MatrixParser";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
-	auto Create(InputIterator begin, InputIterator end) 
+	auto Parse(InputIterator begin, InputIterator end) 
 	{
-		IsT<Throwing>("Create")(std::distance(begin,end)==Size);
-		return createIntern<0>(Tuple{},begin,end);
+		if constexpr ( IsTuple<T>)
+		{	
+			IsT<Throwing>("Parse")(std::distance(begin,end)==Size);
+			return parseIntern<0>(Tuple{},begin,end);
+		}
+		else
+		{
+			return T{*begin};
+		}
 	} 	
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<int N>
-	auto createIntern(auto t, InputIterator begin, InputIterator end) 
+	auto parseIntern(auto t, InputIterator begin, InputIterator end) 
 	{
 		if constexpr (N==Size)
 			return t;
@@ -38,12 +46,12 @@ private:
 			if constexpr (N==0)
 			{
 				auto tN =  std::make_tuple(MatrixElement<Type>(*s));
-				return createIntern<N+1>(tN,begin,end);
+				return parseIntern<N+1>(tN,begin,end);
 			}
 			else
 			{
 				auto tN = std::tuple_cat(t,std::tuple<MatrixElement<Type>>{*s});
-				return createIntern<N+1>(tN,begin,end);
+				return parseIntern<N+1>(tN,begin,end);
 			}
 		}
 	} 	

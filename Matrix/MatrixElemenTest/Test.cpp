@@ -39,17 +39,20 @@ int main()
 //
 //	auto c = vd.Cast();
 //
-	auto m3 = MatrixParser<Quantity<Sum>,IBAN,DateTimes::Date>();
-	auto m4 = MatrixParser<Quantity<Sum>,IBAN,IBAN,DateTimes::Date>();
+	auto m3 = MatrixParser<std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>>();
+	auto m4 = MatrixParser<std::tuple<Quantity<Sum>,IBAN,IBAN,DateTimes::Date>>();
 	std::vector<std::string> s{"1","2","27.12.2022"};
 	bool a=false;
-	try { m4.Create(s.cbegin(), s.cend()); }  catch(...)  {  a=true; }
+	try { m4.Parse(s.cbegin(), s.cend()); }  catch(...)  {  a=true; }
 	assert(a);
 
-	auto t = m3.Create(s.cbegin(), s.cend());
+	auto t = m3.Parse(s.cbegin(), s.cend());
 	std::cout<<std::get<0>(t)<<std::endl;
 	auto st = std::get<0>(t);
 
+	auto m1 = MatrixParser<std::string>();
+	auto t1 = m1.Parse(s.cbegin(), s.begin()+1);
+	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;
 	std::cout<<"END"<<std::endl;

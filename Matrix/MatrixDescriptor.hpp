@@ -2,6 +2,7 @@
 #include <numeric>
 #include <memory>
 #include <initializer_list>
+#include "MatrixParser.hpp" 
 
 #pragma once
 
@@ -23,6 +24,7 @@ public:
 	using InputType = T;
 	using OutputTypes = OT;
 	using DataType = std::shared_ptr<InputType>;
+	using ParserType = MatrixParser<OutputTypes>;
 	MatrixDescriptorBase() = default;
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e);
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);

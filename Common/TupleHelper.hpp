@@ -17,3 +17,9 @@ struct has_type<T, std::tuple<T, Ts...>> : std::true_type {};
 	
 template <typename T, typename Tuple>
 using tuple_contains_type = typename has_type<T, Tuple>::type;
+
+template <typename T>
+constexpr bool IsTuple = false;
+
+template<typename ... types>
+constexpr bool IsTuple<std::tuple<types...>>   = true;
