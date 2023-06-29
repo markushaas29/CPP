@@ -51,7 +51,7 @@ int main()
 	auto st = std::get<0>(t);
 
 	auto m1 = MatrixParser<std::string>();
-	auto t1 = m1.Parse(s.cbegin(), s.begin()+1);
+	auto t1 = m1.Parse(s.cbegin(), s.cbegin()+1);
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;

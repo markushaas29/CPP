@@ -20,7 +20,9 @@ public:
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
-	auto Parse(InputIterator begin, InputIterator end) 
+	
+	template<typename Iterator>
+	auto Parse(Iterator begin, Iterator end) 
 	{
 		if constexpr ( IsTuple<T>)
 		{	
@@ -34,8 +36,8 @@ public:
 	} 	
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	template<int N>
-	auto parseIntern(auto t, InputIterator begin, InputIterator end) 
+	template<int N, typename Iterator>
+	auto parseIntern(auto t, Iterator begin, Iterator end) 
 	{
 		if constexpr (N==Size)
 			return t;
