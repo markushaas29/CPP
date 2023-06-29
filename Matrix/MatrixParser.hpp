@@ -31,7 +31,7 @@ public:
 		}
 		else
 		{
-			return T{*begin};
+			return create(*begin);
 		}
 	} 	
 private:
@@ -56,6 +56,8 @@ private:
 				return parseIntern<N+1>(tN,begin,end);
 			}
 		}
-	} 	
+	} 
+	template<typename S> decltype(auto) create(std::shared_ptr<S> s) { return T{*s}; }
+	template<typename S> decltype(auto) create(S s) { return T{s}; }
 	friend std::ostream& operator<<(std::ostream& s, const MatrixParser& me) { return s;  }
 };

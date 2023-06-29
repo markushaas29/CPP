@@ -36,7 +36,8 @@ int main()
 	};
 	assert(m1.Rows()==5);
 	assert(m1.Cols()==1);
-	//auto e1 = m1.ElementsAt(1);
+	auto e1 = m1.ElementsAt(4);
+	assert(e1==5);
 
 	M1S m1s{
 		{std::make_shared<std::string>("1"),std::make_shared<std::string>("2")}	
