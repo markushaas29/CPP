@@ -11,11 +11,11 @@
 #pragma once
 
 template<typename... T>
-class MatrixTransformer 
+class MatrixParser 
 {
 public:
 	using Tuple = std::tuple<T...>;
-	inline static constexpr const char TypeIdentifier[] = "MatrixTransformer";
+	inline static constexpr const char TypeIdentifier[] = "MatrixParser";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
@@ -47,5 +47,5 @@ private:
 			}
 		}
 	} 	
-	friend std::ostream& operator<<(std::ostream& s, const MatrixTransformer& me) { return s;  }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixParser& me) { return s;  }
 };
