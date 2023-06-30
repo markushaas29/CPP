@@ -1,6 +1,7 @@
 #include <memory>
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
+#include "../CSV/Elements.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -49,6 +50,19 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 	Type element;
 };
+
+template<typename S> 
+decltype(auto) ParseElement(S s) 
+{
+	if constexpr (std::is_same_v<S,std::string>)
+		return MatrixElement<Entry>{s}; 
+	if constexpr (std::is_same_v<S,int>)
+		return MatrixElement<Quantity<Scalar>>{s}; 
+}
+
+template<typename S> 
+decltype(auto) ParseElement(std::shared_ptr<S> s) { return ParseElement(*s); }
+
 
 template<typename V>
 class ValueElement: public MatrixElement<V,ValueElement<V>>

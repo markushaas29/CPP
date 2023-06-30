@@ -31,7 +31,7 @@ public:
 		}
 		else
 		{
-			return create(*begin);
+			return ParseElement(*begin);
 		}
 	} 	
 private:
