@@ -53,9 +53,9 @@ int main()
 
 	auto m1 = MatrixParser<std::string>();
 	auto t1 = m1.Parse(s.cbegin(), s.cbegin()+1);
-	assert(t1.Get()=="1");
+	assert(t1[0].Get()=="1");
 	auto t2 = m1.Parse(ss.cbegin(), ss.cbegin()+1);
-	assert(t2.Get()=="9");
+	assert(t2[0].Get()=="9");
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;

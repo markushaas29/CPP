@@ -51,6 +51,9 @@ private:
 	Type element;
 };
 
+template<typename I, typename E> 
+decltype(auto) CreateElement(I s) { return MatrixElement<E>(s); }
+
 template<typename S> 
 decltype(auto) ParseElement(S s) 
 {
@@ -62,7 +65,6 @@ decltype(auto) ParseElement(S s)
 
 template<typename S> 
 decltype(auto) ParseElement(std::shared_ptr<S> s) { return ParseElement(*s); }
-
 
 template<typename V>
 class ValueElement: public MatrixElement<V,ValueElement<V>>

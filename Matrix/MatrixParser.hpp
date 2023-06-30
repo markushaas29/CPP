@@ -31,7 +31,9 @@ public:
 		}
 		else
 		{
-			return ParseElement(*begin);
+			auto first = ParseElement(*begin);
+			std::vector<decltype(first)> result = { first };
+			return result;
 		}
 	} 	
 private:
