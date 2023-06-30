@@ -32,7 +32,11 @@ public:
 		else
 		{
 			if constexpr (ElementConcept<T>) 
-				return T{*begin};
+			{
+				std::vector<T> result;
+				std::for_each(begin,end,[&](auto e) { result.push_back(T{e}); } );
+				return result;
+			}
 			else
 			{
 				auto first = ParseElement(*begin);

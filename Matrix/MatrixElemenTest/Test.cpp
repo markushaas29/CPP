@@ -60,8 +60,9 @@ int main()
 	
 	auto ms = MatrixParser<Quantity<Sum>>();
 	auto s1 = ms.Parse(s.cbegin(), s.cend());
-	//assert(t1[0].Get()=="1");
-	std::cout<<"Sum"<<s1<<std::endl;
+	assert(s1[0]==1);
+	assert(s1[1]==2);
+	std::cout<<"Sum"<<s1[2]<<std::endl;
 	
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;
