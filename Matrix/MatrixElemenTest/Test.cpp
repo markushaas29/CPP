@@ -57,6 +57,12 @@ int main()
 	assert(t1[2].Get()=="27.12.2022");
 	auto t2 = m1.Parse(ss.cbegin(), ss.cend());
 	assert(t2[0].Get()=="9");
+	
+	auto ms = MatrixParser<Quantity<Sum>>();
+	auto s1 = ms.Parse(s.cbegin(), s.cend());
+	//assert(t1[0].Get()=="1");
+	std::cout<<"Sum"<<s1<<std::endl;
+	
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;
 	std::cout<<std::get<2>(t)<<std::endl;

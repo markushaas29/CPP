@@ -31,10 +31,15 @@ public:
 		}
 		else
 		{
-			auto first = ParseElement(*begin);
-			std::vector<decltype(first)> result = { first };
-			std::for_each(begin+1,end,[&](auto e) { result.push_back(ParseElement(e)); } );
-			return result;
+			if constexpr (ElementConcept<T>) 
+				return T{*begin};
+			else
+			{
+				auto first = ParseElement(*begin);
+				std::vector<decltype(first)> result = { first };
+				std::for_each(begin+1,end,[&](auto e) { result.push_back(ParseElement(e)); } );
+				return result;
+			}
 		}
 	} 	
 private:

@@ -39,4 +39,7 @@ private:
 template<typename T>
 std::ostream& operator<<(std::ostream& out, const Element<T>& e) {	return out<<e.Value();}
 
+template <typename T>
+concept ElementConcept = requires(T val) {	val.Value(); };
+
 #endif
