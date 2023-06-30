@@ -37,6 +37,8 @@ public:
 	using Derived = D;
 	MatrixElement(const MatrixElement& m): element{m.element} {  }
 	MatrixElement(const std::string& v): element{T(v.c_str())} { }
+	template<typename I>
+	MatrixElement(I v): element{T(v)} { }
 	
 	decltype(auto) Get() const { return T(element.Value()); }
 	decltype(auto) Cast() const { return static_cast<const Derived*>(this); };
@@ -60,7 +62,7 @@ decltype(auto) ParseElement(S s)
 	if constexpr (std::is_same_v<S,std::string>)
 		return MatrixElement<Entry>{s}; 
 	if constexpr (std::is_same_v<S,int>)
-		return MatrixElement<Quantity<Scalar>>{s}; 
+		return MatrixElement<Quantity<Scalar>>(s); 
 }
 
 template<typename S> 

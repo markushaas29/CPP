@@ -52,9 +52,10 @@ int main()
 	auto st = std::get<0>(t);
 
 	auto m1 = MatrixParser<std::string>();
-	auto t1 = m1.Parse(s.cbegin(), s.cbegin()+1);
+	auto t1 = m1.Parse(s.cbegin(), s.cend());
 	assert(t1[0].Get()=="1");
-	auto t2 = m1.Parse(ss.cbegin(), ss.cbegin()+1);
+	assert(t1[2].Get()=="27.12.2022");
+	auto t2 = m1.Parse(ss.cbegin(), ss.cend());
 	assert(t2[0].Get()=="9");
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;

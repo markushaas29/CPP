@@ -33,6 +33,7 @@ public:
 		{
 			auto first = ParseElement(*begin);
 			std::vector<decltype(first)> result = { first };
+			std::for_each(begin+1,end,[&](auto e) { result.push_back(ParseElement(e)); } );
 			return result;
 		}
 	} 	
@@ -59,7 +60,5 @@ private:
 			}
 		}
 	} 
-	template<typename S> decltype(auto) create(std::shared_ptr<S> s) { return T{*s}; }
-	template<typename S> decltype(auto) create(S s) { return T{s}; }
 	friend std::ostream& operator<<(std::ostream& s, const MatrixParser& me) { return s;  }
 };
