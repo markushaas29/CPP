@@ -61,8 +61,8 @@ decltype(auto) ParseElement(S s)
 {
 	if constexpr (std::is_same_v<S,std::string>)
 		return MatrixElement<Entry>{s}; 
-	if constexpr (std::is_same_v<S,int>)
-		return MatrixElement<Quantity<Scalar>>(s); 
+	if constexpr (std::is_arithmetic_v<S>)
+		return MatrixElement<Quantity<Scalar,Pure,S>>(s); 
 }
 
 template<typename S> 
