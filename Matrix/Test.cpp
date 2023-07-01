@@ -7,6 +7,7 @@
 #include "MatrixCreator.hpp"
 #include "MatrixDescriptor.hpp"
 #include "../Common/ShortNames.hpp"
+#include "../CSV/Elements.hpp"
 using namespace ShortNames;
 
 int main()
@@ -17,7 +18,7 @@ int main()
 	using M2 = Matrix<2>;
 	using MS3 = MatrixDescriptor<3,double>;
 	using MS2 = MatrixDescriptor<2,std::string,std::tuple<std::unique_ptr<int>,std::string>>;
-	using MS1 = MatrixDescriptor<1,std::string,DT>;
+	using MS1 = MatrixDescriptor<1,std::string,std::string>;
 	using M3D = Matrix<3,MS3>;
 	using M1S = Matrix<1,MS1>;
 	using M2M = Matrix<2,MS2>;
@@ -53,6 +54,9 @@ int main()
 	};
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
+	assert(m1s.ElementsAt(1)[0].Get()=="2");
+	auto isEntry = std::is_same_v<decltype(m1s.ElementsAt(1)[0].Get()),Entry>;
+	assert(isEntry);
 	
 	std::vector<std::shared_ptr<std::string>> v1s{{std::make_shared<std::string>("3")}};
 	m1s.AddRow(v1s);

@@ -34,7 +34,7 @@ public:
 			if constexpr (ElementConcept<T>) 
 			{
 				std::vector<T> result;
-				std::for_each(begin,end,[&](auto e) { result.push_back(T{e}); } );
+				std::for_each(begin,end,[&](auto e) { result.push_back(T(e)); } );
 				return result;
 			}
 			else
