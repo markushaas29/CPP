@@ -17,6 +17,7 @@ class Matrix
 {
 public:
 	using DescriptorType = DT;
+	using Type = Matrix<N,DT>;
 	using ParserType = typename DescriptorType::ParserType;
 	using T = typename DescriptorType::DataType;
 	using OutputTypes = typename DescriptorType::OutputTypes;
@@ -110,6 +111,21 @@ public:
 			result.push_back(elements->at(i + (r * Cols())));
 		return result;
     }
+
+	template<typename F>
+	decltype(auto) Apply(F f)
+	{
+		auto el = std::vector<T>();
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<InputType>(f(e))); });
+		return Type(descriptor,el); 
+	}
+
+//	decltype(auto) operator+(const Type& m, const ValueType& v)
+//	{
+//		auto el = std::vector<T>();
+//		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(f(e)); });
+//		return Type(descriptor,el); 
+//	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{

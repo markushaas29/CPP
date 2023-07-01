@@ -38,6 +38,10 @@ int main()
 	assert(m1.Cols()==1);
 	auto e1 = m1.ElementsAt(4);
 	assert(e1[0].Get()==5);
+	
+	auto m1a = m1.Apply([](const auto i) { return *i + 5; });
+	auto e1a = m1a.ElementsAt(4);
+	assert(e1a[0].Get()==10);
 
 	M1S m1s{
 		{std::make_shared<std::string>("1"),std::make_shared<std::string>("2")}	
@@ -132,6 +136,7 @@ int main()
 	auto mc2m = mc2.Get();
 	
 	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
+	//auto e15 = mc2m.ElementsAt(15);
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
 	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
