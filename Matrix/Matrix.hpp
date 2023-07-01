@@ -120,12 +120,8 @@ public:
 		return Type(descriptor,el); 
 	}
 
-//	decltype(auto) operator+(const Type& m, const ValueType& v)
-//	{
-//		auto el = std::vector<T>();
-//		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(f(e)); });
-//		return Type(descriptor,el); 
-//	}
+  	decltype(auto) operator+(const auto& v)	{ return Apply([&](const auto& e){ return *e + v; });  	}
+  	decltype(auto) operator+(const Type& m)	{ return apply(std::vector<T>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{
@@ -150,6 +146,14 @@ private:
 		return s<<"\n}";  
 	}
 
+	template<typename F>
+	decltype(auto) apply(const auto& m, F f)
+	{
+		auto el = std::vector<T>();
+		for(auto i = 0; i < elements->size(); ++i)
+			el.push_back(std::make_shared<InputType>(f(m.at(i),elements->at(i))));
+		return Type(descriptor,el); 
+	}
 	using MI = MatrixImpl<N,DescriptorType>;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	DescriptorType descriptor;
