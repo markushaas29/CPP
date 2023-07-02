@@ -19,16 +19,15 @@ public:
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
 	using ParserType = typename DescriptorType::ParserType;
-	using T = typename DescriptorType::InputType;
 	using InputType = typename DT::InputType;
 	using DataType = typename DT::DataType;
 	using OutputTypes = typename DescriptorType::OutputTypes;
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
-	using ValueType = T;
-	using Iterator = typename std::vector<T>::iterator;
-	using ConstIterator = typename std::vector<T>::const_iterator;
+	using ValueType = InputType;
+	using Iterator = typename std::vector<ValueType>::iterator;
+	using ConstIterator = typename std::vector<ValueType>::const_iterator;
 
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
@@ -38,14 +37,14 @@ public:
 	~Matrix() = default;
 
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
-	Matrix(MatrixInitializer<T,N> init)
+	Matrix(MatrixInitializer<InputType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.Size());
 		MI::insert_flat(init,elements);
 	};
-	Matrix& operator=(MatrixInitializer<T,N>) {};
+	Matrix& operator=(MatrixInitializer<InputType,N>) {};
 
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
@@ -80,7 +79,7 @@ public:
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
-	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
+	Matrix<N-1,const InputType> operator[](size_t i) const;// { return Row(i); }
 	
 	decltype(auto) AddRow(const std::vector<InputType>& v)
 	{
