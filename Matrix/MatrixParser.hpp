@@ -30,34 +30,34 @@ public:
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
 	
-	template<typename Iterator>
-	auto Parse(Iterator begin, Iterator end) 
+	template<typename I>
+	auto Parse(std::vector<I> v) 
 	{
 		if constexpr ( IsTuple<T>)
 		{	
-			IsT<Throwing>("Parse")(std::distance(begin,end)==Size);
-			return parseIntern<0>(Tuple{},begin,end);
+			IsT<Throwing>("Parse")(std::distance(v.cbegin(),v.cend())==Size);
+			return parseIntern<0>(Tuple{},v.cbegin(),v.cend());
 		}
 		else
 		{
-			if constexpr (ElementConcept<decltype(*begin)>) 
+			if constexpr (ElementConcept<T>) 
 			{
 				std::vector<T> result;
-				if constexpr (PointerConcept<T>)
+				if constexpr (PointerConcept<decltype(v[0])>)
 				{
-					std::for_each(begin,end,[&](auto e) { result.push_back(T(*e)); } );
+					std::for_each(v.cbegin(),v.cend(),[&](auto e) { result.push_back(T(*e)); } );
 				}
 				else
 				{
-					std::for_each(begin,end,[&](auto e) { result.push_back(T(e)); } );
+					std::for_each(v.cbegin(),v.cend(),[&](auto e) { result.push_back(T(e)); } );
 				}
 				return result;
 			}
 			else
 			{
-				auto first = ParseElement(*begin);
+				auto first = ParseElement(v[0]);
 				std::vector<decltype(first)> result = { first };
-				std::for_each(begin+1,end,[&](auto e) { result.push_back(ParseElement(e)); } );
+				std::for_each(v.cbegin()+1,v.cend(),[&](auto e) { result.push_back(ParseElement(e)); } );
 				return result;
 			}
 		}

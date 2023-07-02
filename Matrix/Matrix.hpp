@@ -100,7 +100,7 @@ public:
 	decltype(auto) ElementsAt(size_t i)
     {
 		auto r = Row(i);
-		return parser.Parse(r.cbegin(),r.cend());
+		return parser.Parse(r);
     }
 
 	decltype(auto) Col(size_t i)
