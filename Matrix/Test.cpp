@@ -49,20 +49,20 @@ int main()
 	auto m1p = m1a + m1o;
 	assert(m1p.ElementsAt(4)[0].Get()==25);
 
-//	M1S m1s{
-//		{"1","2"}	
-//	};
-//	assert(m1s.Rows()==2);
-//	assert(m1s.Cols()==1);
-//	assert(m1s.ElementsAt(1)[0].Get()=="2");
-//	auto isEntry = std::is_same_v<decltype(m1s.ElementsAt(1)[0].Get()),Entry>;
-//	assert(isEntry);
-//	
-//	std::vector<std::string> v1s{"3"};
-//	m1s.AddRow(v1s);
-//	assert(m1s.Rows()==3);
-//	assert(*m1s(2)=="3");
-//	
+	M1S m1s{
+		{std::string("1"),std::string("2")}	
+	};
+	assert(m1s.Rows()==2);
+	assert(m1s.Cols()==1);
+	assert(m1s.ElementsAt(1)[0].Get()=="2");
+	auto isEntry = std::is_same_v<decltype(m1s.ElementsAt(1)[0].Get()),Entry>;
+	assert(isEntry);
+	
+	std::vector<std::string> v1s{"3"};
+	m1s.AddRow(v1s);
+	assert(m1s.Rows()==3);
+	assert(*m1s(2)=="3");
+	
 	M2 m2
 	{
 		{1},
