@@ -33,8 +33,8 @@ public:
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
 	Matrix& operator=(Matrix&&) = default;
-	Matrix(const Matrix&) = default;
-	Matrix& operator=(Matrix&) = default;
+	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())}{ };
+	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 	~Matrix() = default;
 
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };

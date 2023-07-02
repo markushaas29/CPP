@@ -54,6 +54,14 @@ int main()
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
 	assert(m1s.ElementsAt(1)[0].Get()=="2");
+    auto m1sc(m1s);
+	assert(m1sc.Rows()==2);
+	assert(m1sc.Cols()==1);
+	assert(m1sc.ElementsAt(1)[0].Get()=="2");
+    auto m1sa = m1sc;
+	assert(m1sa.Rows()==2);
+	assert(m1sa.Cols()==1);
+	assert(m1sa.ElementsAt(1)[0].Get()=="2");
 	auto isEntry = std::is_same_v<decltype(m1s.ElementsAt(1)[0].Get()),Entry>;
 	assert(isEntry);
 	
