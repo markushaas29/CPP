@@ -82,9 +82,9 @@ public:
 
 	Matrix<N-1,const T> operator[](size_t i) const;// { return Row(i); }
 	
-	decltype(auto) AddRow(const std::vector<T>& v)
+	decltype(auto) AddRow(const std::vector<InputType>& v)
 	{
-		elements->insert(elements->end(), v.begin(), v.end());
+		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<InputType>(i)); } );
 		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
 		descriptor.AddRow();
 	}

@@ -48,9 +48,9 @@ int main()
 	assert(e1a[0].Get()==15);
 	auto m1p = m1a + m1o;
 	assert(m1p.ElementsAt(4)[0].Get()==25);
-//
+
 //	M1S m1s{
-//		{std::make_shared<std::string>("1"),std::make_shared<std::string>("2")}	
+//		{"1","2"}	
 //	};
 //	assert(m1s.Rows()==2);
 //	assert(m1s.Cols()==1);
@@ -58,19 +58,19 @@ int main()
 //	auto isEntry = std::is_same_v<decltype(m1s.ElementsAt(1)[0].Get()),Entry>;
 //	assert(isEntry);
 //	
-//	std::vector<std::shared_ptr<std::string>> v1s{{std::make_shared<std::string>("3")}};
+//	std::vector<std::string> v1s{"3"};
 //	m1s.AddRow(v1s);
 //	assert(m1s.Rows()==3);
 //	assert(*m1s(2)=="3");
 //	
-//	M2 m2
-//	{
-//		{std::make_shared<int>(1)},
-//		{std::make_shared<int>(2)},
-//	};
-//	assert(m2.Rows()==2);
-//	assert(m2.Cols()==1);
-//	assert(m2.Size()==2);
+	M2 m2
+	{
+		{1},
+		{2},
+	};
+	assert(m2.Rows()==2);
+	assert(m2.Cols()==1);
+	assert(m2.Size()==2);
 //
 //
 //	auto m20 = m2[0];
