@@ -39,7 +39,6 @@ int main()
 	assert(m1.Cols()==1);
 	auto e1 = m1.ElementsAt(4);
 	assert(e1[0].Get()==5);
-	
 	auto m1a = m1.Apply([](const auto i) { return *i + 5; });
 	auto e1a = m1a.ElementsAt(4);
 	assert(e1a[0].Get()==10);
@@ -71,11 +70,8 @@ int main()
 	assert(m2.Rows()==2);
 	assert(m2.Cols()==1);
 	assert(m2.Size()==2);
-
-
 	auto m20 = m2[0];
 	assert(m20.Size()==1);
-
 	auto r11 = m2.Row(0);
 	assert(*r11[0]==1);
 
@@ -90,7 +86,6 @@ int main()
 	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
 	assert(m35.Size()==15);
 	auto r1 = m35.Row(1);
-
 	auto c1 = m35.Col(1);
 	assert(*r1[0]==6);
 	assert(*c1[0]==2);
@@ -98,7 +93,6 @@ int main()
 	assert(*m35(0,0)==1);
 	assert(*m35(2,0)==11);
 	assert(*m35(2,4)==15);
-
 	bool t = false;
 	try	{ m35.AddRow({2});	}
 	catch(...){ t = true;	}
@@ -115,13 +109,9 @@ int main()
 		},
 	};
 	auto d = m3[0];//.Descriptor();
-	
 	auto dd = d[1];//.Descriptor();
 	auto ddd = dd[1];//.Descriptor();
 	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
-	//assert(dd.Size()==1);
-
-	//assert(*(*ddd)==4);
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
@@ -136,9 +126,7 @@ int main()
 	assert(*m3(1,0,1)==7);
 	assert(*m3(1,1,1)==9);
 	try	{ assert(*m3(2,1,1)==9); }	catch(...)	{	}
-
 	try	{ assert(*m3(1,3,1)==9);	}	catch(...)	{	}
-	
 	try	{	assert(*m3(1,1,5)==9);	}catch(...)	{	}
 
 	MC2 mc2{};
@@ -149,29 +137,7 @@ int main()
 	//auto e15 = mc2m.ElementsAt(15);
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
-	//std::vector<std::shared_ptr<MatrixCell>> mcv = {v1, q1};
-	//
-	//auto vc1 = v1;
-	//
-	//std::cout<<"V1"<<v1<<vc1<<std::endl;
-	//std::cout<<*v1<<*vc1<<std::endl;
-	//vc1->value=11;
-	//std::cout<<*v1<<*vc1<<std::endl;
-	//
-	//auto uv1 = vc1->Clone();
-	//auto duv1 = dynamic_cast<ValueCell<int>*>(uv1.get());
-	//duv1->value=12;
-	//std::cout<<*duv1<<*v1<<std::endl;
-	//
-	//assert(ms2.Rows()==2);
-	//assert(ms2.Size()==4);
-	//ms2.AddRow();
-	//M2M m2ms2(ms2,r1);
-
-	//std::cout<<"m2ms2"<<std::endl;
-	//std::cout<<m2ms2<<std::endl;
-	//assert(ms2.Rows()==3);
 	std::cout<<"END"<<std::endl;
-//
-    return 0;
+   
+	return 0;
 }
