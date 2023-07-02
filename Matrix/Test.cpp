@@ -53,7 +53,7 @@ int main()
 	auto m1m = m1a * m1o;
 	auto m1d = m1a / m1o;
 	assert(m1p.ElementsAt(4)[0].Get()==25);
-
+	
 	M1S m1s{
 		{std::string("1"),std::string("2")}	
 	};
@@ -117,7 +117,11 @@ int main()
 	try	{ m35.AddRow({2});	}
 	catch(...){ t = true;	}
 	assert(t);
-	
+	auto m2Move(std::move(m35));
+	std::cout<<"Matrix m2Move "<<m2Move<<"\n";
+	auto m2AMove = std::move(m2Move);
+	std::cout<<"Matrix m2Move "<<m2AMove<<"\n";
+
 	M3 m3 {
 		{
 			{1,2},
