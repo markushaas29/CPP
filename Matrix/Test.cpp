@@ -104,15 +104,16 @@ int main()
 //	catch(...){ t = true;	}
 //	assert(t);
 //	
-//	M3 m3 {
-//		{
-//			{std::make_shared<int>(1),std::make_shared<int>(2)},
-//			{std::make_shared<int>(3),std::make_shared<int>(4)}
-//		},
-//		{
-//			{std::make_shared<int>(6),std::make_shared<int>(7)},
-//			{std::make_shared<int>(8),std::make_shared<int>(9)}},
-//	};
+	M3 m3 {
+		{
+			{1,2},
+			{3,4}
+		},
+		{
+			{6,7},
+			{8,9}
+		},
+	};
 //	auto d = m3[0];//.Descriptor();
 //	
 //	auto dd = d[1];//.Descriptor();
