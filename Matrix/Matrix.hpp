@@ -19,12 +19,13 @@ public:
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
 	using ParserType = typename DescriptorType::ParserType;
-	using T = typename DescriptorType::DataType;
+	using T = typename DescriptorType::InputType;
+	using InputType = typename DT::InputType;
+	using DataType = typename DT::DataType;
 	using OutputTypes = typename DescriptorType::OutputTypes;
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
-	using InputType = typename DT::InputType;
 	using ValueType = T;
 	using Iterator = typename std::vector<T>::iterator;
 	using ConstIterator = typename std::vector<T>::const_iterator;
@@ -91,7 +92,7 @@ public:
 	decltype(auto) Row(size_t i)
     {  
     	assert(i<Rows());
-		std::vector<T> result;
+		std::vector<DataType> result;
 		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
 			result.push_back(elements->at(r));
 		return result;
@@ -158,5 +159,5 @@ private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	DescriptorType descriptor;
 	ParserType parser;
-	std::unique_ptr<std::vector<T>> elements = std::make_unique<std::vector<T>>();
+	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };
