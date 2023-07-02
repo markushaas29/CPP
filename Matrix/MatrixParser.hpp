@@ -11,6 +11,15 @@
 #include "../Common/TupleHelper.hpp"
 #pragma once
 
+
+template<typename P> 
+concept PointerConcept = requires(P p)
+{
+	*p;
+	p.get(); 
+	p.reset();
+};
+
 template<typename T>
 class MatrixParser 
 {
@@ -31,10 +40,17 @@ public:
 		}
 		else
 		{
-			if constexpr (ElementConcept<T>) 
+			if constexpr (ElementConcept<decltype(*begin)>) 
 			{
 				std::vector<T> result;
-				std::for_each(begin,end,[&](auto e) { result.push_back(T(e)); } );
+				if constexpr (PointerConcept<T>)
+				{
+					std::for_each(begin,end,[&](auto e) { result.push_back(T(*e)); } );
+				}
+				else
+				{
+					std::for_each(begin,end,[&](auto e) { result.push_back(T(e)); } );
+				}
 				return result;
 			}
 			else

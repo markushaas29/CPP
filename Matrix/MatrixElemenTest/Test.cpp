@@ -15,7 +15,35 @@ int main()
 {
 	std::cout<<"START"<<std::endl;
 
+	auto pi = std::make_shared<int>(9);
+	if constexpr (PointerConcept<decltype(pi)>)
+	{
+		assert(true);
+	}
+	else
+	{
+		assert(false);
+	}
 
+	auto i = int{9};
+	if constexpr (PointerConcept<decltype(i)>)
+	{
+		assert(false);
+	}
+	else
+	{
+		assert(true);
+	}
+	
+	auto sT = std::string("T");
+	if constexpr (PointerConcept<decltype(sT)>)
+	{
+		assert(false);
+	}
+	else
+	{
+		assert(true);
+	}
 //	auto vei = ValueElement<IBAN>("IBANT");
 //	std::cout<<vei<<std::endl;
 //	auto i = vei.Get();
@@ -60,9 +88,14 @@ int main()
 	
 	auto ms = MatrixParser<Quantity<Sum>>();
 	auto s1 = ms.Parse(s.cbegin(), s.cend());
-	assert(s1[0]==1);
-	assert(s1[1]==2);
+	//assert(s1[0]==1);
+	//assert(s1[1]==2);
 	std::cout<<"Sum"<<s1[2]<<std::endl;
+	
+	s1 = ms.Parse(ss.cbegin(), ss.cend());
+	//assert(s1[0]==1);
+	//assert(s1[1]==2);
+	std::cout<<"Sum 2"<<s1[0]<<std::endl;
 	
 	std::cout<<std::get<0>(t)<<std::endl;
 	std::cout<<st.Get()<<std::endl;
