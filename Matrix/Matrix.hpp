@@ -37,7 +37,7 @@ public:
 	Matrix& operator=(Matrix&) = default;
 	~Matrix() = default;
 
-	explicit Matrix(DescriptorType d, const std::vector<T>& v): descriptor(d), elements{std::make_unique<std::vector<T>>(v.begin(),v.end())}{ };
+	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
 	Matrix(MatrixInitializer<T,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
@@ -116,13 +116,13 @@ public:
 	template<typename F>
 	decltype(auto) Apply(F f)
 	{
-		auto el = std::vector<T>();
+		auto el = std::vector<DataType>();
 		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<InputType>(f(e))); });
 		return Type(descriptor,el); 
 	}
 
   	decltype(auto) operator+(const auto& v)	{ return Apply([&](const auto& e){ return *e + v; });  	}
-  	decltype(auto) operator+(const Type& m)	{ return apply(std::vector<T>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
+  	decltype(auto) operator+(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{
@@ -150,7 +150,7 @@ private:
 	template<typename F>
 	decltype(auto) apply(const auto& m, F f)
 	{
-		auto el = std::vector<T>();
+		auto el = std::vector<DataType>();
 		for(auto i = 0; i < elements->size(); ++i)
 			el.push_back(std::make_shared<InputType>(f(m.at(i),elements->at(i))));
 		return Type(descriptor,el); 
