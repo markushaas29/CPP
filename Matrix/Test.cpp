@@ -79,31 +79,31 @@ int main()
 //	auto r11 = m2.Row(0);
 //	assert(*r11[0]==1);
 //
-//	M2 m35 {
-//		{std::make_shared<int>(1),std::make_shared<int>(2),std::make_shared<int>(3),std::make_shared<int>(4),std::make_shared<int>(5)},
-//		{std::make_shared<int>(6),std::make_shared<int>(7),std::make_shared<int>(8),std::make_shared<int>(9),std::make_shared<int>(10)},
-//		{std::make_shared<int>(11),std::make_shared<int>(12),std::make_shared<int>(13),std::make_shared<int>(14),std::make_shared<int>(15)},
-//	};
-//	std::cout<<"Matrix m3 "<<m35<<"\n";
-//	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
-//	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
-//	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
-//	assert(m35.Size()==15);
-//	auto r1 = m35.Row(1);
-//
-//	auto c1 = m35.Col(1);
-//	assert(*r1[0]==6);
-//	assert(*c1[0]==2);
-//	assert(*m35(1,0)==6);
-//	assert(*m35(0,0)==1);
-//	assert(*m35(2,0)==11);
-//	assert(*m35(2,4)==15);
-//
-//	bool t = false;
-//	try	{ m35.AddRow({std::make_shared<int>(2)});	}
-//	catch(...){ t = true;	}
-//	assert(t);
-//	
+	M2 m35 {
+		{1, 2, 3, 4, 5},
+		{6, 7, 8, 9,10},
+		{11, 12, 13, 14, 15},
+	};
+	std::cout<<"Matrix m3 "<<m35<<"\n";
+	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
+	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
+	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
+	assert(m35.Size()==15);
+	auto r1 = m35.Row(1);
+
+	auto c1 = m35.Col(1);
+	assert(*r1[0]==6);
+	assert(*c1[0]==2);
+	assert(*m35(1,0)==6);
+	assert(*m35(0,0)==1);
+	assert(*m35(2,0)==11);
+	assert(*m35(2,4)==15);
+
+	bool t = false;
+	try	{ m35.AddRow({2});	}
+	catch(...){ t = true;	}
+	assert(t);
+	
 	M3 m3 {
 		{
 			{1,2},
@@ -114,38 +114,38 @@ int main()
 			{8,9}
 		},
 	};
-//	auto d = m3[0];//.Descriptor();
+	auto d = m3[0];//.Descriptor();
+	
+	auto dd = d[1];//.Descriptor();
+	auto ddd = dd[1];//.Descriptor();
+	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
+	//assert(dd.Size()==1);
+
+	//assert(*(*ddd)==4);
+	assert(d.Rows()==2);
+	assert(d.Cols()==2);
+	assert(d.Size()==4);
+	auto db = m3[0].Descriptor();
+	assert(db.Stride(1)==1);
+	assert(db.Extent(0)==2);
+	assert(db.Extent(1)==2);
+	assert(db.Extent(2)==2);
+	assert(db.Stride(0)==2);
+	auto i = db.Strides();
+	assert(*m3(0,1,1)==4);
+	assert(*m3(1,0,1)==7);
+	assert(*m3(1,1,1)==9);
+	try	{ assert(*m3(2,1,1)==9); }	catch(...)	{	}
+
+	try	{ assert(*m3(1,3,1)==9);	}	catch(...)	{	}
+	
+	try	{	assert(*m3(1,1,5)==9);	}catch(...)	{	}
+
+	MC2 mc2{};
+	mc2.Create("");
+	auto mc2m = mc2.Get();
 //	
-//	auto dd = d[1];//.Descriptor();
-//	auto ddd = dd[1];//.Descriptor();
-//	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
-//	//assert(dd.Size()==1);
-//
-//	//assert(*(*ddd)==4);
-//	assert(d.Rows()==2);
-//	assert(d.Cols()==2);
-//	assert(d.Size()==4);
-//	auto db = m3[0].Descriptor();
-//	assert(db.Stride(1)==1);
-//	assert(db.Extent(0)==2);
-//	assert(db.Extent(1)==2);
-//	assert(db.Extent(2)==2);
-//	assert(db.Stride(0)==2);
-//	auto i = db.Strides();
-//	assert(*m3(0,1,1)==4);
-//	assert(*m3(1,0,1)==7);
-//	assert(*m3(1,1,1)==9);
-//	try	{ assert(*m3(2,1,1)==9); }	catch(...)	{	}
-//
-//	try	{ assert(*m3(1,3,1)==9);	}	catch(...)	{	}
-//	
-//	try	{	assert(*m3(1,1,5)==9);	}catch(...)	{	}
-//
-//	MC2 mc2{};
-//	mc2.Create("");
-//	auto mc2m = mc2.Get();
-//	
-//	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
+	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
 //	//auto e15 = mc2m.ElementsAt(15);
 //	assert(mc2m.Rows()==125);
 //	assert(mc2m.Cols()==19);

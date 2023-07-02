@@ -107,7 +107,7 @@ public:
 	decltype(auto) Col(size_t i)
     {  
     	assert(i<Cols());
-		std::vector<T> result;
+		std::vector<DataType> result;
 		for(auto r = 0; r < Rows(); r++)
 			result.push_back(elements->at(i + (r * Cols())));
 		return result;

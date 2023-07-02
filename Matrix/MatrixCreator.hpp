@@ -26,7 +26,7 @@ public:
 	using Type = MT;
 	using DescriptorType = typename MT::DescriptorType;
 	using InputType = typename MT::InputType;
-	using DataType = typename MT::ValueType;
+	using DataType = typename MT::DataType;
 	using CSVSeparator = T::char_<';'> ;
 	void Create(const std::string& s) 
 	{
