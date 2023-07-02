@@ -43,9 +43,15 @@ int main()
 	auto e1a = m1a.ElementsAt(4);
 	assert(e1a[0].Get()==10);
 	auto m1o = m1a + 5;
+	auto m1ss = m1a - 5;
+	auto m1mm = m1a * 5;
+	auto m1dd = m1a / 5;
 	e1a = m1o.ElementsAt(4);
 	assert(e1a[0].Get()==15);
 	auto m1p = m1a + m1o;
+	auto m1sm = m1a - m1o;
+	auto m1m = m1a * m1o;
+	auto m1d = m1a / m1o;
 	assert(m1p.ElementsAt(4)[0].Get()==25);
 
 	M1S m1s{
