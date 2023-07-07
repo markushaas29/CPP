@@ -89,7 +89,7 @@ int main()
 	assert(m20.Size()==1);
 	auto r11 = m2.Row(0);
 	assert(*r11[0]==1);
-
+	//m2 * m2;
 	M2 m35 {
 		{1, 2, 3, 4, 5},
 		{6, 7, 8, 9,10},

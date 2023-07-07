@@ -1,6 +1,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include "MatrixDescriptor.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
@@ -31,7 +32,20 @@ private:
 template<typename D1, typename D2>
 class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>> 
 {
+	using LT = Matrix<1,D1>;
+	using RT = Matrix<1,D2>;
+	using DescT = MatrixDescriptor<2, typename LT::InputType, typename LT::OutputTypes>;
 public:
-	static decltype(auto) multiply() { std::cout<<"1/1"<<std::endl; }
+	static decltype(auto) multiply(LT l, RT r) 
+	{
+		DescT md({l.Rows(), r.Rows()});
+
+		std::vector<typename LT::DataType> v;
+		for(size_t i = 0; i != l.Rows(); ++i)
+			for(size_t j = 0; j != l.Rows(); ++j)
+				v.push_back(std::make_shared<typename LT::InputType>((*l(i)) * (*r(j)) ));
+
+		Matrix<2, DescT> res(md,v);
+		std::cout<<res<<"\n1/1"<<std::endl; }
 private:
 };
