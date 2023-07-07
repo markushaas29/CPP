@@ -17,7 +17,10 @@ struct MatrixInit<T,1>
 };
 
 template<typename T>
-struct MatrixInit<T,0> {  }; 
+struct MatrixInit<T,0>
+{
+	using Type = T;
+};
 
 template<typename T, size_t N>
 using MatrixInitializer = typename MatrixInit<T,N>::Type;

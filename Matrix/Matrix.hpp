@@ -64,9 +64,9 @@ public:
 	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) Data() { return elements->data(); }
-	decltype(auto) operator[](size_t i) 
+	decltype(auto) operator[] (size_t i) const 
 	{
-		using MDT = MatrixDescriptor<N-1,typename DescriptorType::InputType>;
+		using MDT = MatrixDescriptor<N-1, InputType, OutputTypes>;
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
@@ -75,13 +75,13 @@ public:
 		if constexpr ((N-1)==0)
 		{
 			auto ret = row[0];
-			return ret;
+			return Matrix<1,MDT>(MDT{e,s}, row);
 		}
 		else
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
-	Matrix<N-1,const InputType> operator[](size_t i) const;// { return Row(i); }
+	//Matrix<N-1,const InputType> operator[](size_t i) const;// { return Row(i); }
 	
 	decltype(auto) AddRow(const std::vector<InputType>& v)
 	{
@@ -90,7 +90,7 @@ public:
 		descriptor.AddRow();
 	}
 
-	decltype(auto) Row(size_t i)
+	decltype(auto) Row(size_t i) const
     {  
     	assert(i<Rows());
 		std::vector<DataType> result;
@@ -134,25 +134,18 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{
-		s<<"Extents: \n";
-		std::for_each(m.descriptor.Extents().cbegin(), m.descriptor.Extents().cend(), [&s](const auto& i) { s<<i<<"\t"; });
-		s<<"\nStride: \n";
-		std::for_each(m.descriptor.Strides().cbegin(), m.descriptor.Strides().cend(), [&s](const auto& i) { s<<i<<"\t"; });
-		s<<"\n{\n";
-		for(auto i = 0; i != m.Rows(); ++i)
+		if constexpr (Matrix::Order==1)
 		{
-			s<<" {";
-			for(auto j = 0; j != m.Cols(); ++j)
-			{
-				s<<*m(i,j);
-				if(j+1!=m.Cols())
-					s<<", ";
-			}
-			s<<"}";
-			if(i+1!=m.Rows())
-				s<<",\n";
+			//std::for_each();
+			s<<"Size:"<<(m.elements->size())<<"\n";
+			return s<<*(m.elements->at(0));
 		}
-		return s<<"\n}";  
+		else
+		{
+			for(auto i = 0; i != m.Rows(); ++i)
+				s<<m[i];
+		}
+		return s;
 	}
 
 	template<typename F>

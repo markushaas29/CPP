@@ -137,7 +137,7 @@ int main()
 	};
 	auto d = m3[0];//.Descriptor();
 	auto dd = d[1];//.Descriptor();
-	auto ddd = dd[1];//.Descriptor();
+//	auto ddd = dd[1];//.Descriptor();
 	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
