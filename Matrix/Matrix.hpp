@@ -7,6 +7,7 @@
 #include "Matrix_Initializer.hpp"
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
+#include "MatrixCalculator.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
@@ -18,6 +19,7 @@ class Matrix
 public:
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
+	template<typename T> using MC = MatrixCalculator<Type, T>;
 	using ParserType = typename DescriptorType::ParserType;
 	using InputType = typename DT::InputType;
 	using DataType = typename DT::DataType;
