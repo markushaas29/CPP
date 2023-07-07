@@ -43,8 +43,8 @@ private:
 		DescT md({l.Rows(), r.Rows()});
 
 		std::vector<typename LT::DataType> v;
-		for(size_t i = 0; i != l.Rows(); ++i)
-			for(size_t j = 0; j != l.Rows(); ++j)
+		for(int i = 0; i != l.Rows(); ++i)
+			for(int j = 0; j != l.Rows(); ++j)
 				v.push_back(std::make_shared<typename LT::InputType>((*l(i)) * (*r(j)) ));
 
 		return ResultType(md,v);
