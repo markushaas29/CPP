@@ -35,7 +35,9 @@ class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>>
 	using LT = Matrix<1,D1>;
 	using RT = Matrix<1,D2>;
 	using DescT = MatrixDescriptor<2, typename LT::InputType, typename LT::OutputTypes>;
-public:
+	using ResultType = Matrix<2, DescT>;
+private:
+	friend class Matrix<1,D1>;
 	static decltype(auto) multiply(LT l, RT r) 
 	{
 		DescT md({l.Rows(), r.Rows()});
@@ -45,7 +47,6 @@ public:
 			for(size_t j = 0; j != l.Rows(); ++j)
 				v.push_back(std::make_shared<typename LT::InputType>((*l(i)) * (*r(j)) ));
 
-		Matrix<2, DescT> res(md,v);
-		std::cout<<res<<"\n1/1"<<std::endl; }
-private:
+		return ResultType(md,v);
+	}
 };

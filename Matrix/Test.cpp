@@ -50,8 +50,10 @@ int main()
 	assert(e1a[0].Get()==15);
 	auto m1p = m1a + m1o;
 	auto m1sm = m1a - m1o;
-	//auto m1m = m1a * m1o;
-	m1a * m1o;
+	auto m1m = m1a * m1o;
+
+	std::cout<<"MUL:\n"<<(m1*m1)<<std::endl;
+
 	auto m1d = m1a / m1o;
 	assert(m1p.ElementsAt(4)[0].Get()==25);
 	
