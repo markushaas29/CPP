@@ -31,7 +31,7 @@ public:
 	using InputIterator = std::vector<std::string>::const_iterator;
 	
 	template<typename I>
-	auto Parse(std::vector<I> v) 
+	auto Parse(std::vector<I> v) const
 	{
 		if constexpr ( IsTuple<T>)
 		{	

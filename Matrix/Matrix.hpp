@@ -74,8 +74,9 @@ public:
 		auto row = Row(i);
 		if constexpr ((N-1)==0)
 		{
-			auto ret = row[0];
-			return Matrix<1,MDT>(MDT{e,s}, row);
+			auto e = ElementsAt(i);
+			std::cout<<e.at(0)<<"\n";
+			return e.at(0);
 		}
 		else
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
@@ -97,12 +98,12 @@ public:
 		return result;
     }
 	
-	decltype(auto) ElementsAt(size_t i)
+	decltype(auto) ElementsAt(size_t i) const
     {
 		auto r = Row(i);
 		return parser.Parse(r);
     }
-	decltype(auto) ElementAt(size_t n, size_t m = 0) {	return ElementsAt(n)[m]; }
+	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
 
 	decltype(auto) Col(size_t i)
     {  

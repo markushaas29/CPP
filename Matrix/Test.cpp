@@ -99,6 +99,9 @@ int main()
 		{6, 7, 8, 9,10},
 		{11, 12, 13, 14, 15},
 	};
+	auto m351 = m35[1];
+	auto x = m351[3];
+	std::cout<<"Matrix m35 EL"<<x<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 )<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
@@ -139,9 +142,10 @@ int main()
 	};
 	auto d = m3[0];//.Descriptor();
 	auto dd = d[1];//.Descriptor();
-//	auto ddd = dd[1];//.Descriptor();
+	auto ddd = dd[1];//.Descriptor();
 	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
 	std::cout<<"Matrix 3\n"<<m3<<"\n";
+	std::cout<<"Matrix 3 El"<<ddd<<"\n";
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
