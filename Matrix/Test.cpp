@@ -139,6 +139,7 @@ int main()
 	auto dd = d[1];//.Descriptor();
 //	auto ddd = dd[1];//.Descriptor();
 	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
+	std::cout<<"Matrix 3\n"<<m3<<"\n";
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);

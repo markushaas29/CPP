@@ -81,8 +81,6 @@ public:
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
-	//Matrix<N-1,const InputType> operator[](size_t i) const;// { return Row(i); }
-	
 	decltype(auto) AddRow(const std::vector<InputType>& v)
 	{
 		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<InputType>(i)); } );
@@ -136,9 +134,8 @@ private:
 	{
 		if constexpr (Matrix::Order==1)
 		{
-			//std::for_each();
-			s<<"Size:"<<(m.elements->size())<<"\n";
-			return s<<*(m.elements->at(0));
+			std::for_each(m.elements->cbegin(), m.elements->cend(), [&](auto& v) { s<<*v<<", "; });
+			return s;
 		}
 		else
 		{
