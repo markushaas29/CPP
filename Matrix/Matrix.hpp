@@ -74,7 +74,7 @@ public:
 		auto row = Row(i);
 		if constexpr ((N-1)==0)
 		{
-			return ElementsAt(i)[0];
+			return ElementAt(i);
 		}
 		else
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
