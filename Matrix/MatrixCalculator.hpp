@@ -44,21 +44,18 @@ private:
 template<typename D1, typename D2>
 class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>>: public MatrixCalculatorBase<MatrixCalculator,2,Matrix<1,D1>, Matrix<1,D2>> 
 {
-	using LT = Matrix<1,D1>;
-	using RT = Matrix<1,D2>;
-	using DescT = MatrixDescriptor<2, typename LT::InputType, typename LT::OutputTypes>;
-	using ResultType = Matrix<2, DescT>;
+	using Base = MatrixCalculatorBase<MatrixCalculator,2,Matrix<1,D1>, Matrix<1,D2>>;
 private:
 	friend class Matrix<1,D1>;
-	static decltype(auto) multiply(LT l, RT r) 
+	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
-		DescT md({l.Rows(), r.Rows()});
+		typename Base::DescriptorType md({l.Rows(), r.Rows()});
 
-		std::vector<typename LT::DataType> v;
+		std::vector<typename Base::LeftType::DataType> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != l.Rows(); ++j)
-				v.push_back(std::make_shared<typename LT::InputType>((*l(i)) * (*r(j)) ));
+				v.push_back(std::make_shared<typename Base::LeftType::InputType>((*l(i)) * (*r(j)) ));
 
-		return ResultType(md,v);
+		return typename Base::ResultType(md,v);
 	}
 };
