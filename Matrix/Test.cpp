@@ -101,7 +101,8 @@ int main()
 	};
 	auto m351 = m35[1];
 	auto x = m351[3];
-	std::cout<<"Matrix m35 EL"<<x<<"\n";
+	auto y = m35[1][3];
+	std::cout<<"Matrix m35 EL"<<x<<y<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 )<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";

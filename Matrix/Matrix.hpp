@@ -74,9 +74,7 @@ public:
 		auto row = Row(i);
 		if constexpr ((N-1)==0)
 		{
-			auto e = ElementsAt(i);
-			std::cout<<e.at(0)<<"\n";
-			return e.at(0);
+			return ElementsAt(i)[0];
 		}
 		else
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
