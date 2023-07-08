@@ -97,7 +97,7 @@ public:
 		return result;
     }
 	
-	decltype(auto) ElementsAt(size_t i)
+	decltype(auto) ElementAt(size_t i)
     {
 		auto r = Row(i);
 		return parser.Parse(r);
@@ -140,7 +140,7 @@ private:
 		else
 		{
 			for(auto i = 0; i != m.Rows(); ++i)
-				s<<m[i];
+				s<<"{"<<m[i]<<"}"<<std::endl;
 		}
 		return s;
 	}

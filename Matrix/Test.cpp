@@ -37,16 +37,16 @@ int main()
 	};
 	assert(m1.Rows()==5);
 	assert(m1.Cols()==1);
-	auto e1 = m1.ElementsAt(4);
+	auto e1 = m1.ElementAt(4);
 	assert(e1[0].Get()==5);
 	auto m1a = m1.Apply([](const auto i) { return *i + 5; });
-	auto e1a = m1a.ElementsAt(4);
+	auto e1a = m1a.ElementAt(4);
 	assert(e1a[0].Get()==10);
 	auto m1o = m1a + 5;
 	auto m1ss = m1a - 5;
 	auto m1mm = m1a * 5;
 	auto m1dd = m1a / 5;
-	e1a = m1o.ElementsAt(4);
+	e1a = m1o.ElementAt(4);
 	assert(e1a[0].Get()==15);
 	auto m1p = m1a + m1o;
 	auto m1sm = m1a - m1o;
@@ -55,23 +55,23 @@ int main()
 	std::cout<<"MUL:\n"<<(m1*m1)<<std::endl;
 
 	auto m1d = m1a / m1o;
-	assert(m1p.ElementsAt(4)[0].Get()==25);
+	assert(m1p.ElementAt(4)[0].Get()==25);
 	
 	M1S m1s{
 		{std::string("1"),std::string("2")}	
 	};
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
-	assert(m1s.ElementsAt(1)[0].Get()=="2");
+	assert(m1s.ElementAt(1)[0].Get()=="2");
     auto m1sc(m1s);
 	assert(m1sc.Rows()==2);
 	assert(m1sc.Cols()==1);
-	assert(m1sc.ElementsAt(1)[0].Get()=="2");
+	assert(m1sc.ElementAt(1)[0].Get()=="2");
     auto m1sa = m1sc;
 	assert(m1sa.Rows()==2);
 	assert(m1sa.Cols()==1);
-	assert(m1sa.ElementsAt(1)[0].Get()=="2");
-	auto isEntry = std::is_same_v<decltype(m1s.ElementsAt(1)[0].Get()),Entry>;
+	assert(m1sa.ElementAt(1)[0].Get()=="2");
+	auto isEntry = std::is_same_v<decltype(m1s.ElementAt(1)[0].Get()),Entry>;
 	assert(isEntry);
 	
 	std::vector<std::string> v1s{"3"};
@@ -162,7 +162,7 @@ int main()
 	auto mc2m = mc2.Get();
 	
   	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
-	//auto e15 = mc2m.ElementsAt(15);
+	//auto e15 = mc2m.ElementAt(15);
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
 	std::cout<<"END"<<std::endl;
