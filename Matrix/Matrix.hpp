@@ -97,11 +97,12 @@ public:
 		return result;
     }
 	
-	decltype(auto) ElementAt(size_t i)
+	decltype(auto) ElementsAt(size_t i)
     {
 		auto r = Row(i);
 		return parser.Parse(r);
     }
+	decltype(auto) ElementAt(size_t n, size_t m = 0) {	return ElementsAt(n)[m]; }
 
 	decltype(auto) Col(size_t i)
     {  
