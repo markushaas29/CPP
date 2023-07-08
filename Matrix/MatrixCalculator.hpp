@@ -22,7 +22,15 @@ public:
 	using RightType = M2;
 	using DescriptorType = MatrixDescriptor<Order, typename LeftType::InputType, typename LeftType::OutputTypes>;
 	using ResultType = Matrix<Order, DescriptorType>;
-
+protected:
+	template<typename V>
+	static V dotProduct (const std::vector<V>& v1, const std::vector<V>& v2)
+	{
+		double res;
+		for(uint i = 0; i < v1.size(); ++i)
+			res += (*v1[i] * (*v2[i]));
+		return std::make_shared<int>(res);
+	}
 private:
 };
 template<typename M1, typename M2>
@@ -51,9 +59,12 @@ private:
 	{
 		typename Base::DescriptorType md({l.Rows(), r.Rows()});
 
+		auto in = Base::dotProduct(l.Row(0),r.Row(0));
+		std::cout<<"DOT "<<*in<<"\n";
+
 		std::vector<typename Base::LeftType::DataType> v;
 		for(int i = 0; i != l.Rows(); ++i)
-			for(int j = 0; j != l.Rows(); ++j)
+			for(int j = 0; j != r.Rows(); ++j)
 				v.push_back(std::make_shared<typename Base::LeftType::InputType>((*l(i)) * (*r(j)) ));
 
 		return typename Base::ResultType(md,v);
