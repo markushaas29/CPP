@@ -13,6 +13,18 @@
 
 template<std::size_t N, typename DT> class Matrix;
 
+template<template<typename, typename> class T, uint N, typename M1, typename M2>
+class MatrixCalculatorBase 
+{
+public:
+	static constexpr uint Order = N;
+	using LeftType = M1;
+	using RightType = M2;
+	using DescriptorType = MatrixDescriptor<Order, typename LeftType::InputType, typename LeftType::OutputTypes>;
+	using ResultType = Matrix<Order, DescriptorType>;
+
+private:
+};
 template<typename M1, typename M2>
 class MatrixCalculator 
 {
@@ -30,7 +42,7 @@ private:
 };
 
 template<typename D1, typename D2>
-class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>> 
+class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>>: public MatrixCalculatorBase<MatrixCalculator,2,Matrix<1,D1>, Matrix<1,D2>> 
 {
 	using LT = Matrix<1,D1>;
 	using RT = Matrix<1,D2>;
