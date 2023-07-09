@@ -16,21 +16,13 @@ int main()
 
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
-	using MS3 = MatrixDescriptor<3,double>;
-	using MS2 = MatrixDescriptor<2,std::string,std::tuple<std::unique_ptr<int>,std::string>>;
-	using MS1 = MatrixDescriptor<1,std::string,std::string>;
-	using M3D = Matrix<3,MS3>;
-	using M1S = Matrix<1,MS1>;
-	using M2M = Matrix<2,MS2>;
-	using MC2 = MatrixCreator<M2M>;
 	using M1 = Matrix<1>;
-	MS2 ms2{{2,2}};
-	MS2 ms254{{5,4}};
-	assert(ms254.Rows()==5);
-	assert(ms254.Cols()==4);
-	assert(ms254.Size()==20);
-	std::cout<<M3::LiteralType<<std::endl;
-	std::cout<<M1::LiteralType<<std::endl;
+	using M3DS = MatrixDescriptor<3,double>;
+	using M2DS = MatrixDescriptor<2,double>;
+	using M1DS = MatrixDescriptor<1,double>;
+	using M3D = Matrix<3,M3DS>;
+	using M2D = Matrix<2,M2DS>;
+	using M1D = Matrix<1,M1DS>;
 
 	M1 m1{
 		{1,2,3,4,5}	
@@ -42,6 +34,22 @@ int main()
 		{1, 2, 3, 4},
 		{6, 7, 8, 9}
 	};
+	
+	M1D m1d{
+		{1.1,2.2,3.3,4.4}	
+	};
+
+	std::cout<<"Matrix m3 "<<(m1d * m1d )<<"\n";
+	
+	M2D m2d {
+		{1.1, 2.2, 3.3, 4.4},
+		{1.1, 2.2, 3.3, 4.4},
+		{1.1, 2.2, 3.3, 4.4},
+		{1.1, 2.2, 3.3, 4.4}
+	};
+	std::cout<<"Matrix m3 "<<(m2d * m2d )<<"\n";
+	std::cout<<"Matrix m3 "<<(m2d * m2d * m1d)<<"\n";
+	//std::cout<<"Matrix m3 "<<(m1d * m2d)<<"\n";
 
 	M2 m35 {
 		{1, 2, 3, 4, 5},
@@ -57,31 +65,6 @@ int main()
 	std::cout<<"Matrix m3 "<<(m35 - m35)<<"\n";
 	auto m35m1 = m35 * m1;
 	std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
-
-
-	auto m44m44 = m44 * m44;
-	std::cout<<"Matrix m35m1 "<<m44m44<<"\n";
-
-	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
-	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
-	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
-	assert(m35.Size()==15);
-	auto r1 = m35.Row(1);
-	auto c1 = m35.Col(1);
-	assert(*r1[0]==6);
-	assert(*c1[0]==2);
-	assert(*m35(1,0)==6);
-	assert(*m35(0,0)==1);
-	assert(*m35(2,0)==11);
-	assert(*m35(2,4)==15);
-	bool t = false;
-	try	{ m35.AddRow({2});	}
-	catch(...){ t = true;	}
-	assert(t);
-	auto m2Move(std::move(m35));
-	std::cout<<"Matrix m2Move "<<m2Move<<"\n";
-	auto m2AMove = std::move(m2Move);
-	std::cout<<"Matrix m2Move "<<m2AMove<<"\n";
 
 	M3 m3 {
 		{
