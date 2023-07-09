@@ -25,6 +25,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixCaluclator";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 protected:
+	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<typename V>
 	static V dotProduct (const std::vector<V>& v1, const std::vector<V>& v2)
 	{
@@ -51,7 +52,7 @@ private:
 	friend class Matrix<2,D1>;
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
-		assert(l.Cols()==r.Rows());
+		typename Base::template IsT<Throwing>("M2M2")(l.Cols()==r.Rows());
 		typename Base::DescriptorType md({l.Rows(), r.Cols()});
 
 		std::vector<typename Base::LeftType::DataType> v;
@@ -71,7 +72,7 @@ private:
 	friend class Matrix<2,D1>;
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
-		assert(l.Cols()==r.Rows());
+		typename Base::template IsT<Throwing>("M2M1")(l.Cols()==r.Rows());
 		typename Base::DescriptorType md({l.Rows()});
 
 		std::vector<typename Base::LeftType::DataType> v(l.Rows());
@@ -90,6 +91,7 @@ private:
 	friend class Matrix<1,D1>;
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
+		//IsT<Throwing>("M2M1")(l.R()==r.Rows());
 		typename Base::DescriptorType md({l.Rows(), r.Rows()});
 
 		auto in = Base::dotProduct(l.Row(0),r.Row(0));
