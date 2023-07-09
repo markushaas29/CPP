@@ -37,27 +37,17 @@ int main()
 	};
 	assert(m1.Rows()==5);
 	assert(m1.Cols()==1);
+	auto m1a = m1 +5 ;
 	auto e1 = m1.ElementsAt(4);
 	assert(e1[0].Get()==5);
-	auto m1a = m1.Apply([](const auto i) { return *i + 5; });
 	auto e1a = m1a.ElementsAt(4);
 	assert(e1a[0].Get()==10);
-	auto m1o = m1a + 5;
-	auto m1ss = m1a - 5;
-	auto m1mm = m1a * 5;
-	auto m1dd = m1a / 5;
-	e1a = m1o.ElementsAt(4);
-	auto e1a1 = m1o.ElementAt(4);
-	assert(e1a[0].Get()==15);
-	assert(e1a1.Get()==15);
-	auto m1p = m1a + m1o;
-	auto m1sm = m1a - m1o;
-	auto m1m = m1a * m1o;
-
-	std::cout<<"MUL:\n"<<(m1*m1)<<std::endl;
-
-	auto m1d = m1a / m1o;
-	assert(m1p.ElementsAt(4)[0].Get()==25);
+	e1a = m1a.ElementsAt(4);
+	auto e1a1 = m1a.ElementAt(4);
+	assert(e1a[0].Get()==10);
+	assert(e1a1.Get()==10);
+	auto m1p = m1a + m1a;
+	assert(m1p.ElementsAt(4)[0].Get()==20);
 	
 	M1S m1s{
 		{std::string("1"),std::string("2")}	
@@ -101,20 +91,6 @@ int main()
 		{6, 7, 8, 9,10},
 		{11, 12, 13, 14, 15},
 	};
-	auto m351 = m35[1];
-	auto x = m351[3];
-	auto y = m35[1][3];
-	std::cout<<"Matrix m35 EL"<<x<<y<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 )<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 + m35)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 - m35)<<"\n";
-	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
-	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
-	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
 	assert(m35.Size()==15);
 	auto r1 = m35.Row(1);
 	auto c1 = m35.Col(1);
