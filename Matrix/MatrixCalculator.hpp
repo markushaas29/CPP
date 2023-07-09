@@ -29,10 +29,10 @@ protected:
 	template<typename V>
 	static V dotProduct (const std::vector<V>& v1, const std::vector<V>& v2)
 	{
-		double res;
+		typename V::element_type res = 0;
 		for(uint i = 0; i < v1.size(); ++i)
 			res += (*v1[i] * (*v2[i]));
-		return std::make_shared<int>(res);
+		return std::make_shared<typename V::element_type>(res);
 	}
 private:
 };
