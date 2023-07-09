@@ -22,6 +22,8 @@ public:
 	using RightType = M2;
 	using DescriptorType = MatrixDescriptor<Order, typename LeftType::InputType, typename LeftType::OutputTypes>;
 	using ResultType = Matrix<Order, DescriptorType>;
+	inline static constexpr const char TypeIdentifier[] = "MatrixCaluclator";
+	inline static constexpr Literal LiteralType{TypeIdentifier};
 protected:
 	template<typename V>
 	static V dotProduct (const std::vector<V>& v1, const std::vector<V>& v2)
@@ -39,6 +41,26 @@ class MatrixCalculator
 public:
 
 private:
+};
+
+template<typename D1, typename D2>
+class MatrixCalculator<Matrix<2,D1>, Matrix<2,D2>> : public MatrixCalculatorBase<MatrixCalculator,2,Matrix<2,D1>, Matrix<2,D2>> 
+{
+	using Base = MatrixCalculatorBase<MatrixCalculator,2,Matrix<2,D1>, Matrix<2,D2>>;
+private:
+	friend class Matrix<2,D1>;
+	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
+	{
+		assert(l.Cols()==r.Rows());
+		typename Base::DescriptorType md({l.Rows(), r.Cols()});
+
+		std::vector<typename Base::LeftType::DataType> v;
+		for(int i = 0; i != l.Rows(); ++i)
+			for(int j = 0; j != r.Cols(); ++j)
+				v.push_back(Base::dotProduct(l.Row(i),r.Col(j)));
+
+		return typename Base::ResultType(md,v);
+	}
 };
 
 template<typename D1, typename D2>

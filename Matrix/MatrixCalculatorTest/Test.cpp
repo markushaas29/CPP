@@ -36,11 +36,11 @@ int main()
 		{1,2,3,4,5}	
 	};
 
-	M2 m34 {
+	M2 m44 {
 		{1, 2, 3, 4},
 		{6, 7, 8, 9},
-		{11, 12, 13, 14},
-		{11, 12, 13, 14}
+		{1, 2, 3, 4},
+		{6, 7, 8, 9}
 	};
 
 	M2 m35 {
@@ -57,6 +57,11 @@ int main()
 	std::cout<<"Matrix m3 "<<(m35 - m35)<<"\n";
 	auto m35m1 = m35 * m1;
 	std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
+
+
+	auto m44m44 = m44 * m44;
+	std::cout<<"Matrix m35m1 "<<m44m44<<"\n";
+
 	std::cout<<"Rows: "<<m35.Rows()<<std::endl;
 	std::cout<<"Columns: "<<m35.Cols()<<std::endl;
 	std::cout<<"Columns: "<<*m35(1,0)<<std::endl;
