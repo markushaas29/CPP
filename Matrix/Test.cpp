@@ -8,6 +8,7 @@
 #include "MatrixDescriptor.hpp"
 #include "../Common/ShortNames.hpp"
 #include "../CSV/Elements.hpp"
+#include "../Quantity/Quantity.hpp"
 using namespace ShortNames;
 
 int main()
@@ -19,8 +20,10 @@ int main()
 	using MS3 = MatrixDescriptor<3,double>;
 	using MS2 = MatrixDescriptor<2,std::string,std::tuple<std::unique_ptr<int>,std::string>>;
 	using MS1 = MatrixDescriptor<1,std::string,std::string>;
+	using MQ1DS = MatrixDescriptor<1,double,Quantity<Sum>>;
 	using M3D = Matrix<3,MS3>;
 	using M1S = Matrix<1,MS1>;
+	using M1Q = Matrix<1,MQ1DS>;
 	using M2M = Matrix<2,MS2>;
 	using MC2 = MatrixCreator<M2M>;
 	using M1 = Matrix<1>;
@@ -73,6 +76,17 @@ int main()
 	assert(m1s.Rows()==3);
 	assert(*m1s(2)=="3");
 	
+	M1Q m1q{
+		{1.0,2.2,3.3,4.4,5.5}	
+	};
+	auto qm1 = m1q[4];
+	std::cout<<"Matrix m1Q "<<qm1<<"\n";
+	std::vector<std::shared_ptr<double>> v1d{std::make_shared<double>(1.1)};
+	auto mqd = MQ1DS{{1}};
+	auto m1qv = M1Q(mqd,v1d);
+	qm1 = m1qv[0];
+	std::cout<<"Matrix m1Q "<<qm1<<"\n";
+
 	M2 m2
 	{
 		{1},
