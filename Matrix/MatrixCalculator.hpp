@@ -42,11 +42,22 @@ private:
 };
 
 template<typename D1, typename D2>
-class MatrixCalculator<Matrix<2,D1>, Matrix<2,D2>> 
+class MatrixCalculator<Matrix<2,D1>, Matrix<1,D2>> : public MatrixCalculatorBase<MatrixCalculator,1,Matrix<2,D1>, Matrix<1,D2>> 
 {
-public:
-	static decltype(auto) multiply() { std::cout<<"2/2"<<std::endl; }
+	using Base = MatrixCalculatorBase<MatrixCalculator,1,Matrix<2,D1>, Matrix<1,D2>>;
 private:
+	friend class Matrix<2,D1>;
+	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
+	{
+		assert(l.Cols()==r.Rows());
+		typename Base::DescriptorType md({l.Rows()});
+
+		std::vector<typename Base::LeftType::DataType> v(l.Rows());
+		for(int i = 0; i != l.Rows(); ++i)
+			v[i] = Base::dotProduct(l.Row(i),r.Col(0));
+
+		return typename Base::ResultType(md,v);
+	}
 };
 
 template<typename D1, typename D2>
