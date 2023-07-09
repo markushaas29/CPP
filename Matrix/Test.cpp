@@ -82,7 +82,7 @@ int main()
 	auto qm1 = m1q[4];
 	std::cout<<"Matrix m1Q "<<qm1<<"\n";
 	std::vector<std::shared_ptr<double>> v1d{std::make_shared<double>(1.1)};
-	auto mqd = MQ1DS{{1}};
+	auto mqd = MQ1DS{1};
 	auto m1qv = M1Q(mqd,v1d);
 	qm1 = m1qv[0];
 	std::cout<<"Matrix m1Q "<<qm1<<"\n";

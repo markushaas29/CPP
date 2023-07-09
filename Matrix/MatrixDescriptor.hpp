@@ -95,6 +95,7 @@ class MatrixDescriptor<1,T,OT>: public MatrixDescriptorBase<1,T,OT>
 public:
 	MatrixDescriptor(std::array<std::size_t,1> e, std::array<std::size_t,1> s): Base{e,{1}} {};
 	MatrixDescriptor(std::array<std::size_t,1> e = {0}): Base{e} {};
+	MatrixDescriptor(size_t e): Base{std::array<size_t,1>{e},{1}} {};
 	template<typename... Dims, typename std::enable_if<All(std::is_convertible<Dims...,std::size_t>::value),void>::type>
 	std::size_t operator()(size_t o) const	{	return o;	}
 };
