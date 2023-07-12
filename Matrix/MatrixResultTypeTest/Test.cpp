@@ -16,10 +16,10 @@ int main()
 	std::cout<<"START"<<std::endl;
 
 	std::vector<std::string> s{"1","2","27.12.2022"};
-	using T = std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>;
 	
 	using QS = Quantity<Sum>;
 	using QM = Quantity<Mass>;
+	using T = std::tuple<QS,QM>;
 
 	auto qm = QM{3};
 	auto qs = QS{4};
@@ -27,8 +27,9 @@ int main()
 	auto rq = MatrixResultType<QM,QS>::multiply();
 	std::cout<<rq<<std::endl;
 	
-	auto t = MatrixResultType<QM,T>::multiply();
-	std::cout<<t<<std::endl;
+	auto t = MatrixResultType<T,QM>::multiply();
+	std::cout<<std::get<1>(t)<<std::endl;
+	std::cout<<"T: "<<IsTuple<T><<std::endl;
 
 	std::cout<<"END"<<std::endl;
 //

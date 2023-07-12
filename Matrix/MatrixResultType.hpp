@@ -32,10 +32,9 @@ public:
 	
 	static constexpr auto multiply() 
 	{
-		if constexpr ( IsTuple<Left> || IsTuple<Right>)
+		if constexpr ( IsTuple<Left>)
 		{	
-			std::cout<<"Tuple"<<std::endl;
-			return 3;
+			return create<0, std::tuple_size_v<Left>>(std::make_tuple(RT{1}));
 		}
 		else
 		{
@@ -47,30 +46,27 @@ private:
 	template<typename L, typename R>
 	struct mul
 	{
-		using Type = decltype(std::declval<Left>() * std::declval<Right>());
+		using Type = decltype(std::declval<L>() * std::declval<R>());
 	};
 
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	//template<int N, typename Iterator>
-//	auto parseIntern(auto t, Iterator begin, Iterator end) 
-//	{
-//		if constexpr (N==Size)
-//			return t;
-//		else
-//		{
-//			using Type = std::tuple_element_t<N, Tuple>;
-//			auto s = begin + N;
-//			if constexpr (N==0)
-//			{
-//				auto tN =  std::make_tuple(MatrixElement<Type>(*s));
-//				return parseIntern<N+1>(tN,begin,end);
-//			}
-//			else
-//			{
-//				auto tN = std::tuple_cat(t,std::tuple<MatrixElement<Type>>{*s});
-//				return parseIntern<N+1>(tN,begin,end);
-//			}
-//		}
-//	} 
+	template<int N, int M>
+	static auto create(auto t) 
+	{
+		if constexpr (N==M)
+			return t;
+		else
+		{
+			using Type = std::tuple_element_t<N, Left>;
+			if constexpr (N==0)
+			{
+				return create<N+1,M>(std::make_tuple(typename mul<Type,Right>::Type{1}));
+			}
+			else
+			{
+				return create<N+1,M>(std::tuple_cat(t,std::tuple<typename mul<Type,Right>::Type>{1}));
+			}
+		}
+	} 
 	friend std::ostream& operator<<(std::ostream& s, const MatrixResultType& me) { return s;  }
 };
