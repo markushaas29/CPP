@@ -30,7 +30,7 @@ public:
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = 1; //std::tuple_size_v<Tuple>;
 	
-	constexpr auto create() const
+	static constexpr auto create() 
 	{
 		if constexpr ( IsTuple<Left> || IsTuple<Right>)
 		{	
@@ -39,7 +39,7 @@ public:
 		}
 		else
 		{
-			using R = decltype(std::declval<Left>() + std::declval<Right>);
+			using R = decltype(std::declval<Left>() * std::declval<Right>());
 			return R{1};
 		}
 	} 	

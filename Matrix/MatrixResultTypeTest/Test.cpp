@@ -17,7 +17,14 @@ int main()
 
 	std::vector<std::string> s{"1","2","27.12.2022"};
 	
+	using QS = Quantity<Sum>;
+	using QM = Quantity<Mass>;
 
+	auto qm = QM{3};
+	auto qs = QS{4};
+
+	auto rq = MatrixResultType<QM,QS>::create();
+	std::cout<<rq<<std::endl;
 
 	std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>();
 	std::cout<<"END"<<std::endl;
