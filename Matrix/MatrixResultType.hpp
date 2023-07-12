@@ -40,10 +40,16 @@ public:
 		else
 		{
 			using R = decltype(std::declval<Left>() * std::declval<Right>());
-			return R{1};
+			return typename mul<Left,Right>::Type{1};
 		}
 	} 	
 private:
+	template<typename L, typename R>
+	struct mul
+	{
+		using Type = decltype(std::declval<Left>() * std::declval<Right>());
+	};
+
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	//template<int N, typename Iterator>
 //	auto parseIntern(auto t, Iterator begin, Iterator end) 
