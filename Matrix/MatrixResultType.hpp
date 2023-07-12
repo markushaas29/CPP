@@ -34,7 +34,7 @@ public:
 	{
 		if constexpr ( IsTuple<Left>)
 		{	
-			return create<0, std::tuple_size_v<Left>>(std::make_tuple(RT{1}));
+			return create<std::tuple_size_v<Left>>();
 		}
 		else
 		{
@@ -50,6 +50,13 @@ private:
 	};
 
 	template<typename U> using IsT =  Is<U,LiteralType>;
+	
+	template<int M>
+	static auto create() 
+	{
+		using Type = std::tuple_element_t<0, Left>;
+		return create<1,M>(std::make_tuple(typename mul<Type,Right>::Type{1}));
+	} 
 	template<int N, int M>
 	static auto create(auto t) 
 	{
@@ -58,14 +65,7 @@ private:
 		else
 		{
 			using Type = std::tuple_element_t<N, Left>;
-			if constexpr (N==0)
-			{
-				return create<N+1,M>(std::make_tuple(typename mul<Type,Right>::Type{1}));
-			}
-			else
-			{
-				return create<N+1,M>(std::tuple_cat(t,std::tuple<typename mul<Type,Right>::Type>{1}));
-			}
+			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename mul<Type,Right>::Type>{1}));
 		}
 	} 
 	friend std::ostream& operator<<(std::ostream& s, const MatrixResultType& me) { return s;  }
