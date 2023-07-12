@@ -16,6 +16,7 @@ int main()
 	std::cout<<"START"<<std::endl;
 
 	std::vector<std::string> s{"1","2","27.12.2022"};
+	using T = std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>;
 	
 	using QS = Quantity<Sum>;
 	using QM = Quantity<Mass>;
@@ -25,8 +26,10 @@ int main()
 
 	auto rq = MatrixResultType<QM,QS>::create();
 	std::cout<<rq<<std::endl;
+	
+	auto t = MatrixResultType<QM,T>::create();
+	std::cout<<t<<std::endl;
 
-	std::tuple<Quantity<Sum>,IBAN,DateTimes::Date>();
 	std::cout<<"END"<<std::endl;
 //
     return 0;
