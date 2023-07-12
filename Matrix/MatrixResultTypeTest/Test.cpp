@@ -24,10 +24,10 @@ int main()
 	auto qm = QM{3};
 	auto qs = QS{4};
 
-	auto rq = MatrixResultType<QM,QS>::create();
+	auto rq = MatrixResultType<QM,QS>::multiply();
 	std::cout<<rq<<std::endl;
 	
-	auto t = MatrixResultType<QM,T>::create();
+	auto t = MatrixResultType<QM,T>::multiply();
 	std::cout<<t<<std::endl;
 
 	std::cout<<"END"<<std::endl;

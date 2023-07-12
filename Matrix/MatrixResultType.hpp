@@ -30,7 +30,7 @@ public:
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = 1; //std::tuple_size_v<Tuple>;
 	
-	static constexpr auto create() 
+	static constexpr auto multiply() 
 	{
 		if constexpr ( IsTuple<Left> || IsTuple<Right>)
 		{	
