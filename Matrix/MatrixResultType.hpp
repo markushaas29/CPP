@@ -20,7 +20,7 @@ concept PointerConcept = requires(P p)
 	p.reset();
 };
 
-template<typename LT, typename RT>
+template<typename LT, typename RT, bool LTup = IsTuple<LT>, bool RTup = IsTuple<RT>>
 class MatrixResultType 
 {
 public:
@@ -28,14 +28,12 @@ public:
 	using Right = RT;
 	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	static int constexpr Size = 1; //std::tuple_size_v<Tuple>;
+	static int constexpr Size = LTup ? std::tuple_size_v<LT> : 1;
 	
 	static constexpr auto multiply() 
 	{
 		if constexpr ( IsTuple<Left>)
-		{	
 			return create<std::tuple_size_v<Left>>();
-		}
 		else
 		{
 			using R = decltype(std::declval<Left>() * std::declval<Right>());
@@ -56,7 +54,8 @@ private:
 	{
 		using Type = std::tuple_element_t<0, Left>;
 		return create<1,M>(std::make_tuple(typename mul<Type,Right>::Type{1}));
-	} 
+	}
+
 	template<int N, int M>
 	static auto create(auto t) 
 	{

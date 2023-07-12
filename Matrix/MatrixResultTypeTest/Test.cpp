@@ -29,7 +29,7 @@ int main()
 	
 	auto t = MatrixResultType<T,QM>::multiply();
 	std::cout<<std::get<1>(t)<<std::endl;
-	std::cout<<"T: "<<IsTuple<T><<std::endl;
+	std::cout<<"T: "<<MatrixResultType<T,QM>::Size<<std::endl;
 
 	std::cout<<"END"<<std::endl;
 //
