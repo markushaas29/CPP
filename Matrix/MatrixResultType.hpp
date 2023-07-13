@@ -48,6 +48,7 @@ class MatrixResultType : MatrixResultTypeBase<LT,RT,LTup,RTup>
 public:
 	using Left = LT;
 	using Right = RT;
+	using Base = MatrixResultTypeBase<LT,RT,LTup,RTup>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = LTup ? std::tuple_size_v<LT> : 1;
@@ -59,23 +60,15 @@ public:
 		else
 		{
 			using R = decltype(std::declval<Left>() * std::declval<Right>());
-			return typename mul<Left,Right>::Type{1};
+			return typename Base::mul<Left,Right>::Type{1};
 		}
 	} 	
 private:
-	template<typename L, typename R>
-	struct mul
-	{
-		using Type = decltype(std::declval<L>() * std::declval<R>());
-	};
-
-	template<typename U> using IsT =  Is<U,LiteralType>;
-	
 	template<int M>
 	static auto create() 
 	{
 		using Type = std::tuple_element_t<0, Left>;
-		return create<1,M>(std::make_tuple(typename mul<Type,Right>::Type{1}));
+		return create<1,M>(std::make_tuple(typename Base::mul<Type,Right>::Type{1}));
 	}
 
 	template<int N, int M>
@@ -86,7 +79,7 @@ private:
 		else
 		{
 			using Type = std::tuple_element_t<N, Left>;
-			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename mul<Type,Right>::Type>{1}));
+			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename Base::mul<Type,Right>::Type>{1}));
 		}
 	} 
 };
