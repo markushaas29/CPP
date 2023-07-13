@@ -31,6 +31,10 @@ int main()
 	std::cout<<std::get<1>(t)<<std::endl;
 	std::cout<<"T: "<<MatrixResultType<T,QM>::Size<<std::endl;
 
+
+	decltype(MatrixResultType<T,QM>::multiply()) x;
+	std::cout<<std::get<1>(x)<<std::endl;
+
 	std::cout<<"END"<<std::endl;
 //
     return 0;
