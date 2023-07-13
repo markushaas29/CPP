@@ -8,6 +8,8 @@
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
+#include "../Calculator/CalculatorResult.hpp"
+#include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
@@ -124,7 +126,7 @@ public:
   	decltype(auto) operator-(const auto& v)	{ return Apply([&](const auto& e){ return *e - v; });  	}
   	decltype(auto) operator*(const auto& v)	{ return Apply([&](const auto& e){ return *e * v; });  	}
   	decltype(auto) operator/(const auto& v)	{ return Apply([&](const auto& e){ return *e / v; });  	}
-  	decltype(auto) operator+(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
+  	decltype(auto) operator+(const Type& m)	{ return applyE(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
   	decltype(auto) operator-(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 - *e2; });  	}
   	template<size_t N2, typename D2>
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
@@ -143,6 +145,22 @@ private:
 				s<<"{"<<m[i]<<"}"<<std::endl;
 		}
 		return s;
+	}
+
+	template<typename F>
+	decltype(auto) applyE(const auto& m, F f)
+	{
+		using ET = decltype(Addition::Calculate(*(m.at(0)),*(elements->at(0))));
+		using DET = std::shared_ptr<ET>;
+		using MDET = MatrixDescriptor<N,ET,ET>;
+		using MET = Matrix<N,MDET>;;
+
+		auto d = MDET(descriptor.Extents(), descriptor.Strides());
+
+		auto el = std::vector<DET>();
+		for(auto i = 0; i < elements->size(); ++i)
+			el.push_back(std::make_shared<ET>(Addition::Calculate(*(m.at(i)),*(elements->at(i)))));
+		return MET(d,el); 
 	}
 
 	template<typename F>
