@@ -42,6 +42,42 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixResultTypeBase& me) { return s;  }
 };
 
+template<typename LT, typename RT>
+class MatrixResultType<LT,RT,false,false> : MatrixResultTypeBase<LT,RT,false,false>
+{
+public:
+	using Left = LT;
+	using Right = RT;
+	using Base = MatrixResultTypeBase<LT,RT,false,false>;
+	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
+	static int constexpr Size = 1;
+	
+	static constexpr auto multiply() 
+	{
+		using R = decltype(std::declval<Left>() * std::declval<Right>());
+		return typename Base::mul<Left,Right>::Type{1};
+	} 	
+private:
+	template<int M>
+	static auto create() 
+	{
+		using Type = std::tuple_element_t<0, Left>;
+		return create<1,M>(std::make_tuple(typename Base::mul<Type,Right>::Type{1}));
+	}
+
+	template<int N, int M>
+	static auto create(auto t) 
+	{
+		if constexpr (N==M)
+			return t;
+		else
+		{
+			using Type = std::tuple_element_t<N, Left>;
+			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename Base::mul<Type,Right>::Type>{1}));
+		}
+	} 
+};
 template<typename LT, typename RT, bool LTup = IsTuple<LT>, bool RTup = IsTuple<RT>>
 class MatrixResultType : MatrixResultTypeBase<LT,RT,LTup,RTup>
 {

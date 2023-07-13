@@ -25,6 +25,8 @@ int main()
 	auto qs = QS{4};
 
 	auto rq = MatrixResultType<QM,QS>::multiply();
+	auto si =MatrixResultType<QM,QS>::Size;
+	assert(si==1);
 	std::cout<<rq<<std::endl;
 	
 	auto t = MatrixResultType<T,QM>::multiply();
