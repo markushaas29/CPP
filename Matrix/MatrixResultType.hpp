@@ -20,9 +20,9 @@ concept PointerConcept = requires(P p)
 	p.reset();
 };
 
-template<typename,typename,bool,bool> class MatrixResultType;
+template<typename LT,typename RT,bool LTup = IsTuple<LT>, bool RTup = IsTuple<RT>> class MatrixResultType;
 
-template<typename LT, typename RT, bool LTTup, bool RTTup>
+template<typename LT, typename RT, uint S, bool LTTup, bool RTTup>
 class MatrixResultTypeBase 
 {
 public:
@@ -31,6 +31,7 @@ public:
 	using Type = MatrixResultType<Left,Right,LTTup, RTTup>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
     inline static constexpr Literal LiteralType{TypeIdentifier};
+	static int constexpr Size = S;
 protected:
 	template<typename L, typename R>
 	struct mul
@@ -43,51 +44,31 @@ private:
 };
 
 template<typename LT, typename RT>
-class MatrixResultType<LT,RT,false,false> : MatrixResultTypeBase<LT,RT,false,false>
+class MatrixResultType<LT,RT,false,false>: public MatrixResultTypeBase<LT,RT,1,false,false>
 {
 public:
 	using Left = LT;
 	using Right = RT;
-	using Base = MatrixResultTypeBase<LT,RT,false,false>;
+	using Base = MatrixResultTypeBase<LT,RT,1,false,false>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	static int constexpr Size = 1;
 	
 	static constexpr auto multiply() 
 	{
 		using R = decltype(std::declval<Left>() * std::declval<Right>());
 		return typename Base::mul<Left,Right>::Type{1};
 	} 	
-private:
-	template<int M>
-	static auto create() 
-	{
-		using Type = std::tuple_element_t<0, Left>;
-		return create<1,M>(std::make_tuple(typename Base::mul<Type,Right>::Type{1}));
-	}
-
-	template<int N, int M>
-	static auto create(auto t) 
-	{
-		if constexpr (N==M)
-			return t;
-		else
-		{
-			using Type = std::tuple_element_t<N, Left>;
-			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename Base::mul<Type,Right>::Type>{1}));
-		}
-	} 
 };
-template<typename LT, typename RT, bool LTup = IsTuple<LT>, bool RTup = IsTuple<RT>>
-class MatrixResultType : MatrixResultTypeBase<LT,RT,LTup,RTup>
+
+template<typename LT, typename RT>
+class MatrixResultType<LT,RT,true,false>: public MatrixResultTypeBase<LT,RT,std::tuple_size_v<LT>,true,false>
 {
 public:
 	using Left = LT;
 	using Right = RT;
-	using Base = MatrixResultTypeBase<LT,RT,LTup,RTup>;
+	using Base = MatrixResultTypeBase<LT,RT,std::tuple_size_v<LT>,true,false>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	static int constexpr Size = LTup ? std::tuple_size_v<LT> : 1;
 	
 	static constexpr auto multiply() 
 	{
