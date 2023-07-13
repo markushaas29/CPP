@@ -20,8 +20,30 @@ concept PointerConcept = requires(P p)
 	p.reset();
 };
 
+template<typename,typename,bool,bool> class MatrixResultType;
+
+template<typename LT, typename RT, bool LTTup, bool RTTup>
+class MatrixResultTypeBase 
+{
+public:
+	using Left = LT;
+	using Right = RT;
+	using Type = MatrixResultType<Left,Right,LTTup, RTTup>;
+	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
+protected:
+	template<typename L, typename R>
+	struct mul
+	{
+		using Type = decltype(std::declval<L>() * std::declval<R>());
+	};
+private:
+	template<typename U> using IsT =  Is<U,LiteralType>;
+	friend std::ostream& operator<<(std::ostream& s, const MatrixResultTypeBase& me) { return s;  }
+};
+
 template<typename LT, typename RT, bool LTup = IsTuple<LT>, bool RTup = IsTuple<RT>>
-class MatrixResultType 
+class MatrixResultType : MatrixResultTypeBase<LT,RT,LTup,RTup>
 {
 public:
 	using Left = LT;
@@ -67,5 +89,4 @@ private:
 			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename mul<Type,Right>::Type>{1}));
 		}
 	} 
-	friend std::ostream& operator<<(std::ostream& s, const MatrixResultType& me) { return s;  }
 };
