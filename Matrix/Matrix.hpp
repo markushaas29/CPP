@@ -22,6 +22,7 @@ public:
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;
+	template<typename,typename> friend class MatrixCalculator;
 	using ParserType = typename DescriptorType::ParserType;
 	using InputType = typename DT::InputType;
 	using DataType = typename DT::DataType;
@@ -127,7 +128,7 @@ public:
   	decltype(auto) operator*(const auto& v)	{ return Apply([&](const auto& e){ return *e * v; });  	}
   	decltype(auto) operator/(const auto& v)	{ return Apply([&](const auto& e){ return *e / v; });  	}
   	template<size_t N2, typename D2>
-  	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return applyE(m, [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
+  	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	decltype(auto) operator-(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 - *e2; });  	}
   	template<size_t N2, typename D2>
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
@@ -152,6 +153,7 @@ private:
 	template<typename F>
 	decltype(auto) applyE(const auto& m, F f)
 	{
+		using OP = MatrixOperation<Add,Type,decltype(m)>;
 		using ET = decltype(Addition::Calculate(*(m.elements->at(0)),*(elements->at(0))));
 		using DET = std::shared_ptr<ET>;
 		using MDET = MatrixDescriptor<N,ET,ET>;

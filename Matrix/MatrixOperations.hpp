@@ -9,6 +9,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../Calculator/Operations.hpp"
 #pragma once
 
 template<size_t, typename, typename> class MatrixDescriptor;
@@ -17,7 +18,7 @@ template<size_t, typename> class Matrix;
 template<typename L, typename R>
 struct Add
 {
-	using Type = decltype(std::declval<L>() + std::declval<R>());
+	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
 template<template<typename,typename> class Op, typename M1, typename M2>
@@ -25,8 +26,8 @@ class MatrixOperation
 {
 public:
 	using Left = M1;
-	using Right = M2;
-	using ET = Op<typename Left::InpuType, typename Right::InputType>::Type;
+	using Right = std::remove_reference<M2>::type;
+	using ET = Op<typename Left::InputType, typename Right::InputType>::Type;
 	using DET = std::shared_ptr<ET>;    
 	using MDET = MatrixDescriptor<Left::Order,ET,ET>;
 	using MET = Matrix<Left::Order,MDET>;
