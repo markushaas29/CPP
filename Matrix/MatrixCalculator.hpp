@@ -2,6 +2,7 @@
 #include <tuple>
 #include <vector>
 #include "MatrixDescriptor.hpp"
+#include "MatrixOperations.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
