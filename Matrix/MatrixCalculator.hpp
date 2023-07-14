@@ -36,6 +36,35 @@ protected:
 		return std::make_shared<typename V::element_type>(res);
 	}
 private:
+	template<size_t, typename> friend class Matrix;
+	static decltype(auto) add(LeftType l, RightType r)
+    {
+        using ET = decltype(Addition::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
+        using DET = std::shared_ptr<ET>;
+        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MET = Matrix<Order,MDET>;;
+
+        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
+
+        auto el = std::vector<DET>();
+        for(auto i = 0; i < l.elements->size(); ++i)
+            el.push_back(std::make_shared<ET>(Addition::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+        return MET(d,el); 
+    }
+	static decltype(auto) sub(LeftType l, RightType r)
+    {
+        using ET = decltype(Subtraction::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
+        using DET = std::shared_ptr<ET>;
+        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MET = Matrix<Order,MDET>;;
+
+        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
+
+        auto el = std::vector<DET>();
+        for(auto i = 0; i < l.elements->size(); ++i)
+            el.push_back(std::make_shared<ET>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+        return MET(d,el); 
+    }
 };
 template<typename M1, typename M2>
 class MatrixCalculator 
@@ -49,22 +78,6 @@ template<typename D1, typename D2>
 class MatrixCalculator<Matrix<2,D1>, Matrix<2,D2>> : public MatrixCalculatorBase<MatrixCalculator,2,Matrix<2,D1>, Matrix<2,D2>> 
 {
 	using Base = MatrixCalculatorBase<MatrixCalculator,2,Matrix<2,D1>, Matrix<2,D2>>;
-public:
-	static decltype(auto) add(Base::LeftType l, Base::RightType r)
-    {
-        //using OP = MatrixOperation<Add,Type,decltype(m)>;
-        using ET = decltype(Addition::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
-        using DET = std::shared_ptr<ET>;
-        using MDET = MatrixDescriptor<2,ET,ET>;
-        using MET = Matrix<2,MDET>;;
-
-        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
-
-        auto el = std::vector<DET>();
-        for(auto i = 0; i < l.elements->size(); ++i)
-            el.push_back(std::make_shared<ET>(Addition::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
-        return MET(d,el); 
-    }
 private:
 	friend class Matrix<2,D1>;
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
