@@ -124,7 +124,7 @@ public:
 		return Type(descriptor,el); 
 	}
 
-  	decltype(auto) operator+(const auto& v)	{ return Apply([&](const auto& e){ return *e + v; });  	}
+  	decltype(auto) operator+(const auto& v)	{ return MC<Matrix<N,DT>>::apply(*this,[&](const auto& e){ return Addition::Calculate(*e,v); });  }
   	decltype(auto) operator-(const auto& v)	{ return Apply([&](const auto& e){ return *e - v; });  	}
   	decltype(auto) operator*(const auto& v)	{ return Apply([&](const auto& e){ return *e * v; });  	}
   	decltype(auto) operator/(const auto& v)	{ return Apply([&](const auto& e){ return *e / v; });  	}

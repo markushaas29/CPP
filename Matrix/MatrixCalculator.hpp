@@ -66,7 +66,7 @@ private:
         return MET(d,el); 
     }
 	template<typename F>
-    decltype(auto) apply(LeftType m, F f)
+    static decltype(auto) apply(LeftType m, F f)
     {
         using ET = decltype(f(m.elements->at(0)));
         using DET = std::shared_ptr<ET>;
@@ -77,7 +77,7 @@ private:
 
         auto el = std::vector<DET>();
         std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<ET>(f(e))); });
-        return LeftType(d,el); 
+        return MET(d,el); 
     }
 };
 template<typename M1, typename M2>
