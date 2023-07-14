@@ -2,6 +2,7 @@
 #include <tuple>
 #include <vector>
 #include "MatrixDescriptor.hpp"
+#include "MatrixOperations.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
@@ -35,6 +36,49 @@ protected:
 		return std::make_shared<typename V::element_type>(res);
 	}
 private:
+	template<size_t, typename> friend class Matrix;
+	static decltype(auto) add(LeftType l, RightType r)
+    {
+        using ET = decltype(Addition::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
+        using DET = std::shared_ptr<ET>;
+        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MET = Matrix<Order,MDET>;;
+
+        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
+
+        auto el = std::vector<DET>();
+        for(auto i = 0; i < l.elements->size(); ++i)
+            el.push_back(std::make_shared<ET>(Addition::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+        return MET(d,el); 
+    }
+	static decltype(auto) sub(LeftType l, RightType r)
+    {
+        using ET = decltype(Subtraction::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
+        using DET = std::shared_ptr<ET>;
+        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MET = Matrix<Order,MDET>;;
+
+        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
+
+        auto el = std::vector<DET>();
+        for(auto i = 0; i < l.elements->size(); ++i)
+            el.push_back(std::make_shared<ET>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+        return MET(d,el); 
+    }
+	template<typename F>
+    static decltype(auto) apply(LeftType m, F f)
+    {
+        using ET = decltype(f(m.elements->at(0)));
+        using DET = std::shared_ptr<ET>;
+        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MET = Matrix<Order,MDET>;;
+
+        auto d = MDET(m.descriptor.Extents(), m.descriptor.Strides());
+
+        auto el = std::vector<DET>();
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<ET>(f(e))); });
+        return MET(d,el); 
+    }
 };
 template<typename M1, typename M2>
 class MatrixCalculator 

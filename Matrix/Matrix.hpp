@@ -8,6 +8,8 @@
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
+#include "../Calculator/CalculatorResult.hpp"
+#include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
@@ -20,6 +22,8 @@ public:
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;
+	template<typename,typename> friend class MatrixCalculator;
+	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	using ParserType = typename DescriptorType::ParserType;
 	using InputType = typename DT::InputType;
 	using DataType = typename DT::DataType;
@@ -120,16 +124,19 @@ public:
 		return Type(descriptor,el); 
 	}
 
-  	decltype(auto) operator+(const auto& v)	{ return Apply([&](const auto& e){ return *e + v; });  	}
+  	decltype(auto) operator+(const auto& v)	{ return MC<Matrix<N,DT>>::apply(*this,[&](const auto& e){ return Addition::Calculate(*e,v); });  }
   	decltype(auto) operator-(const auto& v)	{ return Apply([&](const auto& e){ return *e - v; });  	}
   	decltype(auto) operator*(const auto& v)	{ return Apply([&](const auto& e){ return *e * v; });  	}
   	decltype(auto) operator/(const auto& v)	{ return Apply([&](const auto& e){ return *e / v; });  	}
-  	decltype(auto) operator+(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 + *e2; });  	}
-  	decltype(auto) operator-(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 - *e2; });  	}
+  	template<size_t N2, typename D2>
+  	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
+  	template<size_t N2, typename D2>
+  	decltype(auto) operator-(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::sub(*this,m);  	}
   	template<size_t N2, typename D2>
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
   	decltype(auto) operator/(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 / *e2; });  	}
 private:
+	template<size_t N2, typename D2> friend class Matrix;
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{
 		if constexpr (Matrix::Order==1)
