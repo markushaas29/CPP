@@ -39,15 +39,9 @@ private:
 	template<size_t, typename> friend class Matrix;
 	static decltype(auto) add(LeftType l, RightType r)
     {
-        using ET = decltype(Addition::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
         using Op = MatrixOperation<Add,LeftType,RightType>;
-		static_assert(std::is_same_v<ET,typename Op::ExpressionType>,  "Swap requires copying");
-        using DET = std::shared_ptr<typename Op::ExpressionType>;
-        using MDET = MatrixDescriptor<Order,ET,ET>;
-        using MET = Matrix<Order,MDET>;;
 
         auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
-
         auto el = std::vector<typename Op::DataType>();
         for(auto i = 0; i < l.elements->size(); ++i)
             el.push_back(std::make_shared<typename Op::ExpressionType>(Addition::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
@@ -55,17 +49,13 @@ private:
     }
 	static decltype(auto) sub(LeftType l, RightType r)
     {
-        using ET = decltype(Subtraction::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
-        using DET = std::shared_ptr<ET>;
-        using MDET = MatrixDescriptor<Order,ET,ET>;
-        using MET = Matrix<Order,MDET>;;
+        using Op = MatrixOperation<Sub,LeftType,RightType>;
 
-        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
-
-        auto el = std::vector<DET>();
+        auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
+        auto el = std::vector<typename Op::DataType>();
         for(auto i = 0; i < l.elements->size(); ++i)
-            el.push_back(std::make_shared<ET>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
-        return MET(d,el); 
+            el.push_back(std::make_shared<typename Op::ExpressionType>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+        return typename Op::MatrixType(d,el); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& l, const RightType& r,F f)

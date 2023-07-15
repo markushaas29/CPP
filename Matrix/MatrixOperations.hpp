@@ -21,6 +21,12 @@ struct Add
 	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
+template<typename L, typename R>
+struct Sub
+{
+	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
+};
+
 template<template<typename,typename> class Op, typename M1, typename M2>
 class MatrixOperation 
 {

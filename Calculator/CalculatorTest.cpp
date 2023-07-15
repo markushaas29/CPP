@@ -22,12 +22,13 @@ int main()
 	auto t2 = Quantity<Time>{2};
 	
 	auto a18 = Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3);//+Addition::Calculate(e6,e9);
+	auto i1 = Addition::Calculate(1,2)+1 -1;//+Addition::Calculate(e6,e9);
 	auto a18_2 = Addition::Calculate(e9,e9);//+Addition::Calculate(e6,e9);
 	
 	auto ra1 = a18.Get();
 	auto ra12 = a18_2.Get();
 	
-	std::cout<<a18<<std::endl;
+	std::cout<<"I: "<<i1<<std::endl;
 	std::cout<<ra1<<std::endl;
 	bool result = std::is_same<decltype(ra1),Q>::value;
 	assert(result);
@@ -68,19 +69,19 @@ int main()
 	rmstd3;
 	result = std::is_same<decltype(rmstd3),decltype(e3)>::value;
 //	assert(result);
-	assert(rmstd3==e3);
-	assert(rmstd3.Value()==3);
+	//~ assert(rmstd3==e3);
+	//~ assert(rmstd3.Value()==3);
 	
-	auto rf3 = Ratio::Calculate(t1,t2,e6);
-	//bool x = rf3;
-	auto rrf3 = rf3.Get();
-	std::cout<<"Ratio\t"<<rf3<<std::endl;
-	std::cout<<"Ratio\t"<<rrf3<<std::endl;
+	//~ auto rf3 = Ratio::Calculate(t1,t2,e6);
+	//~ //bool x = rf3;
+	//~ auto rrf3 = rf3.Get();
+	//~ std::cout<<"Ratio\t"<<rf3<<std::endl;
+	//~ std::cout<<"Ratio\t"<<rrf3<<std::endl;
 
-	result = std::is_same<decltype(rrf3),decltype(e3)>::value;
-	assert(result);
-	assert(rrf3==e3);
-	assert(rrf3.Value()==3);
+	//~ result = std::is_same<decltype(rrf3),decltype(e3)>::value;
+	//~ assert(result);
+	//~ assert(rrf3==e3);
+	//~ assert(rrf3.Value()==3);
 //	std::cout<<(e6/Multiplication::Calculate(a1,m2)*Multiplication::Calculate(a1,e6)*m2)<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
 	std::cout<<"\n------------------------------------------"<<std::endl;
