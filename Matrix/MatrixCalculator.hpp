@@ -83,16 +83,17 @@ private:
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)
     {
-        using ET = decltype(f(m.elements->at(0)));
+        using Op = MatrixOperation<decltype(f(m.elements->at(0))),LeftType,RightType>;
+		using ET = decltype(f(m.elements->at(0)));
         using DET = std::shared_ptr<ET>;
         using MDET = MatrixDescriptor<Order,ET,ET>;
         using MET = Matrix<Order,MDET>;;
 
-        auto d = MDET(m.descriptor.Extents(), m.descriptor.Strides());
+        auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
 
-        auto el = std::vector<DET>();
-        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<ET>(f(e))); });
-        return MET(d,el); 
+        auto el = std::vector<typename Op::DataType>();
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ExpressionType>(f(e))); });
+        return typename Op::MatrixType(d,el); 
     }
 };
 template<typename M1, typename M2>
