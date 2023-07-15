@@ -131,7 +131,7 @@ public:
   	template<size_t N2, typename D2>
   	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	template<size_t N2, typename D2>
-  	decltype(auto) operator-(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::sub(*this,m);  	}
+  	decltype(auto) operator-(const Matrix<N2,D2>& m)	{ return MC<Type>::apply(*this,m,[&](const auto& e1, const auto& e2){ return Subtraction::Calculate(e1,e2); });  	}
   	template<size_t N2, typename D2>
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
   	decltype(auto) operator/(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 / *e2; });  	}

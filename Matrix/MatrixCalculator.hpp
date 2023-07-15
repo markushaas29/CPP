@@ -66,6 +66,21 @@ private:
         return MET(d,el); 
     }
 	template<typename F>
+    static decltype(auto) apply(LeftType l, RightType r,F f)
+    {
+        using ET = decltype(f(*(l.elements->at(0)),*(r.elements->at(0))));
+        using DET = std::shared_ptr<ET>;
+        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MET = Matrix<Order,MDET>;;
+
+        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
+
+        auto el = std::vector<DET>();
+        for(auto i = 0; i < l.elements->size(); ++i)
+            el.push_back(std::make_shared<ET>(f(*(l.elements->at(i)),*(r.elements->at(i)))));
+        return MET(d,el); 
+    }
+	template<typename F>
     static decltype(auto) apply(LeftType m, F f)
     {
         using ET = decltype(f(m.elements->at(0)));
