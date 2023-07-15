@@ -65,7 +65,7 @@ int main()
 	//std::cout<<"Matrix m3 "<<((m35 + m35)+(m35 + m35) + m35)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35+m35 + m35 )<<"\n";
 	auto mad = m35 + m35 -m35 +m35; 
-	std::cout<<"Matrix m3 Sub"<<(m35 - m35 - m35 )<<"\n";
+	std::cout<<"Matrix m3 Sub"<<(m35 - m35 - m35 + m35 -m35 +m35 )<<"\n";
 	auto m35m1 = m35 * m1;
 	std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
 

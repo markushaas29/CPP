@@ -38,7 +38,7 @@ template<class Derived, typename L, typename R=L, typename V=L>
 		constexpr Result() = default;
 		constexpr decltype(auto) Get() const 
 		{
-			if constexpr (IsResultType<decltype(value)>)
+			if constexpr (IsResult<decltype(value)>)
 				return value.Get();
 			return value; 
 		}
