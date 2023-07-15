@@ -57,10 +57,6 @@ int main()
 		{11, 12, 13, 14, 15},
 	};
 	std::cout<<"Matrix m3 "<<(m35 )<<"\n";
-//	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
-//	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
-//	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
-//	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
 //	std::cout<<"Matrix m3 "<<((m35 + m35)+(m35 + m35))<<"\n";
 	//std::cout<<"Matrix m3 "<<((m35 + m35)+(m35 + m35) + m35)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35+m35 + m35 )<<"\n";
@@ -68,6 +64,10 @@ int main()
 	std::cout<<"Matrix m3 Sub"<<(m35 - m35 - m35 + m35 -m35 +m35 )<<"\n";
 	auto m35m1 = m35 * m1;
 	std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
+	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
 
 	M3 m3 {
 		{

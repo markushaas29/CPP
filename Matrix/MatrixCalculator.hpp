@@ -75,7 +75,7 @@ private:
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)
     {
-        using Op = MatrixOperation<Add,LeftType,RightType>;
+        using Op = MatrixOperation<Func,LeftType, typename LeftType::InputType>;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
