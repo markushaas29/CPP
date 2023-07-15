@@ -40,6 +40,7 @@ private:
 	static decltype(auto) add(LeftType l, RightType r)
     {
         using ET = decltype(Addition::Calculate(*(l.elements->at(0)),*(r.elements->at(0))));
+        using Op = MatrixOperation<decltype(Addition::Calculate(*(l.elements->at(0)),*(r.elements->at(0)))),LeftType,RightType>;
         using DET = std::shared_ptr<ET>;
         using MDET = MatrixDescriptor<Order,ET,ET>;
         using MET = Matrix<Order,MDET>;;
@@ -84,13 +85,8 @@ private:
     static decltype(auto) apply(const LeftType& m, F f)
     {
         using Op = MatrixOperation<decltype(f(m.elements->at(0))),LeftType,RightType>;
-		using ET = decltype(f(m.elements->at(0)));
-        using DET = std::shared_ptr<ET>;
-        using MDET = MatrixDescriptor<Order,ET,ET>;
-        using MET = Matrix<Order,MDET>;;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
-
         auto el = std::vector<typename Op::DataType>();
         std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ExpressionType>(f(e))); });
         return typename Op::MatrixType(d,el); 
