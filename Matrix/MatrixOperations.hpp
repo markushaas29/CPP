@@ -21,15 +21,13 @@ struct Add
 	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
-//template<template<typename,typename> class Op, typename M1, typename M2>
-template<typename Op, typename M1, typename M2>
+template<template<typename,typename> class Op, typename M1, typename M2>
 class MatrixOperation 
 {
 public:
 	using Left = M1;
 	using Right = std::remove_reference<M2>::type;
-	//using ExpressionType = Op<typename Left::InputType, typename Right::InputType>::Type;
-	using ExpressionType = Op;
+	using ExpressionType = Op<typename Left::InputType, typename Right::InputType>::Type;
 	using DataType = std::shared_ptr<ExpressionType>;    
 	using DescriptorType = MatrixDescriptor<Left::Order,ExpressionType,ExpressionType>;
 	using MatrixType = Matrix<Left::Order,DescriptorType>;

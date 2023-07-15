@@ -57,11 +57,11 @@ int main()
 		{11, 12, 13, 14, 15},
 	};
 	std::cout<<"Matrix m3 "<<(m35 )<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
-	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
-	std::cout<<"Matrix m3 "<<((m35 + m35)+(m35 + m35))<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
+//	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
+//	std::cout<<"Matrix m3 "<<((m35 + m35)+(m35 + m35))<<"\n";
 	//std::cout<<"Matrix m3 "<<((m35 + m35)+(m35 + m35) + m35)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35+m35 + m35 )<<"\n";
 	std::cout<<"Matrix m3 Sub"<<(m35 - m35)<<"\n";
