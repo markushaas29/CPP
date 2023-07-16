@@ -56,6 +56,14 @@ public:
 	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
+template<typename L, typename R>
+class Div: public OperationBase<Division,L,R>
+{
+	using Base = OperationBase<Division,L,R>;
+public:
+	Div(const L& v): Base{v} {}
+	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
+};
 
 template<typename Op, typename M1, typename V>
 class ValueOperation 
