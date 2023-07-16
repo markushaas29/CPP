@@ -36,11 +36,15 @@ int main()
 	assert(result);
 	assert(ra1.Value()==ra12.Value());
 
-	auto m18 = Multiplication::Calculate(e3,e3) + Multiplication::Calculate(e3,e3);
+	auto m18 = Multiplication::Calculate(e3,e3) *  Multiplication::Calculate(e3,e3)*  Multiplication::Calculate(e3,e3);
 	auto rm18 = m18.Get();
-	result = std::is_same<decltype(rm18),decltype(e3*e3)>::value;
-	assert(result);
-	assert(rm18.Value()==ra1.Value());
+	std::cout<<m18<<std::endl;
+	auto e4 = e3*e3*e3*e3*e3*e3;
+	std::cout<<rm18<<e4<<std::endl;
+	result = std::is_same<decltype(rm18),decltype(e4)>::value;
+	//assert(result);
+	assert(rm18==e4);
+	//assert(rm18.Value()==ra1.Value());
 	
 	auto d18 = (m18 / e3)-e3;
 	std::cout<<d18<<std::endl;

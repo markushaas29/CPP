@@ -20,6 +20,7 @@ public:
 	using Type = Derived;
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
+	constexpr Element(): size{0}, data{std::array<char,N>{}} { };
 	constexpr Element(std::array<char,N> s): size{Len(s)}, data{s} { };
 	constexpr Element(const char* s): size{Len(Derived::check(s))}, data{Init<N>(Derived::check(s))} { };
 
