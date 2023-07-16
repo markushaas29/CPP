@@ -124,10 +124,10 @@ public:
 		return Type(descriptor,el); 
 	}
 
-  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Addition::Calculate(*e,v); });  }
-  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Subtraction::Calculate(*e,v); });  	}
-  	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Multiplication::Calculate(*e,v); });  	}
-  	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Division::Calculate(*e,v); });  	}
+  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<InputType,decltype(v)>{v});  }
+  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<InputType,decltype(v)>{v});  	}
+  	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,Mul<InputType,decltype(v)>{v});  	}
+  	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,Div<InputType,decltype(v)>{v});   	}
   	template<size_t N2, typename D2>
   	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	template<size_t N2, typename D2>

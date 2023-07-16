@@ -30,7 +30,11 @@ int main()
 	std::cout<<rq<<std::endl;
 	
 	auto t = MatrixResultType<T,QM>::multiply();
-	std::cout<<std::get<1>(t)<<std::endl;
+	auto t1 = MatrixResultType<decltype(t),QM>::multiply();
+	std::cout<<std::get<1>(t1)<<std::endl;
+	auto v = std::remove_reference<decltype(std::get<1>(t1).Get())>::type::ValueType(1);
+	std::cout<<"GET"<<std::get<1>(t1).Get()<<std::endl;
+	std::cout<<"ConstructVal"<<v<<std::endl;
 	std::cout<<"T: "<<MatrixResultType<T,QM>::Size<<std::endl;
 
 

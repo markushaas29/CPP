@@ -9,6 +9,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../Calculator/Operations.hpp"
 #pragma once
 
 
@@ -36,7 +37,7 @@ protected:
 	template<typename L, typename R>
 	struct mul
 	{
-		using Type = decltype(std::declval<L>() * std::declval<R>());
+		using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
 	};
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
@@ -55,8 +56,8 @@ public:
 	
 	static constexpr auto multiply() 
 	{
-		using R = decltype(std::declval<Left>() * std::declval<Right>());
-		return typename Base::mul<Left,Right>::Type{1};
+		using R = decltype(Multiplication::Calculate(std::declval<Left>(), std::declval<Right>()));
+		return typename Base::mul<Left,Right>::Type();
 	} 	
 };
 
@@ -76,8 +77,8 @@ public:
 			return create<std::tuple_size_v<Left>>();
 		else
 		{
-			using R = decltype(std::declval<Left>() * std::declval<Right>());
-			return typename Base::mul<Left,Right>::Type{1};
+			using R = decltype(Multiplication::Calculate(std::declval<Left>(), std::declval<Right>()));
+			return typename Base::mul<Left,Right>::Type();
 		}
 	} 	
 private:
@@ -85,7 +86,7 @@ private:
 	static auto create() 
 	{
 		using Type = std::tuple_element_t<0, Left>;
-		return create<1,M>(std::make_tuple(typename Base::mul<Type,Right>::Type{1}));
+		return create<1,M>(std::make_tuple(typename Base::mul<Type,Right>::Type()));
 	}
 
 	template<int N, int M>
@@ -96,7 +97,7 @@ private:
 		else
 		{
 			using Type = std::tuple_element_t<N, Left>;
-			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename Base::mul<Type,Right>::Type>{1}));
+			return create<N+1,M>(std::tuple_cat(t,std::tuple<typename Base::mul<Type,Right>::Type>()));
 		}
 	} 
 };
