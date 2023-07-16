@@ -28,13 +28,15 @@ int main()
 	auto si =MatrixResultType<QM,QS>::Size;
 	assert(si==1);
 	std::cout<<rq<<std::endl;
-	
+	auto g = 7;	
 	auto t = MatrixResultType<T,QM>::multiply();
 	auto t1 = MatrixResultType<decltype(t),QM>::multiply();
 	std::cout<<std::get<1>(t1)<<std::endl;
 	auto v = std::remove_reference<decltype(std::get<1>(t1).Get())>::type::ValueType(1);
 	std::cout<<"GET"<<std::get<1>(t1).Get()<<std::endl;
 	std::cout<<"ConstructVal"<<v<<std::endl;
+	std::cout<<"ConstructVal: "<<GetValue<0>(rq,g)<<std::endl;
+	std::cout<<"ConstructVal: "<<GetValue<1>(t1,g)<<std::endl;
 	std::cout<<"T: "<<MatrixResultType<T,QM>::Size<<std::endl;
 
 

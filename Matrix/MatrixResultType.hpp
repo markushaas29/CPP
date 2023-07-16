@@ -23,6 +23,21 @@ concept PointerConcept = requires(P p)
 
 template<typename LT,typename RT,bool LTup = IsTuple<LT>, bool RTup = IsTuple<RT>> class MatrixResultType;
 
+template<uint N, typename T>
+decltype(auto) GetValue(T t, const auto& v)
+{
+	using type = std::remove_reference<decltype(t)>::type;
+	if constexpr ( IsTuple<T>)
+	{
+		using TY=std::remove_reference<decltype(std::get<N>(t).Get())>::type;
+		return typename TY::ValueType(v);
+	}
+	else
+	{
+		return typename T::ValueType(v);
+	}
+}
+
 template<typename LT, typename RT, uint S, bool LTTup, bool RTTup>
 class MatrixResultTypeBase 
 {
