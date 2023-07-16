@@ -125,7 +125,7 @@ public:
 	}
 
   	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Addition::Calculate(*e,v); });  }
-  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Subtraction::Calculate(*e,v); });  	}
+  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<InputType,decltype(v)>{v});  	}
   	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Multiplication::Calculate(*e,v); });  	}
   	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,[&](const auto& e){ return Division::Calculate(*e,v); });  	}
   	template<size_t N2, typename D2>

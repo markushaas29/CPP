@@ -75,11 +75,11 @@ private:
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)
     {
-        using Op = MatrixOperation<Func,LeftType, typename LeftType::InputType>;
+        using Op = ValueOperation<Sub, LeftType, typename LeftType::InputType>;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
-        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ExpressionType>(f(e))); });
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ExpressionType>(f(*e))); });
         return typename Op::MatrixType(d,el); 
     }
 };

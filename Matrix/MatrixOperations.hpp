@@ -1,6 +1,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include <type_traits>
 #include "MatrixElement.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
@@ -15,6 +16,19 @@
 template<size_t, typename, typename> class MatrixDescriptor;
 template<size_t, typename> class Matrix;
 
+template<typename T, typename L, typename R>
+class OperationBase 
+{
+	using LeftType = L;
+	using RightType = R;
+	using Type = T;
+public:
+	OperationBase(const RightType& v): val{v} {}
+	decltype(auto) operator()(const auto& v) { return T::Calculate(v, val); }
+private:
+	RightType val;
+};
+
 template<typename L, typename R>
 struct Add
 {
@@ -22,24 +36,22 @@ struct Add
 };
 
 template<typename L, typename R>
-struct Sub
+class Sub: public OperationBase<Subtraction,L,R>
 {
+	using Base = OperationBase<Subtraction,L,R>;
+public:
+	Sub(const L& v): Base{v} {}
 	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
-template<typename L, typename F>
-struct Func
-{
-	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<F>()));
-};
 
-template<template<typename,typename> class Op, typename M1, typename M2>
-class MatrixOperation 
+template<template<typename,typename> class Op, typename M1, typename V>
+class ValueOperation 
 {
 public:
 	using Left = M1;
-	using Right = std::remove_reference<M2>::type;
-	using ExpressionType = Op<typename Left::InputType, typename Right::InputType>::Type;
+	using Right = V;
+	using ExpressionType = Op<typename Left::InputType, V>::Type;
 	using DataType = std::shared_ptr<ExpressionType>;    
 	using DescriptorType = MatrixDescriptor<Left::Order,ExpressionType,ExpressionType>;
 	using MatrixType = Matrix<Left::Order,DescriptorType>;
@@ -49,16 +61,15 @@ public:
 protected:
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixOperation& me) { return s;  }
+	friend std::ostream& operator<<(std::ostream& s, const ValueOperation& me) { return s;  }
 };
-
-template<typename M1, typename M2>
-class MatrixOperation<Func,M1,M2> 
+template<template<typename,typename> class Op, typename M1, typename M2>
+class MatrixOperation 
 {
 public:
 	using Left = M1;
 	using Right = std::remove_reference<M2>::type;
-	using ExpressionType = Func<typename Left::InputType, M2>::Type;
+	using ExpressionType = Op<typename Left::InputType, typename Right::InputType>::Type;
 	using DataType = std::shared_ptr<ExpressionType>;    
 	using DescriptorType = MatrixDescriptor<Left::Order,ExpressionType,ExpressionType>;
 	using MatrixType = Matrix<Left::Order,DescriptorType>;
