@@ -47,6 +47,15 @@ public:
 	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
+template<typename L, typename R>
+class Mul: public OperationBase<Multiplication,L,R>
+{
+	using Base = OperationBase<Multiplication,L,R>;
+public:
+	Mul(const L& v): Base{v} {}
+	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
+};
+
 
 template<typename Op, typename M1, typename V>
 class ValueOperation 

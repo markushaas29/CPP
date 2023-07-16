@@ -66,7 +66,7 @@ int main()
 	std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 + 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
-//	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
+	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
 //	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
 
 	M3 m3 {
