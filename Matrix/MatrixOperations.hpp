@@ -30,8 +30,11 @@ private:
 };
 
 template<typename L, typename R>
-struct Add
+class Add: public OperationBase<Addition,L,R>
 {
+	using Base = OperationBase<Addition,L,R>;
+public:
+	Add(const L& v): Base{v} {}
 	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
 };
 
@@ -45,13 +48,13 @@ public:
 };
 
 
-template<template<typename,typename> class Op, typename M1, typename V>
+template<typename Op, typename M1, typename V>
 class ValueOperation 
 {
 public:
 	using Left = M1;
 	using Right = V;
-	using ExpressionType = Op<typename Left::InputType, V>::Type;
+	using ExpressionType = Op::Type;
 	using DataType = std::shared_ptr<ExpressionType>;    
 	using DescriptorType = MatrixDescriptor<Left::Order,ExpressionType,ExpressionType>;
 	using MatrixType = Matrix<Left::Order,DescriptorType>;
