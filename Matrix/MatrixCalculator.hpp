@@ -75,7 +75,7 @@ private:
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)
     {
-        using Op = ValueOperation<Sub, LeftType, typename LeftType::InputType>;
+        using Op = ValueOperation<F, LeftType, typename LeftType::InputType>;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
