@@ -40,17 +40,18 @@ public:
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
 	Matrix& operator=(Matrix&&) = default;
-	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())}{ };
+	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())}, expressions{std::make_unique<std::vector<ExpDataType>>(m.expressions->cbegin(),m.expressions->cend())}{ };
 	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 	~Matrix() = default;
 
-	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
+	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}, expressions{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
 	Matrix(MatrixInitializer<InputType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.Size());
 		MI::insert_flat(init,elements);
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& v) { expressions->push_back(std::make_shared<ExpressionType>(*v)); });
 	};
 	Matrix& operator=(MatrixInitializer<InputType,N>) {};
 
@@ -89,6 +90,7 @@ public:
 	decltype(auto) AddRow(const std::vector<InputType>& v)
 	{
 		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<InputType>(i)); } );
+		std::for_each(v.cbegin(), v.cend(), [&](auto i) { expressions->push_back(std::make_shared<InputType>(i)); } );
 		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
 		descriptor.AddRow();
 	}
@@ -167,4 +169,5 @@ private:
 	DescriptorType descriptor;
 	ParserType parser;
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
+	std::unique_ptr<std::vector<ExpDataType>> expressions = std::make_unique<std::vector<ExpDataType>>();
 };
