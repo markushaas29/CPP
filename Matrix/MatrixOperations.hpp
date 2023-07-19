@@ -24,7 +24,7 @@ class OperationBase
 	using Type = T;
 public:
 	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return T::Calculate(v, val); }
+	decltype(auto) operator()(const auto& v) { return v + val; }
 private:
 	RightType val;
 };
@@ -35,7 +35,8 @@ class Add: public OperationBase<Addition,L,R>
 	using Base = OperationBase<Addition,L,R>;
 public:
 	Add(const L& v): Base{v} {}
-	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
+	using ExpressionType = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = decltype(std::declval<L>() + std::declval<R>());
 };
 
 template<typename L, typename R>
@@ -44,7 +45,8 @@ class Sub: public OperationBase<Subtraction,L,R>
 	using Base = OperationBase<Subtraction,L,R>;
 public:
 	Sub(const L& v): Base{v} {}
-	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
+	using ExpressionType = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = decltype(std::declval<L>() - std::declval<R>());
 };
 
 template<typename L, typename R>
@@ -53,7 +55,8 @@ class Mul: public OperationBase<Multiplication,L,R>
 	using Base = OperationBase<Multiplication,L,R>;
 public:
 	Mul(const L& v): Base{v} {}
-	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
+	using ExpressionType = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = decltype(std::declval<L>() * std::declval<R>());
 };
 
 template<typename L, typename R>
@@ -62,7 +65,8 @@ class Div: public OperationBase<Division,L,R>
 	using Base = OperationBase<Division,L,R>;
 public:
 	Div(const L& v): Base{v} {}
-	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
+	using ExpressionType = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = decltype(std::declval<L>() / std::declval<R>());
 };
 
 template<typename Op, typename M1, typename V>
@@ -71,9 +75,11 @@ class ValueOperation
 public:
 	using Left = M1;
 	using Right = V;
-	using ExpressionType = Op::Type;
-	using DataType = std::shared_ptr<ExpressionType>;    
-	using DescriptorType = MatrixDescriptor<Left::Order,ExpressionType,ExpressionType>;
+	using ValueType = Op::Type;
+	using ExpressionType = Op::ExpressionType;
+	using DataType = std::shared_ptr<ValueType>;    
+	using ExpDataType = std::shared_ptr<ExpressionType>;    
+	using DescriptorType = MatrixDescriptor<Left::Order,ValueType,ExpressionType>;
 	using MatrixType = Matrix<Left::Order,DescriptorType>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixOperation";
     inline static constexpr Literal LiteralType{TypeIdentifier};

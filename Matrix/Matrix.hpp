@@ -45,6 +45,7 @@ public:
 	~Matrix() = default;
 
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}, expressions{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
+	explicit Matrix(DescriptorType d, const std::vector<DataType>& v, const std::vector<ExpDataType>& e): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}, expressions{std::make_unique<std::vector<ExpDataType>>(e.begin(),e.end())}{ };
 	Matrix(MatrixInitializer<InputType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));

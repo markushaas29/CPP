@@ -79,8 +79,10 @@ private:
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
-        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ExpressionType>(f(*e))); });
-        return typename Op::MatrixType(d,el); 
+        auto ex = std::vector<typename Op::ExpDataType>();
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
+        std::for_each(m.expressions->cbegin(), m.expressions->cend(), [&](const auto& e) { ex.push_back(std::make_shared<typename Op::ExpressionType>(Addition::Calculate(*e,2))); });
+        return typename Op::MatrixType(d,el,ex); 
     }
 };
 template<typename M1, typename M2>
