@@ -13,7 +13,7 @@
 #include "../Calculator/Operations.hpp"
 #pragma once
 
-template<size_t, typename, typename> class MatrixDescriptor;
+template<size_t, typename, typename, typename> class MatrixDescriptor;
 template<size_t, typename> class Matrix;
 
 template<typename T, typename L, typename R>

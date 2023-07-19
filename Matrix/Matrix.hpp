@@ -15,7 +15,7 @@
 
 #pragma once
 
-template<std::size_t N, typename DT=MatrixDescriptor<N,int,int>>
+template<std::size_t N, typename DT=MatrixDescriptor<N,int,int,int>>
 class Matrix
 {
 public:
@@ -26,7 +26,9 @@ public:
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	using ParserType = typename DescriptorType::ParserType;
 	using InputType = typename DT::InputType;
+	using ExpressionType = typename DT::ExpressionType;
 	using DataType = typename DT::DataType;
+	using ExpDataType = typename DT::ExpDataType;
 	using OutputTypes = typename DescriptorType::OutputTypes;
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
