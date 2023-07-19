@@ -74,18 +74,19 @@ public:
 	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[] (size_t i) const 
 	{
-		using MDT = MatrixDescriptor<N-1, InputType, OutputTypes>;
+		using MDT = MatrixDescriptor<N-1, InputType, ExpressionType, OutputTypes>;
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
 		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
 		auto row = Row(i);
+		auto expRow = ExpRow(i);
 		if constexpr ((N-1)==0)
 		{
 			return ElementAt(i);
 		}
 		else
-			return Matrix<N-1,MDT>(MDT{e,s}, row);
+			return Matrix<N-1,MDT>(MDT{e,s}, row, expRow);
 	}
 
 	decltype(auto) AddRow(const std::vector<InputType>& v)
@@ -102,6 +103,15 @@ public:
 		std::vector<DataType> result;
 		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
 			result.push_back(elements->at(r));
+		return result;
+    }
+	
+	decltype(auto) ExpRow(size_t i) const
+    {  
+    	assert(i<Rows());
+		std::vector<ExpDataType> result;
+		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
+			result.push_back(expressions->at(r));
 		return result;
     }
 	
