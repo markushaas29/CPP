@@ -146,6 +146,8 @@ private:
 		if constexpr (Matrix::Order==1)
 		{
 			std::for_each(m.elements->cbegin(), m.elements->cend(), [&](auto& v) { s<<*v<<", "; });
+			s<<"\nExpressions:\n";
+			std::for_each(m.expressions->cbegin(), m.expressions->cend(), [&](auto& v) { s<<*v<<", "; });
 			return s;
 		}
 		else
