@@ -16,33 +16,38 @@
 template<size_t, typename, typename, typename> class MatrixDescriptor;
 template<size_t, typename> class Matrix;
 
-template<typename T, typename L, typename R>
+template<typename T, template<typename,typename> class D,typename L, typename R>
 class OperationBase 
 {
 	using LeftType = L;
 	using RightType = R;
 	using Type = T;
+	using OpType = D<L,R>;
 public:
 	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return v + val; }
+	decltype(auto) operator()(const auto& v) { return OpType::calculate(v,val); }
+	decltype(auto) Expression(const auto& v) { return T::Calculate(v,val); }
 private:
 	RightType val;
 };
 
 template<typename L, typename R>
-class Add: public OperationBase<Addition,L,R>
+class Add: public OperationBase<Addition,Add,L,R>
 {
-	using Base = OperationBase<Addition,L,R>;
+	using Base = OperationBase<Addition,Add,L,R>;
+	friend class OperationBase<Addition,Add,L,R>;
 public:
 	Add(const L& v): Base{v} {}
 	using ExpressionType = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
 	using Type = decltype(std::declval<L>() + std::declval<R>());
+private:
+	static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
 };
 
 template<typename L, typename R>
-class Sub: public OperationBase<Subtraction,L,R>
+class Sub: public OperationBase<Subtraction,Sub,L,R>
 {
-	using Base = OperationBase<Subtraction,L,R>;
+	using Base = OperationBase<Subtraction,Sub,L,R>;
 public:
 	Sub(const L& v): Base{v} {}
 	using ExpressionType = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
@@ -50,9 +55,9 @@ public:
 };
 
 template<typename L, typename R>
-class Mul: public OperationBase<Multiplication,L,R>
+class Mul: public OperationBase<Multiplication,Mul,L,R>
 {
-	using Base = OperationBase<Multiplication,L,R>;
+	using Base = OperationBase<Multiplication,Mul,L,R>;
 public:
 	Mul(const L& v): Base{v} {}
 	using ExpressionType = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
@@ -60,9 +65,9 @@ public:
 };
 
 template<typename L, typename R>
-class Div: public OperationBase<Division,L,R>
+class Div: public OperationBase<Division,Div,L,R>
 {
-	using Base = OperationBase<Division,L,R>;
+	using Base = OperationBase<Division,Div,L,R>;
 public:
 	Div(const L& v): Base{v} {}
 	using ExpressionType = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
