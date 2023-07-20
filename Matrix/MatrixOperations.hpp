@@ -48,30 +48,39 @@ template<typename L, typename R>
 class Sub: public OperationBase<Subtraction,Sub,L,R>
 {
 	using Base = OperationBase<Subtraction,Sub,L,R>;
+	friend class OperationBase<Subtraction,Sub,L,R>;
 public:
 	Sub(const L& v): Base{v} {}
 	using ExpressionType = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
 	using Type = decltype(std::declval<L>() - std::declval<R>());
+private:
+	static decltype(auto) calculate(const auto& v, const auto& val) { return v - val; }
 };
 
 template<typename L, typename R>
 class Mul: public OperationBase<Multiplication,Mul,L,R>
 {
 	using Base = OperationBase<Multiplication,Mul,L,R>;
+	friend class OperationBase<Multiplication,Mul,L,R>;
 public:
 	Mul(const L& v): Base{v} {}
 	using ExpressionType = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
 	using Type = decltype(std::declval<L>() * std::declval<R>());
+private:
+	static decltype(auto) calculate(const auto& v, const auto& val) { return v * val; }
 };
 
 template<typename L, typename R>
 class Div: public OperationBase<Division,Div,L,R>
 {
 	using Base = OperationBase<Division,Div,L,R>;
+	friend class OperationBase<Division,Div,L,R>;
 public:
 	Div(const L& v): Base{v} {}
 	using ExpressionType = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
 	using Type = decltype(std::declval<L>() / std::declval<R>());
+private:
+	static decltype(auto) calculate(const auto& v, const auto& val) { return v / val; }
 };
 
 template<typename Op, typename M1, typename V>
