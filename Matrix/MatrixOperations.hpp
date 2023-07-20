@@ -110,7 +110,7 @@ public:
 	using Left = M1;
 	using Right = std::remove_reference<M2>::type;
 	using ValueType = Op<typename Left::InputType, typename Right::InputType>::Type;
-	using ExpressionType = Op<typename Left::InputType, typename Right::InputType>::ExpressionType;
+	using ExpressionType = Op<typename Left::ExpressionType, typename Right::ExpressionType>::ExpressionType;
 	using DataType = std::shared_ptr<ValueType>;    
 	using ExpDataType = std::shared_ptr<ExpressionType>;    
 	using DescriptorType = MatrixDescriptor<Left::Order,ValueType,ExpressionType>;

@@ -56,7 +56,7 @@ int main()
 
 	std::cout<<"Matrix m1 * m1 \n"<<(m1d * m1d )<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<(m44 + m44 )<<"\n";
-	std::cout<<"Matrix m2 + m2 \n"<<(m44 - m44 )<<"\n";
+	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
 	
 	M2D m2d {
 		{1.1, 2.2, 3.3, 4.4},
