@@ -54,9 +54,16 @@ int main()
 		{1.1,2.2,3.3,4.4}	
 	};
 
+
+
 	std::cout<<"Matrix m1 * m1 \n"<<(m1d * m1d )<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<(m44 + m44 )<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
+	std::cout<<"Matrix d2\n"<<d2<<"\n";
+	auto m2SA = a5 - m44 + d2 ;
+	std::cout<<"Matrix m2 + m2 \n"<<*m2SA(0,3)<<"\n";
+	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
+	//std::cout<<"Matrix m2 + m2 \n"<<m2SA.ElementAt(0,3)<<"\n";
 	
 	M2D m2d {
 		{1.1, 2.2, 3.3, 4.4},

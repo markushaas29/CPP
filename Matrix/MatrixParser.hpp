@@ -65,7 +65,7 @@ public:
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<int N, typename Iterator>
-	auto parseIntern(auto t, Iterator begin, Iterator end) 
+	auto parseIntern(auto t, Iterator begin, Iterator end) const
 	{
 		if constexpr (N==Size)
 			return t;
