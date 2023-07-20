@@ -57,8 +57,11 @@ private:
         auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
         for(auto i = 0; i < l.elements->size(); ++i)
-            el.push_back(std::make_shared<typename Op::ExpressionType>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
-        return typename Op::MatrixType(d,el); 
+            el.push_back(std::make_shared<typename Op::ValueType>(*(l.elements->at(i)) -*(r.elements->at(i))));
+        auto ex = std::vector<typename Op::ExpDataType>();
+        for(auto i = 0; i < l.expressions->size(); ++i)
+            ex.push_back(std::make_shared<typename Op::ExpressionType>(Subtraction::Calculate(*(l.expressions->at(i)),*(r.expressions->at(i)))));
+        return typename Op::MatrixType(d,el,ex); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& l, const RightType& r,F f)
