@@ -50,6 +50,9 @@ int main()
 	auto d2 = m44  / 2;
 	assert(*d2(0,3)==2);
 	std::cout<<"Matrix m2(0.3) "<<*(d2.ExpRow(0)[3])<<"\n";
+	
+	
+
 	M1D m1d{
 		{1.1,2.2,3.3,4.4}	
 	};
@@ -63,7 +66,6 @@ int main()
 	auto m2SA = a5 - m44 + d2 ;
 	std::cout<<"Matrix m2 + m2 \n"<<*m2SA(0,3)<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
-	std::cout<<"Matrix m2 + m2 \n"<<m2SA.ElementAt(0,3)<<"\n";
 	
 	M2D m2d {
 		{1.1, 2.2, 3.3, 4.4},
@@ -71,6 +73,8 @@ int main()
 		{1.1, 2.2, 3.3, 4.4},
 		{1.1, 2.2, 3.3, 4.4}
 	};
+	std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
+	std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
 //	std::cout<<"Matrix m3 "<<(m2d * m2d )<<"\n";
 //	std::cout<<"Matrix m3 "<<(m2d * m2d * m1d)<<"\n";
 //	//std::cout<<"Matrix m3 "<<(m1d * m2d)<<"\n";

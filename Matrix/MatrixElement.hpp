@@ -36,22 +36,22 @@ public:
 	using Type = T;
 	using Descriptor = D;
 	using ExpressionType = typename Descriptor::ExpressionType;
-	MatrixElement(const MatrixElement& m): element{m.element} {  }
-	MatrixElement(const std::string& v): element{T(v.c_str())} { }
+	MatrixElement(const MatrixElement& m): element{m.element}, expression{m.expression} {  }
+	MatrixElement(const std::string& v): element{T(v.c_str())}{ }
 	template<typename I>
-	MatrixElement(I v): element{T(v)} { }
+	MatrixElement(I v, const ExpressionType& e): element{T(v)}, expression{e}{ }
 	
 	decltype(auto) Get() const { return T(element.Value()); }
-//	decltype(auto) Cast() const { return static_cast<const Derived*>(this); };
 	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
 	
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,D>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element; }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element<<"\t"<<expression; }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 	Type element;
+	ExpressionType expression;
 };
 
 template<typename T>
@@ -65,7 +65,6 @@ public:
 	MatrixElement(I v): element{T(v)} { }
 	
 	decltype(auto) Get() const { return T(element.Value()); }
-//	decltype(auto) Cast() const { return static_cast<const Derived*>(this); };
 	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
 	
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,T>>(*this); }

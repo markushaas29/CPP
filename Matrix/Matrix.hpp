@@ -121,6 +121,7 @@ public:
 		return parser.Parse(r);
     }
 	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
+	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,InputType>, DescriptorType>(*(Row(n)[m]),*(ExpRow(n)[m])); }
 
 	decltype(auto) Col(size_t i)
     {  
