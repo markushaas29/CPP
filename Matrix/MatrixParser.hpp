@@ -20,11 +20,12 @@ concept PointerConcept = requires(P p)
 	p.reset();
 };
 
-template<typename T>
+template<typename T, typename D>
 class MatrixParser 
 {
 public:
 	using Tuple = T;
+	using Descriptor = D;
 	inline static constexpr const char TypeIdentifier[] = "MatrixParser";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
@@ -75,12 +76,12 @@ private:
 			auto s = begin + N;
 			if constexpr (N==0)
 			{
-				auto tN =  std::make_tuple(MatrixElement<Type>(*s));
+				auto tN =  std::make_tuple(MatrixElement<Type,Descriptor>(*s));
 				return parseIntern<N+1>(tN,begin,end);
 			}
 			else
 			{
-				auto tN = std::tuple_cat(t,std::tuple<MatrixElement<Type>>{*s});
+				auto tN = std::tuple_cat(t,std::tuple<MatrixElement<Type,Descriptor>>{*s});
 				return parseIntern<N+1>(tN,begin,end);
 			}
 		}

@@ -63,7 +63,7 @@ int main()
 	auto m2SA = a5 - m44 + d2 ;
 	std::cout<<"Matrix m2 + m2 \n"<<*m2SA(0,3)<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
-	//std::cout<<"Matrix m2 + m2 \n"<<m2SA.ElementAt(0,3)<<"\n";
+	std::cout<<"Matrix m2 + m2 \n"<<m2SA.ElementAt(0,3)<<"\n";
 	
 	M2D m2d {
 		{1.1, 2.2, 3.3, 4.4},

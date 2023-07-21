@@ -21,12 +21,13 @@ class MatrixDescriptorBase
 	friend class MatrixImpl<N,MatrixDescriptor<N,T,ET, OT>>;
 	using MI = MatrixImpl<N,MatrixDescriptor<N,T,ET,OT>>;
 public:
+	using Type = MatrixDescriptor<N,T,ET, OT>;
 	using InputType = T;
 	using ExpressionType = ET;
 	using OutputTypes = OT;
 	using DataType = std::shared_ptr<InputType>;
 	using ExpDataType = std::shared_ptr<ExpressionType>;
-	using ParserType = MatrixParser<OutputTypes>;
+	using ParserType = MatrixParser<OutputTypes, Type>;
 	MatrixDescriptorBase() = default;
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e);
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);

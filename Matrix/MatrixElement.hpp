@@ -34,14 +34,14 @@ class MatrixElement: public MatrixElementBase
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
 	using Type = T;
-	using Derived = D;
+	using Desc = D;
 	MatrixElement(const MatrixElement& m): element{m.element} {  }
 	MatrixElement(const std::string& v): element{T(v.c_str())} { }
 	template<typename I>
 	MatrixElement(I v): element{T(v)} { }
 	
 	decltype(auto) Get() const { return T(element.Value()); }
-	decltype(auto) Cast() const { return static_cast<const Derived*>(this); };
+//	decltype(auto) Cast() const { return static_cast<const Derived*>(this); };
 	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
 	
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,D>>(*this); }
