@@ -144,7 +144,7 @@ public:
   	decltype(auto) operator-(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::sub(*this,m);  	}
   	template<size_t N2, typename D2>
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
-  	decltype(auto) operator/(const Type& m)	{ return apply(std::vector<DataType>(m.elements->cbegin(), m.elements->cend()), [&](const auto& e1, const auto& e2){ return *e1 / *e2; });  	}
+  	decltype(auto) operator/(const Type& m)	{ return   Type(descriptor,std::vector<DataType>(elements->cbegin(), elements->cend()));	}
 private:
 	template<size_t N2, typename D2> friend class Matrix;
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
@@ -162,15 +162,6 @@ private:
 				s<<"{"<<m[i]<<"}"<<std::endl;
 		}
 		return s;
-	}
-
-	template<typename F>
-	decltype(auto) apply(const auto& m, F f)
-	{
-		auto el = std::vector<DataType>();
-		for(auto i = 0; i < elements->size(); ++i)
-			el.push_back(std::make_shared<InputType>(f(m.at(i),elements->at(i))));
-		return Type(descriptor,el); 
 	}
 	using MI = MatrixImpl<N,DescriptorType>;
 	template<typename U> using IsT =  Is<U,LiteralType>;
