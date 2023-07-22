@@ -27,19 +27,25 @@ int main()
 	auto rq = MatrixResultType<QM,QS>::multiply();
 	auto si =MatrixResultType<QM,QS>::Size;
 	assert(si==1);
-	std::cout<<rq<<std::endl;
+	std::cout<<"qm * qs"<<rq<<std::endl;
+
+	auto rq2 = MatrixResultType<QM,decltype(rq)>::multiply();
+	auto si2 =MatrixResultType<QM,decltype(rq)>::Size;
+	assert(si2==1);
+	std::cout<<"qm * qs2"<<rq2<<std::endl;
+
 	auto g = 7;	
 	auto t = MatrixResultType<T,QM>::multiply();
 	auto t1 = MatrixResultType<decltype(t),QM>::multiply();
 	auto t2 = MatrixResultType<decltype(t1),QM>::multiply();
 	std::cout<<std::get<1>(t1)<<std::endl;
-	auto v = std::remove_reference<decltype(std::get<1>(t1).Get())>::type::ValueType(1);
-	std::cout<<"GET"<<std::get<1>(t1).Get()<<std::endl;
-	std::cout<<"ConstructVal"<<v<<std::endl;
+//	auto v = std::remove_reference<decltype(std::get<1>(t1).Get())>::type::ValueType(1);
+//	std::cout<<"GET"<<std::get<1>(t1).Get()<<std::endl;
+//	std::cout<<"ConstructVal"<<v<<std::endl;
 	std::cout<<"ConstructVal: "<<GetValue<0>(rq,g)<<std::endl;
-	std::cout<<"ConstructVal: "<<GetValue<1>(t1,g)<<std::endl;
+//	std::cout<<"ConstructVal: "<<GetValue<1>(t1,g)<<std::endl;
 	std::cout<<std::get<1>(t2)<<std::endl;
-	std::cout<<"ConstructVal: "<<GetValue<1>(t2,g)<<std::endl;
+//	std::cout<<"ConstructVal: "<<GetValue<1>(t2,g)<<std::endl;
 	std::cout<<"T: "<<MatrixResultType<T,QM>::Size<<std::endl;
 
 

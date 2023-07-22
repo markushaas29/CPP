@@ -52,7 +52,8 @@ protected:
 	template<typename L, typename R>
 	struct mul
 	{
-		using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
+		using Type = decltype(std::declval<L>() * std::declval<R>());
+		using ExpressionType = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
 	};
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
@@ -69,11 +70,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixResultType";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	
-	static constexpr auto multiply() 
-	{
-		using R = decltype(Multiplication::Calculate(std::declval<Left>(), std::declval<Right>()));
-		return typename Base::mul<Left,Right>::Type();
-	} 	
+	static constexpr auto multiply() 	{	return typename Base::mul<Left,Right>::Type();	} 	
 };
 
 template<typename LT, typename RT>
@@ -91,10 +88,7 @@ public:
 		if constexpr ( IsTuple<Left>)
 			return create<std::tuple_size_v<Left>>();
 		else
-		{
-			using R = decltype(Multiplication::Calculate(std::declval<Left>(), std::declval<Right>()));
 			return typename Base::mul<Left,Right>::Type();
-		}
 	} 	
 private:
 	template<int M>
