@@ -35,6 +35,8 @@ int main()
 		{6, 7, 8, 9}
 	};
 
+	auto aA = m44.Apply([&](const auto& e1){ return *e1 + 10; });
+	std::cout<<"Matrix mA "<<aA<<"\n";
 	auto a5 = m44 + 5;
 	assert(*a5(0,3)==9);
 	std::cout<<"Matrix m2(0.3) "<<*(a5.ExpRow(0)[3])<<"\n";

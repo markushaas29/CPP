@@ -133,13 +133,7 @@ public:
     }
 
 	template<typename F>
-	decltype(auto) Apply(F f)
-	{
-		auto el = std::vector<DataType>();
-		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<InputType>(f(e))); });
-		return Type(descriptor,el); 
-	}
-
+	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
   	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<InputType,decltype(v)>{v});  }
   	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<InputType,decltype(v)>{v});  	}
   	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,Mul<InputType,decltype(v)>{v});  	}

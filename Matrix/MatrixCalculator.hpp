@@ -36,6 +36,13 @@ protected:
 		return std::make_shared<typename V::element_type>(res);
 	}
 private:
+	template<typename F, typename It >
+    static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
+    {
+        auto el = std::vector<typename LeftType::DataType>();
+        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::InputType>(f(e))); });
+        return LeftType(d,el); 
+    }
 	template<size_t, typename> friend class Matrix;
 	static decltype(auto) add(LeftType l, RightType r)
     {
