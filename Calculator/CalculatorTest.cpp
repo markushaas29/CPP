@@ -21,11 +21,28 @@ int main()
 	auto t1 = Quantity<Time>{1};
 	auto t2 = Quantity<Time>{2};
 	
-	auto a18 = Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3);//+Addition::Calculate(e6,e9);
+	auto aq33 = Addition::Calculate(e6,e3)+Addition::Calculate(e6,e3)+Addition::Calculate(e6,e9);
+	auto d33 = (double)aq33;
+	assert(d33==33);
+	bool same = std::is_same_v<decltype(d33),double>;
+	assert(same);
+	same = std::is_same_v<decltype(aq33),double>;
+	assert(!same);
+	auto ra1 = aq33.Get();
+
+
+	auto a33 = Addition::Calculate(6,3)+Addition::Calculate(6,3)+Addition::Calculate(6,9);
+	auto i33 = (int)a33;
+	assert(i33==33);
+	same = std::is_same_v<decltype(i33),int>;
+	assert(same);
+	same = std::is_same_v<decltype(a33),int>;
+	assert(!same);
+
+
 	auto i1 = Addition::Calculate(1,2)+1 -1;//+Addition::Calculate(e6,e9);
 	auto a18_2 = Addition::Calculate(e9,e9);//+Addition::Calculate(e6,e9);
 	
-	auto ra1 = a18.Get();
 	auto ra12 = a18_2.Get();
 	
 	std::cout<<"I: "<<i1<<std::endl;
