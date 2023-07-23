@@ -8,6 +8,7 @@
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
+#include "MatrixIO.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
