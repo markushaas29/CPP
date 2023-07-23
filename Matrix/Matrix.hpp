@@ -147,7 +147,7 @@ public:
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
   	decltype(auto) operator/(const Type& m)	{ return   Type(descriptor,std::vector<DataType>(elements->cbegin(), elements->cend()));	}
 private:
-	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
+	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) //{ return (*m.io)(s); }
 	{
 		if constexpr (Matrix::Order==1)
 		{
@@ -167,6 +167,8 @@ private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	DescriptorType descriptor;
 	ParserType parser;
+	friend class MatrixIO<Type>;
+	std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>(this);
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 	std::unique_ptr<std::vector<ExpDataType>> expressions = std::make_unique<std::vector<ExpDataType>>();
 };
