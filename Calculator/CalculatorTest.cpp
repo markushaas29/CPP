@@ -14,6 +14,19 @@ int main()
 {       
     std::cout<<"START"<<std::endl;
 
+	auto ia1 = Addition::Calculate(1,2)+1 -1;//+Addition::Calculate(e6,e9);
+	std::cout<<"I: "<<ia1<<std::endl;
+	std::cout<<"I get: "<<ia1.Get()<<std::endl;
+	
+	auto mI = Multiplication::Calculate(1,2);// *  Multiplication::Calculate(3,3)*  Multiplication::Calculate(3,3);
+	std::cout<<"M get: "<<mI.Get()<<std::endl;
+	std::vector<decltype(mI)> vm {mI, mI};
+
+	auto vs = VecSum::Calculate(vm);
+
+	std::cout<<"VS: "<<(double)vs<<std::endl;
+	//assert()
+
 	auto e3 = Quantity<Sum>{3};
 	auto e6 = Quantity<Sum>{6};
 	auto e9 = Quantity<Sum>{9};

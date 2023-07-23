@@ -24,7 +24,7 @@
 		T::ResultType;
 	 } && IsResultType<T>;
 	
-template<class Derived, typename L, typename R=L, typename V=L>
+	template<class Derived, typename L, typename R=L, typename V=L>
 	class Result
 	{
 	public:
@@ -54,6 +54,35 @@ template<class Derived, typename L, typename R=L, typename V=L>
 		ValueType value;
 	};
 	
+	struct VecSum;
+
+	template<typename L, typename V>
+	class Result<VecSum,L,L,V>
+	{
+	public:
+		using Type = VecSum;
+		using ValueType = V;
+		using LeftType = L;
+		using ResultType = Result<Type,LeftType,LeftType,ValueType>;
+		
+		constexpr Result(LeftType l, ValueType v): left{l}, value{v}{}
+		constexpr Result() = default;
+		constexpr decltype(auto) Get() const 
+		{
+			if constexpr (IsResult<decltype(value)>)
+				return value.Get();
+			return value; 
+		}
+
+		template<typename T>
+		constexpr operator T() const { return static_cast<T>(value); }
+		
+		std::ostream& Display(std::ostream& strm) const	{ return strm; }
+				
+	private:
+		LeftType left;
+		ValueType value;
+	};
 	template<typename D, typename L, typename R=L, typename V=L>
 	std::ostream& operator<<(std::ostream& strm, const Result<D,L,R,V> cr)	{	return cr.Display(strm);}
 	

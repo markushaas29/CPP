@@ -1,5 +1,6 @@
 #include <memory>
 #include <ratio>
+#include <vector>
 #include "CalculatorResult.hpp"
 #include "../Fraction/Fraction.h"
 #include "../Wrapper/Wrapper.hpp"
@@ -24,6 +25,23 @@
 		
 		template<typename T, typename U=T>
 		static constexpr decltype(auto) Calculate(const T& t1, const U& t2) { return Result<Addition,T,U,decltype(t1+t2)>(t1,t2,t1 + t2); }
+	};
+	
+	struct VecSum: CalculatorOperation<Sum>
+	{ 
+		inline static constexpr const char* Name = "Sum";
+		inline static constexpr const char* Sign = "+";
+		
+		template<typename T, typename U=T>
+		static constexpr decltype(auto) Calculate(const std::vector<T>& v1) 
+		{ 
+			double r = 0;
+			std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) 
+			{ 
+				std::cout<<"CALC:"<<i<<std::endl;
+				r += (double)i; });
+			return Result<VecSum,std::vector<T>,std::vector<T>,double>(v1,r); 
+		}
 	};
 	
 	struct Subtraction: CalculatorOperation<Subtraction>
