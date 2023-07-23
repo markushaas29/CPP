@@ -146,6 +146,7 @@ public:
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
   	decltype(auto) operator/(const Type& m)	{ return   Type(descriptor,std::vector<DataType>(elements->cbegin(), elements->cend()));	}
 private:
+	template<size_t N2, typename D2> friend class Matrix;
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) 
 	{
 		if constexpr (Matrix::Order==1)
