@@ -25,6 +25,7 @@ int main()
 	auto vs = VecSum::Calculate(vm);
 
 	std::cout<<"VS: "<<(double)vs<<std::endl;
+	std::cout<<"VS: "<<vs<<std::endl;
 	//assert()
 
 	auto e3 = Quantity<Sum>{3};

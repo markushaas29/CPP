@@ -10,6 +10,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../Calculator/Operations.hpp"
 #pragma once
 
 template<std::size_t N, typename DT> class Matrix;
@@ -35,6 +36,14 @@ protected:
 			res += (*v1[i] * (*v2[i]));
 		return std::make_shared<typename V::element_type>(res);
 	}
+//	template<typename V, typename U=V>
+//	static decltype(auto) edotProduct (const std::vector<V>& v1, const std::vector<U>& v2)
+//	{
+//		typename V::element_type res = 0;
+//		for(uint i = 0; i < v1.size(); ++i)
+//			res += (*v1[i] * (*v2[i]));
+//		return std::make_shared<typename V::element_type>(res);
+//	}
 private:
 	template<typename F, typename It >
     static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
@@ -134,12 +143,16 @@ private:
 	friend class Matrix<2,D1>;
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
-		typename Base::template IsT<Throwing>("M2M1")(l.Cols()==r.Rows());
+		//typename Base::template IsT<Throwing>("M2M1")(l.Cols()==r.Rows());
 		typename Base::DescriptorType md({l.Rows()});
 
 		std::vector<typename Base::LeftType::DataType> v(l.Rows());
 		for(int i = 0; i != l.Rows(); ++i)
 			v[i] = Base::dotProduct(l.Row(i),r.Col(0));
+
+		std::vector<decltype(DotProduct::Calculate(l.ExpRow(1),r.ExpCol(0)))> ve(l.Rows());
+		for(int i = 0; i != l.Rows(); ++i)
+			ve[i] = DotProduct::Calculate(l.ExpRow(i),r.ExpCol(0));
 
 		return typename Base::ResultType(md,v);
 	}

@@ -132,6 +132,14 @@ public:
 			result.push_back(elements->at(i + (r * Cols())));
 		return result;
     }
+	decltype(auto) ExpCol(size_t i)
+    {  
+    	assert(i<Cols());
+		std::vector<ExpDataType> result;
+		for(auto r = 0; r < Rows(); r++)
+			result.push_back(expressions->at(i + (r * Cols())));
+		return result;
+    }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }

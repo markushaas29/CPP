@@ -45,9 +45,7 @@
 
 		template<typename T>
 		constexpr operator T() const { return static_cast<T>(value); }
-		
 		std::ostream& Display(std::ostream& strm) const	{ return strm<<Derived::Name<<"\t{"<<left<<"} "<<Derived::Sign<<" {"<<right<<"} = "<<value; }
-				
 	private:
 		LeftType left;
 		RightType right;
@@ -76,9 +74,12 @@
 
 		template<typename T>
 		constexpr operator T() const { return static_cast<T>(value); }
-		
-		std::ostream& Display(std::ostream& strm) const	{ return strm; }
-				
+		std::ostream& Display(std::ostream& strm) const	
+		{
+			for(uint i = 0; i < left.size(); ++i)
+				strm<<"{"<<left[i]<<"}"<<( (i+1) != left.size() ? "+" : "")<<" = "<<value;
+			return strm; 
+		}
 	private:
 		LeftType left;
 		ValueType value;
