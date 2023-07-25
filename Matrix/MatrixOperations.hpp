@@ -102,7 +102,7 @@ class MatrixOperation
 public:
 	using Left = M1;
 	using Right = std::remove_reference<M2>::type;
-	using ValueType = Op<typename Left::InputType, typename Right::InputType>::Type;
+	using ValueType = Op<typename Left::IType, typename Right::IType>::Type;
 	using DataType = std::shared_ptr<ValueType>;    
 	using DescriptorType = MatrixDescriptor<Left::Order,ValueType>;
 	using MatrixType = Matrix<Left::Order,DescriptorType>;

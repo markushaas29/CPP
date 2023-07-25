@@ -23,7 +23,7 @@ class MatrixCreator
 public:
 	using Type = MT;
 	using DescriptorType = typename MT::DescriptorType;
-	using InputType = typename MT::InputType;
+	using IType = typename MT::IType;
 	using DataType = typename MT::DataType;
 	using CSVSeparator = T::char_<';'> ;
 	void Create(const std::string& s) 
@@ -38,7 +38,7 @@ public:
 				{
 					auto vals = String_::Split<CSVSeparator>(l);
 					rows = vals.size();
-					std::for_each(vals.cbegin(), vals.cend(), [&](const auto& v) { data.push_back(std::make_shared<InputType>(v)); });
+					std::for_each(vals.cbegin(), vals.cend(), [&](const auto& v) { data.push_back(std::make_shared<IType>(v)); });
 				});
 
 		std::array<std::size_t,2> e { lines.size(), rows };

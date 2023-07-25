@@ -26,13 +26,13 @@ public:
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	using ParserType = typename DescriptorType::ParserType;
-	using InputType = typename DT::InputType;
+	using IType = typename DT::IType;
 	using DataType = typename DT::DataType;
-	using OutputTypes = typename DescriptorType::OutputTypes;
+	using OType = typename DescriptorType::OType;
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
-	using ValueType = InputType;
+	using ValueType = IType;
 	using Iterator = typename std::vector<ValueType>::iterator;
 	using ConstIterator = typename std::vector<ValueType>::const_iterator;
 
@@ -44,14 +44,14 @@ public:
 	~Matrix() = default;
 
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
-	Matrix(MatrixInitializer<InputType,N> init)
+	Matrix(MatrixInitializer<IType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.Size());
 		MI::insert_flat(init,elements);
 	};
-	Matrix& operator=(MatrixInitializer<InputType,N>) {};
+	Matrix& operator=(MatrixInitializer<IType,N>) {};
 
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
@@ -71,7 +71,7 @@ public:
 	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[] (size_t i) const 
 	{
-		using MDT = MatrixDescriptor<N-1, InputType, OutputTypes>;
+		using MDT = MatrixDescriptor<N-1, IType, OType>;
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
@@ -85,9 +85,9 @@ public:
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
-	decltype(auto) AddRow(const std::vector<InputType>& v)
+	decltype(auto) AddRow(const std::vector<IType>& v)
 	{
-		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<InputType>(i)); } );
+		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<IType>(i)); } );
 		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
 		descriptor.AddRow();
 	}
@@ -107,7 +107,7 @@ public:
 		return parser.Parse(r);
     }
 	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
-	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,InputType>, DescriptorType>(*(Row(n)[m])); }
+	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,IType>, DescriptorType>(*(Row(n)[m])); }
 
 	decltype(auto) Col(size_t i)
     {  
@@ -120,10 +120,10 @@ public:
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
-  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<InputType,decltype(v)>{v});  }
-  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<InputType,decltype(v)>{v});  	}
-  	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,Mul<InputType,decltype(v)>{v});  	}
-  	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,Div<InputType,decltype(v)>{v});   	}
+  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<IType,decltype(v)>{v});  }
+  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<IType,decltype(v)>{v});  	}
+  	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,Mul<IType,decltype(v)>{v});  	}
+  	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,Div<IType,decltype(v)>{v});   	}
   	template<size_t N2, typename D2>
   	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	template<size_t N2, typename D2>

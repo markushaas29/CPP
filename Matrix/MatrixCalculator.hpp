@@ -22,7 +22,7 @@ public:
 	static constexpr uint Order = N;
 	using LeftType = M1;
 	using RightType = M2;
-	using DescriptorType = MatrixDescriptor<Order, typename LeftType::InputType, typename LeftType::OutputTypes>;
+	using DescriptorType = MatrixDescriptor<Order, typename LeftType::IType, typename LeftType::OType>;
 	using ResultType = Matrix<Order, DescriptorType>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixCaluclator";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
@@ -41,7 +41,7 @@ private:
     static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
     {
         auto el = std::vector<typename LeftType::DataType>();
-        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::InputType>(f(e))); });
+        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::IType>(f(e))); });
         return LeftType(d,el); 
     }
 	template<size_t, typename> friend class Matrix;
@@ -83,7 +83,7 @@ private:
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)
     {
-        using Op = ValueOperation<F, LeftType, typename LeftType::InputType>;
+        using Op = ValueOperation<F, LeftType, typename LeftType::IType>;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
@@ -155,7 +155,7 @@ private:
 		std::vector<typename Base::LeftType::DataType> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Rows(); ++j)
-				v.push_back(std::make_shared<typename Base::LeftType::InputType>((*l(i)) * (*r(j)) ));
+				v.push_back(std::make_shared<typename Base::LeftType::IType>((*l(i)) * (*r(j)) ));
 
 		return typename Base::ResultType(md,v);
 	}

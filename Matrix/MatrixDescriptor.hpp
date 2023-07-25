@@ -22,10 +22,10 @@ class MatrixDescriptorBase
 	using MI = MatrixImpl<N,MatrixDescriptor<N,T,OT>>;
 public:
 	using Type = MatrixDescriptor<N,T, OT>;
-	using InputType = T;
-	using OutputTypes = OT;
-	using DataType = std::shared_ptr<InputType>;
-	using ParserType = MatrixParser<OutputTypes, Type>;
+	using IType = T;
+	using OType = OT;
+	using DataType = std::shared_ptr<IType>;
+	using ParserType = MatrixParser<OType, Type>;
 	MatrixDescriptorBase() = default;
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e);
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);
