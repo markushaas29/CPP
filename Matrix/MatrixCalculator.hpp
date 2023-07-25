@@ -108,14 +108,17 @@ private:
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
 		typename Base::template IsT<Throwing>("M2M2")(l.Cols()==r.Rows());
-		typename Base::DescriptorType md({l.Rows(), r.Cols()});
+		using ReturnType = decltype(DotProduct::Calculate(std::declval<std::vector<typename Base::LeftType::DataType>>(),std::declval<std::vector<typename Base::RightType::DataType>>()));
+	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType, typename Base::LeftType::OType>;
+ 	    using ResultType = Matrix<Base::Order, DescriptorType>;
+		DescriptorType md({l.Rows(), r.Cols()});
 
-		std::vector<typename Base::LeftType::DataType> v;
+		std::vector<std::shared_ptr<ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Cols(); ++j)
-				v.push_back(Base::dotProduct(l.Row(i),r.Col(j)));
+				v.push_back(std::make_shared<ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(j))));
 
-		return typename Base::ResultType(md,v);
+		return ResultType(md,v);
 	}
 };
 

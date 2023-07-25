@@ -50,6 +50,9 @@ int main()
 		{6, 7, 8, 9}
 	};
 
+	auto m44m44 = m44 * m44;
+	std::cout<<"Matrix m44 + m44 "<<(int)*m44m44(0,0)<<"\n";
+	assert((int)*m44m44(0,0)==40);
 	auto aA = m44.Apply([&](const auto& e1){ return *e1 + 10; });
 	std::cout<<"Matrix mA "<<aA<<"\n";
 	auto m44m1 = m44*m1;
@@ -94,9 +97,6 @@ int main()
 	};
 	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
 	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
-	std::cout<<"Matrix m3 "<<(m2d * m2d )<<"\n";
-	//std::cout<<"Matrix m3 "<<(m2d * m2d * m1d)<<"\n";
-	//std::cout<<"Matrix m3 "<<(m1d * m2d)<<"\n";
 
   	std::cout<<"Matrix m3 + 2"<<(m35 + 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
