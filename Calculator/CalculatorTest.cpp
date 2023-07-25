@@ -23,16 +23,12 @@ int main()
 	std::vector<decltype(mI)> vm {mI, mI};
 	
 	std::vector<double> vd {1.0,2.0,3.0};//,1.0,2.0,3.0};
-	auto vs = VecSum::Calculate(vm);
 	auto dp = DotProduct::Calculate(vd,vd);
 
-	std::cout<<"D: "<<(double)dp<<std::endl;
-	std::cout<<"D: "<<dp<<std::endl;
+	//std::cout<<"D: "<<(double)dp<<std::endl;
+	//std::cout<<"D: "<<dp<<std::endl;
 	
-	std::cout<<"VS: "<<(double)vs<<std::endl;
-	std::cout<<"VS: "<<vs<<std::endl;
-	//assert()
-
+	
 	auto e3 = Quantity<Sum>{3};
 	auto e6 = Quantity<Sum>{6};
 	auto e9 = Quantity<Sum>{9};
