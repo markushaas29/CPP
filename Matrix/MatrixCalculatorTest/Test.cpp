@@ -41,33 +41,29 @@ int main()
 //	std::cout<<"Matrix m44*m1 "<<m44m1<<"\n";
 //	assert(*m44m1(0)==30);
 //	//assert(m44m1.ExpRow(0)==30);
-//	auto a5 = m44 + 5;
+	auto a5 = m44 + 5;
 //	assert(*a5(0,3)==9);
 //	std::cout<<"Matrix m2(0.3) "<<*(a5.ExpRow(0)[3])<<"\n";
 //
 	auto s5 = m44 - 5;
 	assert((int)*s5(0,3)==-1);
-//	
-//	auto m5 = m44 * 5;
-//	assert(*m5(0,3)==20);
-//	std::cout<<"Matrix m2(0.3) "<<*(m5.ExpRow(0)[3])<<"\n";
-//	
-//	auto d2 = m44  / 2;
-//	assert(*d2(0,3)==2);
-//	std::cout<<"Matrix m2(0.3) "<<*(d2.ExpRow(0)[3])<<"\n";
-//	
-//	
-//
-//	M1D m1d{
-//		{1.1,2.2,3.3,4.4}	
-//	};
-//
-//
-//
-//	std::cout<<"Matrix m1 * m1 \n"<<(m1d * m1d )<<"\n";
-//	std::cout<<"Matrix m2 + m2 \n"<<(m44 + m44 )<<"\n";
-//	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
-//	std::cout<<"Matrix d2\n"<<d2<<"\n";
+	
+	auto m5 = m44 * 5;
+	assert((int)*m5(0,3)==20);
+	
+	auto d2 = m44  / 2;
+	assert((int)*d2(0,3)==2);
+	
+	M1D m1d{
+		{1.1,2.2,3.3,4.4}	
+	};
+
+
+
+	std::cout<<"Matrix m1 * m1 \n"<<(m1d * m1d )<<"\n";
+	std::cout<<"Matrix m2 + m2 \n"<<(m44 + m44 )<<"\n";
+	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
+	std::cout<<"Matrix d2\n"<<d2<<"\n";
 //	auto m2SA = a5 - m44 + d2 ;
 //	std::cout<<"Matrix m25A \n"<<*m2SA(0,3)<<"\n";
 //	assert(*m2SA(0,3)==7);
