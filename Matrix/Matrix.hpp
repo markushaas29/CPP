@@ -16,7 +16,7 @@
 
 #pragma once
 
-template<std::size_t N, typename DT=MatrixDescriptor<N,int,int,int>>
+template<std::size_t N, typename DT=MatrixDescriptor<N,int,int>>
 class Matrix
 {
 public:
@@ -27,9 +27,7 @@ public:
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	using ParserType = typename DescriptorType::ParserType;
 	using InputType = typename DT::InputType;
-	using ExpressionType = typename DT::ExpressionType;
 	using DataType = typename DT::DataType;
-	using ExpDataType = typename DT::ExpDataType;
 	using OutputTypes = typename DescriptorType::OutputTypes;
 	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
@@ -41,19 +39,17 @@ public:
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
 	Matrix& operator=(Matrix&&) = default;
-	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())}, expressions{std::make_unique<std::vector<ExpDataType>>(m.expressions->cbegin(),m.expressions->cend())}{ };
+	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { };
 	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 	~Matrix() = default;
 
-	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}, expressions{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
-	explicit Matrix(DescriptorType d, const std::vector<DataType>& v, const std::vector<ExpDataType>& e): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}, expressions{std::make_unique<std::vector<ExpDataType>>(e.begin(),e.end())}{ };
+	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
 	Matrix(MatrixInitializer<InputType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
 		elements->reserve(descriptor.Size());
 		MI::insert_flat(init,elements);
-		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& v) { expressions->push_back(std::make_shared<ExpressionType>(*v)); });
 	};
 	Matrix& operator=(MatrixInitializer<InputType,N>) {};
 
@@ -75,25 +71,23 @@ public:
 	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[] (size_t i) const 
 	{
-		using MDT = MatrixDescriptor<N-1, InputType, ExpressionType, OutputTypes>;
+		using MDT = MatrixDescriptor<N-1, InputType, OutputTypes>;
 		std::array<size_t,N-1> e;
 		std::array<size_t,N-1> s;
 		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
 		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
 		auto row = Row(i);
-		auto expRow = ExpRow(i);
 		if constexpr ((N-1)==0)
 		{
 			return ElementAt(i);
 		}
 		else
-			return Matrix<N-1,MDT>(MDT{e,s}, row, expRow);
+			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
 	decltype(auto) AddRow(const std::vector<InputType>& v)
 	{
 		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<InputType>(i)); } );
-		std::for_each(v.cbegin(), v.cend(), [&](auto i) { expressions->push_back(std::make_shared<InputType>(i)); } );
 		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
 		descriptor.AddRow();
 	}
@@ -107,22 +101,13 @@ public:
 		return result;
     }
 	
-	decltype(auto) ExpRow(size_t i) const
-    {  
-    	assert(i<Rows());
-		std::vector<ExpDataType> result;
-		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
-			result.push_back(expressions->at(r));
-		return result;
-    }
-	
 	decltype(auto) ElementsAt(size_t i) const
     {
 		auto r = Row(i);
 		return parser.Parse(r);
     }
 	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
-	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,InputType>, DescriptorType>(*(Row(n)[m]),*(ExpRow(n)[m])); }
+	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,InputType>, DescriptorType>(*(Row(n)[m])); }
 
 	decltype(auto) Col(size_t i)
     {  
@@ -130,14 +115,6 @@ public:
 		std::vector<DataType> result;
 		for(auto r = 0; r < Rows(); r++)
 			result.push_back(elements->at(i + (r * Cols())));
-		return result;
-    }
-	decltype(auto) ExpCol(size_t i)
-    {  
-    	assert(i<Cols());
-		std::vector<ExpDataType> result;
-		for(auto r = 0; r < Rows(); r++)
-			result.push_back(expressions->at(i + (r * Cols())));
 		return result;
     }
 
@@ -174,7 +151,6 @@ private:
 	DescriptorType descriptor;
 	ParserType parser;
 	friend class MatrixIO<Type>;
-	std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>(this);
+	//std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>(this);
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
-	std::unique_ptr<std::vector<ExpDataType>> expressions = std::make_unique<std::vector<ExpDataType>>();
 };

@@ -9,7 +9,7 @@
 #pragma once
 
 template<size_t N, typename> class MatrixImpl;
-template<size_t, typename, typename, typename> class MatrixDescriptor;
+template<size_t, typename, typename> class MatrixDescriptor;
 class CreatorBase
 {
 public:

@@ -52,15 +52,17 @@
 		ValueType value;
 	};
 	
-	struct VecSum;
+	struct Accumulation;
+	struct DotProduct;
 
-	template<typename L, typename V>
-	class Result<VecSum,L,L,V>
+	template<typename L, typename R, typename V>
+	class Result<DotProduct,L,R,V>
 	{
 	public:
-		using Type = VecSum;
+		using Type = DotProduct;
 		using ValueType = V;
 		using LeftType = L;
+		using RightType = R;
 		using ResultType = Result<Type,LeftType,LeftType,ValueType>;
 		
 		constexpr Result(LeftType l, ValueType v): left{l}, value{v}{}
@@ -77,7 +79,41 @@
 		std::ostream& Display(std::ostream& strm) const	
 		{
 			for(uint i = 0; i < left.size(); ++i)
-				strm<<"{"<<left[i]<<"}"<<( (i+1) != left.size() ? "+" : "")<<" = "<<value;
+				strm<<"{"<<left[i]<<"}"<<( (i+1) != left.size() ? "+" : "");
+			strm<<" = "<<value;
+			return strm; 
+		}
+	private:
+		LeftType left;
+		ValueType value;
+	};
+
+	template<typename L, typename R, typename V>
+	class Result<Accumulation,L,R,V>
+	{
+	public:
+		using Type = Accumulation;
+		using ValueType = V;
+		using LeftType = L;
+		using RightType = R;
+		using ResultType = Result<Type,LeftType,LeftType,ValueType>;
+		
+		constexpr Result(LeftType l, ValueType v): left{l}, value{v}{}
+		constexpr Result() = default;
+		constexpr decltype(auto) Get() const 
+		{
+			if constexpr (IsResult<decltype(value)>)
+				return value.Get();
+			return value; 
+		}
+
+		template<typename T>
+		constexpr operator T() const { return static_cast<T>(value); }
+		std::ostream& Display(std::ostream& strm) const	
+		{
+			for(uint i = 0; i < left.size(); ++i)
+				strm<<"{"<<left[i]<<"}"<<( (i+1) != left.size() ? "+" : "");//<<" = "<<value;
+			strm<<" = "<<value;
 			return strm; 
 		}
 	private:
