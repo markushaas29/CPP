@@ -45,9 +45,8 @@ int main()
 //	assert(*a5(0,3)==9);
 //	std::cout<<"Matrix m2(0.3) "<<*(a5.ExpRow(0)[3])<<"\n";
 //
-//	auto s5 = m44 - 5;
-//	assert(*s5(0,3)==-1);
-//	std::cout<<"Matrix m2(0.3) "<<*(s5.ExpRow(0)[3])<<"\n";
+	auto s5 = m44 - 5;
+	assert((int)*s5(0,3)==-1);
 //	
 //	auto m5 = m44 * 5;
 //	assert(*m5(0,3)==20);

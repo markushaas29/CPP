@@ -93,7 +93,6 @@ private:
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
-        auto ex = std::vector<typename Op::ExpDataType>();
         std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
         return typename Op::MatrixType(d,el); 
     }
