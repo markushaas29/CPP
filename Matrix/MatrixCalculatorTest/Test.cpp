@@ -38,8 +38,10 @@ int main()
 	auto aA = m44.Apply([&](const auto& e1){ return *e1 + 10; });
 	std::cout<<"Matrix mA "<<aA<<"\n";
 	auto m44m1 = m44*m1;
+	auto m1m1 = m1*m1;
 	std::cout<<"Matrix m44*m1 "<<m44m1<<"\n";
-	assert(*m44m1(0)==30);
+	std::cout<<"Matrix m44*m1 "<<m1m1<<"\n";
+	assert((int)(*m44m1(0))==30);
 	auto a5 = m44 + 5;
 	assert((int)*a5(0,3)==9);
 
@@ -76,7 +78,7 @@ int main()
 	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
 	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
 	std::cout<<"Matrix m3 "<<(m2d * m2d )<<"\n";
-	std::cout<<"Matrix m3 "<<(m2d * m2d * m1d)<<"\n";
+	//std::cout<<"Matrix m3 "<<(m2d * m2d * m1d)<<"\n";
 	//std::cout<<"Matrix m3 "<<(m1d * m2d)<<"\n";
 
 	M2 m35 {
@@ -88,7 +90,6 @@ int main()
 	std::cout<<"Matrix m3 "<<(m35+m35 + m35 )<<"\n";
 	auto mad = m35 + m35 -m35 +m35; 
   	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
-  	std::cout<<"Matrix m3 Sub"<<mop<<"\n";
   	assert((int)*mop(0,0)==-10);
   	std::cout<<"Matrix m3 Sub 00"<<*mop(0,0)<<"\n";
   
