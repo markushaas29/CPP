@@ -39,10 +39,9 @@ public:
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
 	Matrix& operator=(Matrix&&) = default;
-	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { };
-	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 	~Matrix() = default;
 
+	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { };
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
 	Matrix(MatrixInitializer<IType,N> init)
 	{
@@ -51,24 +50,25 @@ public:
 		elements->reserve(descriptor.Size());
 		MI::insert_flat(init,elements);
 	};
-	Matrix& operator=(MatrixInitializer<IType,N>) {};
 
+	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
+	Matrix& operator=(MatrixInitializer<IType,N>) {};
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
-	decltype(auto) Rows() const { return descriptor.Rows(); }
-	decltype(auto) Cols() const { return descriptor.Cols(); }
 	decltype(auto) operator() (auto... I) const
 	{
 		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
 		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
 		return elements->at(i); 
 	}
+
+	decltype(auto) Rows() const { return descriptor.Rows(); }
+	decltype(auto) Cols() const { return descriptor.Cols(); }
 	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
 	size_t Size() const { return descriptor.Size(); }
 	const DescriptorType& Descriptor() const { return descriptor; }
 
-	decltype(auto) Data() { return elements->data(); }
 	decltype(auto) operator[] (size_t i) const 
 	{
 		using MDT = MatrixDescriptor<N-1, IType, OType>;
@@ -91,7 +91,6 @@ public:
 		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
 		descriptor.AddRow();
 	}
-
 	decltype(auto) Row(size_t i) const
     {  
     	assert(i<Rows());
@@ -100,15 +99,6 @@ public:
 			result.push_back(elements->at(r));
 		return result;
     }
-	
-	decltype(auto) ElementsAt(size_t i) const
-    {
-		auto r = Row(i);
-		return parser.Parse(r);
-    }
-	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
-	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,IType>, DescriptorType>(*(Row(n)[m])); }
-
 	decltype(auto) Col(size_t i)
     {  
     	assert(i<Cols());
@@ -117,6 +107,14 @@ public:
 			result.push_back(elements->at(i + (r * Cols())));
 		return result;
     }
+
+	decltype(auto) ElementsAt(size_t i) const
+    {
+		auto r = Row(i);
+		return parser.Parse(r);
+    }
+	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
+	decltype(auto) ElAt(size_t n, size_t m = 0) const {	return MatrixElement<Quantity<Scalar,Pure,IType>, DescriptorType>(*(Row(n)[m])); }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
