@@ -134,10 +134,6 @@ private:
 		for(int i = 0; i != l.Rows(); ++i)
 			v[i] = Base::dotProduct(l.Row(i),r.Col(0));
 
-		std::vector<decltype(DotProduct::Calculate(l.ExpRow(1),r.ExpCol(0)))> ve(l.Rows());
-		for(int i = 0; i != l.Rows(); ++i)
-			ve[i] = DotProduct::Calculate(l.ExpRow(i),r.ExpCol(0));
-
 		return typename Base::ResultType(md,v);
 	}
 };
