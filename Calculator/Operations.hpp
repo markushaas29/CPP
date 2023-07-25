@@ -36,7 +36,7 @@
 		static constexpr decltype(auto) Calculate(const std::vector<T>& v1) 
 		{ 
 			double r = 0;
-			std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)i; });
+			std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(*i); });
 			return Result<Accumulation,std::vector<T>,std::vector<T>,double>(v1,r); 
 		}
 	};
@@ -76,9 +76,21 @@
 		template<typename T, typename U=T>
 		static constexpr decltype(auto) Calculate(const std::vector<T>& v1, const std::vector<U>& v2) 
 		{ 
-			std::vector<decltype(Multiplication::Calculate(*v1[0],*v2[0]))> inter;
+			using RT = decltype(Multiplication::Calculate(v1[0],v2[0]));
+			std::vector<RT> inter;
 			for(uint i =0; i < v1.size(); ++i)
-				inter.push_back(Multiplication::Calculate(*v1[i],*v2[i]));
+				inter.push_back(std::make_shared<RT>(Multiplication::Calculate(v1[i],v2[i])));
+
+			return Result<DotProduct,decltype(inter),std::vector<U>,double>(inter,(double)Accumulation::Calculate(inter)); 
+		}
+		
+		template<typename T, typename U=T>
+		static constexpr decltype(auto) Calculate(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
+		{ 
+			using RT = decltype(Multiplication::Calculate(*v1[0],*v2[0]));
+			std::vector<std::shared_ptr<RT>> inter;
+			for(uint i =0; i < v1.size(); ++i)
+				inter.push_back(std::make_shared<RT>(Multiplication::Calculate(*v1[i],*v2[i])));
 
 			return Result<DotProduct,decltype(inter),std::vector<U>,double>(inter,(double)Accumulation::Calculate(inter)); 
 		}

@@ -79,7 +79,7 @@
 		std::ostream& Display(std::ostream& strm) const	
 		{
 			for(uint i = 0; i < left.size(); ++i)
-				strm<<"{"<<left[i]<<"}"<<( (i+1) != left.size() ? "+" : "");
+				strm<<"{"<<*left[i]<<"}"<<( (i+1) != left.size() ? "+" : "");
 			strm<<" = "<<value;
 			return strm; 
 		}
@@ -112,7 +112,7 @@
 		std::ostream& Display(std::ostream& strm) const	
 		{
 			for(uint i = 0; i < left.size(); ++i)
-				strm<<"{"<<left[i]<<"}"<<( (i+1) != left.size() ? "+" : "");//<<" = "<<value;
+				strm<<"{"<<*left[i]<<"}"<<( (i+1) != left.size() ? "+" : "");//<<" = "<<value;
 			strm<<" = "<<value;
 			return strm; 
 		}
