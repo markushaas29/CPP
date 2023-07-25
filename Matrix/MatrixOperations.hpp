@@ -25,8 +25,7 @@ class OperationBase
 	using OpType = D<L,R>;
 public:
 	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return OpType::calculate(v,val); }
-	decltype(auto) Expression(const auto& v) { return T::Calculate(v,val); }
+	decltype(auto) operator()(const auto& v) { return T::Calculate(v,val); }
 private:
 	RightType val;
 };

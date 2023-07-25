@@ -36,14 +36,6 @@ protected:
 			res += (*v1[i] * (*v2[i]));
 		return std::make_shared<typename V::element_type>(res);
 	}
-//	template<typename V, typename U=V>
-//	static decltype(auto) edotProduct (const std::vector<V>& v1, const std::vector<U>& v2)
-//	{
-//		typename V::element_type res = 0;
-//		for(uint i = 0; i < v1.size(); ++i)
-//			res += (*v1[i] * (*v2[i]));
-//		return std::make_shared<typename V::element_type>(res);
-//	}
 private:
 	template<typename F, typename It >
     static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
@@ -103,8 +95,7 @@ private:
         auto el = std::vector<typename Op::DataType>();
         auto ex = std::vector<typename Op::ExpDataType>();
         std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
-        std::for_each(m.expressions->cbegin(), m.expressions->cend(), [&](const auto& e) { ex.push_back(std::make_shared<typename Op::ExpressionType>(f.Expression(*e))); });
-        return typename Op::MatrixType(d,el,ex); 
+        return typename Op::MatrixType(d,el); 
     }
 };
 template<typename M1, typename M2>
