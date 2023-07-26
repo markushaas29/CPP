@@ -156,7 +156,9 @@ int main()
 	auto mc2m = mc2.Get();
 	
   	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
-  	std::cout<<"\nEL: "<<mc2m.ElAt(15,5)<<std::endl;
+  	auto el = mc2m.ElAt(15,5);
+	isEntry = std::is_same_v<decltype(el)::Type,std::string>;
+	assert(isEntry);
 	//auto e15 = mc2m.ElementsAt(15);
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
