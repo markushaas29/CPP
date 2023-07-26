@@ -18,7 +18,7 @@ int main()
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
 	using MS3 = MatrixDescriptor<3,double>;
-	using MS2 = MatrixDescriptor<2,std::string,std::tuple<std::unique_ptr<int>>>;
+	using MS2 = MatrixDescriptor<2,std::string,std::string>;
 	using MS1 = MatrixDescriptor<1,std::string,std::string>;
 	using MQ1DS = MatrixDescriptor<1,double,Quantity<Sum>>;
 	using M3D = Matrix<3,MS3>;
@@ -156,6 +156,7 @@ int main()
 	auto mc2m = mc2.Get();
 	
   	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
+  	std::cout<<"\nEL: "<<mc2m.ElAt(15,5)<<std::endl;
 	//auto e15 = mc2m.ElementsAt(15);
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
