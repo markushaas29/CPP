@@ -28,32 +28,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
 
-template<typename T, typename D=T>
-class MatrixElement: public MatrixElementBase
-{
-public:
-	using PtrType = std::unique_ptr<Element<T>>;
-	using Type = T;
-	using Descriptor = D;
-	MatrixElement(const MatrixElement& m): element{m.element} {  }
-	MatrixElement(const std::string& v): element{T(v.c_str())}{ }
-	template<typename I>
-	MatrixElement(I v): element{T(v)}{ }
-	
-	decltype(auto) Get() const { return T(element.Value()); }
-	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
-	
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,D>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element; }
-protected:
-	MatrixElement(PtrType p): element{std::move(p)} {  }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
-	Type element;
-};
-
 template<typename T>
-class MatrixElement<T,T>: public MatrixElementBase
+class MatrixElement: public MatrixElementBase
 {
 public:
 	using PtrType = std::unique_ptr<Element<T>>;
@@ -65,7 +41,7 @@ public:
 	decltype(auto) Get() const { return T(element.Value()); }
 	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
 	
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T,T>>(*this); }
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
 	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element; }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
@@ -88,36 +64,36 @@ decltype(auto) ParseElement(S s)
 
 template<typename S> 
 decltype(auto) ParseElement(std::shared_ptr<S> s) { return ParseElement(*s); }
-
-template<typename V>
-class ValueElement: public MatrixElement<V,ValueElement<V>>
-{
-	using Type = V;
-	using Base = MatrixElement<V,ValueElement<V>>;
-	inline static constexpr const char TypeIdentifier[] = "ValueElement";
-	inline static constexpr Literal LiteralType{TypeIdentifier};
-public:
-	ValueElement(std::string v): Base{std::make_unique<V>(v.c_str())}, value{v} {};
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<ValueElement<V>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
-private:
-	V value;
-	friend std::ostream& operator<<(std::ostream& s, const ValueElement& vc) { return s<<vc.value;  }
-};
-
-template<typename QT>
-class QuantityElement: public MatrixElement<QT,QuantityElement<QT>>
-{
-	using Type = QT;
-	using Base = MatrixElement<QT,QuantityElement<QT>>;
-	inline static constexpr const char TypeIdentifier[] = "QElement";
-	inline static constexpr Literal LiteralType{TypeIdentifier};
-public:
-	QuantityElement(double v): quantity{v} {};
-	QuantityElement(std::string s): Base{std::make_unique<QT>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {  }
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<"..."<<me.Base::Get();  }
-	Type quantity;
-};
+//
+//template<typename V>
+//class ValueElement: public MatrixElement<V,ValueElement<V>>
+//{
+//	using Type = V;
+//	using Base = MatrixElement<V>;
+//	inline static constexpr const char TypeIdentifier[] = "ValueElement";
+//	inline static constexpr Literal LiteralType{TypeIdentifier};
+//public:
+//	ValueElement(std::string v): Base{std::make_unique<V>(v.c_str())}, value{v} {};
+//	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<ValueElement<V>>(*this); }
+//	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
+//private:
+//	V value;
+//	friend std::ostream& operator<<(std::ostream& s, const ValueElement& vc) { return s<<vc.value;  }
+//};
+//
+//template<typename QT>
+//class QuantityElement: public MatrixElement<QT,QuantityElement<QT>>
+//{
+//	using Type = QT;
+//	using Base = MatrixElement<QT,QuantityElement<QT>>;
+//	inline static constexpr const char TypeIdentifier[] = "QElement";
+//	inline static constexpr Literal LiteralType{TypeIdentifier};
+//public:
+//	QuantityElement(double v): quantity{v} {};
+//	QuantityElement(std::string s): Base{std::make_unique<QT>(s.c_str())}, quantity{String_::ParseTo<double>(s)} {  }
+//	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<QuantityElement<Type>>(*this); }
+//	std::ostream& Display(std::ostream& os) const { return os<<LiteralType; }
+//private:
+//	friend std::ostream& operator<<(std::ostream& s, const QuantityElement& me) { return s<<me.quantity<<"..."<<me.Base::Get();  }
+//	Type quantity;
+//};
