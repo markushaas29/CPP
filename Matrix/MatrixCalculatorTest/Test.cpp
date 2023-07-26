@@ -60,7 +60,6 @@ int main()
 	auto m1m1 = m1*m1;
 	std::cout<<"Matrix m44*m1 "<<m44m1<<"\n";
 	
-	std::cout<<"Matrix m1*m1 "<<m1m1<<"\n";
 	assert((int)(*m44m1(0))==30);
 	auto a5 = m44 + 5;
 	assert((int)*a5(0,3)==9);
@@ -80,12 +79,13 @@ int main()
 
 
 
-	std::cout<<"Matrix m1 * m1 \n"<<(m1d * m1d )<<"\n";
-	std::cout<<"Matrix m2 + m2 \n"<<(m44 + m44 )<<"\n";
+	std::cout<<"Matrix m1d * m1d \n"<<(m1d * m1d )<<"\n";
+	std::cout<<"Matrix m2 * m2 \n"<<(m44 + m44 )<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
 	std::cout<<"Matrix d2\n"<<d2<<"\n";
 	auto m2SA = a5 - m44 + d2 ;
-	std::cout<<"Matrix m25A \n"<<*m2SA(0,3)<<"\n";
+	std::cout<<"Matrix m25A ELAT \n"<<*m2SA(0,3)<<"\n";
+	std::cout<<"Matrix m25A ELAT1 \n"<<m2SA.ElAt(0,3)<<"\n";
 	assert((int)*m2SA(0,3)==7);
 	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
 	
@@ -102,6 +102,7 @@ int main()
 	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 * 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 / 2)<<"\n";
+	std::cout<<"Matrix int m1*m1 "<<m1m1<<"\n";
 
 	M3 m3 {
 		{

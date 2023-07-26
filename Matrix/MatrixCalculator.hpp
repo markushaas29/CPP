@@ -36,6 +36,12 @@ protected:
 			res += (*v1[i] * (*v2[i]));
 		return std::make_shared<typename V::element_type>(res);
 	}
+	struct DotProductType
+	{
+		using ReturnType = decltype(DotProduct::Calculate(std::declval<std::vector<typename LeftType::DataType>>(),std::declval<std::vector<typename RightType::DataType>>()));
+	 	using DescriptorType = MatrixDescriptor<Order, ReturnType, typename LeftType::OType>;
+ 	    using ResultType = Matrix<Order, DescriptorType>;
+	};
 private:
 	template<typename F, typename It >
     static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
@@ -108,17 +114,14 @@ private:
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
 		typename Base::template IsT<Throwing>("M2M2")(l.Cols()==r.Rows());
-		using ReturnType = decltype(DotProduct::Calculate(std::declval<std::vector<typename Base::LeftType::DataType>>(),std::declval<std::vector<typename Base::RightType::DataType>>()));
-	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType, typename Base::LeftType::OType>;
- 	    using ResultType = Matrix<Base::Order, DescriptorType>;
-		DescriptorType md({l.Rows(), r.Cols()});
+		typename Base::DotProductType::DescriptorType md({l.Rows(), r.Cols()});
 
-		std::vector<std::shared_ptr<ReturnType>> v;
+		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Cols(); ++j)
-				v.push_back(std::make_shared<ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(j))));
+				v.push_back(std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(j))));
 
-		return ResultType(md,v);
+		return typename Base::DotProductType::ResultType(md,v);
 	}
 };
 
@@ -130,17 +133,14 @@ private:
 	friend class Matrix<2,D1>;
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
-		//typename Base::template IsT<Throwing>("M2M1")(l.Cols()==r.Rows());
-		using ReturnType = decltype(DotProduct::Calculate(std::declval<std::vector<typename Base::LeftType::DataType>>(),std::declval<std::vector<typename Base::RightType::DataType>>()));
-	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType, typename Base::LeftType::OType>;
- 	    using ResultType = Matrix<Base::Order, DescriptorType>;
-		DescriptorType md({l.Rows()});
+		typename Base::template IsT<Throwing>("M2M1")(r.Cols()>=1);
+		typename Base::DotProductType::DescriptorType md({l.Rows()});
 
-		std::vector<std::shared_ptr<ReturnType>> v(l.Rows());
+		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v(l.Rows());
 		for(int i = 0; i != l.Rows(); ++i)
-			v[i] = std::make_shared<ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(0)));
+			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(0)));
 
-		return ResultType(md,v);
+		return typename Base::DotProductType::ResultType(md,v);
 	}
 };
 
@@ -153,16 +153,16 @@ private:
 	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
 	{
 		//IsT<Throwing>("M2M1")(l.R()==r.Rows());
-		typename Base::DescriptorType md({l.Rows(), r.Rows()});
-
-		auto in = Base::dotProduct(l.Row(0),r.Row(0));
-		std::cout<<"DOT "<<*in<<"\n";
-
-		std::vector<typename Base::LeftType::DataType> v;
+		using ReturnType = decltype(Multiplication::Calculate(std::declval<typename Base::LeftType::IType>(),std::declval<typename Base::RightType::IType>()));
+	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType, typename Base::LeftType::OType>;
+ 	    using ResultType = Matrix<Base::Order, DescriptorType>;
+		
+		DescriptorType md({l.Rows(), r.Rows()});
+		std::vector<std::shared_ptr<ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Rows(); ++j)
-				v.push_back(std::make_shared<typename Base::LeftType::IType>((*l(i)) * (*r(j)) ));
+				v.push_back(std::make_shared<ReturnType>(Multiplication::Calculate( *l(i),*r(j) )));
 
-		return typename Base::ResultType(md,v);
+		return ResultType(md,v);
 	}
 };
