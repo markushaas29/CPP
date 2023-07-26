@@ -2,6 +2,7 @@
 #include<array> 
 #include<iostream> 
 #include<sstream> 
+#include<stdexcept> 
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../String/Literal.hpp"
@@ -33,7 +34,7 @@ class Throwing
 	static void exec(const std::string& m)	
 	{
 		Logger::Log<Error>(m);
-		throw m; 
+		throw std::logic_error(m); 
 	}
 };
 
