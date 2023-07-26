@@ -85,7 +85,8 @@ int main()
 	std::cout<<"Matrix d2\n"<<d2<<"\n";
 	auto m2SA = a5 - m44 + d2 ;
 	std::cout<<"Matrix m25A ELAT \n"<<*m2SA(0,3)<<"\n";
-	std::cout<<"Matrix m25A ELAT1 \n"<<m2SA.ElAt(0,3)<<"\n";
+	auto elat03 = m2SA.ElAt(0,3);
+	std::cout<<"Matrix m25A ELAT1 \n"<<elat03<<"\n";
 	assert((int)*m2SA(0,3)==7);
 	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
 	
