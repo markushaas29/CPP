@@ -66,7 +66,10 @@ int main()
 	auto md = MatrixElement<double>(5.0);
 	std:: cout<<md<<"\n ";//<<mi.Get()<<std::endl;
 	
-	auto ms = MatrixElement<std::string>();
+	auto mu = MatrixElement<uint>(5);
+	std:: cout<<mu<<"\n ";//<<mi.Get()<<std::endl;
+	
+	auto ms = MatrixElement<std::string>("String");
 	std:: cout<<ms<<"\n ";//<<mi.Get()<<std::endl;
 
 //	auto vei = ValueElement<IBAN>("IBANT");

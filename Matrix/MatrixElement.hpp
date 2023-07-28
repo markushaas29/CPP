@@ -13,98 +13,66 @@
 class IMatrixElement
 {
 public:
-	virtual std::unique_ptr<IMatrixElement> Clone() = 0;
+	//virtual std::unique_ptr<IMatrixElement> Clone() = 0;
 	virtual std::ostream& Display(std::ostream& s) const = 0;
 };
 
+template<typename T> class MatrixElement;
+
+template<typename T, typename ET>
 class MatrixElementBase: public IMatrixElement
 {
 public:
 	virtual ~MatrixElementBase() {  }
+	using Type = MatrixElement<T>;
+	using ValueType = T;
+	using ElementType = Element<T>;
+	using PtrType = std::unique_ptr<ElementType>;
+	//PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
+	//std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
+	//decltype(auto) Get() const { return T(element.Value()); }
 protected:
 	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
-	MatrixElementBase() {  }
+	MatrixElementBase(ValueType v): value{v} {  }
 private:
+	friend Type;
+	ValueType value;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
-
 template<typename T>
-class MatrixElement: public MatrixElementBase
-{
-public:
-	using PtrType = std::unique_ptr<Element<T>>;
-	using Type = T;
-	MatrixElement(const std::string& v): element{T(v.c_str())} { }
-	template<typename I>
-	MatrixElement(I v): element{T(v)} { }
-	
-	decltype(auto) Get() const { return T(element.Value()); }
-	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
-	
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element; }
-protected:
-	MatrixElement(PtrType p): element{std::move(p)} {  }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
-	Type element;
-};
+class MatrixElement{ };
 
 template<typename T> requires ( std::is_arithmetic_v<T> )
-class MatrixElement<T>: public MatrixElementBase
+class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,T>>
 {
 public:
-	using PtrType = std::unique_ptr<Element<T>>;
-	using Type = T;
-	MatrixElement(const std::string& v): element{T(v.c_str())} { }
-	template<typename I>
-	MatrixElement(I v): element{T(v)} { }
-	
-	decltype(auto) Get() const { return T(element.Value()); }
-	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
-	
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" AR :"<<element; }
-protected:
-	MatrixElement(PtrType p): element{std::move(p)} {  }
+	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,T>>;
+	MatrixElement(T v): Base{v} { }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" AR :"<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
-	Type element;
 };
+
 template<> 
-class MatrixElement<std::string>: public MatrixElementBase
+class MatrixElement<std::string>: public MatrixElementBase<std::string,Entry>
 {
 public:
-	template<typename I>
-	MatrixElement(I v) { }
-	using PtrType = std::unique_ptr<Element<Entry>>;
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<std::string>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" STRINg :"; }
-protected:
+	using Base = MatrixElementBase<std::string, Entry>;
+	MatrixElement(std::string v): Base{v} { }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" STRINg :"; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
 template<typename T> requires ( IsResultType<T> )
-class MatrixElement<T>: public MatrixElementBase
+class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,T>>
 {
 public:
-	using PtrType = std::unique_ptr<Element<T>>;
-	using Type = T;
-	MatrixElement(const std::string& v): element{T(v.c_str())} { }
-	template<typename I>
-	MatrixElement(I v): element{T(v)} { }
-	
-	decltype(auto) Get() const { return T(element.Value()); }
-	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
-	
-	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
-	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" RESULT :"<<element; }
-protected:
-	MatrixElement(PtrType p): element{std::move(p)} {  }
+	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,T>>;
+	MatrixElement(const T& v): Base{v} { }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" RESULT :"<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
-	Type element;
 };
 
 template<typename I, typename E> 
