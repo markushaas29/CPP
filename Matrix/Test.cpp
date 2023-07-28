@@ -53,7 +53,7 @@ int main()
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
 	assert(m1s.ElementsAt(1)[0].Get()=="2");
-	auto m1se = m1s.ElementAt(1);
+	auto m1se = m1s.ElAt(0,0);
 	std::cout<<"MS:\n"<<m1se<<std::endl;
     auto m1sc(m1s);
 	assert(m1sc.Rows()==2);

@@ -2,6 +2,7 @@
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/Elements.hpp"
+#include "../Calculator/CalculatorResult.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -43,6 +44,62 @@ public:
 	
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
 	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" :"<<element; }
+protected:
+	MatrixElement(PtrType p): element{std::move(p)} {  }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
+	Type element;
+};
+
+template<typename T> requires ( std::is_arithmetic_v<T> )
+class MatrixElement<T>: public MatrixElementBase
+{
+public:
+	using PtrType = std::unique_ptr<Element<T>>;
+	using Type = T;
+	MatrixElement(const std::string& v): element{T(v.c_str())} { }
+	template<typename I>
+	MatrixElement(I v): element{T(v)} { }
+	
+	decltype(auto) Get() const { return T(element.Value()); }
+	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
+	
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" AR :"<<element; }
+protected:
+	MatrixElement(PtrType p): element{std::move(p)} {  }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
+	Type element;
+};
+template<> 
+class MatrixElement<std::string>: public MatrixElementBase
+{
+public:
+	template<typename I>
+	MatrixElement(I v) { }
+	using PtrType = std::unique_ptr<Element<Entry>>;
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<std::string>>(*this); }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" STRINg :"; }
+protected:
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
+};
+template<typename T> requires ( IsResultType<T> )
+class MatrixElement<T>: public MatrixElementBase
+{
+public:
+	using PtrType = std::unique_ptr<Element<T>>;
+	using Type = T;
+	MatrixElement(const std::string& v): element{T(v.c_str())} { }
+	template<typename I>
+	MatrixElement(I v): element{T(v)} { }
+	
+	decltype(auto) Get() const { return T(element.Value()); }
+	PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
+	
+	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
+	std::ostream& Display(std::ostream& os) const { return os<<LiteralType<<" RESULT :"<<element; }
 protected:
 	MatrixElement(PtrType p): element{std::move(p)} {  }
 private:

@@ -96,7 +96,8 @@ int main()
 		{1.1, 2.2, 3.3, 4.4},
 		{1.1, 2.2, 3.3, 4.4}
 	};
-	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
+	std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
+	std::cout<<"Matrix m2 EL(0.3) "<<(m35.ElAt(0,3))<<"\n\n";
 	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
 
   	std::cout<<"Matrix m3 + 2"<<(m35 + 2)<<"\n";
