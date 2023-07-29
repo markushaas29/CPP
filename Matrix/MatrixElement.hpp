@@ -7,6 +7,7 @@
 #include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/QuantityRatio.hpp"
+#include "../String/To/To.hpp"
 
 #pragma once
 
@@ -30,6 +31,13 @@ public:
 	using PtrType = std::unique_ptr<ElementType>;
 	template<typename O>
 	operator O() const { return static_cast<O>(value); }
+	decltype(auto) operator()() const 
+	{
+		if constexpr (	IsResultType<ValueType>	)
+			return static_cast<double>(value);
+		else
+			return static_cast<ValueType>(value); 
+	}
 	//PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
 	//std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
 	//decltype(auto) Get() const { return T(element.Value()); }
@@ -63,6 +71,17 @@ public:
 	using Base = MatrixElementBase<std::string, Entry>;
 	MatrixElement(const std::string& v): Base{v} { }
 	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" STRINg :"<<Base::value; }
+	//template<typename O>
+	//operator O() const 
+	//{ 
+	//	auto res = static_cast<std::string>(Base::value); 
+	//	if constexpr (std::is_same_v<O,std::string>)
+	//	{
+	//		return res;
+	//	}
+	//	else
+	//		return String_::ParseTo<O>(Base::value); 
+	//}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
