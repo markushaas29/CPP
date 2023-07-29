@@ -52,9 +52,7 @@ int main()
 	};
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
-	//assert(m1s.ElementsAt(1)[0].Get()=="2");
-	auto m1se = m1s.ElAt(0,0);
-	std::cout<<"MS:\n"<<m1se<<std::endl;
+	assert(m1s[1]()=="2");
     auto m1sc(m1s);
 	assert(m1sc.Rows()==2);
 	assert(m1sc.Cols()==1);
@@ -75,7 +73,8 @@ int main()
 		{1.0,2.2,3.3,4.4,5.5}	
 	};
 	auto qm1 = m1q[4];
-	std::cout<<"Matrix m1Q "<<qm1<<"\n";
+	assert((double)qm1==5.5);
+	std::cout<<"Matrix m1Q "<<qm1()<<"\n";
 	std::vector<std::shared_ptr<double>> v1d{std::make_shared<double>(1.1)};
 	auto mqd = MQ1DS{1};
 	auto m1qv = M1Q(mqd,v1d);

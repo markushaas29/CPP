@@ -78,9 +78,7 @@ public:
 		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
 		auto row = Row(i);
 		if constexpr ((N-1)==0)
-		{
-			return ElementAt(i);
-		}
+			return MatrixElement<IType>(*(elements->at(i)));
 		else
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
@@ -107,14 +105,6 @@ public:
 			result.push_back(elements->at(i + (r * Cols())));
 		return result;
     }
-
-	decltype(auto) ElementsAt(size_t i) const
-    {
-		auto r = Row(i);
-		return parser.Parse(r);
-    }
-	decltype(auto) ElementAt(size_t n, size_t m = 0) const {	return ElementsAt(n)[m]; }
-	decltype(auto) ElAt(size_t n, size_t m = 1) const {	return MatrixElement<IType>(*(Row(n)[m])); }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
