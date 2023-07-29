@@ -28,6 +28,8 @@ public:
 	using ValueType = T;
 	using ElementType = Element<T>;
 	using PtrType = std::unique_ptr<ElementType>;
+	template<typename O>
+	operator O() const { return static_cast<O>(value); }
 	//PtrType Ptr() const { return std::make_unique<T>((element.Value()).c_str()); }
 	//std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<MatrixElement<T>>(*this); }
 	//decltype(auto) Get() const { return T(element.Value()); }

@@ -62,15 +62,19 @@ int main()
 
 	auto mi = MatrixElement<decltype(mI)>(mI);
 	std:: cout<<mi<<"\n ";//<<mi.Get()<<std::endl;
-	
+	assert((uint)mi==162);
+
 	auto md = MatrixElement<double>(5.0);
 	std:: cout<<md<<"\n ";//<<mi.Get()<<std::endl;
+	assert((double)md==5.0);
 	
 	auto mu = MatrixElement<uint>(5);
 	std:: cout<<mu<<"\n ";//<<mi.Get()<<std::endl;
+	assert((int)mu==5);
 	
-	auto ms = MatrixElement<std::string>("String");
+	auto ms = MatrixElement<std::string>("5");
 	std:: cout<<ms<<"\n ";//<<mi.Get()<<std::endl;
+	assert((std::string)ms=="5");
 
 //	auto vei = ValueElement<IBAN>("IBANT");
 //	auto i = vei.Get();
