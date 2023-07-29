@@ -20,21 +20,19 @@ template<std::size_t N, typename DT=MatrixDescriptor<N,int,int>>
 class Matrix
 {
 public:
-	using DescriptorType = DT;
-	using Type = Matrix<N,DT>;
-	template<typename T> using MC = MatrixCalculator<Type, T>;
-	template<typename,typename> friend class MatrixCalculator;
-	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
-	using ParserType = typename DescriptorType::ParserType;
-	using IType = typename DT::IType;
-	using DataType = typename DT::DataType;
-	using OType = typename DescriptorType::OType;
-	static constexpr size_t Order = N;
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
+	static constexpr size_t Order = N;
+	using DescriptorType = DT;
+	using Type = Matrix<N,DT>;
+	using ParserType = typename DescriptorType::ParserType;
+	using IType = typename DT::IType;
+	using OType = typename DescriptorType::OType;
+	using DataType = typename DT::DataType;
 	using ValueType = IType;
-	using Iterator = typename std::vector<ValueType>::iterator;
-	using ConstIterator = typename std::vector<ValueType>::const_iterator;
+	using MI = MatrixImpl<N,DescriptorType>;
+	template<typename T> using MC = MatrixCalculator<Type, T>;
+	template<typename U> using IsT =  Is<U,LiteralType>;
 
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
@@ -134,11 +132,11 @@ private:
 		}
 		return s;
 	}
-	using MI = MatrixImpl<N,DescriptorType>;
-	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename,typename> friend class MatrixCalculator;
+	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
+	friend class MatrixIO<Type>;
 	DescriptorType descriptor;
 	ParserType parser;
-	friend class MatrixIO<Type>;
 	//std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>(this);
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };
