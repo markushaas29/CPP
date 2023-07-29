@@ -25,7 +25,6 @@ public:
 	static constexpr size_t Order = N;
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
-	using ParserType = typename DescriptorType::ParserType;
 	using IType = typename DT::IType;
 	using OType = typename DescriptorType::OType;
 	using DataType = typename DT::DataType;
@@ -136,7 +135,6 @@ private:
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	friend class MatrixIO<Type>;
 	DescriptorType descriptor;
-	ParserType parser;
 	//std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>(this);
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };

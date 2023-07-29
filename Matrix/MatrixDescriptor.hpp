@@ -25,7 +25,6 @@ public:
 	using IType = T;
 	using OType = OT;
 	using DataType = std::shared_ptr<IType>;
-	using ParserType = MatrixParser<OType, Type>;
 	MatrixDescriptorBase() = default;
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e);
 	MatrixDescriptorBase(std::size_t o, std::initializer_list<size_t> e, std::initializer_list<size_t> s);

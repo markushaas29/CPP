@@ -23,6 +23,7 @@ int main()
 	using M3D = Matrix<3,M3DS>;
 	using M2D = Matrix<2,M2DS>;
 	using M1D = Matrix<1,M1DS>;
+	using QS = Quantity<Scalar,Pure,double>;
 
 	M1 m1{
 		{1,2,3,4,5}	
@@ -32,13 +33,19 @@ int main()
 		{6, 7, 8, 9,10},
 		{11, 12, 13, 14, 15},
 	};
+	
 	std::cout<<"Matrix m3 "<<(m35 )<<"\n";
 	std::cout<<"Matrix m3 "<<(m35+m35 + m35 )<<"\n";
 	auto mad = m35 + m35 -m35 +m35; 
   	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
   	assert((int)*mop(0,0)==-10);
-  	std::cout<<"Matrix m3 Sub 00"<<*mop(0,0)<<"\n";
-  
+  	int i00 = mop[0][0];
+  	assert(i00==-10);
+	auto i00q = mop[0][0].Get();
+  	std::cout<<"Matrix m3 Sub 00"<<*mop(0,0)<<"_"<<i00q<<"\n";
+	assert(i00q.Value()==-10.0);
+	bool is = std::is_same_v<QS, decltype(i00q)>;
+	assert(is);
 	auto m35m1 = m35 * m1;
 	std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
 	
@@ -76,17 +83,14 @@ int main()
 	M1D m1d{
 		{1.1,2.2,3.3,4.4}	
 	};
-
-
-
+	auto m1dq = m1d[0].Get();
+	assert(m1dq.Value()==1.1);
 	std::cout<<"Matrix m1d * m1d \n"<<(m1d * m1d )<<"\n";
 	std::cout<<"Matrix m2 * m2 \n"<<(m44 + m44 )<<"\n";
 	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
 	std::cout<<"Matrix d2\n"<<d2<<"\n";
 	auto m2SA = a5 - m44 + d2 ;
 	std::cout<<"Matrix m25A ELAT \n"<<*m2SA(0,3)<<"\n";
-	auto elat03 = m2SA.ElAt(0,3);
-	std::cout<<"Matrix m25A ELAT1 \n"<<elat03<<"\n";
 	assert((int)*m2SA(0,3)==7);
 	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
 	
@@ -96,9 +100,6 @@ int main()
 		{1.1, 2.2, 3.3, 4.4},
 		{1.1, 2.2, 3.3, 4.4}
 	};
-	std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
-	std::cout<<"Matrix m2 EL(0.3) "<<(m35.ElAt(0,3))<<"\n\n";
-	//std::cout<<"Matrix m2 EL(0.3) "<<(d2.ElAt(0,3))<<"\n\n";
 
   	std::cout<<"Matrix m3 + 2"<<(m35 + 2)<<"\n";
 	std::cout<<"Matrix m3 "<<(m35 - 2)<<"\n";
@@ -117,6 +118,8 @@ int main()
 		},
 	};
 
+	auto clon = mop[0][0].Clone();
+	std::cout<<"Clon "<<*clon<<"\n";
 	std::cout<<"END"<<std::endl;
    
 	return 0;
