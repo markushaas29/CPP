@@ -34,7 +34,7 @@ public:
 protected:
 	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
-	MatrixElementBase(ValueType v): value{v} {  }
+	MatrixElementBase(const ValueType& v): value{v} {  }
 private:
 	friend Type;
 	ValueType value;
@@ -59,8 +59,8 @@ class MatrixElement<std::string>: public MatrixElementBase<std::string,Entry>
 {
 public:
 	using Base = MatrixElementBase<std::string, Entry>;
-	MatrixElement(std::string v): Base{v} { }
-	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" STRINg :"; }
+	MatrixElement(const std::string& v): Base{v} { }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" STRINg :"<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
