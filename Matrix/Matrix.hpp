@@ -8,7 +8,7 @@
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
-#include "MatrixIO.hpp"
+#include "MatrixAccess.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
@@ -73,28 +73,9 @@ public:
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
-	decltype(auto) AddRow(const std::vector<IType>& v)
-	{
-		std::for_each(v.cbegin(), v.cend(), [&](auto i) { elements->push_back(std::make_shared<IType>(i)); } );
-		IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!MI::checkJagged(v.size(),descriptor));
-		descriptor.AddRow();
-	}
-	decltype(auto) Row(size_t i) const
-    {  
-    	assert(i<Rows());
-		std::vector<DataType> result;
-		for(auto r = i * Cols(); r < (i+1) * Cols(); r++)
-			result.push_back(elements->at(r));
-		return result;
-    }
-	decltype(auto) Col(size_t i)
-    {  
-    	assert(i<Cols());
-		std::vector<DataType> result;
-		for(auto r = 0; r < Rows(); r++)
-			result.push_back(elements->at(i + (r * Cols())));
-		return result;
-    }
+	decltype(auto) AddRow(const std::vector<IType>& v) { access->AddRow(v); }
+	decltype(auto) Row(size_t i) const { return access->Row(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
+	decltype(auto) Col(size_t i) const { return access->Col(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
@@ -133,8 +114,8 @@ private:
 	}
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
-	friend class MatrixIO<Type>;
+	friend class MatrixAccess<Type>;
 	DescriptorType descriptor;
-	//std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>(this);
+	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>(this);
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };

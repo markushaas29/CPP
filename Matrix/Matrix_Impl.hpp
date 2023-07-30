@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Matrix_Ref.hpp"   
 #include "MatrixDescriptor.hpp"   
+#include "MatrixAccess.hpp"   
 #include "Matrix_Initializer.hpp"   
 #include "../Is/Is.hpp"   
 #include "../String/Format.hpp"   
@@ -36,6 +37,7 @@ public:
 private:
 	template<typename T> using IsT = Is<T,LiteralType>;
 	template<size_t,typename> friend class Matrix;
+	template<typename> friend class MatrixAccess;
 	friend DescriptorType;
 	
 	template<typename List> 
