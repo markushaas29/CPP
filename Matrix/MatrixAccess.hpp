@@ -21,12 +21,12 @@ private:
         typename M::IsT<Throwing>(Format("Not jagged: Size: ",v.size()))(!M::MI::checkJagged(v.size(),m->descriptor));
         m->descriptor.AddRow();
     }
-    decltype(auto) row(size_t i, const std::vector<typename M::DataType>& v, uint rows, uint cols) const
+    decltype(auto) row(size_t i, const M* m) const
     {  
-        assert(i<rows);
+        assert(i<m->Rows());
         std::vector<typename M::DataType> result;
-        for(uint r = i * cols; r < (i+1) * cols; r++)
-            result.push_back(v.at(r));
+        for(uint r = i * m->Cols(); r < (i+1) * m->Cols(); r++)
+            result.push_back(m->elements->at(r));
         return result;
     }
     decltype(auto) col(size_t i, const std::vector<typename M::DataType>& v, uint rows, uint cols)

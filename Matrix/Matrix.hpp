@@ -74,7 +74,7 @@ public:
 	}
 
 	decltype(auto) AddRow(const std::vector<IType>& v) { access->addRow(v,this); }
-	decltype(auto) Row(size_t i) const { return access->row(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
+	decltype(auto) Row(size_t i) const { return access->row(i, this); }
 	decltype(auto) Col(size_t i) const { return access->col(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
 
 	template<typename F>
