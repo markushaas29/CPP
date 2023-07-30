@@ -127,41 +127,41 @@ int main()
 			{8,9}
 		},
 	};
-//	auto d = m3[0];//.Descriptor();
-//	auto dd = d[1];//.Descriptor();
-//	//auto ddd = dd[1];//.Descriptor();
-//	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
-//	std::cout<<"Matrix 3\n"<<m3<<"\n";
-//	//std::cout<<"Matrix 3 El"<<ddd<<"\n";
-//	assert(d.Rows()==2);
-//	assert(d.Cols()==2);
-//	assert(d.Size()==4);
-//	auto db = m3[0].Descriptor();
-//	assert(db.Stride(1)==1);
-//	assert(db.Extent(0)==2);
-//	assert(db.Extent(1)==2);
-//	assert(db.Extent(2)==2);
-//	assert(db.Stride(0)==2);
-//	auto i = db.Strides();
-//	assert(*m3(0,1,1)==4);
-//	assert(*m3(1,0,1)==7);
-//	assert(*m3(1,1,1)==9);
-//	try	{ assert(*m3(2,1,1)==9); }	catch(...)	{	}
-//	try	{ assert(*m3(1,3,1)==9);	}	catch(...)	{	}
-//	try	{	assert(*m3(1,1,5)==9);	}catch(...)	{	}
-//
-//	MC2 mc2{};
-//	mc2.Create("");
-//	auto mc2m = mc2.Get();
-//	
-//  	std::cout<<"\nVal: "<<*mc2m(15,5)<<std::endl;
-//  	//auto el = mc2m.ElementAt(15,5);
-//	//isEntry = std::is_same_v<decltype(el)::Type,std::string>;
-//	//assert(isEntry);
-//	//auto e15 = mc2m.ElementsAt(15);
-//	assert(mc2m.Rows()==125);
-//	assert(mc2m.Cols()==19);
-//	std::cout<<"END"<<std::endl;
+	auto d = m3[0];//.Descriptor();
+	auto dd = d[1];//.Descriptor();
+	//auto ddd = dd[1];//.Descriptor();
+	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
+	std::cout<<"Matrix 3\n"<<m3<<"\n";
+	//std::cout<<"Matrix 3 El"<<ddd<<"\n";
+	assert(d.Rows()==2);
+	assert(d.Cols()==2);
+	assert(d.Size()==4);
+	auto db = m3[0].Descriptor();
+	assert(db.Stride(1)==1);
+	assert(db.Extent(0)==2);
+	assert(db.Extent(1)==2);
+	assert(db.Extent(2)==2);
+	assert(db.Stride(0)==2);
+	auto i = db.Strides();
+	assert(m3[0][1][1]()==4);
+	assert(m3[1][0][1]()==7);
+	assert(m3[1][1][1]()==9);
+//	try	{ assert(m3[2][1][1]()==9); }	catch(...)	{	}
+//	try	{ assert(m3[1][3][1]()==9);	}	catch(...)	{	}
+//	try	{	assert(m3[1][1][5]()==9);	}catch(...)	{	}
+
+	MC2 mc2{};
+	mc2.Create("");
+	auto mc2m = mc2.Get();
+	
+  	std::cout<<"\nVal: "<<mc2m[15][5]()<<std::endl;
+  	//auto el = mc2m.ElementAt(15,5);
+	//isEntry = std::is_same_v<decltype(el)::Type,std::string>;
+	//assert(isEntry);
+	//auto e15 = mc2m.ElementsAt(15);
+	assert(mc2m.Rows()==125);
+	assert(mc2m.Cols()==19);
+	std::cout<<"END"<<std::endl;
    
 	return 0;
 }
