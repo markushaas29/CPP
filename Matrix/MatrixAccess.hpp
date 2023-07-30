@@ -29,12 +29,12 @@ private:
             result.push_back(m->elements->at(r));
         return result;
     }
-    decltype(auto) col(size_t i, const std::vector<typename M::DataType>& v, uint rows, uint cols)
+    decltype(auto) col(size_t i, const M* m)
     {  
-        assert(i<cols);
+        assert(i<m->Cols());
         std::vector<typename M::DataType> result;
-        for(auto r = 0; r < rows; r++)
-            result.push_back(v.at(i + (r * cols)));
+        for(auto r = 0; r < m->Rows(); r++)
+            result.push_back(m->elements->at(i + (r * m->Cols())));
         return result;
     }
 	friend M;
