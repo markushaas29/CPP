@@ -53,13 +53,6 @@ public:
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
-	decltype(auto) operator() (auto... I) const
-	{
-		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
-		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
-		return elements->at(i); 
-	}
-
 	decltype(auto) Rows() const { return descriptor.Rows(); }
 	decltype(auto) Cols() const { return descriptor.Cols(); }
 	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
@@ -117,6 +110,13 @@ public:
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
   	decltype(auto) operator/(const Type& m)	{ return   Type(descriptor,std::vector<DataType>(elements->cbegin(), elements->cend()));	}
 private:
+	decltype(auto) operator() (auto... I) const
+	{
+		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
+		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
+		return elements->at(i); 
+	}
+
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) //{ return (*m.io)(s); }
 	{
 		if constexpr (Matrix::Order==1)
