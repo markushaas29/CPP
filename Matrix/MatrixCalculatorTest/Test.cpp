@@ -38,11 +38,11 @@ int main()
 	std::cout<<"Matrix m3 "<<(m35+m35 + m35 )<<"\n";
 	auto mad = m35 + m35 -m35 +m35; 
   	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
-  	assert((int)*mop(0,0)==-10);
+  	assert((int)mop[0][0]==-10);
   	int i00 = mop[0][0];
   	assert(i00==-10);
 	auto i00q = mop[0][0].Get();
-  	std::cout<<"Matrix m3 Sub 00"<<*mop(0,0)<<"_"<<i00q<<"\n";
+  	std::cout<<"Matrix m3 Sub 00"<<mop[0][0]()<<"_"<<i00q<<"\n";
 	assert(i00q.Value()==-10.0);
 	bool is = std::is_same_v<QS, decltype(i00q)>;
 	assert(is);
@@ -58,8 +58,8 @@ int main()
 	};
 
 	auto m44m44 = m44 * m44;
-	std::cout<<"Matrix m44 + m44 "<<(int)*m44m44(0,0)<<"\n";
-	assert((int)*m44m44(0,0)==40);
+	std::cout<<"Matrix m44 + m44 "<<(int)m44m44[0][0]<<"\n";
+	assert((int)m44m44[0][0]==40);
 	auto aA = m44.Apply([&](const auto& e1){ return *e1 + 10; });
 	std::cout<<"Matrix mA "<<aA<<"\n";
 	auto m44m1 = m44*m1;
@@ -67,18 +67,18 @@ int main()
 	auto m1m1 = m1*m1;
 	std::cout<<"Matrix m44*m1 "<<m44m1<<"\n";
 	
-	assert((int)(*m44m1(0))==30);
+	assert((int)(m44m1[0])==30);
 	auto a5 = m44 + 5;
-	assert((int)*a5(0,3)==9);
+	assert((int)a5[0][3]==9);
 
 	auto s5 = m44 - 5;
-	assert((int)*s5(0,3)==-1);
+	assert((int)s5[0][3]==-1);
 	
 	auto m5 = m44 * 5;
-	assert((int)*m5(0,3)==20);
+	assert((int)m5[0][3]==20);
 	
 	auto d2 = m44  / 2;
-	assert((int)*d2(0,3)==2);
+	assert((int)d2[0][3]==2);
 	
 	M1D m1d{
 		{1.1,2.2,3.3,4.4}	
@@ -90,8 +90,7 @@ int main()
 	std::cout<<"Matrix m2 + m2 \n"<<(a5 - m44 )<<"\n";
 	std::cout<<"Matrix d2\n"<<d2<<"\n";
 	auto m2SA = a5 - m44 + d2 ;
-	std::cout<<"Matrix m25A ELAT \n"<<*m2SA(0,3)<<"\n";
-	assert((int)*m2SA(0,3)==7);
+	assert((int)m2SA[0][3]==7);
 	std::cout<<"Matrix m2 + m2 \n"<<m2SA<<"\n";
 	
 	M2D m2d {
@@ -121,6 +120,6 @@ int main()
 	auto clon = mop[0][0].Clone();
 	std::cout<<"Clon "<<*clon<<"\n";
 	std::cout<<"END"<<std::endl;
-   
+//   
 	return 0;
 }
