@@ -73,9 +73,9 @@ public:
 			return Matrix<N-1,MDT>(MDT{e,s}, row);
 	}
 
-	decltype(auto) AddRow(const std::vector<IType>& v) { access->AddRow(v); }
-	decltype(auto) Row(size_t i) const { return access->Row(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
-	decltype(auto) Col(size_t i) const { return access->Col(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
+	decltype(auto) AddRow(const std::vector<IType>& v) { access->addRow(v,this); }
+	decltype(auto) Row(size_t i) const { return access->row(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
+	decltype(auto) Col(size_t i) const { return access->col(i, std::vector<DataType>(elements->cbegin(), elements->cend()), Rows(), Cols()); }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
@@ -116,6 +116,6 @@ private:
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	friend class MatrixAccess<Type>;
 	DescriptorType descriptor;
-	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>(this);
+	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };
