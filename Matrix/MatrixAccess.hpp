@@ -17,6 +17,7 @@ public:
 	static constexpr size_t Order = M::Order;
 	MatrixAccess() {}
 private:
+	friend M;
 	decltype(auto) addRow(const std::vector<typename M::IType>& v, M* m)
     {
         std::for_each(v.cbegin(), v.cend(), [&](auto i) { m->elements->push_back(std::make_shared<typename M::IType>(i)); } );
@@ -52,6 +53,4 @@ private:
 		else
 			return Matrix<Order-1, MDT>(MDT{e,s}, row);
 	}
-
-	friend M;
 };
