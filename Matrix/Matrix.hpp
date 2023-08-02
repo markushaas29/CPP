@@ -59,20 +59,7 @@ public:
 	size_t Size() const { return descriptor.Size(); }
 	const DescriptorType& Descriptor() const { return descriptor; }
 
-	decltype(auto) operator[] (size_t i) const 
-	{
-		using MDT = MatrixDescriptor<N-1, IType, OType>;
-		std::array<size_t,N-1> e;
-		std::array<size_t,N-1> s;
-		std::copy(descriptor.Extents().begin()+1, descriptor.Extents().end(), e.begin());
-		std::copy(descriptor.Strides().begin()+1, descriptor.Strides().end(), s.begin());
-		auto row = Row(i);
-		if constexpr ((N-1)==0)
-			return MatrixElement<IType>(*(elements->at(i)));
-		else
-			return Matrix<N-1,MDT>(MDT{e,s}, row);
-	}
-
+	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
 	decltype(auto) AddRow(const std::vector<IType>& v) { access->addRow(v,this); }
 	decltype(auto) Row(size_t i) const { return access->row(i, this); }
 	decltype(auto) Col(size_t i) const { return access->col(i, this); }

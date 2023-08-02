@@ -8,11 +8,13 @@
 #include "../String/Format.hpp"
 
 #pragma once
+template<std::size_t, typename> class Matrix;
 
 template<typename M>
 class MatrixAccess
 {
 public:
+	static constexpr size_t Order = M::Order;
 	MatrixAccess() {}
 private:
 	decltype(auto) addRow(const std::vector<typename M::IType>& v, M* m)
@@ -37,5 +39,19 @@ private:
             result.push_back(m->elements->at(i + (r * m->Cols())));
         return result;
     }
+	decltype(auto) matrix(size_t i, const M* m) const 
+	{
+		using MDT = MatrixDescriptor<Order-1, typename M::IType, typename M::OType>;
+		std::array<size_t,Order-1> e;
+		std::array<size_t,Order-1> s;
+		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
+		std::copy(m->descriptor.Strides().begin()+1, m->descriptor.Strides().end(), s.begin());
+		auto row = m->Row(i);
+		if constexpr (Order-1==0)
+			return MatrixElement<typename M::IType>(*(m->elements->at(i)));
+		else
+			return Matrix<Order-1, MDT>(MDT{e,s}, row);
+	}
+
 	friend M;
 };
