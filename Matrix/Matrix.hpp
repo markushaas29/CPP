@@ -9,6 +9,7 @@
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
 #include "MatrixAccess.hpp"
+#include "MatrixIO.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
@@ -85,24 +86,14 @@ private:
 		return elements->at(i); 
 	}
 
-	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) //{ return (*m.io)(s); }
-	{
-		if constexpr (Matrix::Order==1)
-		{
-			std::for_each(m.elements->cbegin(), m.elements->cend(), [&](auto& v) { s<<*v<<", "; });
-			return s;
-		}
-		else
-		{
-			for(auto i = 0; i != m.Rows(); ++i)
-				s<<"{"<<m[i]<<"}"<<std::endl;
-		}
-		return s;
-	}
+	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) { return (*m.io)(s,&m); }
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	friend class MatrixAccess<Type>;
+	friend class MatrixIO<Type>;
+
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();
+	std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>();
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };
