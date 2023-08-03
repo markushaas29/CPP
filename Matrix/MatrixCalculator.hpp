@@ -85,12 +85,17 @@ private:
 
 		return Matrix<1, decltype(d)>(d,el); 
     }
+	static decltype(auto) rowSum(const LeftType& l)
+    {
+		if constexpr (LeftType::Order==1)
+			return l;//internOp(l,l.Rows(),1);
+		if constexpr (LeftType::Order==2)
+			return internOp(l,l.Cols(),l.Rows());
+    }
 	static decltype(auto) colSum(const LeftType& l)
     {
 		if constexpr (LeftType::Order==1)
-		{
 			return l;
-		}
 		if constexpr (LeftType::Order==2)
 			return internOp(l,l.Cols(),l.Rows());
     }
