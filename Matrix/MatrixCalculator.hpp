@@ -90,7 +90,19 @@ private:
 		if constexpr (LeftType::Order==1)
 			return l;//internOp(l,l.Rows(),1);
 		if constexpr (LeftType::Order==2)
-			return internOp(l,l.Cols(),l.Rows());
+    	{
+			auto d = MatrixDescriptor<1, typename LeftType::IType, typename LeftType::OType>(l.Rows());
+			auto el = std::vector<typename LeftType::DataType>();
+			for(auto i = 0; i < l.Rows(); ++i)
+			{
+				double cs = 0.0;
+				for(auto j = 0; j < l.Cols(); ++j)
+					cs += (double)(*l(i,j));
+			    el.push_back(std::make_shared<typename LeftType::IType>(cs));
+			}
+
+			return Matrix<1, decltype(d)>(d,el); 
+    	}
     }
 	static decltype(auto) colSum(const LeftType& l)
     {
