@@ -97,7 +97,7 @@ int main()
 		{1.1, 2.2, 3.3, 4.4},
 		{1.1, 2.2, 3.3, 4.4},
 		{1.1, 2.2, 3.3, 4.4},
-		{1.1, 2.2, 3.3, 4.4}
+		{1.1, 2.2, 3.3, 5.4}
 	};
 
   	std::cout<<"Matrix m3 + 2"<<(m35 + 2)<<"\n";
@@ -144,8 +144,13 @@ int main()
 	std::cout<<"ColSum:\n "<<m35R<<"\n";
 	assert((int)m35R[0]==15);
 	assert((int)m35R[1]==40);
+	
 	auto m1R = m1.RowSum(); 
 	assert((int)m1R==15);
+	
+	auto m2dR = m2d.RowSum();
+	assert((double)m2dR[0]==11);
+	assert((double)m2dR[3]==12);
 	std::cout<<"ColSum:\n "<<(m44 * m2C)<<"\n";
 
 	std::cout<<"END"<<std::endl;
