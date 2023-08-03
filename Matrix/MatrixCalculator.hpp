@@ -71,6 +71,32 @@ private:
             el.push_back(std::make_shared<typename Op::ValueType>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
         return typename Op::MatrixType(d,el); 
     }
+	static decltype(auto) colSum(const LeftType& l)
+    {
+		if constexpr (LeftType::Order==1)
+		{
+			return l;
+		}
+		if constexpr (LeftType::Order==2)
+		{
+        	auto d = typename LeftType::DescriptorType({l.Rows(),1}, {(size_t)l.Cols(),1});
+        	auto el = std::vector<typename LeftType::DataType>();
+			for(auto i = 0; i < l.Cols(); ++i)
+			{
+				double cs = 0.0;
+				for(auto j = 0; j < l.Rows(); ++j)
+					cs += (double)(*l(i,j));
+				std::cout<<"CS "<<cs<<"\n";
+        	    el.push_back(std::make_shared<typename LeftType::IType>(cs));
+			}
+
+			return Matrix<1, typename LeftType::DescriptorType>(d,el); 
+		}
+		if constexpr (LeftType::Order>2)
+		{
+			return 0;
+		}
+    }
 	template<typename F>
     static decltype(auto) apply(const LeftType& l, const RightType& r,F f)
     {

@@ -56,7 +56,7 @@ private:
 	std::size_t start;
 	std::array<std::size_t,N> extents;
 	std::array<std::size_t,N> strides;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixDescriptorBase& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixDescriptorBase& i) { return s<<"Extent: "<<i.extents[0]<<"\tStride: "<<i.strides[0];  }
 	decltype(auto) computeStrides()     
   	{
        size_t st = 1;

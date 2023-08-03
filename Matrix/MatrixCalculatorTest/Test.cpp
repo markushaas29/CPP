@@ -119,6 +119,13 @@ int main()
 
 	auto clon = mop[0][0].Clone();
 	std::cout<<"Clon "<<*clon<<"\n";
+
+	auto m1Am1 = m1 + m1; 
+	std::cout<<"ColSum:\n "<<m1Am1<<"\n";
+	auto m2C = m44.ColSum(); 
+	std::cout<<"ColSum:\n "<<m2C<<"\n";
+	std::cout<<"ColSum:\n "<<m1.ColSum()<<"\n";
+
 	std::cout<<"END"<<std::endl;
 //   
 	return 0;
