@@ -140,6 +140,12 @@ int main()
 	assert((int)m2R[0]==10);
 	assert((int)m2R[1]==30);
 	
+	auto m35R = m35.RowSum(); 
+	std::cout<<"ColSum:\n "<<m35R<<"\n";
+	assert((int)m35R[0]==15);
+	assert((int)m35R[1]==40);
+	auto m1R = m1.RowSum(); 
+	assert((int)m1R==15);
 	std::cout<<"ColSum:\n "<<(m44 * m2C)<<"\n";
 
 	std::cout<<"END"<<std::endl;
