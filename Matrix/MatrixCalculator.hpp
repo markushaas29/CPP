@@ -79,22 +79,17 @@ private:
 		}
 		if constexpr (LeftType::Order==2)
 		{
-        	auto d = typename LeftType::DescriptorType({l.Rows(),1}, {1});
-				std::cout<<"CS "<<d<<"\n";
+			auto d = MatrixDescriptor<1, typename LeftType::IType, typename LeftType::OType>(l.Rows());
         	auto el = std::vector<typename LeftType::DataType>();
 			for(auto i = 0; i < l.Cols(); ++i)
 			{
 				double cs = 0.0;
 				for(auto j = 0; j < l.Rows(); ++j)
-					cs += (double)(*l(i,j));
+					cs += (double)(*l(j,i));
         	    el.push_back(std::make_shared<typename LeftType::IType>(cs));
 			}
 
-			return Matrix<1, typename LeftType::DescriptorType>(d,el); 
-		}
-		if constexpr (LeftType::Order>2)
-		{
-			return 0;
+			return Matrix<1, decltype(d)>(d,el); 
 		}
     }
 	template<typename F>

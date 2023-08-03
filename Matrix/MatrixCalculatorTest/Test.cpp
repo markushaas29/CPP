@@ -123,7 +123,17 @@ int main()
 	auto m1Am1 = m1 + m1; 
 	std::cout<<"ColSum:\n "<<m1Am1<<"\n";
 	auto m2C = m44.ColSum(); 
-	std::cout<<"ColSum:\n "<<m2C<<"\n";
+	assert((int)m2C[0]==14);
+	assert((int)m2C[2]==22);
+	auto m2dC = m2d.ColSum();
+	assert((double)m2dC[0]==4.4);
+	assert((double)m2dC[2]==13.2);
+	auto m1C = m1.ColSum(); 
+	assert((int)m1C[0]==1);
+	assert((int)m1C[2]==3);
+
+	std::cout<<"ColSum:\n "<<m1.ColSum()<<"\n";
+	//std::cout<<"ColSum:\n "<<m3.ColSum()<<"\n";
 	std::cout<<"ColSum:\n "<<(m44 * m2C)<<"\n";
 
 	std::cout<<"END"<<std::endl;
