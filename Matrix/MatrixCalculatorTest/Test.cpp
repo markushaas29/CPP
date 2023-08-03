@@ -124,7 +124,7 @@ int main()
 	std::cout<<"ColSum:\n "<<m1Am1<<"\n";
 	auto m2C = m44.ColSum(); 
 	std::cout<<"ColSum:\n "<<m2C<<"\n";
-	std::cout<<"ColSum:\n "<<m1.ColSum()<<"\n";
+	std::cout<<"ColSum:\n "<<(m44 * m2C)<<"\n";
 
 	std::cout<<"END"<<std::endl;
 //   
