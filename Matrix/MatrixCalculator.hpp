@@ -71,6 +71,20 @@ private:
             el.push_back(std::make_shared<typename Op::ValueType>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
         return typename Op::MatrixType(d,el); 
     }
+	static decltype(auto) internOp(const LeftType& l, size_t n, size_t m)
+    {
+		auto d = MatrixDescriptor<1, typename LeftType::IType, typename LeftType::OType>(n);
+		auto el = std::vector<typename LeftType::DataType>();
+		for(auto i = 0; i < n; ++i)
+		{
+			double cs = 0.0;
+			for(auto j = 0; j < m; ++j)
+				cs += (double)(*l(j,i));
+		    el.push_back(std::make_shared<typename LeftType::IType>(cs));
+		}
+
+		return Matrix<1, decltype(d)>(d,el); 
+    }
 	static decltype(auto) colSum(const LeftType& l)
     {
 		if constexpr (LeftType::Order==1)
@@ -78,19 +92,7 @@ private:
 			return l;
 		}
 		if constexpr (LeftType::Order==2)
-		{
-			auto d = MatrixDescriptor<1, typename LeftType::IType, typename LeftType::OType>(l.Rows());
-        	auto el = std::vector<typename LeftType::DataType>();
-			for(auto i = 0; i < l.Cols(); ++i)
-			{
-				double cs = 0.0;
-				for(auto j = 0; j < l.Rows(); ++j)
-					cs += (double)(*l(j,i));
-        	    el.push_back(std::make_shared<typename LeftType::IType>(cs));
-			}
-
-			return Matrix<1, decltype(d)>(d,el); 
-		}
+			return internOp(l,l.Cols(),l.Rows());
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& l, const RightType& r,F f)
