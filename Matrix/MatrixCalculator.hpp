@@ -50,6 +50,16 @@ private:
         std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::IType>(f(e))); });
         return LeftType(d,el); 
     }
+	template<typename F>
+    static decltype(auto) apply(const LeftType& m, F f)
+    {
+        using Op = ValueOperation<F, LeftType, typename LeftType::IType>;
+
+        auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
+        auto el = std::vector<typename Op::DataType>();
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
+        return typename Op::MatrixType(d,el); 
+    }
 	template<size_t, typename> friend class Matrix;
 	static decltype(auto) add(LeftType l, RightType r)
     {
@@ -114,39 +124,9 @@ private:
 			return Matrix<1, decltype(d)>(d,el); 
     	}
     }
-	template<typename F>
-    static decltype(auto) apply(const LeftType& l, const RightType& r,F f)
-    {
-        using ET = decltype(f(*(l.elements->at(0)),*(r.elements->at(0))));
-        using DET = std::shared_ptr<ET>;
-        using MDET = MatrixDescriptor<Order,ET>;
-        using MET = Matrix<Order,MDET>;;
-
-        auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
-
-        auto el = std::vector<DET>();
-        for(auto i = 0; i < l.elements->size(); ++i)
-            el.push_back(std::make_shared<ET>(f(*(l.elements->at(i)),*(r.elements->at(i)))));
-        return MET(d,el); 
-    }
-	template<typename F>
-    static decltype(auto) apply(const LeftType& m, F f)
-    {
-        using Op = ValueOperation<F, LeftType, typename LeftType::IType>;
-
-        auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
-        auto el = std::vector<typename Op::DataType>();
-        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
-        return typename Op::MatrixType(d,el); 
-    }
 };
-template<typename M1, typename M2>
-class MatrixCalculator 
-{
-public:
 
-private:
-};
+template<typename M1, typename M2>class MatrixCalculator {};
 
 template<typename D1, typename D2>
 class MatrixCalculator<Matrix<2,D1>, Matrix<2,D2>> : public MatrixCalculatorBase<MatrixCalculator,2,Matrix<2,D1>, Matrix<2,D2>> 
