@@ -61,7 +61,7 @@ private:
         return typename Op::MatrixType(d,el); 
     }
 	template<size_t, typename> friend class Matrix;
-	static decltype(auto) add(LeftType l, RightType r)
+	static decltype(auto) add(const LeftType& l,const RightType& r)
     {
         using Op = MatrixOperation<Add,LeftType,RightType>;
 
@@ -71,7 +71,7 @@ private:
             el.push_back(std::make_shared<typename Op::ValueType>(Addition::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
         return typename Op::MatrixType(d,el); 
     }
-	static decltype(auto) sub(LeftType l, RightType r)
+	static decltype(auto) sub(const LeftType& l,const RightType& r)
     {
         using Op = MatrixOperation<Sub,LeftType,RightType>;
 
@@ -134,7 +134,7 @@ class MatrixCalculator<Matrix<2,D1>, Matrix<2,D2>> : public MatrixCalculatorBase
 	using Base = MatrixCalculatorBase<MatrixCalculator,2,Matrix<2,D1>, Matrix<2,D2>>;
 private:
 	friend class Matrix<2,D1>;
-	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
+	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) 
 	{
 		typename Base::template IsT<Throwing>("M2M2")(l.Cols()==r.Rows());
 		typename Base::DotProductType::DescriptorType md({l.Rows(), r.Cols()});
@@ -154,7 +154,7 @@ class MatrixCalculator<Matrix<2,D1>, Matrix<1,D2>> : public MatrixCalculatorBase
 	using Base = MatrixCalculatorBase<MatrixCalculator,1,Matrix<2,D1>, Matrix<1,D2>>;
 private:
 	friend class Matrix<2,D1>;
-	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
+	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) 
 	{
 		typename Base::template IsT<Throwing>("M2M1")(r.Cols()>=1);
 		typename Base::DotProductType::DescriptorType md({l.Rows()});
@@ -173,7 +173,7 @@ class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>>: public MatrixCalculatorBase<
 	using Base = MatrixCalculatorBase<MatrixCalculator,2,Matrix<1,D1>, Matrix<1,D2>>;
 private:
 	friend class Matrix<1,D1>;
-	static decltype(auto) multiply(Base::LeftType l, Base::RightType r) 
+	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) 
 	{
 		//IsT<Throwing>("M2M1")(l.R()==r.Rows());
 		using ReturnType = decltype(Multiplication::Calculate(std::declval<typename Base::LeftType::IType>(),std::declval<typename Base::RightType::IType>()));
