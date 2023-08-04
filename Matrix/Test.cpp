@@ -18,9 +18,9 @@ int main()
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
 	using MS3 = MatrixDescriptor<3,double>;
-	using MS2 = MatrixDescriptor<2,std::string,std::string>;
-	using MS1 = MatrixDescriptor<1,std::string,std::string>;
-	using MQ1DS = MatrixDescriptor<1,double,Quantity<Sum>>;
+	using MS2 = MatrixDescriptor<2,std::string>;
+	using MS1 = MatrixDescriptor<1,std::string>;
+	using MQ1DS = MatrixDescriptor<1,double>;
 	using M3D = Matrix<3,MS3>;
 	using M1S = Matrix<1,MS1>;
 	using M1Q = Matrix<1,MQ1DS>;

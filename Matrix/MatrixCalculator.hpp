@@ -22,7 +22,7 @@ public:
 	static constexpr uint Order = N;
 	using LeftType = M1;
 	using RightType = M2;
-	using DescriptorType = MatrixDescriptor<Order, typename LeftType::IType, typename LeftType::OType>;
+	using DescriptorType = MatrixDescriptor<Order, typename LeftType::IType>;
 	using ResultType = Matrix<Order, DescriptorType>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixCaluclator";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
@@ -39,7 +39,7 @@ protected:
 	struct DotProductType
 	{
 		using ReturnType = decltype(DotProduct::Calculate(std::declval<std::vector<typename LeftType::DataType>>(),std::declval<std::vector<typename RightType::DataType>>()));
-	 	using DescriptorType = MatrixDescriptor<Order, ReturnType, typename LeftType::OType>;
+	 	using DescriptorType = MatrixDescriptor<Order, ReturnType>;
  	    using ResultType = Matrix<Order, DescriptorType>;
 	};
 private:
@@ -82,7 +82,7 @@ private:
 		}
 		if constexpr (LeftType::Order==2)
     	{
-			auto d = MatrixDescriptor<1, typename LeftType::IType, typename LeftType::OType>(l.Rows());
+			auto d = MatrixDescriptor<1, typename LeftType::IType>(l.Rows());
 			auto el = std::vector<typename LeftType::DataType>();
 			for(auto i = 0; i < l.Rows(); ++i)
 			{
@@ -101,7 +101,7 @@ private:
 			return l;
 		if constexpr (LeftType::Order==2)
     	{
-			auto d = MatrixDescriptor<1, typename LeftType::IType, typename LeftType::OType>(l.Cols());
+			auto d = MatrixDescriptor<1, typename LeftType::IType>(l.Cols());
 			auto el = std::vector<typename LeftType::DataType>();
 			for(auto i = 0; i < l.Cols(); ++i)
 			{
@@ -119,7 +119,7 @@ private:
     {
         using ET = decltype(f(*(l.elements->at(0)),*(r.elements->at(0))));
         using DET = std::shared_ptr<ET>;
-        using MDET = MatrixDescriptor<Order,ET,ET>;
+        using MDET = MatrixDescriptor<Order,ET>;
         using MET = Matrix<Order,MDET>;;
 
         auto d = MDET(l.descriptor.Extents(), l.descriptor.Strides());
@@ -197,7 +197,7 @@ private:
 	{
 		//IsT<Throwing>("M2M1")(l.R()==r.Rows());
 		using ReturnType = decltype(Multiplication::Calculate(std::declval<typename Base::LeftType::IType>(),std::declval<typename Base::RightType::IType>()));
-	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType, typename Base::LeftType::OType>;
+	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType>;
  	    using ResultType = Matrix<Base::Order, DescriptorType>;
 		
 		DescriptorType md({l.Rows(), r.Rows()});

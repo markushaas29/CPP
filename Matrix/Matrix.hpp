@@ -17,7 +17,7 @@
 
 #pragma once
 
-template<std::size_t N, typename DT=MatrixDescriptor<N,int,int>>
+template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {
 public:
@@ -27,7 +27,6 @@ public:
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
 	using IType = typename DT::IType;
-	using OType = typename DescriptorType::OType;
 	using DataType = typename DT::DataType;
 	using ValueType = IType;
 	using MI = MatrixImpl<N,DescriptorType>;

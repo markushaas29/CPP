@@ -42,7 +42,7 @@ private:
     }
 	decltype(auto) matrix(size_t i, const M* m) const 
 	{
-		using MDT = MatrixDescriptor<Order-1, typename M::IType, typename M::OType>;
+		using MDT = MatrixDescriptor<Order-1, typename M::IType>;
 		std::array<size_t,Order-1> e;
 		std::array<size_t,Order-1> s;
 		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
