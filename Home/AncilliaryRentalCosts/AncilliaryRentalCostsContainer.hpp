@@ -33,7 +33,7 @@ public:
 		
 	AncilliaryRentalCostsContainer(const YearType& y): year(y)
 	{ 
-		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
+		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName) + "_" + year.ToString() + ".txt");
 		fs = this->printHead(std::move(fs));
 		
 		fs = this->Calculate(std::move(fs));
