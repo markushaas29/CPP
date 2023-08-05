@@ -26,9 +26,9 @@ public:
 	static constexpr size_t Order = N;
 	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
-	using IType = typename DT::IType;
+	using ElementType = typename DT::ElementType;
 	using DataType = typename DT::DataType;
-	using ValueType = IType;
+	using ValueType = ElementType;
 	using MI = MatrixImpl<N,DescriptorType>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;
 	template<typename U> using IsT =  Is<U,LiteralType>;
@@ -40,7 +40,7 @@ public:
 
 	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { };
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
-	Matrix(MatrixInit<IType,N> init)
+	Matrix(MatrixInit<ElementType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
@@ -49,7 +49,7 @@ public:
 	};
 
 	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
-	Matrix& operator=(MatrixInit<IType,N>) {};
+	Matrix& operator=(MatrixInit<ElementType,N>) {};
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 
@@ -60,7 +60,7 @@ public:
 	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
-	decltype(auto) AddRow(const std::vector<IType>& v) { access->addRow(v,this); }
+	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Row(size_t i) const { return access->row(i, this); }
 	decltype(auto) Col(size_t i) const { return access->col(i, this); }
 
@@ -68,10 +68,10 @@ public:
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	decltype(auto) ColSum() { return MC<Type>::colSum(*this); }
 	decltype(auto) RowSum() { return MC<Type>::rowSum(*this); }
-  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<IType,decltype(v)>{v});  }
-  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<IType,decltype(v)>{v});  	}
-  	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,Mul<IType,decltype(v)>{v});  	}
-  	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,Div<IType,decltype(v)>{v});   	}
+  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<ElementType,decltype(v)>{v});  }
+  	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,Sub<ElementType,decltype(v)>{v});  	}
+  	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,Mul<ElementType,decltype(v)>{v});  	}
+  	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,Div<ElementType,decltype(v)>{v});   	}
   	template<size_t N2, typename D2>
   	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	template<size_t N2, typename D2>

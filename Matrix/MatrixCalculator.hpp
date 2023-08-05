@@ -22,7 +22,7 @@ public:
 	static constexpr uint Order = N;
 	using LeftType = M1;
 	using RightType = M2;
-	using DescriptorType = MatrixDescriptor<Order, typename LeftType::IType>;
+	using DescriptorType = MatrixDescriptor<Order, typename LeftType::ElementType>;
 	using ResultType = Matrix<Order, DescriptorType>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixCaluclator";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
@@ -47,13 +47,13 @@ private:
     static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
     {
         auto el = std::vector<typename LeftType::DataType>();
-        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::IType>(f(e))); });
+        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
         return LeftType(d,el); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)
     {
-        using Op = ValueOperation<F, LeftType, typename LeftType::IType>;
+        using Op = ValueOperation<F, LeftType, typename LeftType::ElementType>;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
@@ -88,18 +88,18 @@ private:
 			double res = 0.0;
 			for(auto i = 0; i < l.Rows(); ++i)
 				res += (double)l[i];
-			return MatrixElement<typename LeftType::IType>(res);
+			return MatrixElement<typename LeftType::ElementType>(res);
 		}
 		if constexpr (LeftType::Order==2)
     	{
-			auto d = MatrixDescriptor<1, typename LeftType::IType>(l.Rows());
+			auto d = MatrixDescriptor<1, typename LeftType::ElementType>(l.Rows());
 			auto el = std::vector<typename LeftType::DataType>();
 			for(auto i = 0; i < l.Rows(); ++i)
 			{
 				double cs = 0.0;
 				for(auto j = 0; j < l.Cols(); ++j)
 					cs += (double)(*l(i,j));
-			    el.push_back(std::make_shared<typename LeftType::IType>(cs));
+			    el.push_back(std::make_shared<typename LeftType::ElementType>(cs));
 			}
 
 			return Matrix<1, decltype(d)>(d,el); 
@@ -111,14 +111,14 @@ private:
 			return l;
 		if constexpr (LeftType::Order==2)
     	{
-			auto d = MatrixDescriptor<1, typename LeftType::IType>(l.Cols());
+			auto d = MatrixDescriptor<1, typename LeftType::ElementType>(l.Cols());
 			auto el = std::vector<typename LeftType::DataType>();
 			for(auto i = 0; i < l.Cols(); ++i)
 			{
 				double cs = 0.0;
 				for(auto j = 0; j < l.Rows(); ++j)
 					cs += (double)(*l(j,i));
-			    el.push_back(std::make_shared<typename LeftType::IType>(cs));
+			    el.push_back(std::make_shared<typename LeftType::ElementType>(cs));
 			}
 
 			return Matrix<1, decltype(d)>(d,el); 
@@ -176,7 +176,7 @@ private:
 	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) 
 	{
 		//IsT<Throwing>("M2M1")(l.R()==r.Rows());
-		using ReturnType = decltype(Multiplication::Calculate(std::declval<typename Base::LeftType::IType>(),std::declval<typename Base::RightType::IType>()));
+		using ReturnType = decltype(Multiplication::Calculate(std::declval<typename Base::LeftType::ElementType>(),std::declval<typename Base::RightType::ElementType>()));
 	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType>;
  	    using ResultType = Matrix<Base::Order, DescriptorType>;
 		

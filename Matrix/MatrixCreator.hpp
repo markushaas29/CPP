@@ -23,7 +23,7 @@ class MatrixCreator
 public:
 	using Type = MT;
 	using DescriptorType = typename MT::DescriptorType;
-	using IType = typename MT::IType;
+	using IType = typename MT::ElementType;
 	using DataType = typename MT::DataType;
 	using CSVSeparator = T::char_<';'> ;
 	void Create(const std::string& s) 
