@@ -47,8 +47,9 @@ protected:
 	StageContainer() 
 	{
 		years = std::make_unique<std::vector<YearType>>();
-		//years->push_back(YearType(2021));
+		years->push_back(YearType(2021));
 		years->push_back(YearType(2022));
+		years->push_back(YearType(2023));
  		Read();
 		Head::Set(stages->at(Head::StageName)); 
 		Head::Instance(); 			
@@ -97,11 +98,7 @@ public:
 	}
 	
 	template<typename AllT, template<typename> class CalcT>
-	void CalculateInternal()
-	{
-		YearType y(2022);
-		auto calc = CalcT<Type>(years->at(0)); 
-	}
+	void CalculateInternal() {	std::for_each(years->cbegin(), years->cend(), [&](const auto& y) {auto calc = CalcT<Type>(y);} ); }
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
 	{
@@ -163,7 +160,7 @@ public:
 	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
-		CalcT<Type>(YearType(2022)); 
+		std::for_each(Base::years->cbegin(), Base::years->cend(), [&](const auto& y) {auto calc = CalcT<Type>(y);});
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
 	
