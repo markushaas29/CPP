@@ -93,7 +93,11 @@ public:
 	}
 	
 	template<typename AllT, template<typename> class CalcT>
-	void CalculateInternal(){	CalcT<Type>::Instance(); }
+	void CalculateInternal()
+	{
+		YearType y(2022);
+		auto calc = CalcT<Type>(y); 
+	}
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
 	{
@@ -155,7 +159,7 @@ public:
 	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
-		CalcT<Type>::Instance();
+		CalcT<Type>(YearType(2022)); 
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
 	
