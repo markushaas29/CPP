@@ -5,7 +5,7 @@
 #include "Matrix_Ref.hpp"   
 #include "MatrixDescriptor.hpp"   
 #include "MatrixAccess.hpp"   
-#include "Matrix_Initializer.hpp"   
+#include "MatrixInit.hpp"   
 #include "../Is/Is.hpp"   
 #include "../String/Format.hpp"   
 

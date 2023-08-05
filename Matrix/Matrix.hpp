@@ -4,7 +4,7 @@
 #include <cassert>
 #include "Matrix_Ref.hpp"
 #include "MatrixDescriptor.hpp"
-#include "Matrix_Initializer.hpp"
+#include "MatrixInit.hpp"
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
@@ -40,7 +40,7 @@ public:
 
 	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { };
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
-	Matrix(MatrixInitializer<IType,N> init)
+	Matrix(MatrixInit<IType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
 		MI::compute_strides(descriptor);
@@ -49,7 +49,7 @@ public:
 	};
 
 	Matrix& operator=(Matrix& m) { return Matrix(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
-	Matrix& operator=(MatrixInitializer<IType,N>) {};
+	Matrix& operator=(MatrixInit<IType,N>) {};
 	template<typename U> Matrix(std::initializer_list<U>) = delete;
 	template<typename U> Matrix& operator=(std::initializer_list<U>) = delete;
 

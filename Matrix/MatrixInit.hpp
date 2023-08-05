@@ -6,7 +6,7 @@
 template<typename T, std::size_t N>
 struct Matrix_Init 
 {
-	using Type = std::initializer_list<typename MatrixInit<T,N-1>::Type>;
+	using Type = std::initializer_list<typename Matrix_Init<T,N-1>::Type>;
 	//using Type = std::initializer_list<int>;
 };
 
@@ -21,3 +21,6 @@ struct Matrix_Init<T,0>
 {
 	using Type = T;
 };
+
+template<typename T, size_t N>
+using MatrixInit = typename Matrix_Init<T,N>::Type;
