@@ -107,10 +107,7 @@ private:
 	}
 
 	template<typename T, typename V> 
-	static void add_list(const T* first, const T* last,V& v)
-	{	
-		std::for_each(first,last,[&](auto e) { v->push_back(std::make_shared<T>(e)); });	
-	}
+	static void add_list(const T* first, const T* last,V& v){	std::for_each(first,last,[&](auto e) { v->push_back(std::make_shared<T>(e)); }); }
 
 	template<std::size_t N1,typename List> 
 	bool check_non_jagged(const List list)
