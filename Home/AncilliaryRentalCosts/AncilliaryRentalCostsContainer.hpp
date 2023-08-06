@@ -31,7 +31,8 @@ public:
 		return instance;
 	}
 		
-	AncilliaryRentalCostsContainer(const YearType& y): year(y)
+	AncilliaryRentalCostsContainer(const YearType& y): year(y) {}
+	decltype(auto) Calc()
 	{ 
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName) + "_" + year.ToString() + ".txt");
 		fs = this->printHead(std::move(fs));
@@ -42,6 +43,8 @@ public:
 		
 		fs->close();
 	}
+	
+	
 	~AncilliaryRentalCostsContainer()	{  }	
 private:
 	std::unique_ptr<Items> items = std::unique_ptr<Items>();

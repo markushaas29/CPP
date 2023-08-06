@@ -98,7 +98,7 @@ public:
 	}
 	
 	template<typename AllT, template<typename> class CalcT>
-	void CalculateInternal() {	std::for_each(years->cbegin(), years->cend(), [&](const auto& y) {auto calc = CalcT<Type>(y);} ); }
+	void CalculateInternal() {	std::for_each(years->cbegin(), years->cend(), [&](const auto& y) {CalcT<Type>(y).Calc();} ); }
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
 	{
@@ -160,7 +160,7 @@ public:
 	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
-		std::for_each(Base::years->cbegin(), Base::years->cend(), [&](const auto& y) {auto calc = CalcT<Type>(y);});
+		std::for_each(Base::years->cbegin(), Base::years->cend(), [&](const auto& y) { CalcT<Type>(y).Calc();});
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
 	
