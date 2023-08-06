@@ -24,28 +24,18 @@ public:
 	using Items = CalculationItems<S>;
 	template<typename T>
 	using ValueType = std::shared_ptr<T>;
-	
-	static AncilliaryRentalCostsContainer& Instance()
-	{
-		static AncilliaryRentalCostsContainer instance;
-		return instance;
-	}
 		
 	AncilliaryRentalCostsContainer(const YearType& y): year(y) {}
+	~AncilliaryRentalCostsContainer()	{  }	
+	
 	decltype(auto) Calc()
 	{ 
 		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName) + "_" + year.ToString() + ".txt");
 		fs = this->printHead(std::move(fs));
-		
 		fs = this->Calculate(std::move(fs));
-		
 		fs = this->printResult(std::move(fs));
-		
 		fs->close();
 	}
-	
-	
-	~AncilliaryRentalCostsContainer()	{  }	
 private:
 	std::unique_ptr<Items> items = std::unique_ptr<Items>();
 	decltype(auto) printResult(std::unique_ptr<std::ofstream> fs)
