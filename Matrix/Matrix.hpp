@@ -24,14 +24,11 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	static constexpr size_t Order = N;
-	using DescriptorType = DT;
 	using Type = Matrix<N,DT>;
+	using DescriptorType = DT;
 	using ElementType = typename DT::ElementType;
 	using DataType = typename DT::DataType;
 	using ValueType = ElementType;
-	using MI = MatrixImpl<N,DescriptorType>;
-	template<typename T> using MC = MatrixCalculator<Type, T>;
-	template<typename U> using IsT =  Is<U,LiteralType>;
 
 	Matrix() = default;
 	Matrix(Matrix&&) = default;
@@ -80,6 +77,10 @@ public:
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
   	decltype(auto) operator/(const Type& m)	{ return   Type(descriptor,std::vector<DataType>(elements->cbegin(), elements->cend()));	}
 private:
+	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename T> using MC = MatrixCalculator<Type, T>;
+	using MI = MatrixImpl<N,DescriptorType>;
+	
 	decltype(auto) operator() (auto... I) const
 	{
 		static_assert(sizeof...(I) == Order, "Arguments do not mtach");

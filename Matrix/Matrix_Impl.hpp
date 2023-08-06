@@ -13,7 +13,6 @@
 
 template<size_t, typename> class Matrix;
 
-
 template<size_t N, typename DescriptorType>
 class MatrixImpl
 {
@@ -83,13 +82,13 @@ private:
 		
 		return computeIndex<0>(indices,extents,strides);
 	}
+	
 	template<typename T, typename V> 
 	static void insert_flat(std::initializer_list<T> list, V& v){	add_list(list.begin(), list.end(),v);	}
 
 	template<size_t N1,typename I, typename List> 
 	static typename std::enable_if<(N1>1),void>::type add_extents(I& first, const List& list)
 	{
-		//assert(check_non_jagged<N>(list));
 		*first++ = list.size();
 		add_extents<N1-1>(first,*list.begin());
 	}
@@ -132,10 +131,4 @@ private:
 
 	template<typename... Args>
 	constexpr bool Requesting_element()	{	return All(std::is_convertible<Args,size_t>{}...);	}
-	
-//	template<typename... Args>
-//	constexpr bool Requesting_slice()
-//	{
-//		return All((std::is_convertible<Args,size_t>{} || std::is_same<Args, slice>{})...);
-//	}
 };

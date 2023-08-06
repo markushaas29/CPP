@@ -52,8 +52,8 @@ private:
 	ValueType value;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
-template<typename T>
-class MatrixElement{ };
+
+template<typename T> class MatrixElement{ };
 
 template<typename T> requires ( std::is_arithmetic_v<T> )
 class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,T>>
@@ -73,20 +73,10 @@ public:
 	using Base = MatrixElementBase<std::string, Entry>;
 	MatrixElement(const std::string& v): Base{v} { }
 	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" STRINg :"<<Base::value; }
-	//template<typename O>
-	//operator O() const 
-	//{ 
-	//	auto res = static_cast<std::string>(Base::value); 
-	//	if constexpr (std::is_same_v<O,std::string>)
-	//	{
-	//		return res;
-	//	}
-	//	else
-	//		return String_::ParseTo<O>(Base::value); 
-	//}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
+
 template<typename T> requires ( IsResultType<T> )
 class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,double>>
 {
