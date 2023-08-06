@@ -39,7 +39,7 @@ int main()
     std::cout<<"m: "<<GetStage<Middle,Persons>().GetQuantity()<<std::endl;
     std::cout<<"b: "<<GetStage<Bottom,Persons>().GetQuantity()<<std::endl;
     std::cout<<"TOTAL: "<<StageContainerType::Instance().GetTotal<Persons>()<<std::endl;
-	
+	StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
     std::cout<<"END"<<std::endl;
 
 	std::ofstream of{"All.txt"};

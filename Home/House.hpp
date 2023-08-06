@@ -59,7 +59,6 @@ private:
 		auto inFile = std::ofstream("//home//markus//Downloads//in.txt");
 		
 		StageContainerType::Instance().Display(std::cout);
-		StageContainerType::Instance().Calculate<AncilliaryRentalCostsContainer>();
 	}
 	
 	template<typename T>
