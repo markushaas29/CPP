@@ -40,11 +40,16 @@ protected:
 	inline static std::unique_ptr<StagesMap, DebugDeleter<StagesMap>> stages = std::unique_ptr<StagesMap, DebugDeleter<StagesMap>>(new StagesMap(),DebugDeleter<StagesMap>());
 	inline static std::unique_ptr<FS::FileInfo> fileInfo = std::unique_ptr<FS::FileInfo>(new FS::FileInfo(std::filesystem::path(filePath)));
 	inline static std::unique_ptr<FS::CSV> csv = std::unique_ptr<FS::CSV>(std::move(fileInfo));
+	inline static std::unique_ptr<std::vector<YearType>> years = std::unique_ptr<std::vector<YearType>>();
 	using InputIterator = std::vector<std::string>::const_iterator;
 	using CsvValuesIterator = std::vector<std::vector<std::string>>::const_iterator;
 	
 	StageContainer() 
-	{ 
+	{
+		years = std::make_unique<std::vector<YearType>>();
+		years->push_back(YearType(2021));
+		years->push_back(YearType(2022));
+		years->push_back(YearType(2023));
  		Read();
 		Head::Set(stages->at(Head::StageName)); 
 		Head::Instance(); 			
@@ -93,7 +98,7 @@ public:
 	}
 	
 	template<typename AllT, template<typename> class CalcT>
-	void CalculateInternal(){	CalcT<Type>::Instance(); }
+	void CalculateInternal() {	std::for_each(years->cbegin(), years->cend(), [&](const auto& y) {auto calc = CalcT<Type>(y);} ); }
 private:
 	static void ExtractValues(CsvValuesIterator begin, CsvValuesIterator end)
 	{
@@ -155,7 +160,7 @@ public:
 	template<typename AllT, template<typename> class CalcT>
 	void CalculateInternal()
 	{
-		CalcT<Type>::Instance();
+		std::for_each(Base::years->cbegin(), Base::years->cend(), [&](const auto& y) {auto calc = CalcT<Type>(y);});
 		Base::template CalculateInternal<AllT,CalcT>();
 	}
 	

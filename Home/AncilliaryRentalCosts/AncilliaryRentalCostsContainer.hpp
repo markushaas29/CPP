@@ -31,11 +31,9 @@ public:
 		return instance;
 	}
 		
-private:
-	std::unique_ptr<Items> items = std::unique_ptr<Items>();
-	AncilliaryRentalCostsContainer(): year(2022)
+	AncilliaryRentalCostsContainer(const YearType& y): year(y)
 	{ 
-		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName)+ ".txt");
+		auto fs = std::make_unique<std::ofstream>(std::string(StageT::StageName) + "_" + year.ToString() + ".txt");
 		fs = this->printHead(std::move(fs));
 		
 		fs = this->Calculate(std::move(fs));
@@ -43,8 +41,10 @@ private:
 		fs = this->printResult(std::move(fs));
 		
 		fs->close();
-	}	
-	
+	}
+	~AncilliaryRentalCostsContainer()	{  }	
+private:
+	std::unique_ptr<Items> items = std::unique_ptr<Items>();
 	decltype(auto) printResult(std::unique_ptr<std::ofstream> fs)
 	{
 		auto advance = GetStage<S,Advance>().GetQuantity();
@@ -82,8 +82,6 @@ private:
 		
 		return fs;
 	}
-	
-	~AncilliaryRentalCostsContainer()	{  }
 	
 	template <size_t I = 0>
 	constexpr std::unique_ptr<std::ofstream> Calculate(std::unique_ptr<std::ofstream> fs) 
