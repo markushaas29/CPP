@@ -37,9 +37,21 @@ int main()
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
 
-	auto mi = MatrixInitializer();
+	auto mI1 = MatrixInitializer<1>();
 
-	std::cout<<"END"<<std::endl;
+	std::vector<int> v1{1,2,3,4};
+	std::vector<std::vector<int>> v2{{1,2},{3,4}};
+	std::vector<std::vector<std::vector<int>>> v3{{{1},{2}},{{3},{4}}};
+
+	auto mi1 = Init(v1);
+	auto mi2 = Init(v2);
+	auto mi3 = Init(v3);
+
+	assert(decltype(mi1)::Order==1);
+	assert(decltype(mi2)::Order==2);
+	assert(decltype(mi3)::Order==3);
+
+	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    
 	return 0;
 }
