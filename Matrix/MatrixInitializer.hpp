@@ -11,22 +11,17 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixInitializer";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	static constexpr size_t Order = N;
-//	using Type = Matrix<N,DT>;
-//	using DescriptorType = DT;
-	using ElementType = ET;
-	using DataType = std::shared_ptr<ElementType>;
-	using DescriptorType = MatrixDescriptor<N,ElementType>;
+	using DescriptorType = MatrixDescriptor<N,ET>;
 	using MatrixType = Matrix<N,DescriptorType>;
-//	using ValueType = ElementType;
 //
 	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}, matrix(descriptor,elements)
 	{ 
 	}
-	decltype(auto) Extents() { return extents; }
+	const DescriptorType& Descriptor() { return descriptor; }
 	decltype(auto) Get() { return matrix; }
 private:
 	std::array<std::size_t,N> extents;
-	std::vector<DataType> elements;
+	std::vector<typename DescriptorType::DataType> elements;
 	DescriptorType descriptor;
 	MatrixType matrix;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixInitializer& i) {	return s<<"Size: "<<i.elements.size()<<"\n"<<i.descriptor;	}
@@ -35,8 +30,8 @@ private:
 	{
 		if constexpr (I==N)
 		{
-			std::vector<DataType> res;
-			std::for_each(result.cbegin(), result.cend(), [&](const auto i) { res.push_back(std::make_shared<ElementType>(i)); });
+			std::vector<typename DescriptorType::DataType> res;
+			std::for_each(result.cbegin(), result.cend(), [&](const auto i) { res.push_back(std::make_shared<typename DescriptorType::ElementType>(i)); });
 			return res;
 		}
 		if constexpr (I<N)

@@ -48,9 +48,9 @@ int main()
 	assert(decltype(mi1)::Order==1);
 	assert(decltype(mi2)::Order==2);
 	assert(decltype(mi3)::Order==3);
-	assert(mi1.Extents()[0]==4);
-	assert(mi2.Extents()[1]==3);
-	assert(mi3.Extents()[2]==1);
+	assert(mi1.Descriptor().Extents()[0]==4);
+	assert(mi2.Descriptor().Extents()[1]==3);
+	assert(mi3.Descriptor().Extents()[2]==1);
 
   	std::cout<<"mi1: "<<mi1<<std::endl;
   	std::cout<<"mi2: "<<mi2<<std::endl;
