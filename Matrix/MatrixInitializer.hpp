@@ -1,4 +1,5 @@
 #include <vector>
+#include "MatrixDescriptor.hpp" 
 
 #pragma once
 
@@ -15,19 +16,15 @@ public:
 //	using DataType = typename DT::DataType;
 //	using ValueType = ElementType;
 //
-	MatrixInitializer(const auto& t): elements{process<0>(t,t)} 
+	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}
 	{ 
 	}
 	decltype(auto) Extents() { return extents; }
 private:
 	std::array<std::size_t,N> extents;
 	std::vector<ElementType> elements;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixInitializer& i) 
-	{ 
-		s<<"Extents: ";
-		std::for_each(i.extents.cbegin(), i.extents.cend(), [&](size_t sz) { s<<sz<<" "; } );
-		return s;  
-	}
+	MatrixDescriptor<N,ElementType> descriptor;
+	friend std::ostream& operator<<(std::ostream& s, const MatrixInitializer& i) {	return s<<"Size: "<<i.elements.size()<<"\n"<<i.descriptor;	}
 	template<size_t I>
 	decltype(auto) process(const auto& v, const auto result)
 	{
