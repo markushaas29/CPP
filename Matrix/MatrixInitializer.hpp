@@ -2,7 +2,7 @@
 
 #pragma once
 
-template<size_t N>
+template<size_t N, typename ET>
 class MatrixInitializer 
 {
 public:
@@ -11,17 +11,17 @@ public:
 	static constexpr size_t Order = N;
 //	using Type = Matrix<N,DT>;
 //	using DescriptorType = DT;
-//	using ElementType = typename DT::ElementType;
+	using ElementType = ET;
 //	using DataType = typename DT::DataType;
 //	using ValueType = ElementType;
 //
-	MatrixInitializer(const auto& t) 
+	MatrixInitializer(const auto& t): elements{process<0>(t,t)} 
 	{ 
-		process<0>(t);
 	}
 	decltype(auto) Extents() { return extents; }
 private:
 	std::array<std::size_t,N> extents;
+	std::vector<ElementType> elements;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixInitializer& i) 
 	{ 
 		s<<"Extents: ";
@@ -29,22 +29,41 @@ private:
 		return s;  
 	}
 	template<size_t I>
-	void process(const auto& v)
+	decltype(auto) process(const auto& v, const auto result)
 	{
+		if constexpr (I==N)
+			return result;
 		if constexpr (I<N)
 		{
+			auto r = flatten(result);
 			extents[I] = v.size();
-			process<I+1>(v.at(0));
+			return process<I+1>(v.at(0),r);
 		}
 
 	}
+
+	template <typename T>
+	std::vector<T> flatten(const std::vector<std::vector<T>>& v) {
+	    std::size_t total_size = 0;
+	    for (const auto& sub : v)
+	        total_size += sub.size();
+	    std::vector<T> result;
+	    result.reserve(total_size);
+	    for (const auto& sub : v)
+	        result.insert(result.end(), sub.begin(), sub.end());
+	    return result;
+	}
+	
+	template <typename T>
+	std::vector<T> flatten(const std::vector<T>& v) { return v;	}
 };
 
 template<typename T>
-decltype(auto) Init(const std::vector<T>& v) { return MatrixInitializer<1>(v); }
+decltype(auto) Init(const std::vector<T>& v) { return MatrixInitializer<1,T>(v); }
 
 template<typename T>
-decltype(auto) Init(const std::vector<std::vector<T>>& v) { return MatrixInitializer<2>(v); }
+decltype(auto) Init(const std::vector<std::vector<T>>& v) { return MatrixInitializer<2,T>(v); }
 
 template<typename T>
-decltype(auto) Init(const std::vector<std::vector<std::vector<T>>>& v) { return MatrixInitializer<3>(v); }	
+decltype(auto) Init(const std::vector<std::vector<std::vector<T>>>& v) { return MatrixInitializer<3,T>(v); }	
+
