@@ -14,6 +14,7 @@ constexpr bool All(bool b, Args... a) { return b && All(a...); }
 template<size_t N, typename> class MatrixImpl;
 
 template<size_t, typename> class MatrixDescriptor;
+template<size_t, typename> class Matrix;
 
 template<size_t N, typename T>
 class MatrixDescriptorBase
@@ -22,6 +23,7 @@ class MatrixDescriptorBase
 	using MI = MatrixImpl<N,MatrixDescriptor<N,T>>;
 public:
 	using Type = MatrixDescriptor<N,T>;
+	using MatrixType = Matrix<N,Type>;
 	using ElementType = T;
 	using DataType = std::shared_ptr<ElementType>;
 	MatrixDescriptorBase() = default;

@@ -12,11 +12,8 @@ public:
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	static constexpr size_t Order = N;
 	using DescriptorType = MatrixDescriptor<N,ET>;
-	using MatrixType = Matrix<N,DescriptorType>;
-//
-	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}, matrix(descriptor,elements)
-	{ 
-	}
+	using MatrixType = typename DescriptorType::MatrixType;
+	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}, matrix(descriptor,elements)	{	}
 	const DescriptorType& Descriptor() { return descriptor; }
 	decltype(auto) Get() { return matrix; }
 private:
