@@ -54,6 +54,7 @@ int main()
 
   	std::cout<<"mi1: "<<mi1<<std::endl;
   	std::cout<<"mi2: "<<mi2<<std::endl;
+  	std::cout<<"mi3: "<<mi2.Get()<<std::endl;
   	std::cout<<"mi3: "<<mi3<<std::endl;
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    

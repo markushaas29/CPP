@@ -1,5 +1,6 @@
 #include <vector>
 #include "MatrixDescriptor.hpp" 
+#include "Matrix.hpp" 
 
 #pragma once
 
@@ -13,23 +14,31 @@ public:
 //	using Type = Matrix<N,DT>;
 //	using DescriptorType = DT;
 	using ElementType = ET;
-//	using DataType = typename DT::DataType;
+	using DataType = std::shared_ptr<ElementType>;
+	using DescriptorType = MatrixDescriptor<N,ElementType>;
+	using MatrixType = Matrix<N,DescriptorType>;
 //	using ValueType = ElementType;
 //
-	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}
+	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}, matrix(descriptor,elements)
 	{ 
 	}
 	decltype(auto) Extents() { return extents; }
+	decltype(auto) Get() { return matrix; }
 private:
 	std::array<std::size_t,N> extents;
-	std::vector<ElementType> elements;
-	MatrixDescriptor<N,ElementType> descriptor;
+	std::vector<DataType> elements;
+	DescriptorType descriptor;
+	MatrixType matrix;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixInitializer& i) {	return s<<"Size: "<<i.elements.size()<<"\n"<<i.descriptor;	}
 	template<size_t I>
 	decltype(auto) process(const auto& v, const auto result)
 	{
 		if constexpr (I==N)
-			return result;
+		{
+			std::vector<DataType> res;
+			std::for_each(result.cbegin(), result.cend(), [&](const auto i) { res.push_back(std::make_shared<ElementType>(i)); });
+			return res;
+		}
 		if constexpr (I<N)
 		{
 			auto r = flatten(result);
