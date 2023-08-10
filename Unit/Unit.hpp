@@ -69,21 +69,21 @@ struct TemperatureType: public UnitTypeBase<TemperatureType<n>>
 };
 
 template<int n = 0>
-struct SubstanceAmount: public UnitTypeBase<SubstanceAmount<n>>
+struct AngleType: public UnitTypeBase<AngleType<n>>
 {
 	inline static constexpr int N = n;
-	using Type = SubstanceAmount<N>;
-    inline static constexpr const char* Name = "SubstanceAmount";
+	using Type = AngleType<N>;
+    inline static constexpr const char* Name = "AngleType";
     inline static constexpr const char* Symbol = "N";
     inline static constexpr const char* Sign = "mol";
 };
 
 template<int n = 0>
-struct LightIntensity: public UnitTypeBase<LightIntensity<n>>
+struct IntensityType: public UnitTypeBase<IntensityType<n>>
 {
 	inline static constexpr int N = n;
-	using Type = LightIntensity<N>;
-    inline static constexpr const char* Name = "LightIntensity";
+	using Type = IntensityType<N>;
+    inline static constexpr const char* Name = "IntensityType";
     inline static constexpr const char* Symbol = "Iv";
     inline static constexpr const char* Sign = "cd";
 };
@@ -98,7 +98,7 @@ struct SumType: public UnitTypeBase<SumType<n>>
     inline static constexpr const char* Sign = "€";
 };
 
-template<typename U, int S = U::Sum::N, int L = U::Length::N, int M = U::Mass::N, int T = U::Time::N, int C = U::Current::N, int Te = U::Temperature::N, int Sub = U::SubstanceAmount::N, int Li = U::LightIntensity::N> 
+template<typename U, int S = U::Sum::N, int L = U::Length::N, int M = U::Mass::N, int T = U::Time::N, int C = U::Current::N, int Te = U::Temperature::N, int Sub = U::AngleType::N, int Li = U::IntensityType::N> 
 struct UnitSign
 {
 	using UnitType = U;
@@ -106,7 +106,7 @@ struct UnitSign
 };
 
 
-template<int SumN = 0, int LengthN = 0, int MassN = 0, int TimeN = 0, int CurrentN = 0, int TemperatureN = 0, int SubstanceN = 0, int LightIntensityN = 0>
+template<int SumN = 0, int LengthN = 0, int MassN = 0, int TimeN = 0, int CurrentN = 0, int TemperatureN = 0, int SubstanceN = 0, int IntensityTypeN = 0>
 struct Unit
 {
 	using Mass = typename MassType<MassN>::Type;
@@ -114,10 +114,10 @@ struct Unit
 	using Time = typename TimeType<TimeN>::Type;
 	using Current = typename CurrentType<CurrentN>::Type;
 	using Temperature = typename TemperatureType<TemperatureN>::Type;
-	using SubstanceAmount = typename SubstanceAmount<SubstanceN>::Type;
-	using LightIntensity = typename LightIntensity<LightIntensityN>::Type;
+	using AngleType = typename AngleType<SubstanceN>::Type;
+	using IntensityType = typename IntensityType<IntensityTypeN>::Type;
 	using Sum = typename SumType<SumN>::Type;
-	using Type = Unit<SumN, LengthN, MassN, TimeN, CurrentN, TemperatureN, SubstanceN, LightIntensityN>;
+	using Type = Unit<SumN, LengthN, MassN, TimeN, CurrentN, TemperatureN, SubstanceN, IntensityTypeN>;
 	
 	static Unit& Instance()
 	{
@@ -127,7 +127,7 @@ struct Unit
 	}
 	
 	static const char* Name;
-	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + SubstanceAmount::Unit() + LightIntensity::Unit() + Sum::Unit(); };
+	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + AngleType::Unit() + IntensityType::Unit() + Sum::Unit(); };
 	static const std::string Sign() { return UnitSign<Type>::Get(); }; 
 };
 
@@ -150,8 +150,8 @@ constexpr bool IsSameBaseUnit()
 	arr[2] = CalculateFactor<typename U1::Time,typename U2::Time>(); 
 	arr[3] = CalculateFactor<typename U1::Current,typename U2::Current>(); 
 	arr[4] = CalculateFactor<typename U1::Temperature,typename U2::Temperature>(); 
-	arr[5] = CalculateFactor<typename U1::SubstanceAmount,typename U2::SubstanceAmount>(); 
-	arr[5] = CalculateFactor<typename U1::LightIntensity,typename U2::LightIntensity>(); 
+	arr[5] = CalculateFactor<typename U1::AngleType,typename U2::AngleType>(); 
+	arr[5] = CalculateFactor<typename U1::IntensityType,typename U2::IntensityType>(); 
 	arr[6] = CalculateFactor<typename U1::Sum,typename U2::Sum>(); 
 
 	auto zeros =  std::count(arr.cbegin(), arr.cend(),0.0);
@@ -199,8 +199,8 @@ struct Transform
 	using TimeT = typename TimeType<TransformPolicy<typename U1::Time,typename U2::Time>::N>::Type;
 	using CurrentT = typename CurrentType<TransformPolicy<typename U1::Current,typename U2::Current>::N>::Type;
 	using TempT = typename TemperatureType<TransformPolicy<typename U1::Temperature,typename U2::Temperature>::N>::Type;
-	using SubstanceT = typename SubstanceAmount<TransformPolicy<typename U1::SubstanceAmount,typename U2::SubstanceAmount>::N>::Type;
-	using LightT = typename LightIntensity<TransformPolicy<typename U1::LightIntensity,typename U2::LightIntensity>::N>::Type;
+	using SubstanceT = typename AngleType<TransformPolicy<typename U1::AngleType,typename U2::AngleType>::N>::Type;
+	using LightT = typename IntensityType<TransformPolicy<typename U1::IntensityType,typename U2::IntensityType>::N>::Type;
 	using SumT = typename SumType<TransformPolicy<typename U1::Sum,typename U2::Sum>::N>::Type;
 	
 	using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, SubstanceT::N>::Type;
