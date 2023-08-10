@@ -2,6 +2,7 @@
 #include <tuple>
 #include <vector>
 #include "MatrixElement.hpp"
+#include "Matrix.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../String/To/To.hpp"
@@ -12,17 +13,32 @@
 
 #pragma once
 
-template<typename T, typename D>
+template<typename T, typename P>
 class MatrixProjector 
 {
 public:
+	using MatrixType = T;
 	using Tuple = T;
-	using Descriptor = D;
+	using Type = T;
+	using ProjectionType = P;
 	inline static constexpr const char TypeIdentifier[] = "MatrixProjector";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
 	using InputIterator = std::vector<std::string>::const_iterator;
+
+	MatrixProjector(MatrixType m): matrix(m) {}
 	
+	decltype(auto) operator[] (size_t i) const 
+	{ 
+		if constexpr (MatrixConcept<MatrixType>)
+		{
+			auto m = matrix[i];
+			return MatrixProjector<decltype(m),ProjectionType>(m);
+		}
+		else
+			return matrix[i];
+	}
+
 	template<typename I>
 	auto Parse(std::vector<I> v) const
 	{
@@ -56,6 +72,7 @@ public:
 		}
 	} 	
 private:
+	MatrixType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<int N, typename Iterator>
 	auto parseIntern(auto t, Iterator begin, Iterator end) const
