@@ -30,7 +30,7 @@ public:
 	
 	decltype(auto) operator[] (size_t i) const 
 	{ 
-		if constexpr (MatrixConcept<MatrixType>)
+		if constexpr (MatrixConcept<MatrixType> && MatrixType::Order>1)
 		{
 			auto m = matrix[i];
 			return MatrixProjector<decltype(m),ProjectionType>(m);

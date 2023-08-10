@@ -34,6 +34,7 @@ int main()
 
 	MIQ2 miq(m35);
 
+	std::cout<<"E"<<miq[1][1]<<std::endl;
 	std::cout<<"END"<<std::endl;
    
 	return 0;
