@@ -36,7 +36,7 @@ public:
 			return MatrixProjector<decltype(m),ProjectionType>(m);
 		}
 		else
-			return matrix[i];
+			return ProjectionType(matrix[i]);
 	}
 
 	template<typename I>

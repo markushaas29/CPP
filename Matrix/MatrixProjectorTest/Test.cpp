@@ -33,6 +33,8 @@ int main()
     };
 
 	MIQ2 miq(m35);
+	auto eq7 = miq[1][1];
+	assert(Q(7)==eq7);
 
 	std::cout<<"E"<<miq[1][1]<<std::endl;
 	std::cout<<"END"<<std::endl;
