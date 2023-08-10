@@ -23,8 +23,14 @@ int main()
     using MS2 = Matrix<2,MDS2>;
     using MI2 = Matrix<2,MDI2>;
 
+	using QM = Quantity<Mass>;
+	using T = std::tuple<Q,QM>;
+
 	using MIQ2 = MatrixProjector<MI2,Q>;
 	using MSQ1 = MatrixProjector<MS1,Q>;
+	using MST1 = MatrixProjector<MS1,T>;
+	using MIT2 = MatrixProjector<MI2,T>;
+	using MST2 = MatrixProjector<MS2,T>;
 	std::cout<<"START"<<std::endl;
 
 	MS1 ms1{
@@ -36,6 +42,16 @@ int main()
         {6, 7, 8, 9,10},
         {11, 12, 13, 14, 15},
     };
+ 	
+	MI2 m22 {
+        {1, 2},
+		{3, 4}
+    };
+	
+	MS2 ms22{
+		{std::string("1"),std::string("2")} ,
+		{std::string("5"),std::string("6")} 
+    };
 
 	MIQ2 miq(m35);
 	auto eq7 = miq[1][1];
@@ -44,8 +60,16 @@ int main()
 	MSQ1 msq(ms1);
 	auto sq2 = msq[1];
 	assert(Q(2)==sq2);
+	
+	MIT2 mit2(m22);
+	auto it2 = mit2[1];
+	assert(QM(4)==std::get<1>(it2));
 
-	std::cout<<"E"<<sq2<<std::endl;
+	MST2 mst2(ms22);
+	auto st2 = mst2[1];
+	assert(QM(6)==std::get<1>(st2));
+	
+	std::cout<<"E"<<std::get<1>(st2)<<std::endl;
 	std::cout<<"END"<<std::endl;
    
 	return 0;

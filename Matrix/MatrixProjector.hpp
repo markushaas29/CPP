@@ -18,7 +18,7 @@ class MatrixProjector
 {
 public:
 	using MatrixType = T;
-	using Tuple = T;
+	using Tuple = P;
 	using Type = T;
 	using ProjectionType = P;
 	inline static constexpr const char TypeIdentifier[] = "MatrixProjector";
@@ -30,68 +30,43 @@ public:
 	
 	decltype(auto) operator[] (size_t i) const 
 	{ 
-		if constexpr (MatrixConcept<MatrixType> && MatrixType::Order>1)
-		{
-			auto m = matrix[i];
-			return MatrixProjector<decltype(m),ProjectionType>(m);
-		}
-		else
-			return ProjectionType(matrix[i]);
-	}
-
-	template<typename I>
-	auto Parse(std::vector<I> v) const
-	{
-		if constexpr ( IsTuple<T>)
+		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order == 2)
 		{	
-			IsT<Throwing>("Parse")(std::distance(v.cbegin(),v.cend())==Size);
-			return parseIntern<0>(Tuple{},v.cbegin(),v.cend());
+			IsT<Throwing>("Parse")(matrix.Rows()==Size);
+			std::cout<<"Tupl\n";
+			return createTupleProjection<0>(i,Tuple{});
 		}
 		else
 		{
-			if constexpr (ElementConcept<T>) 
+			if constexpr (MatrixConcept<MatrixType> && MatrixType::Order>1)
 			{
-				std::vector<T> result;
-				if constexpr (PointerConcept<decltype(v[0])>)
-				{
-					std::for_each(v.cbegin(),v.cend(),[&](auto e) { result.push_back(T(*e)); } );
-				}
-				else
-				{
-					std::for_each(v.cbegin(),v.cend(),[&](auto e) { result.push_back(T(e)); } );
-				}
-				return result;
+				auto m = matrix[i];
+				return MatrixProjector<decltype(m),ProjectionType>(m);
 			}
 			else
-			{
-				auto first = ParseElement(v[0]);
-				std::vector<decltype(first)> result = { first };
-				std::for_each(v.cbegin()+1,v.cend(),[&](auto e) { result.push_back(ParseElement(e)); } );
-				return result;
-			}
+				return ProjectionType(matrix[i]);
 		}
-	} 	
+	}
 private:
 	MatrixType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	template<int N, typename Iterator>
-	auto parseIntern(auto t, Iterator begin, Iterator end) const
+	template<int N>
+	auto createTupleProjection(size_t i, auto t) const
 	{
 		if constexpr (N==Size)
 			return t;
 		else
 		{
 			using Type = std::tuple_element_t<N, Tuple>;
-			auto s = begin + N;
 			if constexpr (N==0)
 			{
-				auto tN =  std::make_tuple(MatrixElement<Type>(*s));
-				return parseIntern<N+1>(tN,begin,end);
+				auto tN =  std::make_tuple(Type(matrix[i][N]));
+				return createTupleProjection<N+1>(i,tN);
 			}
 			else
 			{
-				auto tN = std::tuple_cat(t,std::tuple<MatrixElement<Type>>{*s});
-				return parseIntern<N+1>(tN,begin,end);
+				auto tN = std::tuple_cat(t,std::tuple<Type>{matrix[i][N]});
+				return createTupleProjection<N+1>(i,tN);
 			}
 		}
 	} 
