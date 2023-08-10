@@ -24,7 +24,12 @@ int main()
     using MI2 = Matrix<2,MDI2>;
 
 	using MIQ2 = MatrixProjector<MI2,Q>;
+	using MSQ1 = MatrixProjector<MS1,Q>;
 	std::cout<<"START"<<std::endl;
+
+	MS1 ms1{
+		{std::string("1"),std::string("2")} 
+    };
 
  	MI2 m35 {
         {1, 2, 3, 4, 5},
@@ -35,8 +40,12 @@ int main()
 	MIQ2 miq(m35);
 	auto eq7 = miq[1][1];
 	assert(Q(7)==eq7);
+	
+	MSQ1 msq(ms1);
+	auto sq2 = msq[1];
+	assert(Q(2)==sq2);
 
-	std::cout<<"E"<<miq[1][1]<<std::endl;
+	std::cout<<"E"<<sq2<<std::endl;
 	std::cout<<"END"<<std::endl;
    
 	return 0;
