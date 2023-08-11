@@ -58,10 +58,15 @@ int main()
   	std::cout<<"mi3: "<<mi2.Get()<<std::endl;
   	std::cout<<"mi3: "<<mi3<<std::endl;
 
-	auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
-	auto mr = MatrixReader(path);
+	auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/D.mat" };
+	auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
+	auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
+	auto msr = MatrixReader(path);
+	auto mdr = MatrixReader<double>(path);
+	auto muir = MatrixReader<uint>(uipath);
+	auto mir = MatrixReader<int>(ipath);
 
-	std::cout<<"MR"<<mr<<std::endl;
+	std::cout<<"MR"<<msr<<std::endl;
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    
 	return 0;

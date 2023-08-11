@@ -17,15 +17,30 @@ public:
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 
+template<typename D = std::string>
 class MatrixReader
 {
 public:
 	using CSVSeparator = T::char_<';'> ;
+	using DoubleSeparator = T::char_<'.'> ;
+	using Type = D;
 	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(s)} 
 	{
 		std::string line;
-		while ( getline (*is,line) ){	std::cout<<line<<"\n";		}
-		
+		while ( getline (*is,line) )
+		{	
+			std::cout<<line<<"\n";
+			std::istringstream iss{line};
+			Type d;
+			while(iss)
+			{
+				iss>>d;
+				std::cout<<"D "<<d<<"\n";
+				if(iss.peek() == CSVSeparator::Value) 
+            		iss.ignore();
+			}
+
+		}
 	}
 //	void Create(const std::string& s) 
 //	{
