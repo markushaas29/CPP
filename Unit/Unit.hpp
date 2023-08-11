@@ -106,7 +106,7 @@ struct UnitSign
 };
 
 
-template<int SumN = 0, int LengthN = 0, int MassN = 0, int TimeN = 0, int CurrentN = 0, int TemperatureN = 0, int SubstanceN = 0, int IntensityTypeN = 0>
+template<int SumN = 0, int LengthN = 0, int MassN = 0, int TimeN = 0, int CurrentN = 0, int TemperatureN = 0, int AngleN = 0, int IntensityTypeN = 0>
 struct Unit
 {
 	using Mass = typename MassType<MassN>::Type;
@@ -114,10 +114,10 @@ struct Unit
 	using Time = typename TimeType<TimeN>::Type;
 	using Current = typename CurrentType<CurrentN>::Type;
 	using Temperature = typename TemperatureType<TemperatureN>::Type;
-	using AngleType = typename AngleType<SubstanceN>::Type;
+	using AngleType = typename AngleType<AngleN>::Type;
 	using IntensityType = typename IntensityType<IntensityTypeN>::Type;
 	using Sum = typename SumType<SumN>::Type;
-	using Type = Unit<SumN, LengthN, MassN, TimeN, CurrentN, TemperatureN, SubstanceN, IntensityTypeN>;
+	using Type = Unit<SumN, LengthN, MassN, TimeN, CurrentN, TemperatureN, AngleN, IntensityTypeN>;
 	
 	static Unit& Instance()
 	{
@@ -199,11 +199,11 @@ struct Transform
 	using TimeT = typename TimeType<TransformPolicy<typename U1::Time,typename U2::Time>::N>::Type;
 	using CurrentT = typename CurrentType<TransformPolicy<typename U1::Current,typename U2::Current>::N>::Type;
 	using TempT = typename TemperatureType<TransformPolicy<typename U1::Temperature,typename U2::Temperature>::N>::Type;
-	using SubstanceT = typename AngleType<TransformPolicy<typename U1::AngleType,typename U2::AngleType>::N>::Type;
-	using LightT = typename IntensityType<TransformPolicy<typename U1::IntensityType,typename U2::IntensityType>::N>::Type;
+	using AngleT = typename AngleType<TransformPolicy<typename U1::AngleType,typename U2::AngleType>::N>::Type;
+	using IntensityT = typename IntensityType<TransformPolicy<typename U1::IntensityType,typename U2::IntensityType>::N>::Type;
 	using SumT = typename SumType<TransformPolicy<typename U1::Sum,typename U2::Sum>::N>::Type;
 	
-	using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, SubstanceT::N>::Type;
+	using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, AngleT::N>::Type;
 };
 
 template<class D1, class D2>

@@ -5,6 +5,7 @@
 #include <memory> 
 #include "../Matrix.hpp"
 #include "../MatrixCreator.hpp"
+#include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixInitializer.hpp"
 #include "../../Common/ShortNames.hpp"
@@ -56,6 +57,11 @@ int main()
   	std::cout<<"mi2: "<<mi2<<std::endl;
   	std::cout<<"mi3: "<<mi2.Get()<<std::endl;
   	std::cout<<"mi3: "<<mi3<<std::endl;
+
+	auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
+	auto mr = MatrixReader(path);
+
+	std::cout<<"MR"<<mr<<std::endl;
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    
 	return 0;

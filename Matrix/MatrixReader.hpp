@@ -10,44 +10,41 @@
 
 template<size_t N, typename> class MatrixImpl;
 template<size_t, typename> class MatrixDescriptor;
-class CreatorBase
+class ReaderBase
 {
 public:
 	virtual void Create(const std::string&) = 0;
-	//friend std::ostream& operator<<(std::ostream& s, const MatrixCreator& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
+	//friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
 };
 
-template<typename MT>
-class MatrixCreator
+class MatrixReader
 {
 public:
-	using Type = MT;
-	using DescriptorType = typename MT::DescriptorType;
-	using IType = typename MT::ElementType;
-	using DataType = typename MT::DataType;
 	using CSVSeparator = T::char_<';'> ;
-	void Create(const std::string& s) 
-	{
-		auto path = fs::path{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
-        auto fi = std::make_shared<FS::FileInfo>(path);
-        auto f = FS::File(fi);
-		auto lines = f.Read();
-		uint rows = 0;
-		std::vector<DataType> data;
-		std::for_each(lines.cbegin(), lines.cend(), [&](const auto& l)
-				{
-					auto vals = String_::Split<CSVSeparator>(l);
-					rows = vals.size();
-					std::for_each(vals.cbegin(), vals.cend(), [&](const auto& v) { data.push_back(std::make_shared<IType>(v)); });
-				});
-
-		std::array<std::size_t,2> e { lines.size(), rows };
-		auto desc = DescriptorType{e};
-		m = Type(desc,data);
-	}
-
-	Type&& Get() { return std::move(m); } 
+	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(info->Path())} {}
+//	void Create(const std::string& s) 
+//	{
+//		auto path = fs::path{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
+//        auto fi = std::make_shared<FS::FileInfo>(path);
+//        auto f = FS::File(fi);
+//		auto lines = f.Read();
+//		uint rows = 0;
+//		std::vector<DataType> data;
+//		std::for_each(lines.cbegin(), lines.cend(), [&](const auto& l)
+//				{
+//					auto vals = String_::Split<CSVSeparator>(l);
+//					rows = vals.size();
+//					std::for_each(vals.cbegin(), vals.cend(), [&](const auto& v) { data.push_back(std::make_shared<IType>(v)); });
+//				});
+//
+//		std::array<std::size_t,2> e { lines.size(), rows };
+//		auto desc = DescriptorType{e};
+//		m = Type(desc,data);
+//	}
+//
+//	Type&& Get() { return std::move(m); } 
 private:
-	Type m{};
-	friend std::ostream& operator<<(std::ostream& s, const MatrixCreator& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
+	std::unique_ptr<std::ifstream> is;
+	std::unique_ptr<FS::FileInfo> info;
+	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<*(i.info);  }
 };
