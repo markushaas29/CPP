@@ -21,7 +21,12 @@ class MatrixReader
 {
 public:
 	using CSVSeparator = T::char_<';'> ;
-	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(info->Path())} {}
+	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(s)} 
+	{
+		std::string line;
+		while ( getline (*is,line) ){	std::cout<<line<<"\n";		}
+		
+	}
 //	void Create(const std::string& s) 
 //	{
 //		auto path = fs::path{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
@@ -46,5 +51,5 @@ public:
 private:
 	std::unique_ptr<std::ifstream> is;
 	std::unique_ptr<FS::FileInfo> info;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<*(i.info);  }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<i.info->Path();  }
 };
