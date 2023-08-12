@@ -24,22 +24,44 @@ public:
 	using CSVSeparator = T::char_<';'> ;
 	using DoubleSeparator = T::char_<'.'> ;
 	using Type = D;
-	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(s)} 
+	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(s)} {}
+	decltype(auto) E()
 	{
 		std::string line;
+		Type d;
+		std::vector<Type> vec;
+		getline (*is,line); 
+		std::istringstream iss{line};
+		while(iss)
+		{
+			iss>>d;
+			vec.push_back(d);
+			if(iss.peek() == CSVSeparator::Value) 
+        		iss.ignore();
+		}
+		if(vec.size()>1)
+		{
+			std::cout<<"S "<<2<<"\n";
+			while ( getline (*is,line) )
+			{	
+				std::istringstream iss{line};
+				while(iss)
+				{
+					iss>>d;
+					vec.push_back(d);
+					std::cout<<"D "<<d<<"\n";
+					if(iss.peek() == CSVSeparator::Value) 
+        	    		iss.ignore();
+				}
+			}
+			return;
+		}
+
 		while ( getline (*is,line) )
 		{	
-			std::cout<<line<<"\n";
 			std::istringstream iss{line};
-			Type d;
-			while(iss)
-			{
-				iss>>d;
-				std::cout<<"D "<<d<<"\n";
-				if(iss.peek() == CSVSeparator::Value) 
-            		iss.ignore();
-			}
-
+			iss>>d;
+			vec.push_back(d);
 		}
 	}
 //	void Create(const std::string& s) 

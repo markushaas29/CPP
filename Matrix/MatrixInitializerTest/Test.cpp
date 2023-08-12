@@ -63,6 +63,7 @@ int main()
 	auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
 	auto msr = MatrixReader(path);
 	auto mdr = MatrixReader<double>(path);
+	mdr.E();
 	auto muir = MatrixReader<uint>(uipath);
 	auto mir = MatrixReader<int>(ipath);
 
