@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include "Matrix.hpp" 
+#include "MatrixInitializer.hpp" 
 #include "../File/Node.hpp" 
 #include "../String/String_.hpp" 
 #include "../Wrapper/Wrapper.hpp" 
@@ -42,12 +43,15 @@ public:
 
 		if(vec.size()>1)
 		{
-			std::cout<<"S "<<2<<"\n";
-			processLine<2>(vec);
+			auto m = Init(process2(vec));
+			std::cout<<"S "<<2<<"  "<<decltype(m)::Order<<"\n";
+			std::cout<<m.Get()<<"\n";
 			return;
 		}
 
-		processLine<1>(vec);
+		auto m = Init(process1(vec));
+		std::cout<<"S "<<1<<"  "<<decltype(m)::Order<<"\n";
+		std::cout<<m.Get()<<"\n";
 	}
 //	void Create(const std::string& s) 
 //	{
@@ -74,8 +78,7 @@ private:
 	std::unique_ptr<std::ifstream> is;
 	std::unique_ptr<FS::FileInfo> info;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<i.info->Path();  }
-	template<size_t N>
-	decltype(auto) processLine(std::vector<Type> vec)
+	decltype(auto) process1(std::vector<Type> vec)
 	{
 		std::string line;
 		Type d;
@@ -83,22 +86,33 @@ private:
 	   	while ( getline (*is,line) )
 		{	
 			std::istringstream iss{line};
-			if constexpr (N>1)
-			{
-				while(iss)
-	   			{	
-	   				iss>>d;
-	   				vec.push_back(d);
-	   				std::cout<<"D "<<d<<"\n";
-	   				if(iss.peek() == CSVSeparator::Value) 
-           				iss.ignore();
-	   			}
-			}
-			else
-			{
+   			iss>>d;
+   			vec.push_back(d);
+	   	}
+
+		return vec;
+	}	
+	decltype(auto) process2(std::vector<Type> vec)
+	{
+		std::string line;
+		Type d;
+
+		std::vector<std::vector<Type>> result{vec};
+	   	while ( getline (*is,line) )
+		{
+			std::vector<Type> v;
+			std::istringstream iss{line};
+			while(iss)
+	   		{	
 	   			iss>>d;
-	   			vec.push_back(d);
-			}
-	   }
+	   			v.push_back(d);
+	   			if(iss.peek() == CSVSeparator::Value) 
+           			iss.ignore();
+	   		}
+
+			result.push_back(v);
+	   	}
+		
+		return result;
 	}	
 };
