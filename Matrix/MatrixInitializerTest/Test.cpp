@@ -66,6 +66,7 @@ int main()
 	mdr.E();
 	auto muir = MatrixReader<uint>(uipath);
 	auto mir = MatrixReader<int>(ipath);
+	mir.E();
 
 	std::cout<<"MR"<<msr<<std::endl;
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;

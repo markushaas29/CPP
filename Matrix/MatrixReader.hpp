@@ -39,30 +39,15 @@ public:
 			if(iss.peek() == CSVSeparator::Value) 
         		iss.ignore();
 		}
+
 		if(vec.size()>1)
 		{
 			std::cout<<"S "<<2<<"\n";
-			while ( getline (*is,line) )
-			{	
-				std::istringstream iss{line};
-				while(iss)
-				{
-					iss>>d;
-					vec.push_back(d);
-					std::cout<<"D "<<d<<"\n";
-					if(iss.peek() == CSVSeparator::Value) 
-        	    		iss.ignore();
-				}
-			}
+			processLine<2>(vec);
 			return;
 		}
 
-		while ( getline (*is,line) )
-		{	
-			std::istringstream iss{line};
-			iss>>d;
-			vec.push_back(d);
-		}
+		processLine<1>(vec);
 	}
 //	void Create(const std::string& s) 
 //	{
@@ -89,4 +74,31 @@ private:
 	std::unique_ptr<std::ifstream> is;
 	std::unique_ptr<FS::FileInfo> info;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<i.info->Path();  }
+	template<size_t N>
+	decltype(auto) processLine(std::vector<Type> vec)
+	{
+		std::string line;
+		Type d;
+
+	   	while ( getline (*is,line) )
+		{	
+			std::istringstream iss{line};
+			if constexpr (N>1)
+			{
+				while(iss)
+	   			{	
+	   				iss>>d;
+	   				vec.push_back(d);
+	   				std::cout<<"D "<<d<<"\n";
+	   				if(iss.peek() == CSVSeparator::Value) 
+           				iss.ignore();
+	   			}
+			}
+			else
+			{
+	   			iss>>d;
+	   			vec.push_back(d);
+			}
+	   }
+	}	
 };
