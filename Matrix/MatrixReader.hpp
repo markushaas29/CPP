@@ -1,6 +1,7 @@
 #include <memory>
 #include <vector>
 #include <array>
+#include <variant>
 #include "Matrix.hpp" 
 #include "MatrixInitializer.hpp" 
 #include "../File/Node.hpp" 
@@ -25,8 +26,11 @@ public:
 	using CSVSeparator = T::char_<';'> ;
 	using DoubleSeparator = T::char_<'.'> ;
 	using Type = D;
+	using M1Type = MatrixInitializer<1,Type>;
+	using M2Type = MatrixInitializer<2,Type>;
+	using ReturnType = std::variant<M1Type,M2Type>;
 	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(s)} {}
-	decltype(auto) E()
+	ReturnType Execute()
 	{
 		std::string line;
 		Type d;
@@ -46,12 +50,13 @@ public:
 			auto m = Init(process2(vec));
 			std::cout<<"S "<<2<<"  "<<decltype(m)::Order<<"\n";
 			std::cout<<m.Get()<<"\n";
-			return;
+			return m;
 		}
 
 		auto m = Init(process1(vec));
 		std::cout<<"S "<<1<<"  "<<decltype(m)::Order<<"\n";
 		std::cout<<m.Get()<<"\n";
+		return m;
 	}
 //	void Create(const std::string& s) 
 //	{
