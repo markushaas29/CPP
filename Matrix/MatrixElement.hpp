@@ -75,7 +75,7 @@ class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,T>>
 public:
 	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,T>>;
 	MatrixElement(T v): Base{v} { }
-	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" AR :"<<Base::value; }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<": "<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
@@ -86,7 +86,7 @@ class MatrixElement<std::string>: public MatrixElementBase<std::string,Entry>
 public:
 	using Base = MatrixElementBase<std::string, Entry>;
 	MatrixElement(const std::string& v): Base{v} { }
-	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" STRINg :"<<Base::value; }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<": "<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
@@ -97,7 +97,7 @@ class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,double>
 public:
 	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,double>>;
 	MatrixElement(const T& v): Base{v} { }
-	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" RESULT :"<<Base::value; }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" :"<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
