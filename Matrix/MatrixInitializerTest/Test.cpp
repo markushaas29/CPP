@@ -68,6 +68,7 @@ int main()
 	auto mii = std::get<1>(vd);
 	std::cout<<"MI: "<<std::get<1>(vd).Get()<<std::endl;
 	std::cout<<"MI: "<<(decltype(mii)::MatrixType)mii<<std::endl;
+	std::cout<<"MI: "<<mii()<<std::endl;
 	auto mir = MatrixReader<int>(ipath);
 	auto vi = mir.Execute();
 	std::cout<<"MI: "<<std::get<0>(vi).Get()<<std::endl;
