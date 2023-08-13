@@ -11,11 +11,13 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixInitializer";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	static constexpr size_t Order = N;
+	using ElementType = ET;
 	using DescriptorType = MatrixDescriptor<N,ET>;
 	using MatrixType = typename DescriptorType::MatrixType;
 	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}, matrix(descriptor,elements)	{	}
 	const DescriptorType& Descriptor() { return descriptor; }
 	decltype(auto) Get() { return matrix; }
+	operator MatrixType() { return matrix; }
 private:
 	std::array<std::size_t,N> extents;
 	std::vector<typename DescriptorType::DataType> elements;
