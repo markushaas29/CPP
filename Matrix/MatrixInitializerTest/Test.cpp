@@ -64,9 +64,11 @@ int main()
 	auto msr = MatrixReader(path);
 	auto mdr = MatrixReader<double>(path);
 	auto vd = mdr.Execute();
+	std::cout<<"MD: "<<std::get<1>(vd).Get()<<std::endl;
 	auto muir = MatrixReader<uint>(uipath);
 	auto mir = MatrixReader<int>(ipath);
 	auto vi = mir.Execute();
+	std::cout<<"MI: "<<std::get<0>(vi).Get()<<std::endl;
 
 	std::cout<<"MR"<<msr<<std::endl;
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
