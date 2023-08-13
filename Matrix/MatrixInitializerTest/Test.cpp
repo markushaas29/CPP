@@ -80,6 +80,7 @@ int main()
 
 	auto msm = st();
 	std::cout<<"M"<<msm[3][5]<<std::endl;
+	//std::cout<<"M"<<msm[3][5].To<uint()><<std::endl;
 
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    
