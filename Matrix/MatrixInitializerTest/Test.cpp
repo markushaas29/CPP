@@ -59,9 +59,11 @@ int main()
   	std::cout<<"mi3: "<<mi3<<std::endl;
 
 	auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/D.mat" };
+	auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
 	auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
 	auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
 	auto msr = MatrixReader(path);
+	auto mssr = MatrixReader(spath);
 	auto mdr = MatrixReader<double>(path);
 	auto vd = mdr.Execute();
 	auto muir = MatrixReader<uint>(uipath);
@@ -73,7 +75,12 @@ int main()
 	auto vi = mir.Execute();
 	std::cout<<"MI: "<<std::get<0>(vi).Get()<<std::endl;
 
-	std::cout<<"MR"<<msr<<std::endl;
+	auto st = std::get<1>(mssr()); 
+	std::cout<<"MS"<<st()<<std::endl;
+
+	auto msm = st();
+	std::cout<<"M"<<msm[3][5]<<std::endl;
+
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    
 	return 0;
