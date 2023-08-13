@@ -63,6 +63,8 @@ int main()
 	auto mi = MatrixElement<decltype(mI)>(mI);
 	std:: cout<<mi<<"\n ";//<<mi.Get()<<std::endl;
 	assert((uint)mi==162);
+	assert((double)mi==162.0);
+	assert(mi.To<uint>()==162);
 	assert(mi()==162);
 
 	auto md = MatrixElement<double>(5.0);
@@ -79,6 +81,9 @@ int main()
 	std:: cout<<ms<<"\n ";//<<mi.Get()<<std::endl;
 	assert((std::string)ms=="5");
 	assert(ms()=="5");
+
+	auto ui5 = ms.To<uint>();
+	assert(ui5==5);
 
 //	auto vei = ValueElement<IBAN>("IBANT");
 //	auto i = vei.Get();

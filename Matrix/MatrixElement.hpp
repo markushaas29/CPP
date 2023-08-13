@@ -33,6 +33,20 @@ public:
 	using PtrType = std::unique_ptr<ElementType>;
 	template<typename O>
 	operator O() const { return static_cast<O>(value); }
+	template<typename O>
+	decltype(auto) To() const 
+	{ 
+
+		if constexpr (!std::is_same_v<ValueType,std::string>)
+			return static_cast<O>(value);
+		else
+		{
+			std::istringstream iss(static_cast<std::string>(value));
+			O val;
+			iss>>val;
+			return val;
+		}
+	}
 	decltype(auto) operator()() const 
 	{
 		if constexpr (	IsResultType<ValueType>	)
