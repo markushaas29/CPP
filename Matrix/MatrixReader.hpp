@@ -53,11 +53,31 @@ private:
 		while(iss)
 		{
 			iss>>d;
-			vec.push_back(d);
-			if(iss.peek() == CSVSeparator::Value) 
-        		iss.ignore();
+			if constexpr (std::is_same_v<Type,std::string>)
+			{
+				if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
+				{
+					auto v = String_::Split(d,CSVSeparator::Value);
+					vec.insert(vec.end(),v.begin(),v.end());
+					auto m = Init(process2(vec, std::move(is)));
+					return m;
+				}
+				else
+				{
+					vec.push_back(d);
+					if(iss.peek() == CSVSeparator::Value) 
+        				iss.ignore();
+				}
+			}
+			else
+			{
+				vec.push_back(d);
+				if(iss.peek() == CSVSeparator::Value) 
+        			iss.ignore();
+			}
 		}
 
+				std::cout<<"VS "<<vec.size()<<"\n";
 		if(vec.size()>1)
 		{
 			auto m = Init(process2(vec, std::move(is)));
@@ -98,10 +118,23 @@ private:
 			while(iss)
 	   		{	
 	   			iss>>d;
-	   			v.push_back(d);
-	   			if(iss.peek() == CSVSeparator::Value) 
-           			iss.ignore();
+				if constexpr (std::is_same_v<Type,std::string>)
+				{
+					if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
+						v = String_::Split(d,CSVSeparator::Value);
+					else
+						v.push_back(d);
+				}
+	   			else
+				{
+					v.push_back(d);
+	   				if(iss.peek() == CSVSeparator::Value) 
+           				iss.ignore();
+				}
 	   		}
+
+			for(auto s : v)
+				std::cout<<"S "<<s<<v.size()<<"\n";
 
 			result.push_back(v);
 	   	}
