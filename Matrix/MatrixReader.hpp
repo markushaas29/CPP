@@ -32,6 +32,8 @@ public:
 	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, matrix{execute(s)} {}
 	template<size_t N>
 	decltype(auto) M() { return std::get<N-1>(matrix).Get(); }
+	template<size_t N>
+	decltype(auto) Is() {	return N==order;	}
 	decltype(auto) Order() { return order; }
 	decltype(auto) operator()(const std::string& s) { return execute(s); }
 private:
