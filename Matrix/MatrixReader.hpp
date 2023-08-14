@@ -28,13 +28,20 @@ public:
 	using Type = D;
 	using M1Type = MatrixInitializer<1,Type>;
 	using M2Type = MatrixInitializer<2,Type>;
-	using ReturnType = std::variant<M1Type,M2Type>;
-	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, is{std::make_unique<std::ifstream>(s)} {}
-	ReturnType Execute()
+	using VariantType = std::variant<M1Type,M2Type>;
+	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, matrix{execute(s)} {}
+	decltype(auto) operator ()() { return execute(); }
+private:
+	VariantType matrix;
+	std::unique_ptr<FS::FileInfo> info;
+	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<i.info->Path();  }
+	
+	VariantType execute(const std::string& s)
 	{
 		std::string line;
 		Type d;
 		std::vector<Type> vec;
+		auto is = std::make_unique<std::ifstream>(s);
 		getline (*is,line); 
 		std::istringstream iss{line};
 		while(iss)
@@ -47,19 +54,15 @@ public:
 
 		if(vec.size()>1)
 		{
-			auto m = Init(process2(vec));
+			auto m = Init(process2(vec, std::move(is)));
 			return m;
 		}
 
-		auto m = Init(process1(vec));
+		auto m = Init(process1(vec, std::move(is)));
 		return m;
 	}
-	decltype(auto) operator ()() { return Execute(); }
-private:
-	std::unique_ptr<std::ifstream> is;
-	std::unique_ptr<FS::FileInfo> info;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<i.info->Path();  }
-	decltype(auto) process1(std::vector<Type> vec)
+
+	decltype(auto) process1(std::vector<Type>& vec, auto is)
 	{
 		std::string line;
 		Type d;
@@ -72,8 +75,9 @@ private:
 	   	}
 
 		return vec;
-	}	
-	decltype(auto) process2(std::vector<Type> vec)
+	}
+
+	decltype(auto) process2(const std::vector<Type>& vec, auto is)
 	{
 		std::string line;
 		Type d;
