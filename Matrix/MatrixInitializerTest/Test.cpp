@@ -65,22 +65,16 @@ int main()
 	auto msr = MatrixReader(path);
 	auto mssr = MatrixReader(spath);
 	auto mdr = MatrixReader<double>(path);
-//	auto vd = mdr.Execute();
-//	auto muir = MatrixReader<uint>(uipath);
-//	auto mii = std::get<1>(vd);
-//	std::cout<<"MI: "<<std::get<1>(vd).Get()<<std::endl;
-//	std::cout<<"MI: "<<(decltype(mii)::MatrixType)mii<<std::endl;
-//	std::cout<<"MI: "<<mii()<<std::endl;
-//	auto mir = MatrixReader<int>(ipath);
-//	auto vi = mir.Execute();
-//	std::cout<<"MI: "<<std::get<0>(vi).Get()<<std::endl;
-//
-//	auto st = std::get<1>(mssr()); 
-//	std::cout<<"MS"<<st()<<std::endl;
-//
-//	auto msm = st();
-//	std::cout<<"M"<<msm[3][5]<<std::endl;
-	//std::cout<<"M"<<msm[3][5].To<uint()><<std::endl;
+	auto muir = MatrixReader<uint>(uipath);
+	std::cout<<"MI: "<<mdr.M<2>()<<std::endl;
+	auto mir = MatrixReader<int>(ipath);
+	std::cout<<"MI: "<<mir.M<1>()<<std::endl;
+
+	std::cout<<"MS"<<mssr.M<2>()<<std::endl;
+
+	auto msm = mssr.M<2>();
+	std::cout<<"M"<<msm[3][5]<<std::endl;
+	//std::cout<<"M"<<(msm[3][5].To<uint())><<std::endl;
 
 	std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
    

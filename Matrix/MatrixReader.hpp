@@ -30,11 +30,15 @@ public:
 	using M2Type = MatrixInitializer<2,Type>;
 	using VariantType = std::variant<M1Type,M2Type>;
 	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, matrix{execute(s)} {}
-	decltype(auto) operator ()() { return execute(); }
+	template<size_t N>
+	decltype(auto) M() { return std::get<N-1>(matrix).Get(); }
+	decltype(auto) Order() { return order; }
+	decltype(auto) operator()(const std::string& s) { return execute(s); }
 private:
 	VariantType matrix;
+	size_t order;
 	std::unique_ptr<FS::FileInfo> info;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<i.info->Path();  }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<"Order: "<<i.order<<"\n"<<i.info->Path();  }
 	
 	VariantType execute(const std::string& s)
 	{
@@ -74,6 +78,8 @@ private:
    			vec.push_back(d);
 	   	}
 
+		order = 1;
+
 		return vec;
 	}
 
@@ -97,6 +103,8 @@ private:
 
 			result.push_back(v);
 	   	}
+
+		order = 2;
 		
 		return result;
 	}	
