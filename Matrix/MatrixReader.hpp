@@ -12,17 +12,13 @@
 
 template<size_t N, typename> class MatrixImpl;
 template<size_t, typename> class MatrixDescriptor;
-class ReaderBase
-{
-public:
-	virtual void Create(const std::string&) = 0;
-	//friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<"Size: "<<i.size<<"\tStart: "<<i.start;  }
-};
 
 template<typename D = std::string>
 class MatrixReader
 {
 public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixInitializer";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
 	using CSVSeparator = T::char_<';'> ;
 	using DoubleSeparator = T::char_<'.'> ;
 	using Type = D;

@@ -41,8 +41,8 @@ public:
 	Matrix& operator=(Matrix&&) = default;
 	~Matrix() = default;
 
-	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { };
-	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ };
+	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { check();};
+	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ check(); };
 	Matrix(MatrixInit<ElementType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
@@ -92,6 +92,11 @@ private:
 		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
 		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
 		return elements->at(i); 
+	}
+	
+	decltype(auto) check() const
+	{
+		IsT<Throwing>("Matrix is jagged")((Rows()*Cols())==elements->size());
 	}
 
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) { return (*m.io)(s,&m); }
