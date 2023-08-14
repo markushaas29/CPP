@@ -67,15 +67,15 @@ int main()
 	auto mdr = MatrixReader<double>(path);
 	auto muir = MatrixReader<uint>(uipath);
 	std::cout<<"MI: "<<mdr.M<2>()<<std::endl;
-	assert(mdr.Is<2>());
+	assert(mdr.IsDim<2>());
 	
 	auto mir = MatrixReader<int>(ipath);
 	std::cout<<"MI: "<<mir.M<1>()<<std::endl;
-	assert(mir.Is<1>());
+	assert(mir.IsDim<1>());
 	std::cout<<"MS"<<mssr.M<2>()<<std::endl;
 
 	auto msm = mssr.M<2>();
-	assert(mssr.Is<2>());
+	assert(mssr.IsDim<2>());
 	std::cout<<"M"<<msm[3][5]<<std::endl;
 	//std::cout<<"M"<<(msm[3][5].To<uint())><<std::endl;
 

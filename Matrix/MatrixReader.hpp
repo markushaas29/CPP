@@ -7,6 +7,9 @@
 #include "../File/Node.hpp" 
 #include "../String/String_.hpp" 
 #include "../Wrapper/Wrapper.hpp" 
+#include "../Is/Is.hpp"
+#include "../String/Literal.hpp" 
+#include "../String/Format.hpp"
 
 #pragma once
 
@@ -17,7 +20,7 @@ template<typename D = std::string>
 class MatrixReader
 {
 public:
-	inline static constexpr const char TypeIdentifier[] = "MatrixInitializer";
+	inline static constexpr const char TypeIdentifier[] = "MatrixReader";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	using CSVSeparator = T::char_<';'> ;
 	using DoubleSeparator = T::char_<'.'> ;
@@ -29,34 +32,44 @@ public:
 	template<size_t N>
 	decltype(auto) M() { return std::get<N-1>(matrix).Get(); }
 	template<size_t N>
-	decltype(auto) Is() {	return N==order;	}
+	decltype(auto) IsDim() {	return N==order;	}
 	decltype(auto) Order() { return order; }
 	decltype(auto) operator()(const std::string& s) { return execute(s); }
 private:
 	VariantType matrix;
 	size_t order;
 	std::unique_ptr<FS::FileInfo> info;
+	template<typename U> using IsT =  Is<U,LiteralType>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<"Order: "<<i.order<<"\n"<<i.info->Path();  }
 	
 	VariantType execute(const std::string& s)
 	{
-		std::string line;
-		Type d;
-		std::vector<Type> vec;
-		auto is = std::make_unique<std::ifstream>(s);
-		getline (*is,line); 
-		std::istringstream iss{line};
-		while(iss)
+		try
 		{
-			iss>>d;
-			if constexpr (std::is_same_v<Type,std::string>)
+			std::string line;
+			Type d;
+			std::vector<Type> vec;
+			auto is = std::make_unique<std::ifstream>(s);
+			getline (*is,line); 
+			std::istringstream iss{line};
+			while(iss)
 			{
-				if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
+				iss>>d;
+				if constexpr (std::is_same_v<Type,std::string>)
 				{
-					auto v = String_::Split(d,CSVSeparator::Value);
-					vec.insert(vec.end(),v.begin(),v.end());
-					auto m = Init(process2(vec, std::move(is)));
-					return m;
+					if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
+					{
+						auto v = String_::Split(d,CSVSeparator::Value);
+						vec.insert(vec.end(),v.begin(),v.end());
+						auto m = Init(process2(vec, std::move(is)));
+						return m;
+					}
+					else
+					{
+						vec.push_back(d);
+						if(iss.peek() == CSVSeparator::Value) 
+        					iss.ignore();
+					}
 				}
 				else
 				{
@@ -65,23 +78,22 @@ private:
         				iss.ignore();
 				}
 			}
-			else
-			{
-				vec.push_back(d);
-				if(iss.peek() == CSVSeparator::Value) 
-        			iss.ignore();
-			}
-		}
 
-				std::cout<<"VS "<<vec.size()<<"\n";
-		if(vec.size()>1)
-		{
-			auto m = Init(process2(vec, std::move(is)));
+					std::cout<<"VS "<<vec.size()<<"\n";
+			if(vec.size()>1)
+			{
+				auto m = Init(process2(vec, std::move(is)));
+				return m;
+			}
+			
+			auto m = Init(process1(vec, std::move(is)));
 			return m;
 		}
-
-		auto m = Init(process1(vec, std::move(is)));
-		return m;
+		catch(...)
+		{
+			IsT<Throwing>(Format("Matrix Initialization failed: ", *info))(false);
+			throw;
+		}
 	}
 
 	decltype(auto) process1(std::vector<Type>& vec, auto is)
@@ -128,9 +140,6 @@ private:
            				iss.ignore();
 				}
 	   		}
-
-			for(auto s : v)
-				std::cout<<"S "<<s<<v.size()<<"\n";
 
 			result.push_back(v);
 	   	}
