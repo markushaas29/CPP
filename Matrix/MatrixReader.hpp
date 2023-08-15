@@ -83,10 +83,12 @@ private:
 			if(vec.size()>1)
 			{
 				auto m = Init(process2(vec, std::move(is)));
+				IsT<Throwing>(Format("Matrix Initialization failed in file: ", s))(m.Valid());
 				return m;
 			}
 			
 			auto m = Init(process1(vec, std::move(is)));
+			IsT<Throwing>(Format("Matrix Initialization failed in file: ", s))(m.Valid());
 			return m;
 		}
 		catch(...)
