@@ -14,8 +14,8 @@ int main()
 	std::cout<<"START"<<std::endl;
 
 	using MD3 = MatrixDescriptor<3,double>;
-	using MD2 = MatrixDescriptor<2,std::string,std::tuple<std::unique_ptr<int>,std::string>>;
-	using MD1 = MatrixDescriptor<1,std::string,DT>;
+	using MD2 = MatrixDescriptor<2,std::string>;
+	using MD1 = MatrixDescriptor<1,std::string>;
 
 	using MI3 = MatrixImpl<3,MD3>;
 	using MI2 = MatrixImpl<2,MD2>;
