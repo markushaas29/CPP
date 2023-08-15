@@ -8,8 +8,10 @@
 #include "../Matrix_Impl.hpp"
 #include "../../Common/ShortNames.hpp"
 using namespace ShortNames;
-
-int main()
+class MatrixDescriptorTest
+{
+	public:
+	int Run()
 {
 	std::cout<<"START"<<std::endl;
 
@@ -46,3 +48,5 @@ int main()
 //
     return 0;
 }
+
+};

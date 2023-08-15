@@ -4,15 +4,16 @@
 #include <tuple> 
 #include <memory> 
 #include "../MatrixElement.hpp"
-#include "../MatrixParser.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../Calculator/Operations.hpp"
 using QS = Quantity<Sum>; 
 using namespace DateTimes; 
-
-int main()
+class MatrixElementTest
+{
+	public:
+int Run()
 {
 	std::cout<<"START"<<std::endl;
 
@@ -144,4 +145,5 @@ int main()
 	std::cout<<"END"<<std::endl;
 //
     return 0;
-}
+}	
+};

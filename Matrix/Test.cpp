@@ -6,6 +6,12 @@
 #include "Matrix.hpp"
 #include "MatrixCreator.hpp"
 #include "MatrixDescriptor.hpp"
+#include "MatrixProjectorTest/Test.cpp"
+#include "MatrixInitializerTest/Test.cpp"
+#include "MatrixCalculatorTest/Test.cpp"
+//#include "MatrixResultTypeTest/Test.cpp"
+#include "MatrixElementTest/Test.cpp"
+#include "MatrixDescriptorTest/Test.cpp"
 #include "../Common/ShortNames.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -15,6 +21,12 @@ int main()
 {
 	std::cout<<"START"<<std::endl;
 
+    MatrixCalculatorTest calc;     
+    calc.Run();     
+    MatrixDescriptorTest desc;     
+    desc.Run();     
+    MatrixElementTest el;     
+    el.Run();     
 	using M3 = Matrix<3>;
 	using M2 = Matrix<2>;
 	using MS3 = MatrixDescriptor<3,double>;
@@ -146,6 +158,11 @@ int main()
   	std::cout<<"\nVal: "<<mc2m[15][5]()<<std::endl;
 	assert(mc2m.Rows()==125);
 	assert(mc2m.Cols()==19);
+	MatrixProjectorTest projector;
+    projector.Run();
+    MatrixInitializerTest init;     
+    init.Run();     
+
 	std::cout<<"END"<<std::endl;
    
 	return 0;

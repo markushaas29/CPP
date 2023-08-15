@@ -11,7 +11,10 @@
 using QS = Quantity<Sum>; 
 using namespace DateTimes; 
 
-int main()
+class MatrixResultTypeTest
+{
+	public:
+	int Run()
 {
 	std::cout<<"START"<<std::endl;
 
@@ -55,3 +58,5 @@ int main()
 //
     return 0;
 }
+};
+
