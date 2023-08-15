@@ -41,23 +41,33 @@ int main()
 	std::vector<int> v1{1,2,3,4};
 	std::vector<std::vector<int>> v2{{1,2,3},{4,5,6}};
 	std::vector<std::vector<std::vector<int>>> v3{{{1},{2}},{{3},{4}}};
+	std::vector<std::vector<std::vector<int>>> v33{{{1,1,1},{2,2,2}},{{3,3,3},{4,4,4}},{{3,3,3},{4,4,4}}};
 
 	auto mi1 = Init(v1);
 	auto mi2 = Init(v2);
 	auto mi3 = Init(v3);
+	auto mi33 = Init(v33);
 
 	assert(decltype(mi1)::Order==1);
 	assert(decltype(mi2)::Order==2);
 	assert(decltype(mi3)::Order==3);
+	assert(mi1.Descriptor().Rows()==4);
+	assert(mi2.Descriptor().Rows()==2);
+	assert(mi3.Descriptor().Rows()==2);
+	assert(mi33.Descriptor().Rows()==3);
+	assert(mi2.Descriptor().Cols()==3);
+	assert(mi3.Descriptor().Cols()==2);
+	assert(mi33.Descriptor().Cols()==2);
 	assert(mi1.Descriptor().Extents()[0]==4);
 	assert(mi2.Descriptor().Extents()[1]==3);
 	assert(mi3.Descriptor().Extents()[2]==1);
 
   	std::cout<<"mi1: "<<mi1<<std::endl;
   	std::cout<<"mi2: "<<mi2<<std::endl;
-  	std::cout<<"mi3: "<<mi2.Get()<<std::endl;
   	std::cout<<"mi3: "<<mi3<<std::endl;
+  	std::cout<<"mi3: "<<mi33<<std::endl;
 
+  	std::cout<<"MI2: "<<mi2.Get()<<std::endl;
 	auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/D.mat" };
 	auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
 	auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
