@@ -94,7 +94,7 @@ private:
 		return elements->at(i); 
 	}
 	
-	decltype(auto) check() const {}//	IsT<Throwing>(Format("Matrix is jagged Rows/Cols: ",Rows(), "/", Cols(), " Size: ", elements->size()))((Rows()*Cols())==elements->size());	}
+	decltype(auto) check() const {	IsT<Throwing>(Format("Matrix is jagged Rows/Cols: ",Rows(), "/", Cols(), " Size: ", elements->size()))((Rows()*descriptor.Stride(0))==elements->size());	}
 
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) { return (*m.io)(s,&m); }
 	template<typename,typename> friend class MatrixCalculator;

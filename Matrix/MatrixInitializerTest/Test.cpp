@@ -76,7 +76,7 @@ int main()
 	auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
 	auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
 	auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
-	auto msr = MatrixReader(path);
+	//auto msr = MatrixReader(path);
 	auto mssr = MatrixReader(spath);
 	auto mdr = MatrixReader<double>(path);
 	auto muir = MatrixReader<uint>(uipath);

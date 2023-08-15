@@ -79,7 +79,6 @@ private:
 				}
 			}
 
-					std::cout<<"VS "<<vec.size()<<"\n";
 			if(vec.size()>1)
 			{
 				auto m = Init(process2(vec, std::move(is)));
@@ -93,7 +92,7 @@ private:
 		}
 		catch(...)
 		{
-			IsT<Throwing>(Format("Matrix Initialization failed: ", *info))(false);
+			IsT<Throwing>(Format("Matrix Initialization failed in file: ", s))(false);
 			throw;
 		}
 	}
