@@ -49,7 +49,7 @@ public:
 	decltype(auto) Start() const { return start; }
 	decltype(auto) Stride(auto i) const { return strides[i]; }
 	decltype(auto) Extent(auto i) const { return extents[i]; }
-	decltype(auto) Cols() const { return strides[0]; }
+	decltype(auto) Cols() const { return N > 1 ? extents[1] : 1; }
 	decltype(auto) Rows() const { return extents[0]; }
 	decltype(auto) SetExtents(auto e) { extents = e; }
 	decltype(auto) AddRow() { extents[0] = extents[0] + 1; }

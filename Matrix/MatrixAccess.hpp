@@ -28,16 +28,16 @@ private:
     {  
         assert(i<m->Rows());
         std::vector<typename M::DataType> result;
-        for(uint r = i * m->Cols(); r < (i+1) * m->Cols(); r++)
+        for(uint r = i * m->descriptor.Stride(0); r < (i+1) * m->descriptor.Stride(0); r++)
             result.push_back(m->elements->at(r));
         return result;
     }
     decltype(auto) col(size_t i, const M* m)
     {  
-        assert(i<m->Cols());
+        assert(i<m->descriptor.Stride(0));
         std::vector<typename M::DataType> result;
         for(auto r = 0; r < m->Rows(); r++)
-            result.push_back(m->elements->at(i + (r * m->Cols())));
+            result.push_back(m->elements->at(i + (r * m->descriptor.Stride(0))));
         return result;
     }
 	decltype(auto) matrix(size_t i, const M* m) const 
