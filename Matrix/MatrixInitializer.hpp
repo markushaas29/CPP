@@ -17,6 +17,7 @@ public:
 	MatrixInitializer(const auto& t): elements{process<0>(t,t)}, descriptor{extents}, matrix(descriptor,elements)	{	}
 	const DescriptorType& Descriptor() { return descriptor; }
 	decltype(auto) Get() { return matrix; }
+	decltype(auto) Valid() { return descriptor.Stride(0) * descriptor.Extent(0) == elements.size(); }
 	operator MatrixType() { return matrix; }
 	decltype(auto) operator ()() { return matrix; }
 private:

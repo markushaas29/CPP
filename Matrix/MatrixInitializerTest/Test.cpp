@@ -61,6 +61,10 @@ int main()
 	assert(mi1.Descriptor().Extents()[0]==4);
 	assert(mi2.Descriptor().Extents()[1]==3);
 	assert(mi3.Descriptor().Extents()[2]==1);
+	assert(mi1.Valid());
+	assert(mi2.Valid());
+	assert(mi3.Valid());
+	assert(mi33.Valid());
 
   	std::cout<<"mi1: "<<mi1<<std::endl;
   	std::cout<<"mi2: "<<mi2<<std::endl;
