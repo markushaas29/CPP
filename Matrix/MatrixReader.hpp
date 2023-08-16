@@ -59,8 +59,8 @@ private:
 				{
 					if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
 					{
-						auto v = String_::Split(d,CSVSeparator::Value);
-						vec.insert(vec.end(),v.begin(),v.end());
+						auto v = String_::Split(line,CSVSeparator::Value);
+						vec=v;
 						auto m = Init(process2(vec, std::move(is)));
 						return m;
 					}
@@ -129,8 +129,8 @@ private:
 	   			iss>>d;
 				if constexpr (std::is_same_v<Type,std::string>)
 				{
-					if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
-						v = String_::Split(d,CSVSeparator::Value);
+					if(String_::Contains(line, std::string(1,CSVSeparator::Value)))
+						v = String_::Split(line,CSVSeparator::Value);
 					else
 						v.push_back(d);
 				}
