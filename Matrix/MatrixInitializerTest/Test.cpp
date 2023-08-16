@@ -83,7 +83,7 @@ class MatrixInitializerTest
 			auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
 			auto m22r = MatrixReader(u22);
 			//auto msr = MatrixReader(path);
-			//auto mssr = MatrixReader(spath);
+			auto mssr = MatrixReader(spath);
 			//auto msem = MatrixReader<double>(ipath);
 			//auto mdr = MatrixReader<double>(path);
 			//auto muir = MatrixReader<uint>(uipath);
@@ -94,12 +94,12 @@ class MatrixInitializerTest
 			//std::cout<<"MI: "<<mir.M<1>()<<std::endl;
 			//std::cout<<"Sem: "<<msem.M<1>()<<std::endl;
 			//assert(mir.IsDim<1>());
-			//std::cout<<"MS"<<mssr.M<2>()<<std::endl;
+			std::cout<<"MS"<<mssr.M<2>()<<std::endl;
 		
-			//auto msm = mssr.M<2>();
-			//assert(mssr.IsDim<2>());
-			//std::cout<<"M"<<msm[3][5]<<std::endl;
-			//std::cout<<"M"<<(msm[3][5].To<uint())><<std::endl;
+		//	auto msm = mssr.M<2>();
+			assert(mssr.IsDim<2>());
+		//	std::cout<<"M"<<msm[3][5]<<std::endl;
+		//	std::cout<<"M"<<(msm[3][5].To<uint())><<std::endl;
 			std::cout<<"MS 22"<<m22r.M<2>()<<std::endl;
 		
 			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
