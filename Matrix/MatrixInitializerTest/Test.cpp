@@ -96,11 +96,11 @@ class MatrixInitializerTest
 			//assert(mir.IsDim<1>());
 			std::cout<<"MS"<<mssr.M<2>()<<std::endl;
 		
-		//	auto msm = mssr.M<2>();
+			auto msm = mssr.M<2>();
 			assert(mssr.IsDim<2>());
-		//	std::cout<<"M"<<msm[3][5]<<std::endl;
-		//	std::cout<<"M"<<(msm[3][5].To<uint())><<std::endl;
-			std::cout<<"MS 22"<<m22r.M<2>()<<std::endl;
+			std::cout<<"M"<<msm[3][5]<<std::endl;
+			//std::cout<<"M"<<(msm[3][5].To<uint>)<<std::endl;
+		//	std::cout<<"MS 22"<<m22r.M<2>()<<std::endl;
 		
 			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
 
