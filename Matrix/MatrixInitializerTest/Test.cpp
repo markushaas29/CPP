@@ -87,6 +87,7 @@ class MatrixInitializerTest
 			//auto msem = MatrixReader<double>(ipath);
 			auto mdr = MatrixReader<double>(path);
 			auto muir = MatrixReader<uint>(uipath);
+			auto mir = MatrixReader<int>(ipath);
 			
 			assert(mdr.IsDim<2>());
 			auto md2 = mdr.M<2>();
@@ -100,9 +101,13 @@ class MatrixInitializerTest
 			
 			assert(muir.IsDim<1>());
 			auto mui2 = muir.M<1>();
-			std::cout<<"MI: "<<mui2<<std::endl;
 			assert(mui2.Rows()==5);
 			assert(mui2.Cols()==1);
+			
+			assert(mir.IsDim<1>());
+			auto mri1 = mir.M<1>();
+			assert(mri1.Rows()==5);
+			assert(mri1.Cols()==1);
 			//
 			//auto mir = MatrixReader<int>(ipath);
 			//std::cout<<"MI: "<<mir.M<1>()<<std::endl;
