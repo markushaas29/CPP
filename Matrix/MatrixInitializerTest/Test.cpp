@@ -65,7 +65,7 @@ class MatrixInitializerTest
 		  	std::cout<<"mi3: "<<mi33<<std::endl;
 		
 		  	std::cout<<"MI2: "<<mi2.Get()<<std::endl;
-			auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/D.mat" };
+			auto path = std::string{ "D.mat" };
 			auto tpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/T.mat" };
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto sem = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Sem.mat" };
