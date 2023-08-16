@@ -17,12 +17,6 @@
 
 #pragma once
 
-template<typename P> 
-concept MatrixConcept = requires(P p)
-{
-	P::Order;
-};
-
 template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {

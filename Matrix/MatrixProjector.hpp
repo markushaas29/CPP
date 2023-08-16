@@ -1,11 +1,11 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include "MatrixConcept.hpp"
+#include "PointerConcept.hpp"
 #include "MatrixElement.hpp"
-#include "Matrix.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
-#include "../String/To/To.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
