@@ -114,6 +114,7 @@ class MatrixInitializerTest
 			assert(msd.Rows()==2);
 			assert(msd.Cols()==4);
 			std::cout<<"MS"<<mssr.M<2>()<<std::endl;
+			std::cout<<"MSD: "<<msd<<std::endl;
 		
 			auto msm = mssr.M<2>();
 			assert(mssr.IsDim<2>());
