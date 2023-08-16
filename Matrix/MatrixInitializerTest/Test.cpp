@@ -66,6 +66,7 @@ class MatrixInitializerTest
 		
 		  	std::cout<<"MI2: "<<mi2.Get()<<std::endl;
 			auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/D.mat" };
+			auto tpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/T.mat" };
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto sem = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Sem.mat" };
 			auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
@@ -73,6 +74,7 @@ class MatrixInitializerTest
 			auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
 			auto m22r = MatrixReader(u22);
 			auto msr = MatrixReader(path);
+			auto mtr = MatrixReader(tpath);
 			auto mssr = MatrixReader(spath);
 			auto msem = MatrixReader<double>(sem);
 			auto mdr = MatrixReader<double>(path);
@@ -84,25 +86,46 @@ class MatrixInitializerTest
 			assert(md2.Rows()==2);
 			assert(md2.Cols()==4);
 			
+			assert(mtr.IsDim<1>());
+			auto mt2 = mtr.M<1>();
+			assert(mt2.Rows()==3);
+			assert(mt2.Cols()==1);
+			assert((std::string)mt2[0]=="ABC");
+			assert((std::string)mt2[1]=="cde");
+			
 			assert(msr.IsDim<2>());
 			auto ms2 = msr.M<2>();
+			std::cout<<"M"<<ms2<<std::endl;
 			assert(ms2.Rows()==2);
 			assert(ms2.Cols()==4);
+			assert(ms2[0][0].To<double>()==912.4);
+			assert(ms2[0][1].To<double>()==912.5);
+			assert(ms2[0][3].To<int>()==912);
 			
 			assert(muir.IsDim<1>());
-			auto mui2 = muir.M<1>();
-			assert(mui2.Rows()==5);
-			assert(mui2.Cols()==1);
+			auto mui = muir.M<1>();
+			assert(mui.Rows()==5);
+			assert(mui.Cols()==1);
+			assert((uint)mui[0]==912);
+			assert((uint)mui[4]==7);
+			assert((uint)mui[2]==123);
 			
 			assert(mir.IsDim<1>());
 			auto mri1 = mir.M<1>();
 			assert(mri1.Rows()==5);
 			assert(mri1.Cols()==1);
+			assert((int)mri1[0]==-912);
+			assert((int)mri1[1]==912);
+			assert((int)mri1[4]==-7);
 			
 			assert(msem.IsDim<2>());
 			auto msd = msem.M<2>();
 			assert(msd.Rows()==2);
 			assert(msd.Cols()==4);
+			assert((double)msd[1][3]==9122.4);
+			assert((double)msd[0][2]==912.2);
+			assert((uint)msd[0][1]==912);
+			assert((uint)msd[0][3]==9121);
 			std::cout<<"MS"<<mssr.M<2>()<<std::endl;
 			std::cout<<"MSD: "<<msd<<std::endl;
 		
@@ -110,7 +133,14 @@ class MatrixInitializerTest
 			assert(mssr.IsDim<2>());
 			std::cout<<"M"<<msm[3][5]<<std::endl;
 			//std::cout<<"M"<<(msm[3][5].To<uint>)<<std::endl;
-		//	std::cout<<"MS 22"<<m22r.M<2>()<<std::endl;
+			std::cout<<"MS 22"<<m22r.M<2>()[1][4]<<std::endl;
+			assert(m22r.IsDim<2>());
+			auto m22 = m22r.M<2>();
+			assert(m22.Rows()==125);
+			assert(m22.Cols()==19);
+			assert(m22[1][13].To<double>()==426.53);
+			assert(m22[1][11].To<double>()==-165.21);
+			assert((std::string)m22[1][4]=="30.12.2022");
 		
 			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
 

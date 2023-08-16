@@ -41,7 +41,9 @@ public:
 			return static_cast<O>(value);
 		else
 		{
-			std::istringstream iss(static_cast<std::string>(value));
+			std::string s(value);
+			std::replace(s.begin(), s.end(), ',', '.');
+			std::istringstream iss(static_cast<std::string>(s));
 			O val;
 			iss>>val;
 			return val;
