@@ -82,13 +82,27 @@ class MatrixInitializerTest
 			auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
 			auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
 			auto m22r = MatrixReader(u22);
-			//auto msr = MatrixReader(path);
+			auto msr = MatrixReader(path);
 			auto mssr = MatrixReader(spath);
 			//auto msem = MatrixReader<double>(ipath);
-			//auto mdr = MatrixReader<double>(path);
-			//auto muir = MatrixReader<uint>(uipath);
-			//std::cout<<"MI: "<<mdr.M<2>()<<std::endl;
-			//assert(mdr.IsDim<2>());
+			auto mdr = MatrixReader<double>(path);
+			auto muir = MatrixReader<uint>(uipath);
+			
+			assert(mdr.IsDim<2>());
+			auto md2 = mdr.M<2>();
+			assert(md2.Rows()==2);
+			assert(md2.Cols()==4);
+			
+			assert(msr.IsDim<2>());
+			auto ms2 = msr.M<2>();
+			assert(ms2.Rows()==2);
+			assert(ms2.Cols()==4);
+			
+			assert(muir.IsDim<1>());
+			auto mui2 = muir.M<1>();
+			std::cout<<"MI: "<<mui2<<std::endl;
+			assert(mui2.Rows()==5);
+			assert(mui2.Cols()==1);
 			//
 			//auto mir = MatrixReader<int>(ipath);
 			//std::cout<<"MI: "<<mir.M<1>()<<std::endl;
