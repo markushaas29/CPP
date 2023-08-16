@@ -84,7 +84,7 @@ class MatrixInitializerTest
 			auto m22r = MatrixReader(u22);
 			auto msr = MatrixReader(path);
 			auto mssr = MatrixReader(spath);
-			//auto msem = MatrixReader<double>(ipath);
+			auto msem = MatrixReader<double>(sem);
 			auto mdr = MatrixReader<double>(path);
 			auto muir = MatrixReader<uint>(uipath);
 			auto mir = MatrixReader<int>(ipath);
@@ -108,11 +108,11 @@ class MatrixInitializerTest
 			auto mri1 = mir.M<1>();
 			assert(mri1.Rows()==5);
 			assert(mri1.Cols()==1);
-			//
-			//auto mir = MatrixReader<int>(ipath);
-			//std::cout<<"MI: "<<mir.M<1>()<<std::endl;
-			//std::cout<<"Sem: "<<msem.M<1>()<<std::endl;
-			//assert(mir.IsDim<1>());
+			
+			assert(msem.IsDim<2>());
+			auto msd = msem.M<2>();
+			assert(msd.Rows()==2);
+			assert(msd.Cols()==4);
 			std::cout<<"MS"<<mssr.M<2>()<<std::endl;
 		
 			auto msm = mssr.M<2>();
