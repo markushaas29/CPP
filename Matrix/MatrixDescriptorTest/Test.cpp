@@ -3,7 +3,6 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
-#include "../MatrixCreator.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../Matrix_Impl.hpp"
 #include "../../Common/ShortNames.hpp"

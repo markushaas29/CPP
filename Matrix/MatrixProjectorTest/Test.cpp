@@ -4,7 +4,6 @@
 #include <tuple> 
 #include <memory> 
 #include "../Matrix.hpp"
-#include "../MatrixCreator.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../../Common/ShortNames.hpp"

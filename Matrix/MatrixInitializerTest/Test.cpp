@@ -4,7 +4,6 @@
 #include <tuple> 
 #include <memory> 
 #include "../Matrix.hpp"
-#include "../MatrixCreator.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixInitializer.hpp"
@@ -30,17 +29,8 @@ class MatrixInitializerTest
 			using M1S = Matrix<1,MS1>;
 			using M1Q = Matrix<1,MQ1DS>;
 			using M2M = Matrix<2,MS2>;
-			using MC2 = MatrixCreator<M2M>;
 			using M1 = Matrix<1>;
 			
-			MC2 mc2{};
-			mc2.Create("");
-			auto mc2m = mc2.Get();
-			auto m15 = mc2m[15];
-		  	std::cout<<"\nVal: "<<mc2m[15][5]()<<std::endl;
-			assert(mc2m.Rows()==125);
-			assert(mc2m.Cols()==19);
-		
 			std::vector<int> v1{1,2,3,4};
 			std::vector<std::vector<int>> v2{{1,2,3},{4,5,6}};
 			std::vector<std::vector<std::vector<int>>> v3{{{1},{2}},{{3},{4}}};

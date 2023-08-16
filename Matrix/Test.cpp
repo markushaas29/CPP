@@ -4,7 +4,6 @@
 #include <tuple> 
 #include <memory> 
 #include "Matrix.hpp"
-#include "MatrixCreator.hpp"
 #include "MatrixDescriptor.hpp"
 #include "MatrixProjectorTest/Test.cpp"
 #include "MatrixInitializerTest/Test.cpp"
@@ -37,7 +36,6 @@ int main()
 	using M1S = Matrix<1,MS1>;
 	using M1Q = Matrix<1,MQ1DS>;
 	using M2M = Matrix<2,MS2>;
-	using MC2 = MatrixCreator<M2M>;
 	using M1 = Matrix<1>;
 	MS2 ms2{{2,2}};
 	MS2 ms254{{5,4}};
@@ -56,6 +54,7 @@ int main()
 	
 	M1S m1s{
 		{std::string("1"),std::string("2")}	
+
 	};
 	assert(m1s.Rows()==2);
 	assert(m1s.Cols()==1);
@@ -151,13 +150,6 @@ int main()
 //	try	{ assert(m3[1][3][1]()==9);	}	catch(...)	{	}
 //	try	{	assert(m3[1][1][5]()==9);	}catch(...)	{	}
 
-	MC2 mc2{};
-	mc2.Create("");
-	auto mc2m = mc2.Get();
-	auto m15 = mc2m[15];
-  	std::cout<<"\nVal: "<<mc2m[15][5]()<<std::endl;
-	assert(mc2m.Rows()==125);
-	assert(mc2m.Cols()==19);
 	MatrixProjectorTest projector;
     projector.Run();
     MatrixInitializerTest init;     
