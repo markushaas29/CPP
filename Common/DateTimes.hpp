@@ -82,7 +82,6 @@ namespace DateTimes
 		using Base = DateTimeBase<Month,std::chrono::month,12>;
 		static constexpr const char* TypeIdentifier = "Month";
 		constexpr Month(uint v): Base(v){};
-		constexpr Month(int v): Base(v){};
 	};
 	
 	class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int, uint>
