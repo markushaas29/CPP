@@ -43,12 +43,11 @@ private:
 	decltype(auto) slice(size_t i, const M* m) const 
 	{
 		if constexpr (Order==1)
-			//return M(typename M::DescriptorType{m->descriptor.Extents()}, m->elements);
 			return *m;
 		if constexpr (Order==2)
 		{
 			using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;
-			auto col = m->Col(i);
+			auto col = m->col(i);
 			std::array<size_t,1> e {col.size()};
 			return Matrix<Order-1, MDT>(MDT{e}, col);
 		}
@@ -60,7 +59,7 @@ private:
 		std::array<size_t,Order-1> s;
 		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
 		std::copy(m->descriptor.Strides().begin()+1, m->descriptor.Strides().end(), s.begin());
-		auto row = m->Row(i);
+		auto row = m->row(i);
 		if constexpr (Order-1==0)
 			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 		else

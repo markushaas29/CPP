@@ -142,7 +142,7 @@ private:
 		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Cols(); ++j)
-				v.push_back(std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(j))));
+				v.push_back(std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.row(i),r.col(j))));
 
 		return typename Base::DotProductType::ResultType(md,v);
 	}
@@ -161,7 +161,7 @@ private:
 
 		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v(l.Rows());
 		for(int i = 0; i != l.Rows(); ++i)
-			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.Row(i),r.Col(0)));
+			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.row(i),r.col(0)));
 
 		return typename Base::DotProductType::ResultType(md,v);
 	}
