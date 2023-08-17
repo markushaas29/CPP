@@ -42,6 +42,9 @@ private:
     }
 	decltype(auto) slice(size_t i, const M* m) const 
 	{
+		if constexpr (Order==1)
+			//return M(typename M::DescriptorType{m->descriptor.Extents()}, m->elements);
+			return *m;
 		if constexpr (Order==2)
 		{
 			using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;

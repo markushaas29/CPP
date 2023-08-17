@@ -74,6 +74,14 @@ int main()
 	M1Q m1q{
 		{1.0,2.2,3.3,4.4,5.5}	
 	};
+	assert(m1q.Cols()==1);
+	auto col1 = m1q.Col(0);
+	assert(col1.size()==5);
+	auto m1qc = m1q.Slice(0);
+	assert(5.5==(double)m1qc[4]);
+	assert(*col1[4]==(double)m1qc[4]);
+	
+
 	auto qm1 = m1q[4];
 	assert((double)qm1==5.5);
 	std::cout<<"Matrix m1Q "<<qm1()<<"\n";
