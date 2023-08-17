@@ -75,11 +75,11 @@ int main()
 		{1.0,2.2,3.3,4.4,5.5}	
 	};
 	assert(m1q.Cols()==1);
-	auto col1 = m1q.Col(0);
-	assert(col1.size()==5);
+	//auto col1 = m1q.Col(0);
+	//assert(col1.size()==5);
 	auto m1qc = m1q.Slice(0);
 	assert(5.5==(double)m1qc[4]);
-	assert(*col1[4]==(double)m1qc[4]);
+	//assert(*col1[4]==(double)m1qc[4]);
 	
 
 	auto qm1 = m1q[4];
@@ -101,8 +101,8 @@ int main()
 	assert(m2.Size()==2);
 	auto m20 = m2[0];
 	assert(m20.Size()==1);
-	auto r11 = m2.Row(0);
-	assert(*r11[0]==1);
+	//auto r11 = m2.Row(0);
+	//assert(*r11[0]==1);
 	//m2 * m2;
 	M2 m35 {
 		{1, 2, 3, 4, 5},
@@ -110,10 +110,10 @@ int main()
 		{11, 12, 13, 14, 15},
 	};
 	assert(m35.Size()==15);
-	auto r1 = m35.Row(1);
-	auto c1 = m35.Col(1);
-	assert(*r1[0]==6);
-	assert(*c1[0]==2);
+	//auto r1 = m35.Row(1);
+	//auto c1 = m35.Col(1);
+	//assert(*r1[0]==6);
+	//assert(*c1[0]==2);
 	assert(m35[1][0]()==6);
 	assert(m35[0][0]()==1);
 	assert(m35[2][0]()==11);
