@@ -40,6 +40,16 @@ private:
             result.push_back(m->elements->at(i + (r * m->descriptor.Stride(0))));
         return result;
     }
+	decltype(auto) slice(size_t i, const M* m) const 
+	{
+		if constexpr (Order==2)
+		{
+			using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;
+			auto col = m->Col(i);
+			std::array<size_t,1> e {col.size()};
+			return Matrix<Order-1, MDT>(MDT{e}, col);
+		}
+	}
 	decltype(auto) matrix(size_t i, const M* m) const 
 	{
 		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;

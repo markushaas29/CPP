@@ -60,6 +60,7 @@ public:
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Row(size_t i) const { return access->row(i, this); }
 	decltype(auto) Col(size_t i) const { return access->col(i, this); }
+	decltype(auto) Slice(size_t i) const { return access->slice(i, this); }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
