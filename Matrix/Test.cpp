@@ -159,9 +159,9 @@ int main()
 //	try	{	assert(m3[1][1][5]()==9);	}catch(...)	{	}
 
 	MatrixProjectorTest projector;
-    projector.Run();
     MatrixInitializerTest init;     
     init.Run();     
+    projector.Run();
 
 	std::cout<<"END"<<std::endl;
    

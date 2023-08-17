@@ -32,9 +32,8 @@ public:
 	{ 
 		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order == 2)
 		{	
-			IsT<Throwing>("Parse")(matrix.Rows()==Size);
-			std::cout<<"Tupl\n";
-			return createTupleProjection<0>(i,Tuple{});
+			//IsT<Throwing>("Parse")(matrix.Rows()==Size);
+			return createTupleProjection<0>(i,std::make_tuple(0));
 		}
 		else
 		{
