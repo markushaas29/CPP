@@ -55,6 +55,8 @@ private:
 	template<size_t N>
 	decltype(auto) slices(std::array<size_t,N> arr, const M* m) const 
 	{
+		size_t max = *std::max_element(arr.begin(), arr.end());
+		typename M::IsT<Throwing>(Format("Index: ",max ," exceeds extents!"))(max<m->Cols());
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::vector<typename M::DataType> result;
 		std::array<size_t,Order> e;

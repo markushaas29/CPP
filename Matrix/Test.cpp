@@ -155,6 +155,9 @@ int main()
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
+//	auto c3 = m3.col(0);
+//	for(auto c: c3)
+//		std::cout<<"MatrixSLI 3: "<<*c<<std::endl;
 	auto db = m3[0].Descriptor();
 	assert(db.Stride(1)==1);
 	assert(db.Extent(0)==2);
