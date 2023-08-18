@@ -65,7 +65,7 @@ private:
 		s[0] = arr.size();
 		for(int i = 0; i < m->Rows(); ++i)
 		{
-			auto row = m->Row(i);
+			auto row = m->row(i);
 			std::for_each(arr.begin(), arr.end(), [&](size_t i){ result.push_back(row[i]); });
 		}
 		
