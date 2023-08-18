@@ -110,7 +110,7 @@ int main()
 		{11, 12, 13, 14, 15},
 	};
 	assert(m35.Size()==15);
-	auto s2 = m35.Slices(2);
+	auto s2 = m35.Slices(0,2,4);
 	std::cout<<"S2: "<<s2;
 	//auto r1 = m35.Row(1);
 	//auto c1 = m35.Col(1);
@@ -151,6 +151,7 @@ int main()
 	auto dd = d[1];//.Descriptor();
 	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
 	std::cout<<"Matrix 3\n"<<m3<<"\n";
+	//std::cout<<"Matrix 3 Slices\n"<<m3.Slices(0)<<"\n";
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);

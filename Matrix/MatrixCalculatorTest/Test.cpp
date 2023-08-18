@@ -152,7 +152,9 @@ class MatrixCalculatorTest
 			auto m2dR = m2d.RowSum();
 			assert((double)m2dR[0]==11);
 			assert((double)m2dR[3]==12);
-			std::cout<<"ColSum:\n "<<(m44 * m2C)<<"\n";
+			std::cout<<"ColSum => :\n "<<(m2R[0])<<"\n";
+			auto s = m2R.Slices(0);
+			std::cout<<"Slices:\n "<<s<<"\n";
 		
 			std::cout<<"END"<<std::endl;
 		//   
