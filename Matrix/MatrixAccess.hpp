@@ -52,6 +52,25 @@ private:
 			return Matrix<Order-1, MDT>(MDT{e}, col);
 		}
 	}
+	template<size_t N>
+	decltype(auto) slices(std::array<size_t,N> arr, const M* m) const 
+	{
+		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
+		std::vector<typename M::DataType> result;
+		std::array<size_t,Order> e;
+		std::array<size_t,Order> s;
+		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
+		e[1] = arr.size();
+		s[0] = arr.size();
+		for(int i = 0; i < m->Rows(); ++i)
+		{
+			auto row = m->Row(i);
+			std::for_each(arr.begin(), arr.end(), [&](size_t i){ result.push_back(row[i]); });
+		}
+		
+		return Matrix<Order, MDT>(MDT{e,s}, result);
+	}
 	decltype(auto) matrix(size_t i, const M* m) const 
 	{
 		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;

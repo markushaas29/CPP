@@ -110,6 +110,8 @@ int main()
 		{11, 12, 13, 14, 15},
 	};
 	assert(m35.Size()==15);
+	auto s2 = m35.Slices(2);
+	std::cout<<"S2: "<<s2;
 	//auto r1 = m35.Row(1);
 	//auto c1 = m35.Col(1);
 	//assert(*r1[0]==6);
