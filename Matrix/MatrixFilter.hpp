@@ -24,7 +24,7 @@ public:
 
 	MatrixFilter(MatrixType m): matrix(m) {}
 	
-	decltype(auto) operator()(size_t i) const 
+	decltype(auto) operator()(size_t i, std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
 	{
 		if constexpr (MatrixType::Order==2)
         {
