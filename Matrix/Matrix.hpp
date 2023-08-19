@@ -17,6 +17,8 @@
 
 #pragma once
 
+template<typename> class MatrixFilter;
+
 template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {
@@ -98,6 +100,7 @@ private:
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	friend class MatrixAccess<Type>;
 	friend class MatrixIO<Type>;
+	friend class MatrixFilter<Type>;
 
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();

@@ -6,6 +6,7 @@
 #include "../Matrix.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
+#include "../MatrixFilter.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
