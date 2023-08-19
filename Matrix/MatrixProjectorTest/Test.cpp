@@ -38,6 +38,7 @@ class MatrixProjectorTest
 			using MSQ1 = MatrixProjector<MS1,Q>;
 			using MST1 = MatrixProjector<MS1,T>;
 			using MIT2 = MatrixProjector<MI2,T>;
+			using MF2 = MatrixFilter<MI2>;
 			using MST2 = MatrixProjector<MS2,T>;
 			using MDR2 = MatrixProjector<MD2,TR>;
 			std::cout<<"START"<<std::endl;
@@ -90,6 +91,10 @@ class MatrixProjectorTest
 			std::cout<<"Reading"<<std::get<2>(r0)<<std::endl;
 			std::cout<<"Reading"<<std::get<1>(r0)<<std::endl;
 			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
+
+			MF2 mf2(m35);
+			auto m350 = mf2.Get(0);
+			std::cout<<"\nFilter"<<m350<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
