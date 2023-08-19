@@ -24,7 +24,7 @@ public:
 
 	MatrixFilter(MatrixType m): matrix(m) {}
 	
-	decltype(auto) Get(size_t i) const 
+	decltype(auto) operator()(size_t i) const 
 	{
 		if constexpr (MatrixType::Order==2)
         {

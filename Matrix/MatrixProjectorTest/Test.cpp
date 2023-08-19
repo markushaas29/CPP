@@ -93,7 +93,7 @@ class MatrixProjectorTest
 			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
 
 			MF2 mf2(m35);
-			auto m350 = mf2.Get(0);
+			auto m350 = mf2(0);
 			std::cout<<"\nFilter"<<m350<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
