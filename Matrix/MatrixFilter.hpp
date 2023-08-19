@@ -29,7 +29,6 @@ public:
 		if constexpr (MatrixType::Order==2)
         {
     	    typename MatrixType::IsT<Throwing>(Format("Index: ",i ," exceeds extents!"))(i<matrix.Cols());
-    	    using MDT = MatrixType::DescriptorType;
     	    std::vector<typename MatrixType::DataType> result;
     	    std::array<size_t,MatrixType::Order> e;
     	    std::array<size_t,MatrixType::Order> s;
@@ -38,13 +37,13 @@ public:
     	    for(int i = 0; i < matrix.Rows(); ++i)
     	    {
     	        auto row = matrix.row(i);
-				if(*row[i] < 5)
+				if(pred(*row[i]))
     	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
     	    }
     	    
     	    e[0] = result.size() / matrix.Cols();
     	    
-			return MatrixType(MDT{e,s}, result);
+			return MatrixType(typename MatrixType::DescriptorType{e,s}, result);
         }
 	}
 private:
