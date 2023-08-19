@@ -35,34 +35,34 @@ public:
     	    for(int i = 0; i < matrix.Rows(); ++i)
     	    {
     	        auto row = matrix.row(i);
+			std::cout<<"Size "<<*row[0]<<std::endl;
 				if(pred(*row[i]))
+    	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+    	    }
+
+
+    	    e[0] = result.size() / matrix.Cols();
+    	    
+			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix.descriptor.Strides())}, result);
+        }
+	}
+	decltype(auto) operator()(std::function<bool(const std::vector<typename MatrixType::DataType>& i)> pred) const 
+	{
+		if constexpr (MatrixType::Order==2)
+        {
+    	    std::vector<typename MatrixType::DataType> result;
+    	    std::array<size_t,MatrixType::Order> e = copy(matrix.descriptor.Extents());
+    	    
+			for(int i = 0; i < matrix.Rows(); ++i)
+    	    {
+    	        auto row = matrix.row(i);
+				if(pred(row))
     	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
     	    }
     	    
     	    e[0] = result.size() / matrix.Cols();
     	    
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix.descriptor.Strides())}, result);
-        }
-	}
-	decltype(auto) operator()(std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
-	{
-		if constexpr (MatrixType::Order==2)
-        {
-    	    std::vector<typename MatrixType::DataType> result;
-    	    std::array<size_t,MatrixType::Order> e;
-    	    std::array<size_t,MatrixType::Order> s;
-    	    std::copy(matrix.descriptor.Extents().begin(), matrix.descriptor.Extents().end(), e.begin());
-    	    std::copy(matrix.descriptor.Strides().begin(), matrix.descriptor.Strides().end(), s.begin());
-    	    for(int i = 0; i < matrix.Rows(); ++i)
-    	    {
-    	        auto row = matrix.row(i);
-				if(pred(*row[i]))
-    	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
-    	    }
-    	    
-    	    e[0] = result.size() / matrix.Cols();
-    	    
-			return MatrixType(typename MatrixType::DescriptorType{e,s}, result);
         }
 	}
 private:

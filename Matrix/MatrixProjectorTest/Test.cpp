@@ -43,6 +43,7 @@ class MatrixProjectorTest
 			
 			using MDF2 = MatrixFilter<MD2>;
 			using MIF2 = MatrixFilter<MI2>;
+			using MSF2 = MatrixFilter<MS2>;
 			std::cout<<"START"<<std::endl;
 		
 			MS1 ms1{
@@ -95,12 +96,24 @@ class MatrixProjectorTest
 			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
 
 			MIF2 mif2(m35);
-			auto m350 = mif2(2,[&](int d) { return d > 5;});
-			std::cout<<"\nFilter"<<m350<<std::endl;
+			auto m35F = mif2(2,[&](int d) { return d > 5;});
+			assert(m35F.Rows()==2);
+			assert((int)m35F[0][2]>5);
+			assert((int)m35F[1][2]>5);
 			
 			MDF2 mdf2(md2);
 			auto md5100 = mdf2(0,[&](double d) { return d == 2020; });
-			std::cout<<"\nFilter"<<md5100<<std::endl;
+			assert(md5100.Rows()==1);
+			assert((int)md5100[0][1]==12);
+			assert((int)md5100[0][2]==24);
+			assert((double)md5100[0][3]==5123.9);
+			
+			MSF2 msf2(ms22);
+			auto ms5 = msf2([&](const auto s) { return *s[0] == "5"; });
+			assert(ms5.Rows()==1);
+			assert((std::string)ms5[0][0]=="5");
+			assert(ms5[0][0].To<int>()==5);
+			std::cout<<"\nFilter"<<ms5[0][0].To<int>()<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;

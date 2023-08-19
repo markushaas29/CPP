@@ -8,7 +8,6 @@
 #include "MatrixProjectorTest/Test.cpp"
 #include "MatrixInitializerTest/Test.cpp"
 #include "MatrixCalculatorTest/Test.cpp"
-//#include "MatrixResultTypeTest/Test.cpp"
 #include "MatrixElementTest/Test.cpp"
 #include "MatrixDescriptorTest/Test.cpp"
 #include "../Common/ShortNames.hpp"
@@ -101,21 +100,16 @@ int main()
 	assert(m2.Size()==2);
 	auto m20 = m2[0];
 	assert(m20.Size()==1);
-	//auto r11 = m2.Row(0);
-	//assert(*r11[0]==1);
-	//m2 * m2;
+	
 	M2 m35 {
 		{1, 2, 3, 4, 5},
 		{6, 7, 8, 9,10},
 		{11, 12, 13, 14, 15},
 	};
+	
 	assert(m35.Size()==15);
 	auto s2 = m35.Slices(0,2,4);
 	std::cout<<"S2: "<<s2;
-	//auto r1 = m35.Row(1);
-	//auto c1 = m35.Col(1);
-	//assert(*r1[0]==6);
-	//assert(*c1[0]==2);
 	assert(m35[1][0]()==6);
 	assert(m35[0][0]()==1);
 	assert(m35[2][0]()==11);
@@ -155,9 +149,6 @@ int main()
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
-//	auto c3 = m3.col(0);
-//	for(auto c: c3)
-//		std::cout<<"MatrixSLI 3: "<<*c<<std::endl;
 	auto db = m3[0].Descriptor();
 	assert(db.Stride(1)==1);
 	assert(db.Extent(0)==2);
@@ -168,9 +159,6 @@ int main()
 	assert(m3[0][1][1]()==4);
 	assert(m3[1][0][1]()==7);
 	assert(m3[1][1][1]()==9);
-//	try	{ assert(m3[2][1][1]()==9); }	catch(...)	{	}
-//	try	{ assert(m3[1][3][1]()==9);	}	catch(...)	{	}
-//	try	{	assert(m3[1][1][5]()==9);	}catch(...)	{	}
 
 	MatrixProjectorTest projector;
     MatrixInitializerTest init;     
