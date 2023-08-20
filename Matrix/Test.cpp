@@ -10,6 +10,7 @@
 #include "MatrixCalculatorTest/Test.cpp"
 #include "MatrixElementTest/Test.cpp"
 #include "MatrixDescriptorTest/Test.cpp"
+#include "MatrixSliceAccessTest/Test.cpp"
 #include "../Common/ShortNames.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -162,8 +163,10 @@ int main()
 
 	MatrixProjectorTest projector;
     MatrixInitializerTest init;     
+    MatrixSliceAccessTest access;     
     init.Run();     
     projector.Run();
+    access.Run();
 
 	std::cout<<"END"<<std::endl;
    

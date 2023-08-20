@@ -14,7 +14,7 @@
 using namespace ShortNames;
 using namespace DateTimes;
 
-class MatrixProjectorTest
+class MatrixSliceAccessTest
 {
 	public:
 		int Run()
@@ -77,30 +77,6 @@ class MatrixProjectorTest
 				{std::string("5"),std::string("6")} 
 		    };
 		
-			MIQ2 miq(m35);
-			auto eq7 = miq[1][1];
-			assert(Q(7)==eq7);
-			
-			MSQ1 msq(ms1);
-			auto sq2 = msq[1];
-			assert(Q(2)==sq2);
-			
-			MIT2 mit2(m22);
-			auto it2 = mit2[1];
-			assert(QM(4)==std::get<1>(it2));
-		
-			MST2 mst2(ms22);
-			auto st2 = mst2[1];
-			assert(QM(6)==std::get<1>(st2));
-			
-			MDR2 mr2(md2);
-			auto r0 = mr2[0];
-			assert(QM(6)==std::get<1>(st2));
-			std::cout<<"Reading"<<std::get<3>(r0)<<std::endl;
-			std::cout<<"Reading"<<std::get<2>(r0)<<std::endl;
-			std::cout<<"Reading"<<std::get<1>(r0)<<std::endl;
-			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
-
 			MIF2 mif2(m35);
 			auto m35F = mif2(2,[&](int d) { return d > 5;});
 			assert(m35F.Rows()==2);
