@@ -146,6 +146,9 @@ class MatrixInitializerTest
 			std::cout<<"MS 22"<<mS22<<std::endl;
 
 			auto ms22F = MatrixFilter<decltype(mS22)>(mS22);
+			auto gem = ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
+			assert(gem[0][3].To<double>()==-140.0);
+			assert(gem[1][3].To<double>()==-105.76);
 			std::cout<<ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
 		
 			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;

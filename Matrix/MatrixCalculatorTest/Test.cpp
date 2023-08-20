@@ -60,6 +60,9 @@ class MatrixCalculatorTest
 		
 			auto m44m44 = m44 * m44;
 			std::cout<<"Matrix m44 + m44 "<<(int)m44m44[0][0]<<"\n";
+			std::cout<<"Slices:\n "<<m44m44.Slices(0,1)<<"\n";
+			auto s44 = m44m44.Slices(0,1);
+			std::cout<<"Slices:\n "<<s44<<"\n";
 			assert((int)m44m44[0][0]==40);
 			auto aA = m44.Apply([&](const auto& e1){ return *e1 + 10; });
 			std::cout<<"Matrix mA "<<aA<<"\n";
@@ -154,7 +157,6 @@ class MatrixCalculatorTest
 			assert((double)m2dR[3]==12);
 			std::cout<<"ColSum => :\n "<<(m2R[0])<<"\n";
 			auto s = m2R.Slices(0);
-			std::cout<<"Slices:\n "<<s<<"\n";
 		
 			std::cout<<"END"<<std::endl;
 		//   
