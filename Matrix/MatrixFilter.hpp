@@ -20,7 +20,6 @@ public:
 	using MatrixType = T;
 	inline static constexpr const char TypeIdentifier[] = "MatrixFilter";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	using InputIterator = std::vector<std::string>::const_iterator;
 
 	MatrixFilter(MatrixType m): matrix(m) {}
 	

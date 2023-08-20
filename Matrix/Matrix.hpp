@@ -61,7 +61,6 @@ public:
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Slice(size_t i) const { return access->slice(i, this); }
-	//template<size_t... S>
 	decltype(auto) Slices(auto... i) const { return access->slices(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 
 	template<typename F>
