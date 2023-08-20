@@ -32,10 +32,9 @@ public:
     	    std::vector<typename MatrixType::DataType> result;
     	    std::array<size_t,MatrixType::Order> e = copy(matrix.descriptor.Extents());
 
-    	    for(int i = 0; i < matrix.Rows(); ++i)
+    	    for(int j = 0; j < matrix.Rows(); ++j)
     	    {
-    	        auto row = matrix.row(i);
-			std::cout<<"Size "<<*row[0]<<std::endl;
+    	        auto row = matrix.row(j);
 				if(pred(*row[i]))
     	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
     	    }
