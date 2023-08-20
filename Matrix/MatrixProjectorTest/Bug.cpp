@@ -29,7 +29,20 @@ class MatrixInitializerTest
 			std::cout<<"MS 22"<<mS22<<std::endl;
 
 			auto ms22F = MatrixFilter<decltype(mS22)>(mS22);
-			//auto fmS22 = ms22F(0,[&](const auto& s) { return s == "04.01.2022";});
+			std::cout<<"MS 22: "<<m22[1]<<std::endl;
+			std::cout<<"MS 22: "<<m22[2]<<std::endl;
+			std::cout<<"MS 22: "<<m22[3]<<std::endl;
+			std::cout<<"MS 22: "<<m22[4]<<std::endl;
+
+			auto r3 = m22.row(3);
+			auto r4 = m22.row(4);
+
+			for (auto e : r3)
+				std::cout<<*e<<std::endl;
+			for (auto e : r4)
+				std::cout<<*e<<std::endl;
+
+			auto fmS22 = ms22F(0,[&](const auto& s) { return s == "04.01.2022";});
 			//std::cout<<ms22F(0,[&](const auto& s) { return s == "04.01.2022";});
 		
 			std::cout<<"END"<<std::endl;
