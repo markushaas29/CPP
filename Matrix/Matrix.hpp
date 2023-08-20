@@ -65,6 +65,7 @@ public:
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
+	decltype(auto) ColSum(int i) { return MC<Type>::colSum(*this,i); }
 	decltype(auto) ColSum() { return MC<Type>::colSum(*this); }
 	decltype(auto) RowSum() { return MC<Type>::rowSum(*this); }
   	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,Add<ElementType,decltype(v)>{v});  }

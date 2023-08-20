@@ -21,7 +21,6 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixFilter_UniqueElement";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
-	//decltype(auto) operator()() const { return elements.erase(std::unique(elements.begin(), elements.end()),elements.end()); } 
 	decltype(auto) operator()() const { return elements; } 
 	decltype(auto) operator()(const typename MatrixType::ElementType& e) 
 	{

@@ -105,6 +105,32 @@ private:
 			return Matrix<1, decltype(d)>(d,el); 
     	}
     }
+	static decltype(auto) colSum(const LeftType& l, int i)
+    {
+		auto el = std::vector<typename LeftType::DataType>();
+		if constexpr (LeftType::Order==1)
+			el = l.col(i);
+		if constexpr (LeftType::Order==2)
+			el = l.col(i);
+		
+		double cs = 0.0;
+		for(auto j = 0; j < l.Rows(); ++j)
+		{
+			if constexpr (std::is_same_v<std::string, typename LeftType::ElementType>)
+			{
+				std::string s(*el.at(j));
+                std::replace(s.begin(), s.end(), ',', '.');
+                std::istringstream iss(static_cast<std::string>(s));
+                double val;
+                iss>>val;
+
+				cs += val;
+			}
+			else
+				cs += (double)(*el(j));
+		}
+		return cs;	
+    }
 	static decltype(auto) colSum(const LeftType& l)
     {
 		if constexpr (LeftType::Order==1)

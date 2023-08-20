@@ -153,11 +153,15 @@ class MatrixInitializerTest
 
 			UniqueElements<decltype(mS22)> ue;
 			auto uni = ms22F(2,[&](const auto& s) { return ue(s);});
-			std::cout<<"UNI: "<<uni<<std::endl;
+			assert(uni.Rows()==ue().size());
 			std::cout<<"UNI: "<<ue<<std::endl;
 
+			auto gsum = gem.ColSum(3);
+			assert(gsum==-1339.93);
+
+			std::cout<<gsum<<std::endl;
 			std::cout<<ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
-			//gem
+			//gem.ColSum()
 		
 			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
 
