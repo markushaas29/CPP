@@ -76,26 +76,14 @@ class MatrixSliceAccessTest
 				{std::string("1"),std::string("2")} ,
 				{std::string("5"),std::string("6")} 
 		    };
-		
-			MIF2 mif2(m35);
-			auto m35F = mif2(2,[&](int d) { return d > 5;});
-			assert(m35F.Rows()==2);
-			assert((int)m35F[0][2]>5);
-			assert((int)m35F[1][2]>5);
-			
-			MDF2 mdf2(md2);
-			auto md5100 = mdf2(0,[&](double d) { return d == 2020; });
-			assert(md5100.Rows()==1);
-			assert((int)md5100[0][1]==12);
-			assert((int)md5100[0][2]==24);
-			assert((double)md5100[0][3]==5123.9);
-			
-			MSF2 msf2(ms22);
-			auto ms5 = msf2([&](const auto s) { return *s[0] == "5"; });
-			assert(ms5.Rows()==1);
-			assert((std::string)ms5[0][0]=="5");
-			assert(ms5[0][0].To<int>()==5);
-			std::cout<<"\nFilter"<<ms5[0][0].To<int>()<<std::endl;
+	
+			auto s024 = m35.Slices(0,2,4);
+			auto mulS = s024 * m33;
+			assert((int)mulS[2][2]==410);
+			std::cout<<mulS.Slice(0)<<std::endl;
+			std::cout<<mulS.Slices(1,2)<<std::endl;
+			assert((int)mulS[0][0]==92);
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
