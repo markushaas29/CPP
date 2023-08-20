@@ -8,6 +8,7 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixInitializer.hpp"
 #include "../MatrixFilter.hpp"
+#include "../MatrixFilters.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
@@ -149,7 +150,14 @@ class MatrixInitializerTest
 			auto gem = ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
 			assert(gem[0][3].To<double>()==-140.0);
 			assert(gem[1][3].To<double>()==-105.76);
+
+			UniqueElements<decltype(mS22)> ue;
+			auto uni = ms22F(2,[&](const auto& s) { return ue(s);});
+			std::cout<<"UNI: "<<uni<<std::endl;
+			std::cout<<"UNI: "<<ue<<std::endl;
+
 			std::cout<<ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
+			//gem
 		
 			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
 

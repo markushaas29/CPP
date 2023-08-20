@@ -14,34 +14,29 @@
 #pragma once
 
 template<typename T>
-class MatrixFilter 
+class UniqueElements 
 {
 public:
 	using MatrixType = T;
 	inline static constexpr const char TypeIdentifier[] = "MatrixFilter_UniqueElement";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
-	decltype(auto) operator()() const { return elements.erase(std::unique(elements.begin(), elements.end()),elements.end()); } 
+	//decltype(auto) operator()() const { return elements.erase(std::unique(elements.begin(), elements.end()),elements.end()); } 
+	decltype(auto) operator()() const { return elements; } 
+	decltype(auto) operator()(const typename MatrixType::ElementType& e) 
 	{
-		if constexpr (MatrixType::Order==2)
-        {
-    	    std::vector<typename MatrixType::DataType> result;
-    	    std::array<size_t,MatrixType::Order> e = copy(matrix.descriptor.Extents());
-    	    
-			for(int i = 0; i < matrix.Rows(); ++i)
-    	    {
-    	        auto row = matrix.row(i);
-				if(pred(row))
-    	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
-    	    }
-    	    
-    	    e[0] = result.size() / matrix.Cols();
-    	    
-			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix.descriptor.Strides())}, result);
-        }
-	}
+		std::cout<<"E "<<e<<std::endl;
+		if(std::find(elements.begin(), elements.end(), e) != elements.end()) 
+			return false;
+		elements.push_back(e);
+		return true;
+	} 
 private:
 	std::vector<typename MatrixType::ElementType> elements;
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixFilter& me) { return s;  }
+	friend std::ostream& operator<<(std::ostream& s, const UniqueElements& me) 
+	{ 
+		std::for_each(me.elements.cbegin(), me.elements.cend(), [&](const auto& e) { s<<e<<"\n"; });
+		return s;
+	}
 };
