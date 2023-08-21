@@ -136,7 +136,8 @@ namespace DateTimes
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
 		constexpr Date(const char* e, const TupleType& t): Date(std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value(), e) { };
 		Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, tt{d.tt}, tp{d.tp}, converter{d.converter}  { };
-		Date(const std::string& s): Date{s.c_str(), extract(s) }{    };
+		//Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
+		Date(const std::string& s): Date{check(s.c_str()), extract(s) }{    };
 		Date* DoCreate(){return this;};
 		
 		static Date Today()
@@ -177,7 +178,8 @@ namespace DateTimes
 			return ts;
 		}
 
-		constexpr bool Valid() const noexcept { return valid && ymd.ok(); };
+		constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
+	
 		constexpr explicit operator Day() { return std::get<DateTimes::Day>(tt); } 
 		constexpr explicit operator Month() { return std::get<DateTimes::Month>(tt); } 
 		constexpr explicit operator Year() { return std::get<DateTimes::Year>(tt); } 
@@ -244,7 +246,17 @@ namespace DateTimes
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(String_::ParseTo<uint>(d)),DateTimes::Month(String_::ParseTo<uint>(m)),DateTimes::Year(String_::ParseTo<uint>(y)));
 		}
 		
-		static constexpr const char* check(const char* s) { return s; }
+		static constexpr const char* check(const char* s) 
+		{ 
+			if (std::strlen(s) == 0 || s[0] < 60 || s[0] > 71) 
+				return  "1.1.1900" ; 
+			for(int i =0; i < std::strlen(s); ++i )
+				if(s[i] < 60 || s[i] > 71)
+					if (s[i] != '.')
+						return  "1.1.1900" ; 
+
+			return s;
+		}
 	};
 
 	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
