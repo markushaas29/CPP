@@ -7,6 +7,7 @@
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixInitializer.hpp"
+#include "../MatrixAnalyzer.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixFilters.hpp"
 #include "../../Common/ShortNames.hpp"
@@ -42,6 +43,9 @@ class MatrixAnalyzerTest
 			auto m22r = MatrixReader(u22);
 
 			auto m22 = m22r.M<2>();
+
+			auto a22 = MatrixAnalyzer<decltype(m22)>(m22);
+			a22();
 
 			std::cout<<"END"<<std::endl;
 
