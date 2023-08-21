@@ -57,6 +57,7 @@ public:
 	constexpr IBAN(const char* c): Element(c){	};
 	constexpr IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
+	bool Valid() { return std::string(Default) != Value(); }
 	decltype(auto) ID() { return Identifier; }
 private:
 	static constexpr bool isValid(const char* iban)

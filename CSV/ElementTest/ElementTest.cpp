@@ -20,10 +20,12 @@ int main()
 	auto s2 = std::string("DE05100110012620778704");
 	auto i = IBAN(s1.c_str());
 	auto i2 = IBAN(s2.c_str());
+	auto i3 = IBAN("");
 	//~ assert(s1.size()==i.Value().size());
 	//~ assert(s1==i.Value());
     std::cout<<i.Value()<<std::endl;
 	assert(!i.Valid());
+	assert(!i3.Valid());
 	assert(i2.Valid());
 	
 //    std::cout<<"Num2String"<<std::endl;
