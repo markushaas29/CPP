@@ -54,6 +54,7 @@ public:
 				auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
 				std::cout<<"Date: \n"<<r2<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0]<<std::endl;
+		std::cout<<"Date: \n"<<filter()[0][1]<<std::endl;
 	}
 private:
 	MatrixFilter<MatrixType> filter;
