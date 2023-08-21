@@ -23,6 +23,7 @@ public:
 
 	MatrixFilter(MatrixType m): matrix(m) {}
 	
+	const MatrixType& operator()() const { return matrix; } 
 	decltype(auto) operator()(size_t i, std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
 	{
 		if constexpr (MatrixType::Order==2)
@@ -66,7 +67,7 @@ public:
 private:
 	MatrixType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixFilter& me) { return s;  }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixFilter& me) { return s<<me.matrix;  }
 
 	template<size_t N>
 	decltype(auto) copy(std::array<size_t,N> arr) const
