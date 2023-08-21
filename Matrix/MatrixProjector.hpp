@@ -24,7 +24,6 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixProjector";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	static int constexpr Size = std::tuple_size_v<Tuple>;
-	using InputIterator = std::vector<std::string>::const_iterator;
 
 	MatrixProjector(MatrixType m): matrix(m) {}
 	
