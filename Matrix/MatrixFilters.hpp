@@ -24,7 +24,6 @@ public:
 	decltype(auto) operator()() const { return elements; } 
 	decltype(auto) operator()(const typename MatrixType::ElementType& e) 
 	{
-		std::cout<<"E "<<e<<std::endl;
 		if(std::find(elements.begin(), elements.end(), e) != elements.end()) 
 			return false;
 		elements.push_back(e);
