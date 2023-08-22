@@ -44,14 +44,17 @@ public:
 			if(iban.Valid())
 			{
 				auto r = filter(7,[&](const auto& s) { return s == iban.Value();});
-				std::cout<<"Iban: \n"<<r<<std::endl;
-				std::cout<<"Sum:\t"<<Quantity<Sum>(r.ColSum(11))<<std::endl;
+				std::cout<<"\nIBAN: "<<iban<<std::endl;
+				std::cout<<r.Slices(4,6,11,10)<<std::endl;
+				std::cout<<"\nSum:\t"<<Quantity<Sum>(r.ColSum(11))<<std::endl;
 			}
 		}
 
 		
 		auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
 		std::cout<<"Dates: \n"<<r2<<std::endl;
+		auto rd = filter(4,[&](const auto& s) { return DateTimes::Get<DateTimes::Month>(DateTimes::Date(s)) == 1;});
+		std::cout<<"Dates: \n"<<rd<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0]<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0][1]<<std::endl;
 	}
