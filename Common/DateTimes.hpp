@@ -165,7 +165,6 @@ namespace DateTimes
 		
 
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
-
 		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Month>(this->tt).Value()) 
 			+ converter(std::get<DateTimes::Year>(this->tt).Value()); }
@@ -179,7 +178,6 @@ namespace DateTimes
 		}
 
 		constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
-	
 		constexpr explicit operator Day() { return std::get<DateTimes::Day>(tt); } 
 		constexpr explicit operator Month() { return std::get<DateTimes::Month>(tt); } 
 		constexpr explicit operator Year() { return std::get<DateTimes::Year>(tt); } 
@@ -194,6 +192,13 @@ namespace DateTimes
 		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
 		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
+	private:
+		bool valid = false;
+		TupleType tt;
+		const std::chrono::year_month_day ymd;
+		TP tp;
+		String_::ParserFrom<uint> converter;
+		
 		static constexpr const char* check(const char* s) 
 		{
 			uint size = std::strlen(s); 
@@ -204,13 +209,6 @@ namespace DateTimes
 					return  Default;
 			return s;
 		}
-	private:
-		bool valid = false;
-		TupleType tt;
-		const std::chrono::year_month_day ymd;
-		TP tp;
-		String_::ParserFrom<uint> converter;
-		
 		static TupleType extract(const std::string& s)
 		{
 			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
@@ -220,7 +218,6 @@ namespace DateTimes
 			else
 				return extractByValue(s);				
 		}
-		
 		static TupleType extractBySeparation(const std::string& s, const char token)
 		{
 			auto values = String_::Split(s,token);
@@ -229,7 +226,6 @@ namespace DateTimes
 				return createTuple(values.at(0),values.at(1),values.at(2));
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day{1},DateTimes::Month{1},DateTimes::Year{1900});
 		}
-		
 		static TupleType extractByValue(const std::string& s)
 		{
 			std::string res;
@@ -247,7 +243,6 @@ namespace DateTimes
 			}
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day{1},DateTimes::Month{1},DateTimes::Year{1900});			
 		}
-		
 		static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(String_::ParseTo<uint>(d)),DateTimes::Month(String_::ParseTo<uint>(m)),DateTimes::Year(String_::ParseTo<uint>(y))); }
 	};
 
