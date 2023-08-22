@@ -1,7 +1,6 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
-#include <cassert>
 #include "../Components/Interfaces.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
@@ -15,9 +14,12 @@ class MatrixAccess
 {
 public:
 	static constexpr size_t Order = M::Order;
+	inline static constexpr const char TypeIdentifier[] = "MatrixImpl";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
 	MatrixAccess() {}
 private:
 	friend M;
+	template<typename T> using IsT = Is<T,LiteralType>;
 	decltype(auto) addRow(const std::vector<typename M::ElementType>& v, M* m)
     {
         std::for_each(v.cbegin(), v.cend(), [&](auto i) { m->elements->push_back(std::make_shared<typename M::ElementType>(i)); } );
@@ -25,8 +27,8 @@ private:
         m->descriptor.AddRow();
     }
     decltype(auto) row(size_t i, const M* m) const
-    {  
-        assert(i<m->Rows());
+    { 
+		IsT<Throwing>(Format("Row Index: ",i, " exceeds row size: ", m->Rows()))(i<m->Rows());
         std::vector<typename M::DataType> result;
         for(uint r = i * m->descriptor.Stride(0); r < (i+1) * m->descriptor.Stride(0); r++)
             result.push_back(m->elements->at(r));
@@ -34,7 +36,7 @@ private:
     }
     decltype(auto) col(size_t i, const M* m)
     {  
-        assert(i<m->descriptor.Stride(0));
+		IsT<Throwing>(Format("Col Index: ",i, " exceeds col size: ", m->Cols()))(i<m->Cols());
         std::vector<typename M::DataType> result;
         for(auto r = 0; r < m->Rows(); r++)
             result.push_back(m->elements->at(i + (r * m->descriptor.Stride(0))));

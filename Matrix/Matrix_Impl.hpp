@@ -1,6 +1,5 @@
 #include <initializer_list>
 #include <array>
-#include <cassert>
 #include <algorithm>
 #include "Matrix_Ref.hpp"   
 #include "MatrixDescriptor.hpp"   

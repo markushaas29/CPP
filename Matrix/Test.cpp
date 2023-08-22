@@ -127,6 +127,14 @@ int main()
 	try	{ m35.AddRow({2});	}
 	catch(...){ t = true;	}
 	assert(t);
+	t = false;
+	try	{ m35[5][2];	}
+	catch(...){ t = true;	}
+	assert(t);
+	t = false;
+	try	{ m35[0][10];	}
+	catch(...){ t = true;	}
+	assert(t);
 	auto m2Move(std::move(m35));
 	std::cout<<"Matrix m2Move "<<m2Move<<"\n";
 	auto m2AMove = std::move(m2Move);

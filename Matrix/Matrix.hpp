@@ -1,7 +1,6 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
-#include <cassert>
 #include "Matrix_Ref.hpp"
 #include "MatrixDescriptor.hpp"
 #include "MatrixInit.hpp"

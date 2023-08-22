@@ -1,7 +1,6 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
-#include <cassert>
 #include "../Components/Interfaces.hpp"
 
 #pragma once

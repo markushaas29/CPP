@@ -1,5 +1,4 @@
 #include <vector>
-#include <cassert>
 #include "MatrixDescriptor.hpp"
 
 #pragma once
