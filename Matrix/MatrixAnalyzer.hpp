@@ -45,14 +45,13 @@ public:
 			{
 				auto r = filter(7,[&](const auto& s) { return s == iban.Value();});
 				std::cout<<"Iban: \n"<<r<<std::endl;
-
-				//matrix
+				std::cout<<"Sum:\t"<<Quantity<Sum>(r.ColSum(11))<<std::endl;
 			}
 		}
 
 		
-				auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
-				std::cout<<"Date: \n"<<r2<<std::endl;
+		auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
+		std::cout<<"Dates: \n"<<r2<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0]<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0][1]<<std::endl;
 	}
