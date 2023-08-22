@@ -138,7 +138,6 @@ int main()
 	assert(!datey600.Valid());
 	assert(datey25091986.Valid());
 	assert(!DateTimes::Date("").Valid());
-	std::cout<<"TEST 2 "<<std::endl;
 	auto dateytest = DateTimes::Date("TEST");
 	assert(!dateytest.Valid());
 

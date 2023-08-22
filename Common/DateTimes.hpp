@@ -127,6 +127,7 @@ namespace DateTimes
 		using TupleType = std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>;
 		using Type = DateTimes::Date;
 		inline static constexpr const char* Identifier = "Date";
+		inline static constexpr const char* Default = "1.1.1900";
 						
 		constexpr Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y, const char* t = ""): 
 			valid{d.Valid() && m.Valid() && y.Valid()},
@@ -136,8 +137,7 @@ namespace DateTimes
 		constexpr Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
 		constexpr Date(const char* e, const TupleType& t): Date(std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value(), e) { };
 		Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, tt{d.tt}, tp{d.tp}, converter{d.converter}  { };
-		//Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
-		Date(const std::string& s): Date{check(s.c_str()), extract(s) }{    };
+		Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 		Date* DoCreate(){return this;};
 		
 		static Date Today()
@@ -194,6 +194,16 @@ namespace DateTimes
 		constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
 		constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
 		constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
+		static constexpr const char* check(const char* s) 
+		{
+			uint size = std::strlen(s); 
+			if (size == 0) 
+				return  Default; 
+			for(int i =0; i < size; ++i )
+				if(s[i] < 46 || s[i] > 57)
+					return  Default;
+			return s;
+		}
 	private:
 		bool valid = false;
 		TupleType tt;
@@ -205,9 +215,6 @@ namespace DateTimes
 		{
 			auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
 			auto is = std::find_if(s.cbegin(),s.cend(),[](auto c){ return isspace(c); });
-			//~ std::cout<<"BYVAL:"<<*it<<"END"<<std::endl;
-			//~ if(is != s.cend())
-				//~ return extractBySeparation(s,' ');
 			if(it != s.cend())
 				return extractBySeparation(s,*it);
 			else
@@ -241,22 +248,7 @@ namespace DateTimes
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day{1},DateTimes::Month{1},DateTimes::Year{1900});			
 		}
 		
-		static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)
-		{
-			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(String_::ParseTo<uint>(d)),DateTimes::Month(String_::ParseTo<uint>(m)),DateTimes::Year(String_::ParseTo<uint>(y)));
-		}
-		
-		static constexpr const char* check(const char* s) 
-		{ 
-			if (std::strlen(s) == 0 || s[0] < 60 || s[0] > 71) 
-				return  "1.1.1900" ; 
-			for(int i =0; i < std::strlen(s); ++i )
-				if(s[i] < 60 || s[i] > 71)
-					if (s[i] != '.')
-						return  "1.1.1900" ; 
-
-			return s;
-		}
+		static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(String_::ParseTo<uint>(d)),DateTimes::Month(String_::ParseTo<uint>(m)),DateTimes::Year(String_::ParseTo<uint>(y))); }
 	};
 
 	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
