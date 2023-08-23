@@ -6,6 +6,7 @@
 #include "MatrixElement.hpp"
 #include "MatrixFilter.hpp"
 #include "MatrixFilters.hpp"
+#include "MatrixInitializer.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -38,15 +39,23 @@ public:
 		auto ibans = ue();
 
         std::cout<<"UNI: "<<ue<<std::endl;
+
+		std::vector<std::vector<std::string>> vec;
+
 		for(auto i : ibans)
 		{
 			auto iban = IBAN(i);
+			std::vector<std::string> v;
 			if(iban.Valid())
 			{
+				v.push_back(i);
 				auto r = filter(7,[&](const auto& s) { return s == iban.Value();});
 				std::cout<<"\nIBAN: "<<iban<<std::endl;
-				std::cout<<r.Slices(4,6,11,10)<<std::endl;
+				auto sl = r.Slices(4,6,11,10);
+				v.push_back(sl[0][1]);
+				v.push_back(std::to_string(r.ColSum(11)));
 				std::cout<<"\nSum:\t"<<Quantity<Sum>(r.ColSum(11))<<std::endl;
+				vec.push_back(v);
 			}
 		}
 
@@ -57,6 +66,9 @@ public:
 		std::cout<<"Dates: \n"<<rd<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0]<<std::endl;
 		std::cout<<"Date: \n"<<filter()[0][1]<<std::endl;
+
+		auto mi = Init(vec);
+		std::cout<<"Umsatz: \n"<<mi()<<std::endl;
 	}
 private:
 	MatrixFilter<MatrixType> filter;
