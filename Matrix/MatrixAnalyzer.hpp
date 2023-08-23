@@ -55,7 +55,7 @@ public:
 				std::cout<<"\nIBAN: "<<iban<<std::endl;
 				auto sl = r.Slices(4,6,11,10);
 				v.push_back(sl[0][1]);
-				v.push_back(std::to_string(r.ColSum(11)));
+				v.push_back(format(r.ColSum(11)));
 				std::cout<<"\nSum:\t"<<Quantity<Sum>(r.ColSum(11))<<std::endl;
 				vec.push_back(v);
 			}
@@ -76,6 +76,12 @@ public:
 private:
 	MatrixFilter<MatrixType> filter;
 
+	decltype(auto) format(auto number) const
+	{
+		std::ostringstream oss;
+		oss << std::setprecision(2) << number;
+		return oss.str();
+	}
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixAnalyzer& me) { return s;  }
 };

@@ -71,16 +71,12 @@ private:
 	template<class TupType, size_t... I>
 	void print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
 	{
-	    os << "(";
+	    os << "{";
 	    (..., (os << (I == 0? "" : ", ") << std::get<I>(_tup)));
-	    os << ")\n";
+	    os << "}\n";
 	}
-	
 	template<class... R>
-	void print (const std::tuple<R...>& _tup, std::ostream& os) const
-	{
-	    print(_tup, std::make_index_sequence<sizeof...(R)>(), os);
-	}
+	void print (const std::tuple<R...>& _tup, std::ostream& os) const	{   print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	}
 	friend std::ostream& operator<<(std::ostream& s, const MatrixProjector& me) 
 	{
 		for(auto i=0; i<me.matrix.Rows(); ++i)
