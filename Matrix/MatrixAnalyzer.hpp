@@ -7,6 +7,7 @@
 #include "MatrixFilter.hpp"
 #include "MatrixFilters.hpp"
 #include "MatrixInitializer.hpp"
+#include "MatrixProjector.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -23,6 +24,7 @@ class MatrixAnalyzer
 public:
 	using MatrixType = T;
 	using Type = T;
+	using TupleType = std::tuple<IBAN,Name,Quantity<Sum>>;	
 	inline static constexpr const char TypeIdentifier[] = "MatrixAnalyzer";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
@@ -68,7 +70,8 @@ public:
 		std::cout<<"Date: \n"<<filter()[0][1]<<std::endl;
 
 		auto mi = Init(vec);
-		std::cout<<"Umsatz: \n"<<mi()<<std::endl;
+		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());
+		std::cout<<"Umsatz: \n"<<mp<<std::endl;
 	}
 private:
 	MatrixFilter<MatrixType> filter;
