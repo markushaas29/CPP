@@ -176,9 +176,9 @@ int main()
     access.Run();
     projector.Run();
 
-	std::cout<<"M1 "<<m1<<std::endl;
-	std::cout<<"M2 "<<m2<<std::endl;
-	std::cout<<"M3 "<<m3<<std::endl;
+	std::cout<<"M1 \n"<<m1<<std::endl;
+	std::cout<<"M2 \n"<<m2<<std::endl;
+	std::cout<<"M3 \n"<<m3<<std::endl;
 	std::cout<<"END"<<std::endl;
    
 	return 0;

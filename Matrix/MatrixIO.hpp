@@ -19,18 +19,23 @@ public:
 			s<<"{";
 			for(auto i=0; i<m->Rows(); ++i)
 				s<<*(m->elements->at(i))<<(i+1 == m->Rows()? "" : ", ");
-			//std::for_each(m->elements->cbegin(), m->elements->cend(), [&](auto& v) { s<<*v<<", "; });
 			return s<<" }";
 		}
 		else
 		{
 			s<<"{\n";
 			for(auto i = 0; i != m->Rows(); ++i)
-				s<<" "<<(*m)[i]<<std::endl;
-			s<<" }";
+				in(s)<<(*m)[i]<<std::endl;
+			s<<"}";
 		}
 		return s;
 	};
 private:
 	friend M;
+    std::ostream& in(std::ostream& s)
+	{
+		for(auto i=0; i<M::Order; ++i)
+			s<<" ";
+		return s;
+	}
 };
