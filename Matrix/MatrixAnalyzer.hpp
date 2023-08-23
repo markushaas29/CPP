@@ -76,7 +76,7 @@ public:
 private:
 	MatrixFilter<MatrixType> filter;
 
-	decltype(auto) format(auto number) const
+	decltype(auto) format(double number) const
 	{
 		std::ostringstream oss;
 		oss << std::setprecision(2) << number;
