@@ -96,8 +96,9 @@ class MatrixProjectorTest
 			MDR2 mr2(md2);
 			auto r0 = mr2[0];
 			assert(QM(6)==std::get<1>(st2));
-			std::cout<<"Reading"<<std::get<3>(r0)<<std::endl;
-			std::cout<<"Reading"<<std::get<2>(r0)<<std::endl;
+
+			std::cout<<"Reading Q"<<msq<<std::endl;
+			std::cout<<"Reading MST"<<mst2<<std::endl;
 			std::cout<<"Reading"<<std::get<1>(r0)<<std::endl;
 			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
 

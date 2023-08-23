@@ -79,10 +79,19 @@ private:
 	void print (const std::tuple<R...>& _tup, std::ostream& os) const	{   print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	}
 	friend std::ostream& operator<<(std::ostream& s, const MatrixProjector& me) 
 	{
-		for(auto i=0; i<me.matrix.Rows(); ++i)
+		s<<"{ ";
+		if constexpr (MatrixType::Order==2)
 		{
-			me.print(me[i],s);
+			s<<"\n";
+			for(auto i=0; i<me.matrix.Rows(); ++i)
+				me.print(me[i],s);
 		}
+		if constexpr (MatrixType::Order==1)
+		{
+			for(auto i=0; i<me.matrix.Rows(); ++i)
+				s<<me[i]<<(i+1 == me.matrix.Rows()? "" : ", ");
+		}
+		s<<" }";
 		return s;  
 	}
 };

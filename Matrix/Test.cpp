@@ -173,9 +173,12 @@ int main()
     MatrixInitializerTest init;     
     MatrixSliceAccessTest access;     
     init.Run();     
-    projector.Run();
     access.Run();
+    projector.Run();
 
+	std::cout<<"M1 "<<m1<<std::endl;
+	std::cout<<"M2 "<<m2<<std::endl;
+	std::cout<<"M3 "<<m3<<std::endl;
 	std::cout<<"END"<<std::endl;
    
 	return 0;
