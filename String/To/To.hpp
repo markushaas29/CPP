@@ -28,10 +28,19 @@ decltype(auto) TryTo(std::string arg)
 template<typename Target=std::string>
 Target ParseTo(std::string arg)
 {
+	if(arg.size() == 0)
+		return Target{0};
+
 	if constexpr (std::is_same_v<Target,double>)
 	{
 		Logger::Log("String_::ParseTo: comma by point in ", arg);
-		std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
+		if(arg.size() > 6)
+		{
+			std::replace( arg.end()-4, arg.end(), Comma::Value, Point::Value);
+			arg.erase(std::remove(arg.begin(), arg.end()-4, '.'), arg.end()-4);
+		}
+		else
+			std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
 	}
 	
 	auto result = TryTo<Target>(arg);

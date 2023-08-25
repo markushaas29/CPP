@@ -8,6 +8,7 @@
 #include "../String/StringParser.hpp"
 #include "../Common/Make/Make.hpp"
 #include "../String/String_.hpp"
+#include "../String/To/To.hpp"
 
 #ifndef QUANTITY_H
 #define QUANTITY_H
@@ -34,7 +35,7 @@ public:
     
 	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(s.c_str()), value{(toNum(s)) * QR::Factor} { 	}
+	explicit Quantity(const std::string& s): Base(s.c_str()), value{(String_::ParseTo<ValueType>(s)) * QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
