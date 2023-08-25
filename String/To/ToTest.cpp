@@ -21,6 +21,8 @@ int main()
 	std::cout<<"1,4_"<<ParseTo<double>("1,4")<<" "<<std::endl;
 
 	assert(TryTo<double>("1.123"));
+	assert((double)TryTo<double>("1.123")==1.123);
+	assert((double)ParseTo<double>("1,123")==1.123);
 	assert(TryTo<uint>("123"));
 	assert(!TryTo<uint>("s"));
 	assert(!TryTo<uint>(""));
