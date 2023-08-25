@@ -40,12 +40,17 @@ class MatrixAnalyzerTest
 			std::vector<std::vector<std::vector<int>>> v33{{{1,1,1},{2,2,2}},{{3,3,3},{4,4,4}},{{3,3,3},{4,4,4}}};
 		
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
+			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
 			auto m22r = MatrixReader(u22);
+			auto m23r = MatrixReader(u23);
 
 			auto m22 = m22r.M<2>();
+			auto m23 = m23r.M<2>();
 
 			auto a22 = MatrixAnalyzer<decltype(m22)>(m22);
+			auto a23 = MatrixAnalyzer<decltype(m23)>(m23);
 			a22();
+			a23();
 
 			std::cout<<"END"<<std::endl;
 
