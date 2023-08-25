@@ -32,7 +32,7 @@ int main()
 	//~ auto q12 = q7 / q5;
     //~ std::cout<<"q12: "<<q12.Value()<<std::endl;
 	
-	auto km1_7 = Quantity<Length,Kilo>("1,7");
+	auto km1_7 = Quantity<Length,Kilo>("1.7");
     std::cout<<"km1,7: "<<km1_7<<std::endl;
     assert(km1_7.PureValue()==1700);
     assert(km1_7.Value()==1.7);
@@ -191,6 +191,11 @@ int main()
 	assert(km12_9.Value()==12.9);
 	std::cout<<km12_9<<std::endl;
 
+	std::string s123_9("12.9");
+	auto q1239 = Quantity<Sum>(s123_9);
+	std::cout<<q1239<<std::endl;
+	std::cout<<q1239.Value()<<std::endl;
+	assert(km12_9.Value()==12.9);
 	//~ auto dhm = d3 + h1 + m1;
     //~ std::cout<<"dhm: "<<dhm<<dhm.PureValue()<<std::endl;
     //~ assert(dhm.PureValue()==(86400+3600+60));

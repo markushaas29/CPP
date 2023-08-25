@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <sstream>
 #include "QuantityRatio.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Logger/Logger.hpp"
@@ -33,7 +34,7 @@ public:
     
 	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(s.c_str()), value{(converter(commaToPoint(String_::Remove<String_::Point>(s)))) * QR::Factor} { 	}
+	explicit Quantity(const std::string& s): Base(s.c_str()), value{(toNum(s)) * QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
@@ -86,6 +87,13 @@ private:
 	friend class Element<Type>;
 	static constexpr const char* check(const char* s) { return s; }
 	
+	static decltype(auto) toNum(const std::string& s)
+	{ 
+		double d;
+		std::istringstream(s) >> d;
+		return d;
+	}
+
 	template<typename TQuantity>
 	constexpr static decltype(auto) transform(TQuantity t)
 	{ 
