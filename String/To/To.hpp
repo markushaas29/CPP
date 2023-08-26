@@ -43,12 +43,8 @@ Target ParseTo(std::string arg)
 	{
 		Logger::Log("String_::ParseTo: comma by point in ", arg);
 		if(Contains(arg,".") && Contains(arg,","))
-		{
-			std::replace( arg.end()-4, arg.end(), Comma::Value, Point::Value);
-			arg.erase(std::remove(arg.begin(), arg.end()-4, '.'), arg.end()-4);
-		}
-		else
-			std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
+			arg.erase(std::remove(arg.begin(), arg.end(), '.'), arg.end());
+		std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
 	}
 	
 	auto result = TryTo<Target>(arg);
