@@ -74,6 +74,7 @@ class MatrixInitializerTest
 			auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
 			auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
 			auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
+			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/11256983_Energy.ctrv" };
 			auto m22r = MatrixReader(u22);
 			auto msr = MatrixReader(path);
 			auto mtr = MatrixReader(tpath);
@@ -82,6 +83,7 @@ class MatrixInitializerTest
 			auto mdr = MatrixReader<double>(path);
 			auto muir = MatrixReader<uint>(uipath);
 			auto mir = MatrixReader<int>(ipath);
+			auto mR = MatrixReader(rpath);
 			
 			assert(mdr.IsDim<2>());
 			auto md2 = mdr.M<2>();
