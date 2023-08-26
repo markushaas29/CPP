@@ -1,4 +1,4 @@
-#include "../String/To/To.hpp"
+#include "../To/To.hpp"
 #pragma once
 
 template<typename T>
@@ -21,7 +21,7 @@ decltype(auto) ToQuantity(std::istream& is, T t = T{})
 	using VT = typename T::ValueType;
 	if(!s.size())
 		return t;
-	if(auto v = String_::TryTo<VT>(s))
+	if(auto v = TryTo<VT>(s))
 		return T{(VT)v};
 	return  t;
 }

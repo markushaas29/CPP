@@ -1,5 +1,5 @@
 #include "../String/String_.hpp"
-#include "../String/To/To.hpp"
+#include "../To/To.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Common/DateTimes.hpp"
@@ -116,7 +116,7 @@ private:
 	{ 
 		auto s = (*begin);
 		auto s2 = *(begin+2);
-		auto valueResult = String_::TryTo<double>(s2);
+		auto valueResult = TryTo<double>(s2);
 		Logger::Log("Add in",s,s2,valueResult);  
 		
 		if(valueResult.Valid)

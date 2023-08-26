@@ -12,7 +12,7 @@
 #include "../Quantity/Quantity.hpp"
 #include "../String/String_.hpp"
 #include "../String/StringParser.hpp"
-#include "../String/To/To.hpp"
+#include "../To/To.hpp"
 #include "../Validator/Validator.hpp"
 
 #pragma once
@@ -243,7 +243,7 @@ namespace DateTimes
 			}
 			return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day{1},DateTimes::Month{1},DateTimes::Year{1900});			
 		}
-		static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(String_::ParseTo<uint>(d)),DateTimes::Month(String_::ParseTo<uint>(m)),DateTimes::Year(String_::ParseTo<uint>(y))); }
+		static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(DateTimes::Day(To<uint>(d)),DateTimes::Month(To<uint>(m)),DateTimes::Year(To<uint>(y))); }
 	};
 
 	static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)

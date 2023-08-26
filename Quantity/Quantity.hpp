@@ -8,7 +8,7 @@
 #include "../String/StringParser.hpp"
 #include "../Common/Make/Make.hpp"
 #include "../String/String_.hpp"
-#include "../String/To/To.hpp"
+#include "../To/To.hpp"
 
 #ifndef QUANTITY_H
 #define QUANTITY_H
@@ -27,15 +27,15 @@ public:
 	using Type = Quantity<U,QR,T1>;	
 	using PureType = Quantity<U,Pure,T1>;	
 	
-    	const std::string UnitSign() const { return U::Sign(); }
+    const std::string UnitSign() const { return U::Sign(); }
 	const std::string SiUnit() const { return UnitType::SiUnit(); }
-    	inline static const std::string Identifier = U::Name;
-    	inline static constexpr Converter converter = Converter();
-    	inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
+    inline static const std::string Identifier = U::Name;
+    inline static constexpr Converter converter = Converter();
+    inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
 	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(s.c_str()), value{(String_::ParseTo<ValueType>(s)) * QR::Factor} { 	}
+	explicit Quantity(const std::string& s): Base(s.c_str()), value{(To<ValueType>(s)) * QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
