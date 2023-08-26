@@ -15,12 +15,19 @@ int Run()
 	auto km0 = Quantity<Length,Kilo>("");
 	auto km177 = Quantity<Length,Kilo>("1,77");
 	auto km1000_77 = Quantity<Length,Kilo>("1.000,77");
+	auto km1000_7789 = Quantity<Length,Kilo>("1.000,7789");
     std::cout<<"km1,7: "<<km1_7<<std::endl;
     std::cout<<"km1,7: "<<km177<<std::endl;
-    std::cout<<"km1,7: "<<km1000_77<<std::endl;
+    std::cout<<"km1,7: "<<km1000_7789<<std::endl;
     assert(km1_7.PureValue()==1700);
     assert(km1_7.Value()==1.7);
     assert(km1000_77.Value()==1000.77);
+    assert(km1000_7789.Value()==1000.7789);
+	
+	auto km17000 = Quantity<Length,Kilo,uint>("17000");
+    assert(km17000.Value()==17000);
+	auto km170000 = Quantity<Length,Kilo,int>("170000");
+    assert(km170000.Value()==170000);
 	
 	std::string s123_9("12.9");
 	auto q1239 = Quantity<Sum>(s123_9);

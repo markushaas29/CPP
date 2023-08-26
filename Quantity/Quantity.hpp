@@ -33,7 +33,7 @@ public:
     
 	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(s.c_str()), value{(To<ValueType>(s)) * QR::Factor} { 	}
+	explicit Quantity(const std::string& s): Base(s.c_str()), value{(To<ValueType>(s)) * (ValueType)QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
@@ -155,9 +155,13 @@ std::ostream& operator<<(std::ostream& out, const Quantity<U,QR,T1>& q)
 {
 	//~ if constexpr (std::is_same_v<QR, Days> || std::is_same_v<QR, Hours> || std::is_same_v<QR, Minutes>)
 		//~ return out<<q.Value()<<" "<<QR::Sign;
-	std::ostringstream oss;
-	oss << std::setprecision(2)<<std::fixed << q.Value();
-	return out<<oss.str()<<" "<<QR::Sign<<U::Sign();
+	if constexpr (std::is_same_v<U, Sum>)
+	{
+		std::ostringstream oss;
+		oss << std::setprecision(2)<<std::fixed << q.Value();
+		return out<<oss.str()<<" "<<QR::Sign<<U::Sign();
+	}
+	return out<<q.Value()<<" "<<QR::Sign<<U::Sign();
 }
 
 //~ template<typename U,typename SIPrefix<86400,1> QR,typename T1 = double>
