@@ -34,6 +34,23 @@ int Run()
 	assert(qs9540.Value()==954.0);
 	assert(qs1000_3.Value()==1000.3);
 	assert(qs10003.Value()==1000.3);
+	
+	auto qs123_456 = Quantity<Sum>("123,456");
+	assert(qs123_456.Value()==123.456);
+	auto qs123456 = Quantity<Sum>("123.456");
+	assert(qs123456.Value()==123.456);
+	
+	auto qs2_123_456 = Quantity<Sum>("2.123,456");
+	assert(qs2_123_456.Value()==2123.456);
+	auto qs123456789 = Quantity<Sum>("123.456789");
+	assert(qs123456789.Value()==123.456789);
+	
+	auto qs2_789_123_456 = Quantity<Sum>("2.789.123,456");
+	assert(qs2_789_123_456.Value()==2789123.456);
+	auto qs2_123_456789 = Quantity<Sum>("2.123,456789");
+	assert(qs2_123_456789.Value()==2123.456789);
+	auto qs2123456789 = Quantity<Sum>("2123,456789");
+	assert(qs2123456789.Value()==2123.456789);
     std::cout<<"END"<<std::endl;
 
     return 0;

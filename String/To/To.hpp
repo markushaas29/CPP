@@ -4,6 +4,9 @@
 #include "../../Common/ParseResult.hpp"
 #include "../../Common/Make/Make.hpp"
 #include "../../Wrapper/Wrapper.hpp"
+#include "../../Is/Is.hpp"
+#include "../../String/Literal.hpp"
+#include "../../String/Format.hpp"
 
 #pragma once
 
@@ -29,9 +32,13 @@ decltype(auto) TryTo(std::string arg)
 template<typename Target=std::string>
 Target ParseTo(std::string arg)
 {
+	static constexpr const char TypeIdentifier[] = "To<>()";
+    static constexpr Literal LiteralType{TypeIdentifier};
+
 	if(arg.size() == 0)
 		return Target{0};
 
+	std::string info{arg};
 	if constexpr (std::is_same_v<Target,double>)
 	{
 		Logger::Log("String_::ParseTo: comma by point in ", arg);
@@ -46,7 +53,7 @@ Target ParseTo(std::string arg)
 	
 	auto result = TryTo<Target>(arg);
 	if(!result.Valid)
-		throw std::runtime_error("to<>() failed");
+		Is<Throwing,LiteralType>(Format(" failed: argument ",info, " formatted to ", arg))(false);
 	return result;
 }
 
