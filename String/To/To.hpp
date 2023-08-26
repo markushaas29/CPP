@@ -1,4 +1,5 @@
 #include <sstream>
+#include "../String_.hpp"
 #include "../../Logger/Logger.hpp"
 #include "../../Common/ParseResult.hpp"
 #include "../../Common/Make/Make.hpp"
@@ -34,7 +35,7 @@ Target ParseTo(std::string arg)
 	if constexpr (std::is_same_v<Target,double>)
 	{
 		Logger::Log("String_::ParseTo: comma by point in ", arg);
-		if(arg.size() > 6)
+		if(Contains(arg,".") && Contains(arg,","))
 		{
 			std::replace( arg.end()-4, arg.end(), Comma::Value, Point::Value);
 			arg.erase(std::remove(arg.begin(), arg.end()-4, '.'), arg.end()-4);
