@@ -23,14 +23,12 @@ public:
 	using UnitType = U;
 	using Base = Element<Quantity<U,QR,T1>>;
 	using QuantityRatioType = QR;
-	using Converter = String_::ParserTo<T1>;
 	using Type = Quantity<U,QR,T1>;	
 	using PureType = Quantity<U,Pure,T1>;	
 	
     const std::string UnitSign() const { return U::Sign(); }
 	const std::string SiUnit() const { return UnitType::SiUnit(); }
     inline static const std::string Identifier = U::Name;
-    inline static constexpr Converter converter = Converter();
     inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
 	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
@@ -87,13 +85,6 @@ private:
 	T1 value;
 	friend class Element<Type>;
 	static constexpr const char* check(const char* s) { return s; }
-	
-	static decltype(auto) toNum(const std::string& s)
-	{ 
-		double d;
-		std::istringstream(s) >> d;
-		return d;
-	}
 
 	template<typename TQuantity>
 	constexpr static decltype(auto) transform(TQuantity t)
@@ -164,7 +155,9 @@ std::ostream& operator<<(std::ostream& out, const Quantity<U,QR,T1>& q)
 {
 	//~ if constexpr (std::is_same_v<QR, Days> || std::is_same_v<QR, Hours> || std::is_same_v<QR, Minutes>)
 		//~ return out<<q.Value()<<" "<<QR::Sign;
-	return out<<q.Value()<<" "<<QR::Sign<<U::Sign();
+	std::ostringstream oss;
+	oss << std::setprecision(2)<<std::fixed << q.Value();
+	return out<<oss.str()<<" "<<QR::Sign<<U::Sign();
 }
 
 //~ template<typename U,typename SIPrefix<86400,1> QR,typename T1 = double>
