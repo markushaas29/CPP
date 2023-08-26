@@ -74,7 +74,7 @@ class MatrixInitializerTest
 			auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
 			auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
 			auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
-			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/11256983_Energy.ctrv" };
+			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energy.ctrv" };
 			auto m22r = MatrixReader(u22);
 			auto msr = MatrixReader(path);
 			auto mtr = MatrixReader(tpath);
@@ -83,7 +83,7 @@ class MatrixInitializerTest
 			auto mdr = MatrixReader<double>(path);
 			auto muir = MatrixReader<uint>(uipath);
 			auto mir = MatrixReader<int>(ipath);
-			auto mR = MatrixReader(rpath);
+			auto mrR = MatrixReader(rpath);
 			
 			assert(mdr.IsDim<2>());
 			auto md2 = mdr.M<2>();
@@ -161,11 +161,14 @@ class MatrixInitializerTest
 			auto gsum = gem.ColSum(3);
 			assert(gsum==-1339.93);
 
+			auto mR = mrR.M<2>();
+			assert(mssr.IsDim<2>());
 			std::cout<<gsum<<std::endl;
 			std::cout<<ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
 			//gem.ColSum()
 		
-			std::cout<<"END"<<decltype(mi3)::Order<<std::endl;
+			std::cout<<"Reading Matrix \n"<<mR<<std::endl;
+			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
 
 			return 0;
 		}

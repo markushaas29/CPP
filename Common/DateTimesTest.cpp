@@ -39,7 +39,7 @@ int main()
 	std::cout<<"Extract"<<DateTimes::Date("20.11.2022")<<std::endl;
 	std::cout<<"Extract"<<DateTimes::Date("2.11.2022")<<std::endl;
 	std::cout<<"Extract"<<DateTimes::Date("2.1.2022")<<std::endl;
-	std::cout<<"Extract"<<DateTimes::Date("2.01.2022")<<std::endl;
+	std::cout<<"Extract 2.01.2022"<<DateTimes::Date("2.01.2022")<<std::endl;
 	
 	std::cout<<"Days"<<std::endl;
 	

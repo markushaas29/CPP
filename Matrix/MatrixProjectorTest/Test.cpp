@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "../Matrix.hpp"
+#include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
@@ -121,6 +122,19 @@ class MatrixProjectorTest
 			assert((std::string)ms5[0][0]=="5");
 			assert(ms5[0][0].To<int>()==5);
 			std::cout<<"\nFilter"<<ms5[0][0].To<int>()<<std::endl;
+
+			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energy.ctrv" };
+			auto mrR = MatrixReader(rpath);
+			auto mR = mrR.M<2>();
+			
+			using QE = Quantity<Work>;
+			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
+		
+			using MPR = MatrixProjector<decltype(mR),TRF>;
+			MPR mpr(mR);
+			std::cout<<"ReadLine "<<std::get<1>(mpr[1])<<std::endl;
+
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
