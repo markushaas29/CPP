@@ -26,6 +26,15 @@ public:
 	MatrixRow(Tuple t): matrix(t) {}
 	template<int N>
 	auto At() const {	return std::get<N>(matrix); 	} 
+	
+	template<typename A>
+	constexpr auto multiply(A arg) 
+	{
+		//if constexpr ( IsTuple<A>)
+			return create(matrix);
+//		else
+//			return typename Base::mul<Left,Right>::Type();
+	}
 private:
 	Tuple matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
@@ -45,4 +54,24 @@ private:
 	}
 
 	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.matrix,s);	}
+
+
+
+	auto create(const auto t2) 
+	{
+    	return createI<1>(t2, std::make_tuple(std::get<0>(matrix) * std::get<0>(t2) ));
+	}
+	template<int N>
+	auto createI(const auto t2, const auto r) 
+	{
+		if constexpr (N==Size)
+        {
+            return MatrixRow<decltype(r)>(r);
+        }   
+        else
+        {
+            auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(matrix) * std::get<N>(t2) ));
+            return createI<N+1>(t2,tN);
+        }
+	}
 };

@@ -34,12 +34,14 @@ class MatrixProjectorTest
 			using QM = Quantity<Mass>;
 			using QV = Quantity<Volume>;
 			using T = std::tuple<Q,QM>;
+			using T3 = std::tuple<Q,QM, QV>;
 			using TR = std::tuple<Year,Month,Day,Quantity<Volume>>;
 		
 			using MIQ2 = MatrixProjector<MI2,Q>;
 			using MSQ1 = MatrixProjector<MS1,Q>;
 			using MST1 = MatrixProjector<MS1,T>;
 			using MIT2 = MatrixProjector<MI2,T>;
+			using MIT3 = MatrixProjector<MI2,T3>;
 			using MST2 = MatrixProjector<MS2,T>;
 			using MDR2 = MatrixProjector<MD2,TR>;
 			
@@ -82,6 +84,8 @@ class MatrixProjectorTest
 			MIQ2 miq(m35);
 			auto eq7 = miq[1][1];
 			assert(Q(7)==eq7);
+			assert(Q(13)==miq[2][2]);
+			assert(Q(5)==miq[0][4]);
 			
 			MSQ1 msq(ms1);
 			auto sq2 = msq[1];
@@ -135,6 +139,9 @@ class MatrixProjectorTest
   			using MPR = MatrixProjector<decltype(mR),TRF>;
   			MPR mpr(mR);
   			std::cout<<"ReadLine "<<mpr[1].At<1>()<<std::endl;
+
+			MIT3 mit3(m33);
+  			std::cout<<"Mul "<<mit3[1].multiply(3)<<std::endl;
 
 
 			std::cout<<"END"<<std::endl;

@@ -159,7 +159,7 @@ class MatrixCalculatorTest
 			std::cout<<"ColSum => :\n "<<(m2R[0])<<"\n";
 			auto s = m2R.Slices(0);
 		
-			std::cout<<"END"<<std::endl;
+			std::cout<<"END M1 * M1"<<(m1 * m1)<<std::endl;
 		//   
 			return 0;
 		}
