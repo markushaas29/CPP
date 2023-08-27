@@ -31,6 +31,8 @@ public:
 	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return multiply(r2.tuple);  	}
 	template<typename... Ts>
 	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return multiply(t2);  	}
+	template<typename T2>
+	decltype(auto) operator*(const T2& t2)	{ return multiply(tuple);  	}
 
 
 	template<typename A>
