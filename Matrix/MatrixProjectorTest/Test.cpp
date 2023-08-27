@@ -32,6 +32,7 @@ class MatrixProjectorTest
 		    using MI2 = Matrix<2,MDI2>;
 		
 			using QM = Quantity<Mass>;
+			using QV = Quantity<Volume>;
 			using T = std::tuple<Q,QM>;
 			using TR = std::tuple<Year,Month,Day,Quantity<Volume>>;
 		
@@ -97,7 +98,7 @@ class MatrixProjectorTest
 			MDR2 mr2(md2);
 			auto r0 = mr2[0];
 			std::cout<<"Reading MST"<<r0.At<1>()<<std::endl;
-			//assert(QM(6)==r0.At<1>())
+			assert(QV(5123.9)==r0.At<3>());
 
 			std::cout<<"Reading Q"<<msq<<std::endl;
 			std::cout<<"Reading MST"<<mst2<<std::endl;

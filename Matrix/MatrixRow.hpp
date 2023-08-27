@@ -6,6 +6,7 @@
 #include "MatrixElement.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
+#include "../String/Format.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
@@ -24,7 +25,7 @@ public:
 
 	MatrixRow(Tuple t): matrix(t) {}
 	template<int N>
-	auto At() const { return std::get<N>(matrix); } 
+	auto At() const {	return std::get<N>(matrix); 	} 
 private:
 	Tuple matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
@@ -43,7 +44,5 @@ private:
 		return os;
 	}
 
-	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) {	s<<"{ ";
-		me.print(me.matrix,s);
-		return	s<<" }";	}
+	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.matrix,s);	}
 };
