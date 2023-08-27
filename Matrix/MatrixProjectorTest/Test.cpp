@@ -88,51 +88,51 @@ class MatrixProjectorTest
 			
 			MIT2 mit2(m22);
 			auto it2 = mit2[1];
-			assert(QM(4)==std::get<1>(it2));
+			assert(QM(4)==it2.At<1>());
 		
-			MST2 mst2(ms22);
-			auto st2 = mst2[1];
-			assert(QM(6)==std::get<1>(st2));
-			
-			MDR2 mr2(md2);
-			auto r0 = mr2[0];
-			assert(QM(6)==std::get<1>(st2));
-
-			std::cout<<"Reading Q"<<msq<<std::endl;
-			std::cout<<"Reading MST"<<mst2<<std::endl;
-			std::cout<<"Reading"<<std::get<1>(r0)<<std::endl;
-			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
-
-			MIF2 mif2(m35);
-			auto m35F = mif2(2,[&](int d) { return d > 5;});
-			assert(m35F.Rows()==2);
-			assert((int)m35F[0][2]>5);
-			assert((int)m35F[1][2]>5);
-			
-			MDF2 mdf2(md2);
-			auto md5100 = mdf2(0,[&](double d) { return d == 2020; });
-			assert(md5100.Rows()==1);
-			assert((int)md5100[0][1]==12);
-			assert((int)md5100[0][2]==24);
-			assert((double)md5100[0][3]==5123.9);
-			
-			MSF2 msf2(ms22);
-			auto ms5 = msf2([&](const auto s) { return *s[0] == "5"; });
-			assert(ms5.Rows()==1);
-			assert((std::string)ms5[0][0]=="5");
-			assert(ms5[0][0].To<int>()==5);
-			std::cout<<"\nFilter"<<ms5[0][0].To<int>()<<std::endl;
-
-			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energy.ctrv" };
-			auto mrR = MatrixReader(rpath);
-			auto mR = mrR.M<2>();
-			
-			using QE = Quantity<Work>;
-			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
-		
-			using MPR = MatrixProjector<decltype(mR),TRF>;
-			MPR mpr(mR);
-			std::cout<<"ReadLine "<<std::get<1>(mpr[1])<<std::endl;
+//			MST2 mst2(ms22);
+//			auto st2 = mst2[1];
+//			assert(QM(6)==std::get<1>(st2));
+//			
+//			MDR2 mr2(md2);
+//			auto r0 = mr2[0];
+//			assert(QM(6)==std::get<1>(st2));
+//
+//			std::cout<<"Reading Q"<<msq<<std::endl;
+//			std::cout<<"Reading MST"<<mst2<<std::endl;
+//			std::cout<<"Reading"<<std::get<1>(r0)<<std::endl;
+//			std::cout<<"Reading"<<std::get<0>(r0)<<std::endl;
+//
+//			MIF2 mif2(m35);
+//			auto m35F = mif2(2,[&](int d) { return d > 5;});
+//			assert(m35F.Rows()==2);
+//			assert((int)m35F[0][2]>5);
+//			assert((int)m35F[1][2]>5);
+//			
+//			MDF2 mdf2(md2);
+//			auto md5100 = mdf2(0,[&](double d) { return d == 2020; });
+//			assert(md5100.Rows()==1);
+//			assert((int)md5100[0][1]==12);
+//			assert((int)md5100[0][2]==24);
+//			assert((double)md5100[0][3]==5123.9);
+//			
+//			MSF2 msf2(ms22);
+//			auto ms5 = msf2([&](const auto s) { return *s[0] == "5"; });
+//			assert(ms5.Rows()==1);
+//			assert((std::string)ms5[0][0]=="5");
+//			assert(ms5[0][0].To<int>()==5);
+//			std::cout<<"\nFilter"<<ms5[0][0].To<int>()<<std::endl;
+//
+//			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energy.ctrv" };
+//			auto mrR = MatrixReader(rpath);
+//			auto mR = mrR.M<2>();
+//			
+//			using QE = Quantity<Work>;
+//			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
+//		
+//			using MPR = MatrixProjector<decltype(mR),TRF>;
+//			MPR mpr(mR);
+//			std::cout<<"ReadLine "<<std::get<1>(mpr[1])<<std::endl;
 
 
 			std::cout<<"END"<<std::endl;

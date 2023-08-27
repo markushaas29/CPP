@@ -4,6 +4,7 @@
 #include "MatrixConcept.hpp"
 #include "PointerConcept.hpp"
 #include "MatrixElement.hpp"
+#include "MatrixRow.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -32,7 +33,7 @@ public:
 		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order == 2)
 		{	
 			IsT<Throwing>("Tuple Size unequal Cols")(matrix.Cols()==Size);
-			return createTupleProjection<0>(i,std::make_tuple(0));
+			return MatrixRow<Tuple>(createTupleProjection<0>(i,std::make_tuple(0)));
 		}
 		else
 		{
