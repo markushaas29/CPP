@@ -49,6 +49,7 @@ public:
 private:
 	MatrixType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
+	
 	template<int N>
 	auto createTupleProjection(size_t i, auto t) const
 	{
@@ -69,15 +70,7 @@ private:
 			}
 		}
 	} 
-	template<class TupType, size_t... I>
-	void print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
-	{
-	    os << "{";
-	    (..., (os << (I == 0? "" : ", ") << std::get<I>(_tup)));
-	    os << "}\n";
-	}
-	template<class... R>
-	void print (const std::tuple<R...>& _tup, std::ostream& os) const	{   print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	}
+
 	friend std::ostream& operator<<(std::ostream& s, const MatrixProjector& me) 
 	{
 		s<<"{ ";
@@ -85,7 +78,7 @@ private:
 		{
 			s<<"\n";
 			for(auto i=0; i<me.matrix.Rows(); ++i)
-				me.print(me[i],s);
+				s<<me[i];
 		}
 		if constexpr (MatrixType::Order==1)
 		{

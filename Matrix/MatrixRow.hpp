@@ -29,7 +29,6 @@ private:
 	Tuple matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<class TupType, size_t... I>
-	
 	void print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
 	{
 	    os << "{";
@@ -44,5 +43,7 @@ private:
 		return os;
 	}
 
-	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) {	return s<<"{ " <<me.print(me.matrix,s)<<" }";	}
+	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) {	s<<"{ ";
+		me.print(me.matrix,s);
+		return	s<<" }";	}
 };
