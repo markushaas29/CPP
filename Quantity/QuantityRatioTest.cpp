@@ -93,6 +93,7 @@ int main()
     
     
 	auto m1000 = Quantity<Length,Pure, double>(1000);
+	auto mm1000 = Quantity<Length,Milli, double>(1);
 	auto km24 = Quantity<Length,Kilo>(24);
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
@@ -119,6 +120,7 @@ int main()
     std::cout<<kmPerh<<" Cast as Mili "<<kmPerHCastH<<std::endl;
     assert(kmPerHCastH.Value()==1);
 
+    std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
     
     std::cout<<"END"<<std::endl;
 

@@ -2,6 +2,7 @@
 #include <tuple>
 #include <vector>
 #include "MatrixConcept.hpp"
+#include "MatrixRowConcept.hpp"
 #include "PointerConcept.hpp"
 #include "MatrixElement.hpp"
 #include "../Is/Is.hpp"
@@ -38,6 +39,11 @@ public:
 	template<typename A>
 	constexpr auto multiply(A arg) 
 	{
+		if constexpr ( MatrixRowConcept<A>)
+		{
+			//IsT<Throwing>(Format("Tuple size ",size, " is unequal ", Size))(size==Size);
+			return calculate(arg);
+		}
 		if constexpr ( IsTuple<A>)
 		{
 			int size = std::tuple_size_v<A>; 
@@ -70,6 +76,8 @@ private:
 	template<typename T2>
 	auto calculate(const T2 t2) 	
 	{  	
+		if constexpr ( MatrixRowConcept<T2>)
+			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * t2.template At<0>()));	
 		if constexpr ( IsTuple<T2>)
 			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	
 		else 
@@ -85,6 +93,12 @@ private:
         }   
         else
         {
+			if constexpr ( MatrixRowConcept<T2>)
+			{
+            	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * t2.template At<N>() ));
+            	return calculateI<N+1>(t2,tN);
+			}
+
 			if constexpr ( IsTuple<T2>)
 			{
             	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));

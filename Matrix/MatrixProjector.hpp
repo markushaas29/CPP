@@ -43,7 +43,10 @@ public:
 				return MatrixProjector<decltype(m),ProjectionType>(m);
 			}
 			else
-				return ProjectionType(matrix[i]);
+			{
+				if constexpr ( !IsTuple<ProjectionType>)
+					return ProjectionType(matrix[i]);
+			}
 		}
 	}
 private:
