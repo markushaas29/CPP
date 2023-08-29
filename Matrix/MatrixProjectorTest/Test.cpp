@@ -149,9 +149,9 @@ class MatrixProjectorTest
 			MIT3 mit3(m33);
   			std::cout<<"Mul "<<mit3[1].multiply(T3_2(2.5,2,3))<<std::endl;
   			std::cout<<"Mul "<<mit3[1].multiply(Q(2.5))<<std::endl;
-  			//std::cout<<"Mul "<<(mit3[1] * mit3[0])<<std::endl;
-  			//std::cout<<"Mul "<<(mit3[1] * T3())<<std::endl;
-  			//std::cout<<"Mul "<<(mit3[1] * 3 * 3)<<std::endl;
+  			std::cout<<"Mul "<<(mit3[1].multiply(5) )<<std::endl;
+  			std::cout<<"Mul "<<(mit3[1] * T3(5,7,9))<<std::endl;
+  			std::cout<<"Mul "<<(mit3[1] * 3 * 3* 10)<<std::endl;
 
 
 			std::cout<<"END"<<std::endl;
