@@ -44,8 +44,8 @@ public:
 			IsT<Throwing>(Format("Tuple size ",size, " is unequal ", Size))(size==Size);
 			return calculate(arg);
 		}
-		//else
-		//	return calculate(arg);
+		else
+			return calculate(arg);
 	}
 private:
 	Tuple tuple;
@@ -72,6 +72,8 @@ private:
 	{  	
 		if constexpr ( IsTuple<T2>)
 			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	
+		else 
+			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * t2 ));	
 	}
 	
 	template<int N, typename T2>
@@ -86,6 +88,11 @@ private:
 			if constexpr ( IsTuple<T2>)
 			{
             	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));
+            	return calculateI<N+1>(t2,tN);
+			}
+			else 
+			{
+            	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * t2 ));
             	return calculateI<N+1>(t2,tN);
 			}
         }
