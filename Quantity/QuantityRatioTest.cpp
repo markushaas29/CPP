@@ -2,6 +2,7 @@
 #include <cassert>
 #include "QuantityRatio.hpp"
 #include "Quantity.hpp"
+#include "../CSV/Element.hpp"
 #include "../Unit/Unit.hpp"
 
 int main()
@@ -91,11 +92,11 @@ int main()
     assert(DEKA::Num==10);
     
     
-	constexpr auto m1000 = Quantity<Length,Pure>(1000);
-	constexpr auto km24 = Quantity<Length,Kilo>(24);
-	constexpr auto h24 = Quantity<Time,Hours>(24);
-	constexpr auto h1 = Quantity<Time,Hours>(1);
-	constexpr auto d1 = Quantity<Time,Days>(1);
+	auto m1000 = Quantity<Length,Pure, double>(1000);
+	auto km24 = Quantity<Length,Kilo>(24);
+	auto h24 = Quantity<Time,Hours>(24);
+	auto h1 = Quantity<Time,Hours>(1);
+	auto d1 = Quantity<Time,Days>(1);
 	
     assert(d1.PureValue()==86400);
     assert(h1.PureValue()==3600);

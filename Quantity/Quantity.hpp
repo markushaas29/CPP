@@ -19,11 +19,11 @@ template<typename U, typename QR = Pure,typename T1 = double>
 class Quantity: public Element<Quantity<U,QR,T1>>
 {
 public:
+	using Type = Quantity<U,QR,T1>;	
 	using ValueType = T1;
 	using UnitType = U;
-	using Base = Element<Quantity<U,QR,T1>>;
+	using Base = Element<Type>;
 	using QuantityRatioType = QR;
-	using Type = Quantity<U,QR,T1>;	
 	using PureType = Quantity<U,Pure,T1>;	
 	
     const std::string UnitSign() const { return U::Sign(); }
