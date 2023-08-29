@@ -42,10 +42,10 @@ public:
 		{
 			int size = std::tuple_size_v<A>; 
 			IsT<Throwing>(Format("Tuple size ",size, " is unequal ", Size))(size==Size);
-			return calculate(tuple);
+			return calculate(arg);
 		}
-//		else
-//			return typename Base::mul<Left,Right>::Type();
+		//else
+		//	return calculate(arg);
 	}
 private:
 	Tuple tuple;
@@ -67,10 +67,15 @@ private:
 
 	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.tuple,s);	}
 
-	auto calculate(const auto t2) 	{  	return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	}
+	template<typename T2>
+	auto calculate(const T2 t2) 	
+	{  	
+		if constexpr ( IsTuple<T2>)
+			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	
+	}
 	
-	template<int N>
-	auto calculateI(const auto t2, const auto r) 
+	template<int N, typename T2>
+	auto calculateI(const T2 t2, const auto r) 
 	{
 		if constexpr (N==Size)
         {
@@ -78,8 +83,11 @@ private:
         }   
         else
         {
-            auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));
-            return calculateI<N+1>(t2,tN);
+			if constexpr ( IsTuple<T2>)
+			{
+            	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));
+            	return calculateI<N+1>(t2,tN);
+			}
         }
 	}
 };

@@ -35,6 +35,7 @@ class MatrixProjectorTest
 			using QV = Quantity<Volume>;
 			using T = std::tuple<Q,QM>;
 			using T3 = std::tuple<Q,QM, QV>;
+			using T3_2 = std::tuple<QM, QV, Q>;
 			using TR = std::tuple<Year,Month,Day,Quantity<Volume>>;
 		
 			using MIQ2 = MatrixProjector<MI2,Q>;
@@ -135,16 +136,21 @@ class MatrixProjectorTest
   			
   			using QE = Quantity<Work>;
   			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
-  	
+
+			auto s0=  m33.Slice(0);
+  			using MPS = MatrixProjector<decltype(s0),TRF>;
+			MPS mps(s0);
+
   			using MPR = MatrixProjector<decltype(mR),TRF>;
   			MPR mpr(mR);
   			std::cout<<"ReadLine "<<mpr[1].At<1>()<<std::endl;
+  			//std::cout<<"Slice "<<mps[0]<<std::endl;
 
 			MIT3 mit3(m33);
-  			std::cout<<"Mul "<<mit3[1].multiply(T3())<<std::endl;
-  			std::cout<<"Mul "<<(mit3[1] * mit3[0])<<std::endl;
-  			std::cout<<"Mul "<<(mit3[1] * T3())<<std::endl;
-  			std::cout<<"Mul "<<(mit3[1] * 3 * 3)<<std::endl;
+  			std::cout<<"Mul "<<mit3[1].multiply(T3_2())<<std::endl;
+  			//std::cout<<"Mul "<<(mit3[1] * mit3[0])<<std::endl;
+  			//std::cout<<"Mul "<<(mit3[1] * T3())<<std::endl;
+  			//std::cout<<"Mul "<<(mit3[1] * 3 * 3)<<std::endl;
 
 
 			std::cout<<"END"<<std::endl;
