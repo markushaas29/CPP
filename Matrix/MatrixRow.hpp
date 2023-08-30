@@ -37,7 +37,7 @@ public:
 	template<typename T2>
 	decltype(auto) operator*(const T2& t2)	{ return multiply(t2);  	}
 	template<typename T2, typename P>
-	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return 9;  	}
+	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return mp[0];  	}
 
 	template<MatrixRowConcept A>
 	constexpr auto multiply(A arg) 
