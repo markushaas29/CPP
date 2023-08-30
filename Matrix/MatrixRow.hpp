@@ -92,9 +92,7 @@ private:
 	auto calculateI(const R r, const auto t) 
 	{
 		if constexpr (N==Size)
-        {
             return MatrixRow<decltype(t)>(t);
-        }   
         else
         {
            	auto tN = std::tuple_cat(t,std::make_tuple(std::get<N>(tuple) * r.template At<N>() ));
@@ -106,9 +104,7 @@ private:
 	auto calculateI(const T2 t2, const auto r) 
 	{
 		if constexpr (N==Size)
-        {
             return MatrixRow<decltype(r)>(r);
-        }   
         else
         {
 			if constexpr ( IsTuple<T2>)
