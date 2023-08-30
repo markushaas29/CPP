@@ -37,8 +37,17 @@ public:
 	template<typename T2>
 	decltype(auto) operator*(const T2& t2)	{ return multiply(t2);  	}
 	template<typename T2, typename P>
-	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return mp[0];  	}
-
+	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	
+	{ 
+		if constexpr ( MatrixProjector<T2,P>::Order != 1)
+			IsT<Throwing>(Format("Order ",MatrixProjector<T2,P>::Order, " is not 1"))(false);
+		else
+		{
+			IsT<Throwing>(Format("Projector rows ",mp.matrix.Rows(), " is unequal ", Size))(Size==mp.matrix.Rows());
+			return multiply(mp[0]);
+		}
+	}
+	
 	template<MatrixRowConcept A>
 	constexpr auto multiply(A arg) 
 	{
@@ -91,7 +100,7 @@ private:
 		else 
 			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * t2 ));	
 	}
-	
+
 	template<int N, MatrixRowConcept R>
 	auto calculateI(const R r, const auto t) 
 	{

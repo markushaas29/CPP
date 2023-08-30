@@ -19,20 +19,18 @@ class MatrixProjector
 {
 public:
 	using MatrixType = T;
-	using Tuple = P;
 	using ProjectionType = P;
 	inline static constexpr const char TypeIdentifier[] = "MatrixProjector";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	static int constexpr Size = std::tuple_size_v<ProjectionType>;
 	static int constexpr Order = MatrixType::Order;
 
 	MatrixProjector(MatrixType m): matrix(m) {}
-	
+
 	decltype(auto) operator[] (size_t i) const 
 	{ 
 		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order == 2)
 		{	
-			IsT<Throwing>("Tuple Size unequal Cols")(matrix.Cols()==Size);
+			IsT<Throwing>("Tuple Size unequal Cols")(matrix.Cols()==std::tuple_size_v<ProjectionType>);
 			return MatrixRow<ProjectionType>(createTupleProjection<0>(i,std::make_tuple(0)));
 		}
 		else
@@ -64,12 +62,13 @@ public:
 	}
 private:
 	MatrixType matrix;
+	template<typename> friend class MatrixRow;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	
 	template<int N>
 	auto createTupleProjection(size_t i, auto t) const
 	{
-		if constexpr (N==Size)
+		if constexpr (N==std::tuple_size_v<ProjectionType>)
 			return t;
 		else
 		{

@@ -151,6 +151,7 @@ class MatrixProjectorTest
   			//std::cout<<"Slice "<<mps[0]<<std::endl;
 
 			MIT3 mit3(m33);
+			MIQ2 miq3(m33);
   			std::cout<<"mit3 "<<mit3<<std::endl;
   			std::cout<<"\nmit3 Slice "<<mit3.Slice<0>()<<std::endl;
   			std::cout<<"\nMul "<<mit3[1].multiply(T3_2(2.5,2,3))<<std::endl;
@@ -162,6 +163,11 @@ class MatrixProjectorTest
   			std::cout<<"Mul Row"<<rm.At<0>()<<std::endl;
   			std::cout<<"Mul Row"<<mit3[1].multiply(mit3[0])<<std::endl;
   			std::cout<<"Mul Row"<<(mit3[1] * mit3.Slice<0>())<<std::endl;
+  			std::cout<<"Mul Row"<<(mit3[1] * miq3[0])<<std::endl;
+
+			bool isthrow = false;
+			try {mit3[1] * miq3;} catch(...) { isthrow = true; }
+			assert(isthrow);
 
 
 			std::cout<<"END"<<std::endl;
