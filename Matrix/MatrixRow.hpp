@@ -15,6 +15,8 @@
 
 #pragma once
 
+template<typename T, typename P> class MatrixProjector;
+
 template<typename T>
 class MatrixRow 
 {
@@ -34,6 +36,8 @@ public:
 	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return multiply(t2);  	}
 	template<typename T2>
 	decltype(auto) operator*(const T2& t2)	{ return multiply(t2);  	}
+	template<typename T2, typename P>
+	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return 9;  	}
 
 	template<MatrixRowConcept A>
 	constexpr auto multiply(A arg) 

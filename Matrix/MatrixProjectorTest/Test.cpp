@@ -161,6 +161,7 @@ class MatrixProjectorTest
   			auto rm = mit3[1].multiply(mit3[0]);
   			std::cout<<"Mul Row"<<rm.At<0>()<<std::endl;
   			std::cout<<"Mul Row"<<mit3[1].multiply(mit3[0])<<std::endl;
+  			std::cout<<"Mul Row"<<(mit3[1] * mit3.Slice<0>())<<std::endl;
 
 
 			std::cout<<"END"<<std::endl;
