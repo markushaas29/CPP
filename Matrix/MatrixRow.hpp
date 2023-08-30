@@ -35,15 +35,17 @@ public:
 	template<typename T2>
 	decltype(auto) operator*(const T2& t2)	{ return multiply(t2);  	}
 
+	template<MatrixRowConcept A>
+	constexpr auto multiply(A arg) 
+	{
+		int size = std::tuple_size_v<typename A::Tuple>; 
+		IsT<Throwing>(Format("Tuple size ",A::Size, " is unequal ", Size))(A::Size==Size);
+		return calculate(arg);
+	}
 
 	template<typename A>
 	constexpr auto multiply(A arg) 
 	{
-		if constexpr ( MatrixRowConcept<A>)
-		{
-			//IsT<Throwing>(Format("Tuple size ",size, " is unequal ", Size))(size==Size);
-			return calculate(arg);
-		}
 		if constexpr ( IsTuple<A>)
 		{
 			int size = std::tuple_size_v<A>; 
@@ -73,17 +75,33 @@ private:
 
 	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.tuple,s);	}
 
+
+	template<MatrixRowConcept A>
+	auto calculate(const A arg) {  	return calculateI<1>(arg, std::make_tuple(std::get<0>(tuple) * arg.template At<0>() ));	}
+
 	template<typename T2>
 	auto calculate(const T2 t2) 	
 	{  	
-		if constexpr ( MatrixRowConcept<T2>)
-			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * t2.template At<0>()));	
 		if constexpr ( IsTuple<T2>)
 			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	
 		else 
 			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * t2 ));	
 	}
 	
+	template<int N, MatrixRowConcept R>
+	auto calculateI(const R r, const auto t) 
+	{
+		if constexpr (N==Size)
+        {
+            return MatrixRow<decltype(t)>(t);
+        }   
+        else
+        {
+           	auto tN = std::tuple_cat(t,std::make_tuple(std::get<N>(tuple) * r.template At<N>() ));
+           	return calculateI<N+1>(r,tN);
+		}
+	}
+
 	template<int N, typename T2>
 	auto calculateI(const T2 t2, const auto r) 
 	{
@@ -93,12 +111,6 @@ private:
         }   
         else
         {
-			if constexpr ( MatrixRowConcept<T2>)
-			{
-            	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * t2.template At<N>() ));
-            	return calculateI<N+1>(t2,tN);
-			}
-
 			if constexpr ( IsTuple<T2>)
 			{
             	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));
