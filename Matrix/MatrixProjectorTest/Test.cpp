@@ -87,6 +87,10 @@ class MatrixProjectorTest
 			assert(Q(7)==eq7);
 			assert(Q(13)==miq[2][2]);
 			assert(Q(5)==miq[0][4]);
+			assert(Q(6)==miq.Slice<0>()[1]);
+			assert(Q(15)==miq.Slice<4>()[2]);
+  			std::cout<<"\nmit3 Slice "<<miq.Slice<0>()<<std::endl;
+
 			
 			MSQ1 msq(ms1);
 			auto sq2 = msq[1];

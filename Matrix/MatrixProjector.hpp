@@ -52,12 +52,15 @@ public:
 	template<int N>
 	decltype(auto)  Slice() const
 	{
+		IsT<Throwing>(Format("Index ",N," exceeds extent ", matrix.Cols()))(matrix.Cols()>N);
 		auto s = matrix.Slice(N);
 		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order==2)
 		{
 			using Type = std::tuple_element_t<N, Tuple>;
 			return MatrixProjector<decltype(s),Type>(s);
 		}
+		else
+			return MatrixProjector<decltype(s),ProjectionType>(s);
 	}
 private:
 	MatrixType matrix;
