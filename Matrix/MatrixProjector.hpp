@@ -49,6 +49,16 @@ public:
 			}
 		}
 	}
+	template<int N>
+	decltype(auto)  Slice() const
+	{
+		auto s = matrix.Slice(N);
+		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order==2)
+		{
+			using Type = std::tuple_element_t<N, Tuple>;
+			return MatrixProjector<decltype(s),Type>(s);
+		}
+	}
 private:
 	MatrixType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
