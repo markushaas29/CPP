@@ -18,7 +18,16 @@ public:
 	virtual ~Functional(){};
 };
 
-
+template<class Domain=double>
+class Constant
+{
+public:
+	Constant(const Domain& v): val{v} {}
+	template<typename T>
+	decltype(auto) Make(const T& t) { return Constant<T>(t);}
+private:
+	Domain val;
+};
 
 template<typename T, template<typename,typename> class D,typename L, typename R>
 class OperationBase 

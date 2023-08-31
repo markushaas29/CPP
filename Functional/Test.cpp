@@ -22,7 +22,9 @@ class FunctionalTest
 			using T3 = std::tuple<Q,QM, QV>;
 			using T3_2 = std::tuple<QM, QV, Q>;
 			using TR = std::tuple<Year,Month,Day,Quantity<Volume>>;
-		
+	
+			QM qm{5};
+			auto cm = Constant<QM>(qm);
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
