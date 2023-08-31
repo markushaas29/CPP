@@ -23,10 +23,15 @@ class Constant
 {
 public:
 	Constant(const Domain& v): val{v} {}
+	virtual Domain operator()(const Domain&) const { return val; }
+	virtual Domain operator()() const { return val; }
+	template<typename T>
+	operator T() const { return static_cast<T>(val); }
 	template<typename T>
 	decltype(auto) Make(const T& t) { return Constant<T>(t);}
 private:
 	Domain val;
+	friend std::ostream& operator<<(std::ostream& s, const Constant& c) { return s<<c.val;  }
 };
 
 template<typename T, template<typename,typename> class D,typename L, typename R>

@@ -25,6 +25,9 @@ class FunctionalTest
 	
 			QM qm{5};
 			auto cm = Constant<QM>(qm);
+			assert(qm==cm());
+			assert(5==(int)cm);
+			std::cout<<"Const "<<qm<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
