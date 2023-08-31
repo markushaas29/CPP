@@ -31,6 +31,9 @@ class FunctionalTest
 
 			auto ac = Add<Constant<QM>, Constant<QM>>(cm,cm);
 			std::cout<<"Add "<<ac(5)<<std::endl;
+			auto ac2 = Add<decltype(ac), Constant<QM>>(ac,cm);
+			std::cout<<"Add "<<ac2(5)<<std::endl;
+			std::cout<<"Add "<<ac2<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
