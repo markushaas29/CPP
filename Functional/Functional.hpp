@@ -45,6 +45,8 @@ public:
 	OperationBase(const LeftType& l,const RightType& r ): right{r}, left{l} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right); }
 	decltype(auto) operator()() const { return Derived::op(left,right); }
+	template<typename T>
+	operator T() const { return static_cast<T>((*this)()); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const OperationBase& c) { return s<<c.left<<" + "<<c.right;  }
 	RightType right;
@@ -58,10 +60,19 @@ class Add: public OperationBase<Add,L,R>
 	friend class OperationBase<Add,L,R>;
 public:
 	Add(const L& l, const R& r): Base{l,r} {}
-	//decltype(auto) operator()(const auto& v) { return Base::left() + Base::right(); }
-	//decltype(auto) operator()() { return Base::left() + Base::right(); }
 private:
 	static decltype(auto) op(const auto l, const auto r) { return l() + r(); }
+};
+
+template<typename L, typename R>
+class Mul: public OperationBase<Mul,L,R>
+{
+	using Base = OperationBase<Mul,L,R>;
+	friend class OperationBase<Mul,L,R>;
+public:
+	Mul(const L& l, const R& r): Base{l,r} {}
+private:
+	static decltype(auto) op(const auto l, const auto r) { return l() * r(); }
 };
 
 //template<typename L, typename R>

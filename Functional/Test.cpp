@@ -30,10 +30,17 @@ class FunctionalTest
 			std::cout<<"Const "<<qm<<std::endl;
 
 			auto ac = Add<Constant<QM>, Constant<QM>>(cm,cm);
+			assert(ac()==QM{10});
+			assert(10==(int)ac);
 			std::cout<<"Add "<<ac(5)<<std::endl;
+			
 			auto ac2 = Add<decltype(ac), Constant<QM>>(ac,cm);
-			std::cout<<"Add "<<ac2(5)<<std::endl;
-			std::cout<<"Add "<<ac2<<std::endl;
+			assert(ac2()==QM{15});
+			assert(15==(int)ac2);
+			
+			auto mc = Mul<decltype(ac), Constant<QM>>(ac,cm);
+			std::cout<<"Mul "<<mc<<std::endl;
+			std::cout<<"Mul "<<mc()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
