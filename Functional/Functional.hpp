@@ -74,7 +74,7 @@ class Sub: public OperationBase<Sub,L,R>
 public:
 	Sub(const L& l, const R& r): Base{l,r} {}
 private:
-	inline static constexpr const char* sign = "+"; 
+	inline static constexpr const char* sign = "-"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() - r(); }
 };
 
@@ -98,6 +98,12 @@ class Div: public OperationBase<Div,L,R>
 public:
 	Div(const L& l, const R& r): Base{l,r} {}
 private:
-	inline static constexpr const char* sign = "*"; 
+	inline static constexpr const char* sign = "/"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() / r(); }
 };
+
+template<template<typename,typename> class Op, typename L, typename R>
+decltype(auto) Func(const L& l, const R& r) { return Op<L,R>(l,r); }
+
+template<template<typename> class C, typename T>
+decltype(auto) Func(const T& t) { return C<T>(t); }

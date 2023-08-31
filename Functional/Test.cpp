@@ -49,7 +49,16 @@ class FunctionalTest
 			auto dc = Div<decltype(mc), Constant<QM>>(mc,cm);
 			assert(dc()==QM{10});
 			assert(10==(int)dc);
-			std::cout<<"Mul "<<mc<<std::endl;
+		
+			auto fd = Func<Div>(mc,cm);
+			assert(fd()==QM{10});
+			assert(10==(int)fd);
+			
+			auto fc = Func<Constant>(qm);
+			assert(qm==fc());
+			assert(5==(int)fc);
+
+			std::cout<<"Mul "<<Func<Div>(Func<Mul>(mc,ac), Func<Add>(mc,mc))<<std::endl;
 			std::cout<<"Mul "<<mc()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
