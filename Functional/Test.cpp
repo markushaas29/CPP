@@ -3,6 +3,7 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
+#include "Functional.hpp"
 #include "../Common/ShortNames.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
