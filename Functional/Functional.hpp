@@ -40,6 +40,7 @@ class OperationBase
 	using LeftType = L;
 	using RightType = R;
 	using Derived = D<L,R>;
+	inline static constexpr const char* sign = Derived::sign; 
 	friend class D<L,R>;
 public:
 	OperationBase(const LeftType& l,const RightType& r ): right{r}, left{l} {}
@@ -48,7 +49,7 @@ public:
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const OperationBase& c) { return s<<c.left<<" + "<<c.right;  }
+	friend std::ostream& operator<<(std::ostream& s, const OperationBase& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
 	RightType right;
 	LeftType left;
 };
@@ -61,6 +62,7 @@ class Add: public OperationBase<Add,L,R>
 public:
 	Add(const L& l, const R& r): Base{l,r} {}
 private:
+	inline static constexpr const char* sign = "+"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() + r(); }
 };
 
@@ -72,79 +74,7 @@ class Mul: public OperationBase<Mul,L,R>
 public:
 	Mul(const L& l, const R& r): Base{l,r} {}
 private:
+	inline static constexpr const char* sign = "*"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() * r(); }
 };
-
-//template<typename L, typename R>
-//class Sub: public OperationBase<Subtraction,Sub,L,R>
-//{
-//	using Base = OperationBase<Subtraction,Sub,L,R>;
-//	friend class OperationBase<Subtraction,Sub,L,R>;
-//public:
-//	Sub(const L& v): Base{v} {}
-//	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
-//private:
-//	static decltype(auto) calculate(const auto& v, const auto& val) { return v - val; }
-//};
-//
-//template<typename L, typename R>
-//class Mul: public OperationBase<Multiplication,Mul,L,R>
-//{
-//	using Base = OperationBase<Multiplication,Mul,L,R>;
-//	friend class OperationBase<Multiplication,Mul,L,R>;
-//public:
-//	Mul(const L& v): Base{v} {}
-//	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
-//private:
-//	static decltype(auto) calculate(const auto& v, const auto& val) { return v * val; }
-//};
-//
-//template<typename L, typename R>
-//class Div: public OperationBase<Division,Div,L,R>
-//{
-//	using Base = OperationBase<Division,Div,L,R>;
-//	friend class OperationBase<Division,Div,L,R>;
-//public:
-//	Div(const L& v): Base{v} {}
-//	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
-//private:
-//	static decltype(auto) calculate(const auto& v, const auto& val) { return v / val; }
-//};
-//
-//template<typename Op, typename M1, typename V>
-//class ValueOperation 
-//{
-//public:
-//	using Left = M1;
-//	using Right = V;
-//	using ValueType = Op::Type;
-//	using DataType = std::shared_ptr<ValueType>;    
-//	using DescriptorType = MatrixDescriptor<Left::Order,ValueType>;
-//	using MatrixType = Matrix<Left::Order,DescriptorType>;
-//	inline static constexpr const char TypeIdentifier[] = "MatrixOperation";
-//    inline static constexpr Literal LiteralType{TypeIdentifier};
-//	static int constexpr Size = Left::Order;
-//protected:
-//private:
-//	template<typename U> using IsT =  Is<U,LiteralType>;
-//	friend std::ostream& operator<<(std::ostream& s, const ValueOperation& me) { return s;  }
-//};
-//template<template<typename,typename> class Op, typename M1, typename M2>
-//class MatrixOperation 
-//{
-//public:
-//	using Left = M1;
-//	using Right = std::remove_reference<M2>::type;
-//	using ValueType = Op<typename Left::ElementType, typename Right::ElementType>::Type;
-//	using DataType = std::shared_ptr<ValueType>;    
-//	using DescriptorType = MatrixDescriptor<Left::Order,ValueType>;
-//	using MatrixType = Matrix<Left::Order,DescriptorType>;
-//	inline static constexpr const char TypeIdentifier[] = "MatrixOperation";
-//    inline static constexpr Literal LiteralType{TypeIdentifier};
-//	static int constexpr Size = Left::Order;
-//protected:
-//private:
-//	template<typename U> using IsT =  Is<U,LiteralType>;
-//	friend std::ostream& operator<<(std::ostream& s, const MatrixOperation& me) { return s;  }
-//};
 
