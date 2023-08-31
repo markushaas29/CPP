@@ -28,6 +28,10 @@ class FunctionalTest
 			assert(qm==cm());
 			assert(5==(int)cm);
 			std::cout<<"Const "<<qm<<std::endl;
+
+			auto ac = Add<Constant<QM>, Constant<QM>>(cm,cm);
+			std::cout<<"Add "<<ac(5)<<std::endl;
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;

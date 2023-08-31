@@ -34,30 +34,31 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const Constant& c) { return s<<c.val;  }
 };
 
-template<typename T, template<typename,typename> class D,typename L, typename R>
+template<template<typename,typename> class D,typename L, typename R>
 class OperationBase 
 {
 	using LeftType = L;
 	using RightType = R;
-	using Type = T;
-	using OpType = D<L,R>;
+	using Derived = D<L,R>;
+	friend class D<L,R>;
 public:
-	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return T::Calculate(v,val); }
+	OperationBase(const RightType& r, const LeftType& l): right{r}, left{l} {}
+	//decltype(auto) operator()(const auto& v) { return T::Calculate(v,val); }
 private:
-	RightType val;
+	RightType right;
+	LeftType left;
 };
 
 template<typename L, typename R>
-class Add: public OperationBase<Addition,Add,L,R>
+class Add: public OperationBase<Add,L,R>
 {
-	using Base = OperationBase<Addition,Add,L,R>;
-	friend class OperationBase<Addition,Add,L,R>;
+	using Base = OperationBase<Add,L,R>;
+	friend class OperationBase<Add,L,R>;
 public:
-	Add(const L& v): Base{v} {}
-	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
+	Add(const L& l, const R& r): Base{l,r} {}
+	decltype(auto) operator()(const auto& v) { return Base::left() + Base::right(); }
 private:
-	static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
+	//static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
 };
 
 //template<typename L, typename R>
