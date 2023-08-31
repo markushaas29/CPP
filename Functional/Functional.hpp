@@ -67,6 +67,18 @@ private:
 };
 
 template<typename L, typename R>
+class Sub: public OperationBase<Sub,L,R>
+{
+	using Base = OperationBase<Sub,L,R>;
+	friend class OperationBase<Sub,L,R>;
+public:
+	Sub(const L& l, const R& r): Base{l,r} {}
+private:
+	inline static constexpr const char* sign = "+"; 
+	static decltype(auto) op(const auto l, const auto r) { return l() - r(); }
+};
+
+template<typename L, typename R>
 class Mul: public OperationBase<Mul,L,R>
 {
 	using Base = OperationBase<Mul,L,R>;
@@ -78,3 +90,14 @@ private:
 	static decltype(auto) op(const auto l, const auto r) { return l() * r(); }
 };
 
+template<typename L, typename R>
+class Div: public OperationBase<Div,L,R>
+{
+	using Base = OperationBase<Div,L,R>;
+	friend class OperationBase<Div,L,R>;
+public:
+	Div(const L& l, const R& r): Base{l,r} {}
+private:
+	inline static constexpr const char* sign = "*"; 
+	static decltype(auto) op(const auto l, const auto r) { return l() / r(); }
+};

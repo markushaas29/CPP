@@ -38,9 +38,17 @@ class FunctionalTest
 			assert(ac2()==QM{15});
 			assert(15==(int)ac2);
 			
+			auto sc = Sub<decltype(ac2), Constant<QM>>(ac2,cm);
+			assert(sc()==QM{10});
+			assert(10==(int)sc);
+			
 			auto mc = Mul<decltype(ac), Constant<QM>>(ac,cm);
 			assert(mc()==(QM{5}*QM{10}));
 			assert(50==(int)mc);
+			
+			auto dc = Div<decltype(mc), Constant<QM>>(mc,cm);
+			assert(dc()==QM{10});
+			assert(10==(int)dc);
 			std::cout<<"Mul "<<mc<<std::endl;
 			std::cout<<"Mul "<<mc()<<std::endl;
 
