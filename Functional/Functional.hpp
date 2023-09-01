@@ -23,8 +23,11 @@ private:
 };
 
 template<class Domain=double>
-class Constant
+class Constant: Functional<Constant<Domain>>
 {
+	using Type = Constant<Domain>;
+	using Base = Functional<Type>;
+	friend class Functional<Type>;
 public:
 	Constant(const Domain& v): val{v} {}
 	virtual Domain operator()(const Domain&) const { return val; }
@@ -114,3 +117,6 @@ decltype(auto) Func(const L& l, const R& r) { return Op<L,R>(l,r); }
 
 template<template<typename> class C, typename T>
 decltype(auto) Func(const T& t) { return C<T>(t); }
+
+template<class D1, class D2>
+constexpr decltype(auto) operator+(const Functional<D1>& f1, const Functional<D2>& f2) { return Func<Add>(f1,f2); }

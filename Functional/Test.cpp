@@ -59,7 +59,7 @@ class FunctionalTest
 			assert(5==(int)fc);
 
 			std::cout<<"Mul "<<Func<Div>(Func<Mul>(mc,ac), Func<Add>(mc,mc))<<std::endl;
-			std::cout<<"Mul "<<mc()<<std::endl;
+			//std::cout<<"Operator "<<(ac + ac)()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
