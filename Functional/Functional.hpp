@@ -10,12 +10,16 @@
 #include "../Calculator/Operations.hpp"
 #pragma once
 
-template<class Domain, class Range>
+template<typename D>
 class Functional
 {
+	using Derived = D;
 public:
-	virtual Range operator()(const Domain&) const = 0;
 	virtual ~Functional(){};
+private:
+	decltype(auto) operator()() const { return ; }
+	decltype(auto) operator()(const auto& v) const { return v; }
+	friend D;
 };
 
 template<class Domain=double>
@@ -35,11 +39,14 @@ private:
 };
 
 template<template<typename,typename> class D,typename L, typename R>
-class BinaryFunctional 
+class BinaryFunctional: public Functional<BinaryFunctional<D,L,R>>
 {
 	using LeftType = L;
 	using RightType = R;
 	using Derived = D<L,R>;
+	using Type = BinaryFunctional<D,L,R>;
+	using Base = Functional<Type>;
+	friend class Functional<Type>;
 	inline static constexpr const char* sign = Derived::sign; 
 	friend class D<L,R>;
 public:
