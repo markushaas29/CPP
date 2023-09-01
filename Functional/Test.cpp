@@ -62,8 +62,13 @@ class FunctionalTest
 			auto ap = ac + ac;
 			auto i = ap();
 			std::cout<<"Operator "<<ap<<std::endl;
+			std::cout<<"Operator "<<(ac + ac)<<std::endl;
 			std::cout<<"Operator "<<(ac + cm)<<std::endl;
 			std::cout<<"Operator "<<(cm + ac)<<std::endl;
+
+			std::cout<<"Operator "<<(ac - ac)<<std::endl;
+			std::cout<<"Operator "<<(ac - cm)<<std::endl;
+			std::cout<<"Operator "<<(cm - ac)<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
