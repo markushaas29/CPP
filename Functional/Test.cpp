@@ -28,6 +28,10 @@ class FunctionalTest
 			auto cm2 = Constant(2.0);
 			auto cm5 = Constant(5);
 			assert(qm==cm());
+			assert(2==cm2());
+			assert(2==(int)cm2);
+			assert(5==(int)cm5);
+			assert(5==cm5());
 			assert(5==(int)cm);
 			std::cout<<"Const "<<cm2<<std::endl;
 
