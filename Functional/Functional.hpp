@@ -22,23 +22,36 @@ private:
 	friend D;
 };
 
-template<class Domain=double>
-class Constant: Functional<Constant<Domain>>
+template<template<typename> class D,typename V>
+class UnaryFunctional: public Functional<UnaryFunctional<D,V>>
 {
-	using Type = Constant<Domain>;
+	using ValueType = V;
+	using Derived = D<V>;
+	using Type = UnaryFunctional<D,V>;
 	using Base = Functional<Type>;
 	friend class Functional<Type>;
+	friend class D<V>;
+	inline static constexpr const char* sign = Derived::sign; 
 public:
-	Constant(const Domain& v): val{v} {}
-	virtual Domain operator()(const Domain&) const { return val; }
-	virtual Domain operator()() const { return val; }
+	UnaryFunctional(const ValueType& v): value{v} {}
+	decltype(auto) operator()(const auto& v) const { return Derived::op(value); }
+	decltype(auto) operator()() const { return Derived::op(value); }
 	template<typename T>
-	operator T() const { return static_cast<T>(val); }
-	template<typename T>
-	decltype(auto) Make(const T& t) { return Constant<T>(t);}
+	operator T() const { return static_cast<T>((*this)()); }
 private:
-	Domain val;
-	friend std::ostream& operator<<(std::ostream& s, const Constant& c) { return s<<c.val;  }
+	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<"{"<<c.value<<"}";  }
+	ValueType value;
+};
+template<class Domain=double>
+class Constant: public UnaryFunctional<Constant,Domain>
+{
+	using Type = Constant<Domain>;
+	using Base = UnaryFunctional<Constant, Domain>;
+	friend class UnaryFunctional<Constant, Domain>;
+public:
+	Constant(const Domain& v): Base{v} {}
+private:
+	static decltype(auto) op(const auto& v) { return v; }
 };
 
 template<template<typename,typename> class D,typename L, typename R>
