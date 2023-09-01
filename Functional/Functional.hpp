@@ -20,9 +20,7 @@ public:
 	decltype(auto) operator()() const
 	{ 
 		auto cderived = const_cast<Type&>(*this);
-		auto derived = static_cast<Derived&>(cderived);
-		std::cout<<"Derived "<<derived.left<<std::endl;
-		return derived;
+		return  static_cast<Derived&>(cderived);
 	};
 	decltype(auto) operator()(const auto& v) const { return v; }
 private:
@@ -57,6 +55,8 @@ class Constant: public UnaryFunctional<Constant,Domain>
 	friend class UnaryFunctional<Constant, Domain>;
 public:
 	Constant(const Domain& v): Base{v} {}
+	template<typename T>
+	Constant(std::is_arithmetic<T> v): Base{static_cast<Domain>(v)} {} 
 private:
 	static decltype(auto) op(const auto& v) { return v; }
 };
