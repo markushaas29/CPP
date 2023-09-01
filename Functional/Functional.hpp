@@ -14,11 +14,18 @@ template<typename D>
 class Functional
 {
 	using Derived = D;
+	using Type = Functional<D>;
 public:
 	virtual ~Functional(){};
-private:
-	decltype(auto) operator()() const { return ; }
+	decltype(auto) operator()() const
+	{ 
+		auto cderived = const_cast<Type&>(*this);
+		auto derived = static_cast<Derived&>(cderived);
+		std::cout<<"Derived "<<derived.left<<std::endl;
+		return derived;
+	};
 	decltype(auto) operator()(const auto& v) const { return v; }
+private:
 	friend D;
 };
 
@@ -131,5 +138,5 @@ decltype(auto) Func(const L& l, const R& r) { return Op<L,R>(l,r); }
 template<template<typename> class C, typename T>
 decltype(auto) Func(const T& t) { return C<T>(t); }
 
-template<class D1, class D2>
-constexpr decltype(auto) operator+(const Functional<D1>& f1, const Functional<D2>& f2) { return Func<Add>(f1,f2); }
+template<template<typename,typename> class D1,typename L1, typename R1, template<typename,typename> class D2,typename L2, typename R2>
+constexpr decltype(auto) operator+(const BinaryFunctional<D1,L1,R1>& f1, const BinaryFunctional<D2,L2,R2>& f2) { return Func<Add>(f1,f2); }
