@@ -12,6 +12,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../Functional/Functional.hpp"
 
 #pragma once
 

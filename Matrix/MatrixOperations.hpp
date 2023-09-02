@@ -30,48 +30,48 @@ private:
 };
 
 template<typename L, typename R>
-class Add: public OperationBase<Addition,Add,L,R>
+class ElementAdd: public OperationBase<Addition,ElementAdd,L,R>
 {
-	using Base = OperationBase<Addition,Add,L,R>;
-	friend class OperationBase<Addition,Add,L,R>;
+	using Base = OperationBase<Addition,ElementAdd,L,R>;
+	friend class OperationBase<Addition,ElementAdd,L,R>;
 public:
-	Add(const L& v): Base{v} {}
+	ElementAdd(const L& v): Base{v} {}
 	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
 };
 
 template<typename L, typename R>
-class Sub: public OperationBase<Subtraction,Sub,L,R>
+class ElementSub: public OperationBase<Subtraction,ElementSub,L,R>
 {
-	using Base = OperationBase<Subtraction,Sub,L,R>;
-	friend class OperationBase<Subtraction,Sub,L,R>;
+	using Base = OperationBase<Subtraction,ElementSub,L,R>;
+	friend class OperationBase<Subtraction,ElementSub,L,R>;
 public:
-	Sub(const L& v): Base{v} {}
+	ElementSub(const L& v): Base{v} {}
 	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v - val; }
 };
 
 template<typename L, typename R>
-class Mul: public OperationBase<Multiplication,Mul,L,R>
+class ElementMul: public OperationBase<Multiplication,ElementMul,L,R>
 {
-	using Base = OperationBase<Multiplication,Mul,L,R>;
-	friend class OperationBase<Multiplication,Mul,L,R>;
+	using Base = OperationBase<Multiplication,ElementMul,L,R>;
+	friend class OperationBase<Multiplication,ElementMul,L,R>;
 public:
-	Mul(const L& v): Base{v} {}
+	ElementMul(const L& v): Base{v} {}
 	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v * val; }
 };
 
 template<typename L, typename R>
-class Div: public OperationBase<Division,Div,L,R>
+class ElementDiv: public OperationBase<Division,ElementDiv,L,R>
 {
-	using Base = OperationBase<Division,Div,L,R>;
-	friend class OperationBase<Division,Div,L,R>;
+	using Base = OperationBase<Division,ElementDiv,L,R>;
+	friend class OperationBase<Division,ElementDiv,L,R>;
 public:
-	Div(const L& v): Base{v} {}
+	ElementDiv(const L& v): Base{v} {}
 	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v / val; }

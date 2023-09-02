@@ -62,7 +62,7 @@ private:
 	template<size_t, typename> friend class Matrix;
 	static decltype(auto) add(const LeftType& l,const RightType& r)
     {
-        using Op = MatrixOperation<Add,LeftType,RightType>;
+        using Op = MatrixOperation<ElementAdd,LeftType,RightType>;
 
         auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
@@ -72,7 +72,7 @@ private:
     }
 	static decltype(auto) sub(const LeftType& l,const RightType& r)
     {
-        using Op = MatrixOperation<Sub,LeftType,RightType>;
+        using Op = MatrixOperation<ElementSub,LeftType,RightType>;
 
         auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
