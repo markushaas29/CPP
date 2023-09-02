@@ -31,8 +31,9 @@ class MatrixProjectorTest
 		    using MS2 = Matrix<2,MDS2>;
 		    using MI2 = Matrix<2,MDI2>;
 		
-			using QM = Quantity<Mass>;
 			using QV = Quantity<Volume>;
+			using QM = Quantity<Mass>;
+			using QS = Quantity<Sum>;
 			using T = std::tuple<Q,QM>;
 			using T3 = std::tuple<Q,QM, QV>;
 			using T3_2 = std::tuple<QM, QV, Q>;
@@ -153,7 +154,11 @@ class MatrixProjectorTest
 			MIT3 mit3(m33);
 			MIQ2 miq3(m33);
   			std::cout<<"mit3 "<<mit3<<std::endl;
-  			std::cout<<"\nmit3 Slice "<<mit3.Slice<0>()<<std::endl;
+			assert(mit3.Slice<0>()[0]==QS{3});
+  			std::cout<<"\nmit3 Slice "<<mit3[0]<<std::endl;
+			assert(mit3[0].At<0>()==QS{3});
+			assert(mit3[0].At<2>()==QV{5});
+			assert(mit3.Slice<0>()[2]==QS{13});
   			std::cout<<"\nMul "<<mit3[1].multiply(T3_2(2.5,2,3))<<std::endl;
   			std::cout<<"Mul "<<mit3[1].multiply(Q(2.5))<<std::endl;
   			
@@ -162,8 +167,13 @@ class MatrixProjectorTest
   			auto rm = mit3[1].multiply(mit3[0]);
   			std::cout<<"Mul Row"<<rm.At<0>()<<std::endl;
   			std::cout<<"Mul Row"<<mit3[1].multiply(mit3[0])<<std::endl;
-  			std::cout<<"Mul Row"<<(mit3[1] * mit3.Slice<0>())<<std::endl;
-  			std::cout<<"Mul Row"<<(mit3[1] * miq3[2])<<std::endl;
+  			auto m2qs2 = mit3[1] * mit3.Slice<0>();
+			assert(m2qs2.At<0>().Value()==24);
+			assert(m2qs2.At<2>().Value()==30);
+
+  			auto m2q2 = mit3[1] * miq3[2];
+			assert(m2q2.At<0>().Value()==104);
+			assert(m2q2.At<2>().Value()==130);
 
 			bool isthrow = false;
 			try {mit3[1] * miq3;} catch(...) { isthrow = true; }
