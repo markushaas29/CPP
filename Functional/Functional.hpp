@@ -64,8 +64,6 @@ private:
 template<template<typename,typename> class D,typename L, typename R>
 class BinaryFunctional: public Functional<BinaryFunctional<D,L,R>>
 {
-	using LeftType = L;
-	using RightType = R;
 	using Derived = D<L,R>;
 	using Type = BinaryFunctional<D,L,R>;
 	using Base = Functional<Type>;
@@ -73,6 +71,8 @@ class BinaryFunctional: public Functional<BinaryFunctional<D,L,R>>
 	inline static constexpr const char* sign = Derived::sign; 
 	friend class D<L,R>;
 public:
+	using LeftType = L;
+	using RightType = R;
 	BinaryFunctional(const LeftType& l,const RightType& r ): right{r}, left{l} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right); }
 	decltype(auto) operator()() const { return Derived::op(left,right); }

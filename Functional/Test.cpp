@@ -67,6 +67,10 @@ class FunctionalTest
 			auto mul = Func<Mul>(Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)), Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)));
 			std::cout<<"Mul "<<mul()<<std::endl;
 			std::cout<<"Result "<<decltype(mul)::ResultType()<<std::endl;
+
+			bool is = std::is_same_v<decltype(mul)::LeftType::ResultType, decltype(QM()*QM()*QM()*QM()*QM())>;
+			assert(is);
+
 			auto ap = ac + ac;
 			auto i = ap();
 			std::cout<<"Operator "<<ap<<std::endl;
