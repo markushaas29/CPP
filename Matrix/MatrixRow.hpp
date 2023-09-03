@@ -101,7 +101,7 @@ private:
 	auto calculate(const A arg) 
 	{  	
 		auto f = Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(arg.template At<0>()));
-		return calculateI<1,Mul>(arg, std::make_tuple(f() ));	
+		return calculateI<1,F>(arg, std::make_tuple(f() ));	
 	}
 
 	template<template<typename,typename> class F, typename T2>
@@ -110,12 +110,12 @@ private:
 		if constexpr ( IsTuple<T2>)
 		{
 			auto f = Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(std::get<0>(t2)));
-			return calculateI<1,Mul>(t2, std::make_tuple(f()));	
+			return calculateI<1,F>(t2, std::make_tuple(f()));	
 		}
 		else
 		{
 			auto f = Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(t2));
-			return calculateI<1,Mul>(t2, std::make_tuple(f() ));	
+			return calculateI<1,F>(t2, std::make_tuple(f() ));	
 		}
 	}
 
@@ -128,7 +128,7 @@ private:
         {
 			auto f = Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(r.template At<N>()));
            	auto tN = std::tuple_cat(t,std::make_tuple(f()));
-           	return calculateI<N+1, Mul>(r,tN);
+           	return calculateI<N+1, F>(r,tN);
 		}
 	}
 
