@@ -1,6 +1,4 @@
-#include <memory>
 #include <tuple>
-#include <vector>
 #include "MatrixConcept.hpp"
 #include "MatrixRowConcept.hpp"
 #include "PointerConcept.hpp"
@@ -10,7 +8,6 @@
 #include "../String/Format.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../CSV/Elements.hpp"    
-#include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
 #include "../Functional/Functional.hpp"
 
