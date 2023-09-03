@@ -32,6 +32,13 @@ public:
 	auto At() const {	return std::get<N>(tuple); 	} 
 
 	template<typename T2>
+	decltype(auto) operator+(const MatrixRow<T2>& r2)	{ return Apply<Add>(r2.tuple);  	}
+	template<typename... Ts>
+	decltype(auto) operator+(const std::tuple<Ts...>& t2)	{ return Apply<Add>(t2);  	}
+	template<typename T2>
+	decltype(auto) operator+(const T2& t2)	{ return Apply<Add>(t2);  	}
+	
+	template<typename T2>
 	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return Apply<Mul>(r2.tuple);  	}
 	template<typename... Ts>
 	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return Apply<Mul>(t2);  	}
@@ -54,7 +61,7 @@ public:
 	{
 		int size = std::tuple_size_v<typename A::Tuple>; 
 		IsT<Throwing>(Format("Tuple size ",A::Size, " is unequal ", Size))(A::Size==Size);
-		return calculate<Mul>(arg);
+		return calculate<F>(arg);
 	}
 
 	template<template<typename,typename> class F, typename A>
@@ -64,10 +71,10 @@ public:
 		{
 			int size = std::tuple_size_v<A>; 
 			IsT<Throwing>(Format("Tuple size ",size, " is unequal ", Size))(size==Size);
-			return calculate<Mul>(arg);
+			return calculate<F>(arg);
 		}
 		else
-			return calculate<Mul>(arg);
+			return calculate<F>(arg);
 	}
 private:
 	Tuple tuple;
