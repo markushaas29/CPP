@@ -69,6 +69,20 @@ public:
 private:
 	Tuple tuple;
 	template<typename U> using IsT =  Is<U,LiteralType>;
+	
+	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.tuple,s);	}
+	
+	template<class... R>
+	decltype(auto) print (const std::tuple<R...>& _tup, std::ostream& os) const	{ return print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	}
+	
+	template<class TupType, size_t... I>
+	std::ostream& print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
+	{
+	    os << "{";
+	    (..., (os << (I == 0? "" : ", ") << std::get<I>(_tup)));
+	    return os << "}\n";
+	}
+
 	template<template<typename,typename> class F, typename T2, typename P>
 	decltype(auto) checkOp(const MatrixProjector<T2,P>& mp)	
 	{ 
@@ -81,17 +95,7 @@ private:
 		}
 	}
 
-	template<class TupType, size_t... I>
-	std::ostream& print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
-	{
-	    os << "{";
-	    (..., (os << (I == 0? "" : ", ") << std::get<I>(_tup)));
-	    return os << "}\n";
-	}
 	
-	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.tuple,s);	}
-	template<class... R>
-	decltype(auto) print (const std::tuple<R...>& _tup, std::ostream& os) const	{ return print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	}
 
 	template<template<typename,typename> class F, MatrixRowConcept A>
 	auto calculate(const A arg) 
