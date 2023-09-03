@@ -28,37 +28,23 @@ public:
 	template<int N>
 	auto At() const {	return std::get<N>(tuple); 	} 
 
-	template<typename T2>
-	decltype(auto) operator+(const MatrixRow<T2>& r2)	{ return Apply<Add>(r2.tuple);  	}
-	template<typename... Ts>
-	decltype(auto) operator+(const std::tuple<Ts...>& t2)	{ return Apply<Add>(t2);  	}
-	template<typename T2>
-	decltype(auto) operator+(const T2& t2)	{ return Apply<Add>(t2);  	}
+	template<typename T2>	decltype(auto) operator+(const MatrixRow<T2>& r2)	{ return Apply<Add>(r2.tuple);  	}
+	template<typename... Ts>	decltype(auto) operator+(const std::tuple<Ts...>& t2)	{ return Apply<Add>(t2);  	}
+	template<typename T2>	decltype(auto) operator+(const T2& t2)	{ return Apply<Add>(t2);  	}
 	
-	template<typename T2>
-	decltype(auto) operator-(const MatrixRow<T2>& r2)	{ return Apply<Sub>(r2.tuple);  	}
-	template<typename... Ts>
-	decltype(auto) operator-(const std::tuple<Ts...>& t2)	{ return Apply<Sub>(t2);  	}
-	template<typename T2>
-	decltype(auto) operator-(const T2& t2)	{ return Apply<Sub>(t2);  	}
+	template<typename T2>	decltype(auto) operator-(const MatrixRow<T2>& r2)	{ return Apply<Sub>(r2.tuple);  	}
+	template<typename... Ts>	decltype(auto) operator-(const std::tuple<Ts...>& t2)	{ return Apply<Sub>(t2);  	}
+	template<typename T2>	decltype(auto) operator-(const T2& t2)	{ return Apply<Sub>(t2);  	}
 	
-	template<typename T2>
-	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return Apply<Mul>(r2.tuple);  	}
-	template<typename... Ts>
-	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return Apply<Mul>(t2);  	}
-	template<typename T2>
-	decltype(auto) operator*(const T2& t2)	{ return Apply<Mul>(t2);  	}
-	template<typename T2, typename P>
-	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return checkOp<Mul>(mp); }
+	template<typename T2>	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return Apply<Mul>(r2.tuple);  	}
+	template<typename... Ts>	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return Apply<Mul>(t2);  	}
+	template<typename T2>	decltype(auto) operator*(const T2& t2)	{ return Apply<Mul>(t2);  	}
+	template<typename T2, typename P>	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return checkOp<Mul>(mp); }
 	
-	template<typename T2>
-	decltype(auto) operator/(const MatrixRow<T2>& r2)	{ return Apply<Div>(r2.tuple);  	}
-	template<typename... Ts>
-	decltype(auto) operator/(const std::tuple<Ts...>& t2)	{ return Apply<Div>(t2);  	}
-	template<typename T2>
-	decltype(auto) operator/(const T2& t2)	{ return Apply<Div>(t2);  	}
-	template<typename T2, typename P>
-	decltype(auto) operator/(const MatrixProjector<T2,P>& mp)	{ return checkOp<Div>(mp); }
+	template<typename T2>	decltype(auto) operator/(const MatrixRow<T2>& r2)	{ return Apply<Div>(r2.tuple);  	}
+	template<typename... Ts>	decltype(auto) operator/(const std::tuple<Ts...>& t2)	{ return Apply<Div>(t2);  	}
+	template<typename T2>	decltype(auto) operator/(const T2& t2)	{ return Apply<Div>(t2);  	}
+	template<typename T2, typename P>	decltype(auto) operator/(const MatrixProjector<T2,P>& mp)	{ return checkOp<Div>(mp); }
 	
 	template<template<typename,typename> class F, MatrixRowConcept A>
 	constexpr auto Apply(A arg) 
@@ -96,22 +82,16 @@ private:
 	}
 
 	template<class TupType, size_t... I>
-	void print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
+	std::ostream& print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
 	{
 	    os << "{";
 	    (..., (os << (I == 0? "" : ", ") << std::get<I>(_tup)));
-	    os << "}\n";
+	    return os << "}\n";
 	}
 	
-	template<class... R>
-	decltype(auto) print (const std::tuple<R...>& _tup, std::ostream& os) const	
-	{   
-		print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	
-		return os;
-	}
-
 	friend std::ostream& operator<<(std::ostream& s, const MatrixRow& me) 	{	return	me.print(me.tuple,s);	}
-
+	template<class... R>
+	decltype(auto) print (const std::tuple<R...>& _tup, std::ostream& os) const	{ return print(_tup, std::make_index_sequence<sizeof...(R)>(), os);	}
 
 	template<template<typename,typename> class F, MatrixRowConcept A>
 	auto calculate(const A arg) 
