@@ -91,18 +91,18 @@ private:
 
 
 	template<MatrixRowConcept A>
-	auto calculate(const A arg) {  	return calculateI<1>(arg, std::make_tuple(std::get<0>(tuple) * arg.template At<0>() ));	}
+	auto calculate(const A arg) {  	return calculateI<1,Mul>(arg, std::make_tuple(std::get<0>(tuple) * arg.template At<0>() ));	}
 
 	template<typename T2>
 	auto calculate(const T2 t2) 	
 	{  	
 		if constexpr ( IsTuple<T2>)
-			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	
+			return calculateI<1,Mul>(t2, std::make_tuple(std::get<0>(tuple) * std::get<0>(t2) ));	
 		else 
-			return calculateI<1>(t2, std::make_tuple(std::get<0>(tuple) * t2 ));	
+			return calculateI<1,Mul>(t2, std::make_tuple(std::get<0>(tuple) * t2 ));	
 	}
 
-	template<int N, MatrixRowConcept R>
+	template<int N, template<typename,typename> class F, MatrixRowConcept R>
 	auto calculateI(const R r, const auto t) 
 	{
 		if constexpr (N==Size)
@@ -110,11 +110,11 @@ private:
         else
         {
            	auto tN = std::tuple_cat(t,std::make_tuple(std::get<N>(tuple) * r.template At<N>() ));
-           	return calculateI<N+1>(r,tN);
+           	return calculateI<N+1, Mul>(r,tN);
 		}
 	}
 
-	template<int N, typename T2>
+	template<int N, template<typename,typename> class F,typename T2>
 	auto calculateI(const T2 t2, const auto r) 
 	{
 		if constexpr (N==Size)
@@ -123,15 +123,15 @@ private:
         {
 			if constexpr ( IsTuple<T2>)
 			{
-				auto f = Func<Mul>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(std::get<N>(t2)));
-				std::cout<<"F: "<<f<<f()<<std::endl;
-            	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));
-            	return calculateI<N+1>(t2,tN);
+				auto f = Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(std::get<N>(t2)));
+            	auto tN = std::tuple_cat(r,std::make_tuple(f()));
+            	return calculateI<N+1,F>(t2,tN);
 			}
 			else 
 			{
-            	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * t2 ));
-            	return calculateI<N+1>(t2,tN);
+				auto f = Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(t2));
+            	auto tN = std::tuple_cat(r,std::make_tuple(f()));
+            	return calculateI<N+1,F>(t2,tN);
 			}
         }
 	}
