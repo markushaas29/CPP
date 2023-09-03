@@ -39,6 +39,13 @@ public:
 	decltype(auto) operator+(const T2& t2)	{ return Apply<Add>(t2);  	}
 	
 	template<typename T2>
+	decltype(auto) operator-(const MatrixRow<T2>& r2)	{ return Apply<Sub>(r2.tuple);  	}
+	template<typename... Ts>
+	decltype(auto) operator-(const std::tuple<Ts...>& t2)	{ return Apply<Sub>(t2);  	}
+	template<typename T2>
+	decltype(auto) operator-(const T2& t2)	{ return Apply<Sub>(t2);  	}
+	
+	template<typename T2>
 	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return Apply<Mul>(r2.tuple);  	}
 	template<typename... Ts>
 	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return Apply<Mul>(t2);  	}

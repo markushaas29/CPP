@@ -163,11 +163,11 @@ class MatrixProjectorTest
 			assert(mit3[1].At<2>()==QV{10});
 			assert(mit3.Slice<0>()[2]==QS{13});
   			std::cout<<"\nMul "<<mit3[1].Apply<Mul>(T3_2(2.5,2,3))<<std::endl;
-  			std::cout<<"Mul "<<mit3[1].Apply<Mul>(Q(2.5))<<std::endl;
+  			std::cout<<"Mul "<<mit3[1].Apply<Sub>(Q(2.5))<<std::endl;
   			
-  			std::cout<<"Add "<<(mit3[1] + T3(5,7,9))<<std::endl;
+  			std::cout<<"Add "<<(mit3[1] - T3(5,7,9))<<std::endl;
   			std::cout<<"Mul "<<(mit3[1] + 3 * 3* 10)<<std::endl;
-  			auto rm = mit3[1].Apply<Mul>(mit3[0]);
+  			auto rm = mit3[1].Apply<Sub>(mit3[0]);
   			std::cout<<"Mul Row"<<rm.At<0>()<<std::endl;
   			std::cout<<"Mul Row"<<mit3[1].Apply<Mul>(mit3[0])<<std::endl;
   			auto m2qs2 = mit3[1] * mit3.Slice<0>();
