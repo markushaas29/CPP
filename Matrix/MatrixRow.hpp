@@ -52,16 +52,16 @@ public:
 	template<typename T2>
 	decltype(auto) operator*(const T2& t2)	{ return Apply<Mul>(t2);  	}
 	template<typename T2, typename P>
-	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	
-	{ 
-		if constexpr ( MatrixProjector<T2,P>::Order != 1)
-			IsT<Throwing>(Format("Order ",MatrixProjector<T2,P>::Order, " is not 1"))(false);
-		else
-		{
-			IsT<Throwing>(Format("Projector rows ",mp.matrix.Rows(), " is unequal ", Size))(Size==mp.matrix.Rows());
-			return Apply<Mul>(mp[0]);
-		}
-	}
+	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	{ return checkOp<Mul>(mp); }
+	
+	template<typename T2>
+	decltype(auto) operator/(const MatrixRow<T2>& r2)	{ return Apply<Div>(r2.tuple);  	}
+	template<typename... Ts>
+	decltype(auto) operator/(const std::tuple<Ts...>& t2)	{ return Apply<Div>(t2);  	}
+	template<typename T2>
+	decltype(auto) operator/(const T2& t2)	{ return Apply<Div>(t2);  	}
+	template<typename T2, typename P>
+	decltype(auto) operator/(const MatrixProjector<T2,P>& mp)	{ return checkOp<Div>(mp); }
 	
 	template<template<typename,typename> class F, MatrixRowConcept A>
 	constexpr auto Apply(A arg) 
@@ -86,6 +86,18 @@ public:
 private:
 	Tuple tuple;
 	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<template<typename,typename> class F, typename T2, typename P>
+	decltype(auto) checkOp(const MatrixProjector<T2,P>& mp)	
+	{ 
+		if constexpr ( MatrixProjector<T2,P>::Order != 1)
+			IsT<Throwing>(Format("Order ",MatrixProjector<T2,P>::Order, " is not 1"))(false);
+		else
+		{
+			IsT<Throwing>(Format("Projector rows ",mp.matrix.Rows(), " is unequal ", Size))(Size==mp.matrix.Rows());
+			return Apply<F>(mp[0]);
+		}
+	}
+
 	template<class TupType, size_t... I>
 	void print(const TupType& _tup, std::index_sequence<I...>, std::ostream& os) const
 	{
