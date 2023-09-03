@@ -123,6 +123,8 @@ private:
         {
 			if constexpr ( IsTuple<T2>)
 			{
+				auto f = Func<Mul>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(std::get<N>(t2)));
+				std::cout<<"F: "<<f<<f()<<std::endl;
             	auto tN = std::tuple_cat(r,std::make_tuple(std::get<N>(tuple) * std::get<N>(t2) ));
             	return calculateI<N+1>(t2,tN);
 			}
