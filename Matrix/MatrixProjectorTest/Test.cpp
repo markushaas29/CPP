@@ -12,6 +12,7 @@
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
+#include "../../Functional/Functional.hpp"
 using namespace ShortNames;
 using namespace DateTimes;
 
@@ -159,14 +160,14 @@ class MatrixProjectorTest
 			assert(mit3[0].At<0>()==QS{3});
 			assert(mit3[0].At<2>()==QV{5});
 			assert(mit3.Slice<0>()[2]==QS{13});
-  			std::cout<<"\nMul "<<mit3[1].Apply(T3_2(2.5,2,3))<<std::endl;
-  			std::cout<<"Mul "<<mit3[1].Apply(Q(2.5))<<std::endl;
+  			std::cout<<"\nMul "<<mit3[1].Apply<Mul>(T3_2(2.5,2,3))<<std::endl;
+  			std::cout<<"Mul "<<mit3[1].Apply<Mul>(Q(2.5))<<std::endl;
   			
   			std::cout<<"Mul "<<(mit3[1] * T3(5,7,9))<<std::endl;
   			std::cout<<"Mul "<<(mit3[1] * 3 * 3* 10)<<std::endl;
-  			auto rm = mit3[1].Apply(mit3[0]);
+  			auto rm = mit3[1].Apply<Mul>(mit3[0]);
   			std::cout<<"Mul Row"<<rm.At<0>()<<std::endl;
-  			std::cout<<"Mul Row"<<mit3[1].Apply(mit3[0])<<std::endl;
+  			std::cout<<"Mul Row"<<mit3[1].Apply<Mul>(mit3[0])<<std::endl;
   			auto m2qs2 = mit3[1] * mit3.Slice<0>();
 			assert(m2qs2.At<0>().Value()==24);
 			assert(m2qs2.At<2>().Value()==30);

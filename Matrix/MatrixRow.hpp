@@ -32,11 +32,11 @@ public:
 	auto At() const {	return std::get<N>(tuple); 	} 
 
 	template<typename T2>
-	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return Apply(r2.tuple);  	}
+	decltype(auto) operator*(const MatrixRow<T2>& r2)	{ return Apply<Mul>(r2.tuple);  	}
 	template<typename... Ts>
-	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return Apply(t2);  	}
+	decltype(auto) operator*(const std::tuple<Ts...>& t2)	{ return Apply<Mul>(t2);  	}
 	template<typename T2>
-	decltype(auto) operator*(const T2& t2)	{ return Apply(t2);  	}
+	decltype(auto) operator*(const T2& t2)	{ return Apply<Mul>(t2);  	}
 	template<typename T2, typename P>
 	decltype(auto) operator*(const MatrixProjector<T2,P>& mp)	
 	{ 
@@ -45,11 +45,11 @@ public:
 		else
 		{
 			IsT<Throwing>(Format("Projector rows ",mp.matrix.Rows(), " is unequal ", Size))(Size==mp.matrix.Rows());
-			return Apply(mp[0]);
+			return Apply<Mul>(mp[0]);
 		}
 	}
 	
-	template<MatrixRowConcept A>
+	template<template<typename,typename> class F, MatrixRowConcept A>
 	constexpr auto Apply(A arg) 
 	{
 		int size = std::tuple_size_v<typename A::Tuple>; 
@@ -57,7 +57,7 @@ public:
 		return calculate<Mul>(arg);
 	}
 
-	template<typename A>
+	template<template<typename,typename> class F, typename A>
 	constexpr auto Apply(A arg) 
 	{
 		if constexpr ( IsTuple<A>)
