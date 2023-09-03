@@ -64,6 +64,17 @@ class FunctionalTest
 			assert(qm==fc());
 			assert(5==(int)fc);
 			
+			auto fp = Func<Parameter>(qm);
+			assert(qm==fp());
+			assert(qm==fp.Value());
+			assert(5==(int)fp);
+			
+			fp.Value() = QM{2};
+
+			assert(QM{2}==fp());
+			assert(QM{2}==fp.Value());
+			assert(2==(int)fp);
+
 			auto mul = Func<Mul>(Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)), Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)));
 			std::cout<<"Mul "<<mul()<<std::endl;
 			std::cout<<"Result "<<decltype(mul)::ResultType()<<std::endl;

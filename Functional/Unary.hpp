@@ -1,3 +1,4 @@
+#include <memory>  
 #include "FunctionalBase.hpp"  
 
 #pragma once
@@ -10,7 +11,7 @@ class UnaryFunctional: public Functional<UnaryFunctional<D,V>>
 	using Type = UnaryFunctional<D,V>;
 	using Base = Functional<Type>;
 	friend class Functional<Type>;
-	friend class D<V>;
+	template<typename> friend class D;
 	inline static constexpr const char* sign = Derived::sign; 
 public:
 	UnaryFunctional(const ValueType& v): value{v} {}
@@ -35,4 +36,18 @@ public:
 	Constant(std::is_arithmetic<T> v): Base{static_cast<Domain>(v)} {} 
 private:
 	static decltype(auto) op(const auto& v) { return v; }
+};
+
+template<class Domain=double>
+class Parameter: public UnaryFunctional<Parameter, std::shared_ptr<Domain>>
+{
+	using Type = Parameter<Domain>;
+	using Base = UnaryFunctional<Parameter, std::shared_ptr<Domain>>;
+	template<template<typename> class, typename> friend class UnaryFunctional;
+public:
+	Parameter(const Domain& v): Base{std::make_shared<Domain>(v)} {}
+	Parameter(std::shared_ptr<Domain> v): Base{v} {} 
+	Domain& Value() { return *Base::value; }
+private:
+	static decltype(auto) op(const auto& v) { return *v; }
 };
