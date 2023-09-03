@@ -63,8 +63,10 @@ class FunctionalTest
 			auto fc = Func<Constant>(qm);
 			assert(qm==fc());
 			assert(5==(int)fc);
-
-			std::cout<<"Mul "<<Func<Div>(Func<Mul>(mc,ac), Func<Add>(mc,mc))<<std::endl;
+			
+			auto mul = Func<Mul>(Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)), Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)));
+			std::cout<<"Mul "<<mul()<<std::endl;
+			std::cout<<"Result "<<decltype(mul)::ResultType()<<std::endl;
 			auto ap = ac + ac;
 			auto i = ap();
 			std::cout<<"Operator "<<ap<<std::endl;

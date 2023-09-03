@@ -89,11 +89,12 @@ class Add: public BinaryFunctional<Add,L,R>
 {
 	using Base = BinaryFunctional<Add,L,R>;
 	friend class BinaryFunctional<Add,L,R>;
+	static decltype(auto) op(const auto l, const auto r) { return l() + r(); }
 public:
+	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 	Add(const L& l, const R& r): Base{l,r} {}
 private:
 	inline static constexpr const char* sign = "+"; 
-	static decltype(auto) op(const auto l, const auto r) { return l() + r(); }
 };
 
 template<typename L, typename R>
@@ -101,11 +102,11 @@ class Sub: public BinaryFunctional<Sub,L,R>
 {
 	using Base = BinaryFunctional<Sub,L,R>;
 	friend class BinaryFunctional<Sub,L,R>;
-public:
-	Sub(const L& l, const R& r): Base{l,r} {}
-private:
 	inline static constexpr const char* sign = "-"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() - r(); }
+public:
+	Sub(const L& l, const R& r): Base{l,r} {}
+	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 };
 
 template<typename L, typename R>
@@ -113,11 +114,11 @@ class Mul: public BinaryFunctional<Mul,L,R>
 {
 	using Base = BinaryFunctional<Mul,L,R>;
 	friend class BinaryFunctional<Mul,L,R>;
-public:
-	Mul(const L& l, const R& r): Base{l,r} {}
-private:
 	inline static constexpr const char* sign = "*"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() * r(); }
+public:
+	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
+	Mul(const L& l, const R& r): Base{l,r} {}
 };
 
 template<typename L, typename R>
@@ -125,11 +126,11 @@ class Div: public BinaryFunctional<Div,L,R>
 {
 	using Base = BinaryFunctional<Div,L,R>;
 	friend class BinaryFunctional<Div,L,R>;
-public:
-	Div(const L& l, const R& r): Base{l,r} {}
-private:
 	inline static constexpr const char* sign = "/"; 
 	static decltype(auto) op(const auto l, const auto r) { return l() / r(); }
+public:
+	Div(const L& l, const R& r): Base{l,r} {}
+	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 };
 
 template<template<typename,typename> class Op, typename L, typename R>
