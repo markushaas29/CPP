@@ -108,15 +108,9 @@ private:
 	auto calculate(const T2 t2) 	
 	{  	
 		if constexpr ( IsTuple<T2>)
-		{
-			auto f = Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(std::get<0>(t2)));
-			return calculateI<1,F>(t2, std::make_tuple(f()));	
-		}
+			return calculateI<1,F>(t2, std::make_tuple(Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(std::get<0>(t2)))()));	
 		else
-		{
-			auto f = Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(t2));
-			return calculateI<1,F>(t2, std::make_tuple(f() ));	
-		}
+			return calculateI<1,F>(t2, std::make_tuple(Func<F>(Func<Constant>(std::get<0>(tuple)), Func<Constant>(t2))() ));	
 	}
 
 	template<int N, template<typename,typename> class F, MatrixRowConcept R>
@@ -125,11 +119,7 @@ private:
 		if constexpr (N==Size)
             return MatrixRow<decltype(t)>(t);
         else
-        {
-			auto f = Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(r.template At<N>()));
-           	auto tN = std::tuple_cat(t,std::make_tuple(f()));
-           	return calculateI<N+1, F>(r,tN);
-		}
+           	return calculateI<N+1, F>(r,std::tuple_cat(t,std::make_tuple(Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(r.template At<N>()))())));
 	}
 
 	template<int N, template<typename,typename> class F,typename T2>
@@ -140,17 +130,9 @@ private:
         else
         {
 			if constexpr ( IsTuple<T2>)
-			{
-				auto f = Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(std::get<N>(t2)));
-            	auto tN = std::tuple_cat(r,std::make_tuple(f()));
-            	return calculateI<N+1,F>(t2,tN);
-			}
+            	return calculateI<N+1,F>(t2,std::tuple_cat(r,std::make_tuple(Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(std::get<N>(t2)))())));
 			else 
-			{
-				auto f = Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(t2));
-            	auto tN = std::tuple_cat(r,std::make_tuple(f()));
-            	return calculateI<N+1,F>(t2,tN);
-			}
+            	return calculateI<N+1,F>(t2,std::tuple_cat(r,std::make_tuple(Func<F>(Func<Constant>(std::get<N>(tuple)), Func<Constant>(t2))())));
         }
 	}
 };
