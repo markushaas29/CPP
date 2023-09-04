@@ -15,7 +15,7 @@ class UnaryFunctional: public Functional<UnaryFunctional<D,V>>
 	inline static constexpr const char* sign = Derived::sign; 
 public:
 	UnaryFunctional(const ValueType& v): value{v} {}
-	decltype(auto) operator()(const auto& v) const { return Derived::op(value); }
+	decltype(auto) operator()(const auto& v) const { return Derived::op(v); }
 	decltype(auto) operator()() const { return Derived::op(value); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
@@ -50,4 +50,16 @@ public:
 	Domain& Value() { return *Base::value; }
 private:
 	static decltype(auto) op(const auto& v) { return *v; }
+};
+
+template<class Domain=double>
+class Fx: public UnaryFunctional<Fx, Domain>
+{
+	using Type = Fx<Domain>;
+	using Base = UnaryFunctional<Fx, Domain>;
+	template<template<typename> class, typename> friend class UnaryFunctional;
+public:
+	Fx(const Domain& v = Domain{}): Base{v} {}
+private:
+	static decltype(auto) op(const auto& v) { return v; }
 };

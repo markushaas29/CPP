@@ -9,5 +9,5 @@
 template<template<typename,typename> class Op, typename L, typename R>
 decltype(auto) Func(const L& l, const R& r) { return Op<L,R>(l,r); }
 
-template<template<typename> class C, typename T>
-decltype(auto) Func(const T& t) { return C<T>(t); }
+template<template<typename> class C, typename T = double>
+decltype(auto) Func(const T& t = T{}) { return C<T>(t); }

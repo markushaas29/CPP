@@ -74,6 +74,11 @@ class FunctionalTest
 			assert(QM{2}==fp());
 			assert(QM{2}==fp.Value());
 			assert(2==(int)fp);
+			
+			auto fx = Func<Fx>();
+			assert(0.0==fx());
+			assert(2.0==fx(2.0));
+			assert(0==(int)fx);
 
 			auto mul = Func<Mul>(Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)), Func<Mul>(Func<Mul>(mc,ac), Func<Add>(mc,mc)));
 			std::cout<<"Mul "<<mul()<<std::endl;
