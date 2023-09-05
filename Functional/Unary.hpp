@@ -3,6 +3,8 @@
 
 #pragma once
 
+template<class> class Fx;
+
 template<template<typename> class D,typename V>
 class UnaryFunctional: public Functional<UnaryFunctional<D,V>>
 {
@@ -15,7 +17,13 @@ class UnaryFunctional: public Functional<UnaryFunctional<D,V>>
 	inline static constexpr const char* sign = Derived::sign; 
 public:
 	UnaryFunctional(const ValueType& v): value{v} {}
-	decltype(auto) operator()(const auto& v) const { return Derived::op(v); }
+	decltype(auto) operator()(const auto& v) const 
+	{
+		if constexpr (std::is_same_v<D<V>,Fx<V>>)
+			return Derived::op(v); 
+		else
+			return Derived::op(value); 
+	}
 	decltype(auto) operator()() const { return Derived::op(value); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
