@@ -33,6 +33,11 @@ class FunctionalTest
 			assert(5==(int)cm5);
 			assert(5==cm5());
 			assert(5==(int)cm);
+
+			auto acm = cm + cm;
+			auto scm = cm - cm;
+			assert((qm-qm)==scm());
+
 			std::cout<<"Const "<<cm2<<std::endl;
 
 			auto ac = Add<Constant<QM>, Constant<QM>>(cm,cm);
