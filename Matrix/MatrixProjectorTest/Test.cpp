@@ -155,6 +155,9 @@ class MatrixProjectorTest
 			MIT3 mit3(m33);
 			MIQ2 miq3(m33);
   			std::cout<<"mit3 "<<mit3<<std::endl;
+  			auto cmS = m33.ColSum();
+			auto cm33 = m33 * cmS;
+  			std::cout<<"m33 Csum "<<cm33<<std::endl;
 			assert(mit3.Slice<0>()[0]==QS{3});
   			std::cout<<"\nmit3 Slice "<<mit3[0]<<std::endl;
 			assert(mit3[0].At<0>()==QS{3});
