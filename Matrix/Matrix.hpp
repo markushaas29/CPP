@@ -76,8 +76,9 @@ public:
   	template<size_t N2, typename D2>
   	decltype(auto) operator-(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::sub(*this,m);  	}
   	template<size_t N2, typename D2>
-	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m);  	}
-  	decltype(auto) operator/(const Type& m)	{ return   Type(descriptor,std::vector<DataType>(elements->cbegin(), elements->cend()));	}
+	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m); 	}
+  	template<size_t N2, typename D2>
+  	decltype(auto) operator/(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::divide(*this,m);	}
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;
