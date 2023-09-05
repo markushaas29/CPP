@@ -95,10 +95,17 @@ class FunctionalTest
 			assert(0==(int)fx);
 			
 			auto afx = fx + fx;
-			std::cout<<"Const "<<afx(2)<<std::endl;
 			assert(4==afx(2));
 			auto mfx = fx * fx;
 			assert(16==mfx(4));
+			
+			auto p2 = Func<Parameter>(2);
+			auto afxp = afx * p2; 
+			std::cout<<"Const "<<afxp(2)<<std::endl;
+			assert(8==afxp(2));
+			p2.Value() = 4;
+			std::cout<<"Const "<<afxp(2)<<std::endl;
+			assert(16==afxp(2));
 			
 			auto fx2 = Func<Fx>(qm);
 			assert(qm==fx2());
