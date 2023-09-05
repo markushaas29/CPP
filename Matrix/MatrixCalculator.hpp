@@ -193,7 +193,6 @@ private:
 	
 	static decltype(auto) divide(const Base::LeftType& l, const Base::RightType& r) 
 	{
-		std::cout<<"Divide"<<2;
 		typename Base::template IsT<Throwing>("M2M1")(r.Cols()>=1);
 		using ReturnType = decltype(Division::Calculate(std::declval<typename Base::LeftType::ElementType>(),std::declval<typename Base::RightType::ElementType>()));
 	 	using DescriptorType = MatrixDescriptor<2, ReturnType>;

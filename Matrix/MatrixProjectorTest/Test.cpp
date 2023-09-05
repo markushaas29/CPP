@@ -68,6 +68,12 @@ class MatrixProjectorTest
 		        {8, 9,10},
 		        {13, 14, 15},
 		    };
+			
+			MD2 m33D {
+		        {3, 4, 5},
+		        {8, 9,10},
+		        {13, 14, 15},
+		    };
 		 	
 			MI2 m22 {
 		        {1, 2},
@@ -157,8 +163,9 @@ class MatrixProjectorTest
   			std::cout<<"mit3 "<<mit3<<std::endl;
   			auto cmS = m33.ColSum();
 			auto cm33 = m33 * cmS;
-			auto dm33 = m33 / cmS;
+			auto dm33 = m33D / cmS;
   			std::cout<<"m33 D "<<dm33<<std::endl;
+  			std::cout<<"m33 D "<<(double)dm33[0][0]<<std::endl;
 
   			std::cout<<"m33 Csum "<<cm33<<std::endl;
 			assert(mit3.Slice<0>()[0]==QS{3});

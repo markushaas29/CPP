@@ -159,6 +159,30 @@ class MatrixCalculatorTest
 			std::cout<<"ColSum => :\n "<<(m2R[0])<<"\n";
 			auto s = m2R.Slices(0);
 		
+			auto m2DC = m2d.ColSum();
+	      	assert((double)m2DC[0]==4.4);
+	      	assert((double)m2DC[3]==18.6);
+	
+	      	M1D hmc{
+	              {(104.5 * 1.19), (143 * 1.19), (450 *1.19)} 
+	      	};
+	
+	      	M2D hms {
+	              {1, 2, 1},
+	              {1, 1, 0},
+	              {1, 1, 0}
+	      	};
+	
+	      	auto hmsAll = hms.ColSum();
+			auto hmRatios = hms / hmsAll;
+			std::cout<<"HmsCostRatio"<<hmRatios<<std::endl;
+			auto hmsCosts = hmRatios * hmc;
+	
+			for(auto i = 0; i < hmsCosts.Rows(); ++i)
+				std::cout<<"Cost"<<(double)hmsCosts[i]<<std::endl;
+
+			std::cout<<"HmsCotst"<<hmsCosts<<std::endl;
+
 			std::cout<<"END M1 * M1"<<(m1 * m1)<<std::endl;
 		//   
 			return 0;
