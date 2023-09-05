@@ -35,8 +35,14 @@ class FunctionalTest
 			assert(5==(int)cm);
 
 			auto acm = cm + cm;
+			assert((qm+qm)==acm());
 			auto scm = cm - cm;
 			assert((qm-qm)==scm());
+			auto mcm = cm * cm;
+			std::cout<<"Const "<<mcm()<<(qm*qm)<<std::endl;
+			assert((qm*qm)==mcm());
+			auto dcm = cm / cm;
+			assert((qm/qm)==dcm());
 
 			std::cout<<"Const "<<cm2<<std::endl;
 
