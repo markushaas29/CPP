@@ -35,6 +35,7 @@ class MatrixProjectorCalculationTest
 			using QV = Quantity<Volume>;
 			using QM = Quantity<Mass>;
 			using QS = Quantity<Sum>;
+			using QSC = Quantity<Scalar>;
 			using T = std::tuple<Q,QM>;
 			using T3 = std::tuple<Q,QM, QV>;
 			using T3_2 = std::tuple<QM, QV, Q>;
@@ -46,6 +47,7 @@ class MatrixProjectorCalculationTest
 			using MIT2 = MatrixProjector<MI2,T>;
 			using MIT3 = MatrixProjector<MI2,T3>;
 			using MST2 = MatrixProjector<MS2,T>;
+			using MSC2 = MatrixProjector<MS2,QSC>;
 			using MDR2 = MatrixProjector<MD2,TR>;
 			
 			using MDF2 = MatrixFilter<MD2>;
@@ -93,18 +95,17 @@ class MatrixProjectorCalculationTest
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
   			auto mrR = MatrixReader(rpath);
   			auto mR = mrR.M<2>().Slices(3,4,5,6,7);
+			mR.ColSum();
 
 			std::cout<<"Stages:\n"<<mR<<std::endl;
   			
-  			using QE = Quantity<Work>;
+  			using MPSC = MatrixProjector<decltype(mR),QSC>;
+			MPSC mps(mR);
+			std::cout<<"Stages:\n"<<mps<<std::endl;
+  			
+			using QE = Quantity<Work>;
   			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
 
-			auto s0=  m33.Slice(0);
-  			using MPS = MatrixProjector<decltype(s0),TRF>;
-			MPS mps(s0);
-
-  			using MPR = MatrixProjector<decltype(mR),TRF>;
-  			MPR mpr(mR);
 
 			std::cout<<"END"<<std::endl;
 		   
