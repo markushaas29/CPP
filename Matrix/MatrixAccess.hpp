@@ -100,6 +100,8 @@ private:
 		std::vector<typename MDT::DataType> result;
 		if constexpr (std::is_same_v<typename M::ElementType, std::string>)
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(To<T>(*e))); });
+		else if constexpr (std::is_same_v<T, std::string>)
+			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(std::to_string(*e))); });
 		else
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });
 
