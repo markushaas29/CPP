@@ -61,6 +61,8 @@ public:
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Slice(size_t i) const { return access->slice(i, this); }
 	decltype(auto) Slices(auto... i) const { return access->slices(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
+	template<typename T>
+	decltype(auto) To() const { return access->template to<T>(this); }
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }

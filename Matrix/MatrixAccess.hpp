@@ -3,6 +3,7 @@
 #include <memory>
 #include "../Components/Interfaces.hpp"
 #include "../Is/Is.hpp"
+#include "../To/To.hpp"
 #include "../String/Literal.hpp"
 #include "../String/Format.hpp"
 
@@ -87,5 +88,21 @@ private:
 			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 		else
 			return Matrix<Order-1, MDT>(MDT{e,s}, row);
+	}
+	template<typename T>
+	decltype(auto) to(const M* m) const 
+	{
+		using MDT = MatrixDescriptor<Order, T>;
+		std::array<size_t,Order> e;
+		std::array<size_t,Order> s;
+		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
+		std::vector<typename MDT::DataType> result;
+		if constexpr (std::is_same_v<typename M::ElementType, std::string>)
+			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(To<T>(*e))); });
+		else
+			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });
+
+		return Matrix<Order, MDT>(MDT{e,s}, result);
 	}
 };
