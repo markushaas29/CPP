@@ -105,13 +105,9 @@ private:
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::vector<typename M::DataType> result;
 		std::array<size_t,Order> e;
-		std::array<size_t,Order> s;
-		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
 		e[0] = rowSpan[1] - rowSpan[0] + 1;
 		e[1] = colSpan[1] - colSpan[0] + 1;
 		MDT mdt{e};
-		std::cout<<mdt<<std::endl;
 		
 		for(int i = rowSpan[0]; i <= rowSpan[1] ; ++i)
 		{
@@ -119,6 +115,7 @@ private:
 			for(int i = colSpan[0]; i <= colSpan[1] ; ++i)
 				result.push_back(row[i]);
 		}
+
 		return Matrix<Order, MDT>(mdt, result);
 	}
 	decltype(auto) matrix(size_t i, const M* m) const 
