@@ -43,7 +43,7 @@ private:
             result.push_back(m->elements->at(i + (r * m->descriptor.Stride(0))));
         return result;
     }
-	decltype(auto) slice(size_t i, const M* m) const 
+	decltype(auto) colAt(size_t i, const M* m) const 
 	{
 		if constexpr (Order==1)
 			return *m;
@@ -56,7 +56,7 @@ private:
 		}
 	}
 	template<size_t N>
-	decltype(auto) slices(std::array<size_t,N> arr, const M* m) const 
+	decltype(auto) cols(std::array<size_t,N> arr, const M* m) const 
 	{
 		size_t max = *std::max_element(arr.begin(), arr.end());
 		typename M::IsT<Throwing>(Format("Index: ",max ," exceeds extents!"))(max<m->Cols());
