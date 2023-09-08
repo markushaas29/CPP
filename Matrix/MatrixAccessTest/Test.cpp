@@ -80,6 +80,10 @@ class MatrixAccessTest
 			assert((int)c2[0]==3);
 			assert((int)c2[1]==8);
 
+			auto r12 = m35.Rows(1,2);
+			assert((int)r12[0][1]==7);
+			assert((int)r12[1][1]==12);
+			assert((int)r12[1][3]==14);
 		//	try {mit3[1] * miq3;} catch(...) { isthrow = true; }
 		//	assert(isthrow);
 

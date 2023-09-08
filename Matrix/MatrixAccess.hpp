@@ -76,6 +76,26 @@ private:
 		
 		return Matrix<Order, MDT>(MDT{e,s}, result);
 	}
+	template<size_t N>
+	decltype(auto) rows(std::array<size_t,N> arr, const M* m) const 
+	{
+		size_t max = *std::max_element(arr.begin(), arr.end());
+		typename M::IsT<Throwing>(Format("Index: ",max ," exceeds extents!"))(max<m->Rows());
+		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
+		std::vector<typename M::DataType> result;
+		std::array<size_t,Order> e;
+		std::array<size_t,Order> s;
+		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
+		e[0] = arr.size();
+		for(int i = 0; i < arr.size(); ++i)
+		{
+			auto row = m->row(arr[i]);
+			std::for_each(row.begin(), row.end(), [&](auto i){ result.push_back(i); });
+		}
+		
+		return Matrix<Order, MDT>(MDT{e,s}, result);
+	}
 	decltype(auto) matrix(size_t i, const M* m) const 
 	{
 		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;

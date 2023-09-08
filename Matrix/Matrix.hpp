@@ -61,6 +61,7 @@ public:
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
+	decltype(auto) Rows(auto... i) const { return access->rows(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 
