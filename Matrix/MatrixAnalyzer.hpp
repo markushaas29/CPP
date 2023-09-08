@@ -32,7 +32,7 @@ public:
 	MatrixAnalyzer(MatrixType m): filter(m) {}
 	decltype(auto) operator()() const
 	{
-		auto mS22 = filter().Slices(4,6,7,11);
+		auto mS22 = filter().Cols(4,6,7,11);
         std::cout<<"MS 22"<<mS22<<std::endl;
 
         auto ms22F = MatrixFilter<decltype(mS22)>(mS22);
@@ -54,7 +54,7 @@ public:
 				v.push_back(i);
 				auto r = filter(7,[&](const auto& s) { return s == iban.Value();});
 				std::cout<<"\nIBAN: "<<iban<<std::endl;
-				auto sl = r.Slices(4,6,11,10);
+				auto sl = r.Cols(4,6,11,10);
 				v.push_back(sl[0][1]);
 				v.push_back(form(r.ColSum(11)));
 				std::cout<<"\nSum:\t"<<form(r.ColSum(11))<<std::endl;

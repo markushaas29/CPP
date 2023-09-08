@@ -95,9 +95,9 @@ class MatrixProjectorTest
 			assert(Q(7)==eq7);
 			assert(Q(13)==miq[2][2]);
 			assert(Q(5)==miq[0][4]);
-			assert(Q(6)==miq.Slice<0>()[1]);
-			assert(Q(15)==miq.Slice<4>()[2]);
-  			std::cout<<"\nmit3 Slice "<<miq.Slice<0>()<<std::endl;
+			assert(Q(6)==miq.Col<0>()[1]);
+			assert(Q(15)==miq.Col<4>()[2]);
+  			std::cout<<"\nmit3 Col "<<miq.Col<0>()<<std::endl;
 
 			
 			MSQ1 msq(ms1);
@@ -149,14 +149,14 @@ class MatrixProjectorTest
   			using QE = Quantity<Work>;
   			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
 
-			auto s0=  m33.Slice(0);
+			auto s0=  m33.Col(0);
   			using MPS = MatrixProjector<decltype(s0),TRF>;
 			MPS mps(s0);
 
   			using MPR = MatrixProjector<decltype(mR),TRF>;
   			MPR mpr(mR);
   			std::cout<<"ReadLine "<<mpr[1].At<1>()<<std::endl;
-  			//std::cout<<"Slice "<<mps[0]<<std::endl;
+  			//std::cout<<"Col "<<mps[0]<<std::endl;
 
 			MIT3 mit3(m33);
 			MIQ2 miq3(m33);
@@ -168,13 +168,13 @@ class MatrixProjectorTest
   			std::cout<<"m33 D "<<(double)dm33[0][0]<<std::endl;
 
   			std::cout<<"m33 Csum "<<cm33<<std::endl;
-			assert(mit3.Slice<0>()[0]==QS{3});
-  			std::cout<<"\nmit3 Slice "<<mit3[0]<<std::endl;
+			assert(mit3.Col<0>()[0]==QS{3});
+  			std::cout<<"\nmit3 Col "<<mit3[0]<<std::endl;
 			assert(mit3[0].At<0>()==QS{3});
 			assert(mit3[0].At<2>()==QV{5});
 			assert(mit3[1].At<0>()==QS{8});
 			assert(mit3[1].At<2>()==QV{10});
-			assert(mit3.Slice<0>()[2]==QS{13});
+			assert(mit3.Col<0>()[2]==QS{13});
   			std::cout<<"\nMul "<<mit3[1].Apply<Mul>(T3_2(2.5,2,3))<<std::endl;
   			std::cout<<"Mul "<<mit3[1].Apply<Sub>(Q(2.5))<<std::endl;
   			
@@ -185,7 +185,7 @@ class MatrixProjectorTest
 			assert(rm.At<0>()==QS{5});
 			assert(rm.At<2>()==QV{5});
   			std::cout<<"Mul Row"<<mit3[1].Apply<Mul>(mit3[0])<<std::endl;
-  			auto m2qs2 = mit3[1] * mit3.Slice<0>();
+  			auto m2qs2 = mit3[1] * mit3.Col<0>();
 			assert(m2qs2.At<0>().Value()==24);
 			assert(m2qs2.At<2>().Value()==30);
 

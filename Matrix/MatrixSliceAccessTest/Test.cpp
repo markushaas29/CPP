@@ -14,7 +14,7 @@
 using namespace ShortNames;
 using namespace DateTimes;
 
-class MatrixSliceAccessTest
+class MatrixColAccessTest
 {
 	public:
 		int Run()
@@ -79,11 +79,11 @@ class MatrixSliceAccessTest
 				{std::string("5"),std::string("6")} 
 		    };
 	
-			auto s024 = m35.Slices(0,2,4);
+			auto s024 = m35.Cols(0,2,4);
 			auto mulS = s024 * m33;
 			assert((int)mulS[2][2]==410);
-			std::cout<<mulS.Slice(0)<<std::endl;
-			std::cout<<mulS.Slices(1,2)<<std::endl;
+			std::cout<<mulS.Col(0)<<std::endl;
+			std::cout<<mulS.Cols(1,2)<<std::endl;
 			assert((int)mulS[0][0]==92);
 
 			std::cout<<"END"<<std::endl;

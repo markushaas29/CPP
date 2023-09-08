@@ -75,7 +75,7 @@ int main()
 		{1.0,2.2,3.3,4.4,5.5}	
 	};
 	assert(m1q.Cols()==1);
-	auto m1qc = m1q.Slice(0);
+	auto m1qc = m1q.Col(0);
 	assert(5.5==(double)m1qc[4]);
 	m1qc[4]=1;
 	assert(5.5==(double)m1qc[4]);
@@ -109,19 +109,19 @@ int main()
 	};
 	
 	assert(m35.Size()==15);
-	auto s2 = m35.Slices(0,2,4);
+	auto s2 = m35.Cols(0,2,4);
 	std::cout<<"S2: "<<s2;
 	assert(m35[1][0]()==6);
 	assert(m35[0][0]()==1);
 	assert(m35[2][0]()==11);
 	assert(m35[2][4]()==15);
 
-	auto s1 = m35.Slice(1);
+	auto s1 = m35.Col(1);
 	assert(s1.Rows()==3);
 	assert(s1.Cols()==1);
 	assert((int)s1[1]==7);
 	assert((int)s1[2]==12);
-	std::cout<<"Slice "<<(int)s1[1]<<"\n";
+	std::cout<<"Col "<<(int)s1[1]<<"\n";
 
 	bool t = false;
 	try	{ m35.AddRow({2});	}
@@ -154,7 +154,7 @@ int main()
 	auto dd = d[1];//.Descriptor();
 	std::cout<<"Matrix Element Rows"<<d.Rows()<<"\n";
 	std::cout<<"Matrix 3\n"<<m3<<"\n";
-	//std::cout<<"Matrix 3 Slices\n"<<m3.Slices(0)<<"\n";
+	//std::cout<<"Matrix 3 Cols\n"<<m3.Cols(0)<<"\n";
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
@@ -171,7 +171,7 @@ int main()
 
 	MatrixProjectorTest projector;
     MatrixInitializerTest init;     
-    MatrixSliceAccessTest access;     
+    MatrixColAccessTest access;     
     init.Run();     
     access.Run();
     projector.Run();

@@ -84,9 +84,7 @@ private:
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::vector<typename M::DataType> result;
 		std::array<size_t,Order> e;
-		std::array<size_t,Order> s;
 		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
 		e[0] = arr.size();
 		for(int i = 0; i < arr.size(); ++i)
 		{
@@ -94,7 +92,7 @@ private:
 			std::for_each(row.begin(), row.end(), [&](auto i){ result.push_back(i); });
 		}
 		
-		return Matrix<Order, MDT>(MDT{e,s}, result);
+		return Matrix<Order, MDT>(MDT{e}, result);
 	}
 	decltype(auto) sub(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan,const M* m) const 
 	{

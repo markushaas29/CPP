@@ -145,7 +145,7 @@ class MatrixInitializerTest
 			assert(m22[1][13].To<double>()==426.53);
 			assert(m22[1][11].To<double>()==-165.21);
 			assert((std::string)m22[1][4]=="30.12.2022");
-			auto mS22 = m22.Slices(4,6,7,11);
+			auto mS22 = m22.Cols(4,6,7,11);
 			std::cout<<"MS 22"<<mS22<<std::endl;
 
 			auto ms22F = MatrixFilter<decltype(mS22)>(mS22);

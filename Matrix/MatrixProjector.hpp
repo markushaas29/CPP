@@ -48,10 +48,10 @@ public:
 		}
 	}
 	template<int N>
-	decltype(auto)  Slice() const
+	decltype(auto)  Col() const
 	{
 		IsT<Throwing>(Format("Index ",N," exceeds extent ", matrix.Cols()))(matrix.Cols()>N);
-		auto s = matrix.Slice(N);
+		auto s = matrix.Col(N);
 		if constexpr ( IsTuple<ProjectionType> && MatrixType::Order==2)
 		{
 			using Type = std::tuple_element_t<N, ProjectionType>;
