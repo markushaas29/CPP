@@ -15,7 +15,7 @@ class MatrixAccess
 {
 public:
 	static constexpr size_t Order = M::Order;
-	inline static constexpr const char TypeIdentifier[] = "MatrixImpl";
+	inline static constexpr const char TypeIdentifier[] = "MatrixAccess";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 	MatrixAccess() {}
 private:
