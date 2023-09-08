@@ -71,30 +71,57 @@ class MatrixAccessTest
 				{std::string("5"),std::string("6")} 
 		    };
 	
+			bool isthrow = false;
 			auto c34 = m35.Cols(3,4);
 			assert((int)c34[0][1]==5);
 			assert((int)c34[1][0]==9);
 			assert((int)c34[2][1]==15);
+			try {m35.Cols(9,5);} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
 			
 			auto c2 = m35.Col(2);
 			assert((int)c2[0]==3);
 			assert((int)c2[1]==8);
+			try {m35.Col(9);} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
 
 			auto r12 = m35.Rows(1,2);
 			assert((int)r12[0][1]==7);
 			assert((int)r12[1][1]==12);
 			assert((int)r12[1][3]==14);
+			try {m35.Rows(9,10);} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
 			
 			auto s12_34 = m35.Sub({1,2},{3,4});
 			assert((int)s12_34[0][0]==9);
 			assert((int)s12_34[0][1]==10);
 			assert((int)s12_34[1][0]==14);
 			assert((int)s12_34[1][1]==15);
-		//	try {mit3[1] * miq3;} catch(...) { isthrow = true; }
-		//	assert(isthrow);
+			try {m35.Sub({1,10},{2,3});} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
+			try {m35.Sub({1,2},{2,7});} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
+			
+			auto sl13_24 = m35.Slices<2,2>({1,2},{2,4});
+			assert((int)sl13_24[0][0]==8);
+			assert((int)sl13_24[0][1]==10);
+			assert((int)sl13_24[1][0]==13);
+			assert((int)sl13_24[1][1]==15);
+
+			try {m35.Slices<2,2>({4,2},{2,4});} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
+			try {m35.Slices<2,2>({1,2},{2,7});} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
 
 
-			std::cout<<"END"<<std::endl;
+			std::cout<<"END"<<m35.Sub({1,2},{2,2})<<std::endl;
 		   
 			return 0;
 		}

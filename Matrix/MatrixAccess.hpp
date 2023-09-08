@@ -63,18 +63,15 @@ private:
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::vector<typename M::DataType> result;
 		std::array<size_t,Order> e;
-		std::array<size_t,Order> s;
 		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
 		e[1] = arr.size();
-		s[0] = arr.size();
 		for(int i = 0; i < m->Rows(); ++i)
 		{
 			auto row = m->row(i);
 			std::for_each(arr.begin(), arr.end(), [&](size_t i){ result.push_back(row[i]); });
 		}
 		
-		return Matrix<Order, MDT>(MDT{e,s}, result);
+		return Matrix<Order, MDT>(MDT{e}, result);
 	}
 	template<size_t N>
 	decltype(auto) rows(std::array<size_t,N> arr, const M* m) const 
@@ -116,18 +113,38 @@ private:
 
 		return Matrix<Order, MDT>(mdt, result);
 	}
+	template<size_t R, size_t C>
+	decltype(auto) slices(std::array<size_t,R> rows, std::array<size_t,C> cols,const M* m) const 
+	{
+		size_t maxR = *std::max_element(rows.begin(), rows.end());
+		typename M::IsT<Throwing>(Format("Index: ",maxR ," exceeds extents!"))(maxR<m->Rows());
+		size_t maxC = *std::max_element(cols.begin(), cols.end());
+		typename M::IsT<Throwing>(Format("Index: ",maxC ," exceeds extents!"))(maxC<m->Cols());
+		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
+		std::vector<typename M::DataType> result;
+		std::array<size_t,Order> e;
+		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+		e[0] = R;
+		e[1] = C;
+		for(int i = 0; i < R; ++i)
+		{
+			auto row = m->row(rows[i]);
+			std::for_each(cols.begin(), cols.end(), [&](size_t j){	result.push_back(row[j]); });
+		}
+
+		return Matrix<Order, MDT>(MDT{e}, result);
+	}
 	decltype(auto) matrix(size_t i, const M* m) const 
 	{
 		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;
 		std::array<size_t,Order-1> e;
 		std::array<size_t,Order-1> s;
 		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
-		std::copy(m->descriptor.Strides().begin()+1, m->descriptor.Strides().end(), s.begin());
 		auto row = m->row(i);
 		if constexpr (Order-1==0)
 			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 		else
-			return Matrix<Order-1, MDT>(MDT{e,s}, row);
+			return Matrix<Order-1, MDT>(MDT{e}, row);
 	}
 	template<typename T>
 	decltype(auto) to(const M* m) const 
@@ -136,7 +153,6 @@ private:
 		std::array<size_t,Order> e;
 		std::array<size_t,Order> s;
 		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
 		std::vector<typename MDT::DataType> result;
 		if constexpr (std::is_same_v<typename M::ElementType, std::string>)
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(To<T>(*e))); });
@@ -145,6 +161,6 @@ private:
 		else
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });
 
-		return Matrix<Order, MDT>(MDT{e,s}, result);
+		return Matrix<Order, MDT>(MDT{e}, result);
 	}
 };
