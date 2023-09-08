@@ -96,6 +96,31 @@ private:
 		
 		return Matrix<Order, MDT>(MDT{e,s}, result);
 	}
+	decltype(auto) sub(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan,const M* m) const 
+	{
+		size_t maxR = *std::max_element(rowSpan.begin(), rowSpan.end());
+		typename M::IsT<Throwing>(Format("Index: ",maxR ," exceeds extents!"))(maxR<m->Rows());
+		size_t maxC = *std::max_element(colSpan.begin(), colSpan.end());
+		typename M::IsT<Throwing>(Format("Index: ",maxC ," exceeds extents!"))(maxC<m->Cols());
+		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
+		std::vector<typename M::DataType> result;
+		std::array<size_t,Order> e;
+		std::array<size_t,Order> s;
+		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+		std::copy(m->descriptor.Strides().begin(), m->descriptor.Strides().end(), s.begin());
+		e[0] = rowSpan[1] - rowSpan[0] + 1;
+		e[1] = colSpan[1] - colSpan[0] + 1;
+		MDT mdt{e};
+		std::cout<<mdt<<std::endl;
+		
+		for(int i = rowSpan[0]; i <= rowSpan[1] ; ++i)
+		{
+			auto row = m->row(i);
+			for(int i = colSpan[0]; i <= colSpan[1] ; ++i)
+				result.push_back(row[i]);
+		}
+		return Matrix<Order, MDT>(mdt, result);
+	}
 	decltype(auto) matrix(size_t i, const M* m) const 
 	{
 		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;

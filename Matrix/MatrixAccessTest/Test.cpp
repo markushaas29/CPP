@@ -84,6 +84,8 @@ class MatrixAccessTest
 			assert((int)r12[0][1]==7);
 			assert((int)r12[1][1]==12);
 			assert((int)r12[1][3]==14);
+			
+			auto s12_34 = m35.Sub({1,2},{3,4});
 		//	try {mit3[1] * miq3;} catch(...) { isthrow = true; }
 		//	assert(isthrow);
 
