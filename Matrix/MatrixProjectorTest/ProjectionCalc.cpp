@@ -132,7 +132,13 @@ class MatrixProjectorCalculationTest
 			a22();
 			auto out23M = a23();
 
-			std::cout<<out23M.Col(2).To<QS>()<<std::endl;
+			auto out23S = out23M.Col(2).To<QS>();
+			auto stagS = cs.To<QSC>();
+			std::cout<<out23S<<std::endl;
+			std::cout<<stagS<<std::endl;
+
+			auto sums = stagS*out23S.Rows(1,2,3,4,5);
+			std::cout<<sums[0]<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
