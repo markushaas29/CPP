@@ -103,13 +103,14 @@ class MatrixProjectorCalculationTest
   			
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
   			auto mrR = MatrixReader(rpath);
-  			auto mR = mrR.M<2>().Cols(3,4,5,6,7);
+  			auto mR = mrR.M<2>().Cols(3,7,8,9,4,5,6);
 			auto mdR = mR.To<double>();
 			assert((int)mdR[1][0]==3);
-			assert((int)mdR[0][1]==458);
+			assert((int)mdR[0][4]==458);
 
 			auto cs = mdR / mR.ColSum();
 
+			std::cout<<"Stages:\n"<<(mR)<<std::endl;
 			std::cout<<"Stages:\n"<<(cs)<<std::endl;
   			
   			using MPSC = MatrixProjector<decltype(mR),QSC>;
@@ -129,9 +130,10 @@ class MatrixProjectorCalculationTest
 
 			auto a22 = MatrixAnalyzer<decltype(m22S)>(m22S);
 			auto a23 = MatrixAnalyzer<decltype(m23S)>(m23S);
-			a22();
+			auto out22M = a22();
 			auto out23M = a23();
 
+			auto out22S = out22M.Col(2).To<QS>();
 			auto out23S = out23M.Col(2).To<QS>();
 			auto stagS = cs.To<QSC>();
 			std::cout<<out23S<<std::endl;
