@@ -85,7 +85,14 @@ private:
 	T1 value;
 	friend class Element<Type>;
 	static constexpr const char* check(const char* s) { return s; }
-
+	friend std::istream& operator>>(std::istream& s, Quantity& q) 
+	{
+		ValueType v;
+		s>>v;
+		q = Quantity{v};
+		return s; 
+	}
+	
 	template<typename TQuantity>
 	constexpr static decltype(auto) transform(TQuantity t)
 	{ 

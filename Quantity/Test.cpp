@@ -177,7 +177,11 @@ int main()
     isSame = std::is_same_v<decltype(kmProDays)::UnitType,Unit<0, 1, 0, 1, 0, 0, 0, 0>>;
     	assert(isSame);
     	
-    
+    Quantity<Mass,Pure> mp;
+	std::istringstream is123_4("123.4");
+	is123_4>>mp;
+	assert(mp.Value()==123.4);
+
 	std::istringstream is("1000");
 	auto toKm1000 = ToQuantity<decltype(km2)>(is);
 	std::cout<<toKm1000<<std::endl;
