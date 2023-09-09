@@ -3,6 +3,7 @@
 #include "Quantity.hpp"
 #include "ToQuantity.hpp"
 #include "../CSV/Element.hpp"
+#include "../To/To.hpp"
 
 class StringTest
 {
@@ -58,6 +59,10 @@ int Run()
 	assert(qs2_123_456789.Value()==2123.456789);
 	auto qs2123456789 = Quantity<Sum>("2123,456789");
 	assert(qs2123456789.Value()==2123.456789);
+
+	auto qs123_5 = To<Quantity<Sum>>("123.5");
+	assert(qs123_5.Value()==123.5);
+
     std::cout<<"END"<<std::endl;
 
     return 0;
