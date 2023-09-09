@@ -74,6 +74,8 @@ public:
 		auto mi = Init(vec);
 		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());
 		std::cout<<"Umsatz: \n"<<mp<<std::endl;
+
+		return mi();
 	}
 private:
 	MatrixFilter<MatrixType> filter;

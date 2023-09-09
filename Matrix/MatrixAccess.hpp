@@ -113,8 +113,7 @@ private:
 
 		return Matrix<Order, MDT>(mdt, result);
 	}
-	template<size_t R, size_t C>
-	decltype(auto) slices(std::array<size_t,R> rows, std::array<size_t,C> cols,const M* m) const 
+	decltype(auto) slices(std::vector<size_t> rows, std::vector<size_t> cols,const M* m) const 
 	{
 		size_t maxR = *std::max_element(rows.begin(), rows.end());
 		typename M::IsT<Throwing>(Format("Index: ",maxR ," exceeds extents!"))(maxR<m->Rows());
@@ -124,9 +123,9 @@ private:
 		std::vector<typename M::DataType> result;
 		std::array<size_t,Order> e;
 		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		e[0] = R;
-		e[1] = C;
-		for(int i = 0; i < R; ++i)
+		e[0] = rows.size();
+		e[1] = cols.size();
+		for(int i = 0; i < rows.size(); ++i)
 		{
 			auto row = m->row(rows[i]);
 			std::for_each(cols.begin(), cols.end(), [&](size_t j){	result.push_back(row[j]); });

@@ -107,16 +107,21 @@ class MatrixAccessTest
 			assert(isthrow);
 			isthrow = false;
 			
-			auto sl13_24 = m35.Slices<2,2>({1,2},{2,4});
+			auto sl13_24 = m35.Slices({1,2},{2,4});
 			assert((int)sl13_24[0][0]==8);
 			assert((int)sl13_24[0][1]==10);
 			assert((int)sl13_24[1][0]==13);
 			assert((int)sl13_24[1][1]==15);
+			
+			auto sl13_1245 = m35.Slices({1,2},{0,1,3,4});
+			assert((int)sl13_1245[0][0]==6);
+			assert((int)sl13_1245[1][3]==15);
+			assert((int)sl13_1245[1][1]==12);
 
-			try {m35.Slices<2,2>({4,2},{2,4});} catch(...) { isthrow = true; }
+			try {m35.Slices({4,2},{2,4});} catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
-			try {m35.Slices<2,2>({1,2},{2,7});} catch(...) { isthrow = true; }
+			try {m35.Slices({1,2},{2,7});} catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
 

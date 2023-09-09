@@ -8,6 +8,7 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
+#include "../MatrixAnalyzer.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
@@ -102,7 +103,7 @@ class MatrixProjectorCalculationTest
   			
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
   			auto mrR = MatrixReader(rpath);
-  			auto mR = mrR.M<2>().Slices(3,4,5,6,7);
+  			auto mR = mrR.M<2>().Cols(3,4,5,6,7);
 			auto mdR = mR.To<double>();
 			assert((int)mdR[1][0]==3);
 			assert((int)mdR[0][1]==458);
@@ -118,6 +119,20 @@ class MatrixProjectorCalculationTest
 			using QE = Quantity<Work>;
   			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
 
+			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
+			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
+			auto m22r = MatrixReader(u22);
+			auto m23r = MatrixReader(u23);
+
+			auto m22S = m22r.M<2>();
+			auto m23S = m23r.M<2>();
+
+			auto a22 = MatrixAnalyzer<decltype(m22S)>(m22S);
+			auto a23 = MatrixAnalyzer<decltype(m23S)>(m23S);
+			a22();
+			auto out23M = a23();
+
+			std::cout<<out23M.Col(2).To<QS>()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
