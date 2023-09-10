@@ -36,13 +36,16 @@ public:
 
 	M3& operator=(M3& m) { return M3(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 
-	//decltype(auto) Rows() const { return descriptor.Rows(); }
-	//decltype(auto) Cols() const { return descriptor.Cols(); }
+	decltype(auto) Rows() const { return elements->size(); }
 //	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
 //	size_t Size() const { return descriptor.Size(); }
 //	const DescriptorType& Descriptor() const { return descriptor; }
 
-	decltype(auto) operator[] (size_t i) const { return Init(elements->at(i))(); }
+	decltype(auto) operator[] (size_t i) const 
+	{
+		IsT<Throwing>(Format("Index: ",i, " exceeds extents ", Rows()))(i < Rows());
+		return Init(elements->at(i))(); 
+	}
 //	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 //	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 //	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
@@ -53,7 +56,7 @@ public:
 //	template<typename F>
 //	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 private:
-//	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename U> using IsT =  Is<U,LiteralType>;
 //	template<typename T> using MC = M3Calculator<Type, T>;
 //	using MI = M3Impl<N,DescriptorType>;
 //	
