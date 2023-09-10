@@ -49,8 +49,13 @@ public:
 //	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 //	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 //	decltype(auto) Rows(auto... i) const { return access->rows(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
-	template<typename T>
-	decltype(auto) To() const { return access->template to<T>(this); }
+	template<typename TO>
+	decltype(auto) To() const 
+	{
+		std::vector<typename MatrixInitializer<2,TO>::MatrixType> mx;
+		std::for_each(elements->cbegin(), elements->cend(), [&mx](const auto& v2) { mx.push_back( v2.template To<TO>() ); });
+		return M3<TO>(mx); 
+	}
 
 //	template<typename F>
 //	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }

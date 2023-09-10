@@ -137,7 +137,10 @@ class MatrixAccessTest
 			assert((int)m3[1][3][1]==5);
 			assert(m3.Descriptor(1).Extents()[0]==4);
 
-			std::cout<<m3[1];
+			auto m3S = m3.To<Quantity<Sum>>();
+			assert((Quantity<Sum>)m3[1][3][1]==Quantity<Sum>(5));
+
+			std::cout<<m3S;
 
 			std::cout<<"END"<<m35.Sub({1,2},{2,2})<<std::endl;
 		   
