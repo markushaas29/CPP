@@ -9,6 +9,7 @@
 #include "MatrixFilters.hpp"
 #include "MatrixInitializer.hpp"
 #include "MatrixProjector.hpp"
+#include "M3.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -45,6 +46,8 @@ public:
 
 		std::vector<std::vector<std::string>> vec;
 
+		std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx;
+
 		for(auto i : ibans)
 		{
 			auto iban = IBAN(i);
@@ -53,23 +56,19 @@ public:
 			{
 				v.push_back(i);
 				auto r = filter(7,[&](const auto& s) { return s == iban.Value();});
-				std::cout<<"\nIBAN: "<<iban<<std::endl;
+				mx.push_back(r);
 				auto sl = r.Cols(4,6,11,10);
 				v.push_back(sl[0][1]);
 				v.push_back(form(r.ColSum(11)));
-				std::cout<<"\nSum:\t"<<form(r.ColSum(11))<<std::endl;
-				std::cout<<"\nSum:\t"<<Quantity<Sum>(form(r.ColSum(11)))<<std::endl;
 				vec.push_back(v);
 			}
 		}
 
+		M3 m3(mx);
 		
+		std::cout<<"Umsatz: \n"<<m3<<std::endl;
 		auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
-		std::cout<<"Dates: \n"<<r2<<std::endl;
 		auto rd = filter(4,[&](const auto& s) { return DateTimes::Get<DateTimes::Month>(DateTimes::Date(s)) == 1;});
-		std::cout<<"Dates: \n"<<rd<<std::endl;
-		std::cout<<"Date: \n"<<filter()[0]<<std::endl;
-		std::cout<<"Date: \n"<<filter()[0][1]<<std::endl;
 
 		auto mi = Init(vec);
 		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());

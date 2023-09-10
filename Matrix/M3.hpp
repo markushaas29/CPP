@@ -33,7 +33,8 @@ public:
 	~M3() = default;
 
 //	M3(const M3& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { check();};
-	explicit M3(const VecType& v):  elements{std::make_unique<std::vector<MatrixType>>(init(v))}{  };
+	explicit M3(const VecType& v): M3(init(v)){  };
+	explicit M3(const std::vector<MatrixType>& v):  elements{std::make_unique<std::vector<MatrixType>>(v.cbegin(), v.cend())}{  };
 
 	M3& operator=(M3& m) { return M3(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 
@@ -66,7 +67,13 @@ private:
 		return ms; 
 	}
 //
-//	friend std::ostream& operator<<(std::ostream& s, const M3& m) { return (*m.io)(s,&m); }
+	friend std::ostream& operator<<(std::ostream& s, const M3& m) 
+	{ 
+		s<<"{";
+			for(auto i=0; i<m.Rows(); ++i)
+				s<<m.elements->at(i)<<(i+1 == m.Rows()? "" : ", ");
+		return s<<" }";
+	}
 //	template<typename,typename> friend class M3Calculator;
 //	template<template<typename, typename> class T, uint, typename, typename> friend class M3CalculatorBase;
 //

@@ -9,6 +9,7 @@
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixAnalyzer.hpp"
+#include "../M3.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
@@ -132,6 +133,11 @@ class MatrixProjectorCalculationTest
 			auto a23 = MatrixAnalyzer<decltype(m23S)>(m23S);
 			auto out22M = a22();
 			auto out23M = a23();
+
+			std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx{out22M, out23M};
+
+			M3 m3(mx);
+			std::cout<<"M3: \n"<<m3<<std::endl;
 
 			auto out22S = out22M.Col(2).To<QS>();
 			auto out23S = out23M.Col(2).To<QS>();
