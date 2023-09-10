@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "../Matrix.hpp"
+#include "../M3.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
@@ -125,6 +126,10 @@ class MatrixAccessTest
 			assert(isthrow);
 			isthrow = false;
 
+			std::vector<std::vector<std::vector<int>>> v3 = {{{1,1,1},{2,2,2}},{{3,3,3},{4,4,4}},{{3,3,3},{4,4,4}}};;
+			M3<int> m3(v3);
+
+			std::cout<<m3[1];
 
 			std::cout<<"END"<<m35.Sub({1,2},{2,2})<<std::endl;
 		   
