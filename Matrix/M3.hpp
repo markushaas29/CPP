@@ -33,7 +33,7 @@ public:
 	~M3() = default;
 
 //	M3(const M3& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { check();};
-	explicit M3(const VecType& v):  elements{std::make_unique<VecType>(v.begin(),v.end())}{  };
+	explicit M3(const VecType& v):  elements{std::make_unique<std::vector<MatrixType>>(init(v))}{  };
 
 	M3& operator=(M3& m) { return M3(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 
@@ -41,10 +41,10 @@ public:
 //	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
 //	const DescriptorType& Descriptor(i) const { return descriptor; }
 
-	decltype(auto) operator[] (size_t i) const 
+	MatrixType operator[] (size_t i) const 
 	{
 		IsT<Throwing>(Format("Index: ",i, " exceeds extents ", Rows()))(i < Rows());
-		return Init(elements->at(i))(); 
+		return elements->at(i); 
 	}
 //	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 //	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
@@ -59,6 +59,12 @@ private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 //	template<typename T> using MC = M3Calculator<Type, T>;
 //	using MI = M3Impl<N,DescriptorType>;
+	decltype(auto) init (const VecType& v)  
+	{
+		std::vector<MatrixType> ms;
+		std::for_each(v.cbegin(), v.cend(), [&ms](const auto& v2) { ms.push_back(Init(v2)()); });
+		return ms; 
+	}
 //
 //	friend std::ostream& operator<<(std::ostream& s, const M3& m) { return (*m.io)(s,&m); }
 //	template<typename,typename> friend class M3Calculator;
@@ -67,5 +73,5 @@ private:
 //	DescriptorType descriptor;
 //	std::unique_ptr<M3Access<Type>> access = std::make_unique<M3Access<Type>>();
 //	std::unique_ptr<M3IO<Type>> io = std::make_unique<M3IO<Type>>();
-	std::unique_ptr<VecType> elements = std::make_unique<std::vector<DataType>>();
+	std::unique_ptr<std::vector<MatrixType>> elements;
 };

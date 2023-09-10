@@ -126,13 +126,15 @@ class MatrixAccessTest
 			assert(isthrow);
 			isthrow = false;
 
-			std::vector<std::vector<std::vector<int>>> v3 = {{{1,1,1},{2,2,2}},{{3,3,3},{4,4,4}},{{3,3,3},{4,4,4}}};
+			std::vector<std::vector<std::vector<int>>> v3 = {{{1,1,1},{2,2,2}},{{3,3,3},{4,4,4},{1,2,3},{5,5,5}},{{3,3,3},{4,4,4}}};
 			M3<int> m3(v3);
 
 			assert(m3.Rows()==3);
 			try {auto x = m3[4]; } catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
+
+			assert((int)m3[1][3][1]==5);
 
 			std::cout<<m3[1];
 
