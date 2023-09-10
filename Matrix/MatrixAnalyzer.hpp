@@ -66,7 +66,6 @@ public:
 
 		M3 m3(mx);
 		
-		std::cout<<"Umsatz: \n"<<m3<<std::endl;
 		auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
 		auto rd = filter(4,[&](const auto& s) { return DateTimes::Get<DateTimes::Month>(DateTimes::Date(s)) == 1;});
 
