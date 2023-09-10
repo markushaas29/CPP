@@ -25,6 +25,7 @@ public:
 	using DataType = typename DT::DataType;
 	using ValueType = ElementType;
 	using VecType = std::vector<std::vector<std::vector<ElementType>>>;
+	using MatrixType = MatrixInitializer<2,T>::MatrixType;
 
 	M3() = delete;
 	M3(M3&&) = default;
@@ -38,8 +39,7 @@ public:
 
 	decltype(auto) Rows() const { return elements->size(); }
 //	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
-//	size_t Size() const { return descriptor.Size(); }
-//	const DescriptorType& Descriptor() const { return descriptor; }
+//	const DescriptorType& Descriptor(i) const { return descriptor; }
 
 	decltype(auto) operator[] (size_t i) const 
 	{
@@ -59,23 +59,10 @@ private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 //	template<typename T> using MC = M3Calculator<Type, T>;
 //	using MI = M3Impl<N,DescriptorType>;
-//	
-//	decltype(auto) operator() (auto... I) const
-//	{
-//		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
-//		auto i = MI::computePosition(descriptor.Extents(),descriptor.Strides(), I...);
-//		return elements->at(i); 
-//	}
-//	
-//	decltype(auto) row(size_t i) const { return access->row(i, this); }
-//	decltype(auto) col(size_t i) const { return access->col(i, this); }
 //
 //	friend std::ostream& operator<<(std::ostream& s, const M3& m) { return (*m.io)(s,&m); }
 //	template<typename,typename> friend class M3Calculator;
 //	template<template<typename, typename> class T, uint, typename, typename> friend class M3CalculatorBase;
-//	friend class M3Access<Type>;
-//	friend class M3IO<Type>;
-//	friend class M3Filter<Type>;
 //
 //	DescriptorType descriptor;
 //	std::unique_ptr<M3Access<Type>> access = std::make_unique<M3Access<Type>>();
