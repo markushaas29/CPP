@@ -47,6 +47,7 @@ public:
 			return val;
 		}
 	}
+	decltype(auto) Split() const { return 4; } 
 	decltype(auto) operator()() const 
 	{
 		if constexpr (	IsResultType<ValueType>	)

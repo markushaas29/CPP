@@ -149,6 +149,11 @@ class MatrixProjectorCalculationTest
 			std::cout<<sums[0]<<std::endl;
 			
 			std::cout<<"Stages ratio:\n"<<(cs)<<std::endl;
+			
+			auto snipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SNI.csv" };
+  			auto sniR = MatrixReader(snipath);
+			std::cout<<sniR.M<2>()<<std::endl;
+			std::cout<<sniR.M<2>()[0][3].Split()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
