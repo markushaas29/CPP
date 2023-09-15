@@ -111,8 +111,6 @@ class MatrixProjectorCalculationTest
 
 			auto cs = mdR / mR.ColSum();
 
-			std::cout<<"Stages:\n"<<(mR)<<std::endl;
-			std::cout<<"Stages:\n"<<(cs)<<std::endl;
   			
   			using MPSC = MatrixProjector<decltype(mR),QSC>;
 			MPSC mps(mR);
@@ -145,8 +143,12 @@ class MatrixProjectorCalculationTest
 			std::cout<<out23S<<std::endl;
 			std::cout<<stagS<<std::endl;
 
+			std::cout<<"Stages total:\n"<<(mR)<<std::endl;
+			
 			auto sums = stagS*out23S.Rows(1,2,3,4,5);
 			std::cout<<sums[0]<<std::endl;
+			
+			std::cout<<"Stages ratio:\n"<<(cs)<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
