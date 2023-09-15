@@ -4,10 +4,13 @@
 #include "../CSV/Elements.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../String/Literal.hpp"
+#include "../String/String_.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/QuantityRatio.hpp"
 
 #pragma once
+
+template<std::size_t, typename> class Matrix;
 
 class IMatrixElement
 {
@@ -19,6 +22,7 @@ public:
 std::ostream& operator<<(std::ostream& out, const IMatrixElement& e) {	return e.Display(out); }
 
 template<typename T> class MatrixElement;
+template<size_t, typename> class MatrixDescriptor;
 
 template<typename T, typename ET>
 class MatrixElementBase: public IMatrixElement
@@ -47,7 +51,16 @@ public:
 			return val;
 		}
 	}
-	decltype(auto) Split() const { return 4; } 
+	decltype(auto) Split() const 
+	{
+		if constexpr (std::is_same_v<ValueType,std::string>)
+		{
+			auto vals = String_::Split(value,',');
+			using MDT = MatrixDescriptor<1,ValueType>;
+			auto md = MatrixDescriptor<1,ValueType>({vals.size()});
+			return Matrix<1,MDT>(md,vals); 
+		}
+	} 
 	decltype(auto) operator()() const 
 	{
 		if constexpr (	IsResultType<ValueType>	)
