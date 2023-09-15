@@ -18,6 +18,14 @@
 
 template<typename> class MatrixFilter;
 
+template<typename T>
+decltype(auto) ToDataType(const std::vector<T>& v)
+{
+	std::vector<std::shared_ptr<T>> result;
+	std::for_each(v.begin(),v.end(), [&result](const T& t) { result.push_back(std::make_shared<T>(t)); });
+	return result;
+};
+
 template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {
@@ -38,6 +46,7 @@ public:
 
 	Matrix(const Matrix& m): descriptor(m.descriptor), elements{std::make_unique<std::vector<DataType>>(m.elements->cbegin(),m.elements->cend())} { check();};
 	explicit Matrix(DescriptorType d, const std::vector<DataType>& v): descriptor(d), elements{std::make_unique<std::vector<DataType>>(v.begin(),v.end())}{ check(); };
+	explicit Matrix(DescriptorType d, const std::vector<ElementType>& v): Matrix(d,ToDataType(v)) {  };
 	Matrix(MatrixInit<ElementType,N> init)
 	{
 		descriptor.SetExtents(MI::derive_extents(init));
