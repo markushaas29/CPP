@@ -62,7 +62,7 @@ class ElementMul: public OperationBase<Mul,ElementMul,L,R>
 	friend class OperationBase<Mul,ElementMul,L,R>;
 public:
 	ElementMul(const L& v): Base{v} {}
-	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = Mul<Constant<L>, Constant<R>>;
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v * val; }
 };
@@ -74,7 +74,7 @@ class ElementDiv: public OperationBase<Div,ElementDiv,L,R>
 	friend class OperationBase<Div,ElementDiv,L,R>;
 public:
 	ElementDiv(const L& v): Base{v} {}
-	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = Div<Constant<L>, Constant<R>>;
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v / val; }
 };

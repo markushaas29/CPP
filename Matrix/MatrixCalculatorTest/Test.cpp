@@ -30,6 +30,7 @@ class MatrixCalculatorTest
 			M1 m1{
 				{1,2,3,4,5}	
 			};
+			
 			M2 m35 {
 				{1, 2, 3, 4, 5},
 				{6, 7, 8, 9,10},
@@ -39,9 +40,15 @@ class MatrixCalculatorTest
 			assert(m35Am35[0][0].To<int>()==2);
 			assert(m35Am35[2][4].To<int>()==30);
 			auto m35Sm35 = m35Am35-m35;
+			
 			assert(m35Sm35[0][0].To<int>()==1);
 			assert(m35Sm35[2][4].To<int>()==15);
-			std::cout<<"Matrix m3 "<<m35Sm35<<"\n";
+			
+			auto m35Mm35 = m1*m1;
+			assert(m35Mm35[0][0].To<int>()==1);
+			assert(m35Mm35[2][4].To<int>()==15);
+			assert(m35Mm35[4][4].To<int>()==25);
+			std::cout<<"Matrix m3 "<<m35Mm35<<"\n";
 //			auto mad = m35 + m35 -m35 +m35; 
 //		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
 //		  	assert((int)mop[0][0]==-10);

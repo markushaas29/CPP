@@ -231,7 +231,7 @@ private:
 	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) 
 	{
 		//IsT<Throwing>("M2M1")(l.R()==r.Rows());
-		using ReturnType = decltype(Multiplication::Calculate(std::declval<typename Base::LeftType::ElementType>(),std::declval<typename Base::RightType::ElementType>()));
+		using ReturnType = Mul<Constant<typename Base::LeftType::ElementType>,Constant<typename Base::RightType::ElementType>>;
 	 	using DescriptorType = MatrixDescriptor<Base::Order, ReturnType>;
  	    using ResultType = Matrix<Base::Order, DescriptorType>;
 		
@@ -239,7 +239,7 @@ private:
 		std::vector<std::shared_ptr<ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Rows(); ++j)
-				v.push_back(std::make_shared<ReturnType>(Multiplication::Calculate( *l(i),*r(j) )));
+				v.push_back(std::make_shared<ReturnType>(Mul( Constant(*l(i)),Constant(*r(j) ))));
 
 		return ResultType(md,v);
 	}
