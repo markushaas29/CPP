@@ -1,4 +1,5 @@
 #include <memory>
+#include "../Functional/FunctionalConcept.hpp"
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/Elements.hpp"
@@ -81,7 +82,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
 
-template<typename T> class MatrixElement{ };
+//template<typename T> class MatrixElement{ };
 
 template<typename T> requires ( std::is_arithmetic_v<T> )
 class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,T>>
@@ -107,6 +108,17 @@ private:
 
 template<typename T> requires ( IsResultType<T> )
 class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,double>>
+{
+public:
+	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,double>>;
+	MatrixElement(const T& v): Base{v} { }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" :"<<Base::value; }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
+};
+
+template<typename T> //requires ( FunctionalConcept<T> )
+class MatrixElement: public MatrixElementBase<T, Quantity<Scalar,Pure,double>>
 {
 public:
 	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,double>>;
