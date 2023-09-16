@@ -35,9 +35,13 @@ class MatrixCalculatorTest
 				{6, 7, 8, 9,10},
 				{11, 12, 13, 14, 15},
 			};
-			
-			std::cout<<"Matrix m3 "<<(m35+m35)<<"\n";
-//			std::cout<<"Matrix m3 "<<(m35+m35 - m35 )<<"\n";
+			auto m35Am35 = m35+m35;
+			assert(m35Am35[0][0].To<int>()==2);
+			assert(m35Am35[2][4].To<int>()==30);
+			auto m35Sm35 = m35Am35-m35;
+			assert(m35Sm35[0][0].To<int>()==1);
+			assert(m35Sm35[2][4].To<int>()==15);
+			std::cout<<"Matrix m3 "<<m35Sm35<<"\n";
 //			auto mad = m35 + m35 -m35 +m35; 
 //		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
 //		  	assert((int)mop[0][0]==-10);

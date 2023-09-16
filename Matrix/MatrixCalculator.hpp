@@ -88,7 +88,7 @@ private:
         auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
         for(auto i = 0; i < l.elements->size(); ++i)
-            el.push_back(std::make_shared<typename Op::ValueType>(Subtraction::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+            el.push_back(std::make_shared<typename Op::ValueType>(Sub(Constant(*(l.elements->at(i))),Constant(*(r.elements->at(i))))));
         return typename Op::MatrixType(d,el); 
     }
 	static decltype(auto) rowSum(const LeftType& l)

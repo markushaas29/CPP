@@ -26,7 +26,7 @@ class OperationBase
 	using OpType = D<L,R>;
 public:
 	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return T(v,val)(); }
+	decltype(auto) operator()(const auto& v) { return T(v,val); }
 private:
 	RightType val;
 };
@@ -38,7 +38,7 @@ class ElementAdd: public OperationBase<Add,ElementAdd,L,R>
 	friend class OperationBase<Add,ElementAdd,L,R>;
 public:
 	ElementAdd(const L& v): Base{v} {}
-	using Type = Add<Constant<L>, Constant<R>>::ResultType;
+	using Type = Add<Constant<L>, Constant<R>>;
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
 };
@@ -50,7 +50,7 @@ class ElementSub: public OperationBase<Sub,ElementSub,L,R>
 	friend class OperationBase<Sub,ElementSub,L,R>;
 public:
 	ElementSub(const L& v): Base{v} {}
-	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = Sub<Constant<L>, Constant<R>>;
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v - val; }
 };
