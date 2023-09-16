@@ -77,6 +77,33 @@ private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v / val; }
 };
 
+template<template<typename,typename> class D,typename L, typename R>
+class MatrixOpBase 
+{
+	using LeftType = L;
+	using RightType = R;
+	using OpType = D<L,R>;
+public:
+	MatrixOpBase(const RightType& v): val{v} {}
+	decltype(auto) operator()(const auto& v) { return OpType::Calculate(v,val); }
+private:
+	RightType val;
+};
+
+template<typename L, typename R=L>
+class Diff: public MatrixOpBase<Diff,L,R>
+{
+	using Base = MatrixOpBase<Diff,L,R>;
+	friend class MatrixOpBase<Diff,L,R>;
+	using OP = Sub<L,R>;
+public:
+	using ResultType = Sub<L,R>::ResultType;
+	Diff(const L& v): Base{v} {}
+	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
+private:
+	static decltype(auto) calculate(const auto& l, const auto& r) { return OP(l,r)(); }
+};
+
 template<typename Op, typename M1, typename V>
 class ValueOperation 
 {
