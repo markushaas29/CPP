@@ -3,6 +3,7 @@
 #include <vector>
 #include "MatrixDescriptor.hpp"
 #include "MatrixOperations.hpp"
+#include "../Functional/Unary.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -48,6 +49,15 @@ private:
         auto el = std::vector<typename LeftType::DataType>();
         std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
         return LeftType(d,el); 
+    }
+	template<typename Op, typename It >
+    static decltype(auto) calc(Op op, It begin, It end, DescriptorType d)
+    {
+		using DescriptorType = MatrixDescriptor<Order, typename Op::ResultType>;
+		using ResultType = Matrix<Order, DescriptorType>;
+        auto el = std::vector<std::shared_ptr<typename Op::ResultType>>();
+        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename Op::ResultType>(typename Op::ResultType(Constant(5),Constant(*e)))); });
+        return ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, F f)

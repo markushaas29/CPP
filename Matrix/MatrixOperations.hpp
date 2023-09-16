@@ -85,7 +85,7 @@ class MatrixOpBase
 	using OpType = D<L,R>;
 public:
 	MatrixOpBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return OpType::Calculate(v,val); }
+	decltype(auto) operator()(Constant<L> l,Constant<R> r) { return OpType::calculate(l,r); }
 private:
 	RightType val;
 };
@@ -95,13 +95,13 @@ class Diff: public MatrixOpBase<Diff,L,R>
 {
 	using Base = MatrixOpBase<Diff,L,R>;
 	friend class MatrixOpBase<Diff,L,R>;
-	using OP = Sub<L,R>;
+	using Op = Sub<Constant<L>,Constant<R>>;
 public:
-	using ResultType = Sub<L,R>::ResultType;
-	Diff(const L& v): Base{v} {}
+	using ResultType = Op;//::ResultType;
+	Diff(const L& v = L{}): Base{v} {}
 	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
 private:
-	static decltype(auto) calculate(const auto& l, const auto& r) { return OP(l,r)(); }
+	static decltype(auto) calculate(const auto& l, const auto& r) { return Op(l,r)(); }
 };
 
 template<typename Op, typename M1, typename V>

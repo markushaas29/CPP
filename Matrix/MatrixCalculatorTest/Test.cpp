@@ -5,6 +5,7 @@
 #include <memory> 
 #include "../Matrix.hpp"
 #include "../MatrixDescriptor.hpp"
+#include "../MatrixOperations.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 using namespace ShortNames;
@@ -184,6 +185,9 @@ class MatrixCalculatorTest
 			std::cout<<"HmsCotst"<<hmsCosts<<std::endl;
 
 			std::cout<<"END M1 * M1"<<(m1 * m1)<<std::endl;
+
+			auto mf1 = m44.Calc(Diff(5));
+			std::cout<<"END M1 * M1"<<mf1<<std::endl;
 		//   
 			return 0;
 		}
