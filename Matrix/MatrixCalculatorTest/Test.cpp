@@ -189,6 +189,7 @@ class MatrixCalculatorTest
 			auto mf1 = m44.Calc(Diff(5));
 			std::cout<<"END M1 * M1"<<mf1[0][0]<<std::endl;
 			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
+			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;
 		//   
 			return 0;
 		}
