@@ -4,6 +4,7 @@
 #include "MatrixDescriptor.hpp"
 #include "MatrixOperations.hpp"
 #include "../Functional/Unary.hpp"
+#include "../Functional/Binary.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -77,7 +78,7 @@ private:
         auto d = typename Op::DescriptorType(l.descriptor.Extents(), l.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
         for(auto i = 0; i < l.elements->size(); ++i)
-            el.push_back(std::make_shared<typename Op::ValueType>(Addition::Calculate(*(l.elements->at(i)),*(r.elements->at(i)))));
+            el.push_back(std::make_shared<typename Op::ValueType>(Add(Contant(*(l.elements->at(i))),Constant(*(r.elements->at(i))))));
         return typename Op::MatrixType(d,el); 
     }
 	static decltype(auto) sub(const LeftType& l,const RightType& r)

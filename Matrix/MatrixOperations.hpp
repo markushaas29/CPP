@@ -3,6 +3,8 @@
 #include <vector>
 #include <type_traits>
 #include "MatrixElement.hpp"
+#include "../Functional/Binary.hpp"
+#include "../Functional/Unary.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -15,37 +17,37 @@
 template<size_t, typename> class MatrixDescriptor;
 template<size_t, typename> class Matrix;
 
-template<typename T, template<typename,typename> class D,typename L, typename R>
+template<template<typename,typename> class T, template<typename,typename> class D,typename L, typename R>
 class OperationBase 
 {
 	using LeftType = L;
 	using RightType = R;
-	using Type = T;
+	using Type = T<Constant<L>,Constant<R>>;
 	using OpType = D<L,R>;
 public:
 	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return T::Calculate(v,val); }
+	decltype(auto) operator()(const auto& v) { return T(v,val)(); }
 private:
 	RightType val;
 };
 
 template<typename L, typename R>
-class ElementAdd: public OperationBase<Addition,ElementAdd,L,R>
+class ElementAdd: public OperationBase<Add,ElementAdd,L,R>
 {
-	using Base = OperationBase<Addition,ElementAdd,L,R>;
-	friend class OperationBase<Addition,ElementAdd,L,R>;
+	using Base = OperationBase<Add,ElementAdd,L,R>;
+	friend class OperationBase<Add,ElementAdd,L,R>;
 public:
 	ElementAdd(const L& v): Base{v} {}
-	using Type = decltype(Addition::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = Add<Constant<L>, Constant<R>>::ResultType;
 private:
 	static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
 };
 
 template<typename L, typename R>
-class ElementSub: public OperationBase<Subtraction,ElementSub,L,R>
+class ElementSub: public OperationBase<Sub,ElementSub,L,R>
 {
-	using Base = OperationBase<Subtraction,ElementSub,L,R>;
-	friend class OperationBase<Subtraction,ElementSub,L,R>;
+	using Base = OperationBase<Sub,ElementSub,L,R>;
+	friend class OperationBase<Sub,ElementSub,L,R>;
 public:
 	ElementSub(const L& v): Base{v} {}
 	using Type = decltype(Subtraction::Calculate(std::declval<L>(), std::declval<R>()));
@@ -54,10 +56,10 @@ private:
 };
 
 template<typename L, typename R>
-class ElementMul: public OperationBase<Multiplication,ElementMul,L,R>
+class ElementMul: public OperationBase<Mul,ElementMul,L,R>
 {
-	using Base = OperationBase<Multiplication,ElementMul,L,R>;
-	friend class OperationBase<Multiplication,ElementMul,L,R>;
+	using Base = OperationBase<Mul,ElementMul,L,R>;
+	friend class OperationBase<Mul,ElementMul,L,R>;
 public:
 	ElementMul(const L& v): Base{v} {}
 	using Type = decltype(Multiplication::Calculate(std::declval<L>(), std::declval<R>()));
@@ -66,10 +68,10 @@ private:
 };
 
 template<typename L, typename R>
-class ElementDiv: public OperationBase<Division,ElementDiv,L,R>
+class ElementDiv: public OperationBase<Div,ElementDiv,L,R>
 {
-	using Base = OperationBase<Division,ElementDiv,L,R>;
-	friend class OperationBase<Division,ElementDiv,L,R>;
+	using Base = OperationBase<Div,ElementDiv,L,R>;
+	friend class OperationBase<Div,ElementDiv,L,R>;
 public:
 	ElementDiv(const L& v): Base{v} {}
 	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
