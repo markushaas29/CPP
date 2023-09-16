@@ -36,7 +36,7 @@ class MatrixCalculatorTest
 				{11, 12, 13, 14, 15},
 			};
 			
-//			std::cout<<"Matrix m3 "<<(m35 )<<"\n";
+			std::cout<<"Matrix m3 "<<(m35+m35)<<"\n";
 //			std::cout<<"Matrix m3 "<<(m35+m35 - m35 )<<"\n";
 //			auto mad = m35 + m35 -m35 +m35; 
 //		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
