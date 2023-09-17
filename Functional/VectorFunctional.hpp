@@ -83,14 +83,15 @@ public:
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
 	{ 
-		using RT = Mul<T,U>;
-		std::vector<std::shared_ptr<RT>> inter;
+		using RT = Mul<Constant<T>,Constant<U>>;
+		std::vector<RT> inter;
 		for(uint i =0; i < v1.size(); ++i)
-			inter.push_back(std::make_shared<RT>(Mul<T,U>(*v1[i],*v2[i])));
+			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
 
-		return Acc<T,U>::op(inter); 
+		return Acc<decltype(inter),decltype(inter)>::op(inter,inter); 
 	}
 
+	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<"{"<<1<<" "<<2<<" "<<"}";  }
 //	template<typename T>
 //	constexpr operator T() const { return static_cast<T>(value); }
 //	std::ostream& Display(std::ostream& strm) const	

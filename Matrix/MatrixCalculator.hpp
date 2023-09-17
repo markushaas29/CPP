@@ -5,6 +5,7 @@
 #include "MatrixOperations.hpp"
 #include "../Functional/Unary.hpp"
 #include "../Functional/Binary.hpp"
+#include "../Functional/VectorFunctional.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -39,7 +40,7 @@ protected:
 	}
 	struct DotProductType
 	{
-		using ReturnType = decltype(DotProduct::Calculate(std::declval<std::vector<typename LeftType::DataType>>(),std::declval<std::vector<typename RightType::DataType>>()));
+		using ReturnType = Dot<std::vector<typename LeftType::DataType>,std::vector<typename RightType::DataType>>;
 	 	using DescriptorType = MatrixDescriptor<Order, ReturnType>;
  	    using ResultType = Matrix<Order, DescriptorType>;
 	};
@@ -181,7 +182,7 @@ private:
 		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Cols(); ++j)
-				v.push_back(std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.row(i),r.col(j))));
+				v.push_back(std::make_shared<typename Base::DotProductType::ReturnType>(Dot<decltype(l.row(i)), decltype(r.col(0))>(l.row(i),r.col(0))));
 
 		return typename Base::DotProductType::ResultType(md,v);
 	}
@@ -200,7 +201,7 @@ private:
 
 		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v(l.Rows());
 		for(int i = 0; i != l.Rows(); ++i)
-			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(DotProduct::Calculate(l.row(i),r.col(0)));
+			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(Dot<decltype(l.row(i)), decltype(r.col(0))>(l.row(i),r.col(0)));
 
 		return typename Base::DotProductType::ResultType(md,v);
 	}

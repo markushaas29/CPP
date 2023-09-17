@@ -63,15 +63,15 @@ class MatrixCalculatorTest
 //			std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
 //			
 //		
-//			M2 m44 {
-//				{1, 2, 3, 4},
-//				{6, 7, 8, 9},
-//				{1, 2, 3, 4},
-//				{6, 7, 8, 9}
-//			};
-//		
-//			auto m44m44 = m44 * m44;
-//			std::cout<<"Matrix m44 + m44 "<<(int)m44m44[0][0]<<"\n";
+			M2 m44 {
+				{1, 2, 3, 4},
+				{6, 7, 8, 9},
+				{1, 2, 3, 4},
+				{6, 7, 8, 9}
+			};
+		
+			auto m44m44 = m44 * m44;
+			std::cout<<"Matrix m44 * m44 "<<m44m44<<"\n";
 //			std::cout<<"Cols:\n "<<m44m44.Cols(0,1)<<"\n";
 //			auto s44 = m44m44.Cols(0,1);
 //			std::cout<<"Cols:\n "<<s44<<"\n";
