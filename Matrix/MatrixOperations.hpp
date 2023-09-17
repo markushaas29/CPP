@@ -11,7 +11,6 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
-#include "../Calculator/Operations.hpp"
 #pragma once
 
 template<size_t, typename> class MatrixDescriptor;
@@ -101,7 +100,7 @@ class Diff: public MatrixOpBase<Diff,L,R>
 public:
 	using ResultType = Op;//::ResultType;
 	Diff(const L& v = L{}): Base{v} {}
-	using Type = decltype(Division::Calculate(std::declval<L>(), std::declval<R>()));
+	using Type = Div<L,R>;
 private:
 	static decltype(auto) calculate(const auto& l, const auto& r) { return Op(l,r)(); }
 };

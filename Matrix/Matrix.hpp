@@ -9,8 +9,6 @@
 #include "MatrixCalculator.hpp"
 #include "MatrixAccess.hpp"
 #include "MatrixIO.hpp"
-#include "../Calculator/CalculatorResult.hpp"
-#include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 

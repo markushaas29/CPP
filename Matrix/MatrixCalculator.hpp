@@ -12,7 +12,6 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
-#include "../Calculator/Operations.hpp"
 #pragma once
 
 template<std::size_t N, typename DT> class Matrix;
