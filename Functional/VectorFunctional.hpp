@@ -30,8 +30,8 @@ private:
 template<typename L, typename R>
 class Acc: public VectorFunctional<Acc,L,R>
 {
-	using Base = BinaryFunctional<Acc,L,R>;
-	friend class BinaryFunctional<Acc,L,R>;
+	using Base = VectorFunctional<Acc,L,R>;
+	friend class VectorFunctional<Acc,L,R>;
 public:
 	using Type = Acc;
 	using LeftType = L;
@@ -40,11 +40,11 @@ public:
 	Acc(const L& l, const R& r): Base{l,r} {}
 
 	template<typename T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1) 
+	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<T>& v2) 
 	{ 
 		double r = 0;
 		std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(i); });
-		return Acc(v1,r); 
+		return r; 
 	}
 	
 	template<typename T>

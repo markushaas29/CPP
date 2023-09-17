@@ -143,6 +143,9 @@ class FunctionalTest
 			std::vector<int> v1 = {1,2,3};
 			std::vector<int> v2 = {1,2,3};
 
+			auto acc1 = Acc<decltype(v1),decltype(v2)>(v1,v2);
+			assert(acc1()==6);
+
 			return 0;
 		}
 };
