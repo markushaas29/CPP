@@ -138,7 +138,11 @@ class FunctionalTest
 			std::cout<<"Operator "<<(ac / cm)<<std::endl;
 			std::cout<<"Operator "<<(cm / ac)<<std::endl;
 			std::cout<<"END"<<std::endl;
-		   
+
+
+			std::vector<int> v1 = {1,2,3};
+			std::vector<int> v2 = {1,2,3};
+
 			return 0;
 		}
 };

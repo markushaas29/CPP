@@ -2,6 +2,7 @@
 #include "FunctionalBase.hpp"
 #include "Unary.hpp"
 #include "Binary.hpp"
+#include "VectorFunctional.hpp"
 #include "FunctionalOperators.hpp"
 
 #pragma once
