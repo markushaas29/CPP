@@ -88,10 +88,10 @@ public:
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
 
-		return Acc<decltype(inter),decltype(inter)>::op(inter,inter); 
+		return Acc<decltype(inter),decltype(inter)>(inter,inter)(); 
 	}
 
-	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<"{"<<1<<" "<<2<<" "<<"}";  }
+	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<"{"<<c()<<"}";  }
 //	template<typename T>
 //	constexpr operator T() const { return static_cast<T>(value); }
 //	std::ostream& Display(std::ostream& strm) const	
