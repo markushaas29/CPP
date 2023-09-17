@@ -1,4 +1,5 @@
 #include "FunctionalBase.hpp" 
+#include "Unary.hpp" 
 #include "Binary.hpp" 
 
 #pragma once
@@ -57,22 +58,26 @@ public:
 private:
 };
 template<typename L, typename R>
-class Dot
+class Dot: public VectorFunctional<Dot,L,R>
 {
+	using Base = VectorFunctional<Dot,L,R>;
+	friend class VectorFunctional<Dot,L,R>;
 public:
 	using Type = Dot<L,R>;
 	using LeftType = L;
 	using RightType = R;
+	
+	Dot(const L& l, const R& r): Base{l,r} {}
 
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
 	{ 
-		using RT = Mul<T,U>;
+		using RT = Mul<Constant<T>,Constant<U>>;
 		std::vector<RT> inter;
 		for(uint i =0; i < v1.size(); ++i)
-			inter.push_back(Mul<T,U>(v1[i],v2[i]));
+			inter.push_back(Mul<Constant<T>,Constant<U>>(Constant(v1[i]),Constant(v2[i])));
 
-		return Acc(inter); 
+		return Acc<decltype(inter),decltype(inter)>(inter, inter)(); 
 	}
 	
 	template<typename T, typename U=T>
@@ -83,7 +88,7 @@ public:
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(std::make_shared<RT>(Mul<T,U>(*v1[i],*v2[i])));
 
-		return (double)Acc<T,U>::op(inter); 
+		return Acc<T,U>::op(inter); 
 	}
 
 //	template<typename T>
