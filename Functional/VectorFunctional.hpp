@@ -3,37 +3,41 @@
 
 #pragma once
 
-//template<template<typename,typename> class D,typename L, typename R>
-//class BinaryFunctional: public Functional<BinaryFunctional<D,L,R>>
-//{
-//	using Derived = D<L,R>;
-//	using Type = BinaryFunctional<D,L,R>;
-//	using Base = Functional<Type>;
-//	friend class Functional<Type>;
-//	inline static constexpr const char* sign = Derived::sign; 
-//	friend class D<L,R>;
-//public:
-//	using LeftType = L;
-//	using RightType = R;
-//	BinaryFunctional(const LeftType& l,const RightType& r ): right{r}, left{l} {}
-//	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
-//	decltype(auto) operator()() const { return Derived::op(left,right); }
-//	template<typename T>
-//	operator T() const { return static_cast<T>((*this)()); }
-//private:
-//	friend std::ostream& operator<<(std::ostream& s, const BinaryFunctional& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
-//	RightType right;
-//	LeftType left;
-//};
-//
+template<template<typename,typename> class D,typename L, typename R>
+class VectorFunctional: public Functional<VectorFunctional<D,L,R>>
+{
+	using Derived = D<L,R>;
+	using Type = VectorFunctional<D,L,R>;
+	using Base = Functional<Type>;
+	friend class Functional<Type>;
+	inline static constexpr const char* sign = Derived::sign; 
+	friend class D<L,R>;
+public:
+	using LeftType = L;
+	using RightType = R;
+	VectorFunctional(const LeftType& l,const RightType& r ): right{r}, left{l} {}
+	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
+	decltype(auto) operator()() const { return Derived::op(left,right); }
+	template<typename T>
+	operator T() const { return static_cast<T>((*this)()); }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const VectorFunctional& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
+	RightType right;
+	LeftType left;
+};
+
 
 template<typename L, typename R>
-class Acc
+class Acc: public VectorFunctional<Acc,L,R>
 {
+	using Base = BinaryFunctional<Acc,L,R>;
+	friend class BinaryFunctional<Acc,L,R>;
 public:
 	using Type = Acc;
 	using LeftType = L;
 	using RightType = R;
+
+	Acc(const L& l, const R& r): Base{l,r} {}
 
 	template<typename T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1) 
