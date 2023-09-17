@@ -26,7 +26,7 @@ public:
 	}
 	decltype(auto) operator()() const { return Derived::op(value); }
 	template<typename T>
-	operator T() const { return static_cast<T>((*this)()); }
+	explicit operator T() const { return static_cast<T>((*this)()); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<"{"<<c.value<<"}";  }
 	ValueType value;
