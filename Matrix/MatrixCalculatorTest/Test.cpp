@@ -66,12 +66,21 @@ class MatrixCalculatorTest
 			M2 m44 {
 				{1, 2, 3, 4},
 				{6, 7, 8, 9},
-				{1, 2, 3, 4},
-				{6, 7, 8, 9}
+				{10, 12, 13, 14},
+				{16, 17, 18, 19}
 			};
 		
+			M1 m1b{
+				{1,2,3,4}	
+			};
 			auto m44m44 = m44 * m44;
 			std::cout<<"Matrix m44 * m44 "<<m44m44<<"\n";
+			assert(m44m44[0][0].To<int>()==107);
+			assert(m44m44[1][0].To<int>()==272);
+			auto m44m1 = m44 * m1b;
+			std::cout<<"Matrix m44 * m44 "<<m44m1<<"\n";
+			assert(m44m1[0].To<int>()==30);
+			assert(m44m1[1].To<int>()==80);
 //			std::cout<<"Cols:\n "<<m44m44.Cols(0,1)<<"\n";
 //			auto s44 = m44m44.Cols(0,1);
 //			std::cout<<"Cols:\n "<<s44<<"\n";
