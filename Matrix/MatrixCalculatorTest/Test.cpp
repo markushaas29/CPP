@@ -74,13 +74,19 @@ class MatrixCalculatorTest
 				{1,2,3,4}	
 			};
 			auto m44m44 = m44 * m44;
-			std::cout<<"Matrix m44 * m44 "<<m44m44<<"\n";
 			assert(m44m44[0][0].To<int>()==107);
 			assert(m44m44[1][0].To<int>()==272);
+
 			auto m44m1 = m44 * m1b;
-			std::cout<<"Matrix m44 * m44 "<<m44m1<<"\n";
 			assert(m44m1[0].To<int>()==30);
 			assert(m44m1[1].To<int>()==80);
+			auto m44Dm1 = m44 / m1b;
+			
+			std::cout<<"Matrix m44 * m44 "<<m44Dm1<<"\n";
+			assert(m44Dm1[0][0].To<int>()==1);
+			assert(m44Dm1[1][0].To<double>()==6);
+			assert(m44Dm1[2][2].To<double>()==(13/3));
+
 //			std::cout<<"Cols:\n "<<m44m44.Cols(0,1)<<"\n";
 //			auto s44 = m44m44.Cols(0,1);
 //			std::cout<<"Cols:\n "<<s44<<"\n";

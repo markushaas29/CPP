@@ -209,7 +209,7 @@ private:
 	static decltype(auto) divide(const Base::LeftType& l, const Base::RightType& r) 
 	{
 		typename Base::template IsT<Throwing>("M2M1")(r.Cols()>=1);
-		using ReturnType = decltype(Division::Calculate(std::declval<typename Base::LeftType::ElementType>(),std::declval<typename Base::RightType::ElementType>()));
+		using ReturnType = Div<Constant<typename Base::LeftType::ElementType>, Constant<typename Base::RightType::ElementType>>;
 	 	using DescriptorType = MatrixDescriptor<2, ReturnType>;
 		DescriptorType md({l.Rows(), r.Rows()});
  	    using ResultType = Matrix<2, DescriptorType>;
@@ -217,7 +217,7 @@ private:
 		std::vector<std::shared_ptr<ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 			for(int j = 0; j != r.Rows(); ++j)
-				v.push_back(std::make_shared<ReturnType>(Division::Calculate( *l(i,j),*r(j) )));
+				v.push_back(std::make_shared<ReturnType>(ReturnType( Constant(*l(i,j)),Constant(*r(j) ))));
 
 		return ResultType(md,v);
 	}
