@@ -24,7 +24,13 @@ public:
 		else
 			return Derived::op(value); 
 	}
-	decltype(auto) operator()() const { return Derived::op(value); }
+	decltype(auto) operator()() const 
+	{ 
+		if constexpr(std::is_invocable_v<ValueType>)
+			return value();
+		else
+			return Derived::op(value); 
+	}
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
 private:

@@ -86,7 +86,7 @@ class MatrixOpBase
 	using OpType = D<L,R>;
 public:
 	MatrixOpBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(Constant<L> l,Constant<R> r) { return OpType::calculate(l,r); }
+	decltype(auto) operator()(Constant<L> l,Constant<R> r) { return OpType::calculate(Constant<L>(l),Constant<R>(r)); }
 private:
 	RightType val;
 };

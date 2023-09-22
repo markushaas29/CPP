@@ -49,7 +49,7 @@ class MatrixCalculatorTest
 			assert(m35Mm35[2][4].To<int>()==15);
 			assert(m35Mm35[4][4].To<int>()==25);
 			std::cout<<"Matrix m3 "<<m35Mm35<<"\n";
-//			auto mad = m35 + m35 -m35 +m35; 
+			auto mad = m35 - m35 - m35 + m35;
 //		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
 //		  	assert((int)mop[0][0]==-10);
 //		  	int i00 = mop[0][0];
@@ -99,9 +99,9 @@ class MatrixCalculatorTest
 //			auto m1m1 = m1*m1;
 //			std::cout<<"Matrix m44*m1 "<<m44m1<<"\n";
 //			
-//			assert((int)(m44m1[0])==30);
-//			auto a5 = m44 + 5;
-//			assert((int)a5[0][3]==9);
+			assert((int)(m44m1[0])==30);
+			auto a5 = m44 + 5;
+			assert((int)a5[0][3]==9);
 //		
 //			auto s5 = m44 - 5;
 //			assert((int)s5[0][3]==-1);
