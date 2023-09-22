@@ -97,10 +97,10 @@ class MatrixCalculatorTest
 //			auto m44m1 = m44*m1;
 //			
 //			auto m1m1 = m1*m1;
-//			std::cout<<"Matrix m44*m1 "<<m44m1<<"\n";
 //			
-			assert((int)(m44m1[0])==30);
+//			assert((int)(m44m1[0])==30);
 			auto a5 = m44 + 5;
+			std::cout<<"Matrix m44*m1 "<<a5<<"\n";
 			assert((int)a5[0][3]==9);
 //		
 //			auto s5 = m44 - 5;

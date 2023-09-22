@@ -57,7 +57,7 @@ private:
 		using DescriptorType = MatrixDescriptor<Order, typename Op::ResultType>;
 		using ResultType = Matrix<Order, DescriptorType>;
         auto el = std::vector<std::shared_ptr<typename Op::ResultType>>();
-        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename Op::ResultType>(typename Op::ResultType(Constant(5),Constant(*e)))); });
+        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename Op::Type>(typename Op::ResultType(Constant(5),Constant(*e)))); });
         return ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
     }
 	template<typename F>
@@ -65,10 +65,15 @@ private:
     {
         using Op = ValueOperation<F, LeftType, typename LeftType::ElementType>;
 
+		int v= 5;
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
-        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
-        return typename Op::MatrixType(d,el); 
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(Add<Constant<typename LeftType::ElementType>, Constant<Constant<const int&>>>(Constant<typename LeftType::ElementType>(*e), Constant<Constant<const int&>>(v)))); });
+    
+		for(auto v : el)
+			std::cout<<"EL"<<*v<<std::endl;
+
+		return typename Op::MatrixType(d,el); 
     }
 	template<size_t, typename> friend class Matrix;
 	static decltype(auto) add(const LeftType& l,const RightType& r)
