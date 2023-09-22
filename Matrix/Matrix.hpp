@@ -81,7 +81,7 @@ public:
 	decltype(auto) ColSum(int i) { return MC<Type>::colSum(*this,i); }
 	decltype(auto) ColSum() { return MC<Type>::colSum(*this); }
 	decltype(auto) RowSum() { return MC<Type>::rowSum(*this); }
-  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,ElementAdd<ElementType,Constant<decltype(v)>>{Constant<decltype(v)>(v)});  }
+  	decltype(auto) operator+(const auto& v)	{ return MC<Type>::apply(*this,ElementAdd<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  }
   	decltype(auto) operator-(const auto& v)	{ return MC<Type>::apply(*this,ElementSub<ElementType,decltype(v)>{v});  	}
   	decltype(auto) operator*(const auto& v)	{ return MC<Type>::apply(*this,ElementMul<ElementType,decltype(v)>{v});  	}
   	decltype(auto) operator/(const auto& v)	{ return MC<Type>::apply(*this,ElementDiv<ElementType,decltype(v)>{v});   	}
