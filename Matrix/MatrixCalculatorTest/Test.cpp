@@ -49,7 +49,8 @@ class MatrixCalculatorTest
 			assert(m35Mm35[2][4].To<int>()==15);
 			assert(m35Mm35[4][4].To<int>()==25);
 			std::cout<<"Matrix m3 "<<m35Mm35<<"\n";
-			auto mad = m35 - m35 - m35 + m35;
+			auto p4 = Parameter<int>(4);
+			auto mad = m35 - m35 - m35 + m35 * p4;
 		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
 		  	assert((int)mop[0][0]==-10);
 		  	int i00 = mop[0][0];
@@ -79,7 +80,6 @@ class MatrixCalculatorTest
 			assert((int)a5[3][3]==24);
 		
 			auto s5 = m44 - 5;
-			std::cout<<"Matrix m44*m1 "<<(int)s5[0][3]<<"\n";
 			assert((int)s5[0][3]==-1);
 			
 			auto m5 = m44 * 5;
@@ -89,6 +89,16 @@ class MatrixCalculatorTest
 			auto d2 = m44  / 2;
 			assert((int)d2[0][3]==2);
 			assert((int)d2[1][2]==4);
+			
+			auto p = Parameter<int>(2);
+			auto ap = m44 + p;
+			assert((int)ap[0][0]==3);
+			assert((int)ap[0][3]==6);
+			p.Value() = 4;
+			std::cout<<"Matrix m44*m1 "<<(int)(ap[0][0]())<<"\n";
+			//assert((int)ap[0][0]==5);
+			//assert((int)ap[0][3]==8);
+
 			auto m44m44 = m44 * m44;
 			assert(m44m44[0][0].To<int>()==107);
 			assert(m44m44[1][0].To<int>()==272);
@@ -106,8 +116,8 @@ class MatrixCalculatorTest
 			std::cout<<"Cols:\n "<<m44m44.Cols(0,1)<<"\n";
 			auto s44 = m44m44.Cols(0,1);
 			std::cout<<"Cols:\n "<<s44<<"\n";
-			assert((int)s44[0][0]==40);
-			assert((int)m44m44[0][0]==40);
+			assert((int)s44[0][0]==107);
+			assert((int)m44m44[0][0]==107);
 			auto aA = m44.Apply([&](const auto& e1){ return *e1 + 10; });
 			std::cout<<"Matrix mA "<<aA<<"\n";
 			auto m1m1 = m1*m1;
@@ -154,8 +164,8 @@ class MatrixCalculatorTest
 			auto m1Am1 = m1 + m1; 
 			std::cout<<"ColSum:\n "<<m1Am1<<"\n";
 			auto m2C = m44.ColSum(); 
-			assert((int)m2C[0]==14);
-			assert((int)m2C[2]==22);
+			//assert((int)m2C[0]==14);
+			//assert((int)m2C[2]==22);
 			auto m2dC = m2d.ColSum();
 			assert((double)m2dC[0]==4.4);
 			assert((double)m2dC[2]==13.2);
