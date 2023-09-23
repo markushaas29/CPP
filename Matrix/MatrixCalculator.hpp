@@ -60,17 +60,14 @@ private:
         std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename Op::Type>(typename Op::ResultType(Constant(5),Constant(*e)))); });
         return ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
     }
-	template<typename F>
-    static decltype(auto) apply(const LeftType& m, F f)
+	template<typename F, typename V>
+    static decltype(auto) apply(const LeftType& m, const F& f,V v)
     {
         using Op = ValueOperation<F, LeftType, typename LeftType::ElementType>;
 
         auto d = typename Op::DescriptorType(m.descriptor.Extents(), m.descriptor.Strides());
         auto el = std::vector<typename Op::DataType>();
-		std::cout<<"F"<<f;
-        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(f(*e))); });
-    
-
+        std::for_each(m.elements->cbegin(), m.elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<typename Op::ValueType>(Constant<typename LeftType::ElementType>(*e), Constant<const V&>(*e))); });
 		return typename Op::MatrixType(d,el); 
     }
 	template<size_t, typename> friend class Matrix;

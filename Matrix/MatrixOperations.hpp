@@ -24,10 +24,9 @@ class OperationBase
 	using Type = T<Constant<L>,Constant<R>>;
 	using OpType = D<L,R>;
 public:
-	OperationBase(const RightType v): val{v} {
-		std::cout<<"Val"<<v;
-	}
-	decltype(auto) operator()(const auto& v) { std::cout<<"Val2"<<val; return Type(v,val); }
+	OperationBase(const RightType v): val{v} {	}
+	decltype(auto) operator()(const auto& v) const { return Type(v,val); }
+	decltype(auto) operator()(const auto& v, const auto& v2) const { std::cout<<v<<" "<<v2<<" "<<Type(v,v2)<<std::endl;return Type(v,v2); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const OperationBase& o) { return s<<o.val;  }
 	RightType val;
