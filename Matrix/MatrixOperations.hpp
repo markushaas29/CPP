@@ -25,7 +25,7 @@ class OperationBase
 	using OpType = D<L,R>;
 public:
 	OperationBase(const RightType& v): val{v} {}
-	decltype(auto) operator()(const auto& v) { return T(v,val); }
+	decltype(auto) operator()(const auto& v) { return Type(v,val); }
 private:
 	RightType val;
 };
