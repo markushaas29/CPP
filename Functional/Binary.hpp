@@ -15,6 +15,7 @@ public:
 	using LeftType = L;
 	using RightType = R;
 	BinaryFunctional(const LeftType& l,const RightType& r ): right{r}, left{l} {}
+	BinaryFunctional(const BinaryFunctional& b ): right{b.right}, left{b.left} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
 	decltype(auto) operator()() const { return Derived::op(left,right); }
 	template<typename T>
