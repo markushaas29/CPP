@@ -51,12 +51,12 @@ class MatrixCalculatorTest
 			std::cout<<"Matrix m3 "<<m35Mm35<<"\n";
 			auto mad = m35 - m35 - m35 + m35;
 		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
-		  	//assert((int)mop[0][0]==-10);
+		  	assert((int)mop[0][0]==-10);
 		  	int i00 = mop[0][0];
-		  	//assert(i00==-10);
+		  	assert(i00==-10);
 			auto i00q = mop[0][0].Get();
 		  	std::cout<<"Matrix m3 Sub 00"<<mop[0][0]()<<"_"<<i00q<<"\n";
-			//assert(i00q.Value()==-10.0);
+			assert(i00q.Value()==-10.0);
 			bool is = std::is_same_v<QS, decltype(i00q)>;
 			assert(is);
 			auto m35m1 = m35 * m1;
