@@ -50,19 +50,19 @@ class MatrixCalculatorTest
 			assert(m35Mm35[4][4].To<int>()==25);
 			std::cout<<"Matrix m3 "<<m35Mm35<<"\n";
 			auto mad = m35 - m35 - m35 + m35;
-//		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
-//		  	assert((int)mop[0][0]==-10);
-//		  	int i00 = mop[0][0];
-//		  	assert(i00==-10);
-//			auto i00q = mop[0][0].Get();
-//		  	std::cout<<"Matrix m3 Sub 00"<<mop[0][0]()<<"_"<<i00q<<"\n";
-//			assert(i00q.Value()==-10.0);
-//			bool is = std::is_same_v<QS, decltype(i00q)>;
-//			assert(is);
-//			auto m35m1 = m35 * m1;
-//			std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
-//			
-//		
+		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
+		  	//assert((int)mop[0][0]==-10);
+		  	int i00 = mop[0][0];
+		  	//assert(i00==-10);
+			auto i00q = mop[0][0].Get();
+		  	std::cout<<"Matrix m3 Sub 00"<<mop[0][0]()<<"_"<<i00q<<"\n";
+			//assert(i00q.Value()==-10.0);
+			bool is = std::is_same_v<QS, decltype(i00q)>;
+			assert(is);
+			auto m35m1 = m35 * m1;
+			std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
+			
+		
 			M2 m44 {
 				{1, 2, 3, 4},
 				{6, 7, 8, 9},
@@ -73,6 +73,20 @@ class MatrixCalculatorTest
 			M1 m1b{
 				{1,2,3,4}	
 			};
+			
+			auto a5 = m44 + 5;
+			std::cout<<"Matrix m44*m1 "<<a5<<"\n";
+			std::cout<<"Matrix m44*m1 "<<(int)a5[1][2]<<"\n";
+			assert((int)a5[0][3]==9);
+		
+			auto s5 = m44 - 5;
+			assert((int)s5[0][3]==-1);
+			
+			auto m5 = m44 * 5;
+			assert((int)m5[0][3]==20);
+			
+			auto d2 = m44  / 2;
+			assert((int)d2[0][3]==2);
 			auto m44m44 = m44 * m44;
 			assert(m44m44[0][0].To<int>()==107);
 			assert(m44m44[1][0].To<int>()==272);
@@ -97,19 +111,6 @@ class MatrixCalculatorTest
 			auto m1m1 = m1*m1;
 			
 			assert((int)(m44m1[0])==30);
-			auto a5 = m44 + 5;
-			std::cout<<"Matrix m44*m1 "<<a5<<"\n";
-			std::cout<<"Matrix m44*m1 "<<(int)a5[1][2]<<"\n";
-			assert((int)a5[0][3]==9);
-		
-			auto s5 = m44 - 5;
-			assert((int)s5[0][3]==-1);
-			
-			auto m5 = m44 * 5;
-			assert((int)m5[0][3]==20);
-			
-			auto d2 = m44  / 2;
-			assert((int)d2[0][3]==2);
 			
 			M1D m1d{
 				{1.1,2.2,3.3,4.4}	
