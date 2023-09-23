@@ -75,18 +75,20 @@ class MatrixCalculatorTest
 			};
 			
 			auto a5 = m44 + 5;
-			std::cout<<"Matrix m44*m1 "<<a5<<"\n";
-			std::cout<<"Matrix m44*m1 "<<(int)a5[1][2]<<"\n";
-			assert((int)a5[0][3]==9);
+			assert((int)a5[0][0]==6);
+			assert((int)a5[3][3]==24);
 		
 			auto s5 = m44 - 5;
+			std::cout<<"Matrix m44*m1 "<<(int)s5[0][3]<<"\n";
 			assert((int)s5[0][3]==-1);
 			
 			auto m5 = m44 * 5;
 			assert((int)m5[0][3]==20);
+			assert((int)m5[0][1]==10);
 			
 			auto d2 = m44  / 2;
 			assert((int)d2[0][3]==2);
+			assert((int)d2[1][2]==4);
 			auto m44m44 = m44 * m44;
 			assert(m44m44[0][0].To<int>()==107);
 			assert(m44m44[1][0].To<int>()==272);
