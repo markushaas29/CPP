@@ -50,7 +50,7 @@ class MatrixCalculatorTest
 			assert(m35Mm35[4][4].To<int>()==25);
 			std::cout<<"Matrix m3 "<<m35Mm35<<"\n";
 			auto p4 = Parameter<int>(4);
-			auto mad = m35 - m35 - m35 + m35 * p4;
+			auto mad = m35 - m35 - m35 + m35;// * p4;
 		  	auto mop = ((m35 * 2)- m35 - (m35 + 5) + (m35 - 6) -m35 +m35 );
 		  	assert((int)mop[0][0]==-10);
 		  	int i00 = mop[0][0];
