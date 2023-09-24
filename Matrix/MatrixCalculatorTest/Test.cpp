@@ -75,13 +75,20 @@ class MatrixCalculatorTest
 			};
 			
 			M2P m2p {
-				{p4, p4},
-				{p4, p4}
+				{p4, p4, p4, p4},
+				{p4, p4, p4, p4},
+				{p4, p4, p4, p4},
+				{p4, p4, p4, p4}
 			};
 			
 			assert((int)m2p[0][0]==4);
 			p4.Value() = 8;
 			assert((int)m2p[0][0]==8);
+
+			auto m44p = m44 + m2p;
+			assert((int)m44p[0][0]==9);
+			p4.Value() = 2;
+			assert((int)m44p[0][0]==3);
 		
 			M1 m1b{
 				{1,2,3,4}	
