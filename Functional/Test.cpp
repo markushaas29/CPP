@@ -27,6 +27,7 @@ class FunctionalTest
 			auto cm = Constant<QM>(qm);
 			auto cm2 = Constant(2.0);
 			auto cm5 = Constant(5);
+			auto ccm5 = Constant<Constant<int>>(cm5);
 			assert(qm==cm());
 			assert(2==cm2());
 			assert(2==(int)cm2);
@@ -47,7 +48,7 @@ class FunctionalTest
 			assert((qm/qm)==dcm());
 			assert((qm/qm)==dcm(5));
 
-			std::cout<<"Const "<<cm2<<std::endl;
+			std::cout<<"Const "<<ccm5<<std::endl;
 
 			auto ac = Add<Constant<QM>, Constant<QM>>(cm,cm);
 			assert(ac()==QM{10});

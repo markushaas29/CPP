@@ -34,7 +34,7 @@ public:
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<"{"<<c.value<<"}";  }
+	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<c.value;  }
 	ValueType value;
 };
 
@@ -46,6 +46,8 @@ class Constant: public UnaryFunctional<Constant,Domain>
 	friend class UnaryFunctional<Constant, Domain>;
 public:
 	Constant(const Domain& v): Base{v} {}
+	template<typename T>
+	Constant(const Constant<T>& c): Base{c()} {}
 	template<typename T>
 	Constant(std::is_arithmetic<T> v): Base{static_cast<Domain>(v)} {} 
 private:
@@ -66,7 +68,7 @@ public:
 	template<typename T>
 	explicit operator T() const { return static_cast<T>(*Base::value); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const Parameter& c) { return s<<"{"<<c.Value()<<"}";  }
+	friend std::ostream& operator<<(std::ostream& s, const Parameter& c) { return s<<c.Value();  }
 	static decltype(auto) op(const auto& v) { return *v; }
 };
 
