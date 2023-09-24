@@ -22,8 +22,11 @@ class MatrixCalculatorTest
 			using M3DS = MatrixDescriptor<3,double>;
 			using M2DS = MatrixDescriptor<2,double>;
 			using M1DS = MatrixDescriptor<1,double>;
+			using M1PS = MatrixDescriptor<1,Parameter<int>>;
+			using M2PS = MatrixDescriptor<2,Parameter<int>>;
 			using M3D = Matrix<3,M3DS>;
 			using M2D = Matrix<2,M2DS>;
+			using M2P = Matrix<2,M2PS>;
 			using M1D = Matrix<1,M1DS>;
 			using QS = Quantity<Scalar,Pure,double>;
 		
@@ -70,6 +73,15 @@ class MatrixCalculatorTest
 				{10, 12, 13, 14},
 				{16, 17, 18, 19}
 			};
+			
+			M2P m2p {
+				{p4, p4},
+				{p4, p4}
+			};
+			
+			assert((int)m2p[0][0]==4);
+			p4.Value() = 8;
+			assert((int)m2p[0][0]==8);
 		
 			M1 m1b{
 				{1,2,3,4}	
