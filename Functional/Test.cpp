@@ -98,6 +98,12 @@ class FunctionalTest
 			
 			assert(8==p4());
 			assert(8==cp());
+
+			auto ccp = cm5 + cp;
+			assert(13==ccp());
+			
+			p4.Value() = 10;
+			assert(15==ccp());
 			
 			auto fx = Func<Fx>();
 			assert(0.0==fx());
