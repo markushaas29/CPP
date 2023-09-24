@@ -89,6 +89,11 @@ class FunctionalTest
 			assert(QM{2}==fp.Value());
 			assert(2==(int)fp);
 			
+			auto p4 = Func<Parameter>(4);
+			assert(4==p4());
+			auto cp = Func<Constant>(p4);
+			assert(4==cp());
+			
 			auto fx = Func<Fx>();
 			assert(0.0==fx());
 			assert(2.0==fx(2.0));
