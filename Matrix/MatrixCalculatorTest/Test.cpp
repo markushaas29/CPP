@@ -64,7 +64,6 @@ class MatrixCalculatorTest
 			bool is = std::is_same_v<QS, decltype(i00q)>;
 			assert(is);
 			auto m35m1 = m35 * m1;
-			std::cout<<"Matrix m35m1 "<<m35m1<<"\n";
 			
 		
 			M2 m44 {
@@ -89,6 +88,17 @@ class MatrixCalculatorTest
 			assert((int)m44p[0][0]==9);
 			p4.Value() = 2;
 			assert((int)m44p[0][0]==3);
+			
+			auto m2pI = m2p + 4;
+			assert((int)m2pI[0][0]==6);
+			p4.Value() = 6;
+			assert((int)m2pI[0][0]==10);
+			
+			auto m2pIM = m2pI + m44;
+			std::cout<<"Matrix m2pI "<<m2pIM<<"\n";
+			assert((int)m2pIM[0][0]==11);
+			p4.Value() = 10;
+			assert((int)m2pIM[0][0]==15);
 		
 			M1 m1b{
 				{1,2,3,4}	
