@@ -40,7 +40,7 @@ class ElementAdd: public OperationBase<Add,ElementAdd,L,R>
 	using Base = OperationBase<Add,ElementAdd,L,R>;
 	friend class OperationBase<Add,ElementAdd,L,R>;
 public:
-	ElementAdd(const L v): Base{v} {}
+	ElementAdd(const R& v): Base{v} {}
 	using Type = Add<Constant<L>, Constant<R>>;
 };
 
@@ -50,7 +50,7 @@ class ElementSub: public OperationBase<Sub,ElementSub,L,R>
 	using Base = OperationBase<Sub,ElementSub,L,R>;
 	friend class OperationBase<Sub,ElementSub,L,R>;
 public:
-	ElementSub(const L& v): Base{v} {}
+	ElementSub(const R& v): Base{v} {}
 	using Type = Sub<Constant<L>, Constant<R>>;
 };
 
@@ -60,7 +60,7 @@ class ElementMul: public OperationBase<Mul,ElementMul,L,R>
 	using Base = OperationBase<Mul,ElementMul,L,R>;
 	friend class OperationBase<Mul,ElementMul,L,R>;
 public:
-	ElementMul(const L& v): Base{v} {}
+	ElementMul(const R& v): Base{v} {}
 	using Type = Mul<Constant<L>, Constant<R>>;
 };
 
@@ -70,7 +70,7 @@ class ElementDiv: public OperationBase<Div,ElementDiv,L,R>
 	using Base = OperationBase<Div,ElementDiv,L,R>;
 	friend class OperationBase<Div,ElementDiv,L,R>;
 public:
-	ElementDiv(const L& v): Base{v} {}
+	ElementDiv(const R& v): Base{v} {}
 	using Type = Div<Constant<L>, Constant<R>>;
 };
 
