@@ -25,6 +25,8 @@ class OperationBase
 	using OpType = D<L,R>;
 public:
 	OperationBase(const RightType v): val{v} {	}
+	template<typename P>
+	OperationBase(const Parameter<P> p): val{p.value} {	}
 	decltype(auto) operator()(const auto& v) const { return Type(v,val); }
 	decltype(auto) operator()(const auto& v, const auto& v2) const { return Type(v,v2); }
 private:

@@ -60,8 +60,8 @@ private:
         std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename Op::Type>(typename Op::ResultType(Constant(5),Constant(*e)))); });
         return ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
     }
-	template<typename F, typename V>
-    static decltype(auto) apply(const LeftType& m, const F& f,V v)
+	template<typename F>
+    static decltype(auto) apply(const LeftType& m, const F& f)
     {
         using Op = ValueOperation<F, LeftType, typename LeftType::ElementType>;
 

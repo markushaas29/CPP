@@ -90,9 +90,11 @@ class FunctionalTest
 			assert(2==(int)fp);
 			
 			auto p4 = Func<Parameter>(4);
+			std::cout<<p4<<std::endl;
 			assert(4==p4());
 			auto cp = Func<Constant>(p4);
 			assert(4==cp());
+			std::cout<<cp<<std::endl;
 
 			p4.Value() = 8;
 			
