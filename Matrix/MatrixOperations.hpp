@@ -26,7 +26,7 @@ class OperationBase
 public:
 	OperationBase(const RightType v): val{v} {	}
 	decltype(auto) operator()(const auto& v) const { return Type(v,val); }
-	decltype(auto) operator()(const auto& v, const auto& v2) const { std::cout<<v<<" "<<v2<<" "<<Type(v,v2)<<std::endl;return Type(v,v2); }
+	decltype(auto) operator()(const auto& v, const auto& v2) const { return Type(v,v2); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const OperationBase& o) { return s<<o.val;  }
 	RightType val;
@@ -40,8 +40,6 @@ class ElementAdd: public OperationBase<Add,ElementAdd,L,R>
 public:
 	ElementAdd(const L v): Base{v} {}
 	using Type = Add<Constant<L>, Constant<R>>;
-private:
-	static decltype(auto) calculate(const auto& v, const auto& val) { return v + val; }
 };
 
 template<typename L, typename R>
@@ -52,8 +50,6 @@ class ElementSub: public OperationBase<Sub,ElementSub,L,R>
 public:
 	ElementSub(const L& v): Base{v} {}
 	using Type = Sub<Constant<L>, Constant<R>>;
-private:
-	static decltype(auto) calculate(const auto& v, const auto& val) { return v - val; }
 };
 
 template<typename L, typename R>
@@ -64,8 +60,6 @@ class ElementMul: public OperationBase<Mul,ElementMul,L,R>
 public:
 	ElementMul(const L& v): Base{v} {}
 	using Type = Mul<Constant<L>, Constant<R>>;
-private:
-	static decltype(auto) calculate(const auto& v, const auto& val) { return v * val; }
 };
 
 template<typename L, typename R>
@@ -76,8 +70,6 @@ class ElementDiv: public OperationBase<Div,ElementDiv,L,R>
 public:
 	ElementDiv(const L& v): Base{v} {}
 	using Type = Div<Constant<L>, Constant<R>>;
-private:
-	static decltype(auto) calculate(const auto& v, const auto& val) { return v / val; }
 };
 
 template<template<typename,typename> class D,typename L, typename R>
@@ -103,8 +95,6 @@ public:
 	using ResultType = Op;//::ResultType;
 	Diff(const L& v = L{}): Base{v} {}
 	using Type = Div<L,R>;
-private:
-	static decltype(auto) calculate(const auto& l, const auto& r) { return Op(l,r)(); }
 };
 
 template<typename Op, typename M1, typename V>

@@ -91,7 +91,9 @@ class MatrixCalculatorTest
 			assert((int)d2[1][2]==4);
 			
 			auto p = Parameter<int>(2);
+			std::cout<<"Matrix ap "<<p<<"\n";
 			auto ap = m44 + p;
+			std::cout<<"Matrix ap "<<ap<<"\n";
 			assert((int)ap[0][0]==3);
 			assert((int)ap[0][3]==6);
 			p.Value() = 4;

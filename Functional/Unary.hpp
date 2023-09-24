@@ -61,7 +61,8 @@ class Parameter: public UnaryFunctional<Parameter, std::shared_ptr<Domain>>
 public:
 	Parameter(const Domain& v): Base{std::make_shared<Domain>(v)} {}
 	Parameter(std::shared_ptr<Domain> v): Base{v} {} 
-	Domain& Value() { return *Base::value; }
+	Parameter(const Parameter& p): Base(p.value) {std::cout<<"Copy"<<std::endl;} 
+	Domain& Value() const { return *Base::value; }
 private:
 	static decltype(auto) op(const auto& v) { return *v; }
 };
