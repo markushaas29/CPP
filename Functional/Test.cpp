@@ -93,6 +93,11 @@ class FunctionalTest
 			assert(4==p4());
 			auto cp = Func<Constant>(p4);
 			assert(4==cp());
+
+			p4.Value() = 8;
+			
+			assert(8==p4());
+			assert(8==cp());
 			
 			auto fx = Func<Fx>();
 			assert(0.0==fx());
