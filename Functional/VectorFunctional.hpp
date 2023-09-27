@@ -57,6 +57,41 @@ public:
 	}
 private:
 };
+
+template<typename L, typename R>
+class Diff: public VectorFunctional<Diff,L,R>
+{
+	using Base = VectorFunctional<Diff,L,R>;
+	friend class VectorFunctional<Diff,L,R>;
+public:
+	using Type = Diff<L,R>;
+	using LeftType = L;
+	using RightType = R;
+	
+	Diff(const L& l, const R& r): Base{l,r} {}
+
+	template<typename T, typename U=T>
+	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
+	{ 
+		using RT = Sub<Constant<T>,Constant<U>>;
+		std::vector<RT> result;
+		for(uint i =0; i < (v1.size() - 1); ++i)
+			result.push_back(RT(Constant(v1[i]),Constant(v2[i+1])));
+
+		return result; 
+	}
+	
+	template<typename T, typename U=T>
+	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
+	{ 
+		using RT = Sub<Constant<T>,Constant<U>>;
+		std::vector<RT> result;
+		for(uint i =0; i < (v1.size() - 1); ++i)
+			result.push_back(RT(Constant(*v1[i]),Constant(*v2[i+1])));
+
+		return result; 
+	}
+};
 template<typename L, typename R>
 class Dot: public VectorFunctional<Dot,L,R>
 {

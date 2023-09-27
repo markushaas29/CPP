@@ -164,9 +164,14 @@ class FunctionalTest
 
 			auto acc1 = Acc<decltype(v1),decltype(v2)>(v1,v2);
 			assert(acc1()==6);
-			
+
 			auto dot1 = Dot<decltype(v1),decltype(v2)>(v1,v2);
 			assert(dot1()==14);
+			
+			auto diff1 = Diff<decltype(v1),decltype(v2)>(v1,v2)();
+			for(auto a : diff1)
+				std::cout<<"A "<<a<<std::endl;
+			
 
 			return 0;
 		}
