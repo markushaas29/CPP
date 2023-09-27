@@ -51,14 +51,17 @@ private:
         std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
         return LeftType(d,el); 
     }
-	template<typename Op, typename It >
-    static decltype(auto) calc(Op op, It begin, It end, DescriptorType d)
+	template<template<typename L, typename R> class OpT, typename It >
+    static decltype(auto) calc(It begin, It end, DescriptorType d)
     {
-		using DescriptorType = MatrixDescriptor<Order, typename Op::ResultType>;
-		using ResultType = Matrix<Order, DescriptorType>;
-        auto el = std::vector<std::shared_ptr<typename Op::ResultType>>();
-        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename Op::Type>(typename Op::ResultType(Constant(5),Constant(*e)))); });
-        return ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
+		using Op = OpT<std::vector<typename LeftType::ElementType>, std::vector< typename LeftType::ElementType>>;
+
+		auto v = std::vector<typename LeftType::ElementType>();
+		std::for_each(begin,end, [&](auto i) { v.push_back(*i); });
+		//using DescriptorType = MatrixDescriptor<Order, typename Op::ResultType>;
+		//using ResultType = Matrix<Order, DescriptorType>;
+        //auto el = std::vector<std::shared_ptr<typename Op::ResultType>>();
+        return Op::op(v,v);// ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, const F& f)

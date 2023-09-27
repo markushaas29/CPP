@@ -76,8 +76,8 @@ public:
 
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
-	template<typename Op>
-	decltype(auto) Calc(Op op) { return MC<Type>::calc(op, elements->cbegin(), elements->cend(), descriptor); }
+	template<template<typename L, typename R> class Op>
+	decltype(auto) Calc() { return MC<Type>::template calc<Op>(elements->cbegin(), elements->cend(), descriptor); }
 	decltype(auto) ColSum(int i) { return MC<Type>::colSum(*this,i); }
 	decltype(auto) ColSum() { return MC<Type>::colSum(*this); }
 	decltype(auto) RowSum() { return MC<Type>::rowSum(*this); }
