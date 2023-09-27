@@ -87,17 +87,17 @@ private:
 	RightType val;
 };
 
-template<typename L, typename R=L>
-class Diff: public MatrixOpBase<Diff,L,R>
-{
-	using Base = MatrixOpBase<Diff,L,R>;
-	friend class MatrixOpBase<Diff,L,R>;
-	using Op = Sub<Constant<L>,Constant<R>>;
-public:
-	using ResultType = Op;//::ResultType;
-	Diff(const L& v = L{}): Base{v} {}
-	using Type = Div<L,R>;
-};
+//template<typename L, typename R=L>
+//class Diff: public MatrixOpBase<Diff,L,R>
+//{
+//	using Base = MatrixOpBase<Diff,L,R>;
+//	friend class MatrixOpBase<Diff,L,R>;
+//	using Op = Sub<Constant<L>,Constant<R>>;
+//public:
+//	using ResultType = Op;//::ResultType;
+//	Diff(const L& v = L{}): Base{v} {}
+//	using Type = Div<L,R>;
+//};
 
 template<typename Op, typename M1, typename V>
 class ValueOperation 
