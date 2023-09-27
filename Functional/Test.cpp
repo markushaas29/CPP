@@ -169,9 +169,17 @@ class FunctionalTest
 			assert(dot1()==14);
 			
 			auto diff1 = Diff<decltype(v1),decltype(v2)>(v1,v2)();
+			auto diff = Diff<decltype(v1),decltype(v2)>(v1,v2);
 			for(auto a : diff1)
 				std::cout<<"A "<<a<<std::endl;
 			
+			assert(diff1.size()==2);
+			assert(diff1[0]()==-1);
+			using st = Sub<Constant<int>, Constant<int>>;
+			is = std::is_same_v<decltype(diff1)::value_type, st>;
+			assert(is);
+			is = std::is_same_v<decltype(diff)::RType, int>;
+			assert(is);
 
 			return 0;
 		}

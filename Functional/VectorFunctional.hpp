@@ -67,16 +67,18 @@ public:
 	using Type = Diff<L,R>;
 	using LeftType = L;
 	using RightType = R;
+	using LType = typename L::value_type;
+	using RType = typename R::value_type;
+	using ResultType = Sub<Constant<LType>,Constant<RType>>;
 	
 	Diff(const L& l, const R& r): Base{l,r} {}
 
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
 	{ 
-		using RT = Sub<Constant<T>,Constant<U>>;
-		std::vector<RT> result;
+		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
-			result.push_back(RT(Constant(v1[i]),Constant(v2[i+1])));
+			result.push_back(ResultType(Constant(v1[i]),Constant(v2[i+1])));
 
 		return result; 
 	}
@@ -84,10 +86,9 @@ public:
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
 	{ 
-		using RT = Sub<Constant<T>,Constant<U>>;
-		std::vector<RT> result;
+		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
-			result.push_back(RT(Constant(*v1[i]),Constant(*v2[i+1])));
+			result.push_back(ResultType(Constant(*v1[i]),Constant(*v2[i+1])));
 
 		return result; 
 	}
@@ -101,14 +102,16 @@ public:
 	using Type = Dot<L,R>;
 	using LeftType = L;
 	using RightType = R;
+	using LType = typename L::value_type;
+	using RType = typename R::value_type;
+	using ResultType = Mul<Constant<LType>,Constant<RType>>;
 	
 	Dot(const L& l, const R& r): Base{l,r} {}
 
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
 	{ 
-		using RT = Mul<Constant<T>,Constant<U>>;
-		std::vector<RT> inter;
+		std::vector<ResultType> inter;
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(Constant(v1[i]),Constant(v2[i])));
 
@@ -118,8 +121,7 @@ public:
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
 	{ 
-		using RT = Mul<Constant<T>,Constant<U>>;
-		std::vector<RT> inter;
+		std::vector<ResultType> inter;
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
 
