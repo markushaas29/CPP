@@ -54,7 +54,7 @@ private:
 	template<template<typename L, typename R> class OpT, typename It >
     static decltype(auto) calc(It begin, It end, DescriptorType d)
     {
-		using Op = OpT<std::vector<typename LeftType::ElementType>, std::vector< typename LeftType::ElementType>>;
+		using Op = OpT<typename LeftType::ElementType, typename LeftType::ElementType>;
 
 		auto v = std::vector<typename LeftType::ElementType>();
 		std::for_each(begin,end, [&](auto i) { v.push_back(*i); });

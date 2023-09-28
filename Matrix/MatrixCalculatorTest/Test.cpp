@@ -230,9 +230,9 @@ class MatrixCalculatorTest
 
 			std::cout<<"END M1 * M1"<<(m1 * m1)<<std::endl;
 
-			//auto md = m44.Calc<Diff>();
-			//assert(m44.Size()==md.Size()+1);
-			//assert((int)md[0]==-1);
+			auto md = m44.Calc<Diff>();
+			assert(m44.Size()==md.Size()+1);
+			assert((int)md[0]==-1);
 ////			std::cout<<"END M1 * M1"<<mf1[0][0]<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;
