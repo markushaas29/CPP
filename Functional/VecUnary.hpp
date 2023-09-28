@@ -22,7 +22,12 @@ public:
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) { return s<<"{"<<"}";  }
+	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) 
+	{ 
+		auto v = c();
+		std::for_each(v.cbegin(), v.cend(), [&](const auto& i) { s<<i; });
+		return s;  
+	}
 	VecType value;
 };
 

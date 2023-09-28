@@ -167,11 +167,12 @@ class FunctionalTest
 
 			auto dot1 = Dot<int,int>(v1,v2);
 			assert(dot1()==14);
+			std::cout<<"D "<<dot1<<std::endl;
 			
 			auto diff1 = Diff<int>(v1)();
 			auto diff = Diff<int>(v1);
-			for(auto a : diff1)
-				std::cout<<"A "<<a<<std::endl;
+			
+			std::cout<<"A "<<diff<<std::endl;
 			
 			assert(diff1.size()==2);
 			assert(diff1[0]()==-1);

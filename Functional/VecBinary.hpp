@@ -25,7 +25,12 @@ public:
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const VecBinary& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
+	friend std::ostream& operator<<(std::ostream& s, const VecBinary& c) 
+	{ 
+		auto v = c();
+        std::for_each(v.cbegin(), v.cend(), [&](const auto& i) { s<<i; });            
+        return s;
+	}
 	RVecType right;
 	LVecType left;
 };
