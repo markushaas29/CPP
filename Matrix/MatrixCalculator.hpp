@@ -58,10 +58,10 @@ private:
 
 		auto v = std::vector<typename LeftType::ElementType>();
 		std::for_each(begin,end, [&](auto i) { v.push_back(*i); });
-		//using DescriptorType = MatrixDescriptor<Order, typename Op::ResultType>;
-		//using ResultType = Matrix<Order, DescriptorType>;
-        //auto el = std::vector<std::shared_ptr<typename Op::ResultType>>();
-        return Op::op(v,v);// ResultType(DescriptorType{d.Extents(),d.Strides()},el); 
+		using DescriptorType = MatrixDescriptor<1, typename Op::ResultType>;
+		using ResultType = Matrix<1, DescriptorType>;
+        auto el = Op::op(v,v);
+        return ResultType(DescriptorType{el.size()},el); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, const F& f)
