@@ -162,14 +162,14 @@ class FunctionalTest
 			std::vector<int> v1 = {1,2,3};
 			std::vector<int> v2 = {1,2,3};
 
-			auto acc1 = Acc<int,int>(v1,v2);
+			auto acc1 = Acc<int>(v1);
 			assert(acc1()==6);
 
 			auto dot1 = Dot<int,int>(v1,v2);
 			assert(dot1()==14);
 			
-			auto diff1 = Diff<int,int>(v1)();
-			auto diff = Diff<int,int>(v1);
+			auto diff1 = Diff<int>(v1)();
+			auto diff = Diff<int>(v1);
 			for(auto a : diff1)
 				std::cout<<"A "<<a<<std::endl;
 			
@@ -178,7 +178,7 @@ class FunctionalTest
 			using st = Sub<Constant<int>, Constant<int>>;
 			is = std::is_same_v<decltype(diff1)::value_type, st>;
 			assert(is);
-			is = std::is_same_v<decltype(diff)::RType, int>;
+			is = std::is_same_v<decltype(diff)::ValueType, int>;
 			assert(is);
 
 			return 0;

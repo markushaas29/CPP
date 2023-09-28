@@ -51,10 +51,10 @@ private:
         std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
         return LeftType(d,el); 
     }
-	template<template<typename L, typename R> class OpT, typename It >
+	template<template<typename> class OpT, typename It >
     static decltype(auto) calc(It begin, It end, DescriptorType d)
     {
-		using Op = OpT<typename LeftType::ElementType, typename LeftType::ElementType>;
+		using Op = OpT<typename LeftType::ElementType>;
 
 		auto v = std::vector<typename LeftType::ElementType>();
 		std::for_each(begin,end, [&](auto i) { v.push_back(*i); });

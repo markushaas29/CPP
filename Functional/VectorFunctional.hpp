@@ -4,6 +4,27 @@
 
 #pragma once
 
+template<template<typename> class D,typename V>
+class VecUnary: public Functional<VecUnary<D,V>>
+{
+	using Derived = D<V>;
+	using Type = VecUnary<D,V>;
+	using Base = Functional<Type>;
+	friend class Functional<Type>;
+	inline static constexpr const char* sign = Derived::sign; 
+	friend class D<V>;
+public:
+	using ValueType = V;
+	using VecType = std::vector<V>;
+	VecUnary(const VecType& v): value{v} {}
+	decltype(auto) operator()(const auto& v) const { return Derived::op(value,v); }
+	decltype(auto) operator()() const 	{	return Derived::op(value); }
+	template<typename T>
+	operator T() const { return static_cast<T>((*this)()); }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) { return s<<"{"<<"}";  }
+	VecType value;
+};
 template<uint N, template<typename,typename> class D,typename L, typename R>
 class VectorFunctional: public Functional<VectorFunctional<N,D,L,R>>
 {
@@ -37,17 +58,13 @@ private:
 };
 
 
-template<typename L, typename R>
-class Acc: public VectorFunctional<1,Acc,L,R>
+template<typename V>
+class Acc: public VecUnary<Acc,V>
 {
-	using Base = VectorFunctional<1,Acc,L,R>;
-	friend class VectorFunctional<1,Acc,L,R>;
+	using Base = VecUnary<Acc,V>;
+	friend class VecUnary<Acc,V>;
 public:
-	using Type = Acc;
-	using LeftType = L;
-	using RightType = R;
-
-	Acc(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
+	Acc(const Base::VecType& v): Base{v} {}
 
 	template<typename T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1) 
@@ -62,25 +79,20 @@ public:
 	{ 
 		double r = 0;
 		std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(*i); });
-		return Acc<L,R>(v1,r); 
+		return Acc<V>(v1); 
 	}
 private:
 };
 
-template<typename L, typename R>
-class Diff: public VectorFunctional<1,Diff,L,R>
+template<typename V>
+class Diff: public VecUnary<Diff,V>
 {
-	using Base = VectorFunctional<1,Diff,L,R>;
-	friend class VectorFunctional<1,Diff,L,R>;
+	using Base = VecUnary<Diff,V>;
+	friend class VecUnary<Diff,V>;
 public:
-	using Type = Diff<L,R>;
-	using LeftType = L;
-	using RightType = R;
-	using LType = L;
-	using RType = R;
-	using ResultType = Sub<Constant<LType>,Constant<RType>>;
+	using ResultType = Sub<Constant<V>,Constant<V>>;
 	
-	Diff(const Base::LVecType& l): Base{l,l} {}
+	Diff(const Base::VecType& v): Base{v} {}
 
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1) 
@@ -88,7 +100,6 @@ public:
 		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
 			result.push_back(ResultType(Constant(v1[i]),Constant(v1[i+1])));
-
 		return result; 
 	}
 	
@@ -98,7 +109,6 @@ public:
 		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
 			result.push_back(ResultType(Constant(*v1[i]),Constant(*v1[i+1])));
-
 		return result; 
 	}
 };
@@ -125,7 +135,7 @@ public:
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(Constant(v1[i]),Constant(v2[i])));
 
-		return Acc<RT,RT>(inter, inter)(); 
+		return Acc<RT>(inter)(); 
 	}
 	
 	template<typename T, typename U=T>
@@ -136,7 +146,7 @@ public:
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
 
-		return Acc<RT,RT>(inter,inter)(); 
+		return Acc<RT>(inter)(); 
 	}
 
 	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<"{"<<c()<<"}";  }
