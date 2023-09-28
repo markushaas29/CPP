@@ -15,16 +15,18 @@ class VectorFunctional: public Functional<VectorFunctional<D,L,R>>
 	friend class D<L,R>;
 public:
 	using LeftType = L;
+	using LVecType = std::vector<L>;
 	using RightType = R;
-	VectorFunctional(const LeftType& l,const RightType& r ): right{r}, left{l} {}
+	using RVecType = std::vector<R>;
+	VectorFunctional(const LVecType& l,const RVecType& r ): right{r}, left{l} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
 	decltype(auto) operator()() const { return Derived::op(left,right); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VectorFunctional& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
-	RightType right;
-	LeftType left;
+	RVecType right;
+	LVecType left;
 };
 
 
@@ -38,7 +40,7 @@ public:
 	using LeftType = L;
 	using RightType = R;
 
-	Acc(const L& l, const R& r): Base{l,r} {}
+	Acc(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
 	template<typename T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<T>& v2) 
@@ -67,11 +69,11 @@ public:
 	using Type = Diff<L,R>;
 	using LeftType = L;
 	using RightType = R;
-	using LType = typename L::value_type;
-	using RType = typename R::value_type;
+	using LType = L;
+	using RType = R;
 	using ResultType = Sub<Constant<LType>,Constant<RType>>;
 	
-	Diff(const L& l, const R& r): Base{l,r} {}
+	Diff(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
@@ -106,7 +108,7 @@ public:
 	//using RType = typename R::value_type;
 	//using ResultType = Mul<Constant<LType>,Constant<RType>>;
 	
-	Dot(const L& l, const R& r): Base{l,r} {}
+	Dot(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
@@ -116,7 +118,7 @@ public:
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(Constant(v1[i]),Constant(v2[i])));
 
-		return Acc<decltype(inter),decltype(inter)>(inter, inter)(); 
+		return Acc<RT,RT>(inter, inter)(); 
 	}
 	
 	template<typename T, typename U=T>
@@ -127,7 +129,7 @@ public:
 		for(uint i =0; i < v1.size(); ++i)
 			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
 
-		return Acc<decltype(inter),decltype(inter)>(inter,inter)(); 
+		return Acc<RT,RT>(inter,inter)(); 
 	}
 
 	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<"{"<<c()<<"}";  }

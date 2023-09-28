@@ -162,14 +162,14 @@ class FunctionalTest
 			std::vector<int> v1 = {1,2,3};
 			std::vector<int> v2 = {1,2,3};
 
-			auto acc1 = Acc<decltype(v1),decltype(v2)>(v1,v2);
+			auto acc1 = Acc<int,int>(v1,v2);
 			assert(acc1()==6);
 
-			auto dot1 = Dot<decltype(v1),decltype(v2)>(v1,v2);
+			auto dot1 = Dot<int,int>(v1,v2);
 			assert(dot1()==14);
 			
-			auto diff1 = Diff<decltype(v1),decltype(v2)>(v1,v2)();
-			auto diff = Diff<decltype(v1),decltype(v2)>(v1,v2);
+			auto diff1 = Diff<int,int>(v1,v2)();
+			auto diff = Diff<int,int>(v1,v2);
 			for(auto a : diff1)
 				std::cout<<"A "<<a<<std::endl;
 			
