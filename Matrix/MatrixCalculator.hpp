@@ -3,9 +3,7 @@
 #include <vector>
 #include "MatrixDescriptor.hpp"
 #include "MatrixOperations.hpp"
-#include "../Functional/Unary.hpp"
-#include "../Functional/Binary.hpp"
-#include "../Functional/VectorFunctional.hpp"
+#include "../Functional/Functional.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
