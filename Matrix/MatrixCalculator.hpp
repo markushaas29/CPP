@@ -60,7 +60,7 @@ private:
 		std::for_each(begin,end, [&](auto i) { v.push_back(*i); });
 		using DescriptorType = MatrixDescriptor<1, typename Op::ResultType>;
 		using ResultType = Matrix<1, DescriptorType>;
-        auto el = Op::op(v,v);
+        auto el = Op::op(v);
         return ResultType(DescriptorType{el.size()},el); 
     }
 	template<typename F>

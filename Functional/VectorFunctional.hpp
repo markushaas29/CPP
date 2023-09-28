@@ -4,14 +4,15 @@
 
 #pragma once
 
-template<template<typename,typename> class D,typename L, typename R>
-class VectorFunctional: public Functional<VectorFunctional<D,L,R>>
+template<uint N, template<typename,typename> class D,typename L, typename R>
+class VectorFunctional: public Functional<VectorFunctional<N,D,L,R>>
 {
 	using Derived = D<L,R>;
-	using Type = VectorFunctional<D,L,R>;
+	using Type = VectorFunctional<N,D,L,R>;
 	using Base = Functional<Type>;
 	friend class Functional<Type>;
 	inline static constexpr const char* sign = Derived::sign; 
+	inline static constexpr uint VecNum = N; 
 	friend class D<L,R>;
 public:
 	using LeftType = L;
@@ -20,7 +21,13 @@ public:
 	using RVecType = std::vector<R>;
 	VectorFunctional(const LVecType& l,const RVecType& r ): right{r}, left{l} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
-	decltype(auto) operator()() const { return Derived::op(left,right); }
+	decltype(auto) operator()() const 
+	{ 
+		if constexpr (N==1)
+			return Derived::op(left);
+		else
+			return Derived::op(left,right); 
+	}
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
@@ -31,10 +38,10 @@ private:
 
 
 template<typename L, typename R>
-class Acc: public VectorFunctional<Acc,L,R>
+class Acc: public VectorFunctional<1,Acc,L,R>
 {
-	using Base = VectorFunctional<Acc,L,R>;
-	friend class VectorFunctional<Acc,L,R>;
+	using Base = VectorFunctional<1,Acc,L,R>;
+	friend class VectorFunctional<1,Acc,L,R>;
 public:
 	using Type = Acc;
 	using LeftType = L;
@@ -43,7 +50,7 @@ public:
 	Acc(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
 	template<typename T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<T>& v2) 
+	static constexpr decltype(auto) op(const std::vector<T>& v1) 
 	{ 
 		double r = 0;
 		std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(i); });
@@ -61,10 +68,10 @@ private:
 };
 
 template<typename L, typename R>
-class Diff: public VectorFunctional<Diff,L,R>
+class Diff: public VectorFunctional<1,Diff,L,R>
 {
-	using Base = VectorFunctional<Diff,L,R>;
-	friend class VectorFunctional<Diff,L,R>;
+	using Base = VectorFunctional<1,Diff,L,R>;
+	friend class VectorFunctional<1,Diff,L,R>;
 public:
 	using Type = Diff<L,R>;
 	using LeftType = L;
@@ -73,33 +80,33 @@ public:
 	using RType = R;
 	using ResultType = Sub<Constant<LType>,Constant<RType>>;
 	
-	Diff(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
+	Diff(const Base::LVecType& l): Base{l,l} {}
 
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
+	static constexpr decltype(auto) op(const std::vector<T>& v1) 
 	{ 
 		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
-			result.push_back(ResultType(Constant(v1[i]),Constant(v2[i+1])));
+			result.push_back(ResultType(Constant(v1[i]),Constant(v1[i+1])));
 
 		return result; 
 	}
 	
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
+	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1) 
 	{ 
 		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
-			result.push_back(ResultType(Constant(*v1[i]),Constant(*v2[i+1])));
+			result.push_back(ResultType(Constant(*v1[i]),Constant(*v1[i+1])));
 
 		return result; 
 	}
 };
 template<typename L, typename R>
-class Dot: public VectorFunctional<Dot,L,R>
+class Dot: public VectorFunctional<2,Dot,L,R>
 {
-	using Base = VectorFunctional<Dot,L,R>;
-	friend class VectorFunctional<Dot,L,R>;
+	using Base = VectorFunctional<2,Dot,L,R>;
+	friend class VectorFunctional<2,Dot,L,R>;
 public:
 	using Type = Dot<L,R>;
 	using LeftType = L;
