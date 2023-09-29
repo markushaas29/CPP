@@ -183,11 +183,12 @@ class FunctionalTest
 			assert(is);
 
 			auto f34 = Func<Fraction>(3,4);
-			//assert(0.75==(double)f34());
+			assert(0.75==(double)f34());
 			assert(Constant<int>(3)==f34.Num());
 			assert(3==f34.Num()());
 			assert(Constant<int>(4)==f34.Den());
 			assert(4==f34.Den()());
+			std::cout<<"F "<<f34<<std::endl;
 
 			return 0;
 		}

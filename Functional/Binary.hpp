@@ -20,8 +20,8 @@ public:
 	decltype(auto) operator()() const { return Derived::op(left,right); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
-	constexpr decltype(auto) Left() { return left; }
-	constexpr decltype(auto) Right() { return right; };
+	constexpr decltype(auto) Left() const { return left; }
+	constexpr decltype(auto) Right() const { return right; };
 private:
 	friend std::ostream& operator<<(std::ostream& s, const BinaryFunctional& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
 	RightType right;
@@ -86,17 +86,14 @@ class Fraction: public BinaryFunctional<Fraction,Constant<L>,Constant<R>>
 {
 	using Base = BinaryFunctional<Fraction,Constant<L>,Constant<R>>;
 	friend class BinaryFunctional<Fraction,Constant<L>,Constant<R>>;
-	//static constexpr int Num = Shorten<N,D>::Num;
-	//static constexpr int Den = Shorten<N,D>::Den;
-	//constexpr operator double(){ return ((double)Num)/Den; }
- 	//constexpr operator std::string(){ return std::to_string(Num) +"/" + std::to_string(Den); }
 	inline static constexpr const char* sign = "/"; 
-	static decltype(auto) op(const auto l, const auto r) { return l() / r(); }
-	static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) / r(v); }
-
 public:
+	static decltype(auto) op(const auto l, const auto r) { return (double)l() / r(); }
+	static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) / r(v); }
 	Fraction(const L& l, const R& r): Base{Constant<L>(l),Constant<R>(r)} {}
 	using ResultType = decltype(op(std::declval<Constant<L>>(),std::declval<Constant<R>>()));
-	constexpr decltype(auto) Num() { return Base::Left(); }
-	constexpr decltype(auto) Den() { return Base::Right(); };
+	constexpr decltype(auto) Num() const { return Base::Left(); }
+	constexpr decltype(auto) Den() const { return Base::Right(); };
+private:
+	friend std::ostream& operator<<(std::ostream& s, const Fraction& c) { return s<<c.Left()<<sign<<c.Right();  }
 };
