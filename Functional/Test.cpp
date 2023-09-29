@@ -188,6 +188,7 @@ class FunctionalTest
 			assert(3==f34.Num()());
 			assert(Constant<int>(4)==f34.Den());
 			assert(4==f34.Den()());
+
 			std::cout<<"F "<<f34<<std::endl;
 			
 			auto fq = Func<Fraction>(QM(3),QM(4));
@@ -197,6 +198,13 @@ class FunctionalTest
 			assert(Constant<QM>(QM(4))==fq.Den());
 			assert(4==fq.Den()());
 			std::cout<<"F "<<fq<<std::endl;
+			
+			auto f810 = Func<Fraction>(8,10);
+			//std::cout<<"F "<<GCD(QM(8),QM(10))<<std::endl;
+			std::cout<<"F "<<f810.Gcd()<<std::endl;
+			
+			auto fC810 = Func<Fraction>(Constant<int>(8),Constant<int>(10));
+			std::cout<<"F "<<fC810.Gcd()<<std::endl;
 
 			return 0;
 		}

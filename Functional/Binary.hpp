@@ -81,6 +81,8 @@ public:
 	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 };
 
+constexpr int GCD(const auto x, const auto y) noexcept { return y == 0 ? x : GCD(y,x % y);  }
+
 template<typename L, typename R>
 class Fraction: public BinaryFunctional<Fraction,Constant<L>,Constant<R>>
 {
@@ -94,6 +96,7 @@ public:
 	using ResultType = decltype(op(std::declval<Constant<L>>(),std::declval<Constant<R>>()));
 	constexpr decltype(auto) Num() const { return Base::Left(); }
 	constexpr decltype(auto) Den() const { return Base::Right(); };
+	constexpr decltype(auto) Gcd() const { return GCD(Base::Right()(),Base::Left()()); };
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Fraction& c) { return s<<c.Left()<<sign<<c.Right();  }
 };
