@@ -64,6 +64,12 @@ public:
 	template<typename TQR = QR>
 	constexpr decltype(auto) operator-(const Quantity<U,TQR,T1>& y) const { return Type(Value() - transform(y).Value()); }
 	
+	// ----------------------------------------MOD-------------------------------------------------------------
+	constexpr decltype(auto) operator%(const Quantity<U,QR,T1>& y) const { return Type(Value() % y.Value()); }
+	
+	template<typename TQR = QR>
+	constexpr decltype(auto) operator%(const Quantity<U,TQR,T1>& y) const { return Type(Value() % transform(y).Value()); }
+	
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
 	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
 	
