@@ -33,6 +33,10 @@ public:
 	}
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
+	template<template<typename> class D1,typename V1>
+	decltype(auto) operator<=>(const UnaryFunctional<D1,V1>& u){ return (*this)() <=> u();	}
+	template<template<typename> class D1,typename V1>
+	decltype(auto) operator==(const UnaryFunctional<D1,V1>& u){ return (*this)() == u();	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<c.value;  }
 	ValueType value;

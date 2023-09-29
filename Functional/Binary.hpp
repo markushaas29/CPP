@@ -20,6 +20,8 @@ public:
 	decltype(auto) operator()() const { return Derived::op(left,right); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
+	constexpr decltype(auto) Left() { return left; }
+	constexpr decltype(auto) Right() { return right; };
 private:
 	friend std::ostream& operator<<(std::ostream& s, const BinaryFunctional& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
 	RightType right;
@@ -95,4 +97,6 @@ class Fraction: public BinaryFunctional<Fraction,Constant<L>,Constant<R>>
 public:
 	Fraction(const L& l, const R& r): Base{Constant<L>(l),Constant<R>(r)} {}
 	using ResultType = decltype(op(std::declval<Constant<L>>(),std::declval<Constant<R>>()));
+	constexpr decltype(auto) Num() { return Base::Left(); }
+	constexpr decltype(auto) Den() { return Base::Right(); };
 };
