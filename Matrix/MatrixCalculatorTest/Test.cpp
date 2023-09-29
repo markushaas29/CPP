@@ -24,12 +24,17 @@ class MatrixCalculatorTest
 			using M1DS = MatrixDescriptor<1,double>;
 			using M1PS = MatrixDescriptor<1,Parameter<int>>;
 			using M2PS = MatrixDescriptor<2,Parameter<int>>;
+			using MS1 = MatrixDescriptor<1,std::string>;
+			using M1S = Matrix<1,MS1>;
 			using M3D = Matrix<3,M3DS>;
 			using M2D = Matrix<2,M2DS>;
 			using M2P = Matrix<2,M2PS>;
 			using M1D = Matrix<1,M1DS>;
 			using QS = Quantity<Scalar,Pure,double>;
 		
+			M1S m1s{
+				{std::string("19.10.1985"),std::string("29.09.1986"),std::string("27.03.1989")}	
+			};
 			M1 m1{
 				{1,2,3,4,5}	
 			};
@@ -233,7 +238,11 @@ class MatrixCalculatorTest
 			auto md = m44.Calc<Diff>();
 			assert(m44.Size()==md.Size()+1);
 			assert((int)md[0]==-1);
-////			std::cout<<"END M1 * M1"<<mf1[0][0]<<std::endl;
+
+			auto mdat = m1s.To<DateTimes::Date>();	
+			auto mdd = mdat.Calc<Diff>();
+			std::cout<<"END M1 * M1"<<mdd[0]()()<<std::endl;
+			
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;
 		//   

@@ -50,7 +50,7 @@ private:
         return LeftType(d,el); 
     }
 	template<template<typename> class OpT, typename It >
-    static decltype(auto) calc(It begin, It end, DescriptorType d)
+    static decltype(auto) calc(It begin, It end)
     {
 		using Op = OpT<typename LeftType::ElementType>;
 
