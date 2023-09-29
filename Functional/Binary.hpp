@@ -78,3 +78,21 @@ public:
 	Div(const L& l, const R& r): Base{l,r} {}
 	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 };
+
+template<typename L, typename R>
+class Fraction: public BinaryFunctional<Fraction,Constant<L>,Constant<R>>
+{
+	using Base = BinaryFunctional<Fraction,Constant<L>,Constant<R>>;
+	friend class BinaryFunctional<Fraction,Constant<L>,Constant<R>>;
+	//static constexpr int Num = Shorten<N,D>::Num;
+	//static constexpr int Den = Shorten<N,D>::Den;
+	//constexpr operator double(){ return ((double)Num)/Den; }
+ 	//constexpr operator std::string(){ return std::to_string(Num) +"/" + std::to_string(Den); }
+	inline static constexpr const char* sign = "/"; 
+	static decltype(auto) op(const auto l, const auto r) { return l() / r(); }
+	static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) / r(v); }
+
+public:
+	Fraction(const L& l, const R& r): Base{Constant<L>(l),Constant<R>(r)} {}
+	using ResultType = decltype(op(std::declval<Constant<L>>(),std::declval<Constant<R>>()));
+};

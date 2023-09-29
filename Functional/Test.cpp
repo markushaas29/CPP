@@ -182,6 +182,9 @@ class FunctionalTest
 			is = std::is_same_v<decltype(diff)::ValueType, int>;
 			assert(is);
 
+			auto f34 = Func<Fraction>(3,4);
+			//assert(0.75==(double)f34());
+
 			return 0;
 		}
 };

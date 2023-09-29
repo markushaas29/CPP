@@ -1,6 +1,5 @@
 #include <memory>
 #include <ratio>
-#include "../Fraction/Fraction.h"
 #include "../Math/Math.hpp"
 
 #ifndef SIPREFIX_HPP

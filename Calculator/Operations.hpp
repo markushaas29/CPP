@@ -2,7 +2,6 @@
 #include <ratio>
 #include <vector>
 #include "CalculatorResult.hpp"
-#include "../Fraction/Fraction.h"
 #include "../Wrapper/Wrapper.hpp"
 #include "../Logger/Logger.hpp"
 #include "../File/Raiffeisenbank.hpp"
