@@ -185,6 +185,9 @@ class FunctionalTest
 			auto f34 = Func<Fraction>(3,4);
 			//assert(0.75==(double)f34());
 			assert(Constant<int>(3)==f34.Num());
+			assert(3==f34.Num()());
+			assert(Constant<int>(4)==f34.Den());
+			assert(4==f34.Den()());
 
 			return 0;
 		}
