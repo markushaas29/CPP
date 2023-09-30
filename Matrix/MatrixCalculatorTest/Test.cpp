@@ -241,7 +241,7 @@ class MatrixCalculatorTest
 
 			auto mdat = m1s.To<DateTimes::Date>();	
 			auto mdd = mdat.Calc<Diff>();
-			std::cout<<"END M1 * M1"<<mdd[0]()()<<std::endl;
+			std::cout<<"END M1 * M1"<<mdd[0]()<<std::endl;
 			
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;

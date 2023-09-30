@@ -67,7 +67,12 @@ public:
 		if constexpr (	IsResultType<ValueType>	)
 			return static_cast<double>(value);
 		else
-			return static_cast<ValueType>(value); 
+		{
+			if constexpr(std::is_invocable_v<ValueType>)
+             	 return value();
+          	else
+				return static_cast<ValueType>(value); 
+		}
 	}
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<Type>(*this); }
 	decltype(auto) Get() const { return ElementType((*this)()); }
