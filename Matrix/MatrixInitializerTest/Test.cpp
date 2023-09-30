@@ -167,7 +167,16 @@ class MatrixInitializerTest
 			std::cout<<ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
 			//gem.ColSum()
 		
-			std::cout<<"Reading Matrix \n"<<mR<<std::endl;
+
+			auto mRC = mR.Cols(0,1);
+			auto mD = mRC.Col(0).To<DateTimes::Date>().Calc<Diff>();  
+			auto mW = mRC.Col(1).To<Quantity<Work>>().Calc<Diff>();  
+            
+            auto mWD = mW / mD;
+			std::cout<<"Reading Matrix \n"<<mWD<<std::endl;
+			std::cout<<"Reading Matrix \n"<<(double)mWD[0]<<std::endl;
+			std::cout<<"Reading Matrix \n"<<(double)mWD[1]<<std::endl;
+
 			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
 
 			return 0;
