@@ -250,16 +250,12 @@ private:
 		typename Base::template IsT<Throwing>("M1M1")(r.Rows()==l.Rows());
 		using ReturnType = Div<Constant<typename Base::LeftType::ElementType>, Constant<typename Base::RightType::ElementType>>;
 	 	using DescriptorType = MatrixDescriptor<1, ReturnType>;
-		std::cout<<"Rows"<<l.Rows()<<std::endl;
 		DescriptorType md({l.Rows()});
  	    using ResultType = Matrix<1, DescriptorType>;
-		std::cout<<"Rows"<<md.Rows()<<md.Cols()<<std::endl;
 
 		std::vector<std::shared_ptr<ReturnType>> v;
 		for(int i = 0; i != l.Rows(); ++i)
 				v.push_back(std::make_shared<ReturnType>(ReturnType( Constant(*l(i)),Constant(*r(i) ))));
-		auto a = ResultType(md,v);
-		std::cout<<"Rows"<<a.Rows()<<a.Cols()<<std::endl;
 		return ResultType(md,v);
 	}
 };

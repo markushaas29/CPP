@@ -33,10 +33,10 @@ class MatrixCalculatorTest
 			using QS = Quantity<Scalar,Pure,double>;
 		
 			M1S m1s{
-				{std::string("19.10.1985"),std::string("29.09.1986"),std::string("27.03.1989")}	
+				{std::string("31.10.1986"),std::string("29.09.1986"),std::string("27.03.1986")}	
 			};
 			M1 m13{
-				{1,3,5}	
+				{5,3,1}	
 			};
 			M1 m1{
 				{1,2,3,4,5}	
@@ -244,11 +244,12 @@ class MatrixCalculatorTest
 
 			auto mdat = m1s.To<DateTimes::Date>();	
 			auto mdd = mdat.Calc<Diff>();
-			auto md13 = m13.Calc<Diff>();
-			std::cout<<"END M1 * M1"<<mdd[0]()<<std::endl;
+			auto mq13 = m13.To<Q>();
+			auto md13 = mq13.Calc<Diff>();
 
-			auto m1Div = mdd/ md13;
-			std::cout<<"END M1 * M1"<<m1Div<<std::endl;
+			auto m1Div = mdd / md13;
+			assert((int)m1Div[0]()==16);
+			assert((int)m1Div[1]()==93);
 			
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;
