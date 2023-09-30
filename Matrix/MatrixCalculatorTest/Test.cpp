@@ -35,6 +35,9 @@ class MatrixCalculatorTest
 			M1S m1s{
 				{std::string("19.10.1985"),std::string("29.09.1986"),std::string("27.03.1989")}	
 			};
+			M1 m13{
+				{1,3,5}	
+			};
 			M1 m1{
 				{1,2,3,4,5}	
 			};
@@ -241,7 +244,11 @@ class MatrixCalculatorTest
 
 			auto mdat = m1s.To<DateTimes::Date>();	
 			auto mdd = mdat.Calc<Diff>();
+			auto md13 = m13.Calc<Diff>();
 			std::cout<<"END M1 * M1"<<mdd[0]()<<std::endl;
+
+			auto m1Div = mdd/ md13;
+			std::cout<<"END M1 * M1"<<m1Div<<std::endl;
 			
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;
