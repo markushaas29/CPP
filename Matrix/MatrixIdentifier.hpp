@@ -64,6 +64,7 @@ public:
 	std::unique_ptr<IIdentifier> Clone() { return std::make_unique<Type>(*this); }
 	decltype(auto) Get() const { return ElementType((*this)()); }
 	const ValueType& Value() const { return value; }
+	constexpr decltype(auto) Size() const { return ids->size(); }
 	template<typename C>
 	constexpr bool operator==(const C& v) const 
 	{
