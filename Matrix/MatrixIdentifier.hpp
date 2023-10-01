@@ -70,6 +70,7 @@ protected:
 	inline static constexpr const char TypeIdentifier[] = "Identifier";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	IdentifierBase(const ValueType& v): value{v}, ids{std::make_unique<StorageType>(split(v))} {  }
+	IdentifierBase(IdentifierBase& b): value{b.value}, ids{std::make_unique<StorageType>(b.ids->cbegin(),b.ids->cend())} {  }
 private:
 	friend Type;
 	ValueType value;

@@ -93,7 +93,9 @@ int Run()
 	assert(ms.To<int>()==5);
 
 	auto m123 = MatrixIdentifier(std::string("1_2_3"));
+	auto m123_ = m123;
 	std::cout<<"ID"<<m123<<std::endl;
+	std::cout<<"ID"<<m123_<<std::endl;
 
 	std::cout<<"END"<<std::endl;
     
