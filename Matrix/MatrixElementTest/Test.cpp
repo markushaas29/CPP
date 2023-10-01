@@ -99,13 +99,15 @@ int Run()
 	assert(m123=="3");
 	assert(m123=="2");
 	assert(m123=="1");
-	std::cout<<"ID"<<m123<<std::endl;
 	std::cout<<"ID"<<m123_<<std::endl;
+	
+	auto m12 = MatrixIdentifier(std::string("12"));
+	auto m12T = m12.to<int>();
+	assert(m12T==12);
 	
 	auto m789 = MatrixIdentifier<int>(789);
 	assert(m789==789);
 	assert(m789!=779);
-	std::cout<<"ID"<<m789<<std::endl;
 
 	std::cout<<"END"<<std::endl;
     
