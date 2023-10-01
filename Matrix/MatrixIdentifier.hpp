@@ -66,6 +66,16 @@ public:
 	std::unique_ptr<IIdentifier> Clone() { return std::make_unique<Type>(*this); }
 	decltype(auto) Get() const { return ElementType((*this)()); }
 	const ValueType& Value() const { return value; }
+	constexpr bool operator==(const ValueType& v) const 
+	{
+		if(value==v)
+			return true;
+		else
+			for(auto it = ids->cbegin(); it != ids->cend(); ++it)
+				if(*it==v)
+					return true;
+		return false;
+	}
 protected:
 	inline static constexpr const char TypeIdentifier[] = "Identifier";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
