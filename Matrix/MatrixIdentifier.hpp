@@ -98,10 +98,12 @@ private:
 	friend Type;
 	ValueType value;
 	std::unique_ptr<StorageType> ids;
-	friend std::ostream& operator<<(std::ostream& s, const IdentifierBase& i) 
+	friend std::ostream& operator<<(std::ostream& s, const IdentifierBase& ib) 
 	{ 
-		std::for_each(i.ids->cbegin(),i.ids->cend(), [&](const auto& v){ s<<v<<","; } );  
-		return s;
+		s<<"[";
+		for(auto i=0; i<ib.ids->size(); ++i)
+				s<<ib.ids->at(i)<<(i+1 == ib.ids->size()? "" : ", ");
+		return s<<"]";
 	}
 	static decltype(auto) split(T values)  
 	{
