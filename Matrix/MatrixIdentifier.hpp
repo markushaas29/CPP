@@ -37,7 +37,7 @@ public:
 	template<typename O>
 	operator O() const { return static_cast<O>(value); }
 	template<typename O>
-	decltype(auto) to() const 
+	decltype(auto) To() const 
 	{ 
 
 		if constexpr (!std::is_same_v<ValueType,std::string>)
@@ -46,7 +46,7 @@ public:
 		{
 			std::string s(value);
 			std::replace(s.begin(), s.end(), ',', '.');
-			return To<O>(s);
+			return ::To<O>(s);
 		}
 	}
 	decltype(auto) operator()() const 

@@ -102,7 +102,7 @@ int Run()
 	std::cout<<"ID"<<m123_<<std::endl;
 	
 	auto m12 = MatrixIdentifier(std::string("12"));
-	auto m12T = m12.to<int>();
+	auto m12T = m12.To<int>();
 	assert(m12T==12);
 	
 	auto m789 = MatrixIdentifier<int>(789);
