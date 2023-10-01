@@ -69,29 +69,33 @@ public:
 protected:
 	inline static constexpr const char TypeIdentifier[] = "Identifier";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
-	IdentifierBase(const ValueType& v): value{v} {  }
+	IdentifierBase(const ValueType& v): value{v}, ids{std::make_unique<StorageType>(split(v))} {  }
 private:
 	friend Type;
 	ValueType value;
-	friend std::ostream& operator<<(std::ostream& s, const IdentifierBase& me) { return me.Display(s);  }
+	std::unique_ptr<StorageType> ids;
+	friend std::ostream& operator<<(std::ostream& s, const IdentifierBase& i) 
+	{ 
+		std::for_each(i.ids->cbegin(),i.ids->cend(), [&](const auto& v){ s<<v<<","; } );  
+		return s;
+	}
+	static decltype(auto) split(T values)  
+	{
+		if constexpr (std::is_same_v<T,std::string>)
+			return String_::Split(values,'_');
+		else
+			return StorageType{values};
+
+	} 
 };
 
 template<typename T=std::string> 
 class MatrixIdentifier: public IdentifierBase<T>
 {
 public:
-	using Base = IdentifierBase<std::string>;
-	MatrixIdentifier(const std::string& v): Base{v} { }
+	using Base = IdentifierBase<T>;
+	MatrixIdentifier(T v): Base{v} { }
 	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<": "<<Base::value; }
 private:
-	decltype(auto) split(T values) const 
-	{
-		if constexpr (std::is_same_v<T,std::string>)
-			return String_::Split(values,'_');
-		else
-			return Base::StorageType{values};
-
-	} 
-	friend std::ostream& operator<<(std::ostream& s, const MatrixIdentifier& me) { return me.Display(s);  }
 };
 
