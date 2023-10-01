@@ -3,7 +3,9 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
+#include "../PointerConcept.hpp"
 #include "../MatrixElement.hpp"
+#include "../MatrixIdentifier.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Common/DateTimes.hpp"
