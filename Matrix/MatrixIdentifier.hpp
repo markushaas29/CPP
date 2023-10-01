@@ -64,15 +64,30 @@ public:
 	std::unique_ptr<IIdentifier> Clone() { return std::make_unique<Type>(*this); }
 	decltype(auto) Get() const { return ElementType((*this)()); }
 	const ValueType& Value() const { return value; }
-	constexpr bool operator==(const ValueType& v) const 
+	template<typename C>
+	constexpr bool operator==(const C& v) const 
 	{
-		if(value==v)
-			return true;
+		//if constexpr((std::is_same_v<ValueType,std::string> && !std::is_same_v<C,const char*>) || !std::is_same_v<ValueType,C>)
+		if constexpr(!std::is_same_v<ValueType,C>)
+		{	
+			if(C(value)==v)
+				return true;
+			else
+				for(auto it = ids->cbegin(); it != ids->cend(); ++it)
+					if(C(*it)==v)
+						return true;
+			return false;
+		}
 		else
-			for(auto it = ids->cbegin(); it != ids->cend(); ++it)
-				if(*it==v)
-					return true;
-		return false;
+		{
+			if(value==v)
+				return true;
+			else
+				for(auto it = ids->cbegin(); it != ids->cend(); ++it)
+					if(*it==v)
+						return true;
+			return false;
+		}
 	}
 protected:
 	inline static constexpr const char TypeIdentifier[] = "Identifier";
@@ -90,7 +105,7 @@ private:
 	}
 	static decltype(auto) split(T values)  
 	{
-		if constexpr (std::is_same_v<T,std::string>)
+		if constexpr (std::is_same_v<T,std::string> )
 			return String_::Split(values,'_');
 		else
 			return StorageType{values};

@@ -94,11 +94,14 @@ int Run()
 
 	auto m123 = MatrixIdentifier(std::string("1_2_3"));
 	auto m123_ = m123;
-	assert(m123=="1_2_3");
-	assert(m123!="4");
-	assert(m123=="3");
-	assert(m123=="2");
-	assert(m123=="1");
+	assert(m123==std::string("1_2_3"));
+	assert(m123!=std::string("4"));
+	assert(m123==std::string("3"));
+	assert(m123==std::string("2"));
+	assert(m123==std::string("1"));
+
+	auto miban = MatrixIdentifier(std::string("1_2_3_DE19660623660009232702"));
+	assert(miban==IBAN("DE19660623660009232702"));
 	std::cout<<"ID"<<m123_<<std::endl;
 	
 	auto m12 = MatrixIdentifier(std::string("12"));
