@@ -96,6 +96,9 @@ int Run()
 	auto m123_ = m123;
 	std::cout<<"ID"<<m123<<std::endl;
 	std::cout<<"ID"<<m123_<<std::endl;
+	
+	auto m789 = MatrixIdentifier<int>(789);
+	std::cout<<"ID"<<m789<<std::endl;
 
 	std::cout<<"END"<<std::endl;
     
