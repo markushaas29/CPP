@@ -104,7 +104,7 @@ private:
 	static decltype(auto) stringTo(const std::string& s)
 	{
 		std::string str(s);
-		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ','; }), str.end());
+		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
 		return To<ValueType>(str);
 	}
 	
