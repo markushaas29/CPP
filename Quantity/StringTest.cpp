@@ -12,11 +12,13 @@ int Run()
 {       
     std::cout<<"\n\tSTART StringTest"<<std::endl;
 
-	auto km1_7 = Quantity<Length,Kilo>("1.7");
+	auto km1_7 = Quantity<Length,Kilo>("1.7 km");
 	auto km0 = Quantity<Length,Kilo>("");
-	auto km177 = Quantity<Length,Kilo>("1,77");
-	auto km1000_77 = Quantity<Length,Kilo>("1.000,77");
-	auto km1000_7789 = Quantity<Length,Kilo>("1.000,7789");
+	auto km177 = Quantity<Length,Kilo>("1,77€");
+	auto km1000_77 = Quantity<Length,Kilo>("1.000,77DM");
+	auto km1000_7789 = Quantity<Length,Kilo>("1.000,7789km²");
+	auto m1000_7789 = Quantity<Length,Kilo>("1.000,7789m²");
+	auto m177 = Quantity<Length,Kilo>("1,77m²");
     std::cout<<"km1,7: "<<km1_7<<std::endl;
     std::cout<<"km1,7: "<<km177<<std::endl;
     std::cout<<"km1,7: "<<km1000_7789<<std::endl;
@@ -26,7 +28,11 @@ int Run()
     assert(km1000_7789.Value()==1000.7789);
 	
 	auto km17000 = Quantity<Length,Kilo,uint>("17000");
-    assert(km17000.Value()==17000);
+	auto m1_77 = Quantity<Area>(m177);
+    assert(m1_77.Value()==1.77);
+	auto m1000_77 = Quantity<Area>(m1000_7789);
+    assert(m1000_77.Value()==1000.7789);
+    std::cout<<"A 1000,789: "<<m1000_77<<std::endl;
 	auto km170000 = Quantity<Length,Kilo,int>("170000");
     assert(km170000.Value()==170000);
 	
