@@ -33,7 +33,7 @@ public:
     
 	constexpr Quantity(): Base("0"), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(""), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(s.c_str()), value{(To<ValueType>(s)) * (ValueType)QR::Factor} { 	}
+	explicit Quantity(const std::string& s): Base(s.c_str()), value{(stringTo<ValueType>(s)) * (ValueType)QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
@@ -95,12 +95,17 @@ private:
 	{
 		std::string str;
 		s>>str;
-		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.' ; }), str.end());
-		std::cout<<"STR: "<<str<<std::endl;
-		ValueType v;
-		s>>v;
-		q = Quantity{str};
+		auto v = stringTo<ValueType>(str);
+		q = Quantity{v};
 		return s; 
+	}
+
+	template<typename V>
+	static decltype(auto) stringTo(const std::string& s)
+	{
+		std::string str(s);
+		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ','; }), str.end());
+		return To<ValueType>(str);
 	}
 	
 	template<typename TQuantity>
