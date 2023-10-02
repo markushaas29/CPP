@@ -16,13 +16,13 @@
 template<size_t N, typename> class MatrixImpl;
 template<size_t, typename> class MatrixDescriptor;
 
-template<typename D = std::string>
+template<typename D = std::string, typename Sep = T::char_<';'>>
 class MatrixReader
 {
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixReader";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	using CSVSeparator = T::char_<';'> ;
+	using CSVSeparator = Sep;
 	using DoubleSeparator = T::char_<'.'> ;
 	using Type = D;
 	using M1Type = MatrixInitializer<1,Type>;
