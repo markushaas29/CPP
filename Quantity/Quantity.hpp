@@ -93,9 +93,13 @@ private:
 	static constexpr const char* check(const char* s) { return s; }
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
+		std::string str;
+		s>>str;
+		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.' ; }), str.end());
+		std::cout<<"STR: "<<str<<std::endl;
 		ValueType v;
 		s>>v;
-		q = Quantity{v};
+		q = Quantity{str};
 		return s; 
 	}
 	

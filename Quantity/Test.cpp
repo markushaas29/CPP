@@ -178,7 +178,7 @@ int main()
     	assert(isSame);
     	
     Quantity<Mass,Pure> mp;
-	std::istringstream is123_4("123.4");
+	std::istringstream is123_4("123.4 km");
 	is123_4>>mp;
 	assert(mp.Value()==123.4);
 

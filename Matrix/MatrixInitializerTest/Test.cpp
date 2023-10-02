@@ -164,7 +164,7 @@ class MatrixInitializerTest
 			assert(gsum==-1339.93);
 
 			auto mR = mrR.M<2>();
-			assert(mssr.IsDim<2>());
+			assert(mrR.IsDim<2>());
 			std::cout<<gsum<<std::endl;
 			std::cout<<ms22F(2,[&](const auto& s) { return s == "DE12660623660000005703";});
 			//gem.ColSum()
@@ -180,7 +180,11 @@ class MatrixInitializerTest
 			std::cout<<"Reading Matrix \n"<<(double)mWD[1]<<std::endl;
 
 			auto mA = mrA.M<2>();
-			std::cout<<mA<<std::endl;
+			assert(mrA.IsDim<2>());
+
+			auto cA = mA.Col(4);
+			std::cout<<cA[5].To<Quantity<Area>>()<<std::endl;
+			std::cout<<cA[5].To<double>()<<std::endl;
 			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
 
 			return 0;
