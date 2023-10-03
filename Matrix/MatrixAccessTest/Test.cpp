@@ -96,15 +96,15 @@ class MatrixAccessTest
 			assert(isthrow);
 			isthrow = false;
 			
-			auto s12_34 = m35.Sub({1,2},{3,4});
+			auto s12_34 = m35.M({1,2},{3,4});
 			assert((int)s12_34[0][0]==9);
 			assert((int)s12_34[0][1]==10);
 			assert((int)s12_34[1][0]==14);
 			assert((int)s12_34[1][1]==15);
-			try {m35.Sub({1,10},{2,3});} catch(...) { isthrow = true; }
+			try {m35.M({1,10},{2,3});} catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
-			try {m35.Sub({1,2},{2,7});} catch(...) { isthrow = true; }
+			try {m35.M({1,2},{2,7});} catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
 			
@@ -142,7 +142,7 @@ class MatrixAccessTest
 
 			std::cout<<m3S;
 
-			std::cout<<"END"<<m35.Sub({1,2},{2,2})<<std::endl;
+			std::cout<<"END"<<m35.M({1,2},{2,2})<<std::endl;
 		   
 			return 0;
 		}

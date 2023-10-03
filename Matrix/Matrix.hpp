@@ -69,7 +69,7 @@ public:
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 	decltype(auto) Rows(auto... i) const { return access->rows(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
-	decltype(auto) Sub(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
+	decltype(auto) M(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
 	decltype(auto) Slices(std::vector<size_t> rows, std::vector<size_t> cols) const { return access->slices(rows,cols, this); }
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
