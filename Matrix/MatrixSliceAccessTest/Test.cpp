@@ -80,9 +80,11 @@ class MatrixColAccessTest
 		    };
 	
 			auto s024 = m35.Cols(0,2,4);
+			std::cout<<s024<<std::endl;
+			std::cout<<m33<<std::endl;
 			auto mulS = s024 * m33;
+			std::cout<<mulS[0]<<std::endl;
 			assert((int)mulS[2][2]==410);
-			std::cout<<mulS.Col(0)<<std::endl;
 			std::cout<<mulS.Cols(1,2)<<std::endl;
 			assert((int)mulS[0][0]==92);
 

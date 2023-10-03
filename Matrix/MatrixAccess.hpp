@@ -100,7 +100,13 @@ private:
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::vector<typename M::DataType> result;
 		std::array<size_t,Order> e;
+		
+		if(rowSpan[1] == 0)
+			rowSpan[1] = m->Rows() - 1;
 		e[0] = rowSpan[1] - rowSpan[0] + 1;
+			
+		if(colSpan[1] == 0)
+			rowSpan[1] = m->Cols() - 1;
 		e[1] = colSpan[1] - colSpan[0] + 1;
 		MDT mdt{e};
 		

@@ -108,7 +108,22 @@ class MatrixAccessTest
 			assert(isthrow);
 			isthrow = false;
 			
-			auto s2_4 = m35.M(1,2);
+			auto r1_ = m35.Rows({1,2});
+			assert(r1_.Rows()==2);
+			assert(r1_.Cols()==5);
+			assert((int)r1_[0][0]==6);
+			assert((int)r1_[0][4]==10);
+			assert((int)r1_[1][0]==11);
+			assert((int)r1_[1][4]==15);
+			try {m35.Rows(1,8);} catch(...) { isthrow = true; }
+			assert(isthrow);
+			isthrow = false;
+			
+			auto r2_ = m35.Rows({2});
+			assert(r2_.Rows()==1);
+			assert(r2_.Cols()==1);
+			
+			auto s2_4 = m35.M({1},{2});
 			std::cout<<s2_4;
 			assert(s2_4.Rows()==2);
 			assert(s2_4.Cols()==3);

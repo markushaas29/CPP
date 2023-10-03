@@ -71,8 +71,15 @@ class MatrixCalculatorTest
 			assert(is);
 			auto m35m1 = m35 * m1;
 			
+			M2 m33
+			{
+				{1, 2, 3},
+				{4, 5, 6},
+				{7, 8, 9}
+			};
 		
-			M2 m44 {
+			M2 m44 
+			{
 				{1, 2, 3, 4},
 				{6, 7, 8, 9},
 				{10, 12, 13, 14},
@@ -101,7 +108,6 @@ class MatrixCalculatorTest
 			assert((int)m2pI[0][0]==10);
 			
 			auto m2pIM = m2pI + m44;
-			std::cout<<"Matrix m2pI "<<m2pIM<<"\n";
 			assert((int)m2pIM[0][0]==11);
 			p4.Value() = 10;
 			assert((int)m2pIM[0][0]==15);
@@ -109,7 +115,17 @@ class MatrixCalculatorTest
 			M1 m1b{
 				{1,2,3,4}	
 			};
-			
+
+			auto M33 = m33 * m33;
+			assert(M33[0][0].To<int>()==30);
+			assert(M33[1][1].To<int>()==81);
+			assert(M33[2][2].To<int>()==150);
+
+			auto M13 = m33 * m13;
+			assert(M13[0].To<int>()==14);
+			assert(M13[1].To<int>()==41);
+			assert(M13[2].To<int>()==68);
+
 			auto a5 = m44 + 5;
 			assert((int)a5[0][0]==6);
 			assert((int)a5[3][3]==24);
@@ -134,8 +150,9 @@ class MatrixCalculatorTest
 			//assert((int)ap[0][3]==8);
 
 			auto m44m44 = m44 * m44;
-			//assert(m44m44[0][0].To<int>()==107);
-			//assert(m44m44[1][0].To<int>()==272);
+			std::cout<<"Matrix m2pI "<<m44m44<<"\n";
+			assert(m44m44[0][0].To<int>()==107);
+			assert(m44m44[1][0].To<int>()==272);
 
 			auto m44m1 = m44 * m1b;
 			assert(m44m1[0].To<int>()==30);
