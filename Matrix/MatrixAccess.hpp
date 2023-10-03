@@ -106,7 +106,7 @@ private:
 		e[0] = rowSpan[1] - rowSpan[0] + 1;
 			
 		if(colSpan[1] == 0)
-			rowSpan[1] = m->Cols() - 1;
+			colSpan[1] = m->Cols() - 1;
 		e[1] = colSpan[1] - colSpan[0] + 1;
 		MDT mdt{e};
 		

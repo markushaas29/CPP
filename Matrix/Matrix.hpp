@@ -68,6 +68,7 @@ public:
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
+	decltype(auto) Cols(std::array<size_t,2> span) const { return access->sub(std::array<size_t,2>{0, Rows()-1 }, span, this); }
 	decltype(auto) Rows(auto... i) const { return access->rows(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 	decltype(auto) Rows(std::array<size_t,2> span) const { return access->sub(span, std::array<size_t,2>{0, Cols()-1 }, this); }
 	decltype(auto) M(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
