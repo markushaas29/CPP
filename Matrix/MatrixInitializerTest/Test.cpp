@@ -75,7 +75,7 @@ class MatrixInitializerTest
 			auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
 			auto uipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/UI.mat" };
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energy.ctrv" };
-			auto Apath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Messung.csv" };
+			auto Apath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Messung_2.csv" };
 			auto m22r = MatrixReader(u22);
 			auto msr = MatrixReader(path);
 			auto mtr = MatrixReader(tpath);
@@ -185,9 +185,12 @@ class MatrixInitializerTest
 			auto cA = mA.Col(4);
 			std::cout<<cA[5].To<Quantity<Area>>()<<std::endl;
 			Quantity<Area> a{0};
-			for(int i = 3; i < cA.Rows(); ++i)
+			for(int i = 2; i < cA.Rows(); ++i)
+			{
+				std::cout<<"QA: "<<cA[i].To<Quantity<Area>>()<<std::endl;
 				a = a + cA[i].To<Quantity<Area>>();
 
+			}
 			std::cout<<"A = "<<cA<<std::endl;
 			std::cout<<"A = "<<a<<std::endl;
 			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
