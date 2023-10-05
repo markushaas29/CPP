@@ -54,7 +54,8 @@ class MatrixAnalyzerTest
 			a23();
 
 
-			auto s23 = MatrixStrategy<decltype(m23)>(m23);
+			auto s23 = UnaryMatrixStrategy<decltype(m23)>("");
+			s23(m23);
 
 			std::cout<<"END"<<std::endl;
 

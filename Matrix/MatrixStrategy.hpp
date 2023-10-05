@@ -19,20 +19,22 @@ template<typename T>
 class IMatrixStrategy
 {
 public:
-	virtual T Exec (const T& m) = 0;
+	using MatrixType = T;
+	using ElementType = T::ElementType;
+	virtual T operator()(const T& m) = 0;
 };
 
 template<typename T>
-class MatrixStrategy : public IMatrixStrategy<T>
+class UnaryMatrixStrategy : public IMatrixStrategy<T>
 {
+	using Base = IMatrixStrategy<T>;
 public:
-	using MatrixType = T;
 	inline static constexpr const char TypeIdentifier[] = "MatrixStrategy";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
-	MatrixStrategy(MatrixType m): matrix(m) {}
+	UnaryMatrixStrategy(typename Base::ElementType e): matrix(e) {}
 	
-	virtual MatrixType Exec (const MatrixType& m) { return MatrixType(); };
+	virtual Base::MatrixType operator()(const Base::MatrixType& m) { return typename Base::MatrixType(); };
 	//const MatrixType& operator()() const { return matrix; } 
 	//decltype(auto) operator()(size_t i, std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
 	//{
@@ -75,7 +77,7 @@ public:
     //    }
 	//}
 private:
-	MatrixType matrix;
+	Base::ElementType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
 };
