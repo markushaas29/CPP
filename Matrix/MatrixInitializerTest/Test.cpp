@@ -182,10 +182,12 @@ class MatrixInitializerTest
 			auto mA = mrA.M<2>();
 			assert(mrA.IsDim<2>());
 
-			auto cA = mA.Col(4);
-			std::cout<<cA[5].To<Quantity<Area>>()<<std::endl;
+			auto rA = mA.Rows({2});
+			std::cout<<rA<<std::endl;
+			auto cA = rA.Col(4);
+			std::cout<<"QA: "<<cA<<std::endl;
 			Quantity<Area> a{0};
-			for(int i = 2; i < cA.Rows(); ++i)
+			for(int i = 0; i < cA.Rows(); ++i)
 			{
 				std::cout<<"QA: "<<cA[i].To<Quantity<Area>>()<<std::endl;
 				a = a + cA[i].To<Quantity<Area>>();

@@ -10,6 +10,7 @@
 #include "../MatrixAnalyzer.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixFilters.hpp"
+#include "../MatrixStrategy.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
@@ -51,6 +52,9 @@ class MatrixAnalyzerTest
 			auto a23 = MatrixAnalyzer<decltype(m23)>(m23);
 			a22();
 			a23();
+
+
+			auto s23 = MatrixStrategy<decltype(m23)>(m23);
 
 			std::cout<<"END"<<std::endl;
 
