@@ -34,7 +34,7 @@ public:
 
 	UnaryMatrixStrategy(typename Base::ElementType e): matrix(e) {}
 	
-	virtual Base::MatrixType operator()(const Base::MatrixType& m) { return typename Base::MatrixType(); };
+	virtual Base::MatrixType operator()(const Base::MatrixType& m) { std::cout<<"Un"<<std::endl;return typename Base::MatrixType(); };
 	//const MatrixType& operator()() const { return matrix; } 
 	//decltype(auto) operator()(size_t i, std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
 	//{
@@ -80,4 +80,20 @@ private:
 	Base::ElementType matrix;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+};
+
+template<typename T>
+class BinaryMatrixStrategy : public IMatrixStrategy<T>
+{
+	using Base = IMatrixStrategy<T>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixStrategy";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
+
+	BinaryMatrixStrategy(std::vector<typename Base::ElementType> e): matrix(e) {}
+	
+	virtual Base::MatrixType operator()(const Base::MatrixType& m) { std::cout<<"Bin"<<std::endl; return typename Base::MatrixType(); };
+private:
+	std::vector<typename Base::ElementType> matrix;
+	template<typename U> using IsT =  Is<U,LiteralType>;
 };
