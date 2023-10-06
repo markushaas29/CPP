@@ -9,7 +9,7 @@
 #include "MatrixCalculator.hpp"
 #include "MatrixAccess.hpp"
 #include "MatrixIO.hpp"
-#include "MatrixFilter.hpp"
+#include "MatrixQuery.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
@@ -66,7 +66,7 @@ public:
 	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
-	decltype(auto) Cat(IMatrixCategory<ElementType>& cat) { query = std::make_unique<MatrixFilter<Type>>(*this);return (*query)(2,cat); }
+	decltype(auto) Cat(IMatrixCategory<ElementType>& cat) { return (*query)(this,2,cat); }
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
@@ -119,10 +119,11 @@ private:
 	friend class MatrixAccess<Type>;
 	friend class MatrixIO<Type>;
 	friend class MatrixFilter<Type>;
+	friend class MatrixQuery<Type>;
 
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();
-	std::unique_ptr<MatrixFilter<Type>> query ;
+	std::unique_ptr<MatrixQuery<Type>> query = std::make_unique<MatrixQuery<Type>>();
 	std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>();
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };

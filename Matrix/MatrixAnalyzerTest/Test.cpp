@@ -81,8 +81,12 @@ class MatrixAnalyzerTest
 
 			auto cr = m33.Cat(eq);
 			assert(cr.Rows()==2);
+			
+			EquivalenceCategory<int> eq15(15);
+			cr = m33.Cat(eq15);
+			assert(cr.Rows()==1);
 
-			std::cout<<"END"<<fr<<std::endl;
+			std::cout<<"END"<<cr<<std::endl;
 
 			return 0;
 		}
