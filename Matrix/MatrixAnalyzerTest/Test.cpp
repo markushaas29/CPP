@@ -11,6 +11,7 @@
 #include "../MatrixFilter.hpp"
 #include "../MatrixFilters.hpp"
 #include "../MatrixStrategy.hpp"
+#include "../MatrixCategory.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
