@@ -38,7 +38,7 @@ class MatrixAnalyzerTest
 			
 			M2 m33 {
             	{3, 4, 5},
-                {8, 9,10},
+                {8, 9, 5},
                 {13, 14, 15},
             };
 
@@ -77,6 +77,7 @@ class MatrixAnalyzerTest
 
 			MatrixFilter<M2> filter(m33);
 			auto fr = filter(2,eq);
+			assert(fr.Rows()==2);
 
 			std::cout<<"END"<<fr<<std::endl;
 
