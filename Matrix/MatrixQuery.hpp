@@ -46,6 +46,27 @@ public:
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
         }
 	}
+	decltype(auto) operator()(MatrixType* matrix, const IMatrixCategory<ElementType>& cat) const 
+	{
+		if constexpr (MatrixType::Order==2)
+        {
+    	    std::vector<typename MatrixType::DataType> result;
+    	    std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
+
+    	    for(int j = 0; j < matrix->Rows(); ++j)
+    	    {
+    	        auto row = matrix->row(j);
+    	    	for(int i = 0; i < row.size(); ++i)
+					if(cat(*row[i]))
+    	        		std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+    	    }
+
+
+    	    e[0] = result.size() / matrix->Cols();
+    	    
+			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
+        }
+	}
 private:
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixQuery& me) { return s<<me.matrix;  }

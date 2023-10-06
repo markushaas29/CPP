@@ -86,7 +86,10 @@ class MatrixAnalyzerTest
 			cr = m33.Cat(eq15);
 			assert(cr.Rows()==1);
 
-			std::cout<<"END"<<cr<<std::endl;
+			EquivalenceCategory<std::string> eqIB("DE56600501017402051588");
+			auto ib = m22.Cat(eqIB);
+			
+			std::cout<<"END"<<ib<<std::endl;
 
 			return 0;
 		}
