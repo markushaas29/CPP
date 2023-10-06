@@ -20,7 +20,7 @@ class IMatrixCategory
 {
 public:
 	using ElementType = T;
-	virtual bool operator()(const T& e) = 0;
+	virtual bool operator()(const T& e) const = 0;
 };
 
 template<typename T>
@@ -33,7 +33,7 @@ public:
 
 	EquivalenceCategory(typename Base::ElementType e): element(e) {}
 	
-	virtual bool operator()(const Base::ElementType& e) { return e==element; };
+	virtual bool operator()(const Base::ElementType& e) const { return e==element; };
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,LiteralType>;

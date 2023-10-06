@@ -36,6 +36,12 @@ class MatrixAnalyzerTest
 			using M2M = Matrix<2,MS2>;
 			using M1 = Matrix<1>;
 			
+			M2 m33 {
+            	{3, 4, 5},
+                {8, 9,10},
+                {13, 14, 15},
+            };
+
 			std::vector<int> v1{1,2,3,4};
 			std::vector<std::vector<int>> v2{{1,2,3},{4,5,6}};
 			std::vector<std::vector<std::vector<int>>> v3{{{1},{2}},{{3},{4}}};
@@ -54,7 +60,6 @@ class MatrixAnalyzerTest
 			a22();
 			a23();
 
-
 			auto s23 = UnaryMatrixStrategy<decltype(m23)>("");
 			s23(m23);
 
@@ -70,8 +75,10 @@ class MatrixAnalyzerTest
 			assert(eq(5));
 			assert(!eq(4));
 
+			MatrixFilter<M2> filter(m33);
+			auto fr = filter(2,eq);
 
-			std::cout<<"END"<<std::endl;
+			std::cout<<"END"<<fr<<std::endl;
 
 			return 0;
 		}
