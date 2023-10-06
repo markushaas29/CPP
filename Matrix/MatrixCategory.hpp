@@ -31,11 +31,11 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixCategory";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
-	EquivalenceCategory(typename Base::ElementType e): matrix(e) {}
+	EquivalenceCategory(typename Base::ElementType e): element(e) {}
 	
-	virtual Base::MatrixType operator()(const Base::MatrixType& m) { std::cout<<"Un"<<std::endl;return typename Base::MatrixType(); };
+	virtual bool operator()(const Base::ElementType& e) { return e==element; };
 private:
-	Base::ElementType matrix;
+	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
 };

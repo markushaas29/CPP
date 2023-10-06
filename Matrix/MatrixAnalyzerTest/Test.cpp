@@ -66,6 +66,11 @@ class MatrixAnalyzerTest
 			(*strat[0])(m23);
 			(*strat[1])(m23);
 
+			EquivalenceCategory<int> eq(5);
+			assert(eq(5));
+			assert(!eq(4));
+
+
 			std::cout<<"END"<<std::endl;
 
 			return 0;
