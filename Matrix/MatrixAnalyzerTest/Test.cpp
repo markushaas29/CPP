@@ -79,6 +79,9 @@ class MatrixAnalyzerTest
 			auto fr = filter(2,eq);
 			assert(fr.Rows()==2);
 
+			auto cr = m33.Cat(eq);
+			assert(cr.Rows()==2);
+
 			std::cout<<"END"<<fr<<std::endl;
 
 			return 0;

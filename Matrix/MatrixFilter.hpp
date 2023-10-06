@@ -24,6 +24,7 @@ public:
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
 	MatrixFilter(MatrixType m): matrix(m) {}
+	MatrixFilter(){}
 	
 	const MatrixType& operator()() const { return matrix; } 
 	decltype(auto) operator()(size_t i, const IMatrixCategory<ElementType>& cat) const 
