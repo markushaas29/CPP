@@ -71,7 +71,7 @@ class MatrixAnalyzerTest
 			(*strat[0])(m23);
 			(*strat[1])(m23);
 
-			EquivalenceCategory<int> eq(5);
+			EquivalenceCat<int> eq(5);
 			assert(eq(5));
 			assert(!eq(4));
 
@@ -82,12 +82,15 @@ class MatrixAnalyzerTest
 			auto cr = m33.Cat(eq);
 			assert(cr.Rows()==2);
 			
-			EquivalenceCategory<int> eq15(15);
+			EquivalenceCat<int> eq15(15);
 			cr = m33.Cat(eq15);
 			assert(cr.Rows()==1);
 
-			EquivalenceCategory<std::string> eqIB("DE56600501017402051588");
+			EquivalenceCat<std::string> eqIB("DE56600501017402051588");
 			auto ib = m22.Cat(eqIB);
+			
+			ContainCat<std::string> eqR("Proper");
+			ib = m22.Cat(eqR);
 			
 			std::cout<<"END"<<ib<<std::endl;
 

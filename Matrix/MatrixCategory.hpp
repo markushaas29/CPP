@@ -24,16 +24,33 @@ public:
 };
 
 template<typename T>
-class EquivalenceCategory : public IMatrixCategory<T>
+class EquivalenceCat : public IMatrixCategory<T>
 {
 	using Base = IMatrixCategory<T>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixCategory";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
-	EquivalenceCategory(typename Base::ElementType e): element(e) {}
+	EquivalenceCat(typename Base::ElementType e): element(e) {}
 	
 	virtual bool operator()(const Base::ElementType& e) const { return e==element; };
+private:
+	Base::ElementType element;
+	template<typename U> using IsT =  Is<U,LiteralType>;
+	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+};
+
+template<typename T>
+class ContainCat : public IMatrixCategory<T>
+{
+	using Base = IMatrixCategory<T>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixCategory";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
+
+	ContainCat(typename Base::ElementType e): element(e) {}
+	
+	virtual bool operator()(const Base::ElementType& e) const { return String_Contains(e,element); };
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,LiteralType>;
