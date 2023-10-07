@@ -119,7 +119,7 @@ private:
 	friend class MatrixAccess<Type>;
 	friend class MatrixIO<Type>;
 	friend class MatrixFilter<Type>;
-	friend class MatrixQuery<Type>;
+	friend class IMatrixQuery<Type>;
 
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();

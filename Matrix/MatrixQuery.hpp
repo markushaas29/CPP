@@ -14,18 +14,16 @@
 
 #pragma once
 
+
 template<typename T>
-class MatrixQuery 
+class IMatrixQuery
 {
 public:
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-
-	MatrixQuery(){}
-	
-	decltype(auto) operator()(MatrixType* matrix, size_t i, const IMatrixCategory<ElementType>& cat) const 
+	MatrixType operator()(MatrixType* matrix, size_t i, const IMatrixCategory<ElementType>& cat) const 
 	{
 		if constexpr (MatrixType::Order==2)
         {
@@ -46,7 +44,7 @@ public:
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
         }
 	}
-	decltype(auto) operator()(MatrixType* matrix, const IMatrixCategory<ElementType>& cat) const 
+	 MatrixType operator()( MatrixType* matrix, const IMatrixCategory< ElementType>& cat) const
 	{
 		if constexpr (MatrixType::Order==2)
         {
@@ -68,9 +66,7 @@ public:
         }
 	}
 private:
-	template<typename U> using IsT =  Is<U,LiteralType>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixQuery& me) { return s<<me.matrix;  }
-
+	virtual std::vector<typename MatrixType::DataType> exec(std::vector<typename MatrixType::DataType> v) = 0;
 	template<size_t N>
 	decltype(auto) copy(std::array<size_t,N> arr) const
 	{
@@ -78,4 +74,19 @@ private:
 		std::copy(arr.begin(), arr.end(), res.begin());
 		return res;
 	}
+	template<typename U> using IsT =  Is<U,LiteralType>;
+	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& me) { return s;  }
+};
+
+template<typename T>
+class MatrixQuery:public IMatrixQuery<T> 
+{
+	using Base = IMatrixQuery<T>;
+public:
+	MatrixQuery(){}
+private:
+	virtual std::vector<typename Base::MatrixType::DataType> exec(std::vector<typename Base::MatrixType::DataType> v)
+	{
+		return std::vector<typename Base::MatrixType::DataType>();
+	};
 };
