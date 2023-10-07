@@ -74,7 +74,7 @@ public:
 	decltype(auto) Rows(std::array<size_t,2> span) const { return access->sub(span, std::array<size_t,2>{0, Cols()-1 }, this); }
 	decltype(auto) M(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
 	template<typename CT>
-	decltype(auto) M(IMatrixCategory<CT>& cat) { return (*query)(this,cat); }
+	decltype(auto) M(const IMatrixQuery<Type>& query, const IMatrixCategory<CT>& cat) { return query(this,cat); }
 	decltype(auto) Slices(std::vector<size_t> rows, std::vector<size_t> cols) const { return access->slices(rows,cols, this); }
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
@@ -124,7 +124,6 @@ private:
 
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();
-	std::unique_ptr<MatrixQuery<Type>> query = std::make_unique<MatrixQuery<Type>>();
 	std::unique_ptr<MatrixIO<Type>> io = std::make_unique<MatrixIO<Type>>();
 	std::unique_ptr<std::vector<DataType>> elements = std::make_unique<std::vector<DataType>>();
 };

@@ -80,7 +80,9 @@ class MatrixAnalyzerTest
 			auto fr = filter(2,eq);
 			assert(fr.Rows()==2);
 
-			auto cr = m33.M(eq);
+			auto mq = MatrixQuery<M2>();
+			auto mqs = MatrixQuery<M2M>();
+			auto cr = m33.M(mq, eq);
 			assert(cr.Rows()==2);
 
 			auto mA33 = m33 + m33;
@@ -89,14 +91,14 @@ class MatrixAnalyzerTest
 			//assert(M6.Rows()==1);
 			
 			EquivalenceCat<int> eq15(15);
-			cr = m33.M(eq15);
+			cr = m33.M(mq,eq15);
 			assert(cr.Rows()==1);
 
 			EquivalenceCat<std::string> eqIB("DE56600501017402051588");
-			auto ib = m22.M(eqIB);
+			auto ib = m22.M(mqs, eqIB);
 			
 			ContainCat<std::string> eqR("Proper");
-			ib = m22.M(eqR);
+			ib = m22.M(mqs,eqR);
 			
 			std::cout<<"END"<<ib<<std::endl;
 
