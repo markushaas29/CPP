@@ -15,15 +15,16 @@
 #pragma once
 
 
-template<typename T>
+template<typename T, typename ET>
 class IMatrixQuery
 {
 public:
 	using MatrixType = T;
 	using ElementType = T::ElementType;
+	using CategoryType = IMatrixCategory<ET>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	
+
 	template<typename CT>
 	MatrixType operator()( MatrixType* matrix, const IMatrixCategory<CT>& cat) const
 	{
@@ -41,7 +42,10 @@ public:
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
         }
 	}
+protected:
+	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
 private:
+	std::unique_ptr<CategoryType> cat;
 	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, const IMatrixCategory<ElementType>& cat) const = 0;
 	template<size_t N>
 	decltype(auto) copy(std::array<size_t,N> arr) const
@@ -54,12 +58,12 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& me) { return s;  }
 };
 
-template<typename T>
-class MatrixQuery:public IMatrixQuery<T> 
+template<typename T, typename ET = T::ElementType>
+class MatrixQuery:public IMatrixQuery<T,ET> 
 {
-	using Base = IMatrixQuery<T>;
+	using Base = IMatrixQuery<T,ET>;
 public:
-	MatrixQuery(){}
+	MatrixQuery(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)}{}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<typename Base::ElementType>& cat) const
 	{
@@ -69,12 +73,12 @@ private:
 	};
 };
 
-template<typename T>
-class MatrixColQuery: public IMatrixQuery<T> 
+template<typename T, typename ET = T::ElementType>
+class MatrixColQuery: public IMatrixQuery<T,ET> 
 {
-	using Base = IMatrixQuery<T>;
+	using Base = IMatrixQuery<T,ET>;
 public:
-	MatrixColQuery(size_t c): col{c} {}
+	MatrixColQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
 private:
 	size_t col;
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<typename Base::ElementType>& cat) const
