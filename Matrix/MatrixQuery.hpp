@@ -45,7 +45,7 @@ protected:
 	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
 private:
 	std::unique_ptr<CategoryType> cat;
-	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, const IMatrixCategory<ElementType>& cat) const = 0;
+	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const = 0;
 	template<size_t N>
 	decltype(auto) copy(std::array<size_t,N> arr) const
 	{
@@ -64,7 +64,7 @@ class MatrixQuery:public IMatrixQuery<T,ET>
 public:
 	MatrixQuery(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)}{}
 private:
-	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<typename Base::ElementType>& cat) const
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
 	{
     	for(int i = 0; i < row.size(); ++i)
 			if(cat(*row[i]))
@@ -80,7 +80,7 @@ public:
 	MatrixColQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
 private:
 	size_t col;
-	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<typename Base::ElementType>& cat) const
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
 	{
 		if(cat(*row[col]))
         	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
