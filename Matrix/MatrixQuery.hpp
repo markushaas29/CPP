@@ -23,27 +23,7 @@ public:
 	using ElementType = T::ElementType;
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	MatrixType operator()(MatrixType* matrix, size_t i, const IMatrixCategory<ElementType>& cat) const 
-	{
-		if constexpr (MatrixType::Order==2)
-        {
-    	    typename MatrixType::IsT<Throwing>(Format("Index: ",i ," exceeds extents!"))(i<matrix->Cols());
-    	    std::vector<typename MatrixType::DataType> result;
-    	    std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
-
-    	    for(int j = 0; j < matrix->Rows(); ++j)
-    	    {
-    	        auto row = matrix->row(j);
-				if(cat(*row[i]))
-    	        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
-    	    }
-
-
-    	    e[0] = result.size() / matrix->Cols();
-    	    
-			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
-        }
-	}
+	
 	template<typename CT>
 	MatrixType operator()( MatrixType* matrix, const IMatrixCategory<CT>& cat) const
 	{
@@ -86,5 +66,20 @@ private:
     	for(int i = 0; i < row.size(); ++i)
 			if(cat(*row[i]))
     			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+	};
+};
+
+template<typename T>
+class MatrixColQuery: public IMatrixQuery<T> 
+{
+	using Base = IMatrixQuery<T>;
+public:
+	MatrixColQuery(size_t c): col{c} {}
+private:
+	size_t col;
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<typename Base::ElementType>& cat) const
+	{
+		if(cat(*row[col]))
+        	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 	};
 };
