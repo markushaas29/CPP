@@ -66,7 +66,6 @@ public:
 	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
-	decltype(auto) Cat(IMatrixCategory<ElementType>& cat) { return (*query)(this,cat); }
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
@@ -74,6 +73,7 @@ public:
 	decltype(auto) Rows(auto... i) const { return access->rows(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 	decltype(auto) Rows(std::array<size_t,2> span) const { return access->sub(span, std::array<size_t,2>{0, Cols()-1 }, this); }
 	decltype(auto) M(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
+	decltype(auto) M(IMatrixCategory<ElementType>& cat) { return (*query)(this,cat); }
 	decltype(auto) Slices(std::vector<size_t> rows, std::vector<size_t> cols) const { return access->slices(rows,cols, this); }
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }

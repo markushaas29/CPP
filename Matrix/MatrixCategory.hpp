@@ -6,6 +6,7 @@
 #include "MatrixElement.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
+#include "../String/String_.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
@@ -50,7 +51,7 @@ public:
 
 	ContainCat(typename Base::ElementType e): element(e) {}
 	
-	virtual bool operator()(const Base::ElementType& e) const { return String_Contains(e,element); };
+	virtual bool operator()(const Base::ElementType& e) const { return String_::Contains(e,element); };
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,LiteralType>;
