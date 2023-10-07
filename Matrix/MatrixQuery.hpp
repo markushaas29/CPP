@@ -53,10 +53,7 @@ public:
 
     	    for(int j = 0; j < matrix->Rows(); ++j)
     	    {
-    	        auto row = matrix->row(j);
-    	    	for(int i = 0; i < row.size(); ++i)
-					if(cat(*row[i]))
-    	        		std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+    	        exec(result, matrix->row(j), cat);
     	    }
 
 
@@ -66,7 +63,7 @@ public:
         }
 	}
 private:
-	virtual std::vector<typename MatrixType::DataType> exec(std::vector<typename MatrixType::DataType> v) = 0;
+	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, const IMatrixCategory<ElementType>& cat) const = 0;
 	template<size_t N>
 	decltype(auto) copy(std::array<size_t,N> arr) const
 	{
@@ -85,8 +82,10 @@ class MatrixQuery:public IMatrixQuery<T>
 public:
 	MatrixQuery(){}
 private:
-	virtual std::vector<typename Base::MatrixType::DataType> exec(std::vector<typename Base::MatrixType::DataType> v)
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<typename Base::ElementType>& cat) const
 	{
-		return std::vector<typename Base::MatrixType::DataType>();
+    	for(int i = 0; i < row.size(); ++i)
+			if(cat(*row[i]))
+    			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 	};
 };
