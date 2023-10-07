@@ -81,10 +81,18 @@ class MatrixAnalyzerTest
 			assert(fr.Rows()==2);
 
 			auto mq = MatrixQuery<M2>();
+			auto mcq1 = MatrixColQuery<M2>(1);
+			auto mcq2 = MatrixColQuery<M2>(2);
 			auto mqs = MatrixQuery<M2M>();
+			
 			auto cr = m33.M(mq, eq);
 			assert(cr.Rows()==2);
 
+			cr = m33.M(mcq1, eq);
+			assert(cr.Rows()==0);
+			cr = m33.M(mcq2, eq);
+			assert(cr.Rows()==2);
+			
 			auto mA33 = m33 + m33;
 			assert((int)mA33[0][0]==6);
 			//auto M6 = mA33.M(eq6);
