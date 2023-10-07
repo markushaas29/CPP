@@ -26,7 +26,7 @@ public:
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
 	template<typename CT>
-	MatrixType operator()( MatrixType* matrix, const IMatrixCategory<CT>& cat) const
+	MatrixType operator()( MatrixType* matrix, const IMatrixCategory<CT>& c) const
 	{
 		if constexpr (MatrixType::Order==2)
         {
@@ -34,7 +34,7 @@ public:
     	    std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
 
     	    for(int j = 0; j < matrix->Rows(); ++j)
-    	        exec(result, matrix->row(j), cat);
+    	        exec(result, matrix->row(j), *cat);
 
 
     	    e[0] = result.size() / matrix->Cols();
