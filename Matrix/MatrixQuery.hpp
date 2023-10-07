@@ -44,7 +44,8 @@ public:
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
         }
 	}
-	 MatrixType operator()( MatrixType* matrix, const IMatrixCategory< ElementType>& cat) const
+	template<typename CT>
+	MatrixType operator()( MatrixType* matrix, const IMatrixCategory<CT>& cat) const
 	{
 		if constexpr (MatrixType::Order==2)
         {
@@ -52,9 +53,7 @@ public:
     	    std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
 
     	    for(int j = 0; j < matrix->Rows(); ++j)
-    	    {
     	        exec(result, matrix->row(j), cat);
-    	    }
 
 
     	    e[0] = result.size() / matrix->Cols();

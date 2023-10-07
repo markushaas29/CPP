@@ -72,6 +72,7 @@ class MatrixAnalyzerTest
 			(*strat[1])(m23);
 
 			EquivalenceCat<int> eq(5);
+			EquivalenceCat<int> eq6(6);
 			assert(eq(5));
 			assert(!eq(4));
 
@@ -81,6 +82,11 @@ class MatrixAnalyzerTest
 
 			auto cr = m33.M(eq);
 			assert(cr.Rows()==2);
+
+			auto mA33 = m33 + m33;
+			assert((int)mA33[0][0]==6);
+			//auto M6 = mA33.M(eq6);
+			//assert(M6.Rows()==1);
 			
 			EquivalenceCat<int> eq15(15);
 			cr = m33.M(eq15);
