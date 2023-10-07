@@ -85,12 +85,12 @@ class MatrixAnalyzerTest
 			auto mcq1 = MatrixColQuery<M2>(1,std::make_unique<EquivalenceCat<int>>(5));
 			auto mcq2 = MatrixColQuery<M2>(2,std::make_unique<EquivalenceCat<int>>(5));
 			
-			auto cr = m33.M(mq, eq);
+			auto cr = m33.M(mq);
 			assert(cr.Rows()==2);
 
-			cr = m33.M(mcq1, eq);
+			cr = m33.M(mcq1);
 			assert(cr.Rows()==0);
-			cr = m33.M(mcq2, eq);
+			cr = m33.M(mcq2);
 			assert(cr.Rows()==2);
 			
 			auto mA33 = m33 + m33;
@@ -100,18 +100,18 @@ class MatrixAnalyzerTest
 			
 			auto mq15 = MatrixQuery<M2>(std::make_unique<EquivalenceCat<int>>(15));
 			EquivalenceCat<int> eq15(15);
-			cr = m33.M(mq15,eq15);
+			cr = m33.M(mq15);
 			assert(cr.Rows()==1);
 
 			EquivalenceCat<std::string> eqIB("DE56600501017402051588");
 			auto peqS = std::make_unique<EquivalenceCat<std::string>>("DE56600501017402051588");
 			auto mqs = MatrixQuery<M2M>(std::move(peqS));
-			auto ib = m22.M(mqs, eqIB);
+			auto ib = m22.M(mqs);
 			
 			ContainCat<std::string> eqR("Proper");
 			auto peqS2 = std::make_unique<ContainCat<std::string>>("Proper");
 			auto mqs2 = MatrixQuery<M2M>(std::move(peqS2));
-			ib = m22.M(mqs2,eqR);
+			ib = m22.M(mqs2);
 			
 			std::cout<<"END"<<ib<<std::endl;
 

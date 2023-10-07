@@ -25,8 +25,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 
-	template<typename CT>
-	MatrixType operator()( MatrixType* matrix, const IMatrixCategory<CT>& c) const
+	MatrixType operator()( MatrixType* matrix) const
 	{
 		if constexpr (MatrixType::Order==2)
         {
