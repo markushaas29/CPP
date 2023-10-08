@@ -22,8 +22,8 @@ public:
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	using CategoryType = IMatrixCategory<ET>;
-	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+	inline static constexpr const char TypeIdentifier[] = "IMatrixQuery";
+    inline static constexpr Literal TypeId{TypeIdentifier};
 
 	MatrixType operator()( MatrixType* matrix) const
 	{
@@ -53,8 +53,9 @@ private:
 		std::copy(arr.begin(), arr.end(), res.begin());
 		return res;
 	}
-	template<typename U> using IsT =  Is<U,LiteralType>;
-	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& me) { return s;  }
+	template<typename U> using IsT =  Is<U,TypeId>;
+	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& mq) { return mq.display(s);  }
+	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
 template<typename T, typename ET = T::ElementType>
@@ -62,6 +63,8 @@ class MatrixQuery:public IMatrixQuery<T,ET>
 {
 	using Base = IMatrixQuery<T,ET>;
 public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
+    inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixQuery(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)}{}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
@@ -70,6 +73,7 @@ private:
 			if(cat(*row[i]))
     			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 	};
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };
 
 template<typename T, typename ET = T::ElementType>
@@ -77,6 +81,8 @@ class MatrixColQuery: public IMatrixQuery<T,ET>
 {
 	using Base = IMatrixQuery<T,ET>;
 public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixColQuery";
+    inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixColQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
 private:
 	size_t col;
@@ -85,4 +91,5 @@ private:
 		if(cat(*row[col]))
         	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 	};
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };
