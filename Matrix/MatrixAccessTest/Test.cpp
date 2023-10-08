@@ -71,7 +71,10 @@ class MatrixAccessTest
 				{std::string("1"),std::string("2")} ,
 				{std::string("5"),std::string("6")} 
 		    };
-	
+
+			auto msq = ms1.To<Quantity<Area>>();
+			assert(Quantity<Area>(2)==msq[1]);
+
 			bool isthrow = false;
 			auto c34 = m35.Cols(3,4);
 			assert((int)c34[0][1]==5);
