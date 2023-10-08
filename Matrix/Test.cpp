@@ -42,8 +42,8 @@ int main()
 	assert(ms254.Rows()==5);
 	assert(ms254.Cols()==4);
 	assert(ms254.Size()==20);
-	std::cout<<M3::LiteralType<<std::endl;
-	std::cout<<M1::LiteralType<<std::endl;
+	std::cout<<M3::TypeId<<std::endl;
+	std::cout<<M1::TypeId<<std::endl;
 
 	M1 m1{
 		{1,2,3,4,5}	

@@ -30,7 +30,7 @@ class Matrix
 {
 public:
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
-	inline static constexpr Literal LiteralType{TypeIdentifier};
+	inline static constexpr Literal TypeId{TypeIdentifier};
 	static constexpr size_t Order = N;
 	using Type = Matrix<N,DT>;
 	using DescriptorType = DT;
@@ -99,7 +99,7 @@ public:
   	template<size_t N2, typename D2>
   	decltype(auto) operator/(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::divide(*this,m);	}
 private:
-	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename U> using IsT =  Is<U,TypeId>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;
 	using MI = MatrixImpl<N,DescriptorType>;
 	
