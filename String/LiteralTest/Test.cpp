@@ -15,6 +15,14 @@ int main()
 	std::cout<<L.Ptr()<<std::endl;
 	std::cout<<L2.Ptr()<<std::endl;
 
+	assert("Main"==L);
+	assert(L=="Main");
+
+	std::string m2("Main2");
+	assert(m2==L2);
+	assert(L2==m2);
+	//assert(L2==L2);
+
 	std::cout<<"END"<<std::endl;
 
     return 0;
