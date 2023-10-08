@@ -14,7 +14,6 @@ struct Literal
 	const std::array<char,N> Value;
 	constexpr decltype(auto) Ptr() const { return Value.data(); };
 	constexpr bool operator==(const std::string& s) const{ return s == std::string(Value.data()); };
-	constexpr bool operator==(Literal l) const{ return std::string(l.Value.data()) == std::string(Value.data()); };
 	friend std::ostream& operator<<(std::ostream& s, const Literal& l) 
 	{ 
 		std::copy(l.Value.cbegin(), l.Value.cend(), std::ostream_iterator<char>(s, ""));
