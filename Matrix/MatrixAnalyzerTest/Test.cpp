@@ -99,6 +99,7 @@ class MatrixAnalyzerTest
 			auto mAq = MatrixQuery<decltype(mA33),int>(std::make_unique<EquivalenceCat<int>>(6));
 			auto M6 = mA33.M(mAq);
 			std::cout<<"ADD"<<M6<<std::endl;
+			std::cout<<"EQ"<<eq<<std::endl;
 			assert(M6.Rows()==1);
 			
 			auto mq15 = MatrixQuery<M2>(std::make_unique<EquivalenceCat<int>>(15));

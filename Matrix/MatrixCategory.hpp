@@ -22,6 +22,9 @@ class IMatrixCategory
 public:
 	using ElementType = T;
 	virtual bool operator()(const T& e) const = 0;
+private:
+	friend std::ostream& operator<<(std::ostream& s, const IMatrixCategory& me) { return me.display(s);  }
+	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
 template<typename T>
@@ -33,12 +36,11 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	EquivalenceCat(typename Base::ElementType e): element(e) {}
-	
 	virtual bool operator()(const Base::ElementType& e) const { return e==element; };
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };
 
 template<typename T>
@@ -50,11 +52,9 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	ContainCat(typename Base::ElementType e): element(e) {}
-	
 	virtual bool operator()(const Base::ElementType& e) const { return String_::Contains(e,element); };
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };
-
