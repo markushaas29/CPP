@@ -29,15 +29,15 @@ class EquivalenceCat : public IMatrixCategory<T>
 {
 	using Base = IMatrixCategory<T>;
 public:
-	inline static constexpr const char TypeIdentifier[] = "MatrixCategory";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+	inline static constexpr const char TypeIdentifier[] = "Equivalence";
+    inline static constexpr Literal TypeId{TypeIdentifier};
 
 	EquivalenceCat(typename Base::ElementType e): element(e) {}
 	
 	virtual bool operator()(const Base::ElementType& e) const { return e==element; };
 private:
 	Base::ElementType element;
-	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename U> using IsT =  Is<U,TypeId>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
 };
 
@@ -46,15 +46,15 @@ class ContainCat : public IMatrixCategory<T>
 {
 	using Base = IMatrixCategory<T>;
 public:
-	inline static constexpr const char TypeIdentifier[] = "MatrixCategory";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+	inline static constexpr const char TypeIdentifier[] = "Contain";
+    inline static constexpr Literal TypeId{TypeIdentifier};
 
 	ContainCat(typename Base::ElementType e): element(e) {}
 	
 	virtual bool operator()(const Base::ElementType& e) const { return String_::Contains(e,element); };
 private:
 	Base::ElementType element;
-	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename U> using IsT =  Is<U,TypeId>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
 };
 

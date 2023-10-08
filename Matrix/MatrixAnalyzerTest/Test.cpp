@@ -75,6 +75,7 @@ class MatrixAnalyzerTest
 			auto peq = std::make_unique<EquivalenceCat<int>>(5);
 			EquivalenceCat<int> eq6(6);
 			assert(eq(5));
+			assert(decltype(eq)::TypeId=="Equivalence");
 			assert(!eq(4));
 
 			MatrixFilter<M2> filter(m33);
@@ -111,6 +112,7 @@ class MatrixAnalyzerTest
 			auto ib = m22.M(mqs);
 			
 			ContainCat<std::string> eqR("Proper");
+			assert(decltype(eqR)::TypeId=="Contain");
 			auto peqS2 = std::make_unique<ContainCat<std::string>>("Proper");
 			auto mqs2 = MatrixQuery<M2M>(std::move(peqS2));
 			ib = m22.M(mqs2);
