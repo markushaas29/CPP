@@ -30,7 +30,7 @@ class UnaryMatrixStrategy : public IMatrixStrategy<T>
 	using Base = IMatrixStrategy<T>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixStrategy";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+    inline static constexpr Literal TypeId{TypeIdentifier};
 
 	UnaryMatrixStrategy(typename Base::ElementType e): matrix(e) {}
 	
@@ -78,7 +78,7 @@ public:
 	//}
 private:
 	Base::ElementType matrix;
-	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename U> using IsT =  Is<U,TypeId>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
 };
 
@@ -88,12 +88,12 @@ class BinaryMatrixStrategy : public IMatrixStrategy<T>
 	using Base = IMatrixStrategy<T>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixStrategy";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+    inline static constexpr Literal TypeId{TypeIdentifier};
 
 	BinaryMatrixStrategy(std::vector<typename Base::ElementType> e): matrix(e) {}
 	
 	virtual Base::MatrixType operator()(const Base::MatrixType& m) { std::cout<<"Bin"<<std::endl; return typename Base::MatrixType(); };
 private:
 	std::vector<typename Base::ElementType> matrix;
-	template<typename U> using IsT =  Is<U,LiteralType>;
+	template<typename U> using IsT =  Is<U,TypeId>;
 };

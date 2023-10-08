@@ -77,6 +77,9 @@ class MatrixAnalyzerTest
 			EquivalenceCat<int> eq6(6);
 			assert(eq(5));
 			assert(decltype(eq)::TypeId=="Equivalence");
+			auto s1 = std::string("Equivalence");
+			auto s2 = std::string("");
+			Create(m22,s1,s2);
 			assert(!eq(4));
 
 			MatrixFilter<M2> filter(m33);
