@@ -27,16 +27,27 @@ public:
 
 	MatrixType operator()( MatrixType* matrix) const
 	{
+		std::vector<typename MatrixType::DataType> result;
+    	std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
+		
 		if constexpr (MatrixType::Order==2)
         {
-    	    std::vector<typename MatrixType::DataType> result;
-    	    std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
-
     	    for(int j = 0; j < matrix->Rows(); ++j)
     	        exec(result, matrix->row(j), *cat);
 
 
     	    e[0] = result.size() / matrix->Cols();
+    	    
+			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
+        }
+		if constexpr (MatrixType::Order==1)
+        {
+    	    for(int j = 0; j < matrix->Rows(); ++j)
+    	        if((*cat)(*(*matrix)(j)))
+					result.push_back((*matrix)(j));
+
+
+    	    e[0] = result.size();
     	    
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
         }

@@ -37,6 +37,9 @@ class MatrixAnalyzerTest
 			using M2M = Matrix<2,MS2>;
 			using M1 = Matrix<1>;
 			
+			M1 m3 {
+            	{3, 4, 5},
+            };
 			M2 m33 {
             	{3, 4, 5},
                 {8, 9, 5},
@@ -88,11 +91,23 @@ class MatrixAnalyzerTest
 
 			auto mq = MatrixQuery<M2>(std::move(peq));
 			auto mcq1 = MatrixColQuery<M2>(1,std::make_unique<EquivalenceCat<int>>(5));
+			auto m1q5 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(5));
+			auto mc1q5 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(5));
+			auto m1q6 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(6));
 			auto mcq2 = MatrixColQuery<M2>(2,std::make_unique<EquivalenceCat<int>>(5));
 			
 			auto cr = m33.M(mq);
 			assert(cr.Rows()==2);
 
+			auto cr1 = m3.M(m1q5);
+			assert(cr1.Rows()==1);
+			
+			auto ccr1 = m3.M(mc1q5);
+			assert(ccr1.Rows()==1);
+			
+			auto cr6 = m3.M(m1q6);
+			assert(cr6.Rows()==0);
+			
 			cr = m33.M(mcq1);
 			assert(cr.Rows()==0);
 			cr = m33.M(mcq2);
