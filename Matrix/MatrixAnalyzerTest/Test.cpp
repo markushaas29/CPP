@@ -79,7 +79,7 @@ class MatrixAnalyzerTest
 			assert(decltype(eq)::TypeId=="Equivalence");
 			auto s1 = std::string("Equivalence");
 			auto s2 = std::string("");
-			Create(m22,s1,s2);
+			//Create(m22,s1,s2);
 			assert(!eq(4));
 
 			MatrixFilter<M2> filter(m33);
@@ -122,6 +122,8 @@ class MatrixAnalyzerTest
 			auto mqs2 = MatrixQuery<M2M>(std::move(peqS2));
 			ib = m22.M(mqs2);
 			
+			std::cout<<"EQ "<<eq<<std::endl;
+			std::cout<<"MQ "<<mq<<std::endl;
 			std::cout<<"END"<<ib<<std::endl;
 
 			return 0;

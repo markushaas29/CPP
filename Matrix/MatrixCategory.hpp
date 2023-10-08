@@ -40,7 +40,7 @@ public:
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId<<": "<<element; }
 };
 
 template<typename T>
@@ -56,5 +56,5 @@ public:
 private:
 	Base::ElementType element;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId<<": "<<element; };
 };

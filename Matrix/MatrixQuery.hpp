@@ -54,7 +54,7 @@ private:
 		return res;
 	}
 	template<typename U> using IsT =  Is<U,TypeId>;
-	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& mq) { return mq.display(s);  }
+	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& mq) { return mq.display(s)<<": ["<<(*mq.cat)<<"]";  }
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 

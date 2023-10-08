@@ -73,6 +73,7 @@ class MatrixAccessTest
 		    };
 
 			auto msq = ms1.To<Quantity<Area>>();
+			std::cout<<"msq"<<msq<<std::endl;
 			assert(Quantity<Area>(2)==msq[1]);
 
 			bool isthrow = false;
