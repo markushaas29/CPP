@@ -68,7 +68,14 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	MultiCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)) {}
-	virtual bool operator()(const Base::ElementType& e) const { return true; };
+	virtual bool operator()(const Base::ElementType& e) const 
+	{ 
+		for(auto i = 0; i < elements->size(); ++i)
+			if((*(elements->at(i)))(e))
+				return true; 
+
+		return false;
+	};
 	decltype(auto) Size() const { return elements->size(); };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;

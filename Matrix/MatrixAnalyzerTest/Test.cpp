@@ -92,6 +92,9 @@ class MatrixAnalyzerTest
 
 			MultiCat<int> mc(std::move(vc));
 			assert(mc.Size()==2);
+			assert(mc(5));
+			assert(mc(8));
+			assert(!mc(12));
 
 			MatrixFilter<M2> filter(m33);
 			auto fr = filter(2,eq);
