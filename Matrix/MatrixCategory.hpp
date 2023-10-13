@@ -58,3 +58,25 @@ private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId<<": "<<element; };
 };
+
+template<typename T>
+class MultiCat : public IMatrixCategory<T>
+{
+	using Base = IMatrixCategory<T>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "Multi";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+
+	MultiCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)) {}
+	virtual bool operator()(const Base::ElementType& e) const { return true; };
+	decltype(auto) Size() const { return elements->size(); };
+private:
+	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;
+	template<typename U> using IsT =  Is<U,TypeId>;
+	virtual std::ostream& display(std::ostream& s) const 
+	{ 
+		s<<TypeId<<": "; 
+		std::for_each(elements->cbegin(), elements->cend(), [&s](auto &e) { s<<*e; });
+		return s;
+	}
+};

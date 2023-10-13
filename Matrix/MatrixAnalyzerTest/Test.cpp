@@ -77,6 +77,11 @@ class MatrixAnalyzerTest
 
 			EquivalenceCat<int> eq(5);
 			auto peq = std::make_unique<EquivalenceCat<int>>(5);
+			auto peq5 = std::make_unique<EquivalenceCat<int>>(5);
+			auto peq8 = std::make_unique<EquivalenceCat<int>>(8);
+			auto vc =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
+			vc->push_back(std::move(peq5));
+			vc->push_back(std::move(peq8));
 			EquivalenceCat<int> eq6(6);
 			assert(eq(5));
 			assert(decltype(eq)::TypeId=="Equivalence");
@@ -84,6 +89,9 @@ class MatrixAnalyzerTest
 			auto s2 = std::string("");
 			//Create(m22,s1,s2);
 			assert(!eq(4));
+
+			MultiCat<int> mc(std::move(vc));
+			assert(mc.Size()==2);
 
 			MatrixFilter<M2> filter(m33);
 			auto fr = filter(2,eq);

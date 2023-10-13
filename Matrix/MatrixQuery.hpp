@@ -88,6 +88,24 @@ private:
 };
 
 template<typename T, typename ET = T::ElementType>
+class MatrixRowQuery: public IMatrixQuery<T,ET> 
+{
+	using Base = IMatrixQuery<T,ET>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+	MatrixRowQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
+private:
+	size_t col;
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
+	{
+    	for(int i = 0; i < row.size(); ++i)
+			if(cat(*row[i]))
+    			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+	};
+	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
+};
+template<typename T, typename ET = T::ElementType>
 class MatrixColQuery: public IMatrixQuery<T,ET> 
 {
 	using Base = IMatrixQuery<T,ET>;
