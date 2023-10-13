@@ -47,6 +47,7 @@ class MatrixAnalyzerTest
             };
 
 			std::vector<int> v1{1,2,3,4};
+			std::vector<int> v1e{1,1,1,1};
 			std::vector<std::vector<int>> v2{{1,2,3},{4,5,6}};
 			std::vector<std::vector<std::vector<int>>> v3{{{1},{2}},{{3},{4}}};
 			std::vector<std::vector<std::vector<int>>> v33{{{1,1,1},{2,2,2}},{{3,3,3},{4,4,4}},{{3,3,3},{4,4,4}}};
@@ -107,6 +108,17 @@ class MatrixAnalyzerTest
 			auto m1q6 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(6));
 			auto mcq2 = MatrixColQuery<M2>(2,std::make_unique<EquivalenceCat<int>>(5));
 			
+			auto peq3 = std::make_unique<EquivalenceCat<int>>(3);
+			auto peq4 = std::make_unique<EquivalenceCat<int>>(4);
+			auto vc34 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
+			vc34->push_back(std::move(peq3));
+			vc34->push_back(std::move(peq4));
+			//MultiCat<int> mc34(std::move(vc34));
+			std::unique_ptr<MultiCat<int>> pmc34 = std::unique_ptr<MultiCat<int>>( new MultiCat<int>(std::move(vc34)));
+			auto mrq2 = MatrixRowQuery<M2>(std::move(pmc34));
+
+			auto mm2 = m33.M(mrq2);
+
 			auto cr = m33.M(mq);
 			assert(cr.Rows()==2);
 
@@ -150,6 +162,7 @@ class MatrixAnalyzerTest
 			
 			std::cout<<"EQ "<<eq<<std::endl;
 			std::cout<<"MQ "<<mq<<std::endl;
+			std::cout<<"MMULT "<<mm2<<std::endl;
 			std::cout<<"END"<<ib<<std::endl;
 
 			return 0;

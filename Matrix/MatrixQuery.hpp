@@ -94,14 +94,16 @@ class MatrixRowQuery: public IMatrixQuery<T,ET>
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
-	MatrixRowQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
+	MatrixRowQuery(std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)} {}
 private:
-	size_t col;
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
 	{
     	for(int i = 0; i < row.size(); ++i)
 			if(cat(*row[i]))
+			{
     			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+				break;
+			}
 	};
 	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };
