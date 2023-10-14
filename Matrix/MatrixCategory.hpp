@@ -28,6 +28,14 @@ private:
 };
 
 template<typename T>
+class IMatrixStateCategory: public IMatrixCategory<T> 
+{
+public:
+	virtual bool operator()() const = 0;
+	virtual void Reset() = 0;
+};
+
+template<typename T>
 class EquivalenceCat : public IMatrixCategory<T>
 {
 	using Base = IMatrixCategory<T>;
@@ -89,7 +97,7 @@ private:
 };
 
 template<typename T>
-class MultiStateCat : public IMatrixCategory<T>
+class MultiStateCat : public IMatrixStateCategory<T>
 {
 	using Base = IMatrixCategory<T>;
 public:
@@ -105,6 +113,8 @@ public:
 
 		return false;
 	};
+	virtual bool operator()() const { return all_of(states->begin(), states->end(), [] (size_t i) {return i > 0;}); };
+	virtual void Reset() {};
 	decltype(auto) Size() const { return elements->size(); };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;

@@ -104,7 +104,7 @@ class MatrixAnalyzerTest
 			vsc->push_back(std::move(peq14));
 
 			MultiStateCat<int> msc(std::move(vsc));
-			assert(mc.Size()==2);
+			assert(msc.Size()==2);
 			assert(mc(5));
 			assert(mc(8));
 			assert(!mc(12));
