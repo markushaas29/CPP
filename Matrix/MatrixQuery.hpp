@@ -11,6 +11,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../Common/UniqueCast.hpp"
 
 #pragma once
 
@@ -56,7 +57,7 @@ protected:
 	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
 private:
 	std::unique_ptr<CategoryType> cat;
-	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const = 0;
+	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
 	template<size_t N>
 	decltype(auto) copy(std::array<size_t,N> arr) const
 	{
@@ -78,7 +79,7 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixQuery(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)}{}
 private:
-	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
     	for(int i = 0; i < row.size(); ++i)
 			if(cat(*row[i]))
@@ -96,7 +97,7 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixRowQuery(std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)} {}
 private:
-	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
     	for(int i = 0; i < row.size(); ++i)
 			if(cat(*row[i]))
@@ -104,9 +105,13 @@ private:
     			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 				break;
 			}
+
+		if(IMatrixStateCategory<ET>* result = dynamic_cast<IMatrixStateCategory<ET>*>(&cat))
+			std::cout<<"STATE"<<std::endl;
 	};
 	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };
+
 template<typename T, typename ET = T::ElementType>
 class MatrixColQuery: public IMatrixQuery<T,ET> 
 {
@@ -117,7 +122,7 @@ public:
 	MatrixColQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
 private:
 	size_t col;
-	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, const IMatrixCategory<ET>& cat) const
+	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
 		if(cat(*row[col]))
         	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
