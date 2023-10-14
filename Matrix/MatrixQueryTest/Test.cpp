@@ -12,6 +12,7 @@
 #include "../MatrixFilters.hpp"
 #include "../MatrixStrategy.hpp"
 #include "../MatrixCategory.hpp"
+#include "../MatrixMultiCategory.hpp"
 #include "../Factory.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
@@ -138,16 +139,16 @@ class MatrixQueryTest
 		
 			peq3 = std::make_unique<EquivalenceCat<int>>(3);
 			peq5 = std::make_unique<EquivalenceCat<int>>(5);
-			auto v3_5 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
-			v3_5->push_back(std::move(peq3));
-			v3_5->push_back(std::move(peq5));
-			std::unique_ptr<MultiStateCat<int>> pms3_5 = std::unique_ptr<MultiStateCat<int>>( new MultiStateCat<int>(std::move(v3_5)));
-			auto mrq3_5 = MatrixRowQuery<M2>(std::move(pms3_5));
-			auto m3_5 = m33.M(mrq3_5);
-			std::cout<<"ADD"<<m3_5<<std::endl;
-			assert(m3_5.Rows()==1);
-			assert(m3_5[0][2].To<int>()==5);
-			assert(m3_5[0][0].To<int>()==3);
+			auto v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
+			v10->push_back(std::move(peq3));
+			v10->push_back(std::move(peq5));
+			std::unique_ptr<MultiStateCat<int>> pms10 = std::unique_ptr<MultiStateCat<int>>( new MultiStateCat<int>(std::move(v10)));
+			auto mrq10 = MatrixRowQuery<M2>(std::move(pms10));
+			auto m10 = m33.M(mrq10);
+			std::cout<<"ADD"<<m10<<std::endl;
+			assert(m10.Rows()==1);
+			assert(m10[0][2].To<int>()==5);
+			assert(m10[0][0].To<int>()==3);
 			
 			auto mm2 = m33.M(mrq2);
 
@@ -175,6 +176,16 @@ class MatrixQueryTest
 			std::cout<<"EQ"<<eq<<std::endl;
 			assert(M6.Rows()==1);
 			
+//			auto peq10 = std::make_unique<EquivalenceCat<int>>(10);
+//			v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
+//			v10->push_back(std::move(peq10));
+//			auto pmsA10 = std::unique_ptr<MultiStateCat<decltype(mA33)>>( new MultiStateCat<decltype(mA33)>(std::move(v10)));
+//			mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));
+//			m10 = mA33.M(mrq10);
+//			std::cout<<"ADD"<<m10<<std::endl;
+//			assert(m10.Rows()==1);
+//			assert(m10[0][2].To<int>()==5);
+//			assert(m10[0][0].To<int>()==3);
 			auto mq15 = MatrixQuery<M2>(std::make_unique<EquivalenceCat<int>>(15));
 			EquivalenceCat<int> eq15(15);
 			cr = m33.M(mq15);
