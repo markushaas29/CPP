@@ -87,3 +87,33 @@ private:
 		return s;
 	}
 };
+
+template<typename T>
+class MultiStateCat : public IMatrixCategory<T>
+{
+	using Base = IMatrixCategory<T>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "Multi";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+
+	MultiStateCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)), states{std::make_unique<std::vector<size_t>>(e->size(),0)} {}
+	virtual bool operator()(const Base::ElementType& e) const 
+	{ 
+		for(auto i = 0; i < elements->size(); ++i)
+			if((*(elements->at(i)))(e))
+				return true; 
+
+		return false;
+	};
+	decltype(auto) Size() const { return elements->size(); };
+private:
+	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;
+	std::unique_ptr<std::vector<size_t>> states;
+	template<typename U> using IsT =  Is<U,TypeId>;
+	virtual std::ostream& display(std::ostream& s) const 
+	{ 
+		s<<TypeId<<": "; 
+		std::for_each(elements->cbegin(), elements->cend(), [&s](auto &e) { s<<*e; });
+		return s;
+	}
+};
