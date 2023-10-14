@@ -96,12 +96,12 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MultiStateCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)), states{std::make_unique<std::vector<size_t>>(e->size(),0)} {}
+	MultiStateCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)), states{std::make_unique<std::vector<size_t>>(elements->size(),0)} {}
 	virtual bool operator()(const Base::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < elements->size(); ++i)
 			if((*(elements->at(i)))(e))
-				return true; 
+				++(states->at(i)); 
 
 		return false;
 	};

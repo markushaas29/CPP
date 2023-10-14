@@ -96,6 +96,18 @@ class MatrixAnalyzerTest
 			assert(mc(5));
 			assert(mc(8));
 			assert(!mc(12));
+			
+			auto peq13 = std::make_unique<EquivalenceCat<int>>(13);
+			auto peq14 = std::make_unique<EquivalenceCat<int>>(14);
+			auto vsc =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
+			vsc->push_back(std::move(peq13));
+			vsc->push_back(std::move(peq14));
+
+			MultiStateCat<int> msc(std::move(vsc));
+			assert(mc.Size()==2);
+			assert(mc(5));
+			assert(mc(8));
+			assert(!mc(12));
 
 			MatrixFilter<M2> filter(m33);
 			auto fr = filter(2,eq);
