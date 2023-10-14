@@ -106,8 +106,12 @@ private:
 				break;
 			}
 
-		if(IMatrixStateCategory<ET>* result = dynamic_cast<IMatrixStateCategory<ET>*>(&cat))
-			std::cout<<"STATE"<<std::endl;
+		if(IMatrixStateCategory<ET>* p = dynamic_cast<IMatrixStateCategory<ET>*>(&cat))
+			if((*p)())
+			{
+    			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+				p->Reset();
+			}
 	};
 	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };

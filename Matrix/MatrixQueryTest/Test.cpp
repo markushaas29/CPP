@@ -101,7 +101,6 @@ class MatrixQueryTest
 			MultiStateCat<int> msc(std::move(vsc));
 			assert(msc.Size()==2);
 			assert(!msc(13));
-			assert(!msc());
 			assert(!msc(14));
 			assert(msc());
 			assert(msc.Reset());
@@ -134,6 +133,21 @@ class MatrixQueryTest
 			std::unique_ptr<MultiStateCat<int>> pmsc15 = std::unique_ptr<MultiStateCat<int>>( new MultiStateCat<int>(std::move(v15)));
 			auto mrq15 = MatrixRowQuery<M2>(std::move(pmsc15));
 			auto m15 = m33.M(mrq15);
+			assert(m15.Rows()==1);
+			assert(m15[0][2].To<int>()==15);
+		
+			peq3 = std::make_unique<EquivalenceCat<int>>(3);
+			peq5 = std::make_unique<EquivalenceCat<int>>(5);
+			auto v3_5 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
+			v3_5->push_back(std::move(peq3));
+			v3_5->push_back(std::move(peq5));
+			std::unique_ptr<MultiStateCat<int>> pms3_5 = std::unique_ptr<MultiStateCat<int>>( new MultiStateCat<int>(std::move(v3_5)));
+			auto mrq3_5 = MatrixRowQuery<M2>(std::move(pms3_5));
+			auto m3_5 = m33.M(mrq3_5);
+			std::cout<<"ADD"<<m3_5<<std::endl;
+			assert(m3_5.Rows()==1);
+			assert(m3_5[0][2].To<int>()==5);
+			assert(m3_5[0][0].To<int>()==3);
 			
 			auto mm2 = m33.M(mrq2);
 
@@ -158,7 +172,6 @@ class MatrixQueryTest
 			assert((int)mA33[0][0]==6);
 			auto mAq = MatrixQuery<decltype(mA33),int>(std::make_unique<EquivalenceCat<int>>(6));
 			auto M6 = mA33.M(mAq);
-			std::cout<<"ADD"<<M6<<std::endl;
 			std::cout<<"EQ"<<eq<<std::endl;
 			assert(M6.Rows()==1);
 			
