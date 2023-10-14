@@ -32,7 +32,7 @@ class IMatrixStateCategory: public IMatrixCategory<T>
 {
 public:
 	virtual bool operator()() const = 0;
-	virtual void Reset() = 0;
+	virtual bool Reset() = 0;
 };
 
 template<typename T>
@@ -114,7 +114,11 @@ public:
 		return false;
 	};
 	virtual bool operator()() const { return all_of(states->begin(), states->end(), [] (size_t i) {return i > 0;}); };
-	virtual void Reset() {};
+	virtual bool Reset() 
+	{ 
+		states = std::make_unique<std::vector<size_t>>(elements->size(),0);
+		return true; 
+	};
 	decltype(auto) Size() const { return elements->size(); };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;

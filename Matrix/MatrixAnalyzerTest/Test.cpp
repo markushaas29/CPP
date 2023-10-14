@@ -105,9 +105,13 @@ class MatrixAnalyzerTest
 
 			MultiStateCat<int> msc(std::move(vsc));
 			assert(msc.Size()==2);
-			assert(mc(5));
-			assert(mc(8));
-			assert(!mc(12));
+			assert(!msc(13));
+			assert(!msc());
+			assert(!msc(14));
+			assert(msc());
+			assert(msc.Reset());
+			assert(!msc(13));
+			assert(!msc());
 
 			MatrixFilter<M2> filter(m33);
 			auto fr = filter(2,eq);
