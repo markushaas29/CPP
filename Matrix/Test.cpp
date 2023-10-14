@@ -11,6 +11,8 @@
 #include "MatrixElementTest/Test.cpp"
 #include "MatrixDescriptorTest/Test.cpp"
 #include "MatrixSliceAccessTest/Test.cpp"
+#include "MatrixQueryTest/Test.cpp"
+#include "MatrixAnalyzerTest/Test.cpp"
 #include "../Common/ShortNames.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -172,9 +174,13 @@ int main()
 	MatrixProjectorTest projector;
     MatrixInitializerTest init;     
     MatrixColAccessTest access;     
+    MatrixQueryTest q;     
+    MatrixAnalyzerTest a;     
     init.Run();     
     access.Run();
     projector.Run();
+	a.Run();
+	q.Run();
 
 	std::cout<<"M1 \n"<<m1<<std::endl;
 	std::cout<<"M2 \n"<<m2<<std::endl;
