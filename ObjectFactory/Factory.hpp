@@ -2,6 +2,8 @@
 #include <functional>
 #include <memory>
 #include <string_view>
+#include "../Is/Is.hpp"
+#include "../String/Format.hpp"
 
 #pragma once
 
@@ -25,21 +27,32 @@ public:
 	}
 };
 
-template<class T, class CreatorType= std::function<std::unique_ptr<T>(std::string_view)>, typename IdentifierType=std::string>
+template<class T, class CreatorType= std::function<std::unique_ptr<T>(const std::string&)>, typename IdentifierType=std::string>
 class Factory
 {
 public:
+	inline static constexpr const char TypeIdentifier[] = "Equivalence";
+   	inline static constexpr Literal TypeId{TypeIdentifier};
 	using Type = T;
 	void Register(const IdentifierType& id, CreatorType c) { creators.try_emplace(id,c); } 
+	const CreatorType& operator[](const IdentifierType& id) {	return find(id);	}
 	std::unique_ptr<Type> operator()(const IdentifierType& id, std::string_view arg) 
 	{
 		auto i = creators.find(id);
 		if(i != creators.end())
 			return (i->second)(arg); 
-		return nullptr;
+		IsT<Throwing>(Format(id));
 	}
 	decltype(auto) Size() { return creators.size(); }
 private:
+	template<typename E> using IsT =  Is<E,TypeId>;
+	const CreatorType& find(const IdentifierType& id) 
+	{
+		auto i = creators.find(id);
+		if(i == creators.end())
+			IsT<Throwing>(Format(id));
+		return (i->second); 
+	}
 	std::map<IdentifierType,CreatorType> creators;
 };
 
