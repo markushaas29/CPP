@@ -37,26 +37,24 @@ public:
 	virtual bool Reset() = 0;
 };
 
-template<typename T>
+template<typename T, typename D>
 class CategoryBase : public IMatrixCategory<T>
 {
 	using Base = IMatrixCategory<T>;
-public:
-	inline static constexpr const char TypeIdentifier[] = "Equivalence";
-    inline static constexpr Literal TypeId{TypeIdentifier};
+	using Derived = D;
 protected:
 	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>
 	CategoryBase(TT e): element(e) {}
 	CategoryBase(const std::string& s): element(To<typename Base::ElementType>(s)) {}
 	Base::ElementType element;
 private:
-	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId<<": "<<element; }
+	virtual std::ostream& display(std::ostream& s) const { return s<<Derived::TypeId<<": "<<element; }
 };
 
 template<typename T = std::string>
-class EquivalenceCat : public CategoryBase<T>
+class EquivalenceCat : public CategoryBase<T,EquivalenceCat<T>>
 {
-	using Base = CategoryBase<T>;
+	using Base = CategoryBase<T,EquivalenceCat<T>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Equivalence";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -70,9 +68,9 @@ private:
 };
 
 template<typename T = std::string>
-class ContainCat : public CategoryBase<T>
+class ContainCat : public CategoryBase<T,ContainCat<T>>
 {
-	using Base = CategoryBase<T>;
+	using Base = CategoryBase<T,ContainCat<T>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Contain";
     inline static constexpr Literal TypeId{TypeIdentifier};

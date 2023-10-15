@@ -31,18 +31,12 @@ template<class T, class CreatorType= std::function<std::unique_ptr<T>(const std:
 class Factory
 {
 public:
-	inline static constexpr const char TypeIdentifier[] = "Equivalence";
+	inline static constexpr const char TypeIdentifier[] = "Factory";
    	inline static constexpr Literal TypeId{TypeIdentifier};
 	using Type = T;
 	void Register(const IdentifierType& id, CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const IdentifierType& id) {	return find(id);	}
-	std::unique_ptr<Type> operator()(const IdentifierType& id, const std::string& arg) //{ return fin(id)();}
-	{
-		auto i = creators.find(id);
-		if(i != creators.end())
-			return (i->second)(arg); 
-		IsT<Throwing>(Format(id));
-	}
+	std::unique_ptr<Type> operator()(const IdentifierType& id, const std::string& arg) { return find(id)(arg);}
 	decltype(auto) Size() { return creators.size(); }
 private:
 	template<typename E> using IsT =  Is<E,TypeId>;
@@ -50,7 +44,7 @@ private:
 	{
 		auto i = creators.find(id);
 		if(i == creators.end())
-			IsT<Throwing>(Format(id));
+			IsT<Throwing>(Format(id))(false);
 		return (i->second); 
 	}
 	std::map<IdentifierType,CreatorType> creators;

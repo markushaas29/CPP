@@ -10,17 +10,34 @@ int main()
 	Factory<int,std::function<int*()>> fi;
 
 	std::string s;
-	//try {f(s,s); } catch(...) { }
+	try {f(s,s); } catch(...) { }
 
 	Factory<IMatrixCategory<std::string>> fm;
 	fm.Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
 	assert(fm.Size()==1);
-	fm.Register("C",[](std::string_view s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+	fm.Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
 	assert(fm.Size()==2);
 
 	auto eqp = fm["EQ"];
 	auto eq2 = eqp("2");
 	assert((*eq2)("2"));
+	
+	eq2 = fm("EQ","2");
+	assert((*eq2)("2"));
+	
+	auto cb = fm["C"]("B");
+	std::cout<<*cb<<std::endl;
+	assert((*cb)("ABC"));
+	
+	cb = fm("C","B");
+	assert((*cb)("ABC"));
+	
+	bool is = false;
+	try {fm(s,s); } catch(...) { is = true; }
+	assert(is);
+	is = false;
+
+	
 	std::cout<<"END"<<std::endl;
    
 	return 0;
