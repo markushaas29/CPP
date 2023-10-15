@@ -36,7 +36,7 @@ public:
 	using Type = T;
 	void Register(const IdentifierType& id, CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const IdentifierType& id) {	return find(id);	}
-	std::unique_ptr<Type> operator()(const IdentifierType& id, std::string_view arg) 
+	std::unique_ptr<Type> operator()(const IdentifierType& id, const std::string& arg) //{ return fin(id)();}
 	{
 		auto i = creators.find(id);
 		if(i != creators.end())
