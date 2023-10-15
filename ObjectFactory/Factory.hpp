@@ -1,6 +1,7 @@
- #include <map>
- #include <functional>
- #include <memory>
+#include <map>
+#include <functional>
+#include <memory>
+#include <string_view>
 
 #pragma once
 
@@ -24,17 +25,17 @@ public:
 	}
 };
 
-template<class T, class CreatorType= std::function<std::unique_ptr<T>()>, typename IdentifierType=std::string>
+template<class T, class CreatorType= std::function<std::unique_ptr<T>(std::string_view)>, typename IdentifierType=std::string>
 class Factory
 {
 public:
 	using Type = T;
 	bool Register(const IdentifierType& id, CreatorType c) { return creators.insert(id,c); } 
-	std::unique_ptr<Type> operator()(const IdentifierType& id) 
+	std::unique_ptr<Type> operator()(const IdentifierType& id, std::string_view arg) 
 	{
 		auto i = creators.find(id);
 		if(i != creators.end())
-			return (i->second)(); 
+			return (i->second)(arg); 
 		return nullptr;
 	} 
 private:
