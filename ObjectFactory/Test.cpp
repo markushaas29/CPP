@@ -13,6 +13,8 @@ int main()
 	f(s,"");
 
 	Factory<IMatrixCategory<std::string>> fm;
+	fm.Register("EQ",[](std::string_view s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+	assert(fm.Size()==1);
 	std::cout<<"END"<<std::endl;
    
 	return 0;

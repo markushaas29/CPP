@@ -30,14 +30,15 @@ class Factory
 {
 public:
 	using Type = T;
-	bool Register(const IdentifierType& id, CreatorType c) { return creators.insert(id,c); } 
+	void Register(const IdentifierType& id, CreatorType c) { creators.try_emplace(id,c); } 
 	std::unique_ptr<Type> operator()(const IdentifierType& id, std::string_view arg) 
 	{
 		auto i = creators.find(id);
 		if(i != creators.end())
 			return (i->second)(arg); 
 		return nullptr;
-	} 
+	}
+	decltype(auto) Size() { return creators.size(); }
 private:
 	std::map<IdentifierType,CreatorType> creators;
 };
