@@ -53,7 +53,7 @@ private:
 	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId<<": "<<element; }
 };
 
-template<typename T>
+template<typename T = std::string>
 class EquivalenceCat : public CategoryBase<T>
 {
 	using Base = CategoryBase<T>;
