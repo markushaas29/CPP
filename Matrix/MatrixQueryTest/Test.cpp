@@ -73,20 +73,29 @@ class MatrixQueryTest
 			(*strat[1])(m23);
 
 			EquivalenceCat<int> eq(5);
+			EquivalenceCat<int> eqs("5");
+			EquivalenceCat<double> eqd("7.5");
+			try{ EquivalenceCat<double> eqde("abc"); } catch(...) {};
+
 			auto peq = std::make_unique<EquivalenceCat<int>>(5);
 			auto peq5 = std::make_unique<EquivalenceCat<int>>(5);
 			auto peq8 = std::make_unique<EquivalenceCat<int>>(8);
 			auto vc =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 			vc->push_back(std::move(peq5));
 			vc->push_back(std::move(peq8));
+			
 			EquivalenceCat<int> eq6(6);
 			assert(eq(5));
+			assert(eqs(5));
+			assert(eqd(7.5));
 			assert(decltype(eq)::TypeId=="Equivalence");
 			auto s1 = std::string("Equivalence");
 			auto s2 = std::string("");
 			//Create(m22,s1,s2);
 			assert(!eq(4));
-
+			auto s6 = std::string("6");
+			ContainCat cc6(s6);
+			
 			MultiCat<int> mc(std::move(vc));
 			assert(mc.Size()==2);
 			assert(mc(5));

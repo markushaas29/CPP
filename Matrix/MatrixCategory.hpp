@@ -1,10 +1,12 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include <string_view>
 #include "MatrixConcept.hpp"
 #include "PointerConcept.hpp"
 #include "MatrixElement.hpp"
 #include "../Is/Is.hpp"
+#include "../To/To.hpp"
 #include "../String/Literal.hpp"
 #include "../String/String_.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -43,7 +45,9 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Equivalence";
     inline static constexpr Literal TypeId{TypeIdentifier};
 protected:
-	CategoryBase(typename Base::ElementType e): element(e) {}
+	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>
+	CategoryBase(TT e): element(e) {}
+	CategoryBase(const std::string& s): element(To<typename Base::ElementType>(s)) {}
 	Base::ElementType element;
 private:
 	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId<<": "<<element; }
@@ -57,13 +61,15 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Equivalence";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	EquivalenceCat(typename Base::ElementType e): Base(e) {}
+	template<typename TT, typename = typename std::enable_if<std::is_same<TT, T>::value>::type>
+	EquivalenceCat(TT e): Base(e) {}
+	EquivalenceCat(const std::string& s): Base(s) {}
 	virtual bool operator()(const Base::ElementType& e) const { return e==Base::element; };
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 };
 
-template<typename T>
+template<typename T = std::string>
 class ContainCat : public CategoryBase<T>
 {
 	using Base = CategoryBase<T>;
@@ -71,7 +77,9 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Contain";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	ContainCat(typename Base::ElementType e): Base(e) {}
+	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>
+	ContainCat(TT e): Base(e) {}
+	ContainCat(const std::string& s): Base(s) {}
 	virtual bool operator()(const Base::ElementType& e) const { return String_::Contains(e,Base::element); };
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
