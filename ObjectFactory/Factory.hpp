@@ -7,15 +7,15 @@
 
 #pragma once
 
-template<class T>
-class FactoryUnit
-{
-public:
-	using Type = T;
-	virtual T* DoCreate() = 0;
-	virtual void Test() = 0;
-	virtual ~FactoryUnit(){} 
-};
+//template<class T>
+//class FactoryUnit
+//{
+//public:
+//	using Type = T;
+//	virtual T* DoCreate() = 0;
+//	virtual void Test() = 0;
+//	virtual ~FactoryUnit(){} 
+//};
 
 template<class ConcreteProduct>
 class CreateFactoryUnitNewPolicy
@@ -25,6 +25,18 @@ public:
 	{
 		return new ConcreteProduct;
 	}
+};
+
+template<typename IdentifierType=std::string, typename ValueType=std::string>
+class FactoryUnit
+{
+public:
+	FactoryUnit(const IdentifierType& id, const ValueType& val) : identifier{id}, value{val} {}
+	decltype(auto) Value() { return value; }
+	decltype(auto) Id() { return identifier; }
+private:
+	const IdentifierType identifier;
+	const ValueType value;
 };
 
 template<class T, class CreatorType= std::function<std::unique_ptr<T>(const std::string&)>, typename IdentifierType=std::string>
