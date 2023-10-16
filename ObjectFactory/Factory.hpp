@@ -27,28 +27,37 @@ public:
 	}
 };
 
-template<typename IdentifierType=std::string, typename ValueType=std::string>
+template<typename IdentifierType=std::string, typename ArgumentType=std::string>
 class FactoryUnit
 {
 public:
-	FactoryUnit(const IdentifierType& id, const ValueType& val) : identifier{id}, value{val} {}
-	decltype(auto) Value() { return value; }
+	FactoryUnit(const IdentifierType& id, const ArgumentType& arg) : identifier{id}, argument{arg} {}
+	decltype(auto) Arg() { return argument; }
 	decltype(auto) Id() { return identifier; }
 private:
 	const IdentifierType identifier;
-	const ValueType value;
+	const ArgumentType argument;
 };
 
-template<class T, class CreatorType= std::function<std::unique_ptr<T>(const std::string&)>, typename IdentifierType=std::string>
+template<class T, typename CT = std::string, class CreatorType= std::function<std::unique_ptr<T>(const CT&)>, typename IdentifierType=std::string>
 class Factory
 {
 public:
 	inline static constexpr const char TypeIdentifier[] = "Factory";
    	inline static constexpr Literal TypeId{TypeIdentifier};
 	using Type = T;
+	using PtrType = std::unique_ptr<T>;
+	using ArgumentType = CT;
 	void Register(const IdentifierType& id, CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const IdentifierType& id) {	return find(id);	}
-	std::unique_ptr<Type> operator()(const IdentifierType& id, const std::string& arg) { return find(id)(arg);}
+	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { return find(id)(arg);}
+	decltype(auto) operator()(const std::vector<FactoryUnit<IdentifierType, ArgumentType>> units) 
+	{
+		auto result = std::make_unique<std::vector<PtrType>>();
+		for(auto u : units)
+			result->push_back((*this)(u.Id(), u.Arg()));
+		return result;
+	}
 	decltype(auto) Size() { return creators.size(); }
 private:
 	template<typename E> using IsT =  Is<E,TypeId>;

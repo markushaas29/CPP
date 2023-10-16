@@ -37,6 +37,15 @@ int main()
 	assert(is);
 	is = false;
 
+	std::vector<FactoryUnit<std::string, std::string>> units = { {"EQ", "2"}, {"C", "B"}, {"C", "A"}, {"C", "C"}};
+	auto uc = fm(units);
+	assert((*(uc->at(0)))("2"));
+	assert(!(*(uc->at(0)))("4"));
+	assert((*(uc->at(1)))("ABC"));
+	assert((*(uc->at(2)))("ABC"));
+	assert((*(uc->at(3)))("ABC"));
+	assert(!(*(uc->at(3)))("AB"));
+	
 	
 	std::cout<<"END"<<std::endl;
    
