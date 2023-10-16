@@ -58,7 +58,7 @@ private:
 };
 
 template<class T, typename CT = std::string, class CreatorType= std::function<std::unique_ptr<T>(const CT&)>, typename IdentifierType=std::string>
-class Factory
+class Factory: IFactory<T,CT,CreatorType,IdentifierType>
 {
 public:
 	inline static constexpr const char TypeIdentifier[] = "Factory";
@@ -76,7 +76,7 @@ public:
 			result->push_back((*this)(u.Id(), u.Arg()));
 		return result;
 	}
-	decltype(auto) Size() { return creators.size(); }
+	size_t Size() { return creators.size(); }
 private:
 	template<typename E> using IsT =  Is<E,TypeId>;
 	const CreatorType& find(const IdentifierType& id) 
