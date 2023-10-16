@@ -12,30 +12,23 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../ObjectFactory/Factory.hpp"
 
 #pragma once
 
 template<std::size_t, typename> class Matrix;
 
 template<typename T>
-class MultiCat : public IMatrixCategory<T>
+class MultiCategoryBase : public IMatrixCategory<T>
 {
 	using Base = IMatrixCategory<T>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MultiCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)) {}
-	virtual bool operator()(const Base::ElementType& e) const 
-	{ 
-		for(auto i = 0; i < elements->size(); ++i)
-			if((*(elements->at(i)))(e))
-				return true; 
-
-		return false;
-	};
+	MultiCategoryBase(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)) {}
 	decltype(auto) Size() const { return elements->size(); };
-private:
+protected:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	virtual std::ostream& display(std::ostream& s) const 
@@ -44,6 +37,26 @@ private:
 		std::for_each(elements->cbegin(), elements->cend(), [&s](auto &e) { s<<*e; });
 		return s;
 	}
+};
+
+template<typename T>
+class MultiCat : public MultiCategoryBase<T>
+{
+	using Base = MultiCategoryBase<T>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "Multi";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+
+	MultiCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)) {}
+	virtual bool operator()(const Base::ElementType& e) const 
+	{ 
+		for(auto i = 0; i < Base::elements->size(); ++i)
+			if((*(Base::elements->at(i)))(e))
+				return true; 
+
+		return false;
+	};
+private:
 };
 
 template<typename T>
