@@ -17,6 +17,7 @@
 #include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
+#include "../../ObjectFactory/Factory.hpp"
 using namespace ShortNames;
 
 class MatrixQueryTest
@@ -183,14 +184,23 @@ class MatrixQueryTest
 			auto M6 = mA33.M(mAq);
 			std::cout<<"EQ"<<eq<<std::endl;
 			assert(M6.Rows()==1);
-			
+		
+			std::vector<FactoryUnit<std::string, std::string>> units = { {"C", "DE12660623660000005703"}};
+		    auto pf = std::make_shared<Factory<IMatrixCategory<std::string>>>();                                                    
+		    pf->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+		    pf->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
+		    assert(pf->Size()==2);
+
+			auto cdet = (*pf)(units);
+			auto MDet = m22.M(MatrixQuery<decltype(m22),std::string>(std::move(cdet->at(0))));
+			std::cout<<"EQ"<<MDet<<std::endl;
+
 //			auto peq10 = std::make_unique<EquivalenceCat<int>>(10);
 //			v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 //			v10->push_back(std::move(peq10));
 //			auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
 //			mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));
 //			m10 = mA33.M(mrq10);
-//			std::cout<<"ADD"<<m10<<std::endl;
 //			assert(m10.Rows()==1);
 //			assert(m10[0][2].To<int>()==5);
 //			assert(m10[0][0].To<int>()==3);
