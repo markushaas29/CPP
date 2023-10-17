@@ -21,9 +21,9 @@ template<std::size_t, typename> class Matrix;
 template<typename T>
 class MultiCategoryBase 
 {
+public:
 	using Base = IMatrixCategory<T>;
 	using FactoryType = IFactory<Base>;
-public:
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
@@ -47,6 +47,7 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	MultiCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)) {}
+	MultiCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
@@ -74,6 +75,7 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	MultiStateCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)), states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)} {}
+	MultiStateCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
