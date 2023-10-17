@@ -194,7 +194,15 @@ class MatrixQueryTest
 			auto cdet = (*pf)(units);
 			auto MDet = m22.M(MatrixQuery<decltype(m22),std::string>(std::move(cdet->at(0))));
 			std::cout<<"EQ"<<MDet<<std::endl;
+			
+			std::vector<FactoryUnit<std::string, std::string>> waste = { {"EQ", "DE44600501010008017284"}};
+			auto eWaste = (*pf)(waste);
+			auto MWaste = m22.M(MatrixQuery<decltype(m22),std::string>(std::move(eWaste->at(0))));
+			assert(MWaste.Rows()==2);
 
+			auto wasteCost = MWaste.Col(11).To<Quantity<Sum>>().RowSum();
+			std::cout<<"EQ"<<wasteCost<<std::endl;
+			assert(wasteCost==Quantity<Sum>(-322));
 //			auto peq10 = std::make_unique<EquivalenceCat<int>>(10);
 //			v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 //			v10->push_back(std::move(peq10));

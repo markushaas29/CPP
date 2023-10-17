@@ -99,7 +99,7 @@ private:
 			double res = 0.0;
 			for(auto i = 0; i < l.Rows(); ++i)
 				res += (double)l[i];
-			return MatrixElement<typename LeftType::ElementType>(res);
+			return MatrixElement<typename LeftType::ElementType>(typename LeftType::ElementType(res));
 		}
 		if constexpr (LeftType::Order==2)
     	{
