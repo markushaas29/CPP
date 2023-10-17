@@ -96,7 +96,7 @@ class MatrixQueryTest
 			auto s6 = std::string("6");
 			ContainCat cc6(s6);
 			
-			MultiCat<int> mc(std::move(vc));
+			OrCat<int> mc(std::move(vc));
 			assert(mc.Size()==2);
 			assert(mc(5));
 			assert(mc(8));
@@ -108,7 +108,7 @@ class MatrixQueryTest
 			vsc->push_back(std::move(peq13));
 			vsc->push_back(std::move(peq14));
 
-			MultiStateCat<int> msc(std::move(vsc));
+			AndCat<int> msc(std::move(vsc));
 			assert(msc.Size()==2);
 			assert(!msc(13));
 			assert(!msc(14));
@@ -133,14 +133,13 @@ class MatrixQueryTest
 			auto vc34 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 			vc34->push_back(std::move(peq3));
 			vc34->push_back(std::move(peq4));
-			//MultiCat<int> mc34(std::move(vc34));
-			std::unique_ptr<MultiCat<int>> pmc34 = std::unique_ptr<MultiCat<int>>( new MultiCat<int>(std::move(vc34)));
+			std::unique_ptr<OrCat<int>> pmc34 = std::unique_ptr<OrCat<int>>( new OrCat<int>(std::move(vc34)));
 			auto mrq2 = MatrixRowQuery<M2>(std::move(pmc34));
 
 			auto peq15 = std::make_unique<EquivalenceCat<int>>(13);
 			auto v15 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 			v15->push_back(std::move(peq15));
-			std::unique_ptr<MultiStateCat<int>> pmsc15 = std::unique_ptr<MultiStateCat<int>>( new MultiStateCat<int>(std::move(v15)));
+			std::unique_ptr<AndCat<int>> pmsc15 = std::unique_ptr<AndCat<int>>( new AndCat<int>(std::move(v15)));
 			auto mrq15 = MatrixRowQuery<M2>(std::move(pmsc15));
 			auto m15 = m33.M(mrq15);
 			assert(m15.Rows()==1);
@@ -151,7 +150,7 @@ class MatrixQueryTest
 			auto v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 			v10->push_back(std::move(peq3));
 			v10->push_back(std::move(peq5));
-			std::unique_ptr<MultiStateCat<int>> pms10 = std::unique_ptr<MultiStateCat<int>>( new MultiStateCat<int>(std::move(v10)));
+			std::unique_ptr<AndCat<int>> pms10 = std::unique_ptr<AndCat<int>>( new AndCat<int>(std::move(v10)));
 			auto mrq10 = MatrixRowQuery<M2>(std::move(pms10));
 			auto m10 = m33.M(mrq10);
 			std::cout<<"ADD"<<m10<<std::endl;
@@ -188,7 +187,7 @@ class MatrixQueryTest
 //			auto peq10 = std::make_unique<EquivalenceCat<int>>(10);
 //			v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 //			v10->push_back(std::move(peq10));
-//			auto pmsA10 = std::unique_ptr<MultiStateCat<decltype(mA33)>>( new MultiStateCat<decltype(mA33)>(std::move(v10)));
+//			auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
 //			mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));
 //			m10 = mA33.M(mrq10);
 //			std::cout<<"ADD"<<m10<<std::endl;
