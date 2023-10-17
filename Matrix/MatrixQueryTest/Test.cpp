@@ -201,8 +201,23 @@ class MatrixQueryTest
 			assert(MWaste.Rows()==2);
 
 			auto wasteCost = MWaste.Col(11).To<Quantity<Sum>>().RowSum();
-			std::cout<<"EQ"<<wasteCost<<std::endl;
 			assert(wasteCost==Quantity<Sum>(-322));
+			
+			std::vector<FactoryUnit<std::string, std::string>> sewageUnits = { {"EQ", "DE12660623660000005703"}, {"C","Abschlag/Abwasser"}};
+			auto sewages = (*pf)(sewageUnits);
+			auto MSewage = m22.M(MatrixRowQuery<decltype(m22),std::string>(std::unique_ptr<AndCat<std::string>>( new AndCat<std::string>(std::move(sewages)))));
+			assert(MSewage.Rows()==5);
+			auto sewageCost1 = MSewage.Col(11).To<Quantity<Sum>>().RowSum();
+			assert(sewageCost1==Quantity<Sum>(-700));
+			
+			std::vector<FactoryUnit<std::string, std::string>> sewageUnits2 = { {"EQ", "DE12660623660000005703"}, {"C","Rechnung/Abwasser"}};
+			auto sewages2 = (*pf)(sewageUnits2);
+			auto MSewage2 = m23.M(MatrixRowQuery<decltype(m22),std::string>(std::unique_ptr<AndCat<std::string>>( new AndCat<std::string>(std::move(sewages2)))));
+			assert(MSewage2.Rows()==1);
+			auto sewageCost2 = MSewage2[0][11].To<Quantity<Sum>>();
+			std::cout<<"\nS\n"<<sewageCost1<<sewageCost2<<std::endl;
+			
+			assert((sewageCost1.To<Quantity<Sum>>()+sewageCost2)==Quantity<Sum>(-933.29));
 //			auto peq10 = std::make_unique<EquivalenceCat<int>>(10);
 //			v10 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
 //			v10->push_back(std::move(peq10));
