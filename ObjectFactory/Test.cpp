@@ -48,9 +48,20 @@ int main()
 	assert(!(*(uc->at(3)))("AB"));
 
 	auto pf = std::make_shared<Factory<IMatrixCategory<std::string>>>();
+	pf->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+	pf->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
+	assert(pf->Size()==2);
 	
-	try {OrCat<std::string> oc(pf,units); } catch(...) { };	
+	try {OrCat<std::string>(pf,units); } catch(...) { is = true; };	
+	assert(!is);
+	is = false;
 	
+	OrCat<std::string> oc(pf,units);
+	assert(oc("2"));
+	assert(!oc("3"));
+	assert(oc("ABC"));
+	assert(!oc("EF"));
+
 	std::cout<<"END"<<std::endl;
    
 	return 0;
