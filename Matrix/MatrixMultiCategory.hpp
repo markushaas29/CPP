@@ -22,15 +22,19 @@ template<typename T>
 class MultiCategoryBase 
 {
 	using Base = IMatrixCategory<T>;
+	using FactoryType = IFactory<Base>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	MultiCategoryBase(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)) {}
+	MultiCategoryBase(std::shared_ptr<FactoryType> f, std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> units): elements(f(units)) {}
 	decltype(auto) Size() const { return elements->size(); };
 protected:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;
 	template<typename U> using IsT =  Is<U,TypeId>;
+private:
+	std::shared_ptr<FactoryType> factory;
 };
 
 template<typename T>
