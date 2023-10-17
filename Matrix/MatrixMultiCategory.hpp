@@ -19,7 +19,7 @@
 template<std::size_t, typename> class Matrix;
 
 template<typename T>
-class MultiCategoryBase : public IMatrixCategory<T>
+class MultiCategoryBase 
 {
 	using Base = IMatrixCategory<T>;
 public:
@@ -31,24 +31,19 @@ public:
 protected:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	virtual std::ostream& display(std::ostream& s) const 
-	{ 
-		s<<TypeId<<": "; 
-		std::for_each(elements->cbegin(), elements->cend(), [&s](auto &e) { s<<*e; });
-		return s;
-	}
 };
 
 template<typename T>
-class MultiCat : public MultiCategoryBase<T>
+class MultiCat : public MultiCategoryBase<T>, public IMatrixCategory<T>
 {
 	using Base = MultiCategoryBase<T>;
+	using I = IMatrixCategory<T>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	MultiCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)) {}
-	virtual bool operator()(const Base::ElementType& e) const 
+	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
 			if((*(Base::elements->at(i)))(e))
@@ -57,21 +52,28 @@ public:
 		return false;
 	};
 private:
+	virtual std::ostream& display(std::ostream& s) const 
+	{ 
+		s<<TypeId<<": "; 
+		std::for_each(Base::elements->cbegin(), Base::elements->cend(), [&s](auto &e) { s<<*e; });
+		return s;
+	}
 };
 
 template<typename T>
-class MultiStateCat : public IMatrixStateCategory<T>
+class MultiStateCat : public MultiCategoryBase<T>, public IMatrixStateCategory<T>
 {
-	using Base = IMatrixCategory<T>;
+	using Base = MultiCategoryBase<T>;
+	using I = IMatrixStateCategory<T>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MultiStateCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): elements(std::move(e)), states{std::make_unique<std::vector<size_t>>(elements->size(),0)} {}
-	virtual bool operator()(const Base::ElementType& e) const 
+	MultiStateCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)), states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)} {}
+	virtual bool operator()(const I::ElementType& e) const 
 	{ 
-		for(auto i = 0; i < elements->size(); ++i)
-			if((*(elements->at(i)))(e))
+		for(auto i = 0; i < Base::elements->size(); ++i)
+			if((*(Base::elements->at(i)))(e))
 				++(states->at(i)); 
 
 		return false;
@@ -79,18 +81,16 @@ public:
 	virtual bool operator()() const { return all_of(states->begin(), states->end(), [] (size_t i) {return i > 0;}); };
 	virtual bool Reset() 
 	{ 
-		states = std::make_unique<std::vector<size_t>>(elements->size(),0);
+		states = std::make_unique<std::vector<size_t>>(Base::elements->size(),0);
 		return true; 
 	};
-	decltype(auto) Size() const { return elements->size(); };
 private:
-	std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> elements;
 	std::unique_ptr<std::vector<size_t>> states;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	virtual std::ostream& display(std::ostream& s) const 
 	{ 
 		s<<TypeId<<": "; 
-		std::for_each(elements->cbegin(), elements->cend(), [&s](auto &e) { s<<*e; });
+		std::for_each(Base::elements->cbegin(), Base::elements->cend(), [&s](auto &e) { s<<*e; });
 		return s;
 	}
 };
