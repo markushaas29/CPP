@@ -91,7 +91,7 @@ class MatrixAnalyzerTest
 			//Create(m22,s1,s2);
 			assert(!eq(4));
 
-			MultiCat<int> mc(std::move(vc));
+			OrCat<int> mc(std::move(vc));
 			assert(mc.Size()==2);
 			assert(mc(5));
 			assert(mc(8));
@@ -103,7 +103,7 @@ class MatrixAnalyzerTest
 			vsc->push_back(std::move(peq13));
 			vsc->push_back(std::move(peq14));
 
-			MultiStateCat<int> msc(std::move(vsc));
+			AndCat<int> msc(std::move(vsc));
 			assert(msc.Size()==2);
 			assert(!msc(13));
 			assert(!msc());
@@ -130,7 +130,7 @@ class MatrixAnalyzerTest
 			vc34->push_back(std::move(peq3));
 			vc34->push_back(std::move(peq4));
 			//MultiCat<int> mc34(std::move(vc34));
-			std::unique_ptr<MultiCat<int>> pmc34 = std::unique_ptr<MultiCat<int>>( new MultiCat<int>(std::move(vc34)));
+			std::unique_ptr<OrCat<int>> pmc34 = std::unique_ptr<OrCat<int>>( new OrCat<int>(std::move(vc34)));
 			auto mrq2 = MatrixRowQuery<M2>(std::move(pmc34));
 
 			auto mm2 = m33.M(mrq2);

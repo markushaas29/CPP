@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Factory.hpp"
 #include "../Matrix/MatrixCategory.hpp"
+#include "../Matrix/MatrixMultiCategory.hpp"
 
 int main()
 {
@@ -45,7 +46,10 @@ int main()
 	assert((*(uc->at(2)))("ABC"));
 	assert((*(uc->at(3)))("ABC"));
 	assert(!(*(uc->at(3)))("AB"));
+
+	auto pf = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 	
+	try {OrCat<std::string> oc(pf,units); } catch(...) { };	
 	
 	std::cout<<"END"<<std::endl;
    

@@ -60,13 +60,13 @@ protected:
 };
 
 template<class T, typename CT = std::string, class CreatorT= std::function<std::unique_ptr<T>(const CT&)>, typename IdentifierT=std::string>
-class Factory: IFactory<T,CT,CreatorT,IdentifierT>
+class Factory: public IFactory<T,CT,CreatorT,IdentifierT>
 {
 	using Base = IFactory<T,CT,CreatorT,IdentifierT>; 
 public:
 	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) { creators.try_emplace(id,c); } 
-	const  typename Base::CreatorType& operator[](const  typename Base::IdentifierType& id) {	return find(id);	}
-	 typename Base::PtrType operator()(const  typename Base::IdentifierType& id, const  typename Base::ArgumentType& arg) { return find(id)(arg);}
+	const typename Base::CreatorType& operator[](const  typename Base::IdentifierType& id) {	return find(id);	}
+	typename Base::PtrType operator()(const typename Base::IdentifierType& id, const typename Base::ArgumentType& arg) { return find(id)(arg);}
 	std::unique_ptr<std::vector< typename Base::PtrType>> operator()(const std::vector<FactoryUnit< typename Base::IdentifierType,  typename Base::ArgumentType>> units) 
 	{
 		auto result = std::make_unique<std::vector<typename Base::PtrType>>();
@@ -76,7 +76,7 @@ public:
 	}
 	size_t Size() { return creators.size(); }
 private:
-	const  typename Base::CreatorType& find(const  typename Base::IdentifierType& id) 
+	const typename Base::CreatorType& find(const typename Base::IdentifierType& id) 
 	{
 		auto i = creators.find(id);
 		if(i == creators.end())
