@@ -39,7 +39,7 @@ private:
 	const ArgumentType argument;
 };
 
-template<class T, typename CT = std::string, class CreatorT= std::function<std::unique_ptr<T>(const CT&)>, typename IdentifierT=std::string>
+template<class T, typename CT = std::string>
 class IFactory
 {
 public:
@@ -48,8 +48,8 @@ public:
 	using Type = T;
 	using PtrType = std::unique_ptr<T>;
 	using ArgumentType = CT;
-	using CreatorType = CreatorT;
-	using IdentifierType = IdentifierT;
+	using CreatorType = std::function<std::unique_ptr<T>(CT)>;
+	using IdentifierType = std::string;
 	virtual void Register(const IdentifierType& id, CreatorType c) = 0; 
 	virtual const CreatorType& operator[](const IdentifierType& id) = 0;
 	virtual PtrType operator()(const IdentifierType& id, const ArgumentType& arg)  = 0;
@@ -59,10 +59,10 @@ protected:
 	template<typename E> using IsT =  Is<E,TypeId>;
 };
 
-template<class T, typename CT = std::string, class CreatorT= std::function<std::unique_ptr<T>(const CT&)>, typename IdentifierT=std::string>
-class Factory: public IFactory<T,CT,CreatorT,IdentifierT>
+template<class T, typename CT = std::string>
+class Factory: public IFactory<T,CT>
 {
-	using Base = IFactory<T,CT,CreatorT,IdentifierT>; 
+	using Base = IFactory<T,CT>; 
 public:
 	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) { creators.try_emplace(id,c); } 
 	const typename Base::CreatorType& operator[](const  typename Base::IdentifierType& id) {	return find(id);	}
