@@ -75,13 +75,12 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	AndCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)), states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)} {}
-	AndCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) {}
+	AndCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) , states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)}{}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
 			if((*(Base::elements->at(i)))(e))
 				++(states->at(i)); 
-
 		return false;
 	};
 	virtual bool operator()() const { return all_of(states->begin(), states->end(), [] (size_t i) {return i > 0;}); };

@@ -77,11 +77,23 @@ int main()
 	pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
 
  	std::vector<FactoryUnit<std::string, std::string>> mU49 = { {"EQ", "4"}, {"EQ","9"}};
+ 	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
 	std::cout<<"Start"<<std::endl;
     //MatrixQuery<M2S,std::string>(pfm, mU49);
-    auto M49 = m33.M(MatrixRowQuery<M2S,std::string>(pfm, mU49));
+    auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfm, mU49));
+	assert(m49.Rows()==1);
+	assert(m49[0][0].To<int>()==4);
+	assert(m49[0][2].To<int>()==6);
 
-	std::cout<<"M49"<<M49<<std::endl;
+	std::unique_ptr<IMatrixCategory<std::string>> a79 = std::make_unique<AndCat<std::string>>(pfm,mU79);
+	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
+	auto m79 = m33.M(m79R);
+	assert(m79.Rows()==1);
+	assert(m79[0][0].To<int>()==7);
+	assert(m79[0][2].To<int>()==9);
+
+	std::cout<<"M49"<<m49<<std::endl;
+	std::cout<<"M49"<<m79<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
    
