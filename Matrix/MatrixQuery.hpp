@@ -15,7 +15,6 @@
 
 #pragma once
 
-
 template<typename T, typename ET>
 class IMatrixQuery
 {
@@ -23,10 +22,7 @@ public:
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	using CategoryType = IMatrixCategory<ET>;
-	inline static constexpr const char TypeIdentifier[] = "IMatrixQuery";
-    inline static constexpr Literal TypeId{TypeIdentifier};
-
-	MatrixType operator()( MatrixType* matrix) const
+ 	virtual	MatrixType operator()( MatrixType* matrix) const
 	{
 		std::vector<typename MatrixType::DataType> result;
     	std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
@@ -65,15 +61,27 @@ private:
 		std::copy(arr.begin(), arr.end(), res.begin());
 		return res;
 	}
-	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& mq) { return mq.display(s)<<": ["<<(*mq.cat)<<"]";  }
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
-template<typename T, typename ET = T::ElementType>
-class MatrixQuery:public IMatrixQuery<T,ET> 
+template<typename T, typename ET>
+class MatrixQueryBase : public IMatrixQuery<T,ET>
 {
 	using Base = IMatrixQuery<T,ET>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixQueryBase";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+protected:
+	MatrixQueryBase(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)} {}
+private:
+	template<typename U> using IsT =  Is<U,TypeId>;
+};
+
+template<typename T, typename ET = T::ElementType>
+class MatrixQuery: public MatrixQueryBase<T,ET> 
+{
+	using Base = MatrixQueryBase<T,ET>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -89,9 +97,9 @@ private:
 };
 
 template<typename T, typename ET = T::ElementType>
-class MatrixRowQuery: public IMatrixQuery<T,ET> 
+class MatrixRowQuery: public MatrixQueryBase<T,ET> 
 {
-	using Base = IMatrixQuery<T,ET>;
+	using Base = MatrixQueryBase<T,ET>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -117,9 +125,9 @@ private:
 };
 
 template<typename T, typename ET = T::ElementType>
-class MatrixColQuery: public IMatrixQuery<T,ET> 
+class MatrixColQuery: public MatrixQueryBase<T,ET> 
 {
-	using Base = IMatrixQuery<T,ET>;
+	using Base = MatrixQueryBase<T,ET>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixColQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
