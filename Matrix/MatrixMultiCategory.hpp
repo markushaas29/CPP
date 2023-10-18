@@ -17,13 +17,13 @@
 #pragma once
 
 template<std::size_t, typename> class Matrix;
-
+template<typename T> class MultiCatUnit;
 template<typename T>
 class MultiCategoryBase 
 {
 public:
 	using Base = IMatrixCategory<T>;
-	using FactoryType = IFactory<Base>;
+	using FactoryType = Factory<Base>;
 	inline static constexpr const char TypeIdentifier[] = "Multi";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
@@ -41,14 +41,14 @@ private:
 template<typename T>
 class MultiCatUnit
 {
-	using Base = MultiCategoryBase<T>;
+	using FactoryType = Factory<IMatrixCategory<T>>;
 public:
-	MultiCatUnit(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> u): factory{f}, units{u} {} 
-	decltype(auto) Factory() { return factory; }
+	MultiCatUnit(std::shared_ptr<FactoryType> f, std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> u): factory{f}, units{u} {} 
+	decltype(auto) FactoryHandle() { return factory; }
 	decltype(auto) Units() { return units; }
 private:
-	std::shared_ptr<typename Base::FactoryType> factory;
-	std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units;
+	std::shared_ptr<FactoryType> factory;
+	std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> units;
 };
 
 template<typename T>
@@ -90,7 +90,7 @@ public:
 
 	AndCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)), states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)} {}
 	AndCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) , states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)}{}
-	AndCat(MultiCatUnit<T> mu): AndCat(mu.Factory(),mu.Units()) {}
+	AndCat(MultiCatUnit<T> mu): AndCat(mu.FactoryHandle(),mu.Units()) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)

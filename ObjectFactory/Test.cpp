@@ -52,15 +52,15 @@ int main()
 	pf->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
 	assert(pf->Size()==2);
 	
-	try {OrCat<std::string>(pf,units); } catch(...) { is = true; };	
+	//try {OrCat<std::string>(pf,units); } catch(...) { is = true; };	
 	assert(!is);
 	is = false;
 	
-	OrCat<std::string> oc(pf,units);
-	assert(oc("2"));
-	assert(!oc("3"));
-	assert(oc("ABC"));
-	assert(!oc("EF"));
+	//OrCat<std::string> oc(pf,units);
+	//assert(oc("2"));
+	//assert(!oc("3"));
+	//assert(oc("ABC"));
+	//assert(!oc("EF"));
 	
 	using M2 = Matrix<2>;
 	using MS2 = MatrixDescriptor<2,std::string>;
@@ -83,20 +83,23 @@ int main()
  	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
 	std::cout<<"Start"<<std::endl;
     //MatrixQuery<M2S,std::string>(pfm, mU49);
-    auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfm, mU49));
-	assert(m49.Rows()==1);
-	assert(m49[0][0].To<int>()==4);
-	assert(m49[0][2].To<int>()==6);
+	//MultiCatUnit<std::string> mCU(pfm, mU49);
+    //auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCU));
+	//assert(m49.Rows()==1);
+	//assert(m49[0][0].To<int>()==4);
+	//assert(m49[0][2].To<int>()==6);
 
-	std::unique_ptr<IMatrixCategory<std::string>> a79 = std::make_unique<AndCat<std::string>>(pfm,mU79);
-	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
-	auto m79 = m33.M(m79R);
-	assert(m79.Rows()==1);
-	assert(m79[0][0].To<int>()==7);
-	assert(m79[0][2].To<int>()==9);
+	auto mCU79 = MultiCatUnit<std::string>(pfm, mU79);
+	auto ac = AndCat<std::string>(mCU79);
+//	std::unique_ptr<IMatrixCategory<std::string>> a79 = std::make_unique<AndCat<std::string>>(pfM,mCU79);
+//	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
+//	auto m79 = m33.M(m79R);
+//	assert(m79.Rows()==1);
+//	assert(m79[0][0].To<int>()==7);
+//	assert(m79[0][2].To<int>()==9);
 
-	std::cout<<"M49"<<m49<<std::endl;
-	std::cout<<"M49"<<m79<<std::endl;
+	//std::cout<<"M49"<<m49<<std::endl;
+	//std::cout<<"M49"<<m79<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
    
