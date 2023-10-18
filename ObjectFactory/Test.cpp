@@ -28,7 +28,6 @@ int main()
 	assert((*eq2)("2"));
 	
 	auto cb = fm["C"]("B");
-	std::cout<<*cb<<std::endl;
 	assert((*cb)("ABC"));
 	
 	cb = fm("C","B");
@@ -67,11 +66,23 @@ int main()
 	using MS2 = MatrixDescriptor<2,std::string>;
 	using M2S = Matrix<2,MS2>;
 
-    M2 m33 {
-            {1, 2 ,3},
-            {4, 5, 6},
-            {7, 8, 9},
+    M2S m33 {
+            {"1", "2" ,"3"},
+            {"4", "5", "6"},
+            {"7", "8", "9"},
         };
+
+
+	auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
+	pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+
+ 	std::vector<FactoryUnit<std::string, std::string>> mU49 = { {"EQ", "4"}, {"EQ","9"}};
+	std::cout<<"Start"<<std::endl;
+    //MatrixQuery<M2S,std::string>(pfm, mU49);
+    auto M49 = m33.M(MatrixRowQuery<M2S,std::string>(pfm, mU49));
+
+	std::cout<<"M49"<<M49<<std::endl;
+	
 	std::cout<<"END"<<std::endl;
    
 	return 0;
