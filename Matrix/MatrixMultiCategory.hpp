@@ -37,6 +37,20 @@ private:
 	std::shared_ptr<FactoryType> factory;
 };
 
+
+template<typename T>
+class MultiCatUnit
+{
+	using Base = MultiCategoryBase<T>;
+public:
+	MultiCatUnit(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> u): factory{f}, units{u} {} 
+	decltype(auto) Factory() { return factory; }
+	decltype(auto) Units() { return units; }
+private:
+	std::shared_ptr<typename Base::FactoryType> factory;
+	std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units;
+};
+
 template<typename T>
 class OrCat : public MultiCategoryBase<T>, public IMatrixCategory<T>
 {
@@ -76,6 +90,7 @@ public:
 
 	AndCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)), states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)} {}
 	AndCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) , states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)}{}
+	AndCat(MultiCatUnit<T> mu): AndCat(mu.Factory(),mu.Units()) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
