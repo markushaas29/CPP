@@ -12,6 +12,7 @@
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
 #include "../Common/UniqueCast.hpp"
+#include "../ObjectFactory/Factory.hpp"
 
 #pragma once
 
@@ -69,6 +70,7 @@ template<typename T, typename ET>
 class MatrixQueryBase : public IMatrixQuery<T,ET>
 {
 	using Base = IMatrixQuery<T,ET>;
+	using FactoryType = IFactory<IMatrixCategory<ET>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQueryBase";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -76,6 +78,7 @@ protected:
 	MatrixQueryBase(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)} {}
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
+	std::shared_ptr<FactoryType> factory;
 };
 
 template<typename T, typename ET = T::ElementType>
