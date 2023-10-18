@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Factory.hpp"
+#include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixCategory.hpp"
 #include "../Matrix/MatrixMultiCategory.hpp"
 
@@ -61,7 +62,16 @@ int main()
 	assert(!oc("3"));
 	assert(oc("ABC"));
 	assert(!oc("EF"));
+	
+	using M2 = Matrix<2>;
+	using MS2 = MatrixDescriptor<2,std::string>;
+	using M2S = Matrix<2,MS2>;
 
+    M2 m33 {
+            {1, 2 ,3},
+            {4, 5, 6},
+            {7, 8, 9},
+        };
 	std::cout<<"END"<<std::endl;
    
 	return 0;
