@@ -70,12 +70,13 @@ template<typename T, typename ET>
 class MatrixQueryBase : public IMatrixQuery<T,ET>
 {
 	using Base = IMatrixQuery<T,ET>;
-	using FactoryType = IFactory<IMatrixCategory<ET>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQueryBase";
     inline static constexpr Literal TypeId{TypeIdentifier};
 protected:
+	using FactoryType = IFactory<IMatrixCategory<ET>>;
 	MatrixQueryBase(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)} {}
+	MatrixQueryBase(std::shared_ptr<FactoryType> f, std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> units): Base{(*factory)(units)} {}
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	std::shared_ptr<FactoryType> factory;
@@ -89,6 +90,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixQuery(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)}{}
+	MatrixQuery(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base{f, units} {}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
@@ -107,6 +109,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixRowQuery(std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)} {}
+	MatrixRowQuery(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base{f, units} {}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
@@ -135,6 +138,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixColQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixColQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
+	MatrixColQuery(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base{f, units} {}
 private:
 	size_t col;
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
