@@ -91,7 +91,7 @@ int main()
 
 	auto mCU79 = MultiCatUnit<std::string>(pfm, mU79);
 	auto ac = AndCat<std::string>(mCU79);
-//	std::unique_ptr<IMatrixCategory<std::string>> a79 = std::make_unique<AndCat<std::string>>(pfM,mCU79);
+	std::unique_ptr<IMatrixCategory<std::string>> a79 = std::make_unique<AndCat<std::string>>(mCU79);
 //	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
 //	auto m79 = m33.M(m79R);
 //	assert(m79.Rows()==1);
