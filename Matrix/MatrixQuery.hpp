@@ -55,7 +55,8 @@ public:
 					MatrixRowQuery<T,ET> rq{factory, units.at(i).Unit()};
 					if(rq(matrix->row(j)))
 					{
-						std::cout<<"MAT"<<(*matrix)[j]<<std::endl;
+						auto row = matrix->row(j);
+						std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 						break;
 					}
 				}
