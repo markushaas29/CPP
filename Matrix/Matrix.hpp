@@ -9,7 +9,7 @@
 #include "MatrixCalculator.hpp"
 #include "MatrixAccess.hpp"
 #include "MatrixIO.hpp"
-#include "MatrixQuery.hpp"
+#include "IMatrixQuery.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
