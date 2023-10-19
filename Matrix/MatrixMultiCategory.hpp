@@ -43,10 +43,12 @@ class MultiCatUnit
 {
 	using FactoryType = Factory<IMatrixCategory<T>>;
 public:
-	MultiCatUnit(std::shared_ptr<FactoryType> f, std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> u): factory{f}, units{u} {} 
+	MultiCatUnit(const std::string t, std::shared_ptr<FactoryType> f, std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> u): factory{f}, units{u}, type{t} {} 
 	decltype(auto) FactoryHandle() { return factory; }
 	decltype(auto) Units() { return units; }
+	decltype(auto) Type() { return type; }
 private:
+	const std::string type;
 	std::shared_ptr<FactoryType> factory;
 	std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> units;
 };

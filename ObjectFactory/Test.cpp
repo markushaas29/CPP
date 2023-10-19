@@ -83,16 +83,15 @@ int main()
  	std::vector<FactoryUnit<std::string, std::string>> mU49 = { {"EQ", "4"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
 	
-	auto mCU79 = MultiCatUnit<std::string>(pfm, mU79);
+	auto mCU79 = MultiCatUnit<std::string>("O", pfm, mU79);
 	std::unique_ptr<IMatrixCategory<std::string>> or79 = std::make_unique<OrCat<std::string>>(mCU79);
 	assert((*or79)("7"));
 	assert((*or79)("9"));
 	assert(!(*or79)("12"));
 	
 	std::cout<<"Start"<<std::endl;
-    //MatrixQuery<M2S,std::string>(pfm, mU49);
-	//MultiCatUnit<std::string> mCU(pfm, mU49);
-    //auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCU));
+	MultiCatUnit<std::string> mCU("O",pfm, mU49);
+    auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCU));
 	//assert(m49.Rows()==1);
 	//assert(m49[0][0].To<int>()==4);
 	//assert(m49[0][2].To<int>()==6);
