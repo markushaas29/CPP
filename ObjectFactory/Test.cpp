@@ -82,6 +82,13 @@ int main()
 
  	std::vector<FactoryUnit<std::string, std::string>> mU49 = { {"EQ", "4"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
+	
+	auto mCU79 = MultiCatUnit<std::string>(pfm, mU79);
+	std::unique_ptr<IMatrixCategory<std::string>> or79 = std::make_unique<OrCat<std::string>>(mCU79);
+	assert((*or79)("7"));
+	assert((*or79)("9"));
+	assert(!(*or79)("12"));
+	
 	std::cout<<"Start"<<std::endl;
     //MatrixQuery<M2S,std::string>(pfm, mU49);
 	//MultiCatUnit<std::string> mCU(pfm, mU49);
@@ -90,9 +97,13 @@ int main()
 	//assert(m49[0][0].To<int>()==4);
 	//assert(m49[0][2].To<int>()==6);
 
-	auto mCU79 = MultiCatUnit<std::string>(pfm, mU79);
 	auto ac = AndCat<std::string>(mCU79);
-	std::unique_ptr<IMatrixCategory<std::string>> a79 = std::make_unique<AndCat<std::string>>(mCU79);
+	std::unique_ptr<IMatrixCategory<std::string>> and79 = std::make_unique<AndCat<std::string>>(mCU79);
+	assert(!(*and79)("7"));
+	assert(!(*and79)("9"));
+	auto p79 = dynamic_cast<IMatrixStateCategory<std::string>*>(and79.release());
+	assert((*p79)());
+	assert(!(*or79)("12"));
 //	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
 //	auto m79 = m33.M(m79R);
 //	assert(m79.Rows()==1);
