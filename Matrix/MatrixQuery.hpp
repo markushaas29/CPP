@@ -70,6 +70,20 @@ private:
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
+
+template<typename T, typename ET>
+class MatrixQueryUnit
+{
+	using MultiFactoryType = IFactory<IMatrixCategory<ET>, MultiCatUnit<ET>>;
+public:
+	MatrixQueryUnit(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ET> u): factory{f}, unit{u} {}
+	decltype(auto) FactoryHandle() { return factory; }
+    decltype(auto) Unit() { return unit; }
+private:
+    std::shared_ptr<MultiFactoryType> factory;
+    MultiCatUnit<ET> unit;
+};
+
 template<typename T, typename ET>
 class MatrixQueryBase : public IMatrixQuery<T,ET>
 {

@@ -56,12 +56,6 @@ int main()
 	assert(!is);
 	is = false;
 	
-	//OrCat<std::string> oc(pf,units);
-	//assert(oc("2"));
-	//assert(!oc("3"));
-	//assert(oc("ABC"));
-	//assert(!oc("EF"));
-	
 	using M2 = Matrix<2>;
 	using MS2 = MatrixDescriptor<2,std::string>;
 	using M2S = Matrix<2,MS2>;
@@ -90,6 +84,7 @@ int main()
 	assert(!(*or79)("12"));
 	
 	MultiCatUnit<std::string> mCU("O",pfm, mU49);
+
     auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCU));
 	std::cout<<"Start"<<m49<<std::endl;
 	assert(m49.Rows()==2);
@@ -117,13 +112,11 @@ int main()
 	assert(!ac79("7"));
 	assert(ac79());
 	assert(ac79.Reset());
-	
-//	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
-//	auto m79 = m33.M(m79R);
-//	assert(m79.Rows()==1);
-//	assert(m79[0][0].To<int>()==7);
-//	assert(m79[0][2].To<int>()==9);
 
+    auto mU = MatrixQueryUnit<M2S,std::string>(pfM, mCU);
+    auto mU2 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA);
+
+	std::vector<decltype(mU)> mus = {mU, mU2};
 	//std::cout<<"M49"<<m49<<std::endl;
 	//std::cout<<"M49"<<m79<<std::endl;
 	
