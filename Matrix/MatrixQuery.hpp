@@ -52,9 +52,7 @@ public:
         }
 	}
 protected:
-	using FactoryType = IFactory<IMatrixCategory<ET>>;
 	using MultiFactoryType = IFactory<CategoryType, MultiCatUnit<ET>>;
-	using UnitType = FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>;
 	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
 	IMatrixQuery(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ET> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
 private:
