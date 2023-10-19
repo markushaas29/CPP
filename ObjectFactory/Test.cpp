@@ -97,13 +97,21 @@ int main()
 	//assert(m49[0][0].To<int>()==4);
 	//assert(m49[0][2].To<int>()==6);
 
-	auto ac = AndCat<std::string>(mCU79);
+	auto ac79 = AndCat<std::string>(mCU79);
 	std::unique_ptr<IMatrixCategory<std::string>> and79 = std::make_unique<AndCat<std::string>>(mCU79);
 	assert(!(*and79)("7"));
 	assert(!(*and79)("9"));
 	auto p79 = dynamic_cast<IMatrixStateCategory<std::string>*>(and79.release());
 	assert((*p79)());
-	assert(!(*or79)("12"));
+	assert(p79->Reset());
+	
+	assert(!ac79("12"));
+	assert(!ac79("9"));
+	assert(!ac79());
+	assert(!ac79("7"));
+	assert(ac79());
+	assert(ac79.Reset());
+	
 //	auto m79R = MatrixRowQuery<M2S,std::string>(std::move(a79));
 //	auto m79 = m33.M(m79R);
 //	assert(m79.Rows()==1);
