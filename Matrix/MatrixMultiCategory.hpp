@@ -62,6 +62,7 @@ public:
 
 	OrCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)) {}
 	OrCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) {}
+	OrCat(MultiCatUnit<T> mu): OrCat(mu.FactoryHandle(),mu.Units()) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
