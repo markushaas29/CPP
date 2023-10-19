@@ -51,6 +51,14 @@ public:
 			return MatrixType(typename MatrixType::DescriptorType{e,copy(matrix->descriptor.Strides())}, result);
         }
 	}
+ 	virtual	bool operator()(const std::vector<typename MatrixType::DataType>& row) const
+	{
+    	for(int j = 0; j < row.size(); ++j)
+    		if((*cat)(*(row.at(j))))
+				return true;
+    	    
+		return false;
+	}
 protected:
 	using MultiFactoryType = IFactory<CategoryType, MultiCatUnit<ET>>;
 	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}

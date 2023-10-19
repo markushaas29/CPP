@@ -122,6 +122,7 @@ int main()
     auto mq = MatrixQuery<M2S,std::string>(pfM, mus);
 
 	std::cout<<"MQ:\n"<<mq<<std::endl;
+	mq(&m33);
 	//std::cout<<"M49"<<m79<<std::endl;
 	
 	std::cout<<"END"<<std::endl;

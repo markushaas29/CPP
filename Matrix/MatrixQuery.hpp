@@ -40,7 +40,7 @@ class MatrixQuery
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
-	MatrixQuery(std::shared_ptr<MultiFactoryType> f, std::vector<MatrixQueryUnit<T,ET>> units): factory{f}, cats{createCats(units)} {}
+	MatrixQuery(std::shared_ptr<MultiFactoryType> f, std::vector<MatrixQueryUnit<T,ET>> u): factory{f}, cats{createCats(u)}, units{u} {}
  	virtual	MatrixType operator()( MatrixType* matrix) const
 	{
 		std::vector<typename MatrixType::DataType> result;
@@ -48,7 +48,15 @@ public:
 		
 		if constexpr (MatrixType::Order==2)
         {
-    	    for(int j = 0; j < matrix->Rows(); ++j){}
+    	    for(int j = 0; j < matrix->Rows(); ++j)
+			{
+    	    	for(int i = 0; i < units.size(); ++i)
+				{
+					MatrixRowQuery<T,ET> rq{factory, units.at(i).Unit()};
+					if(rq(matrix->row(j)))
+						std::cout<<"MAT"<<(*matrix)[j]<<std::endl;
+				}
+			}
 
 
     	    e[0] = result.size() / matrix->Cols();
@@ -69,6 +77,7 @@ public:
 	}
 private:
 	std::shared_ptr<MultiFactoryType> factory;
+	std::vector<MatrixQueryUnit<T,ET>> units;
 	std::vector<std::unique_ptr<CategoryType>> cats;
 	decltype(auto) createCats(const auto& mus) const
 	{
