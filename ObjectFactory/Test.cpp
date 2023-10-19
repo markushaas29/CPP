@@ -119,8 +119,9 @@ int main()
     auto mU2 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA);
 
 	std::vector<decltype(mU)> mus = {mU, mU2};
-    auto mq = MatrixQuery<M2S,std::string>(mus);
-	//std::cout<<"M49"<<m49<<std::endl;
+    auto mq = MatrixQuery<M2S,std::string>(pfM, mus);
+
+	std::cout<<"MQ:\n"<<mq<<std::endl;
 	//std::cout<<"M49"<<m79<<std::endl;
 	
 	std::cout<<"END"<<std::endl;

@@ -121,6 +121,7 @@ private:
 	friend class MatrixIO<Type>;
 	friend class MatrixFilter<Type>;
 	template<typename TT, typename ETQ> friend class IMatrixQuery;
+	template<typename, typename> friend class MatrixQuery;
 
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();
