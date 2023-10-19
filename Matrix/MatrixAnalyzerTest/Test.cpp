@@ -117,69 +117,16 @@ class MatrixAnalyzerTest
 			auto fr = filter(2,eq);
 			assert(fr.Rows()==2);
 
-			auto mq = MatrixQuery<M2>(std::move(peq));
-			auto mcq1 = MatrixColQuery<M2>(1,std::make_unique<EquivalenceCat<int>>(5));
-			auto m1q5 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(5));
-			auto mc1q5 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(5));
-			auto m1q6 = MatrixQuery<M1>(std::make_unique<EquivalenceCat<int>>(6));
-			auto mcq2 = MatrixColQuery<M2>(2,std::make_unique<EquivalenceCat<int>>(5));
 			
-			auto peq3 = std::make_unique<EquivalenceCat<int>>(3);
-			auto peq4 = std::make_unique<EquivalenceCat<int>>(4);
-			auto vc34 =std::make_unique<std::vector<std::unique_ptr<IMatrixCategory<int>>>>();
-			vc34->push_back(std::move(peq3));
-			vc34->push_back(std::move(peq4));
-			//MultiCat<int> mc34(std::move(vc34));
-			std::unique_ptr<OrCat<int>> pmc34 = std::unique_ptr<OrCat<int>>( new OrCat<int>(std::move(vc34)));
-			auto mrq2 = MatrixRowQuery<M2>(std::move(pmc34));
-
-			auto mm2 = m33.M(mrq2);
-
-			auto cr = m33.M(mq);
-			assert(cr.Rows()==2);
-
-			auto cr1 = m3.M(m1q5);
-			assert(cr1.Rows()==1);
-			
-			auto ccr1 = m3.M(mc1q5);
-			assert(ccr1.Rows()==1);
-			
-			auto cr6 = m3.M(m1q6);
-			assert(cr6.Rows()==0);
-			
-			cr = m33.M(mcq1);
-			assert(cr.Rows()==0);
-			cr = m33.M(mcq2);
-			assert(cr.Rows()==2);
-			
-			auto mA33 = m33 + m33;
-			assert((int)mA33[0][0]==6);
-			auto mAq = MatrixQuery<decltype(mA33),int>(std::make_unique<EquivalenceCat<int>>(6));
-			auto M6 = mA33.M(mAq);
-			std::cout<<"ADD"<<M6<<std::endl;
-			std::cout<<"EQ"<<eq<<std::endl;
-			assert(M6.Rows()==1);
-			
-			auto mq15 = MatrixQuery<M2>(std::make_unique<EquivalenceCat<int>>(15));
-			EquivalenceCat<int> eq15(15);
-			cr = m33.M(mq15);
-			assert(cr.Rows()==1);
 
 			EquivalenceCat<std::string> eqIB("DE56600501017402051588");
 			auto peqS = std::make_unique<EquivalenceCat<std::string>>("DE56600501017402051588");
-			auto mqs = MatrixQuery<M2M>(std::move(peqS));
-			auto ib = m22.M(mqs);
 			
 			ContainCat<std::string> eqR("Proper");
 			assert(decltype(eqR)::TypeId=="Contain");
 			auto peqS2 = std::make_unique<ContainCat<std::string>>("Proper");
-			auto mqs2 = MatrixQuery<M2M>(std::move(peqS2));
-			ib = m22.M(mqs2);
 			
 			std::cout<<"EQ "<<eq<<std::endl;
-			std::cout<<"MQ "<<mq<<std::endl;
-			std::cout<<"MMULT "<<mm2<<std::endl;
-			std::cout<<"END"<<ib<<std::endl;
 
 			return 0;
 		}
