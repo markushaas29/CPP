@@ -70,10 +70,8 @@ public:
 	std::unique_ptr<std::vector< typename Base::PtrType>> operator()(const std::vector<FactoryUnit< typename Base::IdentifierType,  typename Base::ArgumentType>> units) 
 	{
 		auto result = std::make_unique<std::vector<typename Base::PtrType>>();
-		std::cout<<"SIZE"<<result->size();
 		for(auto u : units)
 			result->push_back((*this)(u.Id(), u.Arg()));
-		std::cout<<"SIZE"<<result->size()<<std::endl;
 		return result;
 	}
 	size_t Size() { return creators.size(); }

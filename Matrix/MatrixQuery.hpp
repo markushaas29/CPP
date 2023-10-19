@@ -53,12 +53,12 @@ public:
 	}
 protected:
 	using FactoryType = IFactory<IMatrixCategory<ET>>;
-	using MultiFactoryType = IFactory<CategoryType, ET>;
+	using MultiFactoryType = IFactory<CategoryType, MultiCatUnit<ET>>;
 	using UnitType = FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>;
 	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
-	IMatrixQuery(std::shared_ptr<Factory<CategoryType, MultiCatUnit<ET>>> f, MultiCatUnit<ET> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
+	IMatrixQuery(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ET> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
 private:
-	std::shared_ptr<Factory<CategoryType, MultiCatUnit<ET>>> factory;
+	std::shared_ptr<MultiFactoryType> factory;
 	std::unique_ptr<CategoryType> cat;
 	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
 	template<size_t N>
@@ -81,7 +81,7 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 protected:
 	MatrixQueryBase(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)} {}
-	MatrixQueryBase(std::shared_ptr<Factory<typename Base::CategoryType, MultiCatUnit<ET>>> f, MultiCatUnit<typename Base::ElementType> units): Base{f, units} {}
+	MatrixQueryBase(std::shared_ptr<typename Base::MultiFactoryType> f, MultiCatUnit<typename Base::ElementType> units): Base{f, units} {}
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 };
@@ -113,7 +113,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixRowQuery(std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)} {}
-	MatrixRowQuery(std::shared_ptr<Factory<typename Base::CategoryType, MultiCatUnit<ET>>> f, MultiCatUnit<ET> units): Base{f, units} {}
+	MatrixRowQuery(std::shared_ptr<typename Base::MultiFactoryType> f, MultiCatUnit<ET> units): Base{f, units} {}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
