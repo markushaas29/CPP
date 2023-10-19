@@ -53,10 +53,22 @@ public:
 	}
  	virtual	bool operator()(const std::vector<typename MatrixType::DataType>& row) const
 	{
+		IMatrixCategory<ET>& c = *cat;
+		if(IMatrixStateCategory<ET>* p = dynamic_cast<IMatrixStateCategory<ET>*>(&c))
+		{
+			std::for_each(row.cbegin(), row.cend(), [&](auto i){ (*cat)(*i); } );
+			if((*p)())
+			{
+    			for(int j = 0; j < row.size(); ++j)
+				p->Reset();
+				return true;
+			}
+		}
+
     	for(int j = 0; j < row.size(); ++j)
     		if((*cat)(*(row.at(j))))
 				return true;
-    	    
+
 		return false;
 	}
 protected:

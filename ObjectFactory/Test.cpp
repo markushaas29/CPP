@@ -132,7 +132,20 @@ int main()
 	std::cout<<"MQ:\n"<<mq<<std::endl;
 	auto M33 =mq(&m33);
 	assert(M33.Rows()==3);
-	//std::cout<<"M49"<<m79<<std::endl;
+ 	
+ 	std::vector<FactoryUnit<std::string, std::string>> mU123 = { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}};	
+	auto mCU123 = MultiCatUnit<std::string>("A", pfm, mU123);
+	//auto mCU123 = MultiCatUnit<std::string>("A", pfm, { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}});
+    auto mCU49 = MultiCatUnit<std::string>("A",pfm, mU49);
+    auto mQU49 = MatrixQueryUnit<M2S,std::string>(pfM, mCU49);
+    auto mQU123 = MatrixQueryUnit<M2S,std::string>(pfM, mCU123);
+
+	std::vector<decltype(mU)> mu123 = {mQU123, mQU49, mU3};
+    auto mq123_49 = MatrixQuery<M2S,std::string>(pfM, mu123);
+
+	auto M123 =mq123_49(&m33);
+	std::cout<<"MQ:\n"<<M123<<std::endl;
+	assert(M123.Rows()==1);
 	
 	std::cout<<"END"<<std::endl;
    
