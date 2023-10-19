@@ -54,7 +54,10 @@ public:
 				{
 					MatrixRowQuery<T,ET> rq{factory, units.at(i).Unit()};
 					if(rq(matrix->row(j)))
+					{
 						std::cout<<"MAT"<<(*matrix)[j]<<std::endl;
+						break;
+					}
 				}
 			}
 

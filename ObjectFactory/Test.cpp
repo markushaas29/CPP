@@ -78,6 +78,8 @@ int main()
 
  	std::vector<FactoryUnit<std::string, std::string>> mU49 = { {"EQ", "4"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
+ 	std::vector<FactoryUnit<std::string, std::string>> mU39 = { {"EQ", "3"}, {"EQ","9"}};
+ 	std::vector<FactoryUnit<std::string, std::string>> mU89 = { {"EQ", "8"}, {"EQ","9"}};
 	
 	auto mCU79 = MultiCatUnit<std::string>("O", pfm, mU79);
 	std::unique_ptr<IMatrixCategory<std::string>> or79 = std::make_unique<OrCat<std::string>>(mCU79);
@@ -115,10 +117,16 @@ int main()
 	assert(ac79());
 	assert(ac79.Reset());
 
+	MultiCatUnit<std::string> mCUA39("A",pfm, mU39);
+	MultiCatUnit<std::string> mCUO39("O",pfm, mU39);
+	MultiCatUnit<std::string> mCUA89("A",pfm, mU89);
     auto mU = MatrixQueryUnit<M2S,std::string>(pfM, mCU);
     auto mU2 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA);
+    auto mU3 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA39);
+    auto mU5 = MatrixQueryUnit<M2S,std::string>(pfM, mCUO39);
+    auto mU4 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA89);
 
-	std::vector<decltype(mU)> mus = {mU, mU2};
+	std::vector<decltype(mU)> mus = {mU, mU2, mU3, mU4, mU5};
     auto mq = MatrixQuery<M2S,std::string>(pfM, mus);
 
 	std::cout<<"MQ:\n"<<mq<<std::endl;
