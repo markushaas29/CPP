@@ -147,6 +147,13 @@ int main()
 	std::cout<<"MQ:\n"<<M123<<std::endl;
 	assert(M123.Rows()==1);
 	
+	std::vector<decltype(mU)> mu39 = {mU5};
+    auto mq3_9 = MatrixQuery<M2S,std::string>(pfM, mu39);
+
+	auto M39 =mq3_9(&m33);
+	std::cout<<"MQ:\n"<<M39<<std::endl;
+	assert(M39.Rows()==2);
+	
 	std::cout<<"END"<<std::endl;
    
 	return 0;
