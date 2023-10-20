@@ -90,9 +90,10 @@ template<class T, class F, typename CT = std::unique_ptr<std::vector<std::unique
 class FactoryStack
 {
 	using PtrType = std::unique_ptr<T>;
-	using ArgumentType = CT;
-	using CreatorType = std::function<std::unique_ptr<T>(CT)>;
+	using ElementType = typename T::ElementType;
 	using IdentifierType = std::string;
+	using ArgumentType = std::vector<FactoryUnit<IdentifierType, ElementType>>;
+	using CreatorType = std::function<std::unique_ptr<T>(CT)>;
 	using FactoryType = F; 
 public:
 	inline static constexpr const char TypeIdentifier[] = "FactoryStack";
@@ -100,9 +101,7 @@ public:
 	FactoryStack(std::shared_ptr<FactoryType> f): factory{f} {}
 	void Register(const IdentifierType& id,  CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const  IdentifierType& id) {	return find(id);	}
-	PtrType operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>>& arg) { 
-		return (*this)[id]((*factory)(arg));
-	}
+	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { return (*this)[id]((*factory)(arg));	}
 //	std::unique_ptr<std::vector< PtrType>> operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>> units) 
 //	{
 //		auto result = std::make_unique<std::vector<PtrType>>();
