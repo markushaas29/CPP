@@ -81,13 +81,13 @@ int main()
  	std::vector<FactoryUnit<std::string, std::string>> mU39 = { {"EQ", "3"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU89 = { {"EQ", "8"}, {"EQ","9"}};
 	
-	auto mCU79 = MultiCatUnit<std::string>("O", pfm, mU79);
+	auto mCU79 = MultiCatUnit<std::string>(pfm,"O", mU79);
 	std::unique_ptr<IMatrixCategory<std::string>> or79 = std::make_unique<OrCat<std::string>>(mCU79);
 	assert((*or79)("7"));
 	assert((*or79)("9"));
 	assert(!(*or79)("12"));
 	
-	MultiCatUnit<std::string> mCU("O",pfm, mU49);
+	MultiCatUnit<std::string> mCU(pfm,"O", mU49);
 
     auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCU));
 	std::cout<<"Start"<<m49<<std::endl;
@@ -95,7 +95,7 @@ int main()
 	assert(m49[0][0].To<int>()==4);
 	assert(m49[1][2].To<int>()==9);
 
-	MultiCatUnit<std::string> mCUA("A",pfm, mU79);
+	MultiCatUnit<std::string> mCUA(pfm,"A", mU79);
     auto m79 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCUA));
 	std::cout<<"Start"<<m49<<std::endl;
 	assert(m79.Rows()==1);
@@ -117,9 +117,9 @@ int main()
 	assert(ac79());
 	assert(ac79.Reset());
 
-	MultiCatUnit<std::string> mCUA39("A",pfm, mU39);
-	MultiCatUnit<std::string> mCUO39("O",pfm, mU39);
-	MultiCatUnit<std::string> mCUA89("A",pfm, mU89);
+	MultiCatUnit<std::string> mCUA39(pfm,"A", mU39);
+	MultiCatUnit<std::string> mCUO39(pfm,"O", mU39);
+	MultiCatUnit<std::string> mCUA89(pfm,"A", mU89);
     auto mU = MatrixQueryUnit<M2S,std::string>(pfM, mCU);
     auto mU2 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA);
     auto mU3 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA39);
@@ -134,9 +134,8 @@ int main()
 	assert(M33.Rows()==3);
  	
  	std::vector<FactoryUnit<std::string, std::string>> mU123 = { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}};	
-	auto mCU123 = MultiCatUnit<std::string>("A", pfm, mU123);
-	//auto mCU123 = MultiCatUnit<std::string>("A", pfm, { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}});
-    auto mCU49 = MultiCatUnit<std::string>("A",pfm, mU49);
+	auto mCU123 = MultiCatUnit<std::string>(pfm,"A",  { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}});
+    auto mCU49 = MultiCatUnit<std::string>(pfm,"A", mU49);
     auto mQU49 = MatrixQueryUnit<M2S,std::string>(pfM, mCU49);
     auto mQU123 = MatrixQueryUnit<M2S,std::string>(pfM, mCU123);
 
