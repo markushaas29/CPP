@@ -67,7 +67,6 @@ public:
 	OrCat(MultiCatUnit<T> mu): OrCat(mu.FactoryHandle(),mu.Units()) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{
-		std::cout<<"OP!!!"<<std::endl;
 		for(auto i = 0; i < Base::elements->size(); ++i)
 			if((*(Base::elements->at(i)))(e))
 				return true; 

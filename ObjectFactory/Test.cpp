@@ -97,7 +97,9 @@ int main()
 	auto& pa49 = va49->at(0);
 	assert(!(*pa49)("4"));
 	assert(!(*pa49)("9"));
-	//assert((*a49)());
+	auto pa_79 = dynamic_cast<IMatrixStateCategory<std::string>*>(pa49.release());
+    assert((*pa_79)());    
+	assert(pa_79->Reset());
 	
 	auto mCU79 = MultiCatUnit<std::string>(pfm,"O", mU79);
 	std::unique_ptr<IMatrixCategory<std::string>> or79 = std::make_unique<OrCat<std::string>>(mCU79);
