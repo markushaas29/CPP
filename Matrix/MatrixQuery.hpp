@@ -16,20 +16,6 @@
 #include "../ObjectFactory/Factory.hpp"
 
 #pragma once
-template<typename T> class MultiCatUnit;
-
-template<typename T, typename ET>
-class MatrixQueryUnit
-{
-	using MultiFactoryType = IFactory<IMatrixCategory<ET>, MultiCatUnit<ET>>;
-public:
-	MatrixQueryUnit(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ET> u): factory{f}, unit{u} {}
-	decltype(auto) FactoryHandle() const { return factory; }
-    decltype(auto) Unit() const { return unit; }
-private:
-    std::shared_ptr<MultiFactoryType> factory;
-    MultiCatUnit<ET> unit;
-};
 
 template<typename T, typename ET = T::ElementType>
 class MatrixQuery: IMatrixQuery<T,ET> 
@@ -37,11 +23,11 @@ class MatrixQuery: IMatrixQuery<T,ET>
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	using CategoryType = IMatrixCategory<ET>;
-	using MultiFactoryType = IFactory<CategoryType, MultiCatUnit<ET>>;
+	using MultiFactoryType = IFactory<CategoryType>;//, MultiCatUnit<ET>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
-	MatrixQuery(std::shared_ptr<MultiFactoryType> f, std::vector<MatrixQueryUnit<T,ET>> u): factory{f}, cats{createCats(u)}, units{u} {}
+	//MatrixQuery(std::shared_ptr<MultiFactoryType> f, std::vector<MatrixQueryUnit<T,ET>> u): factory{f}, cats{createCats(u)}, units{u} {}
  	virtual	MatrixType operator()( MatrixType* matrix) const
 	{
 		std::vector<typename MatrixType::DataType> result;
@@ -51,16 +37,16 @@ public:
         {
     	    for(int j = 0; j < matrix->Rows(); ++j)
 			{
-    	    	for(int i = 0; i < units.size(); ++i)
-				{
-					MatrixRowQuery<T,ET> rq{factory, units.at(i).Unit()};
+    	    	//for(int i = 0; i < units.size(); ++i)
+				//{
+					MatrixRowQuery<T,ET> rq{factory};//, units.at(i).Unit()};
 					if(rq(matrix->row(j)))
 					{
 						auto row = matrix->row(j);
 						std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
 						break;
 					}
-				}
+				//}
 			}
 
 
@@ -82,7 +68,7 @@ public:
 	}
 private:
 	std::shared_ptr<MultiFactoryType> factory;
-	std::vector<MatrixQueryUnit<T,ET>> units;
+	//std::vector<MatrixQueryUnit<T,ET>> units;
 	std::vector<std::unique_ptr<CategoryType>> cats;
 	decltype(auto) createCats(const auto& mus) const
 	{

@@ -15,7 +15,6 @@
 #include "../ObjectFactory/Factory.hpp"
 
 #pragma once
-template<typename T> class MultiCatUnit;
 
 template<typename T, typename ET = T::ElementType>
 class IMatrixQuery
@@ -94,9 +93,9 @@ public:
 		return false;
 	}
 protected:
-	using MultiFactoryType = IFactory<CategoryType, MultiCatUnit<ET>>;
+	using MultiFactoryType = IFactory<CategoryType>;
 	MatrixQueryBase(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
-	MatrixQueryBase(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ElementType> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
+	MatrixQueryBase(std::shared_ptr<MultiFactoryType> f, FactoryUnit<ElementType> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	std::shared_ptr<MultiFactoryType> factory;
@@ -121,7 +120,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixRowQuery(std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)} {}
-	MatrixRowQuery(std::shared_ptr<typename Base::MultiFactoryType> f, MultiCatUnit<ET> units): Base{f, units} {}
+	//MatrixRowQuery(std::shared_ptr<typename Base::MultiFactoryType> f, ): Base{f, units} {}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{
@@ -150,7 +149,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixColQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixColQuery(size_t c, std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)}, col{c} {}
-	MatrixColQuery(std::shared_ptr<typename Base::MultiFactoryType> f, MultiCatUnit<typename Base::ElementType> units): Base{f, units} {}
+	//MatrixColQuery(std::shared_ptr<typename Base::MultiFactoryType> f, MultiCatUnit<typename Base::ElementType> units): Base{f, units} {}
 private:
 	size_t col;
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const

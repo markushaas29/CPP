@@ -17,7 +17,6 @@
 #pragma once
 
 template<std::size_t, typename> class Matrix;
-template<typename T> class MultiCatUnit;
 template<typename T>
 class MultiCategoryBase 
 {
@@ -37,22 +36,6 @@ private:
 	std::shared_ptr<FactoryType> factory;
 };
 
-
-template<typename T>
-class MultiCatUnit
-{
-	using FactoryType = Factory<IMatrixCategory<T>>;
-public:
-	MultiCatUnit(std::shared_ptr<FactoryType> f, const std::string& t, std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> u): factory{f}, units{u}, type{t} {} 
-	decltype(auto) FactoryHandle() { return factory; }
-	decltype(auto) Units() { return units; }
-	decltype(auto) Type() { return type; }
-private:
-	const std::string type;
-	std::shared_ptr<FactoryType> factory;
-	std::vector<FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>> units;
-};
-
 template<typename T>
 class OrCat : public MultiCategoryBase<T>, public IMatrixCategory<T>
 {
@@ -64,7 +47,6 @@ public:
 
 	OrCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)) {}
 	OrCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) {}
-	OrCat(MultiCatUnit<T> mu): OrCat(mu.FactoryHandle(),mu.Units()) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{
 		for(auto i = 0; i < Base::elements->size(); ++i)
@@ -93,7 +75,6 @@ public:
 
 	AndCat(std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<T>>>> e): Base(std::move(e)), states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)} {}
 	AndCat(std::shared_ptr<typename Base::FactoryType> f, std::vector<FactoryUnit<typename Base::FactoryType::IdentifierType, typename Base::FactoryType::ArgumentType>> units): Base(f,units) , states{std::make_unique<std::vector<size_t>>(Base::elements->size(),0)}{}
-	AndCat(MultiCatUnit<T> mu): AndCat(mu.FactoryHandle(),mu.Units()) {}
 	virtual bool operator()(const I::ElementType& e) const 
 	{ 
 		for(auto i = 0; i < Base::elements->size(); ++i)
