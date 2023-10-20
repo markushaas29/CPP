@@ -95,27 +95,21 @@ class FactoryStack
 	using IdentifierType = std::string;
 	using FactoryType = F; 
 public:
-	inline static constexpr const char TypeIdentifier[] = "Factory";
+	inline static constexpr const char TypeIdentifier[] = "FactoryStack";
    	inline static constexpr Literal TypeId{TypeIdentifier};
 	FactoryStack(std::shared_ptr<FactoryType> f): factory{f} {}
 	void Register(const IdentifierType& id,  CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const  IdentifierType& id) {	return find(id);	}
-	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { 
-		auto a = find(id);		
-		auto p = a(std::move(arg));
-		return p;
+	PtrType operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>>& arg) { 
+		return (*this)[id]((*factory)(arg));
 	}
-	std::unique_ptr<std::vector< PtrType>> operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>> units) 
-	{
-		auto result = std::make_unique<std::vector<PtrType>>();
-		auto c =(*factory)(units);
-		auto a = find(id);
-		
-		auto p = a(std::move(c));
-		std::cout<<"P: "<<*p<<std::endl;
-		result->push_back(std::move(p));
-		return result;
-	}
+//	std::unique_ptr<std::vector< PtrType>> operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>> units) 
+//	{
+//		auto result = std::make_unique<std::vector<PtrType>>();
+//		auto p = (*this)[id]((*factory)(units));
+//		result->push_back(std::move(p));
+//		return result;
+//	}
 	size_t Size() { return creators.size(); }
 private:
 	template<typename E> using IsT =  Is<E,TypeId>;

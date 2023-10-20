@@ -85,16 +85,12 @@ int main()
  	std::vector<FactoryUnit<std::string, std::string>> mU39 = { {"EQ", "3"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU89 = { {"EQ", "8"}, {"EQ","9"}};
 	
-	auto vo49 = ((*pfs)("O", mU49));
-	assert(vo49->size()==1);
-	auto& po49 = vo49->at(0);
+	auto po49 = ((*pfs)("O", mU49));
 	assert((*po49)("4"));
 	assert((*po49)("9"));
 	assert(!(*po49)("12d"));
 	
-	auto va49 = ((*pfs)("A", mU49));
-	assert(vo49->size()==1);
-	auto& pa49 = va49->at(0);
+	auto pa49 = ((*pfs)("A", mU49));
 	assert(!(*pa49)("4"));
 	assert(!(*pa49)("9"));
 	auto pa_79 = dynamic_cast<IMatrixStateCategory<std::string>*>(pa49.release());
