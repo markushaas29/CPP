@@ -5,6 +5,7 @@
 #include "PointerConcept.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixCategory.hpp"
+#include "IMatrixQuery.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -31,7 +32,7 @@ private:
 };
 
 template<typename T, typename ET = T::ElementType>
-class MatrixQuery 
+class MatrixQuery: IMatrixQuery<T,ET> 
 {
 	using MatrixType = T;
 	using ElementType = T::ElementType;
@@ -99,17 +100,11 @@ private:
 		std::copy(arr.begin(), arr.end(), res.begin());
 		return res;
 	}
-	friend std::ostream& operator<<(std::ostream& s, const MatrixQuery& mq)
+	friend std::ostream& operator<<(std::ostream& s, const MatrixQuery& mq) { return mq.display(s); }
+	virtual std::ostream& display(std::ostream& s) const
 	{
 		s<<TypeId<<"\n";
-		std::for_each(mq.cats.cbegin(), mq.cats.cend(),[&](const auto& mu) { s<<"\t"<<*mu<<"\n"; });
+		std::for_each(cats.cbegin(), cats.cend(),[&](const auto& mu) { s<<"\t"<<*mu<<"\n"; });
 		return s;
 	};
-//	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
-//	{
-//    	for(int i = 0; i < row.size(); ++i)
-//			if(cat(*row[i]))
-//    			std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
-//	};
-	virtual std::ostream& display(std::ostream& s) const { return s<<TypeId; };
 };

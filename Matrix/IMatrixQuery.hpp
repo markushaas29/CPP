@@ -24,12 +24,20 @@ public:
 	using MatrixType = T;
  	virtual	MatrixType operator()( MatrixType* matrix) const = 0;
 private:
-	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
 template<typename T, typename ET = T::ElementType>
-class MatrixQueryBase : public IMatrixQuery<T,ET>
+class IMatrixSpanQuery
+{
+public:
+	using MatrixType = T;
+private:
+	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
+};
+
+template<typename T, typename ET = T::ElementType>
+class MatrixQueryBase : public IMatrixQuery<T,ET>, public IMatrixSpanQuery<T,ET>
 {
 	using Base = IMatrixQuery<T,ET>;
 public:
