@@ -120,7 +120,7 @@ private:
 	friend class MatrixAccess<Type>;
 	friend class MatrixIO<Type>;
 	friend class MatrixFilter<Type>;
-	template<typename TT, typename ETQ> friend class IMatrixQuery;
+	template<typename TT, typename ETQ> friend class MatrixQueryBase;
 	template<typename, typename> friend class MatrixQuery;
 
 	DescriptorType descriptor;

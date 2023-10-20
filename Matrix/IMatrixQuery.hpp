@@ -22,8 +22,22 @@ class IMatrixQuery
 {
 public:
 	using MatrixType = T;
+ 	virtual	MatrixType operator()( MatrixType* matrix) const = 0;
+private:
+	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
+	virtual std::ostream& display(std::ostream& s) const = 0;
+};
+
+template<typename T, typename ET = T::ElementType>
+class MatrixQueryBase : public IMatrixQuery<T,ET>
+{
+	using Base = IMatrixQuery<T,ET>;
+public:
+	using MatrixType = T;
 	using ElementType = T::ElementType;
 	using CategoryType = IMatrixCategory<ET>;
+	inline static constexpr const char TypeIdentifier[] = "MatrixQueryBase";
+    inline static constexpr Literal TypeId{TypeIdentifier};
  	virtual	MatrixType operator()( MatrixType* matrix) const
 	{
 		std::vector<typename MatrixType::DataType> result;
@@ -73,9 +87,10 @@ public:
 	}
 protected:
 	using MultiFactoryType = IFactory<CategoryType, MultiCatUnit<ET>>;
-	IMatrixQuery(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
-	IMatrixQuery(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ET> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
+	MatrixQueryBase(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
+	MatrixQueryBase(std::shared_ptr<MultiFactoryType> f, MultiCatUnit<ElementType> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
 private:
+	template<typename U> using IsT =  Is<U,TypeId>;
 	std::shared_ptr<MultiFactoryType> factory;
 	std::unique_ptr<CategoryType> cat;
 	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
@@ -86,22 +101,8 @@ private:
 		std::copy(arr.begin(), arr.end(), res.begin());
 		return res;
 	}
-	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery& mq) { return mq.display(s)<<": ["<<(*mq.cat)<<"]";  }
+	friend std::ostream& operator<<(std::ostream& s, const IMatrixQuery<T,ET>& mq) { return mq.display(s)<<": ["<<(*mq.cat)<<"]";  }
 	virtual std::ostream& display(std::ostream& s) const = 0;
-};
-
-template<typename T, typename ET>
-class MatrixQueryBase : public IMatrixQuery<T,ET>
-{
-	using Base = IMatrixQuery<T,ET>;
-public:
-	inline static constexpr const char TypeIdentifier[] = "MatrixQueryBase";
-    inline static constexpr Literal TypeId{TypeIdentifier};
-protected:
-	MatrixQueryBase(std::unique_ptr<typename Base::CategoryType> c): Base{std::move(c)} {}
-	MatrixQueryBase(std::shared_ptr<typename Base::MultiFactoryType> f, MultiCatUnit<typename Base::ElementType> units): Base{f, units} {}
-private:
-	template<typename U> using IsT =  Is<U,TypeId>;
 };
 
 template<typename T, typename ET = T::ElementType>
