@@ -30,9 +30,10 @@ private:
 };
 
 template<typename T>
-class IMatrixStateCategory: public IMatrixCategory<T> 
+class IMatrixStateCategory
 {
 public:
+	using ElementType = T;
 	virtual bool operator()() const = 0;
 	virtual bool Reset() = 0;
 };

@@ -37,7 +37,7 @@ private:
 };
 
 template<typename T>
-class OrCat : public MultiCategoryBase<T>, public IMatrixCategory<T>
+class OrCat : public MultiCategoryBase<T>, public IMatrixCategory<T>, public IMatrixStateCategory<T>
 {
 	using Base = MultiCategoryBase<T>;
 	using I = IMatrixCategory<T>;
@@ -55,6 +55,11 @@ public:
 
 		return false;
 	};
+	virtual bool operator()() const { return true; };
+	virtual bool Reset() 
+	{ 
+		return true; 
+	};
 private:
 	virtual std::ostream& display(std::ostream& s) const 
 	{ 
@@ -65,7 +70,7 @@ private:
 };
 
 template<typename T>
-class AndCat : public MultiCategoryBase<T>, public IMatrixStateCategory<T>
+class AndCat : public MultiCategoryBase<T>,  public IMatrixCategory<T>, public IMatrixStateCategory<T>
 {
 	using Base = MultiCategoryBase<T>;
 	using I = IMatrixStateCategory<T>;

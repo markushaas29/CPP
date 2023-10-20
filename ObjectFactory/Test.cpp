@@ -122,13 +122,14 @@ int main()
 	assert((*p79)());
 	assert(p79->Reset());
 	
-//	assert(!ac79("12"));
-//	assert(!ac79("9"));
-//	assert(!ac79());
-//	assert(!ac79("7"));
-//	assert(ac79());
-//	assert(ac79.Reset());
-//
+	std::unique_ptr<IMatrixCategory<std::string>> pa79 = (*pfs)("A", mU79);
+	assert(!(*pa79)("12"));
+	assert(!(*pa79)("9"));
+	auto pad_79 = dynamic_cast<IMatrixStateCategory<std::string>*>(pa79.release());
+	//assert(!(*pad_79)("7"));
+	assert(!(*pad_79)());
+	assert((*pad_79).Reset());
+
 //	MultiCatUnit<std::string> mCUA39(pfm,"A", mU39);
 //	MultiCatUnit<std::string> mCUO39(pfm,"O", mU39);
 //	MultiCatUnit<std::string> mCUA89(pfm,"A", mU89);
