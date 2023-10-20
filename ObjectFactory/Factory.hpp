@@ -86,6 +86,36 @@ private:
 	std::map< typename Base::IdentifierType, typename Base::CreatorType> creators;
 };
 
+template<class T, class F, typename CT = std::string>
+class FactoryStack: public IFactory<T,CT>
+{
+	using Base = IFactory<T,CT>; 
+	using FactoryType = F; 
+public:
+	FactoryStack(std::shared_ptr<FactoryType> f): factory{f} {}
+	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) { creators.try_emplace(id,c); } 
+	const typename Base::CreatorType& operator[](const  typename Base::IdentifierType& id) {	return find(id);	}
+	typename Base::PtrType operator()(const typename Base::IdentifierType& id, const typename Base::ArgumentType& arg) { return find(id)(arg);}
+	std::unique_ptr<std::vector< typename Base::PtrType>> operator()(const std::vector<FactoryUnit< typename Base::IdentifierType,  typename Base::ArgumentType>> units) 
+	{
+		auto result = std::make_unique<std::vector<typename Base::PtrType>>();
+		for(auto u : units)
+			result->push_back((*this)(u.Id(), u.Arg()));
+		return result;
+	}
+	size_t Size() { return creators.size(); }
+private:
+	const typename Base::CreatorType& find(const typename Base::IdentifierType& id) 
+	{
+		auto i = creators.find(id);
+		if(i == creators.end())
+			typename Base::IsT<Throwing>(Format(id))(false);
+		return (i->second); 
+	}
+	std::shared_ptr<FactoryType> factory;
+	std::map< typename Base::IdentifierType, typename Base::CreatorType> creators;
+};
+
 template<class TList, template<class> class Unit = FactoryUnit, template<class> class CreatePolicy = CreateFactoryUnitNewPolicy>
 class AbstractFactory
 {

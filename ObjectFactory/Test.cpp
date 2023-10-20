@@ -75,6 +75,8 @@ int main()
 	auto pfM =  std::make_shared<Factory<IMatrixCategory<std::string>,MultiCatUnit<std::string>>>();
 	pfM->Register("A",[](const MultiCatUnit<std::string>& s) { return std::make_unique<AndCat<std::string>>(s); });
 	pfM->Register("O",[](const MultiCatUnit<std::string>& s) { return std::make_unique<OrCat<std::string>>(s); });
+	
+	auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
 
  	std::vector<FactoryUnit<std::string, std::string>> mU49 = { {"EQ", "4"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
