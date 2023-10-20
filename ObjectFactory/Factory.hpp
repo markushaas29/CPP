@@ -100,15 +100,20 @@ public:
 	FactoryStack(std::shared_ptr<FactoryType> f): factory{f} {}
 	void Register(const IdentifierType& id,  CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const  IdentifierType& id) {	return find(id);	}
-	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { return  nullptr; }// find(id)(std::move(arg));}
+	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { 
+		auto a = find(id);		
+		auto p = a(std::move(arg));
+		return p;
+	}
 	std::unique_ptr<std::vector< PtrType>> operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>> units) 
 	{
 		auto result = std::make_unique<std::vector<PtrType>>();
 		auto c =(*factory)(units);
-		result->push_back((*this)(id, c));
-		auto a = this->find(id);
-
-		std::cout<<"STACKd"<<(*a(std::move(c)))<<std::endl;
+		auto a = find(id);
+		
+		auto p = a(std::move(c));
+		std::cout<<"P: "<<*p<<std::endl;
+		result->push_back(std::move(p));
 		return result;
 	}
 	size_t Size() { return creators.size(); }
