@@ -127,32 +127,24 @@ int main()
 	assert(!(*pad_79)());
 	assert((*pad_79).Reset());
 
-	std::vector<decltype(mUO49)> mus = {mUO49, mUA79};
+ 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUA13 = { "A", {{"EQ", "1"}, {"EQ","3"}}};
+	std::vector<decltype(mUO49)> mus = {mUA13, mUA79};
     auto mq = MatrixQuery<M2S,std::string>(pfs, mus);
-//
-//	std::cout<<"MQ:\n"<<mq<<std::endl;
-//	auto M33 =mq(&m33);
-//	assert(M33.Rows()==3);
-// 	
-// 	std::vector<FactoryUnit<std::string, std::string>> mU123 = { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}};	
-//	auto mCU123 = MultiCatUnit<std::string>(pfm,"A",  { {"EQ", "1"},{"EQ", "2"}, {"EQ","3"}});
-//    auto mCU49 = MultiCatUnit<std::string>(pfm,"A", mU49);
-//    auto mQU49 = MatrixQueryUnit<M2S,std::string>(pfM, mCU49);
-//    auto mQU123 = MatrixQueryUnit<M2S,std::string>(pfM, mCU123);
-//
-//	std::vector<decltype(mU)> mu123 = {mQU123, mQU49, mU3};
-//    auto mq123_49 = MatrixQuery<M2S,std::string>(pfM, mu123);
-//
-//	auto M123 =mq123_49(&m33);
-//	std::cout<<"MQ:\n"<<M123<<std::endl;
-//	assert(M123.Rows()==1);
-//	
-//	std::vector<decltype(mU)> mu39 = {mU5};
-//    auto mq3_9 = MatrixQuery<M2S,std::string>(pfM, mu39);
-//
-//	auto M39 =mq3_9(&m33);
-//	std::cout<<"MQ:\n"<<M39<<std::endl;
-//	assert(M39.Rows()==2);
+
+	std::cout<<"MQ:\n"<<mq<<std::endl;
+	auto M33 =mq(&m33);
+	std::cout<<"MQ:\n"<<M33<<std::endl;
+	//assert(M33.Rows()==3);
+ 	
+ 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mU123 = { "A",  {{"EQ", "1"},{"EQ", "2"}, {"EQ","3"}}};	
+    auto mq123 = MatrixQuery<M2S,std::string>(pfs, {mU123});
+	auto M123 =mq123(&m33);
+	assert(M123.Rows()==1);
+	
+ 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU39 = { "O",  {{"EQ", "9"}, {"EQ","3"}}};	
+    auto mq39 = MatrixQuery<M2S,std::string>(pfs, {fU39});
+	auto M39 =mq39(&m33);
+	assert(M39.Rows()==2);
 	
 	std::cout<<"END"<<std::endl;
    

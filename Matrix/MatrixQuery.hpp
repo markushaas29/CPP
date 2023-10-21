@@ -38,16 +38,16 @@ public:
         {
     	    for(int j = 0; j < matrix->Rows(); ++j)
 			{
-    	    	//for(int i = 0; i < units.size(); ++i)
-				//{
-					MatrixRowQuery<T,ET> rq{factory, units.at(0)};//, units.at(i).Unit()};
-					if(rq(matrix->row(j)))
-					{
-						auto row = matrix->row(j);
-						std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
-						break;
-					}
-				//}
+   				for(int i = 0; i < units.size(); ++i)
+   				{
+   				  MatrixRowQuery<T,ET> rq{factory, units.at(0)};;
+   				  if(rq(matrix->row(j)))
+   				  {
+   				  	auto row = matrix->row(j);
+   				  	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+   				  	break;
+   				  }
+   				}
 			}
 
 
