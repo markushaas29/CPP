@@ -41,7 +41,7 @@ public:
 	{ 
 		if constexpr (!std::is_same_v<ValueType,std::string>)
 		{
-			return dynamic_cast<O*>(const_cast<ValueType*>(&value));
+			return *(std::dynamic_pointer_cast<O>(value));
 		}
 	}
 	template<typename O>
@@ -94,8 +94,6 @@ private:
 	ValueType value;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElementBase& me) { return me.Display(s);  }
 };
-
-//template<typename T> class MatrixElement{ };
 
 template<typename T> requires ( std::is_arithmetic_v<T> )
 class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,T>>

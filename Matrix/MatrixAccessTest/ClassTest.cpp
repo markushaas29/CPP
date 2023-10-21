@@ -8,20 +8,26 @@
 class Base 
 {
 public:
-	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return s<<"Base"; }
+	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return s<<"Base: "<<m.value; }
+	Base(int v): value{v} {}
 	virtual ~Base() {}
+private:
+	int value;
 };
 
 class BSub :public Base
 {
 public:
+	BSub(int v): Base{v} {}
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"B"; }
+	friend std::ostream& operator<<(std::ostream& s, const BSub& m) { return s<<"BSub: "; }
 };
 
 
 class CSub :public Base
 {
 public:
+	CSub(int v): Base{v} {}
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"C"; }
 };
 
@@ -32,7 +38,7 @@ int main()
 		    using MDD2 = MatrixDescriptor<2,double>;
 		    using MDS1 = MatrixDescriptor<1,std::string>;
 		    using MDD1 = MatrixDescriptor<1,double>;
-		    using MDA1 = MatrixDescriptor<1,Base>;
+		    using MDA1 = MatrixDescriptor<1,std::shared_ptr<Base>>;
 		    using MS1 = Matrix<1,MDS1>;
 		    using MA1 = Matrix<1,MDA1>;
 		    using MD1 = Matrix<1,MDD1>;
@@ -48,13 +54,16 @@ int main()
 		
 			std::array<size_t,1> a1{2};
 			MDA1 md1(a1);
-			auto v = std::vector<std::shared_ptr<Base>> {std::make_shared<BSub>(), std::make_shared<CSub>()};
+			auto v = std::vector<std::shared_ptr<Base>> {std::make_shared<BSub>(2), std::make_shared<CSub>(3)};
 
 			MA1 ma1(md1, v);
 			std::cout<<"M Base"<<ma1<<std::endl;
 
 			auto b = ma1[0];
 			std::cout<<"M Base"<<b.As<BSub>()<<std::endl;
+			auto bp = b.Value();
+			auto bpp =	std::dynamic_pointer_cast<BSub>(bp);
+			std::cout<<"M Base"<<*bpp<<std::endl;
 		
 		 	MI2 m35 {
 		        {1, 2, 3, 4, 5},
