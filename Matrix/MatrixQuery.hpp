@@ -23,11 +23,12 @@ class MatrixQuery: IMatrixQuery<T,ET>
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	using CategoryType = IMatrixCategory<ET>;
-	using MultiFactoryType = IFactory<CategoryType>;//, MultiCatUnit<ET>>;
+	using FactoryType = FactoryStack<CategoryType, Factory<CategoryType>>;
+	using ArgType = FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
-	//MatrixQuery(std::shared_ptr<MultiFactoryType> f, std::vector<MatrixQueryUnit<T,ET>> u): factory{f}, cats{createCats(u)}, units{u} {}
+	MatrixQuery(std::shared_ptr<FactoryType> f, const std::vector<ArgType>& u): factory{f}, cats{createCats(u)}, units{u} {}
  	virtual	MatrixType operator()( MatrixType* matrix) const
 	{
 		std::vector<typename MatrixType::DataType> result;
@@ -39,7 +40,7 @@ public:
 			{
     	    	//for(int i = 0; i < units.size(); ++i)
 				//{
-					MatrixRowQuery<T,ET> rq{factory};//, units.at(i).Unit()};
+					MatrixRowQuery<T,ET> rq{factory, units.at(0)};//, units.at(i).Unit()};
 					if(rq(matrix->row(j)))
 					{
 						auto row = matrix->row(j);
@@ -67,13 +68,13 @@ public:
         }
 	}
 private:
-	std::shared_ptr<MultiFactoryType> factory;
-	//std::vector<MatrixQueryUnit<T,ET>> units;
+	std::shared_ptr<FactoryType> factory;
+	std::vector<ArgType> units;
 	std::vector<std::unique_ptr<CategoryType>> cats;
 	decltype(auto) createCats(const auto& mus) const
 	{
 		std::vector<std::unique_ptr<CategoryType>> res;
-		std::for_each(mus.cbegin(), mus.cend(),[&](const auto& mu) { res.push_back(std::move((*factory)( mu.Unit().Type(), mu.Unit()))); });
+		std::for_each(mus.cbegin(), mus.cend(),[&](const auto& mu) { res.push_back(std::move((*factory)( mu.Id(), mu.Arg()))); });
 
 		std::cout<<"SIZE"<<res.size();
 

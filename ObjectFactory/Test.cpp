@@ -100,7 +100,6 @@ int main()
 	assert((*or79)("9"));
 	assert(!(*or79)("12"));
 	
-
     auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfs, mUO49));
 	std::cout<<"Start"<<m49<<std::endl;
 	assert(m49.Rows()==2);
@@ -128,17 +127,8 @@ int main()
 	assert(!(*pad_79)());
 	assert((*pad_79).Reset());
 
-//	MultiCatUnit<std::string> mCUA39(pfm,"A", mU39);
-//	MultiCatUnit<std::string> mCUO39(pfm,"O", mU39);
-//	MultiCatUnit<std::string> mCUA89(pfm,"A", mU89);
-//    auto mU = MatrixQueryUnit<M2S,std::string>(pfM, mCU);
-//    auto mU2 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA);
-//    auto mU3 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA39);
-//    auto mU5 = MatrixQueryUnit<M2S,std::string>(pfM, mCUO39);
-//    auto mU4 = MatrixQueryUnit<M2S,std::string>(pfM, mCUA89);
-//
-//	std::vector<decltype(mU)> mus = {mU, mU2, mU3, mU4, mU5};
-//    auto mq = MatrixQuery<M2S,std::string>(pfM, mus);
+	std::vector<decltype(mUO49)> mus = {mUO49, mUA79};
+    auto mq = MatrixQuery<M2S,std::string>(pfs, mus);
 //
 //	std::cout<<"MQ:\n"<<mq<<std::endl;
 //	auto M33 =mq(&m33);
