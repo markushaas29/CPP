@@ -24,6 +24,8 @@ class IMatrixCategory
 public:
 	using ElementType = T;
 	virtual bool operator()(const T& e) const = 0;
+	template<typename V>     
+    V* To() const   { return dynamic_cast<V*>(const_cast<IMatrixCategory*>(this));    }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixCategory& me) { return me.display(s);  }
 	virtual std::ostream& display(std::ostream& s) const = 0;

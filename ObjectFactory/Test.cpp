@@ -91,6 +91,7 @@ int main()
 	auto pa49 = ((*pfs)("A", mU49));
 	assert(!(*pa49)("4"));
 	assert(!(*pa49)("9"));
+    assert((*pa49->To<IMatrixStateCategory<std::string>>())());    
 	auto pa_79 = dynamic_cast<IMatrixStateCategory<std::string>*>(pa49.release());
     assert((*pa_79)());    
 	assert(pa_79->Reset());
