@@ -32,8 +32,8 @@ class FactoryUnit
 {
 public:
 	FactoryUnit(const IdentifierType& id, const ArgumentType& arg) : identifier{id}, argument{arg} {}
-	decltype(auto) Arg() { return argument; }
-	decltype(auto) Id() { return identifier; }
+	decltype(auto) Arg() const { return argument; }
+	decltype(auto) Id() const { return identifier; }
 private:
 	const IdentifierType identifier;
 	const ArgumentType argument;
@@ -89,13 +89,13 @@ private:
 template<class T, class F, typename CT = std::unique_ptr<std::vector<std::unique_ptr<T>>>>
 class FactoryStack
 {
+public:
 	using PtrType = std::unique_ptr<T>;
 	using ElementType = typename T::ElementType;
 	using IdentifierType = std::string;
 	using ArgumentType = std::vector<FactoryUnit<IdentifierType, ElementType>>;
 	using CreatorType = std::function<std::unique_ptr<T>(CT)>;
 	using FactoryType = F; 
-public:
 	inline static constexpr const char TypeIdentifier[] = "FactoryStack";
    	inline static constexpr Literal TypeId{TypeIdentifier};
 	FactoryStack(std::shared_ptr<FactoryType> f): factory{f} {}

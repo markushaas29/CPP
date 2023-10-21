@@ -43,6 +43,8 @@ public:
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	using CategoryType = IMatrixCategory<ET>;
+	using FactoryType = FactoryStack<CategoryType, Factory<CategoryType>>;
+    using VecType = FactoryUnit<typename FactoryType::IdentifierType, typename FactoryType::ArgumentType>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixQueryBase";
     inline static constexpr Literal TypeId{TypeIdentifier};
  	virtual	MatrixType operator()( MatrixType* matrix) const
@@ -95,10 +97,10 @@ public:
 protected:
 	using MultiFactoryType = IFactory<CategoryType>;
 	MatrixQueryBase(std::unique_ptr<CategoryType> c): cat{std::move(c)} {}
-	MatrixQueryBase(std::shared_ptr<MultiFactoryType> f, FactoryUnit<ElementType> units): factory{f}, cat{std::move((*f)( units.Type(), units))}{ }
+	MatrixQueryBase(std::shared_ptr<FactoryType> f, const VecType& units): factory{f}, cat{std::move((*f)(units.Id(), units.Arg()))}{ }
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
-	std::shared_ptr<MultiFactoryType> factory;
+	std::shared_ptr<FactoryType> factory;
 	std::unique_ptr<CategoryType> cat;
 	virtual void exec(std::vector<typename MatrixType::DataType>& result, const std::vector<typename MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const = 0;
 	template<size_t N>
@@ -120,7 +122,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixRowQuery";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	MatrixRowQuery(std::unique_ptr<typename Base::CategoryType> cat): Base{std::move(cat)} {}
-	//MatrixRowQuery(std::shared_ptr<typename Base::MultiFactoryType> f, ): Base{f, units} {}
+	MatrixRowQuery(std::shared_ptr<typename Base::FactoryType> f, const typename Base::VecType& units): Base{f, units} {}
 private:
 	virtual void exec(std::vector<typename Base::MatrixType::DataType>& result, const std::vector<typename Base::MatrixType::DataType>& row, IMatrixCategory<ET>& cat) const
 	{

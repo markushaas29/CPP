@@ -84,6 +84,8 @@ int main()
  	std::vector<FactoryUnit<std::string, std::string>> mU79 = { {"EQ", "7"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU39 = { {"EQ", "3"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU89 = { {"EQ", "8"}, {"EQ","9"}};
+ 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUO49 = { "O", {{"EQ", "4"}, {"EQ","9"}}};
+ 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUA79 = { "A", {{"EQ", "/"}, {"EQ","9"}}};
 	
 	auto po49 = ((*pfs)("O", mU49));
 	assert((*po49)("4"));
@@ -103,17 +105,17 @@ int main()
 	assert(!(*or79)("12"));
 	
 
-//    auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCU));
-//	std::cout<<"Start"<<m49<<std::endl;
+    auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfs, mUO49));
+	std::cout<<"Start"<<m49<<std::endl;
 //	assert(m49.Rows()==2);
 //	assert(m49[0][0].To<int>()==4);
 //	assert(m49[1][2].To<int>()==9);
-//
-//    auto m79 = m33.M(MatrixRowQuery<M2S,std::string>(pfM, mCUA));
-//	std::cout<<"Start"<<m49<<std::endl;
-//	assert(m79.Rows()==1);
-//	assert(m79[0][0].To<int>()==7);
-//	assert(m79[0][2].To<int>()==9);
+
+    auto m79 = m33.M(MatrixRowQuery<M2S,std::string>(pfs, mUA79));
+	std::cout<<"Start"<<m79<<std::endl;
+	assert(m79.Rows()==1);
+	assert(m79[0][0].To<int>()==7);
+	assert(m79[0][2].To<int>()==9);
 
 	std::unique_ptr<IMatrixCategory<std::string>> and79 = (*pfs)("A", mU79);
 	assert(!(*and79)("7"));
