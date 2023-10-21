@@ -49,6 +49,8 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
  	virtual	MatrixType operator()( MatrixType* matrix) const
 	{
+
+		std::cout<<"CAT"<<*cat<<std::endl;
 		std::vector<typename MatrixType::DataType> result;
     	std::array<size_t,MatrixType::Order> e = copy(matrix->descriptor.Extents());
 		

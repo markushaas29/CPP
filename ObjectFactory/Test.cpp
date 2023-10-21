@@ -85,7 +85,7 @@ int main()
  	std::vector<FactoryUnit<std::string, std::string>> mU39 = { {"EQ", "3"}, {"EQ","9"}};
  	std::vector<FactoryUnit<std::string, std::string>> mU89 = { {"EQ", "8"}, {"EQ","9"}};
  	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUO49 = { "O", {{"EQ", "4"}, {"EQ","9"}}};
- 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUA79 = { "A", {{"EQ", "/"}, {"EQ","9"}}};
+ 	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUA79 = { "A", {{"EQ", "7"}, {"EQ","9"}}};
 	
 	auto po49 = ((*pfs)("O", mU49));
 	assert((*po49)("4"));
