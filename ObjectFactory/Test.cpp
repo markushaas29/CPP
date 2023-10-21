@@ -72,10 +72,6 @@ int main()
 	auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 	pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
 	
-//	auto pfM =  std::make_shared<Factory<IMatrixCategory<std::string>,MultiCatUnit<std::string>>>();
-//	pfM->Register("A",[](const MultiCatUnit<std::string>& s) { return std::make_unique<AndCat<std::string>>(s); });
-//	pfM->Register("O",[](const MultiCatUnit<std::string>& s) { return std::make_unique<OrCat<std::string>>(s); });
-	
 	auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
 	pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });
 	pfs->Register("O",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<OrCat<std::string>>(std::move(s)); });
@@ -107,9 +103,9 @@ int main()
 
     auto m49 = m33.M(MatrixRowQuery<M2S,std::string>(pfs, mUO49));
 	std::cout<<"Start"<<m49<<std::endl;
-//	assert(m49.Rows()==2);
-//	assert(m49[0][0].To<int>()==4);
-//	assert(m49[1][2].To<int>()==9);
+	assert(m49.Rows()==2);
+	assert(m49[0][0].To<int>()==4);
+	assert(m49[1][2].To<int>()==9);
 
     auto m79 = m33.M(MatrixRowQuery<M2S,std::string>(pfs, mUA79));
 	std::cout<<"Start"<<m79<<std::endl;

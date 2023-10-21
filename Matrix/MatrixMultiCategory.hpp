@@ -37,7 +37,7 @@ private:
 };
 
 template<typename T>
-class OrCat : public MultiCategoryBase<T>, public IMatrixCategory<T>, public IMatrixStateCategory<T>
+class OrCat : public MultiCategoryBase<T>, public IMatrixCategory<T>
 {
 	using Base = MultiCategoryBase<T>;
 	using I = IMatrixCategory<T>;
