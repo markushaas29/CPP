@@ -37,6 +37,14 @@ public:
 	template<typename O>
 	operator O() const { return static_cast<O>(value); }
 	template<typename O>
+	decltype(auto) As() const 
+	{ 
+		if constexpr (!std::is_same_v<ValueType,std::string>)
+		{
+			return dynamic_cast<O*>(const_cast<ValueType*>(&value));
+		}
+	}
+	template<typename O>
 	decltype(auto) To() const 
 	{ 
 

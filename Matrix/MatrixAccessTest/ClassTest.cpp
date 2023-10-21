@@ -9,6 +9,7 @@ class Base
 {
 public:
 	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return s<<"Base"; }
+	virtual ~Base() {}
 };
 
 class BSub :public Base
@@ -51,6 +52,9 @@ int main()
 
 			MA1 ma1(md1, v);
 			std::cout<<"M Base"<<ma1<<std::endl;
+
+			auto b = ma1[0];
+			std::cout<<"M Base"<<b.As<BSub>()<<std::endl;
 		
 		 	MI2 m35 {
 		        {1, 2, 3, 4, 5},
