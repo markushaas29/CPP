@@ -29,23 +29,29 @@ decltype(auto) TryTo(std::string arg)
 template<typename Target=std::string>
 Target To(std::string arg)
 {
-	static constexpr const char TypeIdentifier[] = "To<>()";
-    static constexpr Literal LiteralType{TypeIdentifier};
-
-	if(arg.size() == 0)
-		return Target{0};
-
-	std::string info{arg};
-	if constexpr (std::is_same_v<Target,double>)
+	if constexpr (std::is_same_v<Target,std::string>)
+		return arg;
+	else
 	{
-		if(String_::Contains(arg,".") && String_::Contains(arg,","))
-			arg.erase(std::remove(arg.begin(), arg.end(), '.'), arg.end());
-		std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
-		Logger::Log(Format(LiteralType," comma replaced in ",info, " to ", arg));
-	}
+		static constexpr const char TypeIdentifier[] = "To<>()";
+	    static constexpr Literal LiteralType{TypeIdentifier};
 	
-	auto result = TryTo<Target>(arg);
-	if(!result.Valid)
-		Is<Throwing,LiteralType>(Format(" failed: argument ",info, " formatted to ", arg))(false);
-	return result;
+		if(arg.size() == 0)
+			return Target{0};
+	
+		std::string info{arg};
+		if constexpr (std::is_same_v<Target,double>)
+		{
+			if(String_::Contains(arg,".") && String_::Contains(arg,","))
+				arg.erase(std::remove(arg.begin(), arg.end(), '.'), arg.end());
+			std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
+			Logger::Log(Format(LiteralType," comma replaced in ",info, " to ", arg));
+		}
+		
+		auto result = TryTo<Target>(arg);
+		if(!result.Valid)
+			Is<Throwing,LiteralType>(Format(" failed: argument ",info, " formatted to ", arg))(false);
+		
+		return result;
+	}
 }
