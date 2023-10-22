@@ -184,8 +184,16 @@ class MatrixQueryTest
 			assert((int)mA33[0][0]==6);
 			auto mAq = MatrixRowQuery<decltype(mA33),int>(std::make_unique<EquivalenceCat<int>>(6));
 			auto M6 = mA33.M(mAq);
-			std::cout<<"EQ"<<eq<<std::endl;
+			std::cout<<"EQ"<<mA33<<std::endl;
+			std::cout<<"M6"<<M6<<std::endl;
 			assert(M6.Rows()==1);
+			
+			auto mAM33 = mA33 * m33;
+			assert((int)mAM33[0][0]==212);
+			assert((int)mAM33[1][0]==322);
+			auto mAq212 = MatrixRowQuery<decltype(mAM33),int>(std::make_unique<EquivalenceCat<int>>(212));
+			auto M212 = mAM33.M(mAq212);
+			assert(M212.Rows()==1);
 		
 			std::vector<FactoryUnit<std::string, std::string>> units = { {"C", "DE12660623660000005703"}};
 		    auto pf = std::make_shared<Factory<IMatrixCategory<std::string>>>();                                                    
@@ -233,19 +241,20 @@ class MatrixQueryTest
      		pfs->Register("O",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<OrCat<std::string>>(std::move(s)); });
 
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Abschlagsforderung"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}}; 
 		    auto mq39 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas});
-		    auto M39 =mq39(&m22);
+		    auto M39 =mq39(&m22).Cols(4,6,7,9,11);
 			std::cout<<M39<<std::endl;
 			std::cout<<M39.Rows()<<std::endl;
+			assert(M39.Rows()==25);
 //		    assert(M39.Rows()==2);
 
-		//	auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
-		//	mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));
-		//	auto m10A = mA33.M(mrq10);
-		//	assert(m10A.Rows()==1);
-		//	assert(m10A[0][2].To<int>()==5);
-		//	assert(m10A[0][0].To<int>()==3);
+//			auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
+//			mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));
+//			auto m10A = mA33.M(mrq10);
+//			assert(m10A.Rows()==1);
+//			assert(m10A[0][2].To<int>()==5);
+//			assert(m10A[0][0].To<int>()==3);
 			auto mq15 = MatrixRowQuery<M2>(std::make_unique<EquivalenceCat<int>>(15));
 			EquivalenceCat<int> eq15(15);
 			cr = m33.M(mq15);
