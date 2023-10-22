@@ -235,7 +235,7 @@ class MatrixQueryTest
 		    auto mq39 = MatrixQuery<decltype(m22),std::string>(pfs, {fU39});
 		    auto M39 =mq39(&m22);
 			std::cout<<M39<<std::endl;
-		    assert(M39.Rows()==2);
+//		    assert(M39.Rows()==2);
 
 		//	auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
 		//	mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));

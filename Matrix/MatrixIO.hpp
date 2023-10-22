@@ -1,6 +1,7 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
+#include "PointerConcept.hpp"
 #include "../Components/Interfaces.hpp"
 
 #pragma once
@@ -18,7 +19,10 @@ public:
 		{
 			s<<"{";
 			for(auto i=0; i<m->Rows(); ++i)
-				s<<*(m->elements->at(i))<<(i+1 == m->Rows()? "" : ", ");
+				if constexpr (PointerConcept<decltype(*(m->elements->at(i)))>)
+					s<<*(*(m->elements->at(i)))<<(i+1 == m->Rows()? "" : ", ");
+				else
+					s<<*(m->elements->at(i))<<(i+1 == m->Rows()? "" : ", ");
 			return s<<" }";
 		}
 		else

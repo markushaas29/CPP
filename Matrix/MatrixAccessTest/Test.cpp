@@ -20,7 +20,8 @@ using namespace DateTimes;
 class Base 
 {
 public:
-	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return s<<"Base: "<<m.value; }
+	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return m.display(s); }
+	virtual std::ostream& display(std::ostream& s) const = 0;
 	Base(int v): value{v} {}
 	virtual ~Base() {}
 private:
@@ -33,6 +34,7 @@ public:
 	BSub(int v): Base{v} {}
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"B"; }
 	friend std::ostream& operator<<(std::ostream& s, const BSub& m) { return s<<"BSub: "; }
+	virtual std::ostream& display(std::ostream& s) const { return s<<"BSub: "; }
 };
 
 class CSub :public Base
@@ -41,6 +43,7 @@ public:
 	CSub(int v): Base{v} {}
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"C"; }
 	friend std::ostream& operator<<(std::ostream& s, const CSub& m) { return s<<"CSub: "; }
+	virtual std::ostream& display(std::ostream& s) const { return s<<"CSub: "; }
 };
 
 class MatrixAccessTest

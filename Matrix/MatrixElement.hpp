@@ -41,7 +41,6 @@ public:
 	template<typename O>
 	decltype(auto) To() const 
 	{ 
-
 		if constexpr (!std::is_same_v<ValueType,std::string>)
 			return static_cast<O>(value);
 		else
