@@ -227,7 +227,8 @@ class MatrixAccessTest
 			auto v = std::vector<std::shared_ptr<Base>> {std::make_shared<BSub>(2), std::make_shared<CSub>(3)};
 
 			MA1 ma1(md1, v);
-			std::cout<<"M Base"<<ma1<<std::endl;
+			std::cout<<"M Base"<<ma1[0]<<std::endl;
+			std::cout<<"M Base"<<ma1[1]<<std::endl;
 
 			auto b = ma1[0];
 			std::cout<<"BSub "<<b.As<BSub>()<<std::endl;

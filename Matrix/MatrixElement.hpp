@@ -1,4 +1,5 @@
 #include <memory>
+#include "PointerConcept.hpp"
 #include "../Functional/FunctionalConcept.hpp"
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
@@ -95,6 +96,17 @@ public:
 	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,T>>;
 	MatrixElement(T v): Base{v} { }
 	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<": "<<Base::value; }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
+};
+
+template<typename T> requires ( PointerConcept<T> )
+class MatrixElement<T>: public MatrixElementBase<T, Entry>
+{
+public:
+	using Base = MatrixElementBase<T, Entry>;
+	MatrixElement(const T& v): Base{v} { }
+	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" :"<<(*Base::value); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
