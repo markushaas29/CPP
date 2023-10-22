@@ -22,6 +22,7 @@ class Base
 public:
 	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
+	virtual bool Get() const = 0;
 	Base(int v): value{v} {}
 	virtual ~Base() {}
 private:
@@ -35,6 +36,7 @@ public:
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"B"; }
 	friend std::ostream& operator<<(std::ostream& s, const BSub& m) { return s<<"BSub: "; }
 	virtual std::ostream& display(std::ostream& s) const { return s<<"BSub: "; }
+	virtual bool Get() const { return true; };
 };
 
 class CSub :public Base
@@ -44,6 +46,7 @@ public:
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"C"; }
 	friend std::ostream& operator<<(std::ostream& s, const CSub& m) { return s<<"CSub: "; }
 	virtual std::ostream& display(std::ostream& s) const { return s<<"CSub: "; }
+	virtual bool Get() const { return false; };
 };
 
 class MatrixAccessTest
@@ -228,7 +231,9 @@ class MatrixAccessTest
 
 			MA1 ma1(md1, v);
 			std::cout<<"M Base"<<ma1[0]<<std::endl;
+			std::cout<<"M Base"<<ma1[0].Value()->Get()<<std::endl;
 			std::cout<<"M Base"<<ma1[1]<<std::endl;
+			std::cout<<"M Base"<<ma1[1].Value()->Get()<<std::endl;
 
 			auto b = ma1[0];
 			std::cout<<"BSub "<<b.As<BSub>()<<std::endl;
