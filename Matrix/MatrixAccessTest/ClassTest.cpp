@@ -29,6 +29,7 @@ class CSub :public Base
 public:
 	CSub(int v): Base{v} {}
 	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"C"; }
+	friend std::ostream& operator<<(std::ostream& s, const CSub& m) { return s<<"CSub: "; }
 };
 
 int main()

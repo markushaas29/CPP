@@ -17,6 +17,32 @@
 using namespace ShortNames;
 using namespace DateTimes;
 
+class Base 
+{
+public:
+	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return s<<"Base: "<<m.value; }
+	Base(int v): value{v} {}
+	virtual ~Base() {}
+private:
+	int value;
+};
+
+class BSub :public Base
+{
+public:
+	BSub(int v): Base{v} {}
+	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"B"; }
+	friend std::ostream& operator<<(std::ostream& s, const BSub& m) { return s<<"BSub: "; }
+};
+
+class CSub :public Base
+{
+public:
+	CSub(int v): Base{v} {}
+	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"C"; }
+	friend std::ostream& operator<<(std::ostream& s, const CSub& m) { return s<<"CSub: "; }
+};
+
 class MatrixAccessTest
 {
 	public:
@@ -188,6 +214,21 @@ class MatrixAccessTest
 			assert((Quantity<Sum>)m3[1][3][1]==Quantity<Sum>(5));
 
 			std::cout<<m3S;
+
+			std::cout<<"START Class"<<std::endl;
+		
+			using MDA1 = MatrixDescriptor<1,std::shared_ptr<Base>>;
+		    using MA1 = Matrix<1,MDA1>;
+			std::array<size_t,1> a1{2};
+			MDA1 md1(a1);
+			auto v = std::vector<std::shared_ptr<Base>> {std::make_shared<BSub>(2), std::make_shared<CSub>(3)};
+
+			MA1 ma1(md1, v);
+			std::cout<<"M Base"<<ma1<<std::endl;
+
+			auto b = ma1[0];
+			std::cout<<"BSub "<<b.As<BSub>()<<std::endl;
+			std::cout<<"CSub "<<ma1[1].As<CSub>()<<std::endl;
 
 			std::cout<<"END"<<m35.M({1,2},{2,2})<<std::endl;
 		   
