@@ -226,15 +226,18 @@ class MatrixQueryTest
 
 			auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 		    pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+			pfm->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
 
 		  	auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
      		pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });
      		pfs->Register("O",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<OrCat<std::string>>(std::move(s)); });
 
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU39 = { "O",  {{"EQ", "DE44600501010008017284"}, {"EQ","DE12660623660000005703"}}}; 
-		    auto mq39 = MatrixQuery<decltype(m22),std::string>(pfs, {fU39});
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Abschlagsforderung"}}}; 
+		    auto mq39 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas});
 		    auto M39 =mq39(&m22);
 			std::cout<<M39<<std::endl;
+			std::cout<<M39.Rows()<<std::endl;
 //		    assert(M39.Rows()==2);
 
 		//	auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));

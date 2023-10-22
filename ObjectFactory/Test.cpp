@@ -135,7 +135,7 @@ int main()
 	std::cout<<"MQ:\n"<<mq<<std::endl;
 	auto M33 =mq(&m33);
 	std::cout<<"MQ:\n"<<M33<<std::endl;
-	//assert(M33.Rows()==3);
+	assert(M33.Rows()==2);
  	
  	FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mU123 = { "A",  {{"EQ", "1"},{"EQ", "2"}, {"EQ","3"}}};	
     auto mq123 = MatrixQuery<M2S,std::string>(pfs, {mU123});

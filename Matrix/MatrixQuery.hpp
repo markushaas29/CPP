@@ -40,7 +40,7 @@ public:
 			{
    				for(int i = 0; i < units.size(); ++i)
    				{
-   				  MatrixRowQuery<T,ET> rq{factory, units.at(0)};;
+   				  MatrixRowQuery<T,ET> rq{factory, units.at(i)};;
    				  if(rq(matrix->row(j)))
    				  {
    				  	auto row = matrix->row(j);
