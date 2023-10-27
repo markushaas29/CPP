@@ -63,6 +63,7 @@ public:
 		for(auto m : *elements)
 		{
 			auto x = m.M(query);
+			x.row(0);
 			std::cout<<"X: "<<x<<std::endl;
 		}
 		return 1; 
