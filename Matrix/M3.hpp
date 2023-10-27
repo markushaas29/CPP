@@ -33,7 +33,11 @@ public:
 	~M3() = default;
 
 	explicit M3(const VecType& v): M3(init(v)){  };
-	explicit M3(const std::vector<MatrixType>& v):  elements{std::make_unique<std::vector<MatrixType>>(v.cbegin(), v.cend())}{  };
+	explicit M3(const std::vector<MatrixType>& v):  elements{std::make_unique<std::vector<MatrixType>>(v.cbegin(), v.cend())}
+	{
+		auto c = elements->at(0).Cols();
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& m) { IsT<Throwing>(Format("Matrix is jagged Rows/Cols: "))(c == m.Cols()); });
+	};
 
 	M3& operator=(M3& m) { return M3(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 
@@ -73,15 +77,10 @@ public:
 
 		std::array<size_t,Order-1> e;
 		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
-
-
 		e[0] = result.size() / e[1];
 
-			std::cout<<"X: "<<e[0]<<std::endl;
-
-
 		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
-	}//query(this); }
+	}
 
 //	template<typename F>
 //	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }

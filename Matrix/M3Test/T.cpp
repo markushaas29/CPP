@@ -4,16 +4,13 @@
 #include <tuple> 
 #include <memory> 
 #include "Test.cpp"
-#include "ProjectionCalc.cpp"
 using namespace ShortNames;
 
 int main()
 {
-	MatrixProjectorTest analyzer;
-	MatrixProjectorCalculationTest calc;
+	M3Test analyzer;
 
 	analyzer.Run();
-	calc.Run();
 
 	return 0;
 }
