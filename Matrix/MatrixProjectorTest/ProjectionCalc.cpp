@@ -133,9 +133,14 @@ class MatrixProjectorCalculationTest
 			auto out23M = a23();
 
 			std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx{out22M, out23M};
+			std::vector<MI2> mis{m33, m35};
 
 			M3 m3(mx);
 			std::cout<<"M3: \n"<<m3<<std::endl;
+			std::vector<MI2> mi{m33, m35};
+
+			M3<int> m3i(mis);
+			std::cout<<"M3: \n"<<m3i<<std::endl;
 
 			auto out22S = out22M.Col(2).To<QS>();
 			auto out23S = out23M.Col(2).To<QS>();
