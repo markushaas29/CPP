@@ -57,6 +57,17 @@ public:
 		return M3<TO>(mx); 
 	}
 
+	template<typename ET = ElementType>
+	decltype(auto) M(const IMatrixQuery<MatrixType, ET>& query) 
+	{ 
+		for(auto m : *elements)
+		{
+			auto x = m.M(query);
+			std::cout<<"X: "<<x<<std::endl;
+		}
+		return 1; 
+	}//query(this); }
+
 //	template<typename F>
 //	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 private:

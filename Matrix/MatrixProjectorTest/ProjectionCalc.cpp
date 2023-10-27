@@ -10,6 +10,9 @@
 #include "../MatrixFilter.hpp"
 #include "../MatrixAnalyzer.hpp"
 #include "../M3.hpp"
+#include "../MatrixCategory.hpp"
+#include "../MatrixMultiCategory.hpp"
+#include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
@@ -60,6 +63,17 @@ class MatrixProjectorCalculationTest
 			MS1 ms1{
 				{std::string("1"),std::string("2")} 
 		    };
+
+			MS2 m33s {
+	            {"1", "2" ,"3"},
+    	        {"4", "5", "6"},
+        	    {"7", "8", "9"},
+        	};
+			
+			MS2 m23s {
+    	        {"4", "5", "6"},
+        	    {"7", "8", "9"},
+        	};
 		
 		 	MI2 m35 {
 		        {1, 2, 3, 4, 5},
@@ -133,7 +147,22 @@ class MatrixProjectorCalculationTest
 			auto out23M = a23();
 
 			std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx{out22M, out23M};
+			std::vector<MS2> ms3v{m33s, m23s};
 			std::vector<MI2> mis{m33, m35};
+
+			auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
+		    pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+
+			auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
+     		pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });
+			pfs->Register("O",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<OrCat<std::string>>(std::move(s)); });
+
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> mUO49 = { "O", {{"EQ", "4"}, {"EQ","9"}}};
+			
+			M3 m3s(ms3v);
+			auto m49 = m3s.M(MatrixRowQuery<MS2,std::string>(pfs, mUO49));
+			std::cout<<"M3S: \n"<<m3s<<std::endl;
+			std::cout<<"M3S: \n"<<m49<<std::endl;
 
 			M3 m3(mx);
 			std::cout<<"M3: \n"<<m3<<std::endl;
