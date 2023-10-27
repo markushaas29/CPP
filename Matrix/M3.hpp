@@ -60,13 +60,27 @@ public:
 	template<typename ET = ElementType>
 	decltype(auto) M(const IMatrixQuery<MatrixType, ET>& query) 
 	{ 
-		for(auto m : *elements)
+		std::vector<DataType> result;
+		for(auto el : *elements)
 		{
-			auto x = m.M(query);
-			x.row(0);
-			std::cout<<"X: "<<x<<std::endl;
+			auto m = el.M(query);
+			for(auto i = 0; i < m.Rows(); ++i)
+			{
+				auto row = m.row(i);
+				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
+			}
 		}
-		return 1; 
+
+		std::array<size_t,Order-1> e;
+		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
+
+
+		e[0] = result.size() / e[1];
+
+			std::cout<<"X: "<<e[0]<<std::endl;
+
+
+		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
 	}//query(this); }
 
 //	template<typename F>
