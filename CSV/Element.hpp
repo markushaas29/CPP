@@ -13,7 +13,7 @@
 class IElement
 {
 public:
-//	virtual const std::string Value() const  = 0;	
+	//virtual const std::string Get() const  = 0;	
 	virtual constexpr char operator[](uint i) const = 0;
 private:
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
@@ -38,6 +38,7 @@ public:
 	constexpr Element(const char* s): size{Len(Derived::check(s))}, data{Init<N>(Derived::check(s))} { };
 
 	const std::string Value() const  {	return std::string(data.data()); };	
+	//const std::string () const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Begin() { return data.begin(); }
 	constexpr decltype(auto) End() { return data.begin() + size; }
 	constexpr decltype(auto) Size() { return size; }
