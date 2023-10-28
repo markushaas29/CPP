@@ -11,6 +11,7 @@
 #include "../MatrixAnalyzer.hpp"
 #include "../M3.hpp"
 #include "../MatrixCategory.hpp"
+#include "../MatrixQuery.hpp"
 #include "../MatrixMultiCategory.hpp"
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/ShortNames.hpp"
@@ -123,6 +124,7 @@ class M3Test
 
 			auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 		    pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+		    pfm->Register("C",[](const std::string& s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 
 			auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
      		pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });
@@ -146,6 +148,12 @@ class M3Test
 			auto t = false;
 			try	{ M3<int> m3i(mis);	}catch(...){ t = true;	}
 			assert(t);
+
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
+			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas});
+            //auto M39 =m3.M(mq39);
+            std::cout<<m3<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   

@@ -3,7 +3,6 @@
 #include <memory>
 #include "MatrixDescriptor.hpp"
 #include "MatrixElement.hpp"
-#include "MatrixCalculator.hpp"
 #include "MatrixInitializer.hpp"
 #include "../Calculator/CalculatorResult.hpp"
 #include "../Calculator/Operations.hpp"
