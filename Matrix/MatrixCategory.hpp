@@ -71,16 +71,16 @@ private:
 };
 
 template<typename T = std::string>
-class ContainCat : public CategoryBase<T,ContainCat<T>>
+class HasCat : public CategoryBase<T,HasCat<T>>
 {
-	using Base = CategoryBase<T,ContainCat<T>>;
+	using Base = CategoryBase<T,HasCat<T>>;
 public:
-	inline static constexpr const char TypeIdentifier[] = "Contain";
+	inline static constexpr const char TypeIdentifier[] = "Has";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>
-	ContainCat(TT e): Base(e) {}
-	ContainCat(const std::string& s): Base(s) {}
+	HasCat(TT e): Base(e) {}
+	HasCat(const std::string& s): Base(s) {}
 	virtual bool operator()(const Base::ElementType& e) const { return String_::Contains(e,Base::element); };
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;

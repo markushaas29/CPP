@@ -97,7 +97,7 @@ class MatrixQueryTest
 			//Create(m22,s1,s2);
 			assert(!eq(4));
 			auto s6 = std::string("6");
-			ContainCat cc6(s6);
+			HasCat cc6(s6);
 			
 			OrCat<int> mc(std::move(vc));
 			assert(mc.Size()==2);
@@ -198,7 +198,7 @@ class MatrixQueryTest
 			std::vector<FactoryUnit<std::string, std::string>> units = { {"C", "DE12660623660000005703"}};
 		    auto pf = std::make_shared<Factory<IMatrixCategory<std::string>>>();                                                    
 		    pf->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
-		    pf->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
+		    pf->Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 		    assert(pf->Size()==2);
 
 			auto cdet = (*pf)(units);
@@ -234,7 +234,7 @@ class MatrixQueryTest
 
 			auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 		    pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
-			pfm->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
+			pfm->Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 
 		  	auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
      		pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });

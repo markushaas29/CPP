@@ -12,8 +12,8 @@ void Create(const T& t, const std::string& q, const std::string& c)
 		case EquivalenceCat<std::string>::TypeId:
 			std::cout<<"EQ";
 			return;
-		case ContainCat<std::string>::TypeId:
-			std::cout<<"EQ";
+		case HasCat<std::string>::TypeId:
+			std::cout<<"HAS";
 			return;
 	}
 }

@@ -19,7 +19,7 @@ int main()
 	Factory<IMatrixCategory<std::string>> fm;
 	fm.Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
 	assert(fm.Size()==1);
-	fm.Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
+	fm.Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 	assert(fm.Size()==2);
 
 	auto eqp = fm["EQ"];
@@ -51,7 +51,7 @@ int main()
 
 	auto pf = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 	pf->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
-	pf->Register("C",[](std::string_view s) { return std::make_unique<ContainCat<std::string>>(std::string(s)); });
+	pf->Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 	assert(pf->Size()==2);
 	
 	//try {OrCat<std::string>(pf,units); } catch(...) { is = true; };	

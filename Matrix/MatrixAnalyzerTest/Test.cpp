@@ -122,9 +122,9 @@ class MatrixAnalyzerTest
 			EquivalenceCat<std::string> eqIB("DE56600501017402051588");
 			auto peqS = std::make_unique<EquivalenceCat<std::string>>("DE56600501017402051588");
 			
-			ContainCat<std::string> eqR("Proper");
-			assert(decltype(eqR)::TypeId=="Contain");
-			auto peqS2 = std::make_unique<ContainCat<std::string>>("Proper");
+			HasCat<std::string> eqR("Proper");
+			assert(decltype(eqR)::TypeId=="Has");
+			auto peqS2 = std::make_unique<HasCat<std::string>>("Proper");
 			
 			std::cout<<"EQ "<<eq<<std::endl;
 
