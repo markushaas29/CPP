@@ -9,12 +9,25 @@
 #include <chrono>
 #include <ctime>
 
-#ifndef ELEMENT_H
-#define ELEMENT_H
-
+#pragma once
+class IElement
+{
+public:
+//	virtual const std::string Value() const  = 0;	
+	virtual constexpr char operator[](uint i) const = 0;
+private:
+//	virtual constexpr bool operator==(const IElement& e) const = 0;
+//	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
+//	virtual constexpr const_iterator Begin() const = 0;
+//	constexpr decltype(auto) End() { return data.begin() + size; }
+//	constexpr decltype(auto) Size() { return size; }
+//
+//	constexpr bool operator==(const Element& e) const{ return Value() == e.Value(); };
+//	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
+};
 //--------------------------------Element------------------------------------------------
 template<typename Derived>
-class Element
+class Element: public IElement
 {
 public:
 	using Type = Derived;
@@ -29,7 +42,7 @@ public:
 	constexpr decltype(auto) End() { return data.begin() + size; }
 	constexpr decltype(auto) Size() { return size; }
 
-	constexpr decltype(auto) operator[](uint i) { return data[i]; }
+	constexpr char operator[](uint i) const { return data[i]; }
 	constexpr bool operator==(const Element& e) const{ return Value() == e.Value(); };
 	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
 private:
@@ -42,5 +55,3 @@ std::ostream& operator<<(std::ostream& out, const Element<T>& e) {	return out<<e
 
 template <typename T>
 concept ElementConcept = requires(T val) {	val.Value(); };
-
-#endif

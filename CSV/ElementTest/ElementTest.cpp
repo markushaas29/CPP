@@ -21,28 +21,19 @@ int main()
 	auto i = IBAN(s1.c_str());
 	auto i2 = IBAN(s2.c_str());
 	auto i3 = IBAN("");
-	//~ assert(s1.size()==i.Value().size());
-	//~ assert(s1==i.Value());
     std::cout<<i.Value()<<std::endl;
 	assert(!i.Valid());
 	assert(!i3.Valid());
 	assert(i2.Valid());
-	
-//    std::cout<<"Num2String"<<std::endl;
-//    std::cout<<"9: "<<NumToChar(9)<<std::endl;
-//    std::cout<<"0: "<<NumToChar(0)<<std::endl;
-//	
-//    std::cout<<"Int2Chars"<<std::endl;
-//    std::cout<<"12: "<<std::string(IntToChars<2>(12).data())<<std::endl;
-//    std::cout<<"20: "<<std::string(IntToChars<2>(20).data())<<std::endl;
-//    std::cout<<"20: "<<IntToChars<2>(20)[0]<<std::endl;
-//    std::cout<<"20: "<<IntToChars<2>(20)[1]<<std::endl;
-//    std::cout<<"21: "<<std::string(IntToChars<2>(21).data())<<std::endl;
-//    std::cout<<"31: "<<std::string(IntToChars<2>(31).data())<<std::endl;
-//    std::cout<<"89: "<<std::string(IntToChars<4>(1234).data(),4)<<std::endl;
-//    
-//    std::cout<<"Num2String"<<std::endl;
-//    std::cout<<num_to_string<4568>::value<<std::endl;
+
+	std::unique_ptr<IElement> pi = std::make_unique<IBAN>(s2.c_str());
+	std::unique_ptr<IElement> pn = std::make_unique<Name>(s1.c_str());
+	std::vector<std::unique_ptr<IElement>> v;
+	v.push_back(std::move(pi));
+	v.push_back(std::move(pn));
+
+	for(auto& p : v)
+		std::cout<<"P: "<<(*p)[0]<<std::endl;
 	
     return 0;
 }
