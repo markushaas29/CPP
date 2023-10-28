@@ -33,9 +33,9 @@ public:
 	using Type = Derived;
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
-	constexpr Element(): size{0}, data{std::array<char,N>{}} { };
-	constexpr Element(std::array<char,N> s): size{Len(s)}, data{s} { };
-	constexpr Element(const char* s): size{Len(Derived::check(s))}, data{Init<N>(Derived::check(s))} { };
+	Element(): size{0}, data{std::array<char,N>{}} { };
+ 	Element(std::array<char,N> s): size{Len(s)}, data{s} { };
+ 	Element(const char* s): size{Len(Derived::check(s))}, data{Init<N>(Derived::check(s))} { };
 
 	const std::string Value() const  {	return std::string(data.data()); };	
 	//const std::string () const  {	return std::string(data.data()); };	

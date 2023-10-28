@@ -26,8 +26,8 @@ public:
 	inline static constexpr const char* Identifier = "Key";
 	Key(std::string s = ""): Base(s.c_str()) {};
 	explicit operator std::string(){return this->Value();}
-	constexpr Key(const Key& k): Base(k.Value().c_str()){};
-	constexpr Key(const char* k): Base(k){};
+	 Key(const Key& k): Base(k.Value().c_str()){};
+	 Key(const char* k): Base(k){};
 
 	bool operator==(T s) const{ return s == this->Value(); }
 	bool operator<=>(T s) const{ return s <=> this->Value(); }
@@ -54,8 +54,8 @@ public:
 		if(!isValid(s.c_str()))
 			Logger::Log<Error>("IBAN",s," is invalid!");
 	};
-	constexpr IBAN(const char* c): Element(c){	};
-	constexpr IBAN(): Element(""){ };
+	 IBAN(const char* c): Element(c){	};
+	 IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	bool Valid() { return std::string(Default) != Value(); }
 	decltype(auto) ID() { return Identifier; }
@@ -84,8 +84,8 @@ class BIC: public Element<BIC>
 public:
 	inline static constexpr const char* Identifier = "BIC";
 	BIC(std::string s): BIC(s.c_str()){};
-	constexpr BIC(const char* c): Element(c){ };
-	constexpr BIC(): Element(""){ };
+	 BIC(const char* c): Element(c){ };
+	 BIC(): Element(""){ };
 	BIC* DoCreate(){return this;};
 private:
 	static constexpr const char* check(const char* s) { return s; }
@@ -101,7 +101,7 @@ public:
 	inline static constexpr const char* Identifier = "Item";
 	Key<T> key;
 	Item(std::string s):Base(s.c_str()), key(s){};
-	constexpr Item(const char* c): Base(c){ };
+	 Item(const char* c): Base(c){ };
 	Item* DoCreate(){return this;};
 private:
 	static constexpr const char* check(const char* s) { return s; }
@@ -114,8 +114,8 @@ class Entry: public Element<Entry>
 public:
 	inline static constexpr const char* Identifier = "Entry";
     Entry(std::string s): Entry(s.c_str()){};
-	constexpr Entry(const char* c): Element(c){ };
-    constexpr Entry(): Element(""){};
+	 Entry(const char* c): Element(c){ };
+     Entry(): Element(""){};
     Entry* DoCreate(){return this;};
 private:
 	static constexpr const char* check(const char* s) { return s; }
@@ -128,8 +128,8 @@ class Name: public Element<Name>
 public:
     inline static constexpr const char* Identifier = "Name";
     Name(std::string s): Name(s.c_str()){};
-	constexpr Name(const char* c): Element(c){ };
-    constexpr Name(): Element(""){};
+	 Name(const char* c): Element(c){ };
+     Name(): Element(""){};
     Name* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
 private:
