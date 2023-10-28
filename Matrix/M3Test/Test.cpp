@@ -133,11 +133,15 @@ class M3Test
 			M3 m3s(ms3v);
 			auto m49 = m3s.M(MatrixRowQuery<MS2,std::string>(pfs, mUO49));
 			std::cout<<"M3S: \n"<<m3s<<std::endl;
+			std::cout<<"M3S: \n"<<m33s.Cols()<<std::endl;
+			std::cout<<"M3S: \n"<<m3s.Cols()<<std::endl;
 			std::cout<<"M3S: \n"<<m49<<std::endl;
+			assert(m33s.Cols()==3);
+			assert(m3s.Cols()==3);
 
 			M3 m3(mx);
+			assert(m3.Cols()==3);
 			std::cout<<"M3: \n"<<m3<<std::endl;
-			std::vector<MI2> mi{m33, m35};
 
 			auto t = false;
 			try	{ M3<int> m3i(mis);	}catch(...){ t = true;	}

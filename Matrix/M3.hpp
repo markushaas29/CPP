@@ -33,15 +33,12 @@ public:
 	~M3() = default;
 
 	explicit M3(const VecType& v): M3(init(v)){  };
-	explicit M3(const std::vector<MatrixType>& v):  elements{std::make_unique<std::vector<MatrixType>>(v.cbegin(), v.cend())}
-	{
-		auto c = elements->at(0).Cols();
-		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& m) { IsT<Throwing>(Format("Matrix is jagged Rows/Cols: "))(c == m.Cols()); });
-	};
+	explicit M3(const std::vector<MatrixType>& v):  elements{std::make_unique<std::vector<MatrixType>>(v.cbegin(), v.cend())}, cols{getCols()} {}
 
 	M3& operator=(M3& m) { return M3(m.descriptor, std::vector<DataType>(m.elements->cbegin(),m.elements->cend()));}
 
 	decltype(auto) Rows() const { return elements->size(); }
+	decltype(auto) Cols() const { return cols; }
 	decltype(auto) Descriptor(size_t i)const { return (*this)[i].Descriptor(); }
 
 	MatrixType operator[] (size_t i) const 
@@ -85,6 +82,8 @@ public:
 //	template<typename F>
 //	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 private:
+	std::unique_ptr<std::vector<MatrixType>> elements;
+	size_t cols;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	decltype(auto) init (const VecType& v)  
 	{
@@ -101,5 +100,11 @@ private:
 		return s<<" }";
 	}
 
-	std::unique_ptr<std::vector<MatrixType>> elements;
+	decltype(auto) getCols()
+	{
+		IsT<Throwing>(Format("No Data!"))(elements->size()>0);
+		size_t cs = elements->at(0).Cols();
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& m) { IsT<Throwing>(Format("Cols ",m.Cols()," doesnt fit ",cs))(cs == m.Cols()); });
+		return cs;
+	};
 };
