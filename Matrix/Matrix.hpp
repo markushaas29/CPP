@@ -6,6 +6,7 @@
 #include "MatrixInit.hpp"
 #include "Matrix_Impl.hpp"
 #include "MatrixElement.hpp"
+#include "MatrixQuery.hpp"
 #include "MatrixCalculator.hpp"
 #include "MatrixAccess.hpp"
 #include "MatrixIO.hpp"

@@ -11,6 +11,7 @@
 #include "../MatrixAnalyzer.hpp"
 #include "../M3.hpp"
 #include "../MatrixCategory.hpp"
+#include "../MatrixQuery.hpp"
 #include "../MatrixMultiCategory.hpp"
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/ShortNames.hpp"
@@ -112,17 +113,12 @@ class M3Test
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
 
-			auto a22 = MatrixAnalyzer<decltype(m22S)>(m22S);
-			auto a23 = MatrixAnalyzer<decltype(m23S)>(m23S);
-			auto out22M = a22();
-			auto out23M = a23();
-
-			std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx{out22M, out23M};
 			std::vector<MS2> ms3v{m33s, m23s};
 			std::vector<MI2> mis{m33, m35};
 
 			auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 		    pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+		    pfm->Register("C",[](const std::string& s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 
 			auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
      		pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });
@@ -139,13 +135,19 @@ class M3Test
 			assert(m33s.Cols()==3);
 			assert(m3s.Cols()==3);
 
-			M3 m3(mx);
-			assert(m3.Cols()==3);
-			std::cout<<"M3: \n"<<m3<<std::endl;
-
 			auto t = false;
 			try	{ M3<int> m3i(mis);	}catch(...){ t = true;	}
 			assert(t);
+
+			std::vector<MS2> m22_23v{m22S, m23S};
+			M3 m22_23(m22_23v);
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "A",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
+			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
+            auto M39 =m22_23.M(mq39).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery:\n"<<M39<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   

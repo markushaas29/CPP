@@ -18,7 +18,7 @@
 #pragma once
 
 template<typename T, typename ET = T::ElementType>
-class MatrixQuery: IMatrixQuery<T,ET> 
+class MatrixQuery: public IMatrixQuery<T,ET> 
 {
 	using MatrixType = T;
 	using ElementType = T::ElementType;
@@ -38,15 +38,16 @@ public:
         {
     	    for(int j = 0; j < matrix->Rows(); ++j)
 			{
-   				for(int i = 0; i < units.size(); ++i)
+				auto c = createCats(units);
+   				for(int i = 0; i < c.size(); ++i)
    				{
-   				  MatrixRowQuery<T,ET> rq{factory, units.at(i)};;
-   				  if(rq(matrix->row(j)))
-   				  {
-   				  	auto row = matrix->row(j);
-   				  	std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
-   				  	break;
-   				  }
+	   				  MatrixRowQuery<T,ET> rq{std::move(c.at(i))};;
+	   				  if(rq(matrix->row(j)))
+	   				  {
+	   				  		auto row = matrix->row(j);
+	   				  		std::for_each(row.begin(), row.end(), [&](auto e){ result.push_back(e); });
+	   				  		break;
+	   				  }
    				}
 			}
 
@@ -75,9 +76,6 @@ private:
 	{
 		std::vector<std::unique_ptr<CategoryType>> res;
 		std::for_each(mus.cbegin(), mus.cend(),[&](const auto& mu) { res.push_back(std::move((*factory)( mu.Id(), mu.Arg()))); });
-
-		std::cout<<"SIZE"<<res.size();
-
 		return res;
 	}
 	template<size_t N>
