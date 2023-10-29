@@ -33,7 +33,7 @@ int main()
 	v.push_back(std::move(pn));
 
 	for(auto& p : v)
-		std::cout<<"P: "<<(*p)[0]<<std::endl;
+		std::cout<<"P: "<<p->Value()<<std::endl;
 	
     return 0;
 }

@@ -13,7 +13,7 @@
 class IElement
 {
 public:
-	//virtual const std::string Get() const  = 0;	
+	virtual const std::string Value() const  = 0;	
 	virtual constexpr char operator[](uint i) const = 0;
 private:
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
