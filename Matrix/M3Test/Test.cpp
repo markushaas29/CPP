@@ -14,12 +14,11 @@
 #include "../MatrixQuery.hpp"
 #include "../MatrixMultiCategory.hpp"
 #include "../../ObjectFactory/Factory.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
-using namespace ShortNames;
+#include "../../Common/DateTimes.hpp"
 using namespace DateTimes;
 
 class M3Test
@@ -41,6 +40,7 @@ class M3Test
 			using QV = Quantity<Volume>;
 			using QM = Quantity<Mass>;
 			using QS = Quantity<Sum>;
+			using Q = Quantity<Sum>;
 			using QSC = Quantity<Scalar>;
 			using T = std::tuple<Q,QM>;
 			using T3 = std::tuple<Q,QM, QV>;
@@ -142,11 +142,14 @@ class M3Test
 			std::vector<MS2> m22_23v{m22S, m23S};
 			M3 m22_23(m22_23v);
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "A",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
 			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
             auto M39 =m22_23.M(mq39).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery:\n"<<M39.Rows()<<std::endl;
+			assert(M39.Rows()==53);
+
             std::cout<<"MatrixQuery:\n"<<M39<<std::endl;
 
 			std::cout<<"END"<<std::endl;
