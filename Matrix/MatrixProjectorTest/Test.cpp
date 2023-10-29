@@ -32,6 +32,7 @@ class MatrixProjectorTest
 		
 			using QV = Quantity<Volume>;
 			using QM = Quantity<Mass>;
+			using Q = Quantity<Sum>;
 			using QS = Quantity<Sum>;
 			using T = std::tuple<Q,QM>;
 			using T3 = std::tuple<Q,QM, QV>;

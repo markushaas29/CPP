@@ -5,7 +5,7 @@
 #include <memory> 
 #include "Matrix.hpp"
 #include "MatrixDescriptor.hpp"
-//#include "MatrixProjectorTest/Test.cpp"
+#include "MatrixProjectorTest/Test.cpp"
 #include "MatrixInitializerTest/Test.cpp"
 #include "MatrixCalculatorTest/Test.cpp"
 #include "MatrixElementTest/Test.cpp"
@@ -169,14 +169,14 @@ int main()
 	assert(m3[1][0][1]()==7);
 	assert(m3[1][1][1]()==9);
 
-//	MatrixProjectorTest projector;
+	MatrixProjectorTest projector;
     MatrixInitializerTest init;     
     MatrixColAccessTest access;     
     MatrixQueryTest q;     
     MatrixAnalyzerTest a;     
     init.Run();     
     access.Run();
-//    projector.Run();
+    projector.Run();
 	a.Run();
 	q.Run();
 
