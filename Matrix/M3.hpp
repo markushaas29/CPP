@@ -64,6 +64,7 @@ public:
 		for(auto el : *elements)
 		{
 			auto m = el.M(query);
+			std::cout<<elements->size()<<" Query\n"<<m<<std::endl;
 			for(auto i = 0; i < m.Rows(); ++i)
 			{
 				auto row = m.row(i);

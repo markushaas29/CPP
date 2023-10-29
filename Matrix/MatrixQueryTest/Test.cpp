@@ -248,6 +248,12 @@ class MatrixQueryTest
 			std::cout<<"MatrixQuery\n"<<M39<<std::endl;
 			std::cout<<M39.Rows()<<std::endl;
 			assert(M39.Rows()==25);
+			
+             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};           
+             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
+             auto mR4 = MatrixRowQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
+             auto M4 =m22.M(mR4.Cols(4,6,7,9,11);
+             std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
 //		    assert(M39.Rows()==2);
 
 //			auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
