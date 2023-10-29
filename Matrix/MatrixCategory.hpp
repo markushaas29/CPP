@@ -81,12 +81,7 @@ public:
 	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>
 	HasCat(TT e): Base(e) {}
 	HasCat(const std::string& s): Base(s) {}
-	virtual bool operator()(const Base::ElementType& e) const 
-	{ 
-		if(String_::Contains(e,Base::element))
-			std::cout<<"HAS:"<<e<<std::endl;
-		return String_::Contains(e,Base::element); 
-	};
+	virtual bool operator()(const Base::ElementType& e) const { return String_::Contains(e,Base::element); };
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 };
