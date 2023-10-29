@@ -13,10 +13,8 @@
 #include "../MatrixStrategy.hpp"
 #include "../MatrixCategory.hpp"
 #include "../Factory.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
-using namespace ShortNames;
 
 class MatrixAnalyzerTest
 {

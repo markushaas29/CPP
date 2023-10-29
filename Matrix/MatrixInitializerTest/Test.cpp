@@ -9,10 +9,8 @@
 #include "../MatrixInitializer.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixFilters.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
-using namespace ShortNames;
 
 class MatrixInitializerTest
 {

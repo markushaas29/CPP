@@ -5,8 +5,7 @@
 #include <memory> 
 #include "../MatrixDescriptor.hpp"
 #include "../Matrix_Impl.hpp"
-#include "../../Common/ShortNames.hpp"
-using namespace ShortNames;
+
 class MatrixDescriptorTest
 {
 	public:

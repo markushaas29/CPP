@@ -8,12 +8,10 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
-using namespace ShortNames;
 using namespace DateTimes;
 
 class MatrixProjectorTest

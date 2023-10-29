@@ -9,7 +9,7 @@
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Common/DateTimes.hpp"
-#include "../../Calculator/Operations.hpp"
+
 using QS = Quantity<Sum>; 
 using namespace DateTimes; 
 class MatrixElementTest
@@ -60,16 +60,16 @@ int Run()
 		assert(true);
 	}
 
-	auto mI = Multiplication::Calculate(1,2) *  Multiplication::Calculate(3,3)*  Multiplication::Calculate(3,3);
-	std::cout<<mI<<std::endl;
-
-	auto mi = MatrixElement<decltype(mI)>(mI);
-	std:: cout<<mi<<"\n ";//<<mi.Get()<<std::endl;
-	assert((uint)mi==162);
-	assert((double)mi==162.0);
-	assert(mi.To<uint>()==162);
-	assert(mi.To<double>()==162);
-	assert(mi()==162);
+//	auto mI = Multiplication::Calculate(1,2) *  Multiplication::Calculate(3,3)*  Multiplication::Calculate(3,3);
+//	std::cout<<mI<<std::endl;
+//
+//	auto mi = MatrixElement<decltype(mI)>(mI);
+//	std:: cout<<mi<<"\n ";//<<mi.Get()<<std::endl;
+//	assert((uint)mi==162);
+//	assert((double)mi==162.0);
+//	assert(mi.To<uint>()==162);
+//	assert(mi.To<double>()==162);
+//	assert(mi()==162);
 
 	auto md = MatrixElement<double>(5.0);
 	std:: cout<<md<<"\n ";//<<mi.Get()<<std::endl;

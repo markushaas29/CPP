@@ -6,16 +6,16 @@
 #include "../Matrix.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixOperations.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
-using namespace ShortNames;
+
 class MatrixCalculatorTest
 {
 	public:
 		int Run()
 		{
 			std::cout<<"START"<<std::endl;
-		
+
+			using Q = Quantity<Sum>;
 			using M3 = Matrix<3>;
 			using M2 = Matrix<2>;
 			using M1 = Matrix<1>;

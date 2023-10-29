@@ -7,7 +7,6 @@
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixInitializer.hpp"
-#include "../MatrixAnalyzer.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixFilters.hpp"
 #include "../MatrixStrategy.hpp"
@@ -16,11 +15,9 @@
 #include "../IMatrixQuery.hpp"
 #include "../MatrixMultiCategory.hpp"
 #include "../Factory.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../ObjectFactory/Factory.hpp"
-using namespace ShortNames;
 
 class MatrixQueryTest
 {

@@ -7,11 +7,9 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
-using namespace ShortNames;
 using namespace DateTimes;
 
 class MatrixColAccessTest
@@ -31,6 +29,7 @@ class MatrixColAccessTest
 		    using MI2 = Matrix<2,MDI2>;
 		
 			using QM = Quantity<Mass>;
+			using Q = Quantity<Sum>;
 			using T = std::tuple<Q,QM>;
 			using TR = std::tuple<Year,Month,Day,Quantity<Volume>>;
 		

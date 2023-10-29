@@ -5,8 +5,6 @@
 #include "MatrixElement.hpp"
 #include "MatrixCalculator.hpp"
 #include "MatrixInitializer.hpp"
-#include "../Calculator/CalculatorResult.hpp"
-#include "../Calculator/Operations.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 

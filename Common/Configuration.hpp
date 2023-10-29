@@ -25,54 +25,6 @@ namespace Bank
 }
 
 #pragma once
-
-struct Configuration
-{
-	struct Repository
-	{
-		inline static constexpr const char* SourcePath = "/home/markus/Downloads/CSV_Files";
-		using FileTypes = Typelist<FS::INPUT,FS::KEYS,FS::CPP, FS::HPP, FS::CTRV,FS::CSV>::Type;
-	};
-	
-	struct Account
-	{
-		using TransferType = std::tuple<IBAN,BIC,Name,DateTimes::Date, Quantity<Sum>, Bank::Direction, Entry>;
-	};
-	
-	struct Raiffeisenbank
-	{
-		inline static constexpr BIC bic{"GENODE61DET"};
-
-		struct House
-		{
-			inline static constexpr IBAN Iban{"DE19660623660009232702"};
-			inline static constexpr BIC Bic = bic;
-		};
-		
-		struct Private
-		{
-			inline static constexpr IBAN Iban{"DE05660623660009331409"};
-			inline static constexpr BIC Bic{"GENODE61DET"};
-		};
-	};
-	
-	struct AncilliaryRentalCosts
-	{
-		using AccountType = Bank::Raiffeisenbank<Raiffeisenbank::House>;
-	};
-	
-	struct Comdirect
-	{
-		inline static constexpr IBAN Iban{"DE83200411330694752700"};
-		inline static constexpr BIC Bic{"COBADEHD001"};
-	};
-	
-	struct Backup
-	{
-		using FileTypes = Typelist<FS::XLSX,FS::XLS,FS::JPG,FS::TXT,FS::ODS,FS::ZIP,FS::DOCX,FS::HPP,FS::H,FS::CSV,FS::CPP,FS::PDF>::Type;
-	};
-};
-
 //~ template<typename Derived>
 //~ struct ConfigurationBase
 //~ {
