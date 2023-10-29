@@ -152,8 +152,8 @@ class M3Test
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
 			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas});
-            //auto M39 =m3.M(mq39);
-            std::cout<<m3<<std::endl;
+            auto M39 =m3.M(mq39);
+            std::cout<<"MatrixQuery:\n"<<m3<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   

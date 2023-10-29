@@ -18,7 +18,7 @@
 #pragma once
 
 template<typename T, typename ET = T::ElementType>
-class MatrixQuery: IMatrixQuery<T,ET> 
+class MatrixQuery: public IMatrixQuery<T,ET> 
 {
 	using MatrixType = T;
 	using ElementType = T::ElementType;
