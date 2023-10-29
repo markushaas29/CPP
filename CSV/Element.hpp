@@ -14,9 +14,8 @@ class IElement
 {
 public:
 	virtual const std::string Value() const  = 0;	
-	virtual constexpr char operator[](uint i) const = 0;
-	virtual constexpr const char* check(const char* s) = 0;
 private:
+	virtual std::string check(const std::string& s) = 0;
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 //	virtual constexpr const_iterator Begin() const = 0;
@@ -31,24 +30,18 @@ private:
 class Element: public IElement
 {
 public:
-	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
-	Element(): size{0}, data{std::array<char,N>{}} { };
- 	Element(std::array<char,N> s): size{Len(s)}, data{s} { };
- 	Element(const char* s): size{Len(s)}, data{Init<N>(s)} { };
+ 	Element(const std::string& s): value{s}, size{s.size()} { };
 
-	const std::string Value() const  {	return std::string(data.data()); };	
+	const std::string Value() const  {	return value; };	
 	//const std::string () const  {	return std::string(data.data()); };	
-	constexpr decltype(auto) Begin() { return data.begin(); }
-	constexpr decltype(auto) End() { return data.begin() + size; }
 	constexpr decltype(auto) Size() { return size; }
 
-	constexpr char operator[](uint i) const { return data[i]; }
 	bool operator==(const Element& e) const{ return Value() == e.Value(); };
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
 private:
+	std::string value;
 	std::size_t size;
-	std::array<char,N> data;
 };
 
 std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}

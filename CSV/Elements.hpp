@@ -23,15 +23,14 @@ public:
 	using ValueType = T;
 	using Type = Key<T>;
 	inline static constexpr const char* Identifier = "Key";
-	Key(std::string s = ""): Element(s.c_str()) {};
 	explicit operator std::string(){return this->Value();}
 	Key(const Key& k): Element(k.Value().c_str()){};
-	Key(const char* k): Element(k){};
+	Key(const std::string k): Element(k){};
 
 	bool operator==(T s) const{ return s == this->Value(); }
 	bool operator<=>(T s) const{ return s <=> this->Value(); }
-	constexpr const char* check(const char* s) { return s; }
 private:
+	constexpr const std::string* check(const std::string* s) { return s; }
 };
 
 template<typename T = std::string>
@@ -47,19 +46,17 @@ public:
 	inline static constexpr uint Length = 22;
 	inline static constexpr const char* Default = "XX00000000000000000000";
 	inline static constexpr const char* Identifier = "IBAN";
-	IBAN(std::string s): IBAN{s.c_str()}
+	IBAN(const std::string& c): Element(check(c))
 	{
-		if(!isValid(s.c_str()))
-			Logger::Log<Error>("IBAN",s," is invalid!");
+		if(!isValid(c))
+			Logger::Log<Error>("IBAN",c," is invalid!");
 	};
-	IBAN(const char* c): Element(check(c)){	};
-	IBAN(): Element(""){ };
 	IBAN* DoCreate(){return this;};
 	bool Valid() { return std::string(Default) != Value(); }
 	decltype(auto) ID() { return Identifier; }
-	static constexpr bool isValid(const char* iban)
+	static bool isValid(const std::string& iban)
 	{
-		if (!SizeValidator<Length>::Condition(iban) || !LetterValidator::Condition(iban[0]) || !LetterValidator::Condition(iban[1]))
+		if (iban.size() != 22 || !LetterValidator::Condition(iban[0]) || !LetterValidator::Condition(iban[1]))
 			return false;
 
 		for(int i = 2; i < Length; ++i)
@@ -68,8 +65,8 @@ public:
 			
 		return true;
 	}
-	constexpr const char* check(const char* iban) { return isValid(iban) ? iban : Default; }
 private:
+	std::string check(const std::string& iban) { return isValid(iban) ? iban : Default; }
 };
 
 inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() < rhs.Value(); }
@@ -77,14 +74,11 @@ inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() ==
 
 class BIC: public Element
 {
-	friend class Element;
 public:
 	inline static constexpr const char* Identifier = "BIC";
-	BIC(std::string s): BIC(s.c_str()){};
-	BIC(const char* c): Element(check(c)){ };
-	BIC(): Element(""){ };
+	BIC(const std::string& c): Element(check(c)){ };
 	BIC* DoCreate(){return this;};
-	constexpr const char* check(const char* s) { return s; }
+	std::string check(const std::string& s) { return s; }
 private:
 };
 
@@ -92,53 +86,43 @@ private:
 template<typename T = std::string>
 class Item: public Element
 {
-	friend class Element;
 public:
 	inline static constexpr const char* Identifier = "Item";
 	Key<T> key;
-	Item(std::string s):Element(s.c_str()), key(s){};
-	Item(const char* c): Element(check(c)){ };
+	Item(const std::string& c): Element(check(c)){ };
 	Item* DoCreate(){return this;};
 private:
-	constexpr const char* check(const char* s) { return s; }
+	constexpr const std::string& check(const std::string& s) { return s; }
 };
 
 class Entry: public Element
 {
-	friend class Element;
 public:
 	inline static constexpr const char* Identifier = "Entry";
-    Entry(std::string s): Entry(s.c_str()){};
-	 Entry(const char* c): Element(check(c)){ };
-     Entry(): Element(""){};
+	Entry(const std::string& c): Element(check(c)){ };
     Entry* DoCreate(){return this;};
-	constexpr const char* check(const char* s) { return s; }
+	std::string check(const std::string& s) { return s; }
 private:
 };
 
 class Name: public Element
 {
-	friend class Element;
 public:
     inline static constexpr const char* Identifier = "Name";
-    Name(std::string s): Name(s.c_str()){};
-	Name(const char* c): Element(check(c)){ };
-    Name(): Element(""){};
+	Name(const std::string& c): Element(check(c)){ };
     Name* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
-	constexpr const char* check(const char* s) { return s; }
+	std::string check(const std::string& s) { return s; }
 private:
 };
 
 template<typename D, typename U, typename TVal = double>
 class Value: public Element
 {
-	friend class Element;
 public:
 	using Derived = D;
 	using Unit = U;
 	using TQuantity = Quantity<Unit>;
-	Value(std::string s = "0.0"): Element(s.c_str()), quantity(this->to(s)) {};
 	Value(TVal t): Element(std::to_string(t).c_str()), quantity(t) {};
 	Value(Quantity<U> u): Element(std::to_string(u.Value()).c_str()), quantity(u) {};
 	const Quantity<U>& GetQuantity() const { return this->quantity; }
@@ -154,7 +138,7 @@ public:
 	}
 	
 	decltype(auto) ID() { return Key; }
-	constexpr const char* check(const char* s) { return s; }
+	std::string check(const std::string& s) { return s; }
 private:
 	Quantity<U> quantity;
 	TVal val;
