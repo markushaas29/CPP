@@ -113,12 +113,6 @@ class M3Test
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
 
-			auto a22 = MatrixAnalyzer<decltype(m22S)>(m22S);
-			auto a23 = MatrixAnalyzer<decltype(m23S)>(m23S);
-			auto out22M = a22();
-			auto out23M = a23();
-
-			std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx{out22M, out23M};
 			std::vector<MS2> ms3v{m33s, m23s};
 			std::vector<MI2> mis{m33, m35};
 
@@ -141,19 +135,17 @@ class M3Test
 			assert(m33s.Cols()==3);
 			assert(m3s.Cols()==3);
 
-			M3 m3(mx);
-			assert(m3.Cols()==3);
-			std::cout<<"M3: \n"<<m3<<std::endl;
-
 			auto t = false;
 			try	{ M3<int> m3i(mis);	}catch(...){ t = true;	}
 			assert(t);
 
+			std::vector<MS2> m22_23v{m22S, m23S};
+			M3 m22_23(m22_23v);
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
 			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas});
-            auto M39 =m3.M(mq39);
-            std::cout<<"MatrixQuery:\n"<<m3<<std::endl;
+            auto M39 =m22_23.M(mq39);
+            std::cout<<"MatrixQuery:\n"<<M39<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
