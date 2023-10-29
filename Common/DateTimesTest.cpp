@@ -115,12 +115,12 @@ int main()
 	assert(d1 == m5);
 	assert(d1 == y2022);
 
-	constexpr auto cd12122021 = DateTimes::Date{12,12,2021};
-	constexpr auto cd29022024 = DateTimes::Date{d29,m2,y2024};
-	constexpr auto cd29022021 = DateTimes::Date{d29,m2,y2021};
+	auto cd12122021 = DateTimes::Date{12,12,2021};
+	auto cd29022024 = DateTimes::Date{d29,m2,y2024};
+	auto cd29022021 = DateTimes::Date{d29,m2,y2021};
 	assert(!cd29022021.Valid());
 	assert(cd29022024.Valid());
-	constexpr auto date = DateTimes::Date{dy5,m5,y2022}; 
+	auto date = DateTimes::Date{dy5,m5,y2022}; 
 
 	auto dyi = DateTimes::Day{45};
 	auto mi = DateTimes::Month{16};

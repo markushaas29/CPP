@@ -113,10 +113,8 @@ namespace DateTimes
 	template<typename T>
 	constexpr bool isYMD() {	return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;	}
 	
-	class Date: public Element<Date>
+	class Date
 	{
-		using Base = Element<Date>;
-		friend class Element<Date>;
 		friend decltype(auto) operator<=>(const DateTimes::Date& d1, const DateTimes::Date& d2) noexcept { return d1.ymd <=> d2.ymd; }; 
 		template<typename ItemT> friend const ItemT& Get(Date const& t);
 		template<typename, typename, typename>	friend class Parsers::Parser;
@@ -131,12 +129,11 @@ namespace DateTimes
 						
 		Date(DateTimes::Day d, DateTimes::Month m,DateTimes::Year y, const char* t = ""): 
 			valid{d.Valid() && m.Valid() && y.Valid()},
-			Element(t), 
 			tt{std::tuple<DateTimes::Day,DateTimes::Month,DateTimes::Year>(d,m,y)},
 			ymd{y,m, d}{	}; 
 		Date(uint d = 0, uint m = 0, uint y = 0): Date(DateTimes::Day(d),DateTimes::Month(m),DateTimes::Year(y)) {};
 		Date(const char* e, const TupleType& t): Date(std::get<DateTimes::Day>(t).Value(),  std::get<DateTimes::Month>(t).Value(),  std::get<DateTimes::Year>(t).Value(), e) { };
-		Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, tt{d.tt}, tp{d.tp}, converter{d.converter}  { };
+		Date(const Date& d): ymd{d.ymd}, valid{d.valid}, tt{d.tt}, tp{d.tp}, converter{d.converter}  { };
 		Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 		Date* DoCreate(){return this;};
 		
@@ -150,7 +147,7 @@ namespace DateTimes
 		static Type Create(std::istream& is, std::ostream& os) 
 		{
 			auto dt = Today();
-			os<<Identifier<<dt<<std::endl;
+			//os<<Identifier<<dt<<std::endl;
 			dt.Display(os);
 			return Create(is);
 		};
