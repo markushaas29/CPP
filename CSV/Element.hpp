@@ -15,6 +15,7 @@ class IElement
 public:
 	virtual const std::string Value() const  = 0;	
 	virtual constexpr char operator[](uint i) const = 0;
+	virtual constexpr const char* check(const char* s) = 0;
 private:
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
@@ -26,16 +27,15 @@ private:
 //	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
 };
 //--------------------------------Element------------------------------------------------
-template<typename Derived>
+
 class Element: public IElement
 {
 public:
-	using Type = Derived;
 	inline static constexpr size_t N = 512;
 	inline static const std::string Identifier = "Element";
 	Element(): size{0}, data{std::array<char,N>{}} { };
  	Element(std::array<char,N> s): size{Len(s)}, data{s} { };
- 	Element(const char* s): size{Len(Derived::check(s))}, data{Init<N>(Derived::check(s))} { };
+ 	Element(const char* s): size{Len(s)}, data{Init<N>(s)} { };
 
 	const std::string Value() const  {	return std::string(data.data()); };	
 	//const std::string () const  {	return std::string(data.data()); };	
@@ -44,15 +44,14 @@ public:
 	constexpr decltype(auto) Size() { return size; }
 
 	constexpr char operator[](uint i) const { return data[i]; }
-	constexpr bool operator==(const Element& e) const{ return Value() == e.Value(); };
-	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
+	bool operator==(const Element& e) const{ return Value() == e.Value(); };
+	std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
 private:
 	std::size_t size;
 	std::array<char,N> data;
 };
 
-template<typename T>
-std::ostream& operator<<(std::ostream& out, const Element<T>& e) {	return out<<e.Value();}
+std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}
 
 template <typename T>
 concept ElementConcept = requires(T val) {	val.Value(); };
