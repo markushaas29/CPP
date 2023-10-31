@@ -257,6 +257,18 @@ class MatrixQueryTest
             std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
 		    assert(M4.Rows()==24);
 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Rechnung/Abwasser"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb2 = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Abschlag/Abwasser"}}}; 
+            auto mDA = MatrixQuery<decltype(m22),std::string>(pfs, {fUDetAb, fUDetAb2});
+            M4 =m22.M(mDA).Cols(4,6,7,9,11);
+		    assert(M4.Rows()==6);
+            std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
+            
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Grundsteuer"}}}; 
+            auto mDG = MatrixQuery<decltype(m22),std::string>(pfs, {fUDetG});
+            M4 =m22.M(mDG).Cols(4,6,7,9,11);
+		    assert(M4.Rows()==4);
+            std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
 //			auto pmsA10 = std::unique_ptr<AndCat<decltype(mA33)>>( new AndCat<decltype(mA33)>(std::move(v10)));
 //			mrq10 = MatrixRowQuery<decltype(mA33)>(std::move(pmsA10));
 //			auto m10A = mA33.M(mrq10);
