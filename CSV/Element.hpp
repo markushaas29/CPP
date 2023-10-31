@@ -14,6 +14,7 @@ class IElement
 {
 public:
 	virtual const std::string Get() const  = 0;	
+	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 private:
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
@@ -35,6 +36,7 @@ public:
  	Element(const std::string& s): value{Derived::check(s)}, size{s.size()} { };
 
 	const std::string Get() const  {	return value; };	
+	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	//const std::string () const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Size() { return size; }
 
