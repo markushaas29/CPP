@@ -2,6 +2,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Common/ArrayHelper.hpp"
 #include "../Quantity/Quantity.hpp"
+#include "../To/To.hpp"
 #include <string.h>
 #include <map>
 #include <memory>
@@ -15,6 +16,8 @@ class IElement
 public:
 	virtual const std::string Get() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
+	template<typename T>
+    T To() const { return ::To<T>(Get()); }
 private:
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;

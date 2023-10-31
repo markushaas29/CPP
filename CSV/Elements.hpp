@@ -98,15 +98,17 @@ private:
 //	constexpr const std::string& check(const std::string& s) { return s; }
 //};
 //
-//class Entry: public Element
-//{
-//public:
-//	inline static constexpr const char* Identifier = "Entry";
-//	Entry(const std::string& c): Base(check(c)){ };
-//    Entry* DoCreate(){return this;};
-//	std::string check(const std::string& s) { return s; }
-//private:
-//};
+class Entry: public Element<Entry>
+{
+	using Base = Element<Entry>;
+	friend class Element<Entry>;
+public:
+	inline static constexpr const char* Identifier = "Entry";
+	Entry(const std::string& c): Base(c){ };
+    Entry* DoCreate(){return this;};
+	inline static std::string check(const std::string& s) { return s; }
+private:
+};
 //
 class Name: public Element<Name>
 {

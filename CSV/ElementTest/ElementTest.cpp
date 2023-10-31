@@ -33,7 +33,9 @@ int main()
 	v.push_back(std::move(pn));
 
 	for(auto& p : v)
-		std::cout<<"P: "<<p->Get()<<std::endl;
-	
+		std::cout<<"P: "<<p->Get()<<" "<<*(p->Clone())<<std::endl;
+
+	v[0]->To<int>();
+
     return 0;
 }
