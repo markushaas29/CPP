@@ -27,8 +27,10 @@ private:
 };
 //--------------------------------Element------------------------------------------------
 
+template<typename D>
 class Element: public IElement
 {
+	using Derived = D;
 public:
 	inline static const std::string Identifier = "Element";
  	Element(const std::string& s): value{s}, size{s.size()} { };
@@ -44,7 +46,7 @@ private:
 	std::size_t size;
 };
 
-std::ostream& operator<<(std::ostream& out, const Element& e) {	return out<<e.Value();}
+std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Value();}
 
 template <typename T>
 concept ElementConcept = requires(T val) {	val.Value(); };
