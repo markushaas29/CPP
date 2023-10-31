@@ -13,17 +13,16 @@
 class IElement
 {
 public:
-	virtual const std::string Value() const  = 0;	
+	virtual const std::string Get() const  = 0;	
 private:
-	virtual std::string check(const std::string& s) = 0;
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 //	virtual constexpr const_iterator Begin() const = 0;
 //	constexpr decltype(auto) End() { return data.begin() + size; }
 //	constexpr decltype(auto) Size() { return size; }
 //
-//	constexpr bool operator==(const Element& e) const{ return Value() == e.Value(); };
-//	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
+//	constexpr bool operator==(const Element& e) const{ return Get() == e.Get(); };
+//	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Get() <=> e.Get(); }
 };
 //--------------------------------Element------------------------------------------------
 
@@ -33,20 +32,20 @@ class Element: public IElement
 	using Derived = D;
 public:
 	inline static const std::string Identifier = "Element";
- 	Element(const std::string& s): value{s}, size{s.size()} { };
+ 	Element(const std::string& s): value{Derived::check(s)}, size{s.size()} { };
 
-	const std::string Value() const  {	return value; };	
+	const std::string Get() const  {	return value; };	
 	//const std::string () const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Size() { return size; }
 
-	bool operator==(const Element& e) const{ return Value() == e.Value(); };
-	std::strong_ordering operator<=>( const Element& e) const noexcept { return Value() <=> e.Value(); }
+	bool operator==(const Element& e) const{ return Get() == e.Get(); };
+	std::strong_ordering operator<=>( const Element& e) const noexcept { return Get() <=> e.Get(); }
 private:
 	std::string value;
 	std::size_t size;
 };
 
-std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Value();}
+std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Get();}
 
 template <typename T>
-concept ElementConcept = requires(T val) {	val.Value(); };
+concept ElementConcept = requires(T val) {	val.Get(); };

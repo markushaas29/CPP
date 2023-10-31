@@ -23,21 +23,21 @@
 //	using ValueType = T;
 //	using Type = Key<T>;
 //	inline static constexpr const char* Identifier = "Key";
-//	explicit operator std::string(){return this->Value();}
-//	Key(const Key& k): Base(k.Value().c_str()){};
+//	explicit operator std::string(){return this->Get();}
+//	Key(const Key& k): Base(k.Get().c_str()){};
 //	Key(const std::string k): Base(k){};
 //
-//	bool operator==(T s) const{ return s == this->Value(); }
-//	bool operator<=>(T s) const{ return s <=> this->Value(); }
+//	bool operator==(T s) const{ return s == this->Get(); }
+//	bool operator<=>(T s) const{ return s <=> this->Get(); }
 //private:
 //	constexpr const std::string* check(const std::string* s) { return s; }
 //};
 //
 //template<typename T = std::string>
-//inline decltype(auto) operator<=> (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() <=> rhs.Value(); }
+//inline decltype(auto) operator<=> (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Get() <=> rhs.Get(); }
 
 //template<typename T = std::string>
-//inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Value() == rhs.Value(); }
+//inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Get() == rhs.Get(); }
 
 class IBAN: public Element<IBAN>
 {
@@ -47,13 +47,13 @@ public:
 	inline static constexpr uint Length = 22;
 	inline static constexpr const char* Default = "XX00000000000000000000";
 	inline static constexpr const char* Identifier = "IBAN";
-	IBAN(const std::string& c): Base(check(c))
+	IBAN(const std::string& c): Base(c)
 	{
 		if(!isValid(c))
 			Logger::Log<Error>("IBAN",c," is invalid!");
 	};
 	IBAN* DoCreate(){return this;};
-	bool Valid() { return std::string(Default) != Value(); }
+	bool Valid() { return std::string(Default) != Get(); }
 	decltype(auto) ID() { return Identifier; }
 	static bool isValid(const std::string& iban)
 	{
@@ -67,11 +67,11 @@ public:
 		return true;
 	}
 private:
-	std::string check(const std::string& iban) { return isValid(iban) ? iban : Default; }
+	inline static std::string check(const std::string& iban) { return isValid(iban) ? iban : Default; }
 };
 
-inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() < rhs.Value(); }
-inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Value() == rhs.Value(); }
+inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Get() < rhs.Get(); }
+inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Get() == rhs.Get(); }
 
 class BIC: public Element<BIC>
 {
@@ -79,9 +79,9 @@ class BIC: public Element<BIC>
 	friend class Element<BIC>;
 public:
 	inline static constexpr const char* Identifier = "BIC";
-	BIC(const std::string& c): Base(check(c)){ };
+	BIC(const std::string& c): Base(c){ };
 	BIC* DoCreate(){return this;};
-	std::string check(const std::string& s) { return s; }
+	inline static std::string check(const std::string& s) { return s; }
 private:
 };
 
@@ -114,10 +114,10 @@ class Name: public Element<Name>
 	friend class Element<Name>;
 public:
     inline static constexpr const char* Identifier = "Name";
-	Name(const std::string& c): Base(check(c)){ };
+	Name(const std::string& c): Base(c){ };
     Name* DoCreate(){return this;};
 	decltype(auto) ID() { return Identifier; }
-	std::string check(const std::string& s) { return s; }
+	inline static std::string check(const std::string& s) { return s; }
 private:
 };
 //
