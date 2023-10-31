@@ -123,34 +123,18 @@ public:
 private:
 };
 //
-//template<typename D, typename U, typename TVal = double>
-//class Value: public Element
-//{
-//public:
-//	using Derived = D;
-//	using Unit = U;
-//	using TQuantity = Quantity<Unit>;
-//	Value(TVal t): Base(std::to_string(t).c_str()), quantity(t) {};
-//	Value(Quantity<U> u): Base(std::to_string(u.Value()).c_str()), quantity(u) {};
-//	const Quantity<U>& GetQuantity() const { return this->quantity; }
-//	const TVal& Get() { return this->val; }
-//	static const char* Key;
-//	Base* DoCreate() { return this; };
-//	
-//	Value& operator=(const Value& a)
-//	{
-//		this->quantity = a.quantity; 
-//		this->val = a.val; 
-//		return *this; 
-//	}
-//	
-//	decltype(auto) ID() { return Key; }
-//	std::string check(const std::string& s) { return s; }
-//private:
-//	Quantity<U> quantity;
-//	TVal val;
-//	String_::ParserTo<TVal> to;
-//};
+template<typename T>//, typename U, typename TVal = double>
+class Value: public Element<Value<T>>
+{
+	using Base = Element<Value<T>>;
+	friend class Element<Value<T>>;
+public:
+	Value(T t): Base(t) {};
+	Value(const std::string& s): Base(s) {};
+	inline static std::string check(const std::string& s) { return s; }
+private:
+	T val;
+};
 //
 //template<typename D, typename U, typename T = double>
 //std::ostream& operator<<(std::ostream& out, const Value<D,U,T>& c) { return out<<D::Key<<"\t"<<c.GetQuantity(); }
