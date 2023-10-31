@@ -55,7 +55,7 @@ public:
 			if(iban.Valid())
 			{
 				v.push_back(i);
-				auto r = filter(7,[&](const auto& s) { return s == iban.Value();});
+				auto r = filter(7,[&](const auto& s) { return false;});
 				mx.push_back(r);
 				auto sl = r.Cols(4,6,11,10);
 				v.push_back(sl[0][1]);

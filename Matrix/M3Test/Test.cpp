@@ -152,6 +152,13 @@ class M3Test
 
             std::cout<<"MatrixQuery:\n"<<M39<<std::endl;
 
+ 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2023"}, {"C","Rechnung/Abwasser"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb2 = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Abschlag/Abwasser"}}}; 
+            auto mDA = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetAb, fUDetAb2});
+            auto M4 =m22_23.M(mDA).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
+            assert(M4.Rows()==6);   
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
