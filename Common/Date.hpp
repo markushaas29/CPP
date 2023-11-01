@@ -172,38 +172,5 @@ namespace DateTimes
 }
 
 decltype(auto) operator-(const DateTimes::Date& d1, const DateTimes::Date& d2)  { return DateTimes::NumberOfDays(d1,d2); }
-template<typename T, typename TC>
-decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;	}
-
-template<typename T, typename TC>
-decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue;	}
-
-template<typename T, typename TC>
-std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){	return out<<s.Value();	}
 
 std::ostream& operator<<(std::ostream& out, const DateTimes::Date& d){	return d.Display(out);	}
-
-template<>
-struct TryMake<DateTimes::Date>
-{
-decltype(auto) operator()(std::istream& arg)
-{
-	using Target = DateTimes::Date;
-	auto result = DateTimes::Date::Create(arg);
-	if(!result.Valid())
-		return ParseResult<Target>();
-	return ParseResult<Target>(result);
-}
-};
-template<>
-struct Make<DateTimes::Date>
-{
-decltype(auto) operator()(std::istream& is)
-{
-	auto tm = TryMake<DateTimes::Date>();
-	auto result = tm(is);
-	if(!result.Valid)
-		throw std::runtime_error("Make() failed");
-	return result;
-}
-};

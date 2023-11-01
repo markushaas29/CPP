@@ -106,3 +106,12 @@ namespace DateTimes
 	inline constexpr static Month November= Month(11);
 	inline constexpr static Month December= Month(12);
 }
+
+template<typename T, typename TC>
+decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;	}
+
+template<typename T, typename TC>
+decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue;	}
+
+template<typename T, typename TC>
+std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){	return out<<s.Value();	}
