@@ -171,6 +171,14 @@ class M3Test
             assert(mBuildingInsurance.Rows()==1);
             assert(Quantity<Sum>(mBuildingInsurance.ColSum(4))==Quantity<Sum>(-1671.31));
 			
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZie  = { "A",  {{"EQ", "DE10660501011022126625"}, {"C", "Miete"},{"C","2022"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZei  = { "A",  {{"C", "Zeiher"}, {"C", "Miete"},{"C","2022"}}}; 
+            auto mZ = MatrixQuery<decltype(m22S),std::string>(pfs, {fUZie, fUZei});
+            auto mZeiher =m22_23.M(mZ).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery a:\n"<<mZeiher<<std::endl;
+            assert(mZeiher.Rows()==12);
+            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
+			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
