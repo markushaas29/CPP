@@ -141,31 +141,33 @@ class M3Test
 
 			std::vector<MS2> m22_23v{m22S, m23S};
 			M3 m22_23(m22_23v);
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
-			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
-            auto M39 =m22_23.M(mq39).Cols(4,6,7,9,11);
-            std::cout<<"MatrixQuery:\n"<<M39.Rows()<<std::endl;
-			assert(M39.Rows()==53);
-
-            std::cout<<"MatrixQuery:\n"<<M39<<std::endl;
-
- 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2023"}, {"C","Rechnung/Abwasser"}}}; 
+ 			
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2023"}, {"C","Rechnung/Abwasser"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb2 = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Abschlag/Abwasser"}}}; 
             auto mDA = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetAb, fUDetAb2});
             auto mSewage =m22_23.M(mDA).Cols(4,6,7,9,11);
             std::cout<<"MatrixQuery a:\n"<<mSewage<<std::endl;
             assert(mSewage.Rows()==6);   
-             assert(Quantity<Sum>(mSewage.ColSum(4))==Quantity<Sum>(-933.29));
+            assert(Quantity<Sum>(mSewage.ColSum(4))==Quantity<Sum>(-933.29));
 
-             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
-             auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
-             auto mPropertyTax =m22_23.M(mDG).Cols(4,6,7,9,11);
-             assert(mPropertyTax.Rows()==4);
-             assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
-             std::cout<<"MatrixQuery a:\n"<<mPropertyTax<<std::endl;
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
+            auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
+            auto mPropertyTax =m22_23.M(mDG).Cols(4,6,7,9,11);
+            assert(mPropertyTax.Rows()==4);
+            assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
+            std::cout<<"MatrixQuery a:\n"<<mPropertyTax<<std::endl;
+			
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
+			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
+            auto Heating =m22_23.M(mq39).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery:\n"<<Heating.Rows()<<std::endl;
+			assert(Heating.Rows()==53);
+            assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
+            std::cout<<"MatrixQuery:\n"<<Heating<<std::endl;
+
 
 			std::cout<<"END"<<std::endl;
 		   
