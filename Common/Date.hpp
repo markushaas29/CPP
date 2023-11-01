@@ -65,10 +65,8 @@ namespace DateTimes
 		{
 			std::string d;
 			is>>d;
-			
 			return Type{d};
 		}
-		
 
 		std::ostream& Display(std::ostream& out) const {	return out<<std::get<DateTimes::Day>(tt).Value()<<"."<<std::get<DateTimes::Month>(tt).Value()<<"."<<std::get<DateTimes::Year>(tt).Value();	}
 		const std::string Value() const  {	return converter(std::get<DateTimes::Day>(this->tt).Value()) 
