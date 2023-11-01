@@ -186,15 +186,17 @@ class M3Test
             assert(mBrustat.Rows()==12);
             assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
 			
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2022"}, {"C","701006843905 Strom Abschlagsforderung"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2022"}, {"C","Gas Abschlagsforderung"}}};
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2023"}, {"C","Rechnung"}}};
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2023"}, {"C","Rechnung"}}}; 
 			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
             auto Heating =m22_23.M(mq39).Cols(4,6,7,9,11);
             std::cout<<"MatrixQuery:\n"<<Heating.Rows()<<std::endl;
-			assert(Heating.Rows()==53);
-            assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
+			assert(Heating.Rows()==25);
+            std::cout<<"MatrixQuery:\n"<<Heating.ColSum(4)<<Heating.Col(4)<<std::endl;
+            //-2113 -510 +83.94 +490.83
+			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
             std::cout<<"MatrixQuery:\n"<<Heating<<std::endl;
 
 
