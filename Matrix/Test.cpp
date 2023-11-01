@@ -174,13 +174,15 @@ int main()
     MatrixInitializerTest init;     
     MatrixColAccessTest access;     
     MatrixQueryTest q;     
-    MatrixAnalyzerTest a;     
+    //MatrixAnalyzerTest a;     
     M3Test m3t;     
     init.Run();     
     access.Run();
     projector.Run();
-	a.Run();
+	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
+	//a.Run();
 	q.Run();
+	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	m3t.Run();
 
 	std::cout<<"M1 \n"<<m1<<std::endl;

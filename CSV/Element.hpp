@@ -37,8 +37,8 @@ class Element: public IElement
 public:
 	inline static const std::string Identifier = "Element";
  	Element(const std::string& s): value{Derived::check(s)}, size{s.size()} { };
- 	template<typename T>
-	Element(T t): Element(std::to_string(t)) { };
+// 	template<typename T>
+//	Element(T t): Element(std::to_string(t)) { };
 
 	const std::string Get() const  {	return value; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
