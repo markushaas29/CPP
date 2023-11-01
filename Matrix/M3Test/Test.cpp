@@ -157,6 +157,13 @@ class M3Test
             assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
             std::cout<<"MatrixQuery a:\n"<<mPropertyTax<<std::endl;
 			
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUW  = { "A",  {{"EQ", "DE44600501010008017284"}, {"C","2022"}}}; 
+            auto mW = MatrixQuery<decltype(m22S),std::string>(pfs, {fUW});
+            auto mWasteFees =m22_23.M(mW).Cols(4,6,7,9,11);
+            assert(mWasteFees.Rows()==2);
+            assert(Quantity<Sum>(mWasteFees.ColSum(4))==Quantity<Sum>(-322.0));
+            std::cout<<"MatrixQuery a:\n"<<mWasteFees<<std::endl;
+			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
