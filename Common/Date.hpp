@@ -17,8 +17,6 @@
 
 #pragma once
 
-namespace Parsers{     template<typename, typename, typename>  struct Parser;}
-
 namespace DateTimes
 {
 	using TP = std::chrono::system_clock::time_point;
@@ -32,7 +30,6 @@ namespace DateTimes
 		friend class Element<Date>;
 		friend decltype(auto) operator<=>(const DateTimes::Date& d1, const DateTimes::Date& d2) noexcept { return d1.ymd <=> d2.ymd; }; 
 		template<typename ItemT> friend const ItemT& Get(Date const& t);
-		template<typename, typename, typename>	friend class Parsers::Parser;
 	public:
 		using DayType = DateTimes::Day;
         using MonthType = DateTimes::Month;
@@ -210,12 +207,3 @@ decltype(auto) operator()(std::istream& is)
 	return result;
 }
 };
-namespace Parsers
-{	
-	template<>
-	struct Parser<std::string, DateTimes::Date,std::string>
-	{
-		static DateTimes::Date Parse(std::string s) { return DateTimes::Date(s); }
-	};
-}
-
