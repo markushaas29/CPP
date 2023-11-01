@@ -179,6 +179,13 @@ class M3Test
             assert(mZeiher.Rows()==12);
             assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
 			
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBru  = { "A",  {{"EQ", "DE83660623660009262008"}, {"C", "MIETE"},{"C","2022"}}}; 
+            auto mB = MatrixQuery<decltype(m22S),std::string>(pfs, {fUBru});
+            auto mBrustat =m22_23.M(mB).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery a:\n"<<mBrustat<<std::endl;
+            assert(mBrustat.Rows()==12);
+            assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
+			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","701006843905"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Gas Abschlagsforderung"}}};
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};
