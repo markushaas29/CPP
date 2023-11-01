@@ -158,6 +158,7 @@ class M3Test
             auto mSewage =m22_23.M(mDA).Cols(4,6,7,9,11);
             std::cout<<"MatrixQuery a:\n"<<mSewage<<std::endl;
             assert(mSewage.Rows()==6);   
+             assert(Quantity<Sum>(mSewage.ColSum(4))==Quantity<Sum>(-933.29));
 
              FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
              auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
