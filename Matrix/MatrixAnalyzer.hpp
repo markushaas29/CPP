@@ -66,8 +66,8 @@ public:
 
 		M3 m3(mx);
 		
-		auto r2 = filter(4,[&](const auto& s) { return !DateTimes::Date(s).Valid();});
-		auto rd = filter(4,[&](const auto& s) { return DateTimes::Get<DateTimes::Month>(DateTimes::Date(s)) == 1;});
+		auto r2 = filter(4,[&](const auto& s) { return !Date(s).Valid();});
+		auto rd = filter(4,[&](const auto& s) { return Get<Month>(Date(s)) == 1;});
 
 		auto mi = Init(vec);
 		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());

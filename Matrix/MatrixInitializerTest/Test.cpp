@@ -169,7 +169,7 @@ class MatrixInitializerTest
 		
 
 			auto mRC = mR.Cols(0,1);
-			auto mD = mRC.Col(0).To<DateTimes::Date>().Calc<Diff>();  
+			auto mD = mRC.Col(0).To<Date>().Calc<Diff>();  
 			auto mW = mRC.Col(1).To<Quantity<Work>>().Calc<Diff>();  
             
             auto mWD = mW / mD;

@@ -19,7 +19,6 @@
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
 #include "../../Common/DateTimes.hpp"
-using namespace DateTimes;
 
 class M3Test
 {
@@ -103,7 +102,7 @@ class M3Test
 			std::cout<<"Stages:\n"<<mps<<std::endl;
   			
 			using QE = Quantity<Work>;
-  			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
+  			using TRF = std::tuple<Date,QE,Entry>;
 
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };

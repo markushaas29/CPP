@@ -12,7 +12,6 @@
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
-using namespace DateTimes;
 
 class MatrixProjectorTest
 {
@@ -146,7 +145,7 @@ class MatrixProjectorTest
   			auto mR = mrR.M<2>();
   			
   			using QE = Quantity<Work>;
-  			using TRF = std::tuple<DateTimes::Date,QE,Entry>;
+  			using TRF = std::tuple<Date,QE,Entry>;
 
 			auto s0=  m33.Col(0);
   			using MPS = MatrixProjector<decltype(s0),TRF>;

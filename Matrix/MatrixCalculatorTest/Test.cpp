@@ -259,7 +259,7 @@ class MatrixCalculatorTest
 			assert(m44.Size()==md.Size()+1);
 			assert((int)md[0]==-1);
 
-			auto mdat = m1s.To<DateTimes::Date>();	
+			auto mdat = m1s.To<Date>();	
 			auto mdd = mdat.Calc<Diff>();
 			auto mq13 = m13.To<Q>();
 			auto md13 = mq13.Calc<Diff>();

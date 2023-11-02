@@ -10,7 +10,6 @@
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
-using namespace DateTimes;
 
 class MatrixColAccessTest
 {

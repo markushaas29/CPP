@@ -9,9 +9,8 @@
 #include "../../Quantity/Quantity.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Common/DateTimes.hpp"
-
 using QS = Quantity<Sum>; 
-using namespace DateTimes; 
+
 class MatrixElementTest
 {
 	public:
