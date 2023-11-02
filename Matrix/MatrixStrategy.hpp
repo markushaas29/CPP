@@ -38,6 +38,13 @@ public:
 	//const MatrixType& operator()() const { return matrix; } 
 	//decltype(auto) operator()(size_t i, std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
 	//{
+	//FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZie  = { "A",  {{"EQ", "DE10660501011022126625"}, {"C", "Miete"},{"C","2022"}}}; 
+//            factoryunit<std::string, std::vector<factoryunit<std::string, std::string>>> fuzei  = { "a",  {{"c", "zeiher"}, {"c", "miete"},{"c","2022"}}}; 
+//            auto mz = matrixquery<decltype(m22s),std::string>(pfs, {fuzie, fuzei});
+//            auto mzeiher =m22_23.m(mz).cols(4,6,7,9,11);
+//            std::cout<<"matrixquery a:\n"<<mzeiher<<std::endl;
+//            assert(mzeiher.rows()==12);
+//            assert(quantity<sum>(mzeiher.colsum(4))==quantity<sum>(9000));
 	//	if constexpr (MatrixType::Order==2)
     //    {
     //	    typename MatrixType::IsT<Throwing>(Format("Index: ",i ," exceeds extents!"))(i<matrix.Cols());

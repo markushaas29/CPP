@@ -39,7 +39,7 @@ public:
 		ymd{y,m, d}{	}; 
 	Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
 	Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
-	Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+	Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	
 	static Date Today()
@@ -53,7 +53,6 @@ public:
 	{
 		auto dt = Today();
 		os<<Identifier<<dt<<std::endl;
-		dt.Display(os);
 		return Create(is);
 	};
 
@@ -64,9 +63,6 @@ public:
 		return Type{d};
 	}
 
-	std::ostream& Display(std::ostream& out) const {	return out<<day.Value()<<"."<<month.Value()<<"."<<year.Value();	}
-	const std::string Value() const  {	return converter(day.Value())	+ converter(month.Value()) 	+ converter(year.Value()); }
-	
 	std::string TimeString()
 	{
 		std::time_t t = std::chrono::system_clock::to_time_t(this->tp);
@@ -79,14 +75,17 @@ public:
 	constexpr explicit operator Day() { return day; } 
 	constexpr explicit operator Month() { return month; } 
 	constexpr explicit operator Year() { return year; } 
-	Date operator=(const Date& date) const
-	{ 
-		std::cout<<"Assign "<<Date(date.D(), date.M(), date.Y())<<std::endl;
-		return Date(date.D(), date.M(), date.Y()); };
 	constexpr Day D() const { return day; } 
 	constexpr Month M() const { return month; } 
 	constexpr Year Y() const { return year; } 
 	
+	Date& operator=(const Date& date)
+	{ 
+		day = date.day;
+		month = date.month;
+		date.Y();
+		return *this; 
+	};
 	template<typename T>
 	constexpr bool operator==(const T t) const
 	{ 
@@ -105,17 +104,14 @@ private:
 	const std::chrono::year_month_day ymd;
 	TP tp;
 	String_::ParserFrom<uint> converter;
-	friend std::ostream& operator<<(std::ostream& out, const Date& d){	return d.Display(out);	}
+	friend std::ostream& operator<<(std::ostream& out, const Date& d) {	return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();	}
 	friend std::istream& operator>>(std::istream& is, Date& d)
 	{	
 		std::string s;
 		is>>s;
-		auto temp = Date{s};
-		d.day = Day(temp.day);
-		d.month = temp.month;
-		d.year = temp.year;
-		//d.ymd = std::chrono::year_month_day(std::chrono::year{temp.year},std::chrono::month{temp.month},std::chrono::day{temp.day});
-		std::cout<<"IS"<<s<<"\t"<<d.day<<temp.day<<std::endl;
+		d = Date{s};
+		//d = temp;
+		std::cout<<"IS"<<s<<"\t"<<d.day<<std::endl;
 		return is;
 	}
 	
@@ -148,7 +144,6 @@ private:
 	static TupleType extractByValue(const std::string& s)
 	{
 		std::string res;
-					
 		std::for_each(s.cbegin(), s.cend(),[&](auto c) 
 			{ if(isdigit(c))
 				res += c;	});

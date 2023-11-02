@@ -28,7 +28,6 @@ int main()
 	assert(y2021.ToString()=="2021");
 
 
-	std::cout<<"TODAY"<<Date::Today().Value()<<std::endl;
 	std::cout<<"Get"<<Day::Get(1)<<std::endl;
 	std::cout<<"Get"<<Month::Get(2)<<std::endl;
 	std::cout<<"Get"<<Year::Get(2021)<<std::endl;
@@ -57,8 +56,12 @@ int main()
 
 	auto d3 = Date("5.3.2020");
 	auto d4 = Date("28.2.2020");
+	d1 = d4;
+	std::cout<<"Days "<<d1<<std::endl;
+//	assert(28==d1.D());
+//	assert(2==d1.M());
+//	assert(2020==d1.Y());
 	
-	std::cout<<"Value "<<d3.Value()<<std::endl;
 	std::cout<<"Days "<<(d3 - d1)<<std::endl;
 	assert((d3 - d1).Value()==730);
 	std::cout<<"Days "<<(d4 - d3)<<std::endl;
@@ -148,8 +151,6 @@ int main()
 	assert(!Date("").Valid());
 	auto dateytest = Date("TEST");
 	assert(!dateytest.Valid());
-
-	std::cout<<"TEST 2 "<<Date("TESTEST").Value()<<std::endl;
 
 	auto today = Date::Today();
 	//auto tq = ToQuantity<Year>(std::cin, (Year)today);

@@ -7,16 +7,6 @@
 
 #pragma once
 
-//template<class T>
-//class FactoryUnit
-//{
-//public:
-//	using Type = T;
-//	virtual T* DoCreate() = 0;
-//	virtual void Test() = 0;
-//	virtual ~FactoryUnit(){} 
-//};
-
 template<class ConcreteProduct>
 class CreateFactoryUnitNewPolicy
 {
@@ -102,13 +92,6 @@ public:
 	void Register(const IdentifierType& id,  CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const  IdentifierType& id) {	return find(id);	}
 	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { return (*this)[id]((*factory)(arg));	}
-//	std::unique_ptr<std::vector< PtrType>> operator()(const IdentifierType& id, const std::vector<FactoryUnit<IdentifierType, std::string>> units) 
-//	{
-//		auto result = std::make_unique<std::vector<PtrType>>();
-//		auto p = (*this)[id]((*factory)(units));
-//		result->push_back(std::move(p));
-//		return result;
-//	}
 	size_t Size() { return creators.size(); }
 private:
 	template<typename E> using IsT =  Is<E,TypeId>;

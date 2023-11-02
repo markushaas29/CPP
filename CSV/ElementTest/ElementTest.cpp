@@ -2,6 +2,7 @@
 #include <cassert>
 #include "../Element.hpp"
 #include "../Elements.hpp"
+#include "../../ObjectFactory/Factories.hpp"
 
 int main()
 {       
