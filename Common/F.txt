@@ -1,0 +1,292 @@
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:52:83: error: ‘DateTimes’ does not name a type; did you mean ‘DateTimeBase’?
+   52 |         template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                                   ^~~~~~~~~
+      |                                                                                   DateTimeBase
+DateTimeBase.hpp:52:113: error: expected unqualified-id before ‘&’ token
+   52 |         template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                                                                 ^
+DateTimeBase.hpp:52:113: error: expected ‘)’ before ‘&’ token
+   52 |         template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                            ~                                    ^
+      |                                                                                                                 )
+DateTimeBase.hpp:52:115: error: expected initializer before ‘d1’
+   52 |         template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                                                                   ^~
+DateTimeBase.hpp:53:84: error: ‘DateTimes’ does not name a type; did you mean ‘DateTimeBase’?
+   53 |         template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                                    ^~~~~~~~~
+      |                                                                                    DateTimeBase
+DateTimeBase.hpp:53:114: error: expected unqualified-id before ‘&’ token
+   53 |         template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                                                                  ^
+DateTimeBase.hpp:53:114: error: expected ‘)’ before ‘&’ token
+   53 |         template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                             ~                                    ^
+      |                                                                                                                  )
+DateTimeBase.hpp:53:116: error: expected initializer before ‘d1’
+   53 |         template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimes::DateTimeBase<T1,T2>& d1, const DateTimes::DateTimeBase<T1,T2>& d2);
+      |                                                                                                                    ^~
+DateTimeBase.hpp:102:33: error: ‘DateTimes’ does not name a type; did you mean ‘DateTimeBase’?
+  102 | decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;   }
+      |                                 ^~~~~~~~~
+      |                                 DateTimeBase
+DateTimeBase.hpp:102:62: error: expected unqualified-id before ‘&’ token
+  102 | decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;   }
+      |                                                              ^
+DateTimeBase.hpp:102:62: error: expected ‘)’ before ‘&’ token
+  102 | decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;   }
+      |                          ~                                   ^
+      |                                                              )
+DateTimeBase.hpp:102:64: error: expected initializer before ‘d1’
+  102 | decltype(auto) operator==(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;   }
+      |                                                                ^~
+DateTimeBase.hpp:105:34: error: ‘DateTimes’ does not name a type; did you mean ‘DateTimeBase’?
+  105 | decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue; }
+      |                                  ^~~~~~~~~
+      |                                  DateTimeBase
+DateTimeBase.hpp:105:63: error: expected unqualified-id before ‘&’ token
+  105 | decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue; }
+      |                                                               ^
+DateTimeBase.hpp:105:63: error: expected ‘)’ before ‘&’ token
+  105 | decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue; }
+      |                           ~                                   ^
+      |                                                               )
+DateTimeBase.hpp:105:65: error: expected initializer before ‘d1’
+  105 | decltype(auto) operator<=>(const DateTimes::DateTimeBase<T,TC>& d1, const DateTimes::DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue; }
+      |                                                                 ^~
+DateTimeBase.hpp:108:51: error: ‘DateTimes’ does not name a type; did you mean ‘DateTimeBase’?
+  108 | std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){    return out<<s.Value();  }
+      |                                                   ^~~~~~~~~
+      |                                                   DateTimeBase
+DateTimeBase.hpp:108:80: error: expected unqualified-id before ‘&’ token
+  108 | std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){    return out<<s.Value();  }
+      |                                                                                ^
+DateTimeBase.hpp:108:80: error: expected ‘)’ before ‘&’ token
+  108 | std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){    return out<<s.Value();  }
+      |                         ~                                                      ^
+      |                                                                                )
+DateTimeBase.hpp:108:82: error: expected initializer before ‘s’
+  108 | std::ostream& operator<<(std::ostream& out, const DateTimes::DateTimeBase<T,TC>& s){    return out<<s.Value();  }
+      |                                                                                  ^
+DateTimesTest.cpp: In function ‘int main()’:
+DateTimesTest.cpp:81:20: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                    ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:81:33: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                                 ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:81:46: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                                              ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:81:54: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                                                      ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+In file included from /usr/include/c++/11/cassert:44,
+                 from ../Quantity/../Logger/Logger.hpp:9,
+                 from ../Quantity/Quantity.hpp:7,
+                 from Date.hpp:9,
+                 from DateTimes.hpp:4,
+                 from DateTimesTest.cpp:7:
+DateTimesTest.cpp:82:16: error: reference to ‘July’ is ambiguous
+   82 |         assert(July== July);
+      |                ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+In file included from /usr/include/c++/11/cassert:44,
+                 from ../Quantity/../Logger/Logger.hpp:9,
+                 from ../Quantity/Quantity.hpp:7,
+                 from Date.hpp:9,
+                 from DateTimes.hpp:4,
+                 from DateTimesTest.cpp:7:
+DateTimesTest.cpp:82:23: error: reference to ‘July’ is ambiguous
+   82 |         assert(July== July);
+      |                       ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:88:20: error: reference to ‘July’ is ambiguous
+   88 |         std::cout<<July<<"== "<<July<<"\t"<<(Year(2021) == Year(2021))<<std::endl;
+      |                    ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:88:33: error: reference to ‘July’ is ambiguous
+   88 |         std::cout<<July<<"== "<<July<<"\t"<<(Year(2021) == Year(2021))<<std::endl;
+      |                                 ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+make: *** [<eingebaut>: *.o] Fehler 1
+DateTimesTest.cpp: In function ‘int main()’:
+DateTimesTest.cpp:81:20: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                    ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:81:33: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                                 ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:81:46: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                                              ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:81:54: error: reference to ‘July’ is ambiguous
+   81 |         std::cout<<July<<"== "<<July<<"\t"<<(July == July)<<std::endl;
+      |                                                      ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+In file included from /usr/include/c++/11/cassert:44,
+                 from ../Quantity/../Logger/Logger.hpp:9,
+                 from ../Quantity/Quantity.hpp:7,
+                 from Date.hpp:9,
+                 from DateTimes.hpp:4,
+                 from DateTimesTest.cpp:7:
+DateTimesTest.cpp:82:16: error: reference to ‘July’ is ambiguous
+   82 |         assert(July== July);
+      |                ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+In file included from /usr/include/c++/11/cassert:44,
+                 from ../Quantity/../Logger/Logger.hpp:9,
+                 from ../Quantity/Quantity.hpp:7,
+                 from Date.hpp:9,
+                 from DateTimes.hpp:4,
+                 from DateTimesTest.cpp:7:
+DateTimesTest.cpp:82:23: error: reference to ‘July’ is ambiguous
+   82 |         assert(July== July);
+      |                       ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:88:20: error: reference to ‘July’ is ambiguous
+   88 |         std::cout<<July<<"== "<<July<<"\t"<<(Year(2021) == Year(2021))<<std::endl;
+      |                    ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+DateTimesTest.cpp:88:33: error: reference to ‘July’ is ambiguous
+   88 |         std::cout<<July<<"== "<<July<<"\t"<<(Year(2021) == Year(2021))<<std::endl;
+      |                                 ^~~~
+In file included from DateTimesTest.cpp:2:
+/usr/include/c++/11/chrono:1537:28: note: candidates are: ‘constexpr const std::chrono::month std::chrono::July’
+ 1537 |     inline constexpr month July{7};
+      |                            ^~~~
+In file included from DateTimes.hpp:3,
+                 from DateTimesTest.cpp:7:
+DateTimeBase.hpp:93:31: note:                 ‘constexpr const Month July’
+   93 | inline constexpr static Month July= Month(7);
+      |                               ^~~~
+make: *** [<eingebaut>: *.o] Fehler 1
