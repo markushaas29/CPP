@@ -72,6 +72,8 @@ class MatrixQueryTest
 			(*strat[0])(m23);
 			(*strat[1])(m23);
 
+			std::cout<<"SUM: \n"<<m3.To<Quantity<Sum>>()<<std::endl;
+
 			EquivalenceCat<int> eq(5);
 			EquivalenceCat<int> eqs("5");
 			EquivalenceCat<double> eqd("7.5");
