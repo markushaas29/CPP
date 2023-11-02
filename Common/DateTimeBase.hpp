@@ -29,6 +29,11 @@ public:
 		if(v > max || v < min || v == 0)
 			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 	}
+	Derived operator=(const Derived& d) const 
+	{ 
+		std::cout<<"DAY"<<Derived(d.value);
+		return Derived(d.value);}
+	DateTimeBase operator=(const DateTimeBase& d) const { return DateTimeBase(d.value);}
 	constexpr bool Valid() const { return valid; }
 	constexpr operator uint() const { return value; }
 	constexpr operator ChronoType() const { return chronoValue;}

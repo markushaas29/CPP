@@ -21,7 +21,7 @@ int main()
 	auto i = IBAN(s1.c_str());
 	auto i2 = IBAN(s2.c_str());
 	auto i3 = IBAN("");
-    std::cout<<i.Get()<<std::endl;
+    std::cout<<i.Data()<<std::endl;
 	assert(!i.Valid());
 	assert(!i3.Valid());
 	assert(i2.Valid());
@@ -37,7 +37,7 @@ int main()
 	v.push_back(std::move(vd));
 
 	for(auto& p : v)
-		std::cout<<"P: "<<p->Get()<<" "<<*(p->Clone())<<std::endl;
+		std::cout<<"P: "<<p->Data()<<" "<<*(p->Clone())<<std::endl;
 
 	v[0]->To<int>();
 

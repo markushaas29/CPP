@@ -13,8 +13,10 @@
 #ifndef QUANTITY_H
 #define QUANTITY_H
 
+template<typename> class Element; 
+
 template<typename U, typename QR = Pure,typename T1 = double>
-class Quantity
+class Quantity: public Element<Quantity<U,QR,T1>>
 {
 public:
 	using Type = Quantity<U,QR,T1>;	
@@ -22,22 +24,23 @@ public:
 	using UnitType = U;
 	using QuantityRatioType = QR;
 	using PureType = Quantity<U,Pure,T1>;	
-	
+	using Base = Element<Quantity<U,QR,T1>>;
+
     const std::string UnitSign() const { return U::Sign(); }
 	const std::string SiUnit() const { return UnitType::SiUnit(); }
     inline static const std::string Identifier = U::Name;
     inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
-	constexpr Quantity(): value(0 * QR::Factor) {	}
-	explicit constexpr Quantity(const T1& v): value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): value{(stringTo<ValueType>(s)) * (ValueType)QR::Factor} { 	}
+	Quantity(): Base(data(0)), value(0 * QR::Factor) {	}
+	explicit constexpr Quantity(const T1& v): Base(data(v)), value(v * QR::Factor) {	}
+	explicit Quantity(const std::string& s): Base(data(stringTo<ValueType>(s))), value{(stringTo<ValueType>(s)) * (ValueType)QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
 	constexpr decltype(auto) ToPure() const { return PureType(value);}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
-	constexpr Quantity(Quantity<U2,SiPrefix2,T2> q ):value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
+	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(""),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return this->Value() <=> y.Value(); }
 	constexpr bool operator==(const Quantity<U,QR,T1>& y) const { return this->Value() == y.Value(); }
@@ -85,6 +88,8 @@ public:
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T2>& q ) const {	return divide(q);	}
 private:
+	friend class Element<Quantity<U,QR,T1>>;
+	inline static std::string check(const std::string& iban) { return iban ; }
 	T1 value;
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
@@ -94,6 +99,8 @@ private:
 		q = Quantity{v};
 		return s; 
 	}
+	
+	static decltype(auto) data(ValueType v) { return std::to_string(v)+QR::Sign+U::Sign(); }
 
 	template<typename V>
 	static decltype(auto) stringTo(const std::string& s)
@@ -170,22 +177,13 @@ public:
 template<typename U, typename QR = Pure,typename T1 = double>
 std::ostream& operator<<(std::ostream& out, const Quantity<U,QR,T1>& q)
 {
-	//~ if constexpr (std::is_same_v<QR, Days> || std::is_same_v<QR, Hours> || std::is_same_v<QR, Minutes>)
-		//~ return out<<q.Value()<<" "<<QR::Sign;
 	if constexpr (std::is_same_v<U, Sum>)
 	{
 		std::ostringstream oss;
 		oss << std::setprecision(2)<<std::fixed << q.Value();
-		return out<<oss.str()<<" "<<QR::Sign<<U::Sign();
+		return out<<oss.str()<<QR::Sign<<U::Sign();
 	}
-	return out<<q.Value()<<" "<<QR::Sign<<U::Sign();
+	return out<<q.Value()<<QR::Sign<<U::Sign();
 }
-
-//~ template<typename U,typename SIPrefix<86400,1> QR,typename T1 = double>
-//~ std::ostream& operator<<(std::ostream& out, const Quantity<U,QR,T1>& q)
-//~ {
-	//~ return out<<q.Value()<<" "<<QR::Sign;
-//~ }
-
 
 #endif

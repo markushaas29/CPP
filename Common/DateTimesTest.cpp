@@ -45,16 +45,9 @@ int main()
 	
 	auto dy2 = Day{2};
 	auto d1 = Date("5.3.2022");
-	std::cout<<d1<<" Day: "<<Get<Day>(d1)<<std::endl;
-	assert(5==Get<Day>(d1));
-	
-	auto m1 = Get<Month>(d1);
-	std::cout<<d1<<" Month: "<<m1<<std::endl;
-	assert(3==m1);
-	
-	auto y1 = Get<Year>(d1);
-	std::cout<<d1<<" Month: "<<y1<<std::endl;
-	assert(2022==y1);
+	assert(5==d1.D());
+	assert(3==d1.M());
+	assert(2022==d1.Y());
 	auto d2 = Date("28.2.2022");
 	
 	std::cout<<"Days "<<(d2 - d1)<<std::endl;
@@ -97,6 +90,9 @@ int main()
 	
 	auto cd = (Day)(d1);
 	assert(cd.Value() == 5);
+	auto cd2 = cd;
+	std::cout<<cd2<<"== "<<cd<<std::endl;
+	assert(cd2.Value() == 5);
 	assert(cd.Valid());
 	auto cm = (Month)(d1);
 	assert(cm.Value() == 3);
@@ -132,10 +128,14 @@ int main()
 	
 	auto date31101986 = Date("31.10.1986");
 	assert(date31101986.Valid());
-	std::cout<<"TEST 311019686 "<<31101986<<std::endl;
 	assert(date31101986.D()==31);
 	assert(date31101986.M()==10);
 	assert(date31101986.Y()==1986);
+    
+	Date d31101986;
+	std::istringstream is31("31.10.1986");
+	is31>>d31101986;
+	std::cout<<"TEST 311019686 "<<d31101986<<std::endl;
 
 	auto dated45 = Date{dyi,m2,y2024};
 	auto datem16 = Date{d29,mi,y2024};
@@ -166,20 +166,14 @@ int main()
     std::istringstream isp("12.12.1999");
 	auto cp = Date::Create(isp);
 	
-	std::cout<<"\n"<<cp<<std::endl;
-	auto mcd = Get<Month>(cp);
-	assert(12==mcd);
-	auto ycd = Get<Year>(cp);
-	assert(1999==ycd);
+	assert(12==cp.M());
+	assert(1999==cp.Y());
 	
     std::istringstream ise("11 11 1998");
 	auto ce = Date::Create(ise);
 	
-	std::cout<<"\n"<<ce<<std::endl;
-	auto mce = Get<Month>(ce);
-	assert(11==mce);
-	auto yce = Get<Year>(ce);
-	assert(1998==yce);
+	assert(11==ce.M());
+	assert(1998==ce.Y());
 	std::cout<<"\nISP"""<<std::endl;
 	
 

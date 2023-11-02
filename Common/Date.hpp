@@ -34,13 +34,12 @@ public:
 	inline static constexpr const char* Default = "1.1.1900";
 					
 	Date(Day d, Month m,Year y): 
-		Base(d.ToString() + "." + m.ToString() + "." + y.ToString()), 
+		Base(d.ToString() + "." + m.ToString() + "." + y.ToString()), day{d}, month{m}, year{y},
 		valid{d.Valid() && m.Valid() && y.Valid()},
-		tt{std::tuple<Day,Month,Year>(d,m,y)},
 		ymd{y,m, d}{	}; 
-	Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
 	Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
-	Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, tt{d.tt}, tp{d.tp}, converter{d.converter}  { };
+	Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+	Date(const Date& d): Element{d.Value().c_str()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	
 	static Date Today()
@@ -65,10 +64,8 @@ public:
 		return Type{d};
 	}
 
-	std::ostream& Display(std::ostream& out) const {	return out<<std::get<Day>(tt).Value()<<"."<<std::get<Month>(tt).Value()<<"."<<std::get<Year>(tt).Value();	}
-	const std::string Value() const  {	return converter(std::get<Day>(this->tt).Value()) 
-		+ converter(std::get<Month>(this->tt).Value()) 
-		+ converter(std::get<Year>(this->tt).Value()); }
+	std::ostream& Display(std::ostream& out) const {	return out<<day.Value()<<"."<<month.Value()<<"."<<year.Value();	}
+	const std::string Value() const  {	return converter(day.Value())	+ converter(month.Value()) 	+ converter(year.Value()); }
 	
 	std::string TimeString()
 	{
@@ -79,19 +76,22 @@ public:
 	}
 
 	constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
-	constexpr explicit operator Day() { return std::get<Day>(tt); } 
-	constexpr explicit operator Month() { return std::get<Month>(tt); } 
-	constexpr explicit operator Year() { return std::get<Year>(tt); } 
-	Date operator=(const Date& date) const{ return Date(*this); };
-	constexpr decltype(auto) D() { return std::get<Day>(tt); } 
-	constexpr decltype(auto) M() { return std::get<Month>(tt); } 
-	constexpr decltype(auto) Y() { return std::get<Year>(tt); } 
+	constexpr explicit operator Day() { return day; } 
+	constexpr explicit operator Month() { return month; } 
+	constexpr explicit operator Year() { return year; } 
+	Date operator=(const Date& date) const
+	{ 
+		std::cout<<"Assign "<<Date(date.D(), date.M(), date.Y())<<std::endl;
+		return Date(date.D(), date.M(), date.Y()); };
+	constexpr Day D() const { return day; } 
+	constexpr Month M() const { return month; } 
+	constexpr Year Y() const { return year; } 
 	
 	template<typename T>
 	constexpr bool operator==(const T t) const
 	{ 
 		if constexpr (isYMD<T>())
-			return (T)t == std::get<T>(tt); 
+			return (T)t == std::get<T>(std::make_tuple(day,month,year)); 
 		return false;
 	};
 	constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
@@ -99,10 +99,25 @@ public:
 	constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
 private:
 	bool valid = false;
-	TupleType tt;
+	Day day;
+	Month month;
+	Year year;
 	const std::chrono::year_month_day ymd;
 	TP tp;
 	String_::ParserFrom<uint> converter;
+	friend std::ostream& operator<<(std::ostream& out, const Date& d){	return d.Display(out);	}
+	friend std::istream& operator>>(std::istream& is, Date& d)
+	{	
+		std::string s;
+		is>>s;
+		auto temp = Date{s};
+		d.day = Day(temp.day);
+		d.month = temp.month;
+		d.year = temp.year;
+		//d.ymd = std::chrono::year_month_day(std::chrono::year{temp.year},std::chrono::month{temp.month},std::chrono::day{temp.day});
+		std::cout<<"IS"<<s<<"\t"<<d.day<<temp.day<<std::endl;
+		return is;
+	}
 	
 	static std::string check(std::string s) 
 	{
@@ -153,8 +168,8 @@ private:
 
 static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
 {
-	const std::chrono::year_month_day ymd1{std::chrono::year(Get<Year>(d1)), std::chrono::month(Get<Month>(d1)), std::chrono::day(Get<Day>(d1))};
-	const std::chrono::year_month_day ymd2{std::chrono::year(Get<Year>(d2)), std::chrono::month(Get<Month>(d2)), std::chrono::day(Get<Day>(d2))};
+	const std::chrono::year_month_day ymd1{std::chrono::year(d1.Y()), std::chrono::month(d1.M()), std::chrono::day(d1.D())};
+	const std::chrono::year_month_day ymd2{std::chrono::year(d2.Y()), std::chrono::month(d2.M()), std::chrono::day(d2.D())};
 	
 	if(d1 > d2)
 		return Quantity<Time,Days,uint>{static_cast<uint>((std::chrono::sys_days{ymd1} - std::chrono::sys_days{ymd2}).count())};
@@ -162,17 +177,5 @@ static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
 	return Quantity<Time,Days,uint>{static_cast<uint>((std::chrono::sys_days{ymd2} - std::chrono::sys_days{ymd1}).count())};
 }
 
-template<typename ItemT>
-const ItemT& Get(Date const& d)	{	return std::get<ItemT>(d.tt);	};
-
-
 decltype(auto) operator-(const Date& d1, const Date& d2)  { return NumberOfDays(d1,d2); }
 
-std::ostream& operator<<(std::ostream& out, const Date& d){	return d.Display(out);	}
-std::istream& operator>>(std::istream& is, Date& d)
-{	
-	std::string s;
-	is>>s;
-	d=Date{d};
-	return is;
-}
