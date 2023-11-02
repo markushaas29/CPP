@@ -83,6 +83,9 @@ public:
 	constexpr explicit operator Month() { return std::get<Month>(tt); } 
 	constexpr explicit operator Year() { return std::get<Year>(tt); } 
 	Date operator=(const Date& date) const{ return Date(*this); };
+	constexpr decltype(auto) D() { return std::get<Day>(tt); } 
+	constexpr decltype(auto) M() { return std::get<Month>(tt); } 
+	constexpr decltype(auto) Y() { return std::get<Year>(tt); } 
 	
 	template<typename T>
 	constexpr bool operator==(const T t) const

@@ -129,6 +129,13 @@ int main()
 	assert(!dyi.Valid());
 	assert(!mi.Valid());
 	assert(!yi.Valid());
+	
+	auto date31101986 = Date("31.10.1986");
+	assert(date31101986.Valid());
+	std::cout<<"TEST 311019686 "<<31101986<<std::endl;
+	assert(date31101986.D()==31);
+	assert(date31101986.M()==10);
+	assert(date31101986.Y()==1986);
 
 	auto dated45 = Date{dyi,m2,y2024};
 	auto datem16 = Date{d29,mi,y2024};
