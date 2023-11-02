@@ -91,6 +91,16 @@ private:
 	friend class Element<Quantity<U,QR,T1>>;
 	inline static std::string check(const std::string& iban) { return iban ; }
 	T1 value;
+	friend std::ostream& operator<<(std::ostream& out, const Quantity& q)
+	{
+		if constexpr (std::is_same_v<U, Sum>)
+		{
+			std::ostringstream oss;
+			oss << std::setprecision(2)<<std::fixed << q.Value();
+			return out<<oss.str()<<QR::Sign<<U::Sign();
+		}
+		return out<<q.Value()<<QR::Sign<<U::Sign();
+	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
 		std::string str;
@@ -147,43 +157,5 @@ private:
 	}
 };
 
-template<typename U, typename QR,typename T1>
-class TryMake<Quantity<U,QR,T1>>
-{
-public:
-	decltype(auto) operator()(std::istream& arg)
-	{
-		using Target = Quantity<U,QR,T1>;
-		auto result = Target::Create(arg);
-//		if(!result.Valid())
-//			return ParseResult<Target>();
-		return ParseResult<Target>(result);
-	}
-};
-
-template<typename U, typename QR,typename T1>
-class Make<Quantity<U,QR,T1>>
-{
-public:
-	decltype(auto) operator()(std::istream& is)
-	{
-		auto result = TryMake<Quantity<U,QR,T1>>(is);
-		if(!result.Valid)
-			throw std::runtime_error("Make() failed");
-		return result;
-	}
-};
-
-template<typename U, typename QR = Pure,typename T1 = double>
-std::ostream& operator<<(std::ostream& out, const Quantity<U,QR,T1>& q)
-{
-	if constexpr (std::is_same_v<U, Sum>)
-	{
-		std::ostringstream oss;
-		oss << std::setprecision(2)<<std::fixed << q.Value();
-		return out<<oss.str()<<QR::Sign<<U::Sign();
-	}
-	return out<<q.Value()<<QR::Sign<<U::Sign();
-}
 
 #endif
