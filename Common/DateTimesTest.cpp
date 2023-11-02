@@ -80,6 +80,7 @@ int main()
 	assert(d3 == d3);
 	std::cout<<Jul<<"== "<<Jul<<"\t"<<(Jul == Jul)<<std::endl;
 	assert(Jul== Jul);
+	assert(::May==::May);
 	auto y2020 = Year(2020);
 	std::cout<<"Leap 2020"<<"\t"<<y2020.IsLeap<<std::endl;
 	assert(y2020.IsLeap);
