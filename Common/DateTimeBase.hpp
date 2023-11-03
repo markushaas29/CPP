@@ -29,10 +29,11 @@ public:
 		if(v > max || v < min || v == 0)
 			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 	}
-	Derived& operator=(const Derived& d) 
+	DateTimeBase& operator=(const DateTimeBase& d) 
 	{ 
 		std::cout<<"DAY ASSIGN\n\n\n"<<Derived(d.value)<<std::endl;
-		return Derived(d.value);
+		value = d.value;
+		return *this;
 	}
 	DateTimeBase operator=(const DateTimeBase& d) const { return DateTimeBase(d.value);}
 	constexpr bool Valid() const { return valid; }
@@ -66,11 +67,11 @@ private:
 class Day: public DateTimeBase<Day,std::chrono::day,31>
 {
 public:
-	Day& operator=(const Day& d)
-	{ 
-		value = d.value;
-		return *this;
-	}
+//	Day& operator=(const Day& d)
+//	{ 
+//		value = d.value;
+//		return *this;
+//	}
 	using Base = DateTimeBase<Day,std::chrono::day,31>;
 	static constexpr const char* TypeIdentifier = "Day";
 	constexpr Day(uint v): Base(v){};

@@ -64,8 +64,8 @@ int main()
 	d1 = d4;
 	std::cout<<"D1 -------------------- "<<d1<<std::endl;
 	assert(28==d1.D());
-//	assert(2==d1.M());
-//	assert(2020==d1.Y());
+	assert(2==d1.M());
+	assert(2020==d1.Y());
 	
 	std::cout<<"Days "<<(d3 - d1)<<std::endl;
 	assert((d3 - d1).Value()==730);
