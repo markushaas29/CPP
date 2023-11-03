@@ -22,19 +22,23 @@ public:
 	using MatrixType = T;
 	using ElementType = T::ElementType;
 	virtual T operator()(const T& m) = 0;
+	virtual std::string_view Name() = 0;
 };
 
 template<typename T>
 class UnaryMatrixStrategy : public IMatrixStrategy<T>
 {
 	using Base = IMatrixStrategy<T>;
+	using QueryType = MatrixQuery<T>;
+	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixStrategy";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	UnaryMatrixStrategy(typename Base::ElementType e): matrix(e) {}
+	UnaryMatrixStrategy(std::string n): name{n} {}
 	
 	virtual Base::MatrixType operator()(const Base::MatrixType& m) { std::cout<<"Un"<<std::endl;return typename Base::MatrixType(); };
+	virtual std::string_view Name() { return name; };
 	//const MatrixType& operator()() const { return matrix; } 
 	//decltype(auto) operator()(size_t i, std::function<bool(const typename MatrixType::ElementType& i)> pred = [](const typename MatrixType::ElementType& e) { return e==0; }) const 
 	//{
@@ -42,9 +46,6 @@ public:
 //            factoryunit<std::string, std::vector<factoryunit<std::string, std::string>>> fuzei  = { "a",  {{"c", "zeiher"}, {"c", "miete"},{"c","2022"}}}; 
 //            auto mz = matrixquery<decltype(m22s),std::string>(pfs, {fuzie, fuzei});
 //            auto mzeiher =m22_23.m(mz).cols(4,6,7,9,11);
-//            std::cout<<"matrixquery a:\n"<<mzeiher<<std::endl;
-//            assert(mzeiher.rows()==12);
-//            assert(quantity<sum>(mzeiher.colsum(4))==quantity<sum>(9000));
 	//	if constexpr (MatrixType::Order==2)
     //    {
     //	    typename MatrixType::IsT<Throwing>(Format("Index: ",i ," exceeds extents!"))(i<matrix.Cols());
@@ -84,6 +85,9 @@ public:
     //    }
 	//}
 private:
+	std::string name;
+	std::vector<UnitType> units;
+	std::unique_ptr<IMatrixQuery<typename Base::MatrixType, typename Base::ElementType>> query;	
 	Base::ElementType matrix;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }

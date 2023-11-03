@@ -13,6 +13,7 @@
 #include "../MatrixCategory.hpp"
 #include "../MatrixQuery.hpp"
 #include "../MatrixMultiCategory.hpp"
+#include "../MatrixStrategy.hpp"
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
@@ -148,6 +149,9 @@ class M3Test
             std::cout<<"MatrixQuery a:\n"<<mSewage<<std::endl;
             assert(mSewage.Rows()==6);   
             assert(Quantity<Sum>(mSewage.ColSum(4))==Quantity<Sum>(-933.29));
+
+			UnaryMatrixStrategy<decltype(m22S)> un("BuildingInsurance");
+			assert(un.Name()=="BuildingInsurance");
 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
             auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
