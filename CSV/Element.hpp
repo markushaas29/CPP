@@ -15,6 +15,7 @@ class IElement
 {
 public:
 	virtual const std::string Data() const  = 0;	
+	virtual const std::string_view Pattern() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
@@ -41,6 +42,7 @@ public:
 //	Element(T t): Element(std::to_string(t)) { };
 
 	const std::string Data() const  {	return value; };	
+	virtual const std::string_view Pattern() const { return pattern; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	//const std::string () const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Size() { return size; }
@@ -49,6 +51,7 @@ public:
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 private:
 	std::string value;
+	std::string pattern = "Test";
 	std::size_t size;
 };
 

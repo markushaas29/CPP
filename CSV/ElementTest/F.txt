@@ -1,0 +1,1503 @@
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp: In function ‘constexpr bool isYMD()’:
+../../Common/Date.hpp:19:57: error: ‘Day’ was not declared in this scope; did you mean ‘Days’?
+   19 | constexpr bool isYMD() {        return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;      }
+      |                                                         ^~~
+      |                                                         Days
+../../Common/Date.hpp:19:82: error: ‘Month’ was not declared in this scope
+   19 | constexpr bool isYMD() {        return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;      }
+      |                                                                                  ^~~~~
+../../Common/Date.hpp:19:109: error: ‘Year’ was not declared in this scope
+   19 | constexpr bool isYMD() {        return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;      }
+      |                                                                                                             ^~~~
+../../Common/Date.hpp: At global scope:
+../../Common/Date.hpp:28:25: error: ‘Day’ does not name a type; did you mean ‘Days’?
+   28 |         using DayType = Day;
+      |                         ^~~
+      |                         Days
+../../Common/Date.hpp:29:23: error: ‘Month’ does not name a type
+   29 |     using MonthType = Month;
+      |                       ^~~~~
+../../Common/Date.hpp:30:22: error: ‘Year’ does not name a type
+   30 |     using YearType = Year;
+      |                      ^~~~
+../../Common/Date.hpp:31:38: error: ‘Day’ was not declared in this scope; did you mean ‘Days’?
+   31 |         using TupleType = std::tuple<Day,Month,Year>;
+      |                                      ^~~
+      |                                      Days
+../../Common/Date.hpp:31:42: error: ‘Month’ was not declared in this scope
+   31 |         using TupleType = std::tuple<Day,Month,Year>;
+      |                                          ^~~~~
+../../Common/Date.hpp:31:48: error: ‘Year’ was not declared in this scope
+   31 |         using TupleType = std::tuple<Day,Month,Year>;
+      |                                                ^~~~
+../../Common/Date.hpp:31:52: error: template argument 1 is invalid
+   31 |         using TupleType = std::tuple<Day,Month,Year>;
+      |                                                    ^
+../../Common/Date.hpp:31:52: error: template argument 2 is invalid
+../../Common/Date.hpp:31:52: error: template argument 3 is invalid
+../../Common/Date.hpp:31:32: error: ‘<expression error>’ in namespace ‘std’ does not name a type
+   31 |         using TupleType = std::tuple<Day,Month,Year>;
+      |                                ^~~~~~~~~~~~~~~~~~~~~
+../../Common/Date.hpp:36:17: error: expected ‘)’ before ‘d’
+   36 |         Date(Day d, Month m,Year y):
+      |             ~   ^~
+      |                 )
+../../Common/Date.hpp:37:85: error: expected unqualified-id before ‘,’ token
+   37 |                 Base(d.ToString() + "." + m.ToString() + "." + y.ToString()), day{d}, month{m}, year{y},
+      |                                                                                     ^
+../../Common/Date.hpp:37:95: error: expected unqualified-id before ‘,’ token
+   37 |                 Base(d.ToString() + "." + m.ToString() + "." + y.ToString()), day{d}, month{m}, year{y},
+      |                                                                                               ^
+../../Common/Date.hpp:37:104: error: expected unqualified-id before ‘,’ token
+   37 |                 Base(d.ToString() + "." + m.ToString() + "." + y.ToString()), day{d}, month{m}, year{y},
+      |                                                                                                        ^
+../../Common/Date.hpp:38:59: error: expected unqualified-id before ‘,’ token
+   38 |                 valid{d.Valid() && m.Valid() && y.Valid()},
+      |                                                           ^
+../../Common/Date.hpp:39:28: error: expected unqualified-id before ‘{’ token
+   39 |                 ymd{y,m, d}{    };
+      |                            ^
+../../Common/Date.hpp:40:42: error: ‘TupleType’ does not name a type; did you mean ‘TimeType’?
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                          ^~~~~~~~~
+      |                                          TimeType
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:77:37: error: expected type-specifier before ‘Day’
+   77 |         constexpr explicit operator Day() { return day; }
+      |                                     ^~~
+../../Common/Date.hpp:78:37: error: expected type-specifier before ‘Month’
+   78 |         constexpr explicit operator Month() { return month; }
+      |                                     ^~~~~
+../../Common/Date.hpp:79:37: error: expected type-specifier before ‘Year’
+   79 |         constexpr explicit operator Year() { return year; }
+      |                                     ^~~~
+../../Common/Date.hpp:80:19: error: ‘Day’ does not name a type; did you mean ‘Days’?
+   80 |         constexpr Day D() const { return day; }
+      |                   ^~~
+      |                   Days
+../../Common/Date.hpp:81:19: error: ‘Month’ does not name a type
+   81 |         constexpr Month M() const { return month; }
+      |                   ^~~~~
+../../Common/Date.hpp:82:19: error: ‘Year’ does not name a type
+   82 |         constexpr Year Y() const { return year; }
+      |                   ^~~~
+../../Common/Date.hpp:103:9: error: ‘Day’ does not name a type; did you mean ‘Days’?
+  103 |         Day day;
+      |         ^~~
+      |         Days
+../../Common/Date.hpp:104:9: error: ‘Month’ does not name a type
+  104 |         Month month;
+      |         ^~~~~
+../../Common/Date.hpp:105:9: error: ‘Year’ does not name a type
+  105 |         Year year;
+      |         ^~~~
+../../Common/Date.hpp:108:9: error: ‘string’ does not name a type; did you mean ‘stdin’?
+  108 |         string pattern;
+      |         ^~~~~~
+      |         stdin
+../../Common/Date.hpp:130:16: error: ‘TupleType’ does not name a type; did you mean ‘TimeType’?
+  130 |         static TupleType extract(const std::string& s)
+      |                ^~~~~~~~~
+      |                TimeType
+../../Common/Date.hpp:139:16: error: ‘TupleType’ does not name a type; did you mean ‘TimeType’?
+  139 |         static TupleType extractBySeparation(const std::string& s, const char token)
+      |                ^~~~~~~~~
+      |                TimeType
+../../Common/Date.hpp:147:16: error: ‘TupleType’ does not name a type; did you mean ‘TimeType’?
+  147 |         static TupleType extractByValue(const std::string& s)
+      |                ^~~~~~~~~
+      |                TimeType
+../../Common/Date.hpp:164:16: error: ‘TupleType’ does not name a type; did you mean ‘TimeType’?
+  164 |         static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)  {       return std::tuple<Day,Month,Year>(Day(::To<uint>(d)),Month(::To<uint>(m)),Year(::To<uint>(y))); }
+      |                ^~~~~~~~~
+      |                TimeType
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp: In constructor ‘Date::Date(const string&, const int&)’:
+../../Common/Date.hpp:40:71: error: ‘Day’ was not declared in this scope; did you mean ‘Days’?
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                       ^~~
+      |                                                                       Days
+../../Common/Date.hpp:40:75: error: no matching function for call to ‘get<<expression error> >(const int&)’
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:223:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type& std::get(std::pair<_OIter1, _OIter2>&)’
+  223 |     get(pair<_Tp1, _Tp2>& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:223:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:228:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type&& std::get(std::pair<_OIter1, _OIter2>&&)’
+  228 |     get(pair<_Tp1, _Tp2>&& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:228:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:233:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr const typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type& std::get(const std::pair<_OIter1, _OIter2>&)’
+  233 |     get(const pair<_Tp1, _Tp2>& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:233:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:238:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr const typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type&& std::get(const std::pair<_OIter1, _OIter2>&&)’
+  238 |     get(const pair<_Tp1, _Tp2>&& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:238:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:247:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp& std::get(std::pair<_T1, _T2>&)’
+  247 |     get(pair<_Tp, _Up>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:247:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:252:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp& std::get(const std::pair<_T1, _T2>&)’
+  252 |     get(const pair<_Tp, _Up>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:252:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:257:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp&& std::get(std::pair<_T1, _T2>&&)’
+  257 |     get(pair<_Tp, _Up>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:257:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:262:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp&& std::get(const std::pair<_T1, _T2>&&)’
+  262 |     get(const pair<_Tp, _Up>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:262:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:267:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp& std::get(std::pair<_Up, _Tp>&)’
+  267 |     get(pair<_Up, _Tp>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:267:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:272:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp& std::get(const std::pair<_Up, _Tp>&)’
+  272 |     get(const pair<_Up, _Tp>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:272:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:277:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp&& std::get(std::pair<_Up, _Tp>&&)’
+  277 |     get(pair<_Up, _Tp>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:277:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:282:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp&& std::get(const std::pair<_Up, _Tp>&&)’
+  282 |     get(const pair<_Up, _Tp>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:282:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:361:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr _Tp& std::get(std::array<_Tp, _Nm>&)’
+  361 |     get(array<_Tp, _Nm>& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:361:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:369:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr _Tp&& std::get(std::array<_Tp, _Nm>&&)’
+  369 |     get(array<_Tp, _Nm>&& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:369:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:377:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr const _Tp& std::get(const std::array<_Tp, _Nm>&)’
+  377 |     get(const array<_Tp, _Nm>& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:377:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:385:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr const _Tp&& std::get(const std::array<_Tp, _Nm>&&)’
+  385 |     get(const array<_Tp, _Nm>&& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:385:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1393:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >& std::get(std::tuple<_UTypes ...>&)’
+ 1393 |     get(tuple<_Elements...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1393:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1399:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >& std::get(const std::tuple<_UTypes ...>&)’
+ 1399 |     get(const tuple<_Elements...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1399:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1405:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >&& std::get(std::tuple<_UTypes ...>&&)’
+ 1405 |     get(tuple<_Elements...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1405:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1414:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >&& std::get(const std::tuple<_UTypes ...>&&)’
+ 1414 |     get(const tuple<_Elements...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1414:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1449:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr _Tp& std::get(std::tuple<_UTypes ...>&)’
+ 1449 |     get(tuple<_Types...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1449:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1460:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr _Tp&& std::get(std::tuple<_UTypes ...>&&)’
+ 1460 |     get(tuple<_Types...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1460:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1471:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr const _Tp& std::get(const std::tuple<_UTypes ...>&)’
+ 1471 |     get(const tuple<_Types...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1471:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1483:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr const _Tp&& std::get(const std::tuple<_UTypes ...>&&)’
+ 1483 |     get(const tuple<_Types...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1483:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/ranges_algo.h:36,
+                 from /usr/include/c++/11/algorithm:64,
+                 from ../../String/../Logger/Logger.hpp:1,
+                 from ../../String/String_.hpp:9,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/bits/ranges_util.h:381:5: note: candidate: ‘template<long unsigned int _Num, class _It, class _Sent, std::ranges::subrange_kind _Kind>  requires  _Num < 2 constexpr auto std::ranges::get(std::ranges::subrange<_It, _Sent, _Kind>&&)’
+  381 |     get(subrange<_It, _Sent, _Kind>&& __r)
+      |     ^~~
+/usr/include/c++/11/bits/ranges_util.h:381:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/ranges_algo.h:36,
+                 from /usr/include/c++/11/algorithm:64,
+                 from ../../String/../Logger/Logger.hpp:1,
+                 from ../../String/String_.hpp:9,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/bits/ranges_util.h:370:5: note: candidate: ‘template<long unsigned int _Num, class _It, class _Sent, std::ranges::subrange_kind _Kind>  requires  _Num < 2 constexpr auto std::ranges::get(const std::ranges::subrange<_It, _Sent, _Kind>&)’
+  370 |     get(const subrange<_It, _Sent, _Kind>& __r)
+      |     ^~~
+/usr/include/c++/11/bits/ranges_util.h:370:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:75: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                              ~~~~~~~~~~~~~^~~
+../../Common/Date.hpp:40:98: error: ‘Month’ was not declared in this scope
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                  ^~~~~
+../../Common/Date.hpp:40:104: error: no matching function for call to ‘get<<expression error> >(const int&)’
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:223:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type& std::get(std::pair<_OIter1, _OIter2>&)’
+  223 |     get(pair<_Tp1, _Tp2>& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:223:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:228:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type&& std::get(std::pair<_OIter1, _OIter2>&&)’
+  228 |     get(pair<_Tp1, _Tp2>&& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:228:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:233:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr const typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type& std::get(const std::pair<_OIter1, _OIter2>&)’
+  233 |     get(const pair<_Tp1, _Tp2>& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:233:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:238:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr const typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type&& std::get(const std::pair<_OIter1, _OIter2>&&)’
+  238 |     get(const pair<_Tp1, _Tp2>&& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:238:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:247:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp& std::get(std::pair<_T1, _T2>&)’
+  247 |     get(pair<_Tp, _Up>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:247:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:252:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp& std::get(const std::pair<_T1, _T2>&)’
+  252 |     get(const pair<_Tp, _Up>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:252:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:257:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp&& std::get(std::pair<_T1, _T2>&&)’
+  257 |     get(pair<_Tp, _Up>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:257:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:262:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp&& std::get(const std::pair<_T1, _T2>&&)’
+  262 |     get(const pair<_Tp, _Up>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:262:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:267:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp& std::get(std::pair<_Up, _Tp>&)’
+  267 |     get(pair<_Up, _Tp>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:267:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:272:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp& std::get(const std::pair<_Up, _Tp>&)’
+  272 |     get(const pair<_Up, _Tp>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:272:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:277:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp&& std::get(std::pair<_Up, _Tp>&&)’
+  277 |     get(pair<_Up, _Tp>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:277:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:282:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp&& std::get(const std::pair<_Up, _Tp>&&)’
+  282 |     get(const pair<_Up, _Tp>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:282:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:361:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr _Tp& std::get(std::array<_Tp, _Nm>&)’
+  361 |     get(array<_Tp, _Nm>& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:361:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:369:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr _Tp&& std::get(std::array<_Tp, _Nm>&&)’
+  369 |     get(array<_Tp, _Nm>&& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:369:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:377:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr const _Tp& std::get(const std::array<_Tp, _Nm>&)’
+  377 |     get(const array<_Tp, _Nm>& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:377:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:385:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr const _Tp&& std::get(const std::array<_Tp, _Nm>&&)’
+  385 |     get(const array<_Tp, _Nm>&& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:385:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1393:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >& std::get(std::tuple<_UTypes ...>&)’
+ 1393 |     get(tuple<_Elements...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1393:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1399:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >& std::get(const std::tuple<_UTypes ...>&)’
+ 1399 |     get(const tuple<_Elements...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1399:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1405:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >&& std::get(std::tuple<_UTypes ...>&&)’
+ 1405 |     get(tuple<_Elements...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1405:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1414:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >&& std::get(const std::tuple<_UTypes ...>&&)’
+ 1414 |     get(const tuple<_Elements...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1414:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1449:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr _Tp& std::get(std::tuple<_UTypes ...>&)’
+ 1449 |     get(tuple<_Types...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1449:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1460:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr _Tp&& std::get(std::tuple<_UTypes ...>&&)’
+ 1460 |     get(tuple<_Types...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1460:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1471:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr const _Tp& std::get(const std::tuple<_UTypes ...>&)’
+ 1471 |     get(const tuple<_Types...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1471:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1483:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr const _Tp&& std::get(const std::tuple<_UTypes ...>&&)’
+ 1483 |     get(const tuple<_Types...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1483:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/ranges_algo.h:36,
+                 from /usr/include/c++/11/algorithm:64,
+                 from ../../String/../Logger/Logger.hpp:1,
+                 from ../../String/String_.hpp:9,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/bits/ranges_util.h:381:5: note: candidate: ‘template<long unsigned int _Num, class _It, class _Sent, std::ranges::subrange_kind _Kind>  requires  _Num < 2 constexpr auto std::ranges::get(std::ranges::subrange<_It, _Sent, _Kind>&&)’
+  381 |     get(subrange<_It, _Sent, _Kind>&& __r)
+      |     ^~~
+/usr/include/c++/11/bits/ranges_util.h:381:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/ranges_algo.h:36,
+                 from /usr/include/c++/11/algorithm:64,
+                 from ../../String/../Logger/Logger.hpp:1,
+                 from ../../String/String_.hpp:9,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/bits/ranges_util.h:370:5: note: candidate: ‘template<long unsigned int _Num, class _It, class _Sent, std::ranges::subrange_kind _Kind>  requires  _Num < 2 constexpr auto std::ranges::get(const std::ranges::subrange<_It, _Sent, _Kind>&)’
+  370 |     get(const subrange<_It, _Sent, _Kind>& __r)
+      |     ^~~
+/usr/include/c++/11/bits/ranges_util.h:370:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:104: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                         ~~~~~~~~~~~~~~~^~~
+../../Common/Date.hpp:40:127: error: ‘Year’ was not declared in this scope
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                               ^~~~
+../../Common/Date.hpp:40:132: error: no matching function for call to ‘get<<expression error> >(const int&)’
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:223:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type& std::get(std::pair<_OIter1, _OIter2>&)’
+  223 |     get(pair<_Tp1, _Tp2>& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:223:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:228:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type&& std::get(std::pair<_OIter1, _OIter2>&&)’
+  228 |     get(pair<_Tp1, _Tp2>&& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:228:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:233:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr const typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type& std::get(const std::pair<_OIter1, _OIter2>&)’
+  233 |     get(const pair<_Tp1, _Tp2>& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:233:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:238:5: note: candidate: ‘template<long unsigned int _Int, class _Tp1, class _Tp2> constexpr const typename std::tuple_element<_Int, std::pair<_OIter1, _OIter2> >::type&& std::get(const std::pair<_OIter1, _OIter2>&&)’
+  238 |     get(const pair<_Tp1, _Tp2>&& __in) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:238:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:247:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp& std::get(std::pair<_T1, _T2>&)’
+  247 |     get(pair<_Tp, _Up>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:247:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:252:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp& std::get(const std::pair<_T1, _T2>&)’
+  252 |     get(const pair<_Tp, _Up>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:252:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:257:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp&& std::get(std::pair<_T1, _T2>&&)’
+  257 |     get(pair<_Tp, _Up>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:257:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:262:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp&& std::get(const std::pair<_T1, _T2>&&)’
+  262 |     get(const pair<_Tp, _Up>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:262:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:267:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp& std::get(std::pair<_Up, _Tp>&)’
+  267 |     get(pair<_Up, _Tp>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:267:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:272:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp& std::get(const std::pair<_Up, _Tp>&)’
+  272 |     get(const pair<_Up, _Tp>& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:272:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:277:5: note: candidate: ‘template<class _Tp, class _Up> constexpr _Tp&& std::get(std::pair<_Up, _Tp>&&)’
+  277 |     get(pair<_Up, _Tp>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:277:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:36,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/utility:282:5: note: candidate: ‘template<class _Tp, class _Up> constexpr const _Tp&& std::get(const std::pair<_Up, _Tp>&&)’
+  282 |     get(const pair<_Up, _Tp>&& __p) noexcept
+      |     ^~~
+/usr/include/c++/11/utility:282:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:361:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr _Tp& std::get(std::array<_Tp, _Nm>&)’
+  361 |     get(array<_Tp, _Nm>& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:361:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:369:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr _Tp&& std::get(std::array<_Tp, _Nm>&&)’
+  369 |     get(array<_Tp, _Nm>&& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:369:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:377:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr const _Tp& std::get(const std::array<_Tp, _Nm>&)’
+  377 |     get(const array<_Tp, _Nm>& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:377:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/tuple:39,
+                 from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/array:385:5: note: candidate: ‘template<long unsigned int _Int, class _Tp, long unsigned int _Nm> constexpr const _Tp&& std::get(const std::array<_Tp, _Nm>&&)’
+  385 |     get(const array<_Tp, _Nm>&& __arr) noexcept
+      |     ^~~
+/usr/include/c++/11/array:385:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1393:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >& std::get(std::tuple<_UTypes ...>&)’
+ 1393 |     get(tuple<_Elements...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1393:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1399:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >& std::get(const std::tuple<_UTypes ...>&)’
+ 1399 |     get(const tuple<_Elements...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1399:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1405:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >&& std::get(std::tuple<_UTypes ...>&&)’
+ 1405 |     get(tuple<_Elements...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1405:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1414:5: note: candidate: ‘template<long unsigned int __i, class ... _Elements> constexpr std::__tuple_element_t<__i, std::tuple<_UTypes ...> >&& std::get(const std::tuple<_UTypes ...>&&)’
+ 1414 |     get(const tuple<_Elements...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1414:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1449:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr _Tp& std::get(std::tuple<_UTypes ...>&)’
+ 1449 |     get(tuple<_Types...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1449:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1460:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr _Tp&& std::get(std::tuple<_UTypes ...>&&)’
+ 1460 |     get(tuple<_Types...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1460:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1471:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr const _Tp& std::get(const std::tuple<_UTypes ...>&)’
+ 1471 |     get(const tuple<_Types...>& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1471:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/unique_ptr.h:37,
+                 from /usr/include/c++/11/bits/locale_conv.h:41,
+                 from /usr/include/c++/11/locale:43,
+                 from ../../String/String_.hpp:6,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/tuple:1483:5: note: candidate: ‘template<class _Tp, class ... _Types> constexpr const _Tp&& std::get(const std::tuple<_UTypes ...>&&)’
+ 1483 |     get(const tuple<_Types...>&& __t) noexcept
+      |     ^~~
+/usr/include/c++/11/tuple:1483:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/ranges_algo.h:36,
+                 from /usr/include/c++/11/algorithm:64,
+                 from ../../String/../Logger/Logger.hpp:1,
+                 from ../../String/String_.hpp:9,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/bits/ranges_util.h:381:5: note: candidate: ‘template<long unsigned int _Num, class _It, class _Sent, std::ranges::subrange_kind _Kind>  requires  _Num < 2 constexpr auto std::ranges::get(std::ranges::subrange<_It, _Sent, _Kind>&&)’
+  381 |     get(subrange<_It, _Sent, _Kind>&& __r)
+      |     ^~~
+/usr/include/c++/11/bits/ranges_util.h:381:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from /usr/include/c++/11/bits/ranges_algo.h:36,
+                 from /usr/include/c++/11/algorithm:64,
+                 from ../../String/../Logger/Logger.hpp:1,
+                 from ../../String/String_.hpp:9,
+                 from ../Element.hpp:1,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/bits/ranges_util.h:370:5: note: candidate: ‘template<long unsigned int _Num, class _It, class _Sent, std::ranges::subrange_kind _Kind>  requires  _Num < 2 constexpr auto std::ranges::get(const std::ranges::subrange<_It, _Sent, _Kind>&)’
+  370 |     get(const subrange<_It, _Sent, _Kind>& __r)
+      |     ^~~
+/usr/include/c++/11/bits/ranges_util.h:370:5: note:   template argument deduction/substitution failed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:132: error: template argument 1 is invalid
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |                                                                                                                      ~~~~~~~~~~~~~~^~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp: In constructor ‘Date::Date(uint, uint, uint)’:
+../../Common/Date.hpp:41:56: error: ‘Day’ was not declared in this scope; did you mean ‘Days’?
+   41 |         Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+      |                                                        ^~~
+      |                                                        Days
+../../Common/Date.hpp:41:63: error: ‘Month’ was not declared in this scope
+   41 |         Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+      |                                                               ^~~~~
+../../Common/Date.hpp:41:72: error: ‘Year’ was not declared in this scope
+   41 |         Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+      |                                                                        ^~~~
+../../Common/Date.hpp: In copy constructor ‘Date::Date(const Date&)’:
+../../Common/Date.hpp:42:74: error: class ‘Date’ does not have any field named ‘day’
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |                                                                          ^~~
+../../Common/Date.hpp:42:80: error: ‘const class Date’ has no member named ‘day’; did you mean ‘Today’?
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |                                                                                ^~~
+      |                                                                                Today
+../../Common/Date.hpp:42:86: error: class ‘Date’ does not have any field named ‘month’
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |                                                                                      ^~~~~
+../../Common/Date.hpp:42:94: error: ‘const class Date’ has no member named ‘month’
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |                                                                                              ^~~~~
+../../Common/Date.hpp:42:102: error: class ‘Date’ does not have any field named ‘year’
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |                                                                                                      ^~~~
+../../Common/Date.hpp:42:109: error: ‘const class Date’ has no member named ‘year’
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |                                                                                                             ^~~~
+../../Common/Date.hpp: In constructor ‘Date::Date(const string&)’:
+../../Common/Date.hpp:43:60: error: ‘extract’ was not declared in this scope
+   43 |         Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
+      |                                                            ^~~~~~~
+../../Common/Date.hpp:43:86: error: no matching function for call to ‘Date::Date(<brace-enclosed initializer list>)’
+   43 |         Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
+      |                                                                                      ^
+../../Common/Date.hpp:43:9: note: candidate: ‘Date::Date(const string&)’
+   43 |         Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
+      |         ^~~~
+../../Common/Date.hpp:43:9: note:   candidate expects 1 argument, 2 provided
+../../Common/Date.hpp:42:9: note: candidate: ‘Date::Date(const Date&)’
+   42 |         Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+      |         ^~~~
+../../Common/Date.hpp:42:9: note:   candidate expects 1 argument, 2 provided
+../../Common/Date.hpp:41:9: note: candidate: ‘Date::Date(uint, uint, uint)’
+   41 |         Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+      |         ^~~~
+../../Common/Date.hpp:41:19: note:   no known conversion for argument 1 from ‘std::string’ {aka ‘std::__cxx11::basic_string<char>’} to ‘uint’ {aka ‘unsigned int’}
+   41 |         Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+      |              ~~~~~^~~~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:40:9: note: candidate: ‘Date::Date(const string&, const int&)’
+   40 |         Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
+      |         ^~~~
+../../Common/Date.hpp:40:9: note:   conversion of argument 2 would be ill-formed:
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp: In member function ‘virtual const string_view Date::Pattern() const’:
+../../Common/Date.hpp:74:65: error: ‘std::string Element<Date>::pattern’ is private within this context
+   74 |         virtual const std::string_view Pattern() const { return pattern; };
+      |                                                                 ^~~~~~~
+In file included from ElementTest.cpp:3:
+../Element.hpp:54:21: note: declared private here
+   54 |         std::string pattern = "Test";
+      |                     ^~~~~~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp: In member function ‘Date& Date::operator=(const Date&)’:
+../../Common/Date.hpp:86:17: error: ‘day’ was not declared in this scope; did you mean ‘std::chrono::day’?
+   86 |                 day = date.day;
+      |                 ^~~
+      |                 std::chrono::day
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:1300:11: note: ‘std::chrono::day’ declared here
+ 1300 |     class day
+      |           ^~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:86:28: error: ‘const class Date’ has no member named ‘day’; did you mean ‘Today’?
+   86 |                 day = date.day;
+      |                            ^~~
+      |                            Today
+../../Common/Date.hpp:87:17: error: ‘month’ was not declared in this scope; did you mean ‘std::chrono::month’?
+   87 |                 month = date.month;
+      |                 ^~~~~
+      |                 std::chrono::month
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:1409:11: note: ‘std::chrono::month’ declared here
+ 1409 |     class month
+      |           ^~~~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:87:30: error: ‘const class Date’ has no member named ‘month’
+   87 |                 month = date.month;
+      |                              ^~~~~
+../../Common/Date.hpp:88:22: error: ‘const class Date’ has no member named ‘Y’
+   88 |                 date.Y();
+      |                      ^
+../../Common/Date.hpp: In member function ‘constexpr bool Date::operator==(T) const’:
+../../Common/Date.hpp:95:68: error: ‘day’ was not declared in this scope; did you mean ‘std::chrono::day’?
+   95 |                         return (T)t == std::get<T>(std::make_tuple(day,month,year));
+      |                                                                    ^~~
+      |                                                                    std::chrono::day
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:1300:11: note: ‘std::chrono::day’ declared here
+ 1300 |     class day
+      |           ^~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:95:72: error: ‘month’ was not declared in this scope; did you mean ‘std::chrono::month’?
+   95 |                         return (T)t == std::get<T>(std::make_tuple(day,month,year));
+      |                                                                        ^~~~~
+      |                                                                        std::chrono::month
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:1409:11: note: ‘std::chrono::month’ declared here
+ 1409 |     class month
+      |           ^~~~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:95:78: error: ‘year’ was not declared in this scope; did you mean ‘std::chrono::year’?
+   95 |                         return (T)t == std::get<T>(std::make_tuple(day,month,year));
+      |                                                                              ^~~~
+      |                                                                              std::chrono::year
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:1546:11: note: ‘std::chrono::year’ declared here
+ 1546 |     class year
+      |           ^~~~
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp: In function ‘std::ostream& operator<<(std::ostream&, const Date&)’:
+../../Common/Date.hpp:110:95: error: ‘const class Date’ has no member named ‘day’; did you mean ‘Today’?
+  110 |         friend std::ostream& operator<<(std::ostream& out, const Date& d) {     return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();   }
+      |                                                                                               ^~~
+      |                                                                                               Today
+../../Common/Date.hpp:110:115: error: ‘const class Date’ has no member named ‘month’
+  110 |         friend std::ostream& operator<<(std::ostream& out, const Date& d) {     return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();   }
+      |                                                                                                                   ^~~~~
+../../Common/Date.hpp:110:137: error: ‘const class Date’ has no member named ‘year’
+  110 |         friend std::ostream& operator<<(std::ostream& out, const Date& d) {     return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();   }
+      |                                                                                                                                         ^~~~
+../../Common/Date.hpp: In function ‘std::istream& operator>>(std::istream&, Date&)’:
+../../Common/Date.hpp:117:45: error: ‘class Date’ has no member named ‘day’; did you mean ‘Today’?
+  117 |                 std::cout<<"IS"<<s<<"\t"<<d.day<<std::endl;
+      |                                             ^~~
+      |                                             Today
+../../Common/Date.hpp: In function ‘decltype(auto) NumberOfDays(const Date&, const Date&)’:
+../../Common/Date.hpp:169:69: error: ‘const class Date’ has no member named ‘Y’
+  169 |         const std::chrono::year_month_day ymd1{std::chrono::year(d1.Y()), std::chrono::month(d1.M()), std::chrono::day(d1.D())};
+      |                                                                     ^
+../../Common/Date.hpp:169:97: error: ‘const class Date’ has no member named ‘M’
+  169 |         const std::chrono::year_month_day ymd1{std::chrono::year(d1.Y()), std::chrono::month(d1.M()), std::chrono::day(d1.D())};
+      |                                                                                                 ^
+../../Common/Date.hpp:169:123: error: ‘const class Date’ has no member named ‘D’
+  169 |         const std::chrono::year_month_day ymd1{std::chrono::year(d1.Y()), std::chrono::month(d1.M()), std::chrono::day(d1.D())};
+      |                                                                                                                           ^
+../../Common/Date.hpp:169:127: error: no matching function for call to ‘std::chrono::year_month_day::year_month_day(<brace-enclosed initializer list>)’
+  169 |         const std::chrono::year_month_day ymd1{std::chrono::year(d1.Y()), std::chrono::month(d1.M()), std::chrono::day(d1.D())};
+      |                                                                                                                               ^
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:2350:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const local_days&)’
+ 2350 |       year_month_day(const local_days& __dp) noexcept
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2350:7: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2345:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const sys_days&)’
+ 2345 |       year_month_day(const sys_days& __dp) noexcept
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2345:7: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2705:5: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const std::chrono::year_month_day_last&)’
+ 2705 |     year_month_day::year_month_day(const year_month_day_last& __ymdl) noexcept
+      |     ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2705:5: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2336:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const std::chrono::year&, const std::chrono::month&, const std::chrono::day&)’
+ 2336 |       year_month_day(const chrono::year& __y, const chrono::month& __m,
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2336:7: note:   conversion of argument 1 would be ill-formed:
+/usr/include/c++/11/chrono:2333:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day()’
+ 2333 |       year_month_day() = default;
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2333:7: note:   candidate expects 0 arguments, 3 provided
+/usr/include/c++/11/chrono:2321:11: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const std::chrono::year_month_day&)’
+ 2321 |     class year_month_day
+      |           ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2321:11: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2321:11: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(std::chrono::year_month_day&&)’
+/usr/include/c++/11/chrono:2321:11: note:   candidate expects 1 argument, 3 provided
+In file included from ElementTest.cpp:5:
+../../Common/Date.hpp:170:69: error: ‘const class Date’ has no member named ‘Y’
+  170 |         const std::chrono::year_month_day ymd2{std::chrono::year(d2.Y()), std::chrono::month(d2.M()), std::chrono::day(d2.D())};
+      |                                                                     ^
+../../Common/Date.hpp:170:97: error: ‘const class Date’ has no member named ‘M’
+  170 |         const std::chrono::year_month_day ymd2{std::chrono::year(d2.Y()), std::chrono::month(d2.M()), std::chrono::day(d2.D())};
+      |                                                                                                 ^
+../../Common/Date.hpp:170:123: error: ‘const class Date’ has no member named ‘D’
+  170 |         const std::chrono::year_month_day ymd2{std::chrono::year(d2.Y()), std::chrono::month(d2.M()), std::chrono::day(d2.D())};
+      |                                                                                                                           ^
+../../Common/Date.hpp:170:127: error: no matching function for call to ‘std::chrono::year_month_day::year_month_day(<brace-enclosed initializer list>)’
+  170 |         const std::chrono::year_month_day ymd2{std::chrono::year(d2.Y()), std::chrono::month(d2.M()), std::chrono::day(d2.D())};
+      |                                                                                                                               ^
+In file included from /usr/include/c++/11/bits/fs_fwd.h:37,
+                 from /usr/include/c++/11/filesystem:44,
+                 from ../../Quantity/../Math/Math.hpp:8,
+                 from ../../Quantity/QuantityRatio.hpp:3,
+                 from ../../Quantity/Quantity.hpp:5,
+                 from ../Element.hpp:4,
+                 from ElementTest.cpp:3:
+/usr/include/c++/11/chrono:2350:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const local_days&)’
+ 2350 |       year_month_day(const local_days& __dp) noexcept
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2350:7: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2345:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const sys_days&)’
+ 2345 |       year_month_day(const sys_days& __dp) noexcept
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2345:7: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2705:5: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const std::chrono::year_month_day_last&)’
+ 2705 |     year_month_day::year_month_day(const year_month_day_last& __ymdl) noexcept
+      |     ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2705:5: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2336:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const std::chrono::year&, const std::chrono::month&, const std::chrono::day&)’
+ 2336 |       year_month_day(const chrono::year& __y, const chrono::month& __m,
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2336:7: note:   conversion of argument 1 would be ill-formed:
+/usr/include/c++/11/chrono:2333:7: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day()’
+ 2333 |       year_month_day() = default;
+      |       ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2333:7: note:   candidate expects 0 arguments, 3 provided
+/usr/include/c++/11/chrono:2321:11: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(const std::chrono::year_month_day&)’
+ 2321 |     class year_month_day
+      |           ^~~~~~~~~~~~~~
+/usr/include/c++/11/chrono:2321:11: note:   candidate expects 1 argument, 3 provided
+/usr/include/c++/11/chrono:2321:11: note: candidate: ‘constexpr std::chrono::year_month_day::year_month_day(std::chrono::year_month_day&&)’
+/usr/include/c++/11/chrono:2321:11: note:   candidate expects 1 argument, 3 provided
+make: *** [<eingebaut>: *.o] Fehler 1

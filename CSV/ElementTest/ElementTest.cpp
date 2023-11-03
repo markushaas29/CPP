@@ -2,6 +2,7 @@
 #include <cassert>
 #include "../Element.hpp"
 #include "../Elements.hpp"
+#include "../../Common/DateTimes.hpp"
 #include "../../ObjectFactory/Factories.hpp"
 
 int main()
@@ -31,16 +32,20 @@ int main()
 	std::unique_ptr<IElement> pn = std::make_unique<Name>(s1.c_str());
 	std::unique_ptr<IElement> vi = std::make_unique<Value<int>>(23);
 	std::unique_ptr<IElement> vd = std::make_unique<Value<double>>(23.456);
+	std::unique_ptr<IElement> vdt = std::make_unique<Date>(29,9,1986);
 	std::vector<std::unique_ptr<IElement>> v;
 	v.push_back(std::move(pi));
 	v.push_back(std::move(pn));
 	v.push_back(std::move(vi));
 	v.push_back(std::move(vd));
+	v.push_back(std::move(vdt));
 
 	for(auto& p : v)
 		std::cout<<"P: "<<p->Data()<<" "<<*(p->Clone())<<std::endl;
 
-	v[0]->To<int>();
+	assert(v[0]->Pattern()=="Test");
+	assert(v[4]->Pattern()=="DatePattern");
+//	v[0]->To<int>();
 
     return 0;
 }
