@@ -5,6 +5,7 @@
 #include "../To/To.hpp"
 #include <string.h>
 #include <map>
+#include <regex>
 #include <memory>
 #include <array>
 #include <chrono>
@@ -14,8 +15,8 @@
 class IElement
 {
 public:
-	virtual const std::string Data() const  = 0;	
-	virtual const std::string_view Pattern() const  = 0;	
+	virtual const std::string_view Data() const  = 0;	
+	virtual const std::regex Pattern() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
@@ -41,8 +42,8 @@ public:
 // 	template<typename T>
 //	Element(T t): Element(std::to_string(t)) { };
 
-	const std::string Data() const  {	return value; };	
-	virtual const std::string_view Pattern() const { return pattern; };	
+	const std::string_view Data() const  {	return value; };	
+	virtual const std::regex Pattern() const { return pattern; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	//const std::string () const  {	return std::string(data.data()); };	
 	constexpr decltype(auto) Size() { return size; }
@@ -51,7 +52,7 @@ public:
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 private:
 	std::string value;
-	std::string pattern = "Test";
+	std::regex pattern = std::regex( "Test" );
 	std::size_t size;
 };
 
