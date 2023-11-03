@@ -29,10 +29,11 @@ public:
 		if(v > max || v < min || v == 0)
 			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 	}
-	Derived operator=(const Derived& d) const 
+	Derived& operator=(const Derived& d) 
 	{ 
-		std::cout<<"DAY"<<Derived(d.value);
-		return Derived(d.value);}
+		std::cout<<"DAY ASSIGN\n\n\n"<<Derived(d.value)<<std::endl;
+		return Derived(d.value);
+	}
 	DateTimeBase operator=(const DateTimeBase& d) const { return DateTimeBase(d.value);}
 	constexpr bool Valid() const { return valid; }
 	constexpr operator uint() const { return value; }
@@ -52,7 +53,7 @@ public:
 	}
 	std::ostream& Display(std::ostream& os) { return os<<value; }
 protected:
-	const uint value;
+	uint value;
 private:
 	template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimeBase<T1,T2>& d1, const DateTimeBase<T1,T2>& d2);
 	template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimeBase<T1,T2>& d1, const DateTimeBase<T1,T2>& d2);
@@ -65,6 +66,11 @@ private:
 class Day: public DateTimeBase<Day,std::chrono::day,31>
 {
 public:
+	Day& operator=(const Day& d)
+	{ 
+		value = d.value;
+		return *this;
+	}
 	using Base = DateTimeBase<Day,std::chrono::day,31>;
 	static constexpr const char* TypeIdentifier = "Day";
 	constexpr Day(uint v): Base(v){};

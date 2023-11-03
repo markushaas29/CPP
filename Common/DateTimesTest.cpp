@@ -43,6 +43,11 @@ int main()
 	std::cout<<"Days"<<std::endl;
 	
 	auto dy2 = Day{2};
+	assert(dy2==2);
+	auto dy3 = Day{3};
+	assert(dy3==3);
+	dy2 = dy3;
+	assert(dy2==3);
 	auto d1 = Date("5.3.2022");
 	assert(5==d1.D());
 	assert(3==d1.M());
@@ -57,8 +62,8 @@ int main()
 	auto d3 = Date("5.3.2020");
 	auto d4 = Date("28.2.2020");
 	d1 = d4;
-	std::cout<<"Days "<<d1<<std::endl;
-//	assert(28==d1.D());
+	std::cout<<"D1 -------------------- "<<d1<<std::endl;
+	assert(28==d1.D());
 //	assert(2==d1.M());
 //	assert(2020==d1.Y());
 	

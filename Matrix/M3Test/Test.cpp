@@ -153,7 +153,14 @@ class M3Test
 			UnaryMatrixStrategy<decltype(m22S)> un("BuildingInsurance");
 			assert(un.Name()=="BuildingInsurance");
 
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBC = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2022"}}}; 
+            auto mBC = MatrixQuery<decltype(m22S),std::string>(pfs, {fUBC});
+            auto mCleaning =m22_23.M(mBC).Cols(4,6,7,9,11);
+            assert(mCleaning.Rows()==3);
+            std::cout<<"MatrixQuery a:\n"<<Quantity<Sum>(mCleaning.ColSum(4))<<Quantity<Sum>(-214.20)<<std::endl;
+            assert(Quantity<Sum>(mCleaning.ColSum(4))==Quantity<Sum>(-214.20));
+            
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
             auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
             auto mPropertyTax =m22_23.M(mDG).Cols(4,6,7,9,11);
             assert(mPropertyTax.Rows()==4);

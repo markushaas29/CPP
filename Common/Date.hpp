@@ -39,7 +39,7 @@ public:
 		ymd{y,m, d}{	}; 
 	Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
 	Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
-	Date(const Date& d): Base{d.Data()}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
+	Date(const Date& d): Base{std::string(d.Data().cbegin(),d.Data().cend())}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	
 	static Date Today()
@@ -71,7 +71,7 @@ public:
 		return ts;
 	}
 
-	virtual const std::string_view Pattern() const { return pattern; };
+	virtual const std::regex Pattern() const { return pattern; };
 
 	constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
 	constexpr explicit operator Day() { return day; } 
@@ -83,9 +83,13 @@ public:
 	
 	Date& operator=(const Date& date)
 	{ 
+		std::cout<<"ASSIGN Day1"<<day<<std::endl;
 		day = date.day;
 		month = date.month;
 		date.Y();
+
+		std::cout<<"ASSIGN Day 23"<<day<<std::endl;
+
 		return *this; 
 	};
 	template<typename T>
@@ -105,7 +109,7 @@ private:
 	Year year;
 	const std::chrono::year_month_day ymd;
 	TP tp;
-	std::string pattern = "DatePattern";
+	std::regex pattern = std::regex( "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})" );
 	String_::ParserFrom<uint> converter;
 	friend std::ostream& operator<<(std::ostream& out, const Date& d) {	return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();	}
 	friend std::istream& operator>>(std::istream& is, Date& d)
