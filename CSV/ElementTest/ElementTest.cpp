@@ -44,7 +44,10 @@ int main()
 	for(auto& p : v)
 		std::cout<<"P: "<<p->Data()<<" "<<*(p->Clone())<<std::endl;
 
-	//assert(v[0]->Pattern()=="Test");
+	std::smatch m;
+	std::string d29 = "29.5.1986";
+	std::regex_match(d29,m,v[4]->Pattern());
+	std::cout<<m[0];
 	//assert(v[4]->Pattern()=="DatePattern");
 //	v[0]->To<int>();
 
