@@ -71,6 +71,8 @@ public:
 		return ts;
 	}
 
+	virtual const std::string_view Pattern() const { return pattern; };
+
 	constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
 	constexpr explicit operator Day() { return day; } 
 	constexpr explicit operator Month() { return month; } 
@@ -103,6 +105,7 @@ private:
 	Year year;
 	const std::chrono::year_month_day ymd;
 	TP tp;
+	std::string pattern = "DatePattern";
 	String_::ParserFrom<uint> converter;
 	friend std::ostream& operator<<(std::ostream& out, const Date& d) {	return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();	}
 	friend std::istream& operator>>(std::istream& is, Date& d)

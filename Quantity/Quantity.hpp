@@ -110,7 +110,14 @@ private:
 		return s; 
 	}
 	
-	static decltype(auto) data(ValueType v) { return std::to_string(v)+QR::Sign+U::Sign(); }
+	static decltype(auto) data(ValueType v) 
+	{ 
+		if constexpr (std::is_same_v<T1, double>)
+		{
+			return String_::TrimDouble(v)+QR::Sign+U::Sign(); 
+		}
+		return std::to_string(v)+QR::Sign+U::Sign(); 
+	}
 
 	template<typename V>
 	static decltype(auto) stringTo(const std::string& s)

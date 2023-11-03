@@ -80,6 +80,21 @@ namespace String_
 		
 		return result;
 	}
+	
+	
+	std::string TrimDouble(double d)
+	{
+		auto s = std::to_string(d);
+	
+		if(!Contains(s,".") || *(s.cend()-1) != '0')
+			return s;
+
+		std::string result;
+		if (auto it = std::find_if(begin(s), end(s), [](char c){ return c == '.'; }); it != std::end(s))
+			if (auto itp = std::find_if(it, end(s), [](char c){ return c == '0'; }); it != std::end(s))
+				std::for_each(s.begin(),itp, [&](auto c) {	result += c; });
+		return result;
+	}
 		
 	template<typename From, typename To>
 	struct Replace

@@ -26,9 +26,9 @@ int Run()
     assert(km1_7.PureValue()==1700);
     assert(km1_7.Value()==1.7);
     std::cout<<"km1,7: "<<km1_7.Data()<<std::endl;
-    assert(km1_7.Data()=="1.700000km");
+    assert(km1_7.Data()=="1.7km");
     assert(km1000_77.Value()==1000.77);
-    assert(km1000_77.Data()=="1000.770000km");
+    assert(km1000_77.Data()=="1000.77km");
     assert(km1000_7789.Value()==1000.7789);
 	
 	auto km17000 = Quantity<Length,Kilo,uint>("17000");
@@ -63,7 +63,7 @@ int Run()
 	auto qs2_123_456 = Quantity<Sum>("2.123,456");
 	assert(qs2_123_456.Value()==2123.456);
     std::cout<<"km1,7: "<<qs2_123_456.Data()<<std::endl;
-    assert(qs2_123_456.Data()=="2123.456000€");
+    assert(qs2_123_456.Data()=="2123.456€");
 	auto qs123456789 = Quantity<Sum>("123.456789");
 	assert(qs123456789.Value()==123.456789);
 	
