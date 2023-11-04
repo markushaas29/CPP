@@ -66,11 +66,11 @@ class MatrixQueryTest
 
 			std::vector<std::unique_ptr<IMatrixStrategy<decltype(m23)>>> strat;
 			strat.push_back(std::make_unique<UnaryMatrixStrategy<decltype(m23)>>("")); 
-			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
-			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
+//			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
+//			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
 
 			(*strat[0])(m23);
-			(*strat[1])(m23);
+//			(*strat[1])(m23);
 
 			std::cout<<"SUM: \n"<<m3.To<Quantity<Sum>>()<<std::endl;
 

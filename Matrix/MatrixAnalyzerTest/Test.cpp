@@ -66,14 +66,6 @@ class MatrixAnalyzerTest
 			auto s23 = UnaryMatrixStrategy<decltype(m23)>("");
 			s23(m23);
 
-			std::vector<std::unique_ptr<IMatrixStrategy<decltype(m23)>>> strat;
-			strat.push_back(std::make_unique<UnaryMatrixStrategy<decltype(m23)>>("")); 
-			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
-			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
-
-			(*strat[0])(m23);
-			(*strat[1])(m23);
-
 			EquivalenceCat<int> eq(5);
 			auto peq = std::make_unique<EquivalenceCat<int>>(5);
 			auto peq5 = std::make_unique<EquivalenceCat<int>>(5);

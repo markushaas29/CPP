@@ -110,7 +110,7 @@ private:
 	TP tp;
 	std::regex pattern = std::regex( "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})" );
 	String_::ParserFrom<uint> converter;
-	friend decltype(auto) NumberOfDays(const Date& d1, const Date& d2);
+	friend decltype(auto) operator-(const Date& d1, const Date& d2);
 	friend std::ostream& operator<<(std::ostream& out, const Date& d) {	return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();	}
 	friend std::istream& operator>>(std::istream& is, Date& d)
 	{	
@@ -168,10 +168,5 @@ private:
 	static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<Day,Month,Year>(Day(::To<uint>(d)),Month(::To<uint>(m)),Year(::To<uint>(y))); }
 };
 
-decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
-{
-	return Quantity<Time,Days,uint>{static_cast<uint>((d1 > d2 ? std::chrono::sys_days{d1.ymd} - std::chrono::sys_days{d2.ymd} : std::chrono::sys_days{d2.ymd} - std::chrono::sys_days{d1.ymd}).count())};
-}
-
-decltype(auto) operator-(const Date& d1, const Date& d2)  { return NumberOfDays(d1,d2); }
+decltype(auto) operator-(const Date& d1, const Date& d2)  { return Quantity<Time,Days,uint>{static_cast<uint>((d1 > d2 ? std::chrono::sys_days{d1.ymd} - std::chrono::sys_days{d2.ymd} : std::chrono::sys_days{d2.ymd} - std::chrono::sys_days{d1.ymd}).count())}; }
 
