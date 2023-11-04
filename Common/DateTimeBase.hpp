@@ -29,11 +29,11 @@ public:
 		if(v > max || v < min || v == 0)
 			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
 	}
-	DateTimeBase& operator=(const DateTimeBase& d) 
+	Derived operator=(const DateTimeBase& d) 
 	{ 
 		std::cout<<"DAY ASSIGN\n\n\n"<<Derived(d.value)<<std::endl;
 		value = d.value;
-		return *this;
+		return Derived(value);
 	}
 	DateTimeBase operator=(const DateTimeBase& d) const { return DateTimeBase(d.value);}
 	constexpr bool Valid() const { return valid; }

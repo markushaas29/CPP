@@ -61,8 +61,15 @@ int main()
 
 	auto d3 = Date("5.3.2020");
 	auto d4 = Date("28.2.2020");
+	auto d5 = Date("15.5.2023");
 	d1 = d4;
-	std::cout<<"D1 -------------------- "<<d1<<std::endl;
+	assert(28==d1.D());
+	assert(2==d1.M());
+	assert(2020==d1.Y());
+	d4 = d5;
+	assert(15==d4.D());
+	assert(5==d4.M());
+	assert(2023==d4.Y());
 	assert(28==d1.D());
 	assert(2==d1.M());
 	assert(2020==d1.Y());
@@ -97,18 +104,16 @@ int main()
 	assert(!id);
 	
 	auto cd = (Day)(d1);
-	assert(cd.Value() == 5);
+	assert(cd.Value() == 28);
 	auto cd2 = cd;
-	std::cout<<cd2<<"== "<<cd<<std::endl;
-	assert(cd2.Value() == 5);
+	assert(cd2.Value() == 28);
 	assert(cd.Valid());
 	auto cm = (Month)(d1);
-	assert(cm.Value() == 3);
+	assert(cm.Value() == 2);
 	assert(cd.Valid());
 	auto cy = (Year)(d1);
-	assert(cy.Value() == 2022);
+	assert(cy.Value() == 2020);
 	assert(cy.Valid());
-	
 	
 	constexpr auto dy5 = Day{5};
 	constexpr auto d29 = Day{29};
@@ -116,9 +121,9 @@ int main()
 	constexpr auto m2 = Month{2};
 	constexpr auto y2022 = Year{2022};
 	constexpr auto y2024 = Year{2024};
-	assert(y2022 == d1);
-	assert(d1 == m5);
-	assert(d1 == y2022);
+	assert(y2020 == d1);
+	assert(d1 == m2);
+	assert(d1 == y2020);
 
 	auto cd12122021 = Date{12,12,2021};
 	auto cd29022024 = Date{d29,m2,y2024};

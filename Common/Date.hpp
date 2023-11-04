@@ -81,16 +81,16 @@ public:
 	constexpr Month M() const { return month; } 
 	constexpr Year Y() const { return year; } 
 	
-	Date& operator=(const Date& date)
+	Date operator=(const Date& date)
 	{ 
 		std::cout<<"ASSIGN Day1"<<day<<std::endl;
 		day = date.day;
 		month = date.month;
-		date.Y();
+		year = date.year;
 
 		std::cout<<"ASSIGN Day 23"<<day<<std::endl;
 
-		return *this; 
+		return Date(day,month,year); 
 	};
 	template<typename T>
 	constexpr bool operator==(const T t) const
