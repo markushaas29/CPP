@@ -4,6 +4,7 @@
 #include <ctime>
 #include <string>
 #include <tuple>
+//#include "DateCreator.hpp"
 #include "../CSV/Element.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -117,8 +118,6 @@ private:
 		std::string s;
 		is>>s;
 		d = Date{s};
-		//d = temp;
-		std::cout<<"IS"<<s<<"\t"<<d.day<<std::endl;
 		return is;
 	}
 	

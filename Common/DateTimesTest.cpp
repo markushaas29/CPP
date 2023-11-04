@@ -162,6 +162,7 @@ int main()
 	assert(!dateytest.Valid());
 
 	auto today = Date::Today();
+	std::cout<<"TODAY"<<today<<std::endl;
 	//auto tq = ToQuantity<Year>(std::cin, (Year)today);
 
     std::istringstream is("12 12 1999 13 1 1 2022");
