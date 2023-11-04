@@ -31,7 +31,6 @@ public:
 	}
 	Derived operator=(const DateTimeBase& d) 
 	{ 
-		std::cout<<"DAY ASSIGN\n\n\n"<<Derived(d.value)<<std::endl;
 		value = d.value;
 		return Derived(value);
 	}

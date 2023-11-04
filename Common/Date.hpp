@@ -83,13 +83,10 @@ public:
 	
 	Date operator=(const Date& date)
 	{ 
-		std::cout<<"ASSIGN Day1"<<day<<std::endl;
 		day = date.day;
 		month = date.month;
 		year = date.year;
-
-		std::cout<<"ASSIGN Day 23"<<day<<std::endl;
-
+		ymd = date.ymd;
 		return Date(day,month,year); 
 	};
 	template<typename T>
@@ -107,7 +104,7 @@ private:
 	Day day;
 	Month month;
 	Year year;
-	const std::chrono::year_month_day ymd;
+	std::chrono::year_month_day ymd;
 	TP tp;
 	std::regex pattern = std::regex( "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})" );
 	String_::ParserFrom<uint> converter;

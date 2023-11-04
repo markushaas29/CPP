@@ -74,27 +74,19 @@ int main()
 	assert(2==d1.M());
 	assert(2020==d1.Y());
 	
-	std::cout<<"Days "<<(d3 - d1)<<std::endl;
+	d1 = Date("5.3.2022");
 	assert((d3 - d1).Value()==730);
-	std::cout<<"Days "<<(d4 - d3)<<std::endl;
+	d4 = Date("28.2.2020");
 	assert((d4 - d3).Value()==6);
-	std::cout<<d4<<" > "<<d3<<"\t"<<(d4 > d3)<<std::endl;
 	assert(!(d4 > d3));
-	std::cout<<d4<<"< "<<d3<<"\t"<<(d4 < d3)<<std::endl;
 	assert(d4 < d3);
-	std::cout<<d4<<"== "<<d3<<"\t"<<(d4 == d3)<<std::endl;
 	assert(d4 != d3);
-	std::cout<<d3<<"== "<<d3<<"\t"<<(d3 == d3)<<std::endl;
 	assert(d3 == d3);
-	std::cout<<Jul<<"== "<<Jul<<"\t"<<(Jul == Jul)<<std::endl;
 	assert(Jul== Jul);
 	assert(::May==::May);
 	auto y2020 = Year(2020);
-	std::cout<<"Leap 2020"<<"\t"<<y2020.IsLeap<<std::endl;
 	assert(y2020.IsLeap);
-	std::cout<<"Leap 2021"<<"\t"<<y2021.IsLeap<<std::endl;
 	assert(!y2021.IsLeap);
-	std::cout<<Jul<<"== "<<Jul<<"\t"<<(Year(2021) == Year(2021))<<std::endl;
 	assert((Year(2021) == Year(2021)));
 	
 	assert(isYMD<Year>());
@@ -104,26 +96,27 @@ int main()
 	assert(!id);
 	
 	auto cd = (Day)(d1);
-	assert(cd.Value() == 28);
+	assert(cd.Value() == 5);
 	auto cd2 = cd;
-	assert(cd2.Value() == 28);
+	assert(cd2.Value() == 5);
 	assert(cd.Valid());
 	auto cm = (Month)(d1);
-	assert(cm.Value() == 2);
+	assert(cm.Value() == 3);
 	assert(cd.Valid());
 	auto cy = (Year)(d1);
-	assert(cy.Value() == 2020);
+	assert(cy.Value() == 2022);
 	assert(cy.Valid());
 	
 	constexpr auto dy5 = Day{5};
 	constexpr auto d29 = Day{29};
 	constexpr auto m5 = Month{3};
 	constexpr auto m2 = Month{2};
+	constexpr auto m3 = Month{3};
 	constexpr auto y2022 = Year{2022};
 	constexpr auto y2024 = Year{2024};
-	assert(y2020 == d1);
-	assert(d1 == m2);
-	assert(d1 == y2020);
+	assert(y2022 == d1);
+	assert(d1 == m3);
+	assert(d1 == y2022);
 
 	auto cd12122021 = Date{12,12,2021};
 	auto cd29022024 = Date{d29,m2,y2024};
