@@ -66,11 +66,6 @@ private:
 class Day: public DateTimeBase<Day,std::chrono::day,31>
 {
 public:
-//	Day& operator=(const Day& d)
-//	{ 
-//		value = d.value;
-//		return *this;
-//	}
 	using Base = DateTimeBase<Day,std::chrono::day,31>;
 	static constexpr const char* TypeIdentifier = "Day";
 	constexpr Day(uint v): Base(v){};

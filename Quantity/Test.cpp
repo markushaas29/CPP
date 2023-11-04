@@ -144,6 +144,7 @@ int main()
 	auto bg = km2 > km1;
 	auto bl = km2 < km1;
 	auto kmP = km1 + km2;
+
     std::cout<<"km: Pure "<<kmP.Value()<<std::endl;
     std::cout<<"km: Value() "<<kmP.PureValue()<<std::endl;
 	
@@ -191,6 +192,12 @@ int main()
 	assert(km12_9.Value()==12.9);
 	std::cout<<km12_9<<std::endl;
 
+	km2 = km1;
+    assert(km2==km1);
+    assert(km2.Value()==1);
+	km2 = Quantity<Length,Kilo>(2);;
+    assert(km2>km1);
+    assert(km2.Value()==2);
 	auto st = StringTest();
 	st.Run();
 	//~ auto dhm = d3 + h1 + m1;

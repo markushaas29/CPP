@@ -73,6 +73,9 @@ int main()
 	assert(28==d1.D());
 	assert(2==d1.M());
 	assert(2020==d1.Y());
+	d4 = Date("28.2.2020");
+	auto d3Mind4 = d3-d4;
+	assert(d3Mind4.Value()==6);
 	
 	d1 = Date("5.3.2022");
 	assert((d3 - d1).Value()==730);
@@ -141,7 +144,10 @@ int main()
 	Date d31101986;
 	std::istringstream is31("31.10.1986");
 	is31>>d31101986;
-	std::cout<<"TEST 311019686 "<<d31101986<<std::endl;
+	assert(d31101986.Valid());
+	assert(d31101986.D()==31);
+	assert(d31101986.M()==10);
+	assert(d31101986.Y()==1986);
 
 	auto dated45 = Date{dyi,m2,y2024};
 	auto datem16 = Date{d29,mi,y2024};
@@ -179,7 +185,6 @@ int main()
 	assert(11==ce.M());
 	assert(1998==ce.Y());
 	std::cout<<"\nISP"""<<std::endl;
-	
 
 	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<" "<<tq3<<std::endl;
 	Day::Create(is,std::cout);

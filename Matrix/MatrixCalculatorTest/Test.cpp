@@ -265,11 +265,14 @@ class MatrixCalculatorTest
 			auto mq13 = m13.To<Q>();
 			auto md13 = mq13.Calc<Diff>();
 
-			std::cout<<mdat<<std::endl;
+			std::cout<<(m1s[0].To<Date>()-mdat[1].To<Date>()).Value()<<std::endl;
+			std::cout<<mdd<<std::endl;
+			std::cout<<mdd[0]<<std::endl;
+			std::cout<<mdd[0].Value()<<std::endl;
 
 			auto m1Div = mdd / md13;
-			//assert((int)m1Div[0]()==16);
-			//assert((int)m1Div[1]()==93);
+			assert((int)m1Div[0]()==16);
+			assert((int)m1Div[1]()==93);
 			
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;

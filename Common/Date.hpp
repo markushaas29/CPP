@@ -87,7 +87,9 @@ public:
 		month = date.month;
 		year = date.year;
 		ymd = date.ymd;
-		return Date(day,month,year); 
+		valid = date.valid;
+		tp = date.tp;
+		return *this; 
 	};
 	template<typename T>
 	constexpr bool operator==(const T t) const
@@ -108,6 +110,7 @@ private:
 	TP tp;
 	std::regex pattern = std::regex( "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})" );
 	String_::ParserFrom<uint> converter;
+	friend decltype(auto) NumberOfDays(const Date& d1, const Date& d2);
 	friend std::ostream& operator<<(std::ostream& out, const Date& d) {	return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();	}
 	friend std::istream& operator>>(std::istream& is, Date& d)
 	{	
@@ -165,15 +168,9 @@ private:
 	static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<Day,Month,Year>(Day(::To<uint>(d)),Month(::To<uint>(m)),Year(::To<uint>(y))); }
 };
 
-static decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
+decltype(auto) NumberOfDays(const Date& d1, const Date& d2)
 {
-	const std::chrono::year_month_day ymd1{std::chrono::year(d1.Y()), std::chrono::month(d1.M()), std::chrono::day(d1.D())};
-	const std::chrono::year_month_day ymd2{std::chrono::year(d2.Y()), std::chrono::month(d2.M()), std::chrono::day(d2.D())};
-	
-	if(d1 > d2)
-		return Quantity<Time,Days,uint>{static_cast<uint>((std::chrono::sys_days{ymd1} - std::chrono::sys_days{ymd2}).count())};
-		
-	return Quantity<Time,Days,uint>{static_cast<uint>((std::chrono::sys_days{ymd2} - std::chrono::sys_days{ymd1}).count())};
+	return Quantity<Time,Days,uint>{static_cast<uint>((d1 > d2 ? std::chrono::sys_days{d1.ymd} - std::chrono::sys_days{d2.ymd} : std::chrono::sys_days{d2.ymd} - std::chrono::sys_days{d1.ymd}).count())};
 }
 
 decltype(auto) operator-(const Date& d1, const Date& d2)  { return NumberOfDays(d1,d2); }
