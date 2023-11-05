@@ -42,10 +42,10 @@ public:
 	Date(const Date& d): Base{std::string(d.Data().cbegin(),d.Data().cend())}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	
-	static Type Create(std::istream& is, std::ostream& os){ return Creator<Date>::Create(is,os,Today(), Identifier); } 
-	static Type Create(std::istream& is) { return Creator<Date>::Create(is); }
-	std::string TimeString(const TP& tp) { return Creator<Date>::TimeString(tp); }
-	static Date Today(){ return Creator<Date>::Today(); }
+	static Type Create(std::istream& is, std::ostream& os){ return Creator<Date>::create(is,os,Today(), Identifier); } 
+	static Type Create(std::istream& is) { return Creator<Date>::create(is); }
+	std::string TimeString(const TP& tp) { return Creator<Date>::timeString(tp); }
+	static Date Today(){ return Creator<Date>::today(); }
 
 	virtual const std::regex Pattern() const { return pattern; };
 
@@ -105,41 +105,8 @@ private:
 				return  Default;
 		return s;
 	}
-	static TupleType extract(const std::string& s)
-	{
-		auto it = std::find_if(s.cbegin(),s.cend(),[](auto c){ return !isdigit(c); });
-		auto is = std::find_if(s.cbegin(),s.cend(),[](auto c){ return isspace(c); });
-		if(it != s.cend())
-			return extractBySeparation(s,*it);
-		else
-			return extractByValue(s);				
-	}
-	static TupleType extractBySeparation(const std::string& s, const char token)
-	{
-		auto values = String_::Split(s,token);
-		
-		if(values.size() == 3)
-			return createTuple(values.at(0),values.at(1),values.at(2));
-		return std::tuple<Day,Month,Year>(Day{1},Month{1},Year{1900});
-	}
-	static TupleType extractByValue(const std::string& s)
-	{
-		std::string res;
-		std::for_each(s.cbegin(), s.cend(),[&](auto c) 
-			{ if(isdigit(c))
-				res += c;	});
-		
-		if(res.size() > 0)
-		{
-			if(res.size() < 8)
-				Logger::Log<Warning>("Date: ", s, " separated by value and might not be valid!");  
-			return createTuple(std::string(res.begin(),res.begin()+2), std::string(res.begin()+2,res.begin()+4),std::string(res.begin()+4,res.begin()+8));
-			
-		}
-		return std::tuple<Day,Month,Year>(Day{1},Month{1},Year{1900});			
-	}
-	
-	static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{	return std::tuple<Day,Month,Year>(Day(::To<uint>(d)),Month(::To<uint>(m)),Year(::To<uint>(y))); }
+	static TupleType extract(const std::string& s) { return Creator<Date>::extract(s); }
+	static TupleType createTuple(const std::string& d, const std::string& m, const std::string& y)	{ return Creator<Date>::createTuple(d,m,y); }
 };
 
 decltype(auto) operator-(const Date& d1, const Date& d2)  { return Quantity<Time,Days,uint>{static_cast<uint>((d1 > d2 ? std::chrono::sys_days{d1.ymd} - std::chrono::sys_days{d2.ymd} : std::chrono::sys_days{d2.ymd} - std::chrono::sys_days{d1.ymd}).count())}; }
