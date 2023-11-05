@@ -20,6 +20,7 @@ public:
 		std::smatch m;
 		std::string t = "29.5.1986";
 		assert(std::regex_match(t,m,v[0]->Pattern()));
+		assert(v[0]->Match(t));
 //		t = "29.05.1986";
 //		assert(std::regex_match(t,m,v[4]->Pattern()));
 //		t = "02.05.1986";

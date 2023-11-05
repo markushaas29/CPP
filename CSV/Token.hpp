@@ -17,6 +17,7 @@ class IToken
 public:
 	virtual const std::string_view Data() const  = 0;	
 	virtual const std::regex Pattern() const  = 0;	
+	virtual bool Match(const std::string&) const  = 0;	
 private:
 //	virtual constexpr bool operator==(const IToken& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IToken& e) const noexcept = 0;
@@ -38,10 +39,14 @@ public:
  	Token() { };
 
 	const std::string_view Data() const  {	return Derived::Pattern; };	
+	bool Match(const std::string& s) const  
+	{ 
+		std::smatch m;
+		return std::regex_match(s,m,pattern); 
+	};	
 	virtual const std::regex Pattern() const { return pattern; };	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
-	std::strong_ordering operator<=>( const Token& e) const noexcept { return Data() <=> e.Data(); }
 private:
 	std::regex pattern = std::regex( Derived::Pattern );
 };
