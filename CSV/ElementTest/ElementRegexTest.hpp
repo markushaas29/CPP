@@ -21,19 +21,19 @@ public:
 		std::string t = "29.5.1986";
 		assert(std::regex_match(t,m,v[0]->Pattern()));
 		assert(v[0]->Match(t));
-//		t = "29.05.1986";
-//		assert(std::regex_match(t,m,v[4]->Pattern()));
-//		t = "02.05.1986";
-//		assert(std::regex_match(t,m,v[4]->Pattern()));
-//		t = "2.5.1986";
-//		assert(std::regex_match(t,m,v[4]->Pattern()));
-//		t = "12.11.1986";
-//		assert(std::regex_match(t,m,v[4]->Pattern()));
-//		t = "12.13.1986";
-//		assert(!std::regex_match(t,m,v[4]->Pattern()));
-//		t = "32.11.1986";
-//		assert(!std::regex_match(t,m,v[4]->Pattern()));
-//		std::cout<<m[0];
+		t = "29.05.1986";
+  		assert(v[0]->Match(t));
+		t = "02.05.1986";
+  		assert(v[0]->Match(t));
+		t = "2.5.1986";
+  		assert(v[0]->Match(t));
+		t = "12.11.1986";
+  		assert(v[0]->Match(t));
+		t = "12.13.1986";
+  		assert(!v[0]->Match(t));
+		t = "32.11.1986";
+  		assert(!v[0]->Match(t));
+		std::cout<<*v[0];
 
     	std::cout<<"\nEnd RegexTest"<<std::endl;
 

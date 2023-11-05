@@ -18,15 +18,8 @@ public:
 	virtual const std::string_view Data() const  = 0;	
 	virtual const std::regex Pattern() const  = 0;	
 	virtual bool Match(const std::string&) const  = 0;	
+	constexpr bool operator==(const IToken& e) const{ return Data() == e.Data(); };
 private:
-//	virtual constexpr bool operator==(const IToken& e) const = 0;
-//	virtual constexpr std::strong_ordering operator<=>( const IToken& e) const noexcept = 0;
-//	virtual constexpr const_iterator Begin() const = 0;
-//	constexpr decltype(auto) End() { return data.begin() + size; }
-//	constexpr decltype(auto) Size() { return size; }
-//
-//	constexpr bool operator==(const Token& e) const{ return Data() == e.Data(); };
-//	constexpr std::strong_ordering operator<=>( const Token& e) const noexcept { return Data() <=> e.Data(); }
 };
 //--------------------------------Token------------------------------------------------
 
