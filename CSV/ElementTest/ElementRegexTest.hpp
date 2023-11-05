@@ -16,6 +16,16 @@ public:
 
 		std::vector<std::unique_ptr<IToken>> v;
 		v.push_back(std::make_unique<DateToken>());
+		v.push_back(std::make_unique<IBANToken>());
+		v.push_back(std::make_unique<BICToken>());
+		v.push_back(std::make_unique<WordToken>());
+		v.push_back(std::make_unique<SumToken>());
+		v.push_back(std::make_unique<EntryToken>());
+		v.push_back(std::make_unique<ValueToken>());
+		v.push_back(std::make_unique<QuantityToken>());
+
+		for(auto& p: v)
+			std::cout<<*p<<std::endl;
 
 		std::smatch m;
 		std::string t = "29.5.1986";

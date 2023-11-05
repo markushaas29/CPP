@@ -12,6 +12,13 @@
 #include <ctime>
 
 #pragma once
+class IBAN;
+class BIC;
+class Entry;
+template<typename> class Value;
+class Date;
+//class ;
+//class ;
 class IToken
 {
 public:
@@ -23,10 +30,11 @@ private:
 };
 //--------------------------------Token------------------------------------------------
 
-template<typename D>
+template<typename D, typename T = int>
 class Token: public IToken
 {
 	using Derived = D;
+	using Type = T;
 public:
 	inline static const std::string Identifier = "Token";
  	Token() { };
@@ -50,4 +58,46 @@ class DateToken: public Token<DateToken>
 {
 public:
 	inline static constexpr const char* Pattern = "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})";
+};
+
+class EntryToken: public Token<EntryToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class IBANToken: public Token<IBANToken, IBAN>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class BICToken: public Token<BICToken, BIC>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class SumToken: public Token<SumToken, Quantity<Sum>>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class ValueToken: public Token<ValueToken, Value<int>>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class WordToken: public Token<WordToken>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class QuantityToken: public Token<QuantityToken>
+{
+public:
+	inline static constexpr const char* Pattern = "";
 };
