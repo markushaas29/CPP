@@ -4,7 +4,7 @@
 #include <ctime>
 #include <string>
 #include <tuple>
-//#include "DateCreator.hpp"
+#include "DateCreator.hpp"
 #include "../CSV/Element.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -24,7 +24,6 @@ class Date: public Element<Date>
 	using Base = Element<Date>;
 	friend class Element<Date>;
 	friend decltype(auto) operator<=>(const Date& d1, const Date& d2) noexcept { return d1.ymd <=> d2.ymd; }; 
-	template<typename ItemT> friend const ItemT& Get(Date const& t);
 public:
 	using DayType = Day;
     using MonthType = Month;
@@ -43,12 +42,7 @@ public:
 	Date(const Date& d): Base{std::string(d.Data().cbegin(),d.Data().cend())}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	
-	static Date Today()
-	{
-		std::time_t t = std::time(0);
-		std::tm* now = std::localtime(&t);
-		return Date((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));			
-	} 
+	static Date Today(){ return Creator<Date>::Today(); }
 	
 	static Type Create(std::istream& is, std::ostream& os) 
 	{
@@ -57,20 +51,8 @@ public:
 		return Create(is);
 	};
 
-	static Type Create(std::istream& is)
-	{
-		std::string d;
-		is>>d;
-		return Type{d};
-	}
-
-	std::string TimeString()
-	{
-		std::time_t t = std::chrono::system_clock::to_time_t(this->tp);
-		std::string ts = ctime(&t);
-		ts.resize(ts.size()-1);
-		return ts;
-	}
+	static Type Create(std::istream& is) { return Creator<Date>::Create(is); }
+	std::string TimeString(const TP& tp) { return Creator<Date>::TimeString(tp); }
 
 	virtual const std::regex Pattern() const { return pattern; };
 
