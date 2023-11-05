@@ -20,6 +20,7 @@ public:
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
 private:
+	friend std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Data();}
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 //	virtual constexpr const_iterator Begin() const = 0;
@@ -43,7 +44,7 @@ public:
 
 	const std::string_view Data() const  {	return value; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
-	//const std::string () const  {	return std::string(data.data()); };	
+	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
 	bool operator==(const Element& e) const{ return Data() == e.Data(); };
@@ -53,7 +54,6 @@ private:
 	std::size_t size;
 };
 
-std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Data();}
 
 template <typename T>
 concept ElementConcept = requires(T val) {	val.Data(); };

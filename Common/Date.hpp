@@ -47,8 +47,6 @@ public:
 	std::string TimeString(const TP& tp) { return Creator<Date>::timeString(tp); }
 	static Date Today(){ return Creator<Date>::today(); }
 
-	virtual const std::regex Pattern() const { return pattern; };
-
 	constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
 	constexpr explicit operator Day() { return day; } 
 	constexpr explicit operator Month() { return month; } 
@@ -84,7 +82,6 @@ private:
 	Year year;
 	std::chrono::year_month_day ymd;
 	TP tp;
-	std::regex pattern = std::regex( "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})" );
 	String_::ParserFrom<uint> converter;
 	friend decltype(auto) operator-(const Date& d1, const Date& d2);
 	friend std::ostream& operator<<(std::ostream& out, const Date& d) {	return out<<d.day.Value()<<"."<<d.month.Value()<<"."<<d.year.Value();	}

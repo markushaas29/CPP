@@ -30,17 +30,14 @@ int main()
 	assert(!i3.Valid());
 	assert(i2.Valid());
 
-	std::unique_ptr<IElement> pi = std::make_unique<IBAN>(s2.c_str());
-	std::unique_ptr<IElement> pn = std::make_unique<Name>(s1.c_str());
-	std::unique_ptr<IElement> vi = std::make_unique<Value<int>>(23);
-	std::unique_ptr<IElement> vd = std::make_unique<Value<double>>(23.456);
-	std::unique_ptr<IElement> vdt = std::make_unique<Date>(29,9,1986);
 	std::vector<std::unique_ptr<IElement>> v;
-	v.push_back(std::move(pi));
-	v.push_back(std::move(pn));
-	v.push_back(std::move(vi));
-	v.push_back(std::move(vd));
-	v.push_back(std::move(vdt));
+	v.push_back(std::move(std::make_unique<IBAN>(s2.c_str())));
+	v.push_back(std::move(std::make_unique<Name>(s1.c_str())));
+	v.push_back(std::move(std::make_unique<Value<int>>(23)));
+	v.push_back(std::move(std::make_unique<Value<double>>(23.456)));
+	v.push_back(std::move(std::make_unique<ID<int>>(23)));
+	v.push_back(std::move(std::make_unique<ID<std::string>>(s)));
+	v.push_back(std::move(std::make_unique<Date>(29,9,1986)));
 
 	for(auto& p : v)
 		std::cout<<"P: "<<p->Data()<<" "<<*(p->Clone())<<std::endl;

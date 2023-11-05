@@ -15,29 +15,21 @@
 
 #pragma once
 
-//template<typename T = std::string>
-//class Key: public Element
-//{
-//	friend class Base;
-//public:
-//	using ValueType = T;
-//	using Type = Key<T>;
-//	inline static constexpr const char* Identifier = "Key";
-//	explicit operator std::string(){return this->Data();}
-//	Key(const Key& k): Base(k.Data().c_str()){};
-//	Key(const std::string k): Base(k){};
-//
-//	bool operator==(T s) const{ return s == this->Data(); }
-//	bool operator<=>(T s) const{ return s <=> this->Data(); }
-//private:
-//	constexpr const std::string* check(const std::string* s) { return s; }
-//};
-//
-//template<typename T = std::string>
-//inline decltype(auto) operator<=> (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Data() <=> rhs.Data(); }
-
-//template<typename T = std::string>
-//inline bool operator== (const Key<T>& lhs, const Key<T>& rhs){ return lhs.Data() == rhs.Data(); }
+template<typename T = std::string>
+class ID: public Element<ID<T>>
+{
+	using Base = Element<ID<T>>;
+	friend class Element<ID<T>>;
+public:
+	using ValueType = T;
+	using Type = ID<T>;
+	inline static constexpr const char* Identifier = "ID";
+	ID(const std::string& k): Base(k){};
+	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>	
+	ID(TT t): Base(std::to_string(t)){};
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};
 
 class IBAN: public Element<IBAN>
 {
@@ -70,7 +62,6 @@ private:
 	inline static std::string check(const std::string& iban) { return isValid(iban) ? iban : Default; }
 };
 
-inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Data() == rhs.Data(); }
 
 class BIC: public Element<BIC>
 {
@@ -84,19 +75,6 @@ public:
 private:
 };
 
-
-//template<typename T = std::string>
-//class Item: public Element
-//{
-//public:
-//	inline static constexpr const char* Identifier = "Item";
-//	Key<T> key;
-//	Item(const std::string& c): Base(check(c)){ };
-//	Item* DoCreate(){return this;};
-//private:
-//	constexpr const std::string& check(const std::string& s) { return s; }
-//};
-//
 class Entry: public Element<Entry>
 {
 	using Base = Element<Entry>;
@@ -108,7 +86,7 @@ public:
 	inline static std::string check(const std::string& s) { return s; }
 private:
 };
-//
+
 class Name: public Element<Name>
 {
 	using Base = Element<Name>;
@@ -121,7 +99,7 @@ public:
 	inline static std::string check(const std::string& s) { return s; }
 private:
 };
-//
+
 template<typename T>//, typename U, typename TVal = double>
 class Value: public Element<Value<T>>
 {
@@ -134,10 +112,3 @@ public:
 private:
 	T val;
 };
-//
-//template<typename D, typename U, typename T = double>
-//std::ostream& operator<<(std::ostream& out, const Value<D,U,T>& c) { return out<<D::Key<<"\t"<<c.DataQuantity(); }
-//
-//class Date;
-
-//~ #endif
