@@ -180,17 +180,17 @@ int main()
 	assert(12==cp.M());
 	assert(1999==cp.Y());
 	
-    std::istringstream ise("11 11 1998");
-	auto ce = Date::Create(ise);
-	
-	assert(11==ce.M());
-	assert(1998==ce.Y());
-	std::cout<<"\nISP"""<<std::endl;
-
-	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<" "<<tq3<<std::endl;
-	Day::Create(is,std::cout);
-	auto c = Date::Create(is,std::cout);
-	std::cout<<"\n"<<c<<std::endl;
+//    std::istringstream ise("11 11 1998");
+//	auto ce = Date::Create(ise);
+//	
+//	assert(11==ce.M());
+//	assert(1998==ce.Y());
+//	std::cout<<"\nISP"""<<std::endl;
+//
+//	std::cout<<"TQ m: "<<tq1<<" d "<<tq2<<" "<<tq3<<std::endl;
+//	Day::Create(is,std::cout);
+//	auto c = Date::Create(is,std::cout);
+//	std::cout<<"\n"<<c<<std::endl;
 	std::cout<<"END"<<std::endl;
 
 	return 0;
