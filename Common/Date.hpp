@@ -42,17 +42,10 @@ public:
 	Date(const Date& d): Base{std::string(d.Data().cbegin(),d.Data().cend())}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	
-	static Date Today(){ return Creator<Date>::Today(); }
-	
-	static Type Create(std::istream& is, std::ostream& os) 
-	{
-		auto dt = Today();
-		os<<Identifier<<dt<<std::endl;
-		return Create(is);
-	};
-
+	static Type Create(std::istream& is, std::ostream& os){ return Creator<Date>::Create(is,os,Today(), Identifier); } 
 	static Type Create(std::istream& is) { return Creator<Date>::Create(is); }
 	std::string TimeString(const TP& tp) { return Creator<Date>::TimeString(tp); }
+	static Date Today(){ return Creator<Date>::Today(); }
 
 	virtual const std::regex Pattern() const { return pattern; };
 

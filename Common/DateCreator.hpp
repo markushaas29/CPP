@@ -25,12 +25,11 @@ public:
 		return Type((uint)(now->tm_mday), (uint)(now->tm_mon + 1), (uint)(now->tm_year + 1900));			
 	} 
 	
-//	static Type Create(std::istream& is, std::ostream& os) 
-//	{
-//		auto dt = Today();
-//		os<<Identifier<<dt<<std::endl;
-//		return Create(is);
-//	};
+	static Type Create(std::istream& is, std::ostream& os, const Type& dt, const char* identifier) 
+	{
+		os<<identifier<<dt<<std::endl;
+		return Create(is);
+	};
 
 	static Type Create(std::istream& is)
 	{
