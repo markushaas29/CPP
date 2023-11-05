@@ -70,7 +70,6 @@ private:
 	inline static std::string check(const std::string& iban) { return isValid(iban) ? iban : Default; }
 };
 
-inline bool operator< (const IBAN& lhs, const IBAN& rhs){ return lhs.Data() < rhs.Data(); }
 inline bool operator== (const IBAN& lhs, const IBAN& rhs){ return lhs.Data() == rhs.Data(); }
 
 class BIC: public Element<BIC>
