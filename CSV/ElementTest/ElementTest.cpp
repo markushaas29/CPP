@@ -12,13 +12,6 @@ int main()
     std::cout<<"START"<<std::endl;
 	
 	auto s = std::string("123");
-    std::cout<<s<<std::endl;
-
-	//~ auto e = Element(s.c_str());
-	//~ assert(s.size()==e.Value().size());
-	//~ assert(s==e.Value());
-    //~ std::cout<<e.Value().size()<<std::endl;
-    //~ std::cout<<*(e.End()-2)<<std::endl;
 	
 	auto s1 = std::string("DE123DE");
 	auto s2 = std::string("DE05100110012620778704");

@@ -106,6 +106,7 @@ class Value: public Element<Value<T>>
 	using Base = Element<Value<T>>;
 	friend class Element<Value<T>>;
 public:
+	inline static constexpr const char* Identifier = "Value";
 	Value(T t): Base(std::to_string(t)) {};
 	Value(const std::string& s): Base(s) {};
 	inline static std::string check(const std::string& s) { return s; }
