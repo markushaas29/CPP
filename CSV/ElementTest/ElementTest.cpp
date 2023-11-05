@@ -1,6 +1,7 @@
 #include <iostream>
 #include <regex>
 #include <cassert>
+#include "ElementRegexTest.hpp"
 #include "../Element.hpp"
 #include "../Elements.hpp"
 #include "../../Common/DateTimes.hpp"
@@ -44,12 +45,8 @@ int main()
 	for(auto& p : v)
 		std::cout<<"P: "<<p->Data()<<" "<<*(p->Clone())<<std::endl;
 
-	std::smatch m;
-	std::string d29 = "29.5.1986";
-	std::regex_match(d29,m,v[4]->Pattern());
-	std::cout<<m[0];
-	//assert(v[4]->Pattern()=="DatePattern");
-//	v[0]->To<int>();
+	ElementRegexTest er;
+	assert(er.Run());
 
     return 0;
 }
