@@ -40,11 +40,7 @@ public:
  	Token() { };
 
 	const std::string_view Data() const  {	return Derived::Pattern; };	
-	bool Match(const std::string& s) const  
-	{ 
-		std::smatch m;
-		return std::regex_match(s,m,pattern); 
-	};	
+	bool Match(const std::string& s) const  {	return std::regex_match(s,pattern); };	
 	virtual const std::regex Pattern() const { return pattern; };	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
