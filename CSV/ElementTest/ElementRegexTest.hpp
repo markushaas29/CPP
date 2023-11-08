@@ -48,6 +48,9 @@ public:
 		auto it = IBANToken("DE19660623660009232702");
 		t = "DE19660623660009232702";
   		assert(!it.Match(t));
+		auto pe = it.Create(t);
+		std::cout<<"PE:"<<*pe<<std::endl;
+		
 		t = "DE19660623660009234702";
   		assert(it.Match(t));
 		

@@ -25,6 +25,7 @@ public:
 	virtual const std::string_view Data() const  = 0;	
 	virtual const std::regex Pattern() const  = 0;	
 	virtual bool Match(const std::string&) const  = 0;	
+	virtual std::unique_ptr<IElement> Create(const std::string&) const  = 0;	
 	constexpr bool operator==(const IToken& e) const{ return Data() == e.Data(); };
 private:
 };
@@ -41,6 +42,7 @@ public:
 
 	const std::string_view Data() const  {	return Derived::Pattern; };	
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
+	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
 	virtual const std::regex Pattern() const { return pattern; };	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
@@ -53,7 +55,7 @@ private:
 
 std::ostream& operator<<(std::ostream& out, const IToken& e) {	return out<<e.Data();}
 
-class DateToken: public Token<DateToken>
+class DateToken: public Token<DateToken, Date>
 {
 public:
 	inline static constexpr const char* Pattern = "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})";
@@ -90,13 +92,19 @@ public:
 	inline static constexpr const char* Pattern = "";
 };
 
-class WordToken: public Token<WordToken>
+class WordToken: public Token<WordToken, Entry>
 {
 public:
 	inline static constexpr const char* Pattern = "";
 };
 
-class QuantityToken: public Token<QuantityToken>
+class QuantityToken: public Token<QuantityToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "";
+};
+
+class KeyValueToken: public Token<KeyValueToken, Entry>
 {
 public:
 	inline static constexpr const char* Pattern = "";
