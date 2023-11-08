@@ -113,5 +113,5 @@ public:
 class KeyValueToken: public Token<KeyValueToken, Entry>
 {
 public:
-	inline static constexpr const char* Pattern = "";
+	inline static constexpr const char* Pattern = "^([a-zA-z])+\\s?:\\s?([\\w\\d]+)$";
 };

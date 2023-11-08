@@ -102,6 +102,24 @@ public:
 		t = "12,303€";
   		assert(!st.Match(t));
 		
+		auto kt = KeyValueToken();
+		t = "12:ABC";
+  		assert(!kt.Match(t));
+		t = "ABC:12";
+  		assert(kt.Match(t));
+		t = "ABC: 12";
+  		assert(kt.Match(t));
+		t = "ABC : 12";
+  		assert(kt.Match(t));
+		t = "ABC :12";
+  		assert(kt.Match(t));
+		t = "A1BC :12";
+  		assert(!kt.Match(t));
+		t = "A1BC :12.";
+  		assert(!kt.Match(t));
+		t = "ABC :12.";
+  		assert(!kt.Match(t));
+		
 //		std::string rs("^[0-9]+$");
 //		auto r = std::regex( rs );
 //  		assert(std::regex_match(t,r));
