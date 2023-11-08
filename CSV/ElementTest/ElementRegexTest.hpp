@@ -45,6 +45,12 @@ public:
   		assert(!v[0]->Match(t));
 		std::cout<<*v[0];
 
+		auto it = IBANToken("DE19660623660009232702");
+		t = "DE19660623660009232702";
+  		assert(!it.Match(t));
+		t = "DE19660623660009234702";
+  		assert(it.Match(t));
+
     	std::cout<<"\nEnd RegexTest"<<std::endl;
 
     	return true;

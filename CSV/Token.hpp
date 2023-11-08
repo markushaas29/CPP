@@ -37,15 +37,18 @@ class Token: public IToken
 	using Type = T;
 public:
 	inline static const std::string Identifier = "Token";
- 	Token() { };
+ 	Token(const std::string& s = ""): exclude{s} { };
 
 	const std::string_view Data() const  {	return Derived::Pattern; };	
-	bool Match(const std::string& s) const  {	return std::regex_match(s,pattern); };	
+	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
 	virtual const std::regex Pattern() const { return pattern; };	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
+protected:
+	using Base = Token<D,T>;
 private:
 	std::regex pattern = std::regex( Derived::Pattern );
+	std::string exclude;
 };
 
 std::ostream& operator<<(std::ostream& out, const IToken& e) {	return out<<e.Data();}
@@ -65,7 +68,8 @@ public:
 class IBANToken: public Token<IBANToken, IBAN>
 {
 public:
-	inline static constexpr const char* Pattern = "";
+	IBANToken(const std::string& e = ""): Base(e) {}
+	inline static constexpr const char* Pattern = "^DE\\d{20}$";
 };
 
 class BICToken: public Token<BICToken, BIC>
