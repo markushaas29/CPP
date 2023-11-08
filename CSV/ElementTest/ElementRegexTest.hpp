@@ -71,6 +71,22 @@ public:
   		assert(wt.Match(t));
 		t = "aBc";
   		assert(wt.Match(t));
+		
+		auto idt = IDToken();
+		t = "GENODE6145DET";
+  		assert(!idt.Match(t));
+		t = "1234";
+  		assert(idt.Match(t));
+		t = "12.34";
+  		assert(!idt.Match(t));
+		t = "0";
+  		assert(idt.Match(t));
+		t = ".0";
+  		assert(!idt.Match(t));
+		
+//		std::string rs("^[0-9]+$");
+//		auto r = std::regex( rs );
+//  		assert(std::regex_match(t,r));
 
     	std::cout<<"\nEnd RegexTest"<<std::endl;
 

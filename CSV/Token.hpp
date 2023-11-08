@@ -98,6 +98,12 @@ public:
 	inline static constexpr const char* Pattern = "[a-zA-z]+";
 };
 
+class IDToken: public Token<IDToken, ID<int>>
+{
+public:
+	inline static constexpr const char* Pattern = "^[0-9]+$";
+};
+
 class QuantityToken: public Token<QuantityToken, Entry>
 {
 public:
