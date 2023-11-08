@@ -95,7 +95,7 @@ public:
 class WordToken: public Token<WordToken, Entry>
 {
 public:
-	inline static constexpr const char* Pattern = "";
+	inline static constexpr const char* Pattern = "[a-zA-z]+";
 };
 
 class QuantityToken: public Token<QuantityToken, Entry>

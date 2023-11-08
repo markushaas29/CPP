@@ -61,6 +61,16 @@ public:
   		assert(bt.Match(t));
 		t = "GENODE61DET";
   		assert(bt.Match(t));
+		
+		auto wt = WordToken();
+		t = "GENODE6145DET";
+  		assert(!wt.Match(t));
+		t = "ABC";
+  		assert(wt.Match(t));
+		t = "abc";
+  		assert(wt.Match(t));
+		t = "aBc";
+  		assert(wt.Match(t));
 
     	std::cout<<"\nEnd RegexTest"<<std::endl;
 
