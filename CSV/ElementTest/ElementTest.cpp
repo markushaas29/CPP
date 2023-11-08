@@ -15,6 +15,7 @@ int main()
 	
 	auto s1 = std::string("DE123DE");
 	auto s2 = std::string("DE05100110012620778704");
+	auto se = std::string("701033135722 Strom Abschlagsforderung DS-Info: enbw.com/datenschutz EREF: B23505497376 701033135722 MREF: V5500000054391824 CRED: DE6900000000084184 IBAN: DE56600501017402051588 BIC: SOLADEST600;");
 	auto i = IBAN(s1.c_str());
 	auto i2 = IBAN(s2.c_str());
 	auto i3 = IBAN("");
@@ -37,6 +38,9 @@ int main()
 
 	ElementRegexTest er;
 	assert(er.Run());
+
+	auto ese = Entry(se);
+	ese.split();
 
     return 0;
 }

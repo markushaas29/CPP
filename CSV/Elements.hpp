@@ -82,7 +82,13 @@ class Entry: public Element<Entry>
 public:
 	inline static constexpr const char* Identifier = "Entry";
 	Entry(const std::string& c): Base(c){ };
-    Entry* DoCreate(){return this;};
+	void split()
+	{
+		std::string s;
+		auto ss = std::stringstream(std::string(Data()));
+		while(getline(ss,s,' '))
+			std::cout<<s<<std::endl;
+	}
 	inline static std::string check(const std::string& s) { return s; }
 private:
 };
