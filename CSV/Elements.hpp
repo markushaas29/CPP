@@ -1,17 +1,12 @@
+#include <string>
+#include <map>
+#include <chrono>
+#include <regex>
 #include "Element.hpp"
 #include "../String/String_.hpp"
-#include "../String/StringParser.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Validator/Validator.hpp"
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/vector.hpp>
-#include <string.h>
-#include <map>
-#include <memory>
-#include <array>
-#include <chrono>
-#include <ctime>
 
 #pragma once
 
@@ -84,10 +79,12 @@ public:
 	Entry(const std::string& c): Base(c){ };
 	void split()
 	{
-		std::string s;
-		auto ss = std::stringstream(std::string(Data()));
-		while(getline(ss,s,' '))
-			std::cout<<s<<std::endl;
+		auto s = std::string(Data());
+		std::regex rgx("\\s+");
+		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1);
+		std::sregex_token_iterator end;
+		for ( ; iter != end; ++iter)
+			std::cout << *iter << '\n';
 	}
 	inline static std::string check(const std::string& s) { return s; }
 private:

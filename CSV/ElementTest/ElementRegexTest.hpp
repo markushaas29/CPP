@@ -50,6 +50,14 @@ public:
   		assert(!it.Match(t));
 		t = "DE19660623660009234702";
   		assert(it.Match(t));
+		
+		auto bt = BICToken();
+		t = "GENODE6145DET";
+  		assert(!it.Match(t));
+		t = "SOLADEST600";
+  		assert(bt.Match(t));
+		t = "GENODE61DET";
+  		assert(bt.Match(t));
 
     	std::cout<<"\nEnd RegexTest"<<std::endl;
 

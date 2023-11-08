@@ -75,7 +75,7 @@ public:
 class BICToken: public Token<BICToken, BIC>
 {
 public:
-	inline static constexpr const char* Pattern = "";
+	inline static constexpr const char* Pattern = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)";
 };
 
 class SumToken: public Token<SumToken, Quantity<Sum>>
