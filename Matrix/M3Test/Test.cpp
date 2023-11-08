@@ -196,6 +196,18 @@ class M3Test
             assert(mBrustat.Rows()==12);
             assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
 			
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUJansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fURast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
+            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUProp, fUJansen, fURast});
+            mCleaning =m22_23.M(mBC23).Cols(4,6,7,9,11);
+            std::cout<<"MatrixQuery Cleaninga:\n"<<mCleaning<<std::endl;
+            std::cout<<"MatrixQuery a:\n"<<Quantity<Sum>(mCleaning.ColSum(4)).Value()<<Quantity<Sum>(-446.57).Value()<<std::endl;
+            double s = Quantity<Sum>(mCleaning.ColSum(4)).Value();
+			double q=  Quantity<Sum>(-446.57).Value();
+			std::cout<<s<<q<<(s==q)<<std::endl;
+            assert(s==q);
+            
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2022"}, {"C","701006843905 Strom Abschlagsforderung"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2022"}, {"C","Gas Abschlagsforderung"}}};
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2023"}, {"C","Rechnung"}}};
