@@ -84,6 +84,24 @@ public:
 		t = ".0";
   		assert(!idt.Match(t));
 		
+		auto st = SumToken();
+		t = "12.30€";
+  		assert(st.Match(t));
+		t = "12,30€";
+  		assert(st.Match(t));
+		t = "0,30€";
+  		assert(st.Match(t));
+		t = "12.3€";
+  		assert(!st.Match(t));
+		t = "0123€";
+  		assert(!st.Match(t));
+		t = "1230€";
+  		assert(st.Match(t));
+		t = "1231€";
+  		assert(st.Match(t));
+		t = "12,303€";
+  		assert(!st.Match(t));
+		
 //		std::string rs("^[0-9]+$");
 //		auto r = std::regex( rs );
 //  		assert(std::regex_match(t,r));
