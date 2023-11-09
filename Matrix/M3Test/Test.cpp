@@ -219,16 +219,17 @@ class M3Test
 			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
             std::cout<<"MatrixQuery:\n"<<Heating<<std::endl;
 
+			Year y{2022};
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_EnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Strom Abschlagsforderung"}, {"C","701006843905"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_Erdgas = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Gas Abschlagsforderung"}, {"C","8201090081"}}};
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_ErdgasInv = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Rechnung"}, {"C","8201090081"}}};
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_EnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}, {"C","701006843905"} }}; 
-			YearStrategy<decltype(m22S)> un( pfs,{fU_EnBW, fU_Erdgas, fU_EnBWInv, fU_ErdgasInv}, "BuildingInsurance");
+			YearStrategy<decltype(m22S)> un( pfs,{fU_EnBW, fU_Erdgas, fU_EnBWInv, fU_ErdgasInv}, y, "BuildingInsurance");
 			assert(un.Name()=="BuildingInsurance");
 			auto qms = un(m22S);
 			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_DetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Grundsteuer"}}}; 
-			YearStrategy<decltype(m22S)> ys( pfs,{fU_DetG}, "BuildingInsurance");
+			YearStrategy<decltype(m22S)> ys( pfs,{fU_DetG}, y,"BuildingInsurance");
             assert(Quantity<Sum>(ys(m22S))==Quantity<Sum>(-423.01));
 
 			std::cout<<"QMS"<<qms<<std::endl;

@@ -63,10 +63,11 @@ class YearStrategy : public BaseMatrixStrategy<T,Q>
 {
 	using Base = BaseMatrixStrategy<T,Q>;
 public:
-	YearStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const std::string& n): Base{f,u,n} {}
+	YearStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y,const std::string& n): Base{f,u,n}, year{y} {}
 private:
+	Year year;
 	virtual std::vector<typename Base::UnitType> enrich(std::vector<typename Base::UnitType>& v) { 
-		FactoryUnit<std::string, std::string> fuy = {"C", "2022"};
+		FactoryUnit<std::string, std::string> fuy = {"C", year.ToString()};
 		std::for_each(v.begin(), v.end(), [&](auto& u) { u.Add(fuy); });
 		return v;
 	}
