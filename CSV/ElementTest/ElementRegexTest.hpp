@@ -4,6 +4,7 @@
 #include "../Element.hpp"
 #include "../Elements.hpp"
 #include "../Token.hpp"
+#include "../Matcher.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../ObjectFactory/Factories.hpp"
 
@@ -14,43 +15,44 @@ public:
 	{
     	std::cout<<"START RegexTest"<<std::endl;
 
-		std::vector<std::unique_ptr<IToken>> v;
-		v.push_back(std::make_unique<DateToken>());
-		v.push_back(std::make_unique<IBANToken>());
-		v.push_back(std::make_unique<BICToken>());
-		v.push_back(std::make_unique<WordToken>());
-		v.push_back(std::make_unique<SumToken>());
-		v.push_back(std::make_unique<EntryToken>());
-		v.push_back(std::make_unique<ValueToken>());
-		v.push_back(std::make_unique<QuantityToken>());
-
-		for(auto& p: v)
-			std::cout<<*p<<std::endl;
+		auto v = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+		v->push_back(std::make_unique<DateToken>());
+		v->push_back(std::make_unique<IBANToken>("DE19660623660009232702"));
+		v->push_back(std::make_unique<BICToken>());
+		v->push_back(std::make_unique<WordToken>());
+		v->push_back(std::make_unique<SumToken>());
+		v->push_back(std::make_unique<EntryToken>());
+		v->push_back(std::make_unique<ValueToken>());
+		v->push_back(std::make_unique<QuantityToken>());
 
 		std::smatch m;
 		std::string t = "29.5.1986";
-		assert(std::regex_match(t,m,v[0]->Pattern()));
-		assert(v[0]->Match(t));
+		assert(std::regex_match(t,m,v->at(0)->Pattern()));
+		assert(v->at(0)->Match(t));
 		t = "29.05.1986";
-  		assert(v[0]->Match(t));
+  		assert(v->at(0)->Match(t));
 		t = "02.05.1986";
-  		assert(v[0]->Match(t));
+  		assert(v->at(0)->Match(t));
 		t = "2.5.1986";
-  		assert(v[0]->Match(t));
+  		assert(v->at(0)->Match(t));
 		t = "12.11.1986";
-  		assert(v[0]->Match(t));
+  		assert(v->at(0)->Match(t));
 		t = "12.13.1986";
-  		assert(!v[0]->Match(t));
+  		assert(!v->at(0)->Match(t));
 		t = "32.11.1986";
-  		assert(!v[0]->Match(t));
-		std::cout<<*v[0];
+  		assert(!v->at(0)->Match(t));
+
+		auto line = std::string("Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;17.10.2023;17.10.2023;EnBW Energie Bad-Wuertt AG;DE56600501017402051588;SOLADEST600;Basislastschrift;701006843905 Strom Abschlagsforderung DS-Info: enbw.com/datenschutz EREF: B20005583399 701006843905 MREF: V5500000053148766 CRED: DE6900000000084184 IBAN: DE56600501017402051588 BIC: SOLADEST600;-40,00;EUR;704,83;;Sonstiges;;DE6900000000084184;V5500000053148766"); 
+		Matcher matcher(std::move(v));
+		auto matches = matcher(line);
+		for(auto& i : matches)
+			std::cout<<"MATCHES: "<<*i<<std::endl;
 
 		auto it = IBANToken("DE19660623660009232702");
 		t = "DE19660623660009232702";
   		assert(!it.Match(t));
 		auto pe = it.Create(t);
 
-		auto line = std::string("Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;17.10.2023;17.10.2023;EnBW Energie Bad-Wuertt AG;DE56600501017402051588;SOLADEST600;Basislastschrift;701006843905 Strom Abschlagsforderung DS-Info: enbw.com/datenschutz EREF: B20005583399 701006843905 MREF: V5500000053148766 CRED: DE6900000000084184 IBAN: DE56600501017402051588 BIC: SOLADEST600;-40,00;EUR;704,83;;Sonstiges;;DE6900000000084184;V5500000053148766"); 
 		auto ibans = it(line);
 		for(auto& i : ibans)
 			std::cout<<"IB "<<*i<<std::endl;
