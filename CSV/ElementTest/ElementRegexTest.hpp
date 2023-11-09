@@ -100,6 +100,8 @@ public:
   		assert(st.Match(t));
 		t = "0,30€";
   		assert(st.Match(t));
+		t = "4,30";
+  		assert(st.Match(t));
 		t = "12.3€";
   		assert(!st.Match(t));
 		t = "0123€";

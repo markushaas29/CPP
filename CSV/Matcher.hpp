@@ -7,6 +7,7 @@
 #include <ctime>
 #include "Token.hpp"
 #include "../Quantity/Quantity.hpp"
+#include "../String/String_.hpp"
 #include "../To/To.hpp"
 
 #pragma once
@@ -29,11 +30,14 @@ public:
 		for ( ; iter != end; ++iter)
 		{
 			std::string si(*iter);
+						std::cout<<"SI "<<si<<std::endl;
+			si = String_::Trim(si); 
 			std::for_each(tokens->cbegin(), tokens->cend(), [&](auto& t)
 					{
 						if (t->Match(si))
-							//t->Create(si);
+						{
 							result.push_back(t->Create(si));
+							}
 					});
 		}
 		return result;
