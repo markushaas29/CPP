@@ -150,8 +150,6 @@ class M3Test
             assert(mSewage.Rows()==6);   
             assert(Quantity<Sum>(mSewage.ColSum(4))==Quantity<Sum>(-933.29));
 
-			UnaryMatrixStrategy<decltype(m22S)> un("BuildingInsurance");
-			assert(un.Name()=="BuildingInsurance");
 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBC = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2022"}}}; 
             auto mBC = MatrixQuery<decltype(m22S),std::string>(pfs, {fUBC});
@@ -221,7 +219,11 @@ class M3Test
 			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
             std::cout<<"MatrixQuery:\n"<<Heating<<std::endl;
 
+			BaseMatrixStrategy<decltype(m22S)> un( pfs, "BuildingInsurance");
+			assert(un.Name()=="BuildingInsurance");
+			auto qms = un(m22S);
 
+			std::cout<<"QMS"<<qms<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
