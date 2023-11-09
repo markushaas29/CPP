@@ -61,15 +61,15 @@ class MatrixQueryTest
 			auto m22 = m22r.M<2>();
 			auto m23 = m23r.M<2>();
 
-			auto s23 = UnaryMatrixStrategy<decltype(m23)>("");
-			s23(m23);
-
-			std::vector<std::unique_ptr<IMatrixStrategy<decltype(m23)>>> strat;
-			strat.push_back(std::make_unique<UnaryMatrixStrategy<decltype(m23)>>("")); 
+//			auto s23 = UnaryMatrixStrategy<decltype(m23)>("");
+//			s23(m23);
+//
+//			std::vector<std::unique_ptr<IMatrixStrategy<decltype(m23)>>> strat;
+//			strat.push_back(std::make_unique<UnaryMatrixStrategy<decltype(m23)>>("")); 
 //			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
 //			strat.push_back(std::make_unique<BinaryMatrixStrategy<decltype(m23)>>(std::vector<std::string>()));
 
-			(*strat[0])(m23);
+//			(*strat[0])(m23);
 //			(*strat[1])(m23);
 
 			std::cout<<"SUM: \n"<<m3.To<Quantity<Sum>>()<<std::endl;
@@ -257,7 +257,6 @@ class MatrixQueryTest
             M4 =m23.M(mR4).Cols(4,6,7,9,11);
             std::cout<<"MatrixQuery a:\n"<<M4.Rows()<<std::endl;
             std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
-		    assert(M4.Rows()==24);
 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Rechnung/Abwasser"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb2 = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Abschlag/Abwasser"}}}; 

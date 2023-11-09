@@ -63,9 +63,6 @@ class MatrixAnalyzerTest
 			a22();
 			a23();
 
-			auto s23 = UnaryMatrixStrategy<decltype(m23)>("");
-			s23(m23);
-
 			EquivalenceCat<int> eq(5);
 			auto peq = std::make_unique<EquivalenceCat<int>>(5);
 			auto peq5 = std::make_unique<EquivalenceCat<int>>(5);

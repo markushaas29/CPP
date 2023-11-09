@@ -41,13 +41,15 @@ public:
 	BaseMatrixStrategy(FactoryType f, const std::vector<UnitType>& u, const std::string& n): name{n}, units{u},factory{f} {}
 	virtual Q operator()(Base::MatrixType& m) 
 	{
+		enrich(units);
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, units);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
+		std::cout<<"ERG:"<< Quantity<Sum>(resM.ColSum(4))<<std::endl;
 		return Quantity<Sum>(resM.ColSum(4));
 	}
 	virtual std::string_view Name() { return name; };
 protected:
-	virtual std::vector<UnitType> enrich(std::vector<UnitType>& v) = 0;
+	virtual void enrich(std::vector<UnitType>& v) = 0;
 private:
 	std::string name;
 	std::vector<UnitType> units;
@@ -66,10 +68,9 @@ public:
 	YearStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y,const std::string& n): Base{f,u,n}, year{y} {}
 private:
 	Year year;
-	virtual std::vector<typename Base::UnitType> enrich(std::vector<typename Base::UnitType>& v) { 
+	virtual void enrich(std::vector<typename Base::UnitType>& v) { 
 		FactoryUnit<std::string, std::string> fuy = {"C", year.ToString()};
 		std::for_each(v.begin(), v.end(), [&](auto& u) { u.Add(fuy); });
-		return v;
 	}
 };
 
