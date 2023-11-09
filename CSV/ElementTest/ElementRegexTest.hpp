@@ -49,6 +49,13 @@ public:
 		t = "DE19660623660009232702";
   		assert(!it.Match(t));
 		auto pe = it.Create(t);
+
+		auto line = std::string("Kontokorrent-/Girokonto;DE19660623660009232702;GENODE61DET;RAIFFEISENBANK HARDT-BRUHRAIN;17.10.2023;17.10.2023;EnBW Energie Bad-Wuertt AG;DE56600501017402051588;SOLADEST600;Basislastschrift;701006843905 Strom Abschlagsforderung DS-Info: enbw.com/datenschutz EREF: B20005583399 701006843905 MREF: V5500000053148766 CRED: DE6900000000084184 IBAN: DE56600501017402051588 BIC: SOLADEST600;-40,00;EUR;704,83;;Sonstiges;;DE6900000000084184;V5500000053148766"); 
+		auto ibans = it(line);
+		for(auto& i : ibans)
+			std::cout<<"IB "<<*i<<std::endl;
+
+
 		std::cout<<"PE:"<<*pe<<std::endl;
 		
 		t = "DE19660623660009234702";

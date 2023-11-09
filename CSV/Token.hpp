@@ -25,6 +25,7 @@ public:
 	virtual const std::string_view Data() const  = 0;	
 	virtual const std::regex Pattern() const  = 0;	
 	virtual bool Match(const std::string&) const  = 0;	
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string&) const  = 0;	
 	virtual std::unique_ptr<IElement> Create(const std::string&) const  = 0;	
 	constexpr bool operator==(const IToken& e) const{ return Data() == e.Data(); };
 private:
@@ -44,6 +45,25 @@ public:
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
 	virtual const std::regex Pattern() const { return pattern; };	
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const  
+	{
+		std::vector<std::unique_ptr<IElement>> result;
+		std::smatch match;
+
+		std::regex rgx(";");
+		std::sregex_token_iterator iter(s.begin(),s.end(), rgx, -1);
+		std::sregex_token_iterator end;
+		for ( ; iter != end; ++iter)
+		{
+			std::string si(*iter);
+			if (Match(si))
+			{
+            std::cout << si << '\n';
+				result.push_back(std::make_unique<Type>(si));
+			}
+		}
+		return result;
+	};	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
 protected:
