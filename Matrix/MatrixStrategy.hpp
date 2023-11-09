@@ -29,6 +29,7 @@ public:
 template<typename T, typename Q = Quantity<Sum>>
 class BaseMatrixStrategy : public IMatrixStrategy<T,Q>
 {
+protected:
 	using Base = IMatrixStrategy<T,Q>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
@@ -40,13 +41,13 @@ public:
 	BaseMatrixStrategy(FactoryType f, const std::vector<UnitType>& u, const std::string& n): name{n}, units{u},factory{f} {}
 	virtual Q operator()(Base::MatrixType& m) 
 	{
-		FactoryUnit<std::string, std::string> fuy = {"C", "2022"};
-		std::for_each(units.begin(), units.end(), [&](auto& u) { u.Add(fuy); });
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, units);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
 		return Quantity<Sum>(resM.ColSum(4));
 	}
 	virtual std::string_view Name() { return name; };
+protected:
+	virtual std::vector<UnitType> enrich(std::vector<UnitType>& v) = 0;
 private:
 	std::string name;
 	std::vector<UnitType> units;
@@ -55,6 +56,20 @@ private:
 	Base::ElementType matrix;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+};
+
+template<typename T, typename Q = Quantity<Sum>>
+class YearStrategy : public BaseMatrixStrategy<T,Q>
+{
+	using Base = BaseMatrixStrategy<T,Q>;
+public:
+	YearStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const std::string& n): Base{f,u,n} {}
+private:
+	virtual std::vector<typename Base::UnitType> enrich(std::vector<typename Base::UnitType>& v) { 
+		FactoryUnit<std::string, std::string> fuy = {"C", "2022"};
+		std::for_each(v.begin(), v.end(), [&](auto& u) { u.Add(fuy); });
+		return v;
+	}
 };
 
 //template<typename T>
