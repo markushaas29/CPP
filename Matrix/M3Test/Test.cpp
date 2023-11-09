@@ -219,7 +219,7 @@ class M3Test
 			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
             std::cout<<"MatrixQuery:\n"<<Heating<<std::endl;
 
-			BaseMatrixStrategy<decltype(m22S)> un( pfs, "BuildingInsurance");
+			BaseMatrixStrategy<decltype(m22S)> un( pfs,{fUEnBW}, "BuildingInsurance");
 			assert(un.Name()=="BuildingInsurance");
 			auto qms = un(m22S);
 

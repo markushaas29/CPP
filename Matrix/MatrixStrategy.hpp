@@ -37,14 +37,9 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixStrategy";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	BaseMatrixStrategy(FactoryType f, const std::string& n): name{n}, factory{f} {}
+	BaseMatrixStrategy(FactoryType f, const std::vector<UnitType>& u, const std::string& n): name{n}, units{u},factory{f} {}
 	virtual Q operator()(Base::MatrixType& m) 
 	{
-		Matrix<2,MatrixDescriptor<2,std::string>> m33s = {
-                 {"1", "2" ,"3"},
-                 {"4", "5", "6"},
-                 {"7", "8", "9"},
-             };
 		FactoryUnit<std::string, std::string> fuy = {"C", "2022"};
 		std::for_each(units.begin(), units.end(), [&](auto& u) { u.Add(fuy); });
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, units);
