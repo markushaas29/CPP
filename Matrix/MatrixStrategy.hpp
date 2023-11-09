@@ -57,7 +57,12 @@ private:
 	FactoryType factory;
 	Base::ElementType matrix;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	//friend std::ostream& operator<<(std::ostream& s, const MatrixStrategy& me) { return s<<me.matrix;  }
+	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixStrategy& m) 
+	{ 
+		s<<"Name: "<<m.name<<std::endl;
+		std::for_each(m.units.begin(), m.units.end(), [&](auto& u) { s<<u<<"\n"; });
+		return s;  
+	}
 };
 
 template<typename T, typename Q = Quantity<Sum>>
