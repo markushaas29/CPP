@@ -81,6 +81,18 @@ namespace String_
 		return result;
 	}
 	
+	std::string Trim(const std::string& s)
+	{
+		std::string result(s);
+   		size_t p = result.find_first_not_of(" ");
+    	result.erase(0, p);
+ 
+    	p = result.find_last_not_of(" \t");
+    	if (std::string::npos != p)
+       	result.erase(p+1);
+
+		return result;
+	}
 	
 	std::string TrimDouble(double d)
 	{

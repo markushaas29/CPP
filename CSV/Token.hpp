@@ -57,10 +57,7 @@ public:
 		{
 			std::string si(*iter);
 			if (Match(si))
-			{
-            std::cout << si << '\n';
 				result.push_back(std::make_unique<Type>(si));
-			}
 		}
 		return result;
 	};	
@@ -103,7 +100,7 @@ public:
 class SumToken: public Token<SumToken, Quantity<Sum>>
 {
 public:
-	inline static constexpr const char* Pattern = "^((\\d+[.,]\\d{2})|([1-9]\\d+))€$";
+	inline static constexpr const char* Pattern = "^((\\d+[.,]\\d{2})|([1-9]\\d+))€?$";
 };
 
 class ValueToken: public Token<ValueToken, Value<int>>

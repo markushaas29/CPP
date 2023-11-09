@@ -30,6 +30,17 @@ public:
 	}
 	decltype(auto) Id() const { return identifier; }
 private:
+	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 
+	{ 
+		if constexpr (std::is_same_v<ArgumentType,std::vector<FactoryUnit<std::string, std::string>>>)
+		{
+			s<<f.identifier<<std::endl;
+			std::for_each(f.argument.cbegin(), f.argument.cend(), [&](const auto& a) {s<<"\t"<<a<<std::endl; });
+		}
+		else
+			s<<f.identifier<<": "<<f.argument<<std::endl;
+		return s;
+	}
 	IdentifierType identifier;
 	ArgumentType argument;
 };
