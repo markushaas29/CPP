@@ -100,7 +100,7 @@ public:
 class SumToken: public Token<SumToken, Quantity<Sum>>
 {
 public:
-	inline static constexpr const char* Pattern = "((^[-+]?((\\d+[.,]\\d{2})|([1-9]\\d+))€$)|(^[-+]?((\\d+[.,]\\d{2})|([1-9]\\d+))$))";
+	inline static constexpr const char* Pattern = "((^[-+]?((\\d+[.,]\\d{2})|([1-9]\\d+))€$)|(^[-+]?((\\d+[.,]\\d{2}))$))";
 };
 
 class ValueToken: public Token<ValueToken, Value<int>>

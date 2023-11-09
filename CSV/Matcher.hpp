@@ -30,14 +30,11 @@ public:
 		for ( ; iter != end; ++iter)
 		{
 			std::string si(*iter);
-						std::cout<<"SI "<<si<<std::endl;
 			si = String_::Trim(si); 
 			std::for_each(tokens->cbegin(), tokens->cend(), [&](auto& t)
 					{
 						if (t->Match(si))
-						{
 							result.push_back(t->Create(si));
-							}
 					});
 		}
 		return result;
