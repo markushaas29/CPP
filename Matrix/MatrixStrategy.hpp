@@ -44,7 +44,6 @@ public:
 		enrich(units);
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, units);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
-		std::cout<<"ERG:"<< Quantity<Sum>(resM.ColSum(4))<<std::endl;
 		return Quantity<Sum>(resM.ColSum(4));
 	}
 	virtual std::string_view Name() { return name; };
@@ -53,9 +52,7 @@ protected:
 private:
 	std::string name;
 	std::vector<UnitType> units;
-	std::unique_ptr<IMatrixQuery<typename Base::MatrixType, typename Base::ElementType>> query;	
 	FactoryType factory;
-	Base::ElementType matrix;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixStrategy& m) 
 	{ 
