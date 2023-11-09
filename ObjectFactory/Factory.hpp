@@ -23,10 +23,15 @@ class FactoryUnit
 public:
 	FactoryUnit(const IdentifierType& id, const ArgumentType& arg) : identifier{id}, argument{arg} {}
 	decltype(auto) Arg() const { return argument; }
+	decltype(auto) Add(const auto& fu) 
+	{
+		if constexpr (std::is_same_v<ArgumentType,std::vector<FactoryUnit<std::string, std::string>>>)
+			argument.push_back(fu); 
+	}
 	decltype(auto) Id() const { return identifier; }
 private:
-	const IdentifierType identifier;
-	const ArgumentType argument;
+	IdentifierType identifier;
+	ArgumentType argument;
 };
 
 template<class T, typename CT = std::string>
