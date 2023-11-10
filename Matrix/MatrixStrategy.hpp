@@ -25,9 +25,8 @@ public:
 	StrategyResult(const QuantityType& q, const MatrixType& m): result{q}, items(m){};
 	decltype(auto) Result() { return result; }
 	decltype(auto) Items() { return items; }
-
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s){	return out;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s){ return out<<s.items<<"\n\nResult: "<<s.result;	}
 	QuantityType result;
 	MatrixType items;
 };

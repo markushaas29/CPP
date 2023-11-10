@@ -233,7 +233,7 @@ class M3Test
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 
 			std::cout<<"QMS"<<qms<<std::endl;
-			std::cout<<"QMS"<<ys<<std::endl;
+			std::cout<<"QMS"<<ys(m22S)<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
