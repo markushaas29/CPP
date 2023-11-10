@@ -105,7 +105,6 @@ public:
 		std::vector<typename Base::UnitType> result(units.cbegin(), units.cend());	
 		FactoryUnit<std::string, std::string> fu = {"C", p.ToString()};
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fu); });
-		std::cout<<"UNITS"<<units.size();
 		return BaseMatrixStrategy(factory,result,name);
 	}
 	virtual std::string_view Name() const { return name; };

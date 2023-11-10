@@ -250,8 +250,6 @@ class M3Test
 			
 			BaseMatrixStrategy<decltype(m22S)> ws( pfs,{fU_DetG}, "With");
 			auto mb = ws.With(y);
-			std::cout<<"WITH:\n"<<mb<<std::endl;
-			std::cout<<"WITH:\n"<<ws.With(y).With(y)<<std::endl;
 			std::cout<<"ID "<<mb(m22S)<<std::endl;
             assert(m22S.M(mb).Result()==Quantity<Sum>(-423.01));
 			std::cout<<"END"<<std::endl;
