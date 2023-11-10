@@ -18,6 +18,7 @@
 
 template<typename> class MatrixFilter;
 template<typename, typename> class M3;
+template<typename T, typename Q, typename U> class IMatrixStrategy;
 template<typename Q, typename M, typename U> class StrategyResult;
 
 template<typename T>
@@ -78,6 +79,8 @@ public:
 	decltype(auto) M(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
 	template<typename ET = ElementType>
 	decltype(auto) M(const IMatrixQuery<Type, ET>& query) { return query(this); }
+	template<typename Q, typename U>
+    decltype(auto) M(const IMatrixStrategy<Type, Q, U>& s) { return s(*this); }
 	decltype(auto) Slices(std::vector<size_t> rows, std::vector<size_t> cols) const { return access->slices(rows,cols, this); }
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
