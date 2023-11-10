@@ -16,39 +16,47 @@
 
 template<std::size_t, typename> class Matrix;
 
-template<typename Q, typename M>
+template<typename Q, typename M, typename U>
 class StrategyResult
 {
 public:
 	using QuantityType = Q;
 	using MatrixType = M;
-	StrategyResult(const QuantityType& q, const MatrixType& m, const std::string& n =""): result{q}, items(m), name{n} {};
+	using UnitType = U;
+	StrategyResult(const QuantityType& q, const MatrixType& m, const std::vector<UnitType>& u, const std::string& n =""): result{q}, items(m), units{u}, name{n} {};
 	decltype(auto) Result() { return result; }
 	decltype(auto) Items() { return items; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s){ return out<<"Name: "<<s.name<<"\nItems:\n"<<s.items<<"\n\nResult: "<<s.result;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s)
+	{ 
+		out<<"Name: "<<s.name<<"Units:\n";
+		std::for_each(s.units.cbegin(), s.units.cend(), [&](auto& u) { out<<u<<"\n"; });
+		return out<<"\nItems:\n"<<s.items<<"\n\nResult: "<<s.result;	
+	}
 	QuantityType result;
 	MatrixType items;
+	std::vector<UnitType> units;
 	std::string name;
 };
 
-template<typename T, typename Q>
+template<typename T, typename Q, typename U>
 class IMatrixStrategy
 {
 public:
 	using MatrixType = T;
 	using QuantityType = Q;
+	using UnitType = U;
 	using ElementType = T::ElementType;
-	using ResultType = StrategyResult<QuantityType,MatrixType>;
+	using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
 	virtual ResultType operator()(T& m) = 0;
 	virtual std::string_view Name() = 0;
 };
 
 template<typename T, typename Q = Quantity<Sum>>
-class BaseMatrixStrategy : public IMatrixStrategy<T,Q>
+class BaseMatrixStrategy : public IMatrixStrategy<T,Q,FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>>
 {
 protected:
-	using Base = IMatrixStrategy<T,Q>;
+	using Base = IMatrixStrategy<T,Q,FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using FactoryType = std::shared_ptr<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>;
@@ -63,7 +71,7 @@ public:
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, eunits);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
 		auto q = Quantity<Sum>(resM.ColSum(4));
-		return typename Base::ResultType(q,resM,name);
+		return typename Base::ResultType(q,resM,units,name);
 	}
 	virtual std::string_view Name() { return name; };
 protected:
