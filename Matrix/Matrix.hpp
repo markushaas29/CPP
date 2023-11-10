@@ -2,14 +2,6 @@
 
 #pragma once
 
-template<typename T>
-decltype(auto) ToDataType(const std::vector<T>& v)
-{
-	std::vector<std::shared_ptr<T>> result;
-	std::for_each(v.begin(),v.end(), [&result](const T& t) { result.push_back(std::make_shared<T>(t)); });
-	return result;
-};
-
 template<std::size_t N, typename DT=MatrixDescriptor<N,int>>
 class Matrix
 {
@@ -102,11 +94,11 @@ private:
 	decltype(auto) check() const {	IsT<Throwing>(Format("Matrix is jagged Rows/Cols: ",Rows(), "/", Cols(), " Size: ", elements->size()))((Rows()*descriptor.Stride(0))==elements->size());	}
 
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) { return (*m.io)(s,&m); }
-	template<typename,typename> friend class MatrixCalculator;
-	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	friend class MatrixAccess<Type>;
 	friend class MatrixIO<Type>;
 	friend class MatrixFilter<Type>;
+	template<typename,typename> friend class MatrixCalculator;
+	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	template<typename TT, typename ETQ> friend class MatrixQueryBase;
 	template<typename, typename> friend class MatrixQuery;
 	template<typename, typename, typename> friend class StrategyResult;
