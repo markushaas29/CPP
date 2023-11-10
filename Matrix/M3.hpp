@@ -97,7 +97,8 @@ public:
 		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
 		e[0] = result.size() / e[1];
 
-		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
+		auto resM = MatrixType(typename MatrixType::DescriptorType{e}, result); 
+		return typename IMatrixStrategy<MatrixType, Q, U>::ResultType(Quantity<Sum>(resM.ColSum(11)), resM, s.Units(),std::string(s.Name())); 
 	}
 
 //	template<typename F>

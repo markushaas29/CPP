@@ -49,7 +49,8 @@ public:
 	using ElementType = T::ElementType;
 	using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
 	virtual ResultType operator()(T& m) const = 0;
-	virtual std::string_view Name() = 0;
+	virtual std::string_view Name() const = 0;
+	virtual const std::vector<UnitType> Units() const = 0;
 };
 
 template<typename T, typename Q = Quantity<Sum>>
@@ -73,7 +74,8 @@ public:
 		auto q = Quantity<Sum>(resM.ColSum(11));
 		return typename Base::ResultType(q,resM,eunits,name);
 	}
-	virtual std::string_view Name() { return name; };
+	virtual std::string_view Name() const { return name; };
+	virtual const std::vector<UnitType> Units() const { return enrich(units); };
 protected:
 	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const = 0;
 private:
@@ -121,7 +123,7 @@ private:
 		FactoryUnit<std::string, std::string> fuID = {"C", id};
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuy); });
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuID); });
-		auto inv = typename Base::UnitType{ "A",{{"EQ", "DE68600501010002057075"}, {"C","Rechnung"}, fuID, {"C", year.Next().ToString()}}};
+		auto inv = typename Base::UnitType{ "A",{result[0].Arg()[0], {"C","Rechnung"}, fuID, {"C", year.Next().ToString()}}};
 		result.push_back(inv);
 		return result;
 	}
