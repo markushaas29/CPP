@@ -4,6 +4,7 @@
 #include "MatrixDescriptor.hpp"
 #include "MatrixElement.hpp"
 #include "MatrixInitializer.hpp"
+#include "MatrixStrategy.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 
@@ -62,10 +63,32 @@ public:
 		for(auto el : *elements)
 		{
 			auto m = el.M(query);
-			std::cout<<elements->size()<<" Query\n"<<m<<std::endl;
 			for(auto i = 0; i < m.Rows(); ++i)
 			{
 				auto row = m.row(i);
+				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
+			}
+		}
+
+		std::array<size_t,Order-1> e;
+		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
+		e[0] = result.size() / e[1];
+
+		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
+	}
+
+	template<typename Q, typename U>
+	decltype(auto) M(const IMatrixStrategy<MatrixType, Q, U>& s) 
+	{ 
+		std::vector<DataType> result;
+		for(auto el : *elements)
+		{
+			auto m = s(el);
+			std::cout<<"M3 "<<m<<std::endl;
+			auto item = m.Items();
+			for(auto i = 0; i < item.Rows(); ++i)
+			{
+				auto row = item.row(i);
 				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
 			}
 		}

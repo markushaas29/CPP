@@ -48,7 +48,7 @@ public:
 	using UnitType = U;
 	using ElementType = T::ElementType;
 	using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
-	virtual ResultType operator()(T& m) = 0;
+	virtual ResultType operator()(T& m) const = 0;
 	virtual std::string_view Name() = 0;
 };
 
@@ -65,12 +65,12 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	BaseMatrixStrategy(FactoryType f, const std::vector<UnitType>& u, const std::string& n): name{n}, units{u},factory{f} {}
-	virtual typename Base::ResultType operator()(Base::MatrixType& m) 
+	virtual typename Base::ResultType operator()(Base::MatrixType& m) const
 	{
 		std::vector<UnitType> eunits = enrich(units);
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, eunits);
-        auto resM = m.M(mq).Cols(4,6,7,9,11);
-		auto q = Quantity<Sum>(resM.ColSum(4));
+        auto resM = m.M(mq);
+		auto q = Quantity<Sum>(resM.ColSum(11));
 		return typename Base::ResultType(q,resM,eunits,name);
 	}
 	virtual std::string_view Name() { return name; };
