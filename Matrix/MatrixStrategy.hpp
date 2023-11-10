@@ -121,7 +121,7 @@ private:
 		FactoryUnit<std::string, std::string> fuID = {"C", id};
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuy); });
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuID); });
-		auto inv = typename Base::UnitType{ "A",{{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}, fuID, {"C", year.Next().ToString()}}};
+		auto inv = typename Base::UnitType{ "A",{{"EQ", "DE68600501010002057075"}, {"C","Rechnung"}, fuID, {"C", year.Next().ToString()}}};
 		result.push_back(inv);
 		return result;
 	}
