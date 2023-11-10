@@ -230,7 +230,7 @@ class M3Test
 			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_DetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Grundsteuer"}}}; 
 			YearStrategy<decltype(m22S)> ys( pfs,{fU_DetG}, y,"BuildingInsurance");
-            assert(Quantity<Sum>(ys(m22S))==Quantity<Sum>(-423.01));
+            assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 
 			std::cout<<"QMS"<<qms<<std::endl;
 			std::cout<<"QMS"<<ys<<std::endl;

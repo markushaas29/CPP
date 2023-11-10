@@ -16,32 +16,33 @@
 
 template<std::size_t, typename> class Matrix;
 
+template<typename Q, typename M>
+class StrategyResult
+{
+public:
+	using QuantityType = Q;
+	using MatrixType = M;
+	StrategyResult(const QuantityType& q, const MatrixType& m): result{q}, items(m){};
+	decltype(auto) Result() { return result; }
+	decltype(auto) Items() { return items; }
+
+private:
+	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s){	return out;	}
+	QuantityType result;
+	MatrixType items;
+};
+
 template<typename T, typename Q>
 class IMatrixStrategy
 {
 public:
 	using MatrixType = T;
+	using QuantityType = Q;
 	using ElementType = T::ElementType;
-	virtual Q operator()(T& m) = 0;
+	using ResultType = StrategyResult<QuantityType,MatrixType>;
+	virtual ResultType operator()(T& m) = 0;
 	virtual std::string_view Name() = 0;
 };
-
-template<typename Q, typename M>
-class StrategyRessult
-{
-public:
-	using QuantityType = Q;
-	using MatrixType = M;
-	StrategyRessult(const QuantityType& q, const MatrixType& m): result{q}, items{m}{};
-	decltype(auto) Result() { return result; }
-	decltype(auto) Items() { return items; }
-
-private:
-	friend 	std::ostream& operator<<(std::ostream& out, const StrategyRessult& s){	return s;	}
-	QuantityType result;
-	MatrixType items;
-};
-
 
 template<typename T, typename Q = Quantity<Sum>>
 class BaseMatrixStrategy : public IMatrixStrategy<T,Q>
@@ -56,12 +57,13 @@ public:
     inline static constexpr Literal TypeId{TypeIdentifier};
 
 	BaseMatrixStrategy(FactoryType f, const std::vector<UnitType>& u, const std::string& n): name{n}, units{u},factory{f} {}
-	virtual Q operator()(Base::MatrixType& m) 
+	virtual typename Base::ResultType operator()(Base::MatrixType& m) 
 	{
 		std::vector<UnitType> eunits = enrich(units);
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, eunits);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
-		return Quantity<Sum>(resM.ColSum(4));
+		auto q = Quantity<Sum>(resM.ColSum(4));
+		return typename Base::ResultType(q,resM);
 	}
 	virtual std::string_view Name() { return name; };
 protected:
