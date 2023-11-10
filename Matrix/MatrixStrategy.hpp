@@ -22,13 +22,14 @@ class StrategyResult
 public:
 	using QuantityType = Q;
 	using MatrixType = M;
-	StrategyResult(const QuantityType& q, const MatrixType& m): result{q}, items(m){};
+	StrategyResult(const QuantityType& q, const MatrixType& m, const std::string& n =""): result{q}, items(m), name{n} {};
 	decltype(auto) Result() { return result; }
 	decltype(auto) Items() { return items; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s){ return out<<s.items<<"\n\nResult: "<<s.result;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const StrategyResult& s){ return out<<"Name: "<<s.name<<"\nItems:\n"<<s.items<<"\n\nResult: "<<s.result;	}
 	QuantityType result;
 	MatrixType items;
+	std::string name;
 };
 
 template<typename T, typename Q>
@@ -62,7 +63,7 @@ public:
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, eunits);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
 		auto q = Quantity<Sum>(resM.ColSum(4));
-		return typename Base::ResultType(q,resM);
+		return typename Base::ResultType(q,resM,name);
 	}
 	virtual std::string_view Name() { return name; };
 protected:
@@ -86,6 +87,22 @@ class YearStrategy : public BaseMatrixStrategy<T,Q>
 	using Base = BaseMatrixStrategy<T,Q>;
 public:
 	YearStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y,const std::string& n): Base{f,u,n}, year{y} {}
+private:
+	Year year;
+	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) { 
+		std::vector<typename Base::UnitType> result(v.cbegin(), v.cend());	
+		FactoryUnit<std::string, std::string> fuy = {"C", year.ToString()};
+		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuy); });
+		return result;
+	}
+};
+
+template<typename T, typename Q = Quantity<Sum>>
+class IDStrategy : public BaseMatrixStrategy<T,Q>
+{
+	using Base = BaseMatrixStrategy<T,Q>;
+public:
+	IDStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y,const std::string& n): Base{f,u,n}, year{y} {}
 private:
 	Year year;
 	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) { 
