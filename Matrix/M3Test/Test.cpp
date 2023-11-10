@@ -231,6 +231,10 @@ class M3Test
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_DetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Grundsteuer"}}}; 
 			YearStrategy<decltype(m22S)> ys( pfs,{fU_DetG}, y,"BuildingInsurance");
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
+			
+			auto id = std::string("8201090081");
+			IDStrategy<decltype(m22S)> ids(pfs,{fU_DetG}, y, id,"BuildingInsurance");
+            assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 
 			std::cout<<"QMS"<<qms<<std::endl;
 			std::cout<<"QMS"<<ys(m22S)<<std::endl;

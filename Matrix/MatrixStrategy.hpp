@@ -110,9 +110,10 @@ class IDStrategy : public BaseMatrixStrategy<T,Q>
 {
 	using Base = BaseMatrixStrategy<T,Q>;
 public:
-	IDStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y,const std::string& n): Base{f,u,n}, year{y} {}
+	IDStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y, const std::string& i, const std::string& n): Base{f,u,n}, year{y}, id{i} {}
 private:
 	Year year;
+	std::string id;
 	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) { 
 		std::vector<typename Base::UnitType> result(v.cbegin(), v.cend());	
 		FactoryUnit<std::string, std::string> fuy = {"C", year.ToString()};
