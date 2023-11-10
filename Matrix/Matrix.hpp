@@ -18,6 +18,7 @@
 
 template<typename> class MatrixFilter;
 template<typename, typename> class M3;
+template<typename Q, typename M, typename U> class StrategyResult;
 
 template<typename T>
 decltype(auto) ToDataType(const std::vector<T>& v)
@@ -124,6 +125,7 @@ private:
 	friend class MatrixFilter<Type>;
 	template<typename TT, typename ETQ> friend class MatrixQueryBase;
 	template<typename, typename> friend class MatrixQuery;
+	template<typename, typename, typename> friend class StrategyResult;
 	template<typename, typename> friend class M3;
 
 	DescriptorType descriptor;

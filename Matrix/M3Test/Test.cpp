@@ -240,8 +240,11 @@ class M3Test
             
 			auto msR = m22_23.M(ids);
 
+			auto msR2 = msR.Compose(msR);
+
 			std::cout<<"QMS\n\n"<<msR<<std::endl;
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
+			std::cout<<"Compose\n\n"<<msR2<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
