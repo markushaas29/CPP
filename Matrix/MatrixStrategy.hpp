@@ -71,11 +71,11 @@ public:
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, eunits);
         auto resM = m.M(mq).Cols(4,6,7,9,11);
 		auto q = Quantity<Sum>(resM.ColSum(4));
-		return typename Base::ResultType(q,resM,units,name);
+		return typename Base::ResultType(q,resM,eunits,name);
 	}
 	virtual std::string_view Name() { return name; };
 protected:
-	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) = 0;
+	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const = 0;
 private:
 	std::string name;
 	std::vector<UnitType> units;
@@ -84,7 +84,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixStrategy& m) 
 	{ 
 		s<<"Name: "<<m.name<<std::endl;
-		std::for_each(m.units.begin(), m.units.end(), [&](auto& u) { s<<u<<"\n"; });
+		std::vector<UnitType> eunits = m.enrich(m.units);
+		std::for_each(eunits.begin(), eunits.end(), [&](auto& u) { s<<u<<"\n"; });
 		return s;  
 	}
 };
@@ -97,7 +98,7 @@ public:
 	YearStrategy(typename Base::FactoryType f, const std::vector<typename Base::UnitType>& u, const Year& y,const std::string& n): Base{f,u,n}, year{y} {}
 private:
 	Year year;
-	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) { 
+	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) const { 
 		std::vector<typename Base::UnitType> result(v.cbegin(), v.cend());	
 		FactoryUnit<std::string, std::string> fuy = {"C", year.ToString()};
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuy); });
@@ -114,10 +115,12 @@ public:
 private:
 	Year year;
 	std::string id;
-	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) { 
+	virtual std::vector<typename Base::UnitType> enrich(const std::vector<typename Base::UnitType>& v) const { 
 		std::vector<typename Base::UnitType> result(v.cbegin(), v.cend());	
 		FactoryUnit<std::string, std::string> fuy = {"C", year.ToString()};
+		FactoryUnit<std::string, std::string> fuID = {"C", id};
 		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuy); });
+		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fuID); });
 		return result;
 	}
 };

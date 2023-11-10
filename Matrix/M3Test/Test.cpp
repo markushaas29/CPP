@@ -236,8 +236,9 @@ class M3Test
 			IDStrategy<decltype(m22S)> ids(pfs,{fU_DetG}, y, id,"BuildingInsurance");
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 
-			std::cout<<"QMS"<<qms<<std::endl;
+			std::cout<<"ID "<<ids<<std::endl;
 			std::cout<<"QMS"<<ys(m22S)<<std::endl;
+            assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
