@@ -221,7 +221,7 @@ class M3Test
 
 			Year y{2022};
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_EnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Strom Abschlagsforderung"}, {"C","701006843905"}}}; 
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_Erdgas = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Gas Abschlagsforderung"}, {"C","8201090081"}}};
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_Erdgas = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Gas Abschlagsforderung"}}};
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_ErdgasInv = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Rechnung"}, {"C","8201090081"}}};
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_EnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}, {"C","701006843905"} }}; 
 			YearStrategy<decltype(m22S)> un( pfs,{fU_EnBW, fU_Erdgas, fU_EnBWInv, fU_ErdgasInv}, y, "BuildingInsurance");
