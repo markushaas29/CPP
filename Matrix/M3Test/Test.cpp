@@ -233,9 +233,9 @@ class M3Test
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 			
 			auto id = std::string("8201090081");
-			IDStrategy<decltype(m22S)> ids(pfs,{fU_DetG}, y, id,"Gas");
+			IDStrategy<decltype(m22S)> ids(pfs,{fU_Erdgas}, y, id,"Gas");
 			std::cout<<"ID "<<ids(m22S)<<std::endl;
-            assert(ids(m22S).Result()==Quantity<Sum>(-423.01));
+            assert(ids(m22S).Result()==Quantity<Sum>(-2113.00));
 
 			std::cout<<"QMS"<<ys(m22S)<<std::endl;
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
