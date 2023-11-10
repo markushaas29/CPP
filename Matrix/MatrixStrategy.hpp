@@ -26,6 +26,23 @@ public:
 	virtual std::string_view Name() = 0;
 };
 
+template<typename Q, typename M>
+class StrategyRessult
+{
+public:
+	using QuantityType = Q;
+	using MatrixType = M;
+	StrategyRessult(const QuantityType& q, const MatrixType& m): result{q}, items{m}{};
+	decltype(auto) Result() { return result; }
+	decltype(auto) Items() { return items; }
+
+private:
+	friend 	std::ostream& operator<<(std::ostream& out, const StrategyRessult& s){	return s;	}
+	QuantityType result;
+	MatrixType items;
+};
+
+
 template<typename T, typename Q = Quantity<Sum>>
 class BaseMatrixStrategy : public IMatrixStrategy<T,Q>
 {
