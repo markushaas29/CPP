@@ -24,6 +24,7 @@ public:
 		v->push_back(std::make_unique<EntryToken>());
 		v->push_back(std::make_unique<ValueToken>());
 		v->push_back(std::make_unique<QuantityToken>());
+		v->push_back(std::make_unique<KeyValueToken>());
 
 		std::smatch m;
 		std::string t = "29.5.1986";
@@ -127,6 +128,8 @@ public:
 		t = "ABC : 12";
   		assert(kt.Match(t));
 		t = "ABC :12";
+  		assert(kt.Match(t));
+		t = "AB ABC :12 AB";
   		assert(kt.Match(t));
 		t = "A1BC :12";
   		assert(!kt.Match(t));

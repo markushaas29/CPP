@@ -100,10 +100,18 @@ public:
 		auto q = Quantity<Sum>(resM.ColSum(11));
 		return typename Base::ResultType(q,resM,eunits,name);
 	}
+	template<typename P>
+	decltype(auto) With(const P& p) const { 
+		std::vector<typename Base::UnitType> result(units.cbegin(), units.cend());	
+		FactoryUnit<std::string, std::string> fu = {"C", p.ToString()};
+		std::for_each(result.begin(), result.end(), [&](auto& u) { u.Add(fu); });
+		std::cout<<"UNITS"<<units.size();
+		return BaseMatrixStrategy(factory,result,name);
+	}
 	virtual std::string_view Name() const { return name; };
 	virtual const std::vector<UnitType> Units() const { return enrich(units); };
 protected:
-	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const = 0;
+	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const { return v;};// = 0;
 private:
 	std::string name;
 	std::vector<UnitType> units;

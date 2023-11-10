@@ -234,6 +234,7 @@ class M3Test
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
             assert(m22S.M(ys).Result()==Quantity<Sum>(-423.01));
 			
+
 			auto id = std::string("8201090081");
 			IDStrategy<decltype(m22S)> ids(pfs,{fU_Erdgas}, y, id,"Gas");
 			std::cout<<"ID "<<ids(m22S)<<std::endl;
@@ -246,6 +247,13 @@ class M3Test
 			std::cout<<"QMS\n\n"<<msR<<std::endl;
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
 			std::cout<<"Compose\n\n"<<msR2<<std::endl;
+			
+			BaseMatrixStrategy<decltype(m22S)> ws( pfs,{fU_DetG}, "With");
+			auto mb = ws.With(y);
+			std::cout<<"WITH:\n"<<mb<<std::endl;
+			std::cout<<"WITH:\n"<<ws.With(y).With(y)<<std::endl;
+			std::cout<<"ID "<<mb(m22S)<<std::endl;
+            assert(m22S.M(mb).Result()==Quantity<Sum>(-423.01));
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
