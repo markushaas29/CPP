@@ -208,6 +208,7 @@ class MatrixAccessTest
 
 			auto v = m2e[0][0].As<Quantity<Sum>>();
 			assert(v==Quantity<Sum>(2.5));
+			assert(m2e[1][0].As<Quantity<Sum>>()==Quantity<Sum>(4.5));
 			std::cout<<"END"<<v<<std::endl;
 		   
 			return 0;
