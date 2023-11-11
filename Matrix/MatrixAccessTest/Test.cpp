@@ -196,10 +196,15 @@ class MatrixAccessTest
 			};	
 
 			auto m2q = m2e.To<Quantity<Sum>>();
+			
+			M2E m2ed {                
+				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
+				{std::make_shared<Date>(29,9,1986), std::make_shared<Quantity<Sum>>(3.5)},
+			};	
 
 			//auto m2p = m2e + m2e;
 
-			std::cout<<"END"<<m2q<<std::endl;
+			std::cout<<"END"<<m2ed.To<Quantity<Sum>>()<<std::endl;
 		   
 			return 0;
 		}
