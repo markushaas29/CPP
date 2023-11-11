@@ -1,6 +1,7 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
+#include "PointerConcept.hpp"
 #include "../Components/Interfaces.hpp"
 #include "../Is/Is.hpp"
 #include "../To/To.hpp"
@@ -163,6 +164,14 @@ private:
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(To<T>(*e))); });
 		else if constexpr (std::is_same_v<T, std::string>)
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(std::to_string(*e))); });
+		else if constexpr (PointerConcept<typename M::ElementType>)
+			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e)
+					{
+    					if (auto ptr = std::dynamic_pointer_cast<T>(*e))
+							result.push_back(std::make_shared<T>(*ptr)); 
+						else
+							result.push_back(std::make_shared<T>("")); 
+					});
 		else
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });
 
