@@ -75,6 +75,7 @@ class MatrixQueryTest
 			std::cout<<"SUM: \n"<<m3.To<Quantity<Sum>>()<<std::endl;
 
 			EquivalenceCat<int> eq(5);
+			GreaterCat<int> g(5);
 			EquivalenceCat<int> eqs("5");
 			EquivalenceCat<double> eqd("7.5");
 			try{ EquivalenceCat<double> eqde("abc"); } catch(...) {};
@@ -88,6 +89,9 @@ class MatrixQueryTest
 			
 			EquivalenceCat<int> eq6(6);
 			assert(eq(5));
+			assert(g(6));
+			assert(!g(5));
+			assert(!g(4));
 			assert(eqs(5));
 			assert(eqd(7.5));
 			assert(decltype(eq)::TypeId=="Equivalence");

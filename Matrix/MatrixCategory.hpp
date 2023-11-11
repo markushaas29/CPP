@@ -71,6 +71,22 @@ private:
 };
 
 template<typename T = std::string>
+class GreaterCat : public CategoryBase<T,GreaterCat<T>>
+{
+	using Base = CategoryBase<T,GreaterCat<T>>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "Greater";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+
+	template<typename TT, typename = typename std::enable_if<std::is_same<TT, T>::value>::type>
+	GreaterCat(TT e): Base(e) {}
+	GreaterCat(const std::string& s): Base(s) {}
+	virtual bool operator()(const Base::ElementType& e) const { return e>Base::element; };
+private:
+	template<typename U> using IsT =  Is<U,TypeId>;
+};
+
+template<typename T = std::string>
 class HasCat : public CategoryBase<T,HasCat<T>>
 {
 	using Base = CategoryBase<T,HasCat<T>>;
