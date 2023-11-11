@@ -94,6 +94,7 @@ class MatrixQueryTest
 			assert(gs("6"));
 			assert(!g(5));
 			assert(!gs("5"));
+			assert(!gs("ab"));
 			assert(!g(4));
 			assert(!gs("4"));
 			assert(eqs(5));
@@ -261,12 +262,15 @@ class MatrixQueryTest
 		    assert(M4.Rows()==29);
             M4 =m23.M(mR4).Cols(4,6,7,9,11);
             
-			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInvG = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}, {"G", "0"} }};           
-            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInvG = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}, {"G", "0"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInvG = { "A",  {{"EQ","DE68600501010002057075"}, {"G", "0"} }};           
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInvG = { "A",  {{"EQ", "DE56600501017402051588"}, {"G", "0"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWG = { "A",  {{"EQ", "DE56600501017402051588"}, {"G", "0"}}}; 
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasG = { "A",  {{"EQ","DE68600501010002057075"}, {"G", "0"}}}; 
             M4 =m22.M(mR4).Cols(4,6,7,9,11);
-            mR4 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInvG, fUErdgasInvG});
-
-            std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
+            mR4 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBWG, fUErdgasG, fUEnBWInvG, fUErdgasInvG});
+//            auto MP = M4.Col(4).M(mR4);
+            auto MP = M4.M(mR4);
+            std::cout<<"MatrixQuery Positiv:\n"<<MP<<std::endl;
 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Rechnung/Abwasser"}}}; 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb2 = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Abschlag/Abwasser"}}}; 

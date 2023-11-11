@@ -85,9 +85,11 @@ public:
 	{
 		if constexpr (std::is_same_v<typename Base::ElementType, std::string>)
 		{
-			auto r = To<double>(Base::element);
-			auto l = To<double>(e);
-			return l>r;
+			auto r = TryTo<double>(Base::element);
+			auto l = TryTo<double>(e);
+			if(l.Valid && r.Valid )
+				std::cout<<"VALID:"<<l.Value<<" "<<r.Value<<(l.Value > r.Value)<<std::endl;
+			return l.Valid && r.Valid ? l.Value > r.Value : false;
 		}
 		else
 			return e>Base::element; 
