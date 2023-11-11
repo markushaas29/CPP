@@ -242,6 +242,7 @@ class MatrixQueryTest
 			auto pfm = std::make_shared<Factory<IMatrixCategory<std::string>>>();
 		    pfm->Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
 			pfm->Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
+			pfm->Register("G",[](std::string_view s) { return std::make_unique<GreaterCat<std::string>>(std::string(s)); });
 
 		  	auto pfs =  std::make_shared<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>(pfm);
      		pfs->Register("A",[](std::unique_ptr<std::vector<std::unique_ptr<IMatrixCategory<std::string>>>> s) { return std::make_unique<AndCat<std::string>>(std::move(s)); });
@@ -252,18 +253,19 @@ class MatrixQueryTest
 		    auto mq39 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas});
 		    //auto M39 =mq39(&m22).Cols(4,6,7,9,11);
 		    auto M39 = m22.M(mq39).Cols(4,6,7,9,11);
-			std::cout<<"MatrixQuery\n"<<M39<<std::endl;
-			std::cout<<M39.Rows()<<std::endl;
-			assert(M39.Rows()==25);
 			
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}}};           
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}}}; 
             auto mR4 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
             auto M4 =m22.M(mR4).Cols(4,6,7,9,11);
 		    assert(M4.Rows()==29);
-            std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
             M4 =m23.M(mR4).Cols(4,6,7,9,11);
-            std::cout<<"MatrixQuery a:\n"<<M4.Rows()<<std::endl;
+            
+			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInvG = { "O",  {{"EQ","DE68600501010002057075"}, {"C","Rechnung"}, {"G", "0"} }};           
+            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInvG = { "O",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}, {"G", "0"}}}; 
+            M4 =m22.M(mR4).Cols(4,6,7,9,11);
+            mR4 = MatrixQuery<decltype(m22),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInvG, fUErdgasInvG});
+
             std::cout<<"MatrixQuery a:\n"<<M4<<std::endl;
 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetAb = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Rechnung/Abwasser"}}}; 

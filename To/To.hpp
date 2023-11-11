@@ -16,6 +16,17 @@ using Point = T::char_<'.'>;
 template<typename Target=std::string>
 decltype(auto) TryTo(std::string arg)
 {
+	static constexpr const char TypeIdentifier[] = "TryTo<>()";
+	static constexpr Literal LiteralType{TypeIdentifier};
+	std::string info{arg};
+	
+	if constexpr (std::is_same_v<Target,double>)
+	{
+		if(String_::Contains(arg,".") && String_::Contains(arg,","))
+			arg.erase(std::remove(arg.begin(), arg.end(), '.'), arg.end());
+		std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
+		Logger::Log(Format(LiteralType," comma replaced in ",info, " to ", arg));
+	}
 	std::stringstream buf;
 	
 	if(!(buf << arg) )
@@ -40,14 +51,6 @@ Target To(std::string arg)
 			return Target{0};
 	
 		std::string info{arg};
-		if constexpr (std::is_same_v<Target,double>)
-		{
-			if(String_::Contains(arg,".") && String_::Contains(arg,","))
-				arg.erase(std::remove(arg.begin(), arg.end(), '.'), arg.end());
-			std::replace( arg.begin(), arg.end(), Comma::Value, Point::Value);
-			Logger::Log(Format(LiteralType," comma replaced in ",info, " to ", arg));
-		}
-		
 		auto result = TryTo<Target>(arg);
 		if(!result.Valid)
 			Is<Throwing,LiteralType>(Format(" failed: argument ",info, " formatted to ", arg))(false);
