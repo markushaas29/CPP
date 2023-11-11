@@ -46,6 +46,11 @@ class MatrixQueryTest
                 {8, 9, 5},
                 {13, 14, 15},
             };
+			
+			M2M m22s {
+            	{"3€", "4€"},
+            	{"1€", "6€"},
+            };
 
 			std::vector<int> v1{1,2,3,4};
 			std::vector<int> v1e{1,1,1,1};
@@ -135,9 +140,13 @@ class MatrixQueryTest
 			auto mq = MatrixRowQuery<M2>(std::move(peq));
 			auto mcq1 = MatrixColQuery<M2>(1,std::make_unique<EquivalenceCat<int>>(5));
 			auto m1q5 = MatrixRowQuery<M1>(std::make_unique<EquivalenceCat<int>>(5));
+			auto m2qg5 = MatrixRowQuery<decltype(m22s.To<Quantity<Sum>>())>(std::make_unique<GreaterCat<Quantity<Sum>>>(Quantity<Sum>(5)));
 			auto mc1q5 = MatrixRowQuery<M1>(std::make_unique<EquivalenceCat<int>>(5));
 			auto m1q6 = MatrixRowQuery<M1>(std::make_unique<EquivalenceCat<int>>(6));
 			auto mcq2 = MatrixColQuery<M2>(2,std::make_unique<EquivalenceCat<int>>(5));
+
+			auto g5m = m22s.To<Quantity<Sum>>().M(m2qg5);
+            std::cout<<"GM :\n"<<g5m<<std::endl;
 			
 			auto peq3 = std::make_unique<EquivalenceCat<int>>(3);
 			auto peq4 = std::make_unique<EquivalenceCat<int>>(4);

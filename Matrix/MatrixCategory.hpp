@@ -87,8 +87,6 @@ public:
 		{
 			auto r = TryTo<double>(Base::element);
 			auto l = TryTo<double>(e);
-			if(l.Valid && r.Valid )
-				std::cout<<"VALID:"<<l.Value<<" "<<r.Value<<(l.Value > r.Value)<<std::endl;
 			return l.Valid && r.Valid ? l.Value > r.Value : false;
 		}
 		else
