@@ -6,6 +6,7 @@
 #include "Matrix.hpp"
 #include "MatrixDescriptor.hpp"
 #include "MatrixProjectorTest/Test.cpp"
+#include "MatrixAccessTest/Test.cpp"
 #include "MatrixInitializerTest/Test.cpp"
 #include "MatrixCalculatorTest/Test.cpp"
 #include "MatrixElementTest/Test.cpp"
@@ -180,6 +181,7 @@ int main()
 	MatrixProjectorTest projector;
     MatrixInitializerTest init;     
     MatrixColAccessTest access;     
+    MatrixAccessTest access2;     
     MatrixQueryTest q;     
     //MatrixAnalyzerTest a;     
     M3Test m3t;     
@@ -191,6 +193,7 @@ int main()
 	q.Run();
 	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	m3t.Run();
+    access2.Run();
 
 	std::cout<<"M1 \n"<<m1<<std::endl;
 	std::cout<<"M2 \n"<<m2<<std::endl;

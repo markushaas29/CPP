@@ -196,6 +196,8 @@ class MatrixAccessTest
 			};	
 
 			auto m2q = m2e.To<Quantity<Sum>>();
+			assert(m2q[0][0]==Quantity<Sum>(2.5));
+			assert(m2q[0][1]==Quantity<Sum>(3.5));
 			
 			M2E m2ed {                
 				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
@@ -204,7 +206,9 @@ class MatrixAccessTest
 
 			//auto m2p = m2e + m2e;
 
-			std::cout<<"END"<<m2ed.To<Quantity<Sum>>()<<std::endl;
+			auto v = m2e[0][0].As<Quantity<Sum>>();
+			assert(v==Quantity<Sum>(2.5));
+			std::cout<<"END"<<v<<std::endl;
 		   
 			return 0;
 		}
