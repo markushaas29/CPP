@@ -1,5 +1,6 @@
 #include <memory>  
 #include "FunctionalBase.hpp"  
+#include "../Matrix/PointerConcept.hpp"  
 
 #pragma once
 
