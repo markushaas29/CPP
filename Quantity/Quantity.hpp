@@ -29,7 +29,6 @@ public:
     const std::string UnitSign() const { return U::Sign(); }
 	const std::string SiUnit() const { return UnitType::SiUnit(); }
     inline static const std::string Identifier = U::Name;
-    inline static constexpr String_::CommaToPoint commaToPoint = String_::CommaToPoint();
     
 	Quantity(): Base(data(0)), value(0 * QR::Factor) {	}
 	explicit constexpr Quantity(const T1& v): Base(data(v)), value(v * QR::Factor) {	}
