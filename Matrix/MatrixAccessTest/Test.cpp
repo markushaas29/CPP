@@ -9,45 +9,10 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
-#include "../../Common/ShortNames.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
-using namespace ShortNames;
-using namespace DateTimes;
-
-class Base 
-{
-public:
-	friend std::ostream& operator<<(std::ostream& s, const Base& m) { return m.display(s); }
-	virtual std::ostream& display(std::ostream& s) const = 0;
-	virtual bool Get() const = 0;
-	Base(int v): value{v} {}
-	virtual ~Base() {}
-private:
-	int value;
-};
-
-class BSub :public Base
-{
-public:
-	BSub(int v): Base{v} {}
-	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"B"; }
-	friend std::ostream& operator<<(std::ostream& s, const BSub& m) { return s<<"BSub: "; }
-	virtual std::ostream& display(std::ostream& s) const { return s<<"BSub: "; }
-	virtual bool Get() const { return true; };
-};
-
-class CSub :public Base
-{
-public:
-	CSub(int v): Base{v} {}
-	virtual std::ostream& operator<<(std::ostream& s) const { return s<<"C"; }
-	friend std::ostream& operator<<(std::ostream& s, const CSub& m) { return s<<"CSub: "; }
-	virtual std::ostream& display(std::ostream& s) const { return s<<"CSub: "; }
-	virtual bool Get() const { return false; };
-};
 
 class MatrixAccessTest
 {
@@ -64,6 +29,8 @@ class MatrixAccessTest
 		    using MD2 = Matrix<2,MDD2>;
 		    using MS2 = Matrix<2,MDS2>;
 		    using MI2 = Matrix<2,MDI2>;
+			using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
+		    using M2E = Matrix<2,ME2D>;
 		
 			std::cout<<"START"<<std::endl;
 		
@@ -222,24 +189,13 @@ class MatrixAccessTest
 			std::cout<<m3S;
 
 			std::cout<<"START Class"<<std::endl;
-		
-			using MDA1 = MatrixDescriptor<1,std::shared_ptr<Base>>;
-		    using MA1 = Matrix<1,MDA1>;
-			std::array<size_t,1> a1{2};
-			MDA1 md1(a1);
-			auto v = std::vector<std::shared_ptr<Base>> {std::make_shared<BSub>(2), std::make_shared<CSub>(3)};
 
-			MA1 ma1(md1, v);
-			std::cout<<"M Base"<<ma1[0]<<std::endl;
-			std::cout<<"M Base"<<ma1[0].Value()->Get()<<std::endl;
-			std::cout<<"M Base"<<ma1[1]<<std::endl;
-			std::cout<<"M Base"<<ma1[1].Value()->Get()<<std::endl;
+			M2E m2e {                
+				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
+				{std::make_shared<Quantity<Sum>>(4.5), std::make_shared<Quantity<Sum>>(3.5)},
+			};	
 
-			auto b = ma1[0];
-			std::cout<<"BSub "<<b.As<BSub>()<<std::endl;
-			std::cout<<"CSub "<<ma1[1].As<CSub>()<<std::endl;
-
-			std::cout<<"END"<<m35.M({1,2},{2,2})<<std::endl;
+			std::cout<<"END"<<m2e<<std::endl;
 		   
 			return 0;
 		}
