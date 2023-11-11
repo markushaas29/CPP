@@ -81,7 +81,17 @@ public:
 	template<typename TT, typename = typename std::enable_if<std::is_same<TT, T>::value>::type>
 	GreaterCat(TT e): Base(e) {}
 	GreaterCat(const std::string& s): Base(s) {}
-	virtual bool operator()(const Base::ElementType& e) const { return e>Base::element; };
+	virtual bool operator()(const Base::ElementType& e) const 
+	{
+		if constexpr (std::is_same_v<typename Base::ElementType, std::string>)
+		{
+			auto r = To<double>(Base::element);
+			auto l = To<double>(e);
+			return l>r;
+		}
+		else
+			return e>Base::element; 
+	};
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 };
