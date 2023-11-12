@@ -13,7 +13,8 @@ int main()
 	std::cout<<"START"<<std::endl;
 
 	ElementVisitor<Date> vd;
-	Date d1(29,9,1986);
+	std::shared_ptr<IElement> dp = std::make_shared<Date>(29,9,1986);
+	dp->Accept(vd);
 
 	std::cout<<"END"<<std::endl;
    

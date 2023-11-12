@@ -11,6 +11,7 @@
 #include "../String/String_.hpp"
 #include "../To/To.hpp"
 #include "../Validator/Validator.hpp"
+#include "../Visitor/Visitor.hpp"
 
 #pragma once
 
@@ -32,7 +33,6 @@ public:
 	using Type = Date;
 	inline static constexpr const char* Identifier = "Date";
 	inline static constexpr const char* Default = "1.1.1900";
-					
 	Date(Day d, Month m,Year y): 
 		Base(d.ToString() + "." + m.ToString() + "." + y.ToString()), day{d}, month{m}, year{y},
 		valid{d.Valid() && m.Valid() && y.Valid()},

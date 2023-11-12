@@ -3,6 +3,7 @@
 #include "../Common/ArrayHelper.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../To/To.hpp"
+#include "../Visitor/Visitor.hpp"
 #include <string.h>
 #include <map>
 #include <regex>
@@ -12,9 +13,10 @@
 #include <ctime>
 
 #pragma once
-class IElement
+class IElement: BaseVisitable<void>
 {
 public:
+	virtual void Accept(BaseVisitor& visitor) { return AcceptImpl(*this, visitor); }
 	virtual const std::string_view Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>

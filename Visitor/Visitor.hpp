@@ -39,7 +39,7 @@ public:
 	using ReturnType = R;
 	virtual ~BaseVisitable(){}
 	virtual ReturnType Accept(BaseVisitor&) = 0;
-protected:
+//protected:
 	template<class T>
 	static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 	{
