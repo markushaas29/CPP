@@ -57,7 +57,7 @@ protected:
 	template<class T>
 	static ReturnType AcceptConstImpl(const T& visited, BaseVisitor& visitor) 
 	{
-		//~ std::cout<<"Accept"<<std::endl;
+		std::cout<<"Accept"<<std::endl;
 		
 		//~ if(ConstVisitor<FS::DirectoryInfo,R>* p = dynamic_cast<ConstVisitor<FS::DirectoryInfo,R>*>(&visitor))
 			//~ std::cout<<"Accept Directory"<<std::endl;

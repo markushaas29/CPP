@@ -21,8 +21,8 @@ int main()
 	sp->Accept(vd);
 	ie->Accept(vd);
 
-	const auto cd = Date(1,1,200);
-	//cd.Accept(vd);
+	const auto cd = Date(1,1,2020);
+	cd.Accept(vd);
 
 	std::cout<<"END"<<std::endl;
    
