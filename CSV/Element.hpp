@@ -17,6 +17,7 @@ class IElement: public BaseVisitable<void>
 {
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
+	//virtual void Accept(BaseVisitor& visitor) const = 0;
 	virtual const std::string_view Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>
@@ -49,7 +50,8 @@ public:
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
-	virtual void Accept(BaseVisitor& visitor) {		return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); 	}
+	virtual void Accept(BaseVisitor& visitor) {	return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); }
+	//virtual void Accept(BaseVisitor& visitor) const {	return AcceptImpl<D>(*dynamic_cast<const D*>(this), visitor); }
 	bool operator==(const Element& e) const{ return Data() == e.Data(); };
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 private:

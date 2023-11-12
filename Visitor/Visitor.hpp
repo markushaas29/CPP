@@ -48,14 +48,6 @@ protected:
 	template<class T>
 	static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 	{
-		if(Visitor<T,void>* p = dynamic_cast<Visitor<T,void>*>(&visitor))     
-        {                                                
-               std::cout<<"CAST T"<<std::endl;        
-        }
-		if(Visitor<Date,ReturnType>* p = dynamic_cast<Visitor<Date,ReturnType>*>(&visitor))     
-        {                                                
-               std::cout<<"CAST DATE"<<std::endl;        
-        }
 		if(Visitor<T,void>* p = dynamic_cast<Visitor<T,void>*>(&visitor))
 			return p->Visit(visited);
 		
