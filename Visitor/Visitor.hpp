@@ -1,5 +1,10 @@
+ #include "../Unit/Unit.hpp"
+ #include "../Unit/Unit.hpp"
+ #include "../Quantity/QuantityRatio.hpp"
+
 #pragma once 
 class Date;
+class IElement;
 template<typename,typename, typename> class Quantity;
 
 class BaseVisitor
@@ -16,11 +21,11 @@ public:
 	virtual ReturnType Visit(T&) = 0;
 };
 
-template<class T, typename R = void>
-class ElementVisitor: public BaseVisitor, public Visitor<Date>
+class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
 {
+	using ReturnType = void;
 public:
-	virtual ReturnType Visit(int& q) { std::cout<<"I"<<std::endl; };
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { std::cout<<"I"<<std::endl; };
 	virtual ReturnType Visit(Date& q) { std::cout<<"Q"<<std::endl; };
 };
 
@@ -43,6 +48,7 @@ public:
 	template<class T>
 	static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 	{
+		std::cout<<"ACCEPT"<<std::endl;
 		if(Visitor<T,R>* p = dynamic_cast<Visitor<T,R>*>(&visitor))
 			return p->Visit(visited);
 		
