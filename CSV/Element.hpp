@@ -49,18 +49,7 @@ public:
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
-	virtual void Accept(BaseVisitor& visitor)
-	{
-		if(auto p = dynamic_cast<D*>(this))     
-		{
-               std::cout<<*p<<std::endl;
-		}
-		if(Visitor<Date,void>* p = dynamic_cast<Visitor<Date,void>*>(&visitor))     
-		{
-               std::cout<<"CAST ACCE"<<std::endl;
-		}
-		return AcceptImpl(*this, visitor); 
-	}
+	virtual void Accept(BaseVisitor& visitor) {		return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); 	}
 	bool operator==(const Element& e) const{ return Data() == e.Data(); };
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 private:

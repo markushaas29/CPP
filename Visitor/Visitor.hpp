@@ -44,7 +44,7 @@ public:
 	using ReturnType = R;
 	virtual ~BaseVisitable(){}
 	virtual ReturnType Accept(BaseVisitor&) = 0;
-//protected:
+protected:
 	template<class T>
 	static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 	{
@@ -52,14 +52,13 @@ public:
         {                                                
                std::cout<<"CAST T"<<std::endl;        
         }
-		if(Visitor<Date,void>* p = dynamic_cast<Visitor<Date,void>*>(&visitor))     
+		if(Visitor<Date,ReturnType>* p = dynamic_cast<Visitor<Date,ReturnType>*>(&visitor))     
         {                                                
                std::cout<<"CAST DATE"<<std::endl;        
         }
 		if(Visitor<T,void>* p = dynamic_cast<Visitor<T,void>*>(&visitor))
 			return p->Visit(visited);
 		
-		std::cout<<"ACCEPT"<<std::endl;
 		return ReturnType();
 	}		
 	
