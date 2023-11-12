@@ -13,10 +13,10 @@
 #include <ctime>
 
 #pragma once
-class IElement: BaseVisitable<void>
+class IElement: public BaseVisitable<void>
 {
 public:
-	virtual void Accept(BaseVisitor& visitor) { return AcceptImpl(*this, visitor); }
+	virtual void Accept(BaseVisitor& visitor) = 0;
 	virtual const std::string_view Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>
@@ -49,6 +49,18 @@ public:
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
+	virtual void Accept(BaseVisitor& visitor)
+	{
+		if(auto p = dynamic_cast<D*>(this))     
+		{
+               std::cout<<*p<<std::endl;
+		}
+		if(Visitor<Date,void>* p = dynamic_cast<Visitor<Date,void>*>(&visitor))     
+		{
+               std::cout<<"CAST ACCE"<<std::endl;
+		}
+		return AcceptImpl(*this, visitor); 
+	}
 	bool operator==(const Element& e) const{ return Data() == e.Data(); };
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 private:

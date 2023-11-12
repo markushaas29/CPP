@@ -48,10 +48,18 @@ public:
 	template<class T>
 	static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 	{
-		std::cout<<"ACCEPT"<<std::endl;
-		if(Visitor<T,R>* p = dynamic_cast<Visitor<T,R>*>(&visitor))
+		if(Visitor<T,void>* p = dynamic_cast<Visitor<T,void>*>(&visitor))     
+        {                                                
+               std::cout<<"CAST T"<<std::endl;        
+        }
+		if(Visitor<Date,void>* p = dynamic_cast<Visitor<Date,void>*>(&visitor))     
+        {                                                
+               std::cout<<"CAST DATE"<<std::endl;        
+        }
+		if(Visitor<T,void>* p = dynamic_cast<Visitor<T,void>*>(&visitor))
 			return p->Visit(visited);
 		
+		std::cout<<"ACCEPT"<<std::endl;
 		return ReturnType();
 	}		
 	

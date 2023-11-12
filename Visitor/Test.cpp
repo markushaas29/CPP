@@ -15,8 +15,11 @@ int main()
 	ElementVisitor vd;
 	std::shared_ptr<IElement> dp = std::make_shared<Date>(29,9,1986);
 	std::shared_ptr<IElement> sp = std::make_shared<Quantity<Sum>>(29);
+	auto qs = Quantity<Sum>(29);
+	IElement* ie = &qs;
 	dp->Accept(vd);
 	sp->Accept(vd);
+	ie->Accept(vd);
 
 	std::cout<<"END"<<std::endl;
    
