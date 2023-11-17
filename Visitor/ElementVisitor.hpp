@@ -13,6 +13,6 @@ class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,doubl
 {
 	using ReturnType = void;
 public:
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { std::cout<<"I"<<std::endl; };
-	virtual ReturnType Visit(Date& q) { std::cout<<"Q"<<std::endl; };
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) {  };
+	virtual ReturnType Visit(Date& q) {  };
 };
