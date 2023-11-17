@@ -53,9 +53,10 @@ public:
 	virtual void Accept(BaseVisitor& visitor) {	return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); }
 	virtual void Accept(BaseVisitor& visitor) const 
 	{
-		auto c = const_cast<Element<D>&>(*this);
-		std::cout<<"C:"<<c<<std::endl;
-		return AcceptImpl<D>(*dynamic_cast<D*>(&c), visitor); }
+		auto c2 = dynamic_cast<const D*>(this);
+		auto c = const_cast<D*>(c2);
+		return AcceptImpl<D>(*c, visitor); 
+	}
 	bool operator==(const Element& e) const{ return Data() == e.Data(); };
 	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 private:
