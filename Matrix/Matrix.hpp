@@ -58,7 +58,7 @@ public:
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 
-	decltype(auto) Parse() const { return MatrixParser<Type>::parse(this); }
+	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>

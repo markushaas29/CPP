@@ -11,6 +11,7 @@
 #include "../MatrixFilter.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
+#include "../../CSV/Matcher.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
 
@@ -33,6 +34,19 @@ class MatrixParserTest
 		    using M2E = Matrix<2,ME2D>;
 		
 			std::cout<<"START"<<std::endl;
+
+			auto v = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+			v->push_back(std::make_unique<DateToken>());
+			v->push_back(std::make_unique<IBANToken>("DE19660623660009232702"));
+			v->push_back(std::make_unique<BICToken>());
+			v->push_back(std::make_unique<WordToken>());
+			v->push_back(std::make_unique<SumToken>());
+			v->push_back(std::make_unique<EntryToken>());
+			v->push_back(std::make_unique<ValueToken>());
+			v->push_back(std::make_unique<QuantityToken>());
+			v->push_back(std::make_unique<KeyValueToken>());
+
+			Matcher matcher(std::move(v));
 		
 			MS2 ms22{
 				{std::string("1"),std::string("2")} ,
@@ -44,7 +58,7 @@ class MatrixParserTest
 				{std::make_shared<Quantity<Sum>>(4.5), std::make_shared<Quantity<Sum>>(3.5)},
 			};
 
-			auto mq = ms22.Parse();
+			auto mq = ms22.Parse(matcher);
 			
 			std::cout<<"Quanti"<<mq<<std::endl;
 

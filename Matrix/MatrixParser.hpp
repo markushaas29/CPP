@@ -9,6 +9,7 @@
 
 #pragma once
 template<std::size_t, typename> class Matrix;
+class Matcher;
 
 template<typename M>
 class MatrixParser
@@ -22,7 +23,7 @@ public:
 	MatrixParser() {}
 private:
 	friend M;
-    static decltype(auto) parse(const M* m) 
+    static decltype(auto) parse(const M* m, const Matcher& matcher) 
     { 
 		auto el = std::vector<PointerType>();
         std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<Quantity<Sum>>(*e)); });

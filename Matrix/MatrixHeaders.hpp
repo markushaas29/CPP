@@ -18,3 +18,5 @@
 #include "IMatrixQuery.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
+
+class Matcher;
