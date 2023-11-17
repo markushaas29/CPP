@@ -20,22 +20,6 @@ public:
 	using ReturnType = R;
 	virtual ReturnType Visit(T&) = 0;
 };
-
-class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
-{
-	using ReturnType = void;
-public:
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { std::cout<<"I"<<std::endl; };
-	virtual ReturnType Visit(Date& q) { std::cout<<"Q"<<std::endl; };
-};
-
-template<class T, typename R = void>
-class ConstVisitor
-{
-public:
-	using ReturnType = R;
-	virtual ReturnType Visit(const T&) = 0;
-};
 	
 template<typename R = void>
 class BaseVisitable

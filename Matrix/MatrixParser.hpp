@@ -4,12 +4,12 @@
 #include "PointerConcept.hpp"
 #include "../Is/Is.hpp"
 #include "../To/To.hpp"
+#include "../CSV/Matcher.hpp"
 #include "../String/Literal.hpp"
 #include "../String/Format.hpp"
 
 #pragma once
 template<std::size_t, typename> class Matrix;
-class Matcher;
 
 template<typename M>
 class MatrixParser
@@ -27,6 +27,7 @@ private:
     { 
 		auto el = std::vector<PointerType>();
         std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<Quantity<Sum>>(*e)); });
+        //std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { std::cout<<(*matcher.match(*e)[0])<<std::endl; });
 
 		auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
 		return Matrix<Order,DescriptorType>(d,ToDataType(el));

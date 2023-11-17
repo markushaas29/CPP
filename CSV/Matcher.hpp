@@ -39,6 +39,18 @@ public:
 		}
 		return result;
 	};	
+	
+	virtual std::vector<std::unique_ptr<IElement>> match(const std::string& s) const  
+	{
+		std::vector<std::unique_ptr<IElement>> result;
+		std::for_each(tokens->cbegin(), tokens->cend(), [&](auto& t)
+				{
+					if (t->Match(s))
+						result.push_back(t->Create(s));
+				});
+		std::cout<<result.size()<<std::endl;
+		return result;
+	};	
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IToken>>> tokens;
 };
