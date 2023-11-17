@@ -14,6 +14,7 @@
 #include "MatrixSliceAccessTest/Test.cpp"
 #include "MatrixQueryTest/Test.cpp"
 #include "MatrixAnalyzerTest/Test.cpp"
+#include "MatrixParserTest/Test.cpp"
 #include "M3Test/Test.cpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -183,6 +184,7 @@ int main()
     MatrixColAccessTest access;     
     MatrixAccessTest access2;     
     MatrixQueryTest q;     
+    MatrixParserTest p;     
     //MatrixAnalyzerTest a;     
     M3Test m3t;     
     init.Run();     
@@ -194,6 +196,7 @@ int main()
 	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	m3t.Run();
     access2.Run();
+	p.Run();
 
 	std::cout<<"M1 \n"<<m1<<std::endl;
 	std::cout<<"M2 \n"<<m2<<std::endl;
