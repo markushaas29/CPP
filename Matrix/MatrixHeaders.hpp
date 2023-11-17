@@ -14,6 +14,7 @@
 #include "MatrixIO.hpp"
 #include "MatrixFwd.hpp"
 #include "MatrixFunctions.hpp"
+#include "MatrixParser.hpp"
 #include "IMatrixQuery.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"

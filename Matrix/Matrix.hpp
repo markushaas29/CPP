@@ -58,16 +58,7 @@ public:
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 
-	decltype(auto) Parse() 
-	{ 
-		using MED = MatrixDescriptor<Order,std::shared_ptr<IElement>>;
-
-		auto el = std::vector<std::shared_ptr<IElement>>();
-        std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<Quantity<Sum>>(*e)); });
-
-		auto d = MED(descriptor.Extents(), descriptor.Strides());
-		return Matrix<Order,MED>(d,ToDataType(el)); 
-	}
+	decltype(auto) Parse() const { return MatrixParser<Type>::parse(this); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>
@@ -106,6 +97,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) { return (*m.io)(s,&m); }
 	friend class MatrixAccess<Type>;
 	friend class MatrixIO<Type>;
+	friend class MatrixParser<Type>;
 	friend class MatrixFilter<Type>;
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
