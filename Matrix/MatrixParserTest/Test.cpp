@@ -42,7 +42,11 @@ class MatrixParserTest
 			M2E m2e {                
 				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
 				{std::make_shared<Quantity<Sum>>(4.5), std::make_shared<Quantity<Sum>>(3.5)},
-			};	
+			};
+
+			auto mq = ms22.Parse();
+			
+			std::cout<<"Quanti"<<mq<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   

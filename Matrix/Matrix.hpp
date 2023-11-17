@@ -58,6 +58,16 @@ public:
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 
+	decltype(auto) Parse() 
+	{ 
+		using MED = MatrixDescriptor<Order,std::shared_ptr<IElement>>;
+
+		auto el = std::vector<std::shared_ptr<IElement>>();
+        std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<Quantity<Sum>>(*e)); });
+
+		auto d = MED(descriptor.Extents(), descriptor.Strides());
+		return Matrix<Order,MED>(d,ToDataType(el)); 
+	}
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>
