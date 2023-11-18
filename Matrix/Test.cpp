@@ -168,13 +168,9 @@ int main()
 	assert(d.Rows()==2);
 	assert(d.Cols()==2);
 	assert(d.Size()==4);
-	auto db = m3[0].Descriptor();
-	assert(db.Stride(1)==1);
-	assert(db.Extent(0)==2);
-	assert(db.Extent(1)==2);
-	assert(db.Extent(2)==2);
-	assert(db.Stride(0)==2);
-	auto i = db.Strides();
+	assert(m3[0].Extent(0)==2);
+	assert(m3[0].Extent(1)==2);
+	assert(m3[0].Extent(2)==2);
 	assert(m3[0][1][1]()==4);
 	assert(m3[1][0][1]()==7);
 	assert(m3[1][1][1]()==9);

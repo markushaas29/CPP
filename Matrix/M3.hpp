@@ -37,7 +37,6 @@ public:
 
 	decltype(auto) Rows() const { return elements->size(); }
 	decltype(auto) Cols() const { return cols; }
-	decltype(auto) Descriptor(size_t i)const { return (*this)[i].Descriptor(); }
 
 	MatrixType operator[] (size_t i) const 
 	{

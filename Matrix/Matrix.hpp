@@ -40,7 +40,6 @@ public:
 	decltype(auto) Cols() const { return descriptor.Cols(); }
 	size_t Extent(size_t n) const { return descriptor.Extents()[n]; }
 	size_t Size() const { return descriptor.Size(); }
-	const DescriptorType& Descriptor() const { return descriptor; }
 
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
