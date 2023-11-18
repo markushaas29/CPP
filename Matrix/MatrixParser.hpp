@@ -17,7 +17,7 @@ class MatrixParser
 public:
 	static constexpr size_t Order = M::Order;
 	inline static constexpr const char TypeIdentifier[] = "MatrixParser";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+    inline static constexpr Literal TypeId{TypeIdentifier};
 	using PointerType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<Order,PointerType>;
 	MatrixParser() {}
@@ -28,7 +28,10 @@ private:
 		auto el = std::vector<PointerType>();
         std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(matcher(*e)); });
 
+		IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
+
 		auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
 		return Matrix<Order,DescriptorType>(d,ToDataType(el));
     }
+	template<typename U> using IsT =  Is<U,TypeId>;
 };

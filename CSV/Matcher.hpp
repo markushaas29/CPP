@@ -44,7 +44,7 @@ public:
 	{
 		for(auto i = 0; i < tokens->size(); ++i)
 			if (tokens->at(i)->Match(s))
-				tokens->at(i)->Create(s);
+				return tokens->at(i)->Create(s);
 		return nullptr;
 	};	
 private:

@@ -11,10 +11,11 @@ public:
 	{
 		if constexpr (M::Order==1)
 		{
-			ElementVisitor v;
+			TransferVisitor v;
 			for(auto i=0; i<m->Rows(); ++i)
 				(*m->elements->at(i))->Accept(v);
-				//m->elements->at(i)->Accept(v);
+
+			std::cout<<"SUM"<<v.SumQ()<<std::endl;
 		}
 		else
 		{

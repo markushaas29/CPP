@@ -16,3 +16,14 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) {  };
 	virtual ReturnType Visit(Date& q) {  };
 };
+
+class TransferVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
+{
+	using ReturnType = void;
+public:
+	auto SumQ() { return sum;}
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };
+	virtual ReturnType Visit(Date& q) {  };
+private:
+	Quantity<Sum,Pure,double> sum;
+};
