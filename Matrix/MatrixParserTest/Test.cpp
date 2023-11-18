@@ -58,9 +58,11 @@ class MatrixParserTest
 				{std::make_shared<Quantity<Sum>>(4.5), std::make_shared<Quantity<Sum>>(3.5)},
 			};
 
-			auto mq = ms22.Parse(matcher);
-			
+			auto mq = ms22.Parse(matcher);			
 			std::cout<<"Quanti"<<mq<<std::endl;
+
+			MatrixVisitor mv;
+			mq.Accept(mv);			
 
 			std::cout<<"END"<<std::endl;
 		   

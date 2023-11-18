@@ -57,6 +57,7 @@ public:
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 
+	decltype(auto) Accept(const MatrixVisitor& m) const { return m.Visit(this); }
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
@@ -98,6 +99,7 @@ private:
 	friend class MatrixIO<Type>;
 	friend class MatrixParser<Type>;
 	friend class MatrixFilter<Type>;
+	friend class MatrixVisitor;
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
 	template<typename TT, typename ETQ> friend class MatrixQueryBase;

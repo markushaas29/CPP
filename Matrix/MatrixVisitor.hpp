@@ -1,22 +1,25 @@
- #include "../Unit/Unit.hpp"
- #include "../Unit/Unit.hpp"
- #include "../Quantity/QuantityRatio.hpp"
+ #include "../Visitor/Visitor.hpp"
+ #include "../Visitor/ElementVisitor.hpp"
 
 #pragma once 
-class Date;
-class IElement;
-template<typename,typename, typename> class Quantity;
 
-class BaseVisitor
-{
-public:
-	virtual ~BaseVisitor(){}
-};
-
-template<class T, typename R = void>
 class MatrixVisitor
 {
 public:
-	using ReturnType = R;
-	virtual ReturnType Visit(T&) = 0;
+	template<typename M>
+	decltype(auto) Visit(M* m) const
+	{
+		if constexpr (M::Order==1)
+		{
+			ElementVisitor v;
+			for(auto i=0; i<m->Rows(); ++i)
+				(*m->elements->at(i))->Accept(v);
+				//m->elements->at(i)->Accept(v);
+		}
+		else
+		{
+			for(auto i = 0; i != m->Rows(); ++i)
+				(*m)[i].Accept(*this);
+		}
+	};
 };
