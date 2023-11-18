@@ -19,7 +19,7 @@ public:
  	Matcher(std::unique_ptr<std::vector<std::unique_ptr<IToken>>> t): tokens(std::move(t)) { };
 
 	//virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
-	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const  
+	virtual std::vector<std::unique_ptr<IElement>> Split(const std::string& s) const  
 	{
 		std::vector<std::unique_ptr<IElement>> result;
 		std::smatch match;
@@ -40,16 +40,12 @@ public:
 		return result;
 	};	
 	
-	virtual std::vector<std::unique_ptr<IElement>> match(const std::string& s) const  
+	virtual std::unique_ptr<IElement> operator()(const std::string& s) const  
 	{
-		std::vector<std::unique_ptr<IElement>> result;
-		std::for_each(tokens->cbegin(), tokens->cend(), [&](auto& t)
-				{
-					if (t->Match(s))
-						result.push_back(t->Create(s));
-				});
-		std::cout<<result.size()<<std::endl;
-		return result;
+		for(auto i = 0; i < tokens->size(); ++i)
+			if (tokens->at(i)->Match(s))
+				tokens->at(i)->Create(s);
+		return nullptr;
 	};	
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IToken>>> tokens;
