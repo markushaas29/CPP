@@ -27,7 +27,7 @@ private:
     { 
 		auto el = std::vector<PointerType>();
         std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<Quantity<Sum>>(*e)); });
-        //std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { std::cout<<(*matcher.match(*e)[0])<<std::endl; });
+        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { std::cout<<(*matcher.match(*e)[0])<<std::endl; });
 
 		auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
 		return Matrix<Order,DescriptorType>(d,ToDataType(el));
