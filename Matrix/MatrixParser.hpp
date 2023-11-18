@@ -26,8 +26,7 @@ private:
     static decltype(auto) parse(const M* m, const Matcher& matcher) 
     { 
 		auto el = std::vector<PointerType>();
-        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(std::make_shared<Quantity<Sum>>(*e)); });
-        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { std::cout<<(matcher(*e))<<std::endl; });
+        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(matcher(*e)); });
 
 		auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
 		return Matrix<Order,DescriptorType>(d,ToDataType(el));
