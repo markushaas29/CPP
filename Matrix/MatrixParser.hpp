@@ -26,7 +26,11 @@ private:
     static decltype(auto) parse(const M* m, const Matcher& matcher) 
     { 
 		auto el = std::vector<PointerType>();
-        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) { el.push_back(matcher(*e)); });
+        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) 
+				{ 
+					if(matcher.Match(*e))
+						el.push_back(matcher(*e)); 
+				});
 
 		IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
 

@@ -15,7 +15,7 @@ public:
 			for(auto i=0; i<m->Rows(); ++i)
 				(*m->elements->at(i))->Accept(v);
 
-			std::cout<<"SUM"<<v.SumQ()<<std::endl;
+			std::cout<<v<<std::endl;
 		}
 		else
 		{

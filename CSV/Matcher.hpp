@@ -47,6 +47,14 @@ public:
 				return tokens->at(i)->Create(s);
 		return nullptr;
 	};	
+
+	virtual bool Match(const std::string& s) const  
+	{
+		for(auto i = 0; i < tokens->size(); ++i)
+			if (tokens->at(i)->Match(s))
+				return true;
+		return false;
+	};	
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IToken>>> tokens;
 };

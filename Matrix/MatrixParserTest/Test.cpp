@@ -49,8 +49,8 @@ class MatrixParserTest
 			Matcher matcher(std::move(v));
 		
 			MS2 ms22{
-				{std::string("1,00"),std::string("2,00")} ,
-				{std::string("5,00"),std::string("6,00")} 
+				{std::string("1,00"),std::string("2,00"),std::string("2.2.1989"), std::string("DE82660501011021592702")} ,
+				{std::string("5,00"),std::string("6,00"),std::string("2.2.1989"), std::string("DE82660501011021592702")} 
 		    };
 
 			M2E m2e {                
