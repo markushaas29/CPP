@@ -3,9 +3,6 @@
  #include "../Quantity/QuantityRatio.hpp"
 
 #pragma once 
-class Date;
-class IElement;
-template<typename,typename, typename> class Quantity;
 
 class BaseVisitor
 {
