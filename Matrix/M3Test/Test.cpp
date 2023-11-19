@@ -273,7 +273,7 @@ class M3Test
 			assert(mcP.Col(2).To<Quantity<Sum>>()[0]()==Quantity<Sum>(-47.6));
 			assert(mcP.Col(2)[0].As<Quantity<Sum>>()==Quantity<Sum>(-47.6));
 
-			MatrixVisitor mv;
+			MatrixVisitor<TransferVisitor> mv;
 			mcP.Accept(mv);
 
 			std::cout<<"END"<<std::endl;
