@@ -1,6 +1,9 @@
  #include "Visitor.hpp"
+ #include "../CSV/Element.hpp"
+ #include "../CSV/Elements.hpp"
+ #include "../Common/Date.hpp"
  #include "../Unit/Unit.hpp"
- #include "../Unit/Unit.hpp"
+ #include "../Quantity/Quantity.hpp"
  #include "../Quantity/QuantityRatio.hpp"
 
 #pragma once 
