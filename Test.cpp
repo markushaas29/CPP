@@ -5,6 +5,7 @@
 #include "Logger/Logger.hpp"
 #include "Quantity/ToQuantity.hpp"
 #include "Common/DateTimesTest.cpp"
+#include "Quantity/Test.cpp"
 
 
 int main()
@@ -13,6 +14,9 @@ int main()
 
 	DateTest dt;
 	dt.Run();
+	
+	QTest qt;
+	qt.Run();
 
 	std::cout<<"END"<<std::endl;
 	return 0;

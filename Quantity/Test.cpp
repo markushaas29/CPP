@@ -5,8 +5,12 @@
 #include "ToQuantity.hpp"
 #include "../CSV/Element.hpp"
 
-int main()
+class QTest
+{
+	public:
+int Run()
 {       
+
     std::cout<<"START"<<std::endl;
 
 	
@@ -233,3 +237,4 @@ int main()
 
     return 0;
 }
+};
