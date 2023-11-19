@@ -17,6 +17,7 @@
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
+#include "../../CSV/Matcher.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
 #include "../../Common/DateTimes.hpp"
@@ -150,11 +151,24 @@ class M3Test
             assert(mSewage.Rows()==6);   
             assert(Quantity<Sum>(mSewage.ColSum(4))==Quantity<Sum>(-933.29));
 
+			auto v = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+            v->push_back(std::make_unique<DateToken>());
+            v->push_back(std::make_unique<IBANToken>("DE19660623660009232702"));
+            v->push_back(std::make_unique<BICToken>());
+            v->push_back(std::make_unique<WordToken>());
+            v->push_back(std::make_unique<SumToken>());
+            v->push_back(std::make_unique<EntryToken>());
+            v->push_back(std::make_unique<ValueToken>());
+            v->push_back(std::make_unique<QuantityToken>());
+            v->push_back(std::make_unique<KeyValueToken>());
+
+            Matcher matcher(std::move(v));
 
             FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBC = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2022"}}}; 
             auto mBC = MatrixQuery<decltype(m22S),std::string>(pfs, {fUBC});
             auto mCleaning =m22_23.M(mBC).Cols(4,6,7,9,11);
             assert(mCleaning.Rows()==3);
+			auto mcP = mCleaning.Cols(0,2,4).Parse(matcher);
             std::cout<<"MatrixQuery a:\n"<<Quantity<Sum>(mCleaning.ColSum(4))<<Quantity<Sum>(-214.20)<<std::endl;
 //            assert(Quantity<Sum>(mCleaning.ColSum(4))==Quantity<Sum>(-214.20));
             
@@ -233,7 +247,6 @@ class M3Test
 			std::cout<<"ID "<<ys(m22S)<<std::endl;
             assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
             assert(m22S.M(ys).Result()==Quantity<Sum>(-423.01));
-			
 
 			auto id = std::string("8201090081");
 			IDStrategy<decltype(m22S)> ids(pfs,{fU_Erdgas}, y, id,"Gas");
@@ -252,6 +265,9 @@ class M3Test
 			auto mb = ws.With(y);
 			std::cout<<"ID "<<mb(m22S)<<std::endl;
             assert(m22S.M(mb).Result()==Quantity<Sum>(-423.01));
+			
+			std::cout<<"MCP"<<mcP<<std::endl;
+			
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
