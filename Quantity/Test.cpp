@@ -11,7 +11,7 @@ class QTest
 int Run()
 {       
 
-    std::cout<<"START"<<std::endl;
+    std::cout<<"START QTEST"<<std::endl;
 
 	
 	//~ Quantity<Mass> q5 = Quantity<Mass>(3);
