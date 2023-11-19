@@ -34,7 +34,7 @@ public:
 	inline static constexpr uint Length = 22;
 	inline static constexpr const char* Default = "XX00000000000000000000";
 	inline static constexpr const char* Identifier = "IBAN";
-	IBAN(const std::string& c = ""): Base(c)
+	IBAN(const std::string& c = Default): Base(c)
 	{
 		if(!isValid(c))
 			Logger::Log<Error>("IBAN",c," is invalid!");

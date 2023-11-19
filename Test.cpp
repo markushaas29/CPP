@@ -1,17 +1,19 @@
 #include <iostream>
-#include <cassert> 
-#include <vector> 
-#include <tuple> 
-#include <memory> 
-#include "Functional/Test.cpp"
-using namespace ShortNames;
-using namespace DateTimes;
+#include <chrono>
+#include <vector>
+#include <sstream>
+#include "Logger/Logger.hpp"
+#include "Quantity/ToQuantity.hpp"
+#include "Common/DateTimesTest.cpp"
+
 
 int main()
-{
-        FunctionalTest func;
-		func.Run();
+{   
+	std::cout<<"START"<<std::endl;
 
-        return 0;
+	DateTest dt;
+	dt.Run();
+
+	std::cout<<"END"<<std::endl;
+	return 0;
 }
-

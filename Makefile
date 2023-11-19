@@ -8,9 +8,8 @@ SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 
-all:
-	+$(MAKE) -C File
-	+$(MAKE) -C Home
+Release: $(OBJECTS)
+	$(CXX) -o $@ $(OBJECTS) 
 	
 Debug: $(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) 

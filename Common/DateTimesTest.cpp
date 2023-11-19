@@ -7,8 +7,10 @@
 #include "DateTimes.hpp"
 
 using namespace std::chrono;
-
-int main()
+class DateTest
+{
+	public:
+int Run()
 {    
 	const std::chrono::time_point now{std::chrono::system_clock::now()};
 	const std::chrono::year_month_day ymd{std::chrono::floor<std::chrono::days>(now)};
@@ -191,7 +193,8 @@ int main()
 //	Day::Create(is,std::cout);
 //	auto c = Date::Create(is,std::cout);
 //	std::cout<<"\n"<<c<<std::endl;
-	std::cout<<"END"<<std::endl;
+	std::cout<<"END_"<<std::endl;
 
 	return 0;
 }
+};

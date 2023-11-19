@@ -38,7 +38,7 @@ public:
 		valid{d.Valid() && m.Valid() && y.Valid()},
 		ymd{y,m, d}{	}; 
 	Date(const std::string& s, const TupleType& t): Date(std::get<Day>(t).Value(),  std::get<Month>(t).Value(),  std::get<Year>(t).Value()) { };
-	Date(uint d = 0, uint m = 0, uint y = 0): Date(Day(d),Month(m),Year(y)) {};
+	Date(uint d = 1, uint m = 1, uint y = 1900): Date(Day(d),Month(m),Year(y)) {};
 	Date(const Date& d): Base{std::string(d.Data().cbegin(),d.Data().cend())}, ymd{d.ymd}, valid{d.valid}, day{d.day}, month{d.month}, year{d.year}, tp{d.tp}, converter{d.converter}  { };
 	Date(const std::string& s): Date{check(s.c_str()), extract(check(s.c_str())) }{    };
 	

@@ -11,8 +11,8 @@ BINDIR := bin
 Release: $(OBJECTS)
 	$(CXX) -o $@ $(OBJECTS) 
 	
-Debug: $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) 
+Debug: T.cpp
+	g++-11 -c -g -std=c++2a -o *.o T.cpp 
 
 %.o: %.cpp %.h %.hpp
 	$(CXX) $(DEBUGFLAGS) $<
