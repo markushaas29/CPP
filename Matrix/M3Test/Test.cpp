@@ -265,9 +265,13 @@ class M3Test
 			auto mb = ws.With(y);
 			std::cout<<"ID "<<mb(m22S)<<std::endl;
             assert(m22S.M(mb).Result()==Quantity<Sum>(-423.01));
-			
+		
 			std::cout<<"MCP"<<mcP<<std::endl;
+			assert(mcP.Col(0).To<Date>()[0]()==Date(20,12,2022));
+			assert(mcP.Col(0)[0].As<Date>()==Date(20,12,2022));
 			
+			assert(mcP.Col(2).To<Quantity<Sum>>()[0]()==Quantity<Sum>(-47.6));
+			assert(mcP.Col(2)[0].As<Quantity<Sum>>()==Quantity<Sum>(-47.6));
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
