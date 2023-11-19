@@ -1,22 +1,32 @@
 CXX      = g++-11
 CXXC      = clang
 OBJECTS = *.o
-CXXFLAGS  = -c -std=c++23
-DEBUGFLAGS  = -c -g -std=c++17
+CXXFLAGS  = -c -std=c++2a
+DEBUGFLAGS  = -c -g -std=c++2a
 
 SRCDIR := src
 OBJDIR := obj
 BINDIR := bin
 
-Release: $(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) 
-	
-Debug: T.cpp
-	g++-11 -c -g -std=c++2a -o *.o T.cpp 
+Release:	$(OBJECTS)
+	$(CXX) -o $@ $(OBJECTS)
 
-%.o: %.cpp %.h %.hpp
-	$(CXX) $(DEBUGFLAGS) $<
+Debug:	$(OBJECTS)
+	$(CXX) -o $@ $(OBJECTS)
+
+%.o: 	%.hpp %.cpp
+	$(CXX) $(DEBUGFLAGS) $*.cpp
+
+T: 	T.cpp
+	g++-11 -std=c++2a -o T T.cpp
 
 clean:
-	rm *.o test
+	rm -r  ../../../Downloads/* && rm *.o
+
+All:
+	$(MAKE) clean
+	$(MAKE) Debug
+
+
+
 
