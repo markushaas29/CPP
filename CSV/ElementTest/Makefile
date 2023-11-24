@@ -9,23 +9,20 @@ OBJDIR := obj
 BINDIR := bin
 
 Release:	$(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) 
-	
+	$(CXX) -o $@ $(OBJECTS)
+
 Debug:	$(OBJECTS)
-	$(CXX) -o $@ $(OBJECTS) 
+	$(CXX) -o $@ $(OBJECTS)
 
 %.o: 	%.hpp %.cpp
 	$(CXX) $(DEBUGFLAGS) $*.cpp
-	
-Regex: 	RegexTest.cpp
-	g++ -std=c++2a -o Regex RegexTest.cpp
 
-Backup:	Backup.cpp
-	g++ -std=c++2a -o Backup Backup.cpp
+T: 	T.cpp
+	g++-11 -std=c++2a -o T T.cpp
 
 clean:
 	rm -r  ../../../Downloads/* && rm *.o
-	
+
 All:
 	$(MAKE) clean
 	$(MAKE) Debug

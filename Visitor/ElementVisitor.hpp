@@ -25,7 +25,7 @@ class TransferVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,doub
 {
 	using ReturnType = void;
 public:
-	auto SumQ() { return sum;}
+	auto SumQ() const { return sum;}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };

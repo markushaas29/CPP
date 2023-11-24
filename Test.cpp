@@ -7,6 +7,7 @@
 #include "Common/DateTimesTest.cpp"
 #include "Quantity/Test.cpp"
 #include "Matrix/Test.cpp"
+#include "CSV/ElementTest/ElementTest.cpp"
 
 
 int main()
@@ -22,6 +23,9 @@ int main()
 	MatrixTest mt;
 	mt.Run();
 
+	ElementTest et;
+	et.Run();
+	
 	std::cout<<"END"<<std::endl;
 	return 0;
 }

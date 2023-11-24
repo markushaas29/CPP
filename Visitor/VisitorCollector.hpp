@@ -15,6 +15,7 @@ public:
 	decltype(auto) Add(const VisitorType& v) const { visitors->push_back(v); }
 protected:
 	BaseVisitorCollector(): visitors(std::make_unique<std::vector<VisitorType>>()) { }
+	BaseVisitorCollector(const BaseVisitorCollector& b): visitors(std::make_unique<std::vector<VisitorType>>(b.visitors->cbegin(), b.visitors->cend())) { }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const BaseVisitorCollector& t)  
 	{
@@ -31,5 +32,21 @@ public:
 	using VisitorType = T;
 	using Base = BaseVisitorCollector<T,VisitorCollector>;
 	VisitorCollector() { }
+private:
+};
+
+template<>
+class VisitorCollector<TransferVisitor>: public BaseVisitorCollector<TransferVisitor,VisitorCollector>
+{
+public:
+	using VisitorType = TransferVisitor;
+	using Base = BaseVisitorCollector<TransferVisitor,VisitorCollector>;
+	VisitorCollector() { }
+	decltype(auto) Total()  const
+	{
+		Quantity<Sum> s;
+		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.SumQ(); });
+		return s; 
+	}
 private:
 };

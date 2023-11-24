@@ -27,6 +27,7 @@ public:
 				(*m)[i].Accept(*this);
 		}
 	};
+	decltype(auto) Collector() const { return collector; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixVisitor& m)  { return s<<m.collector; }
 	CollectorType collector;

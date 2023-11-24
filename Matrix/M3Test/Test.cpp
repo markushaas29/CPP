@@ -277,6 +277,7 @@ class M3Test
 			mcP.Accept(mv);
 
 			std::cout<<"Collector:\n"<<mv<<std::endl;
+			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;

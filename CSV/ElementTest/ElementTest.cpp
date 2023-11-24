@@ -7,7 +7,9 @@
 #include "../../Common/DateTimes.hpp"
 #include "../../ObjectFactory/Factories.hpp"
 
-int main()
+class ElementTest{
+public:
+int Run()
 {       
     std::cout<<"START"<<std::endl;
 	
@@ -45,3 +47,4 @@ int main()
 
     return 0;
 }
+};
