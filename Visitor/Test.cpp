@@ -9,7 +9,9 @@
 #include "../Common/Date.hpp"
 #include "../Quantity/Quantity.hpp"
 
-int main()
+class VisitorTest{
+	public:
+int Run()
 {
 	std::cout<<"START"<<std::endl;
 
@@ -29,3 +31,4 @@ int main()
    
 	return 0;
 }
+};

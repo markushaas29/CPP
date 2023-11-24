@@ -7,6 +7,7 @@
 #include "Common/DateTimesTest.cpp"
 #include "Quantity/Test.cpp"
 #include "Matrix/Test.cpp"
+#include "Visitor/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
 
@@ -16,6 +17,9 @@ int main()
 
 	DateTest dt;
 	dt.Run();
+	
+	VisitorTest vt;
+	vt.Run();
 	
 	QTest qt;
 	qt.Run();
