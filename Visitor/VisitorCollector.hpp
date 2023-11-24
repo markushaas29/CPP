@@ -5,18 +5,31 @@
 
 #pragma once 
 
-template<typename T>
-class VisitorCollector
+template<typename T, template<typename> class D>
+class BaseVisitorCollector
 {
+	friend class D<T>;
 public:
 	using VisitorType = T;
-	VisitorCollector(): visitors(std::make_unique<std::vector<VisitorType>>()) { }
+	using Derived = D<T>;
 	decltype(auto) Add(const VisitorType& v) const { visitors->push_back(v); }
+protected:
+	BaseVisitorCollector(): visitors(std::make_unique<std::vector<VisitorType>>()) { }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const VisitorCollector& t)  
+	friend std::ostream& operator<<(std::ostream& s, const BaseVisitorCollector& t)  
 	{
 		std::for_each(t.visitors->cbegin(), t.visitors->cend(), [&](auto& v) { s<<v<<"\n"; });
 		return s; 
 	}
 	std::unique_ptr<std::vector<VisitorType>> visitors;
+};
+
+template<typename T>
+class VisitorCollector: public BaseVisitorCollector<T,VisitorCollector>
+{
+public:
+	using VisitorType = T;
+	using Base = BaseVisitorCollector<T,VisitorCollector>;
+	VisitorCollector() { }
+private:
 };
