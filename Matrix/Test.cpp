@@ -19,7 +19,10 @@
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
 
-int main()
+class MatrixTest
+{
+	public:
+int Run()
 {
 	std::cout<<"START"<<std::endl;
 
@@ -201,3 +204,4 @@ int main()
    
 	return 0;
 }
+};

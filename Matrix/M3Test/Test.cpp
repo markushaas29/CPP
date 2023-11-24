@@ -276,7 +276,7 @@ class M3Test
 			MatrixVisitor<TransferVisitor> mv;
 			mcP.Accept(mv);
 
-			std::cout<<"Collector"<<mv<<std::endl;
+			std::cout<<"Collector:\n"<<mv<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;

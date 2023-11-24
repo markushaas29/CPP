@@ -6,6 +6,7 @@
 #include "Quantity/ToQuantity.hpp"
 #include "Common/DateTimesTest.cpp"
 #include "Quantity/Test.cpp"
+#include "Matrix/Test.cpp"
 
 
 int main()
@@ -17,6 +18,9 @@ int main()
 	
 	QTest qt;
 	qt.Run();
+	
+	MatrixTest mt;
+	mt.Run();
 
 	std::cout<<"END"<<std::endl;
 	return 0;
