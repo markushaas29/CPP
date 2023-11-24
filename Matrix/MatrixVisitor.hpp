@@ -1,5 +1,6 @@
  #include "../Visitor/Visitor.hpp"
  #include "../Visitor/ElementVisitor.hpp"
+ #include "../Visitor/VisitorCollector.hpp"
 
 #pragma once 
 
@@ -8,6 +9,7 @@ class MatrixVisitor
 {
 public:
 	using VisitorType = T;
+	using CollectorType = VisitorCollector<VisitorType>;
 	template<typename M>
 	decltype(auto) Visit(M* m) const
 	{
@@ -17,7 +19,7 @@ public:
 			for(auto i=0; i<m->Rows(); ++i)
 				(*m->elements->at(i))->Accept(v);
 
-			std::cout<<v<<std::endl;
+			collector.Add(v);
 		}
 		else
 		{
@@ -25,4 +27,7 @@ public:
 				(*m)[i].Accept(*this);
 		}
 	};
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixVisitor& m)  { return s<<m.collector; }
+	CollectorType collector;
 };
