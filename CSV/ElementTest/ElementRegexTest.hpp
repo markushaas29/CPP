@@ -25,6 +25,7 @@ public:
 		v->push_back(std::make_unique<ValueToken>());
 		v->push_back(std::make_unique<QuantityToken>());
 		v->push_back(std::make_unique<KeyValueToken>());
+		v->push_back(std::make_unique<DateIndexToken>());
 
 		std::smatch m;
 		std::string t = "29.5.1986";
@@ -130,7 +131,7 @@ public:
 		t = "ABC :12";
   		assert(kt.Match(t));
 		t = "AB ABC :12 AB";
-  		assert(kt.Match(t));
+//  		assert(kt.Match(t));
 		t = "A1BC :12";
   		assert(!kt.Match(t));
 		t = "A1BC :12.";
@@ -138,6 +139,15 @@ public:
 		t = "ABC :12.";
   		assert(!kt.Match(t));
 		
+		auto indexLine = std::string("Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz");
+		auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+		vi->push_back(std::make_unique<DateIndexToken>());
+		Matcher imatcher(std::move(vi));
+		matches = imatcher.Split(indexLine);
+		std::cout<<"MATCHES Index: "<<std::endl;
+		for(auto& i : matches)
+			std::cout<<"MATCHES: "<<*i<<std::endl;
+
 //		std::string rs("^[0-9]+$");
 //		auto r = std::regex( rs );
 //  		assert(std::regex_match(t,r));

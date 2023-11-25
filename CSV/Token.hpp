@@ -121,6 +121,12 @@ public:
 	inline static constexpr const char* Pattern = "^[0-9]+$";
 };
 
+class DateIndexToken: public Token<DateIndexToken, Date>
+{
+public:
+	inline static constexpr const char* Pattern = "Buchungstag";
+};
+
 class QuantityToken: public Token<QuantityToken, Entry>
 {
 public:
