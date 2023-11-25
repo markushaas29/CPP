@@ -7,7 +7,6 @@
 #include <ctime>
 #include "Token.hpp"
 #include "../Quantity/Quantity.hpp"
-#include "../Common/UniqueCast.hpp"
 #include "../String/String_.hpp"
 #include "../To/To.hpp"
 
@@ -41,9 +40,9 @@ public:
 		return result;
 	};	
 	
-	virtual std::vector<std::unique_ptr<IElement>> Indices(const std::string& s) const  
+	virtual std::vector<std::unique_ptr<Index>> Indices(const std::string& s) const  
 	{
-		std::vector<std::unique_ptr<IElement>> result;
+		std::vector<std::unique_ptr<Index>> result;
 		std::smatch match;
 
 		std::regex rgx(";");
@@ -57,10 +56,10 @@ public:
 					{
 						if (t->Match(si))
 						{
+							std::cout<<"ID"<<i<<std::endl;
 							auto index = std::make_unique<Index>(si);
-							auto ip = Cast::dynamic_unique_ptr<Index>(std::move(index));
-							ip->id = i;
-							result.push_back(std::move(ip));
+							index->id = i;
+							result.push_back(std::move(index));
 						}
 					});
 		}

@@ -99,6 +99,7 @@ public:
 	inline static constexpr const char* Identifier = "Index";
 	explicit Index(const std::string& s): Base(s), id{0}{};
 private:
+	friend std::ostream& operator<<(std::ostream& out, const Index& e) { return out<<e.Data()<<": "<<e.id;}
 	inline static std::string check(const std::string& s) { return s; }
 	size_t id;
 };

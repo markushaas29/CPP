@@ -29,6 +29,7 @@ public:
 	virtual std::unique_ptr<IElement> Create(const std::string&) const  = 0;	
 	constexpr bool operator==(const IToken& e) const{ return Data() == e.Data(); };
 private:
+	friend std::ostream& operator<<(std::ostream& out, const IToken& e) { return out<<e.Data();}
 };
 //--------------------------------Token------------------------------------------------
 
@@ -69,8 +70,6 @@ private:
 	std::regex pattern = std::regex( Derived::Pattern );
 	std::string exclude;
 };
-
-std::ostream& operator<<(std::ostream& out, const IToken& e) {	return out<<e.Data();}
 
 class DateToken: public Token<DateToken, Date>
 {

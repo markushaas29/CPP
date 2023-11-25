@@ -151,10 +151,13 @@ public:
 		auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
 		vi->push_back(std::make_unique<DateIndexToken>());
 		Matcher imatcher(std::move(vi));
-		matches = imatcher.Indices(indexLine);
+		
+		auto imatches = imatcher.Indices(indexLine);
 		std::cout<<"MATCHES Index: "<<std::endl;
-		for(auto& i : matches)
-			std::cout<<"MATCHES: "<<*i<<std::endl;
+		for(auto& i : imatches)
+			std::cout<<ni<<"MATCHES: "<<*i<<std::endl;
+
+
 
 //		std::string rs("^[0-9]+$");
 //		auto r = std::regex( rs );
