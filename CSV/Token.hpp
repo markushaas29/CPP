@@ -129,7 +129,31 @@ public:
 class NameIndexToken: public Token<NameIndexToken, Entry>
 {
 public:
-	inline static constexpr const char* Pattern = "(\\w)?[Nn]ame";
+	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";
+};
+
+class IBANIndexToken: public Token<IBANIndexToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "\\w*IBAN\\w*";
+};
+
+class BICIndexToken: public Token<BICIndexToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "BIC";
+};
+
+class SumIndexToken: public Token<SumIndexToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "Betrag";
+};
+
+class UseIndexToken: public Token<UseIndexToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "Verwendungszweck";
 };
 
 class QuantityToken: public Token<QuantityToken, Entry>

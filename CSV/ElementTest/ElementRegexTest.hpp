@@ -143,9 +143,9 @@ public:
 		t = "Name";
   		assert(ni.Match(t));
 		t = "Abname";
-  		//assert(ni.Match(t));
+  		assert(ni.Match(t));
 		t = "ad name";
-  		//assert(!ni.Match(t));
+  		//assert(ni.Match(t));
 		
 		auto indexLine = std::string("Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz");
 		auto iline20 = "Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben";
