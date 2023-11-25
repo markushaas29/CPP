@@ -139,11 +139,19 @@ public:
 		t = "ABC :12.";
   		assert(!kt.Match(t));
 		
+		auto ni = NameIndexToken();
+		t = "Name";
+  		assert(ni.Match(t));
+		t = "Abname";
+  		//assert(ni.Match(t));
+		t = "ad name";
+  		//assert(!ni.Match(t));
+		
 		auto indexLine = std::string("Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz");
 		auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
 		vi->push_back(std::make_unique<DateIndexToken>());
 		Matcher imatcher(std::move(vi));
-		matches = imatcher.Split(indexLine);
+		matches = imatcher.Indices(indexLine);
 		std::cout<<"MATCHES Index: "<<std::endl;
 		for(auto& i : matches)
 			std::cout<<"MATCHES: "<<*i<<std::endl;

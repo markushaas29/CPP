@@ -90,6 +90,19 @@ public:
 private:
 };
 
+class Index: public Element<Index>
+{
+	using Base = Element<Index>;
+	friend class Element<Index>; 
+	friend class Matcher; 
+public:
+	inline static constexpr const char* Identifier = "Index";
+	explicit Index(const std::string& s): Base(s), id{0}{};
+private:
+	inline static std::string check(const std::string& s) { return s; }
+	size_t id;
+};
+
 class Name: public Element<Name>
 {
 	using Base = Element<Name>;

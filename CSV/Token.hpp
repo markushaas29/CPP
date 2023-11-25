@@ -127,6 +127,12 @@ public:
 	inline static constexpr const char* Pattern = "Buchungstag";
 };
 
+class NameIndexToken: public Token<NameIndexToken, Entry>
+{
+public:
+	inline static constexpr const char* Pattern = "(\\w)?[Nn]ame";
+};
+
 class QuantityToken: public Token<QuantityToken, Entry>
 {
 public:
