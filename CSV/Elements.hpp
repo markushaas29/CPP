@@ -65,9 +65,8 @@ class BIC: public Element<BIC>
 public:
 	inline static constexpr const char* Identifier = "BIC";
 	BIC(const std::string& c): Base(c){ };
-	BIC* DoCreate(){return this;};
-	inline static std::string check(const std::string& s) { return s; }
 private:
+	inline static std::string check(const std::string& s) { return s; }
 };
 
 class Entry: public Element<Entry>
@@ -98,6 +97,7 @@ class Index: public Element<Index>
 public:
 	inline static constexpr const char* Identifier = "Index";
 	explicit Index(const std::string& s): Base(s), id{0}{};
+	size_t Id() const { return id; };
 private:
 	friend std::ostream& operator<<(std::ostream& out, const Index& e) { return out<<e.Data()<<": "<<e.id;}
 	inline static std::string check(const std::string& s) { return s; }
@@ -111,10 +111,8 @@ class Name: public Element<Name>
 public:
     inline static constexpr const char* Identifier = "Name";
 	Name(const std::string& c): Base(c){ };
-    Name* DoCreate(){return this;};
-	decltype(auto) ID() { return Identifier; }
-	inline static std::string check(const std::string& s) { return s; }
 private:
+	inline static std::string check(const std::string& s) { return s; }
 };
 
 template<typename T>//, typename U, typename TVal = double>
@@ -126,7 +124,7 @@ public:
 	inline static constexpr const char* Identifier = "Value";
 	Value(T t): Base(std::to_string(t)) {};
 	Value(const std::string& s): Base(s) {};
-	inline static std::string check(const std::string& s) { return s; }
 private:
+	inline static std::string check(const std::string& s) { return s; }
 	T val;
 };

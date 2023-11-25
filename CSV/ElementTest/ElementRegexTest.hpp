@@ -148,6 +148,7 @@ public:
   		//assert(!ni.Match(t));
 		
 		auto indexLine = std::string("Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz");
+		auto iline20 = "Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben";
 		auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
 		vi->push_back(std::make_unique<DateIndexToken>());
 		Matcher imatcher(std::move(vi));
@@ -158,6 +159,7 @@ public:
 			std::cout<<ni<<"MATCHES: "<<*i<<std::endl;
 
 
+  		assert(imatches[0]->Id()==4);
 
 //		std::string rs("^[0-9]+$");
 //		auto r = std::regex( rs );
