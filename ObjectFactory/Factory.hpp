@@ -82,6 +82,11 @@ public:
 	}
 	size_t Size() { return creators.size(); }
 private:
+	friend std::ostream& operator<<(std::ostream& out, const Factory& m) 
+    { 
+        std::for_each(m.creators.cbegin(), m.creators.cend(), [&](auto& t) { out<<t.first<<"\n"; });
+        return out;
+    }
 	const typename Base::CreatorType& find(const typename Base::IdentifierType& id) 
 	{
 		auto i = creators.find(id);

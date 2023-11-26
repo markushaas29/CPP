@@ -157,7 +157,15 @@ int main()
 	auto M39 =mq39(&m33);
 	assert(M39.Rows()==2);
 	
-	std::cout<<"END"<<std::endl;
+	Factory<IToken> fmt;
+	fmt.Register("ID",[](const std::string& s) { return std::make_unique<IDToken>(); });
+	fmt.Register("IBAN",[](const std::string& s) { return std::make_unique<IBANToken>(s); });
+	auto idp = fmt("ID","B");
+	idp = fmt("IBAN","ABC");
+	//assert((*cb)("ABC"));
+	
+	std::cout<<fmt<<*idp<<std::endl;
+	std::cout<<"END factory"<<std::endl;
    
 	return 0;
 }
