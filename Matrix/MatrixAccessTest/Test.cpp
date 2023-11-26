@@ -196,7 +196,6 @@ class MatrixAccessTest
 
 			std::cout<<m3S;
 
-			std::cout<<"START Class"<<std::endl;
 
 			M2E m2e {                
 				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
@@ -219,7 +218,12 @@ class MatrixAccessTest
 			assert(m2e[1][0].As<Quantity<Sum>>()==Quantity<Sum>(4.5));
 			assert(m2ed[1][0].As<Date>()==Date(29,9,1986));
 			std::cout<<"END"<<v<<std::endl;
-		   
+		  
+			std::cout<<"START Class"<<std::endl;
+			auto vi = std::vector<std::unique_ptr<IToken>>();
+         	vi.push_back(std::make_unique<DateIndexToken>());
+			ms22.Cols(vi);
+
 			return 0;
 		}
 };

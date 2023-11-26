@@ -4,6 +4,7 @@
 #include "PointerConcept.hpp"
 #include "../Components/Interfaces.hpp"
 #include "../Is/Is.hpp"
+#include "../CSV/Token.hpp"
 #include "../To/To.hpp"
 #include "../String/Literal.hpp"
 #include "../String/Format.hpp"
@@ -77,20 +78,27 @@ private:
 	template<typename T>
 	decltype(auto) cols(const std::vector<T>& v, const M* m) const 
 	{
-		size_t max = *std::max_element(v.begin(), v.end());
-		typename M::IsT<Throwing>(Format("Index: ",max ," exceeds extents!"))(max<m->Cols());
-		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
-		std::vector<typename M::DataType> result;
-		std::array<size_t,Order> e;
-		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		e[1] = v.size();
-		for(int i = 0; i < m->Rows(); ++i)
+		if constexpr (std::is_same_v<typename M::ElementType, std::string> && std::is_same_v<T, std::unique_ptr<IToken>>)
 		{
-			auto row = m->row(i);
-			std::for_each(v.begin(), v.end(), [&](size_t i){ result.push_back(row[i]); });
+			std::cout<<"Token"<<std::endl;
 		}
-		
-		return Matrix<Order, MDT>(MDT{e}, result);
+		else
+		{
+			size_t max = *std::max_element(v.begin(), v.end());
+			typename M::IsT<Throwing>(Format("Index: ",max ," exceeds extents!"))(max<m->Cols());
+			using MDT = MatrixDescriptor<Order, typename M::ElementType>;
+			std::vector<typename M::DataType> result;
+			std::array<size_t,Order> e;
+			std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+			e[1] = v.size();
+			for(int i = 0; i < m->Rows(); ++i)
+			{
+				auto row = m->row(i);
+				std::for_each(v.begin(), v.end(), [&](size_t i){ result.push_back(row[i]); });
+			}
+			
+			return Matrix<Order, MDT>(MDT{e}, result);
+		}
 	}
 	template<size_t N>
 	decltype(auto) rows(std::array<size_t,N> arr, const M* m) const 
