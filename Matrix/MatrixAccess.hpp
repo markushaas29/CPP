@@ -74,7 +74,8 @@ private:
 		
 		return Matrix<Order, MDT>(MDT{e}, result);
 	}
-	decltype(auto) cols(const std::vector<size_t>& v, const M* m) const 
+	template<typename T>
+	decltype(auto) cols(const std::vector<T>& v, const M* m) const 
 	{
 		size_t max = *std::max_element(v.begin(), v.end());
 		typename M::IsT<Throwing>(Format("Index: ",max ," exceeds extents!"))(max<m->Cols());

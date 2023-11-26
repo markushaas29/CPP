@@ -83,12 +83,13 @@ class MatrixAccessTest
 			try {m35.Cols(9,5);} catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
-			
-			auto c024 = m35.Cols({0,2,4});
+			std::vector<size_t> v024 = {0,2,4};
+			auto c024 = m35.Cols(v024);
 			assert((int)c024[1][0]==6);
 			assert((int)c024[2][1]==13);
 			assert((int)c024[0][2]==5);
-			try {m35.Cols({1,2,9});} catch(...) { isthrow = true; }
+			std::vector<size_t> v029 = {0,2,9};
+			try {m35.Cols(v029);} catch(...) { isthrow = true; }
 			assert(isthrow);
 			isthrow = false;
 			
