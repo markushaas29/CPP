@@ -221,9 +221,14 @@ class MatrixAccessTest
 			std::cout<<"END"<<v<<std::endl;
 		  
 			std::cout<<"START Class"<<std::endl;
+			
+			MS2 mr22{
+				{std::string("Buchungstag"),std::string("2")} ,
+				{std::string("5"),std::string("6")} 
+		    };
 			auto vi = std::vector<std::unique_ptr<IToken>>();
          	vi.push_back(std::make_unique<DateIndexToken>());
-			ms22.Cols(vi);
+			std::cout<<"COL"<<mr22.Cols(vi)<<std::endl;
 
 			return 0;
 		}

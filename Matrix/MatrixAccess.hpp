@@ -84,8 +84,13 @@ private:
 			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
 			Matcher imatcher(v);
         
-        //	auto imatches = imatcher.Indices(indexLine);
-			std::cout<<"Token"<<imatcher<<std::endl;
+			auto vs = std::vector<std::string>();
+			std::for_each(m->elements->cbegin(),m->elements->cbegin() + m->Cols(), [&](auto& s) { vs.push_back(*s); });
+        	auto imatches = imatcher.Indices(vs);
+			auto vst = std::vector<size_t>();
+			std::for_each(imatches.cbegin(),imatches.cend(), [&](auto& m) { vst.push_back(m->Id()); });
+
+			return cols(vst,m);
 		}
 		else
 		{
