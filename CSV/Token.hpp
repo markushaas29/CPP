@@ -27,6 +27,7 @@ public:
 	virtual bool Match(const std::string&) const  = 0;	
 	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string&) const  = 0;	
 	virtual std::unique_ptr<IElement> Create(const std::string&) const  = 0;	
+	virtual std::unique_ptr<IToken> Clone() const  = 0;	
 	constexpr bool operator==(const IToken& e) const{ return Data() == e.Data(); };
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IToken& e) { return out<<e.Data();}
@@ -62,6 +63,7 @@ public:
 		}
 		return result;
 	};	
+	virtual std::unique_ptr<IToken> Clone() const  { return std::make_unique<Derived>();};	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
 protected:

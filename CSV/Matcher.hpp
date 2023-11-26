@@ -17,6 +17,10 @@ class Matcher
 public:
 	inline static const std::string Identifier = "Matcher";
  	Matcher(std::unique_ptr<std::vector<std::unique_ptr<IToken>>> t): tokens(std::move(t)) { };
+ 	Matcher(const std::vector<std::unique_ptr<IToken>>& t): tokens(std::make_unique<std::vector<std::unique_ptr<IToken>>>()) 
+	{
+		std::for_each(t.cbegin(), t.cend(), [&](auto& p) { tokens->push_back(p->Clone()); });
+	};
 
 	//virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
 	virtual std::vector<std::unique_ptr<IElement>> Split(const std::string& s) const  
@@ -66,6 +70,27 @@ public:
 		return result;
 	};	
 	
+	virtual std::vector<std::unique_ptr<Index>> Indices(const std::vector<std::string>& s) const  
+	{
+		std::vector<std::unique_ptr<Index>> result;
+
+		for (size_t i = 0; i < s.size(); ++i)
+		{
+			auto si = String_::Trim(s[i]); 
+			std::for_each(tokens->cbegin(), tokens->cend(), [&](auto& t)
+					{
+						if (t->Match(si))
+						{
+							std::cout<<"ID"<<i<<std::endl;
+							auto index = std::make_unique<Index>(si);
+							index->id = i;
+							result.push_back(std::move(index));
+						}
+					});
+		}
+		return result;
+	};	
+	
 	virtual std::unique_ptr<IElement> operator()(const std::string& s) const  
 	{
 		for(auto i = 0; i < tokens->size(); ++i)
@@ -83,4 +108,9 @@ public:
 	};	
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IToken>>> tokens;
+	friend std::ostream& operator<<(std::ostream& out, const Matcher& m) 
+	{ 
+		std::for_each(m.tokens->cbegin(), m.tokens->cend(), [&](auto& t) { out<<*t<<"\n"; });
+		return out;
+	}
 };
