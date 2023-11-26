@@ -278,6 +278,11 @@ class M3Test
 
 			std::cout<<"Collector:\n"<<mv<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
+
+			auto vi = std::vector<std::unique_ptr<IToken>>();
+            vi.push_back(std::make_unique<DateIndexToken>());
+            //std::cout<<"COL"<<m22S.Cols(vi)<<std::endl;
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
