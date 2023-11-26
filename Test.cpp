@@ -8,6 +8,7 @@
 #include "Quantity/Test.cpp"
 #include "Matrix/Test.cpp"
 #include "Visitor/Test.cpp"
+#include "ObjectFactory/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
 
@@ -26,6 +27,9 @@ int main()
 	
 	MatrixTest mt;
 	mt.Run();
+	
+	FactoryTest ft;
+	ft.Run();
 
 	ElementTest et;
 	et.Run();

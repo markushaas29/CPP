@@ -6,7 +6,10 @@
 #include "../Matrix/MatrixCategory.hpp"
 #include "../Matrix/MatrixMultiCategory.hpp"
 
-int main()
+class FactoryTest
+{
+	public:
+int Run()
 {
 	std::cout<<"START"<<std::endl;
 
@@ -169,3 +172,4 @@ int main()
    
 	return 0;
 }
+};
