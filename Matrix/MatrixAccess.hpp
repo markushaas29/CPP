@@ -5,6 +5,7 @@
 #include "../Components/Interfaces.hpp"
 #include "../Is/Is.hpp"
 #include "../CSV/Token.hpp"
+#include "../CSV/Matcher.hpp"
 #include "../To/To.hpp"
 #include "../String/Literal.hpp"
 #include "../String/Format.hpp"
@@ -80,6 +81,11 @@ private:
 	{
 		if constexpr (std::is_same_v<typename M::ElementType, std::string> && std::is_same_v<T, std::unique_ptr<IToken>>)
 		{
+			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+			//std::for_each(v.begin(), v.end(),[&](auto& t){ vi->push_back(); });
+			Matcher imatcher(v);
+        
+        //	auto imatches = imatcher.Indices(indexLine);
 			std::cout<<"Token"<<std::endl;
 		}
 		else

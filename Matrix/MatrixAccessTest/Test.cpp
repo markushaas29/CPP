@@ -11,6 +11,7 @@
 #include "../MatrixFilter.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
+#include "../../CSV/Matcher.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
 
