@@ -43,6 +43,27 @@ public:
 		IsT<Throwing>(Format("Index: ",i, " exceeds extents ", Rows()))(i < Rows());
 		return elements->at(i); 
 	}
+	template<typename VT>
+	decltype(auto) Cols(const std::vector<VT>& v) const 
+	{ 
+		std::vector<DataType> result;
+		for(auto el : *elements)
+		{
+			auto m = el.Cols(v);
+			for(auto i = 0; i < m.Rows(); ++i)
+			{
+				auto row = m.row(i);
+				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
+			}
+		}
+
+		std::array<size_t,Order-1> e;
+		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
+		e[0] = result.size();
+		e[1] = elements->at(0).Cols(v).Cols();
+
+		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
+	}
 //	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 //	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 //	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
