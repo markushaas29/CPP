@@ -288,6 +288,12 @@ class M3Test
 			auto r22_23 = m22_23.Cols(vi).Rows();
 			assert(r22_23==(r22+r23));
 
+			std::vector<size_t> v024 = {0,2,4};
+            auto c024 = m22_23.Cols(v024);
+			 
+            auto a024 = m22_23.Cols(std::array<size_t,2>{2,4});
+            auto i024 = m22_23.Cols(2,4,2);
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;

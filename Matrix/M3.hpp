@@ -43,8 +43,29 @@ public:
 		IsT<Throwing>(Format("Index: ",i, " exceeds extents ", Rows()))(i < Rows());
 		return elements->at(i); 
 	}
+	decltype(auto) Cols(auto... v) const 
+	{ 
+		std::vector<DataType> result;
+		for(auto el : *elements)
+		{
+			auto m = el.Cols(v...);
+			for(auto i = 0; i < m.Rows(); ++i)
+			{
+				auto row = m.row(i);
+				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
+			}
+		}
+
+		std::array<size_t,Order-1> e;
+		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
+		auto cols = elements->at(0).Cols(v...).Cols();
+		e[0] = result.size() / cols;
+		e[1] = cols;
+
+		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
+	}
 	template<typename VT>
-	decltype(auto) Cols(const std::vector<VT>& v) const 
+	decltype(auto) Cols(const VT& v) const 
 	{ 
 		std::vector<DataType> result;
 		for(auto el : *elements)
@@ -59,8 +80,9 @@ public:
 
 		std::array<size_t,Order-1> e;
 		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
-		e[0] = result.size();
-		e[1] = elements->at(0).Cols(v).Cols();
+		auto cols = elements->at(0).Cols(v).Cols();
+		e[0] = result.size() / cols;
+		e[1] = cols;
 
 		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
 	}
