@@ -290,9 +290,14 @@ class M3Test
 
 			std::vector<size_t> v024 = {0,2,4};
             auto c024 = m22_23.Cols(v024);
-			 
-            auto a024 = m22_23.Cols(std::array<size_t,2>{2,4});
-            auto i024 = m22_23.Cols(2,4,2);
+			assert(r22_23==c024.Rows());
+			assert(3==c024.Cols());
+            auto a024 = m22_23.Cols(std::array<size_t,2>{1,4});
+			assert(r22_23==c024.Rows());
+			assert(4==a024.Cols());
+            auto i024 = m22_23.Cols(0,2,4,3,1);
+			assert(r22_23==i024.Rows());
+			assert(5==i024.Cols());
 
 			std::cout<<"END"<<std::endl;
 		   
