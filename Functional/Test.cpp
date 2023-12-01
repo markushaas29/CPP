@@ -204,12 +204,3 @@ class FunctionalTest
 		}
 };
 
-int main()
-{
-        FunctionalTest analyzer;
-
-        analyzer.Run();
-
-        return 0;
-}
-

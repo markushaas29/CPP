@@ -161,6 +161,11 @@ public:
 
   		assert(imatches[0]->Id()==4);
 
+		Factory<IToken> fmt;
+     	fmt.Register("ID",[](const std::string& s) { return std::make_unique<IDToken>(); });
+     	fmt.Register("IBAN",[](const std::string& s) { return std::make_unique<IBANToken>(s); });
+     	auto idp = fmt("ID","B");
+     	std::cout<<"Factory"<<fmt<<*idp<<std::endl;
 //		std::string rs("^[0-9]+$");
 //		auto r = std::regex( rs );
 //  		assert(std::regex_match(t,r));

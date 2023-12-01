@@ -92,4 +92,5 @@ struct BICIndexToken: public Token<BICIndexToken, Entry>	{	inline static constex
 struct SumIndexToken: public Token<SumIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 struct QuantityToken: public Token<QuantityToken, Entry>	{	inline static constexpr const char* Pattern = ""; };
+
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
