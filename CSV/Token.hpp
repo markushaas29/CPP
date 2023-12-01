@@ -72,99 +72,24 @@ private:
 	std::string exclude;
 };
 
-class DateToken: public Token<DateToken, Date>
-{
-public:
-	inline static constexpr const char* Pattern = "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})";
-};
-
-class EntryToken: public Token<EntryToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "";
-};
-
-class IBANToken: public Token<IBANToken, IBAN>
-{
-public:
-	IBANToken(const std::string& e = ""): Base(e) {}
+struct IBANToken: public Token<IBANToken, IBAN>
+{	
+	IBANToken(const std::string& e = ""): Base(e) {}	
 	inline static constexpr const char* Pattern = "^DE\\d{20}$";
 };
+struct DateToken: public Token<DateToken, Date>				{	inline static constexpr const char* Pattern = "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})";};
+struct EntryToken: public Token<EntryToken, Entry>			{	inline static constexpr const char* Pattern = "";};
+struct BICToken: public Token<BICToken, BIC>				{	inline static constexpr const char* Pattern = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)"; };
+struct SumToken: public Token<SumToken, Quantity<Sum>>		{	inline static constexpr const char* Pattern = "((^[-+]?((\\d+[.,]\\d{2})|([1-9]\\d+))€$)|(^[-+]?((\\d+[.,]\\d{2}))$))";};
+struct ValueToken: public Token<ValueToken, Value<int>>		{	inline static constexpr const char* Pattern = ""; };
+struct WordToken: public Token<WordToken, Entry>			{	inline static constexpr const char* Pattern = "[a-zA-z]+";};
+struct IDToken: public Token<IDToken, ID<int>>				{	inline static constexpr const char* Pattern = "^[0-9]+$";};
 
-class BICToken: public Token<BICToken, BIC>
-{
-public:
-	inline static constexpr const char* Pattern = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)";
-};
-
-class SumToken: public Token<SumToken, Quantity<Sum>>
-{
-public:
-	inline static constexpr const char* Pattern = "((^[-+]?((\\d+[.,]\\d{2})|([1-9]\\d+))€$)|(^[-+]?((\\d+[.,]\\d{2}))$))";
-};
-
-class ValueToken: public Token<ValueToken, Value<int>>
-{
-public:
-	inline static constexpr const char* Pattern = "";
-};
-
-class WordToken: public Token<WordToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "[a-zA-z]+";
-};
-
-class IDToken: public Token<IDToken, ID<int>>
-{
-public:
-	inline static constexpr const char* Pattern = "^[0-9]+$";
-};
-
-class DateIndexToken: public Token<DateIndexToken, Date>
-{
-public:
-	inline static constexpr const char* Pattern = "Buchungstag";
-};
-
-class NameIndexToken: public Token<NameIndexToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";
-};
-
-class IBANIndexToken: public Token<IBANIndexToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "\\w*IBAN\\w*";
-};
-
-class BICIndexToken: public Token<BICIndexToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "BIC";
-};
-
-class SumIndexToken: public Token<SumIndexToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "Betrag";
-};
-
-class UseIndexToken: public Token<UseIndexToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "Verwendungszweck";
-};
-
-class QuantityToken: public Token<QuantityToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "";
-};
-
-class KeyValueToken: public Token<KeyValueToken, Entry>
-{
-public:
-	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";
-};
+struct DateIndexToken: public Token<DateIndexToken, Date>	{	inline static constexpr const char* Pattern = "Buchungstag";};
+struct NameIndexToken: public Token<NameIndexToken, Entry>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
+struct IBANIndexToken: public Token<IBANIndexToken, Entry>	{	inline static constexpr const char* Pattern = "\\w*IBAN\\w*";};
+struct BICIndexToken: public Token<BICIndexToken, Entry>	{	inline static constexpr const char* Pattern = "BIC"; };
+struct SumIndexToken: public Token<SumIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Betrag";};
+struct UseIndexToken: public Token<UseIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
+struct QuantityToken: public Token<QuantityToken, Entry>	{	inline static constexpr const char* Pattern = ""; };
+struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
