@@ -7,6 +7,7 @@
 #include "Common/DateTimesTest.cpp"
 #include "Quantity/Test.cpp"
 #include "Matrix/Test.cpp"
+#include "String/Test.cpp"
 #include "Visitor/Test.cpp"
 #include "Functional/Test.cpp"
 #include "ObjectFactory/Test.cpp"
@@ -17,6 +18,9 @@ int main()
 {   
 	std::cout<<"START"<<std::endl;
 
+	String_Test st;
+	st.Run();
+	
 	DateTest dt;
 	dt.Run();
 	

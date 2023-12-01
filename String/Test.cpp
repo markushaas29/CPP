@@ -4,7 +4,10 @@
 #include <typeindex>
 using namespace String_;
 
-int main()
+class String_Test
+{
+	public:
+int Run()
 {       
 
 	double d = 5.130000;
@@ -25,3 +28,4 @@ int main()
     
     return 0;
 }
+};
