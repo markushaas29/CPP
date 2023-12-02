@@ -227,6 +227,7 @@ class M3Test
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2023"}, {"C","Rechnung"}, {"C","701006843905"} }}; 
 			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
             auto Heating =m22_23.M(mq39).Cols(4,6,7,9,11);
+			mcP = Heating.Cols(0,2,4).Parse(matcher);
             std::cout<<"MatrixQuery:\n"<<m22_23.M(mq39)<<std::endl;
 			assert(Heating.Rows()==25);
             std::cout<<"MatrixQuery:\n"<<Heating.ColSum(4)<<Heating.Col(4)<<std::endl;
@@ -267,11 +268,11 @@ class M3Test
 			std::cout<<"ID "<<mb(m22S)<<std::endl;
             assert(m22S.M(mb).Result()==Quantity<Sum>(-423.01));
 		
-			assert(mcP.Col(0).To<Date>()[0]()==Date(20,12,2022));
-			assert(mcP.Col(0)[0].As<Date>()==Date(20,12,2022));
+			assert(mcP.Col(0).To<Date>()[0]()==Date(16,12,2022));
+			assert(mcP.Col(0)[0].As<Date>()==Date(16,12,2022));
 			
-			assert(mcP.Col(2).To<Quantity<Sum>>()[0]()==Quantity<Sum>(-47.6));
-			assert(mcP.Col(2)[0].As<Quantity<Sum>>()==Quantity<Sum>(-47.6));
+			assert(mcP.Col(2).To<Quantity<Sum>>()[0]()==Quantity<Sum>(-48));
+			assert(mcP.Col(2)[0].As<Quantity<Sum>>()==Quantity<Sum>(-48));
 
 			MatrixVisitor<TransferVisitor> mv;
 			mcP.Accept(mv);
@@ -279,6 +280,7 @@ class M3Test
 			std::cout<<"Collector:\n"<<mv<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Sort()<<std::endl;
+			std::cout<<"Collector T:\n"<<mv.All<IBAN>().size()<<std::endl;
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());

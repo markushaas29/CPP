@@ -7,11 +7,6 @@
 template<typename T>
 class MatrixVisitor
 {
-		struct Item
-		{
-			IBAN Key;
-			std::vector<T> Value;
-		};
 public:
 	using VisitorType = T;
 	using CollectorType = VisitorCollector<VisitorType>;
@@ -33,6 +28,11 @@ public:
 		}
 	};
 	decltype(auto) Collector() const { return collector; }
+	template<typename P>
+	decltype(auto) All() const 
+	{
+		return collector.template All<P>();
+	}
 	decltype(auto) Sort() const 
 	{
 		auto v = collector.IBANS();

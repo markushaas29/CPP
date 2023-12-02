@@ -42,6 +42,18 @@ public:
 	using VisitorType = TransferVisitor;
 	using Base = BaseVisitorCollector<TransferVisitor,VisitorCollector>;
 	VisitorCollector() { }
+	template<typename P>        
+     decltype(auto) All() const 
+     {     
+		std::vector<P> result;
+		if constexpr (std::is_same_v<P,IBAN>)         
+			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
+					{ 
+						if(result.size() > 0 && std::find(result.begin(), result.end(), v.IBANQ()) != result.end())
+							result.push_back(v.IBANQ()); 
+						});
+		return result; 
+     }
 	decltype(auto) IBANS()  const 
 	{ 
 		typename TransferVisitor::PtrType result;
