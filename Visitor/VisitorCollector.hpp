@@ -42,6 +42,16 @@ public:
 	using VisitorType = TransferVisitor;
 	using Base = BaseVisitorCollector<TransferVisitor,VisitorCollector>;
 	VisitorCollector() { }
+	decltype(auto) IBANS()  const 
+	{ 
+		typename TransferVisitor::PtrType result;
+		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
+				{ 
+					auto ptr = v.Create();
+					std::for_each(ptr.cbegin(), ptr.cend(), [&](auto& ie) { result.push_back(ie); }); 
+				});
+		return result; 
+	}
 	decltype(auto) Total()  const
 	{
 		Quantity<Sum> s;

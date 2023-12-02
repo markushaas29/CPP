@@ -36,7 +36,7 @@ public:
 	decltype(auto) Sort() const 
 	{
 		auto v = collector.IBANS();
-		MatrixDescriptor<2,std::shared_ptr<IElement>> md{{v.size()/3,3}};
+		MatrixDescriptor<2,std::shared_ptr<IElement>> md{{v.size()/VisitorType::Order,VisitorType::Order}};
 	 	return Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(md,v);
 	}
 private:
