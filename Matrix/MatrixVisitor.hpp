@@ -7,6 +7,11 @@
 template<typename T>
 class MatrixVisitor
 {
+		struct Item
+		{
+			IBAN Key;
+			std::vector<T> Value;
+		};
 public:
 	using VisitorType = T;
 	using CollectorType = VisitorCollector<VisitorType>;
@@ -28,6 +33,12 @@ public:
 		}
 	};
 	decltype(auto) Collector() const { return collector; }
+	decltype(auto) Sort() const 
+	{
+		auto v = collector.IBANS();
+		MatrixDescriptor<2,std::shared_ptr<IElement>> md{{v.size()/3,3}};
+	 	return Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(md,v);
+	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixVisitor& m)  { return s<<m.collector; }
 	CollectorType collector;
