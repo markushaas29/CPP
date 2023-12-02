@@ -29,11 +29,7 @@ public:
 	inline static constexpr size_t Order = 3;
 	auto SumQ() const { return sum;}
 	auto IBANQ() const { return iban;}
-	auto Create() const
-	{ 
-		std::vector<std::shared_ptr<IElement>> result = {std::make_shared<IBAN>(iban), std::make_shared<Quantity<Sum,Pure,double>>(sum), std::make_shared<Date>(date.D(), date.M(), date.Y()) };
-		return result;
-	}
+	auto Create() const	{	return std::vector<std::shared_ptr<IElement>> {std::make_shared<IBAN>(iban), std::make_shared<Quantity<Sum,Pure,double>>(sum), std::make_shared<Date>(date.D(), date.M(), date.Y()) };	}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };

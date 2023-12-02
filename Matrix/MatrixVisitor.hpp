@@ -39,6 +39,8 @@ public:
 		MatrixDescriptor<2,std::shared_ptr<IElement>> md{{v.size()/VisitorType::Order,VisitorType::Order}};
 	 	return Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(md,v);
 	}
+	template<typename P>
+	decltype(auto) Sort2() const { return collector.template Sort<P>(); 	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixVisitor& m)  { return s<<m.collector; }
 	CollectorType collector;

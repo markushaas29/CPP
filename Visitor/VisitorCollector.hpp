@@ -49,7 +49,7 @@ public:
 		if constexpr (std::is_same_v<P,IBAN>)         
 			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
 					{ 
-						if(result.size() > 0 && std::find(result.begin(), result.end(), v.IBANQ()) != result.end())
+						if(std::find(result.begin(), result.end(), v.IBANQ()) == result.end())
 							result.push_back(v.IBANQ()); 
 						});
 		return result; 
@@ -70,5 +70,27 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.SumQ(); });
 		return s; 
 	}
+    template<typename P>                             
+    decltype(auto) Sort() const                      
+    {                                                
+        auto values = All<P>();    
+		std::vector<Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>> res;
+        std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
+        {    
+            std::vector<std::shared_ptr<IElement>> temp;                
+			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
+                     {       
+                         if(v.IBANQ() == x)                                                                        
+                         {                                      
+                            auto e = v.Create();    
+                            std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+                         }                                   
+                       });      
+                                
+            MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
+        	res.push_back(Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(md,temp));    
+        });    
+    	return res;
+    }
 private:
 };
