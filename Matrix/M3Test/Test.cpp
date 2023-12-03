@@ -280,8 +280,7 @@ class M3Test
 			std::cout<<"Collector:\n"<<mv<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Sort()<<std::endl;
-			std::cout<<"Collector T:\n"<<mv.Sort2<IBAN>()[0]<<std::endl;
-			std::cout<<"Collector T:\n"<<mv.Sort2<IBAN>()[1]<<std::endl;
+			std::cout<<"M3 T:\n"<<mv.Sort2<IBAN>()<<std::endl;
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());

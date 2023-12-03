@@ -4,6 +4,7 @@
 
 #pragma once 
 
+template<typename, typename> class M3;
 template<typename T>
 class MatrixVisitor
 {
@@ -40,7 +41,7 @@ public:
 	 	return Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(md,v);
 	}
 	template<typename P>
-	decltype(auto) Sort2() const { return collector.template Sort<P>(); 	}
+	decltype(auto) Sort2() const {	return collector.template Sort<P>(); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixVisitor& m)  { return s<<m.collector; }
 	CollectorType collector;

@@ -4,6 +4,8 @@
  #include "../Visitor/ElementVisitor.hpp"
 
 #pragma once 
+ 
+template<typename, typename> class M3;
 
 template<typename T, template<typename> class D>
 class BaseVisitorCollector
@@ -72,9 +74,10 @@ public:
 	}
     template<typename P>                             
     decltype(auto) Sort() const                      
-    {                                                
+    {
+		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
         auto values = All<P>();    
-		std::vector<Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>> res;
+		std::vector<MT> res;
         std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
         {    
             std::vector<std::shared_ptr<IElement>> temp;                
@@ -88,9 +91,9 @@ public:
                        });      
                                 
             MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
-        	res.push_back(Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(md,temp));    
+        	res.push_back(MT(md,temp));    
         });    
-    	return res;
+    	return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
     }
 private:
 };
