@@ -67,14 +67,14 @@ public:
 	    {    
 	        std::vector<std::shared_ptr<IElement>> temp;                
 			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
-	                 {       
-	                     if(f(v,x))                                                                        
-	                     {                                      
-	                        auto e = v.Create();    
-	                        std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
-	                     }                                   
-	                   });      
-	                            
+	        {       
+	            if(f(v,x))                                                                        
+	            {                                      
+	               auto e = v.Create();    
+	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+	            }                                   
+	        });      
+	                   
 	        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
 	    	res.push_back(MT(md,temp));    
 	    });    
