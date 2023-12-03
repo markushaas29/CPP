@@ -18,7 +18,7 @@ class IElement: public BaseVisitable<void>
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
-	virtual const std::string_view Data() const  = 0;	
+	virtual const std::string& Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
@@ -45,7 +45,7 @@ public:
 // 	template<typename T>
 //	Element(T t): Element(std::to_string(t)) { };
 
-	const std::string_view Data() const  {	return value; };	
+	const std::string& Data() const  {	return value; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }

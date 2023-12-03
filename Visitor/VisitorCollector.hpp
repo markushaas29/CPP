@@ -44,11 +44,11 @@ public:
 	using VisitorType = TransferVisitor;
 	using Base = BaseVisitorCollector<TransferVisitor,VisitorCollector>;
 	VisitorCollector() { }
-	template<typename P>        
-	decltype(auto) All() const 
+	template<typename P, typename F>        
+	decltype(auto) All(F f) const 
 	{     
 		if constexpr (std::is_same_v<P,IBAN> || std::is_same_v<P,typename VisitorType::SumType> || std::is_same_v<P,Date>)         
-			return foreach<P>();
+			return foreach<P>(f);
 	}
 	decltype(auto) Total()  const
 	{
@@ -56,11 +56,11 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
-	template<typename P, typename F>                      
-	decltype(auto) Sort(F f) const                      
+	template<typename P, typename F, typename FA>                      
+	decltype(auto) Sort(F f, FA fa) const                      
 	{
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
-	    auto values = All<P>();    
+	    auto values = All<P>(fa);    
 		std::cout<<"ALL "<<values.size()<<std::endl;
 		std::vector<MT> res;
 	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
@@ -81,13 +81,13 @@ public:
 		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
     }
 private:
-	template<typename P>        
-	decltype(auto) foreach() const
+	template<typename P, typename F>        
+	decltype(auto) foreach(F f) const
 	{
 		std::vector<P> result;
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
 			{ 
-				if(std::find(result.begin(), result.end(), v.template To<P>()) == result.end())
+				if(std::find_if(result.begin(), result.end(), f) == result.end())
 					result.push_back(v.template To<P>()); 
 			});
 		return result;
