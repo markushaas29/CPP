@@ -283,6 +283,8 @@ class M3Test
 			std::cout<<"M3 T:\n"<<mv.Sort<IBAN>(f)<<std::endl;
 			auto fd = [](auto l, auto r) { return l.template To<Quantity<Sum,Pure,double>>() == r; };
 			std::cout<<"M3 T:\n"<<mv.Sort<Quantity<Sum,Pure,double>>(fd)<<std::endl;
+			auto fdd = [](auto l, auto r) { return l.template To<Date>() == r; };
+			std::cout<<"M3 T:\n"<<mv.Sort<Date>(fdd)<<std::endl;
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());
