@@ -52,7 +52,7 @@ public:
 			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
 					{ 
 						if(std::find(result.begin(), result.end(), v.IBANQ()) == result.end())
-							result.push_back(v.IBANQ()); 
+							result.push_back(v.template To<IBAN>()); 
 						});
 		return result; 
      }
@@ -69,7 +69,7 @@ public:
 	decltype(auto) Total()  const
 	{
 		Quantity<Sum> s;
-		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.SumQ(); });
+		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
     template<typename P>                             
@@ -83,7 +83,7 @@ public:
             std::vector<std::shared_ptr<IElement>> temp;                
 			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
                      {       
-                         if(v.IBANQ() == x)                                                                        
+                         if(v.template To<IBAN>() == x)                                                                        
                          {                                      
                             auto e = v.Create();    
                             std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             

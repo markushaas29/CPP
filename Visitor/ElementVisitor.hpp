@@ -26,15 +26,24 @@ class TransferVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,doub
 	using ReturnType = void;
 public:
 	using PtrType = std::vector<std::shared_ptr<IElement>>;
+	using SumType = Quantity<Sum,Pure,double>;
 	inline static constexpr size_t Order = 3;
 	auto SumQ() const { return sum;}
 	auto IBANQ() const { return iban;}
+	template<typename T>
+	auto To() const
+	{
+		if constexpr (std::is_same_v<T,Quantity<Sum,Pure,double>>)
+			return sum;
+		else if constexpr (std::is_same_v<T,IBAN>)
+			return iban;
+	}
 	auto Create() const	{	return std::vector<std::shared_ptr<IElement>> {std::make_shared<IBAN>(iban), std::make_shared<Quantity<Sum,Pure,double>>(sum), std::make_shared<Date>(date.D(), date.M(), date.Y()) };	}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };
 private:
-	Quantity<Sum,Pure,double> sum;
+	SumType sum;
 	IBAN iban;
 	Date date;
 	friend std::ostream& operator<<(std::ostream& s, const TransferVisitor& t) 	{ return s<<"IBAN: "<<t.iban<<"Date: "<<t.date<<"Sum: "<<t.sum;	}
