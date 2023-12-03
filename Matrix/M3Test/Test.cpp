@@ -279,7 +279,10 @@ class M3Test
 
 			std::cout<<"Collector:\n"<<mv<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
-			std::cout<<"M3 T:\n"<<mv.Sort<IBAN>()<<std::endl;
+			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
+			std::cout<<"M3 T:\n"<<mv.Sort<IBAN>(f)<<std::endl;
+			auto fd = [](auto l, auto r) { return l.template To<Quantity<Sum,Pure,double>>() == r; };
+			std::cout<<"M3 T:\n"<<mv.Sort<Quantity<Sum,Pure,double>>(fd)<<std::endl;
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());

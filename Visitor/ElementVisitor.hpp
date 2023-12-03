@@ -35,6 +35,8 @@ public:
 			return sum;
 		else if constexpr (std::is_same_v<T,IBAN>)
 			return iban;
+		else if constexpr (std::is_same_v<T,Date>)
+			return date;
 	}
 	auto Create() const	{	return std::vector<std::shared_ptr<IElement>> {std::make_shared<IBAN>(iban), std::make_shared<Quantity<Sum,Pure,double>>(sum), std::make_shared<Date>(date.D(), date.M(), date.Y()) };	}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };

@@ -54,6 +54,12 @@ public:
 						if(std::find(result.begin(), result.end(), v.template To<IBAN>()) == result.end())
 							result.push_back(v.template To<IBAN>()); 
 						});
+		if constexpr (std::is_same_v<P,typename VisitorType::SumType>)         
+			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
+					{ 
+						if(std::find(result.begin(), result.end(), v.template To<typename VisitorType::SumType>()) == result.end())
+							result.push_back(v.template To<typename VisitorType::SumType>()); 
+						});
 		return result; 
      }
 	decltype(auto) Total()  const
@@ -62,18 +68,19 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
-    template<typename P>                             
-    decltype(auto) Sort() const                      
+    template<typename P, typename F>                      
+    decltype(auto) Sort(F f) const                      
     {
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
         auto values = All<P>();    
+		std::cout<<"ALL "<<values.size()<<std::endl;
 		std::vector<MT> res;
         std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
         {    
             std::vector<std::shared_ptr<IElement>> temp;                
 			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
                      {       
-                         if(v.template To<IBAN>() == x)                                                                        
+                         if(f(v,x))                                                                        
                          {                                      
                             auto e = v.Create();    
                             std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             

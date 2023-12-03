@@ -32,8 +32,8 @@ public:
 	decltype(auto) Collector() const { return collector; }
 	template<typename P>
 	decltype(auto) All() const 	{	return collector.template All<P>();	}
-	template<typename P>
-	decltype(auto) Sort() const {	return collector.template Sort<P>(); }
+	template<typename P, typename F>
+	decltype(auto) Sort(F f) const {	return collector.template Sort<P>(f); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixVisitor& m)  { return s<<m.collector; }
 	CollectorType collector;
