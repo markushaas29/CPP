@@ -28,8 +28,6 @@ public:
 	using PtrType = std::vector<std::shared_ptr<IElement>>;
 	using SumType = Quantity<Sum,Pure,double>;
 	inline static constexpr size_t Order = 3;
-	auto SumQ() const { return sum;}
-	auto IBANQ() const { return iban;}
 	template<typename T>
 	auto To() const
 	{

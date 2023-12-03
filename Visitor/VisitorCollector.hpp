@@ -51,21 +51,11 @@ public:
 		if constexpr (std::is_same_v<P,IBAN>)         
 			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
 					{ 
-						if(std::find(result.begin(), result.end(), v.IBANQ()) == result.end())
+						if(std::find(result.begin(), result.end(), v.template To<IBAN>()) == result.end())
 							result.push_back(v.template To<IBAN>()); 
 						});
 		return result; 
      }
-	decltype(auto) IBANS()  const 
-	{ 
-		typename TransferVisitor::PtrType result;
-		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
-				{ 
-					auto ptr = v.Create();
-					std::for_each(ptr.cbegin(), ptr.cend(), [&](auto& ie) { result.push_back(ie); }); 
-				});
-		return result; 
-	}
 	decltype(auto) Total()  const
 	{
 		Quantity<Sum> s;
