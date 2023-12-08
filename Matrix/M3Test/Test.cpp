@@ -281,12 +281,15 @@ class M3Test
 			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
 		//	auto fa = [](auto l) { return l.template To<IBAN>() == IBAN("DE56600501017402051588"); };
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
-			std::cout<<"M3 T:\n"<<mv.Collector().Sort<IBAN>(f,f).size()<<std::endl;
+			//std::cout<<"M3 T:\n"<<mv.Collector().Sort<IBAN>(f,f).size()<<std::endl;
 //			auto fa = [](auto l) { return l.template To<Quantity<Sum,Pure,double>>() < Quantity<Sum,Pure,double>(400); };
 //			auto fd = [](auto l, auto r) { return l.template To<Quantity<Sum,Pure,double>>() == r; };
 //			std::cout<<"M3 T:\n"<<mv.Collector().Sort<Quantity<Sum,Pure,double>>(fd, fa)<<std::endl;
 //			auto fdd = [](auto l, auto r) { return l.template To<Date>() == r; };
 //			std::cout<<"M3 T:\n"<<mv.Sort<Date>(fdd)<<std::endl;
+			auto vd = mv.Collector().Sort<Date>(f,f);
+			for(auto d : vd)
+				std::cout<<"M3 D:"<<d<<std::endl;
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());

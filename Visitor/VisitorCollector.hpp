@@ -23,6 +23,23 @@ public:
 	}
 };
 
+template<typename T>
+class Less
+{
+public:
+	template<typename P>
+	auto operator()(const std::vector<P>& v) const
+	{
+		std::vector<T> result;
+		std::for_each(v.cbegin(), v.cend(), [&](auto& vis) 
+			{ 
+				if(vis.template To<T>() < Date(1,7,2022))
+					result.push_back(vis.template To<T>());
+			});
+		return result;
+	}
+};
+
 template<typename T, template<typename> class D>
 class BaseVisitorCollector
 {
@@ -77,7 +94,7 @@ public:
 	{
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 //	    auto values = All<P>(fa);   
-	    auto values2 = Unique<P>()(*visitors);   
+	    auto values2 = Less<P>()(*visitors);   
 
 		std::cout<<"UNIQUE "<<values2.size()<<std::endl;
 		std::vector<MT> res;
