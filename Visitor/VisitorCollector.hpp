@@ -57,12 +57,12 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
-	template<typename P, typename F, typename FA>                      
-	decltype(auto) Sort(F f, FA fa) const                      
+	template<typename F, typename FU>                      
+	decltype(auto) Sort(F f, FU fa) const                      
 	{
+		using P = typename FU::Type;
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
-//	    auto values = All<P>(fa);   
-	    auto values2 = Less<P>()(*visitors);   
+	    auto values = fa(*visitors);   
 
 		std::vector<MT> res;
 //	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
@@ -81,7 +81,7 @@ public:
 //	    	res.push_back(MT(md,temp));    
 //	    });    
 //		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
-		return values2;
+		return values;
     }
 private:
 	template<typename P, typename F>        

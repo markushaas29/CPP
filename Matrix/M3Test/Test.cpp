@@ -287,7 +287,7 @@ class M3Test
 //			std::cout<<"M3 T:\n"<<mv.Collector().Sort<Quantity<Sum,Pure,double>>(fd, fa)<<std::endl;
 //			auto fdd = [](auto l, auto r) { return l.template To<Date>() == r; };
 //			std::cout<<"M3 T:\n"<<mv.Sort<Date>(fdd)<<std::endl;
-			auto vd = mv.Collector().Sort<Date>(f,f);
+			auto vd = mv.Collector().Sort(f,Less<Date>(Date(1,7,2022)));
 			for(auto d : vd)
 				std::cout<<"M3 D:"<<d<<std::endl;
 
