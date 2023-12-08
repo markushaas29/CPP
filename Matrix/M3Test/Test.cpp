@@ -279,14 +279,15 @@ class M3Test
 
 			std::cout<<"Collector:\n"<<mv<<std::endl;
 			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
-		//	auto fa = [](auto l) { return l.template To<IBAN>() == IBAN("DE56600501017402051588"); };
+			auto ivs = std::string("DE56600501017402051588");
+			auto iban = IBAN(ivs);
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
-			//std::cout<<"M3 T:\n"<<mv.Collector().Sort<IBAN>(f,f).size()<<std::endl;
-//			auto fa = [](auto l) { return l.template To<Quantity<Sum,Pure,double>>() < Quantity<Sum,Pure,double>(400); };
-//			auto fd = [](auto l, auto r) { return l.template To<Quantity<Sum,Pure,double>>() == r; };
-//			std::cout<<"M3 T:\n"<<mv.Collector().Sort<Quantity<Sum,Pure,double>>(fd, fa)<<std::endl;
-//			auto fdd = [](auto l, auto r) { return l.template To<Date>() == r; };
-//			std::cout<<"M3 T:\n"<<mv.Sort<Date>(fdd)<<std::endl;
+			auto vib = mv.Collector().Sort(f,Unique<IBAN>());
+			for(auto d : vib)
+				std::cout<<"M3 D:"<<d<<std::endl;
+			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
+			for(auto d : vs)
+				std::cout<<"M3 D:"<<d<<std::endl;
 			auto vd = mv.Collector().Sort(f,Less<Date>(Date(1,7,2022)));
 			for(auto d : vd)
 				std::cout<<"M3 D:"<<d<<std::endl;
