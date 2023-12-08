@@ -6,6 +6,22 @@
 #pragma once 
  
 template<typename, typename> class M3;
+template<typename T>
+class Unique
+{
+public:
+	template<typename P>
+	auto operator()(const std::vector<P>& v) const
+	{
+		std::vector<T> result;
+		std::for_each(v.cbegin(), v.cend(), [&](auto& vis) 
+			{ 
+				if(std::find_if(result.begin(), result.end(), [&](auto l) { return l == vis.template To<T>(); } ) == result.end())
+					result.push_back(vis.template To<T>()); 
+			});
+		return result;
+	}
+};
 
 template<typename T, template<typename> class D>
 class BaseVisitorCollector
@@ -60,25 +76,28 @@ public:
 	decltype(auto) Sort(F f, FA fa) const                      
 	{
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
-	    auto values = All<P>(fa);    
-		std::cout<<"ALL "<<values.size()<<std::endl;
+//	    auto values = All<P>(fa);   
+	    auto values2 = Unique<P>()(*visitors);   
+
+		std::cout<<"UNIQUE "<<values2.size()<<std::endl;
 		std::vector<MT> res;
-	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
-	    {    
-	        std::vector<std::shared_ptr<IElement>> temp;                
-			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
-	        {       
-	            if(f(v,x))                                                                        
-	            {                                      
-	               auto e = v.Create();    
-	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
-	            }                                   
-	        });      
-	                   
-	        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
-	    	res.push_back(MT(md,temp));    
-	    });    
-		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
+//	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
+//	    {    
+//	        std::vector<std::shared_ptr<IElement>> temp;                
+//			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
+//	        {       
+//	            if(f(v,x))                                                                        
+//	            {                                      
+//	               auto e = v.Create();    
+//	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+//	            }                                   
+//	        });      
+//	                   
+//	        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
+//	    	res.push_back(MT(md,temp));    
+//	    });    
+//		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
+		return values2;
     }
 private:
 	template<typename P, typename F>        
