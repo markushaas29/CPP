@@ -284,7 +284,7 @@ class M3Test
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
 			auto vib = mv.Collector().Sort(f,Unique<IBAN>());
 			for(auto d : vib)
-				std::cout<<"M3 D:"<<d<<std::endl;
+				std::cout<<"M3 D:"<<iban<<" "<<d<<std::endl;
 			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
 			for(auto d : vs)
 				std::cout<<"M3 D:"<<d<<std::endl;
