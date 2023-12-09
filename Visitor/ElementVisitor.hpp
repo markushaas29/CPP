@@ -44,7 +44,7 @@ private:
 	std::unique_ptr<IElement> value;
 };
 
-class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN>
+class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN>, public BoolVisitable<bool>
 {
 	using ReturnType = void;
 public:
@@ -66,6 +66,14 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };
+	virtual bool Is(BaseVisitor& visitor) 
+	{
+		std::vector<std::shared_ptr<IElement>> v = { std::make_shared<SumType>(sum), std::make_shared<IBAN>(iban), std::make_shared<Date>(date) };
+		for(auto p : v)
+			if(p->Is(visitor))
+				return true;
+		return false;// AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); 
+	};
 private:
 	SumType sum;
 	IBAN iban;
