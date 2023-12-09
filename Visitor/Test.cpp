@@ -32,6 +32,8 @@ int Run()
 	assert(sp->Is(pv));
 	auto pv228 = PredicateVisitor(std::make_unique<Quantity<Sum>>(228));
 	assert(!sp->Is(pv228));
+	auto pv29_9 = PredicateVisitor(std::make_unique<Date>(29,9,1986));
+	assert(dp->Is(pv29_9));
 
 	std::cout<<"END"<<std::endl;
    

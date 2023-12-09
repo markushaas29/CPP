@@ -17,6 +17,9 @@ public:
 	using ReturnType = R;
 	virtual ReturnType Visit(T&) = 0;
 };
+
+template<typename R, typename... T>
+class VariadicVisitor: public Visitor<T,R>... {};
 	
 template<typename R = void>
 class BaseVisitable

@@ -22,21 +22,29 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-class PredicateVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>,bool>//, public Visitor<Date>
+class PredicateVisitor: public BaseVisitor, public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date>
 {
 	using ReturnType = bool;
 public:
 	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) 
 	{
-		//auto temp = std::make_unique<IElement>(*value);
 		if(auto p = Cast::dynamic_unique_ptr<Quantity<Sum,Pure,double>>(std::move(value)))
 		{
 			 value = std::make_unique<Quantity<Sum,Pure,double>>(*p);
              return q == *p;
 		}
-		return false; };
-	//virtual ReturnType Visit(Date& q) {  };
+		return false; 
+	};
+	virtual ReturnType Visit(Date& q) 
+	{
+		if(auto p = Cast::dynamic_unique_ptr<Date>(std::move(value)))
+		{
+			 value = std::make_unique<Date>(*p);
+             return q == *p;
+		}
+		return false; 
+	};
 private:
 	std::unique_ptr<IElement> value;
 };
