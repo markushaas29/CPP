@@ -27,25 +27,20 @@ class PredicateVisitor: public BaseVisitor, public VariadicVisitor<bool, Quantit
 	using ReturnType = bool;
 public:
 	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) 
-	{
-		if(auto p = Cast::dynamic_unique_ptr<Quantity<Sum,Pure,double>>(std::move(value)))
-		{
-			 value = std::make_unique<Quantity<Sum,Pure,double>>(*p);
-             return q == *p;
-		}
-		return false; 
-	};
-	virtual ReturnType Visit(Date& q) 
-	{
-		if(auto p = Cast::dynamic_unique_ptr<Date>(std::move(value)))
-		{
-			 value = std::make_unique<Date>(*p);
-             return q == *p;
-		}
-		return false; 
-	};
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit(q); }
+	virtual ReturnType Visit(Date& d) { return visit(d); }
 private:
+	friend std::ostream& operator<<(std::ostream& s, const PredicateVisitor& t) 	{ return s<<"Value: "<<(*t.value);	}
+	template<typename T>
+	ReturnType visit(T& q) 
+	{
+		if(auto p = Cast::dynamic_unique_ptr<T>(std::move(value)))
+		{
+			 value = std::make_unique<T>(*p);
+             return q == *p;
+		}
+		return false; 
+	};
 	std::unique_ptr<IElement> value;
 };
 

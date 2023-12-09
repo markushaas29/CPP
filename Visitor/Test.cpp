@@ -13,7 +13,7 @@ class VisitorTest{
 	public:
 int Run()
 {
-	std::cout<<"START"<<std::endl;
+	std::cout<<"START Visitor"<<std::endl;
 
 	ElementVisitor vd;
 	std::shared_ptr<IElement> dp = std::make_shared<Date>(29,9,1986);
@@ -34,8 +34,11 @@ int Run()
 	assert(!sp->Is(pv228));
 	auto pv29_9 = PredicateVisitor(std::make_unique<Date>(29,9,1986));
 	assert(dp->Is(pv29_9));
+	auto pv28_9 = PredicateVisitor(std::make_unique<Date>(28,9,1986));
+	assert(!dp->Is(pv28_9));
 
-	std::cout<<"END"<<std::endl;
+	std::cout<<"END Visitor"<<pv28_9<<std::endl;
+	std::cout<<"END Visitor"<<std::endl;
    
 	return 0;
 }
