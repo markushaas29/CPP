@@ -2,6 +2,7 @@
  #include "../CSV/Element.hpp"
  #include "../CSV/Elements.hpp"
  #include "../Common/Date.hpp"
+ #include "../Common/UniqueCast.hpp"
  #include "../Unit/Unit.hpp"
  #include "../Quantity/Quantity.hpp"
  #include "../Quantity/QuantityRatio.hpp"
@@ -25,8 +26,19 @@ class PredicateVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,dou
 {
 	using ReturnType = bool;
 public:
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return true; };
+	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) 
+	{
+		//auto temp = std::make_unique<IElement>(*value);
+		if(auto p = Cast::dynamic_unique_ptr<Quantity<Sum,Pure,double>>(std::move(value)))
+		{
+			 value = std::make_unique<Quantity<Sum,Pure,double>>(*p);
+             return q == *p;
+		}
+		return false; };
 	//virtual ReturnType Visit(Date& q) {  };
+private:
+	std::unique_ptr<IElement> value;
 };
 
 class TransferVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>, public Visitor<IBAN>

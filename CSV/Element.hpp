@@ -62,7 +62,7 @@ public:
 		auto c = const_cast<D*>(c2);
 		return AcceptImpl<D>(*c, visitor); 
 	}
-	virtual bool Is(BaseVisitor& visitor) { return true; };
+	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
 	constexpr bool operator==(const IElement& e) const{ return Data() == e.Data(); };
 	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:

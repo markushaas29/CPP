@@ -27,6 +27,10 @@ int Run()
 	const auto cd = Date(1,1,2020);
 	cd.Accept(vd);
 
+	auto pv = PredicateVisitor(std::make_unique<Quantity<Sum>>(29));
+	assert(sp->Is(pv));
+	assert(sp->Is(pv));
+
 	std::cout<<"END"<<std::endl;
    
 	return 0;
