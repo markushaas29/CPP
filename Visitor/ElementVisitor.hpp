@@ -11,7 +11,6 @@
 class Date;
 class IBAN;
 class IElement;
-
 template<typename,typename, typename> class Quantity;
 
 class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
@@ -20,28 +19,6 @@ class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,doubl
 public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) {  };
 	virtual ReturnType Visit(Date& q) {  };
-};
-
-class PredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date>
-{
-	using ReturnType = bool;
-public:
-	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit(q); }
-	virtual ReturnType Visit(Date& d) { return visit(d); }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const PredicateVisitor& t) 	{ return s<<"Value: "<<(*t.value);	}
-	template<typename T>
-	ReturnType visit(T& q) 
-	{
-		if(auto p = Cast::dynamic_unique_ptr<T>(std::move(value)))
-		{
-			 value = std::make_unique<T>(*p);
-             return q == *p;
-		}
-		return false; 
-	};
-	std::unique_ptr<IElement> value;
 };
 
 class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN>, public BoolVisitable<bool>
@@ -72,7 +49,7 @@ public:
 		for(auto p : v)
 			if(p->Is(visitor))
 				return true;
-		return false;// AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); 
+		return false; 
 	};
 private:
 	SumType sum;

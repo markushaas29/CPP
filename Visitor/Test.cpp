@@ -5,6 +5,7 @@
 #include <memory> 
 #include "Visitor.hpp"
 #include "ElementVisitor.hpp"
+#include "PredicateVisitor.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Common/Date.hpp"
 #include "../Quantity/Quantity.hpp"
