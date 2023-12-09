@@ -30,6 +30,8 @@ int Run()
 	auto pv = PredicateVisitor(std::make_unique<Quantity<Sum>>(29));
 	assert(sp->Is(pv));
 	assert(sp->Is(pv));
+	auto pv228 = PredicateVisitor(std::make_unique<Quantity<Sum>>(228));
+	assert(!sp->Is(pv228));
 
 	std::cout<<"END"<<std::endl;
    
