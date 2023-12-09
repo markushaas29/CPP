@@ -21,6 +21,14 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
+class PredicateVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>,bool>//, public Visitor<Date>
+{
+	using ReturnType = bool;
+public:
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return true; };
+	//virtual ReturnType Visit(Date& q) {  };
+};
+
 class TransferVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>, public Visitor<IBAN>
 {
 	using ReturnType = void;

@@ -12,12 +12,17 @@
 #include <chrono>
 #include <ctime>
 
+class PredicateVisitor;
+
 #pragma once
-class IElement: public BaseVisitable<void>
+class IElement: public BaseVisitable<void>, public BoolVisitable<bool>
 {
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
+	virtual bool Is(BaseVisitor& visitor) = 0;
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
+//	virtual constexpr bool operator==(const IElement& e) const = 0;
+//	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual const std::string& Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	template<typename T>
@@ -57,8 +62,9 @@ public:
 		auto c = const_cast<D*>(c2);
 		return AcceptImpl<D>(*c, visitor); 
 	}
-	bool operator==(const Element& e) const{ return Data() == e.Data(); };
-	std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
+	virtual bool Is(BaseVisitor& visitor) { return true; };
+	constexpr bool operator==(const IElement& e) const{ return Data() == e.Data(); };
+	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:
 	std::string value;
 	std::size_t size;

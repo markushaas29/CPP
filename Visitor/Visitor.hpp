@@ -35,6 +35,24 @@ protected:
 		return ReturnType();
 	}		
 };
+
+template<typename R = bool>
+class BoolVisitable
+{
+public:
+	using ReturnType = R;
+	virtual ~BoolVisitable(){}
+	virtual ReturnType Is(BaseVisitor&) = 0;
+protected:
+	template<class T>
+	static ReturnType AcceptPredicate(T& visited, BaseVisitor& visitor) 
+	{
+		if(Visitor<T,ReturnType>* p = dynamic_cast<Visitor<T,ReturnType>*>(&visitor))
+			return p->Visit(visited);
+		
+		return ReturnType();
+	}		
+};
 	
 #define DEFINE_VISITABLE() virtual ReturnType Accept(BaseVisitor& visitor) { return AcceptImpl(*this, visitor); }
 #define DEFINE_CONSTVISITABLE() virtual ReturnType AcceptConst(BaseVisitor& visitor) const { return AcceptConstImpl(*this, visitor); }
