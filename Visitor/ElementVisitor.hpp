@@ -22,7 +22,7 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-class PredicateVisitor: public BaseVisitor, public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date>
+class PredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date>
 {
 	using ReturnType = bool;
 public:
@@ -44,7 +44,7 @@ private:
 	std::unique_ptr<IElement> value;
 };
 
-class TransferVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>, public Visitor<IBAN>
+class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN>
 {
 	using ReturnType = void;
 public:
