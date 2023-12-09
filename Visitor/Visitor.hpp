@@ -29,7 +29,7 @@ protected:
 	template<class T>
 	static ReturnType AcceptImpl(T& visited, BaseVisitor& visitor) 
 	{
-		if(Visitor<T,void>* p = dynamic_cast<Visitor<T,ReturnType>*>(&visitor))
+		if(Visitor<T,ReturnType>* p = dynamic_cast<Visitor<T,ReturnType>*>(&visitor))
 			return p->Visit(visited);
 		
 		return ReturnType();
