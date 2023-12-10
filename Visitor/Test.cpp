@@ -36,33 +36,33 @@ int Run()
 	const auto cd = Date(1,1,2020);
 	cd.Accept(vd);
 
-	auto pv = EqualVisitor(std::make_unique<Quantity<Sum>>(29));
+	auto pv = EqualVisitor(std::make_shared<Quantity<Sum>>(29));
 	assert(sp->Is(pv));
 	assert(sp->Is(pv));
-	auto pv228 = EqualVisitor(std::make_unique<Quantity<Sum>>(228));
+	auto pv228 = EqualVisitor(std::make_shared<Quantity<Sum>>(228));
 	assert(!sp->Is(pv228));
-	auto qlv = LessVisitor(std::make_unique<Quantity<Sum>>(29));
+	auto qlv = LessVisitor(std::make_shared<Quantity<Sum>>(29));
 	assert(!sp->Is(qlv));
-	auto qlv2 = LessVisitor(std::make_unique<Quantity<Sum>>(28));
+	auto qlv2 = LessVisitor(std::make_shared<Quantity<Sum>>(28));
 	assert(!sp->Is(qlv2));
 
-	auto pv29_9 = EqualVisitor(std::make_unique<Date>(29,9,1986));
+	auto pv29_9 = EqualVisitor(std::make_shared<Date>(29,9,1986));
 	assert(dp->Is(pv29_9));
-	auto pv28_9 = EqualVisitor(std::make_unique<Date>(28,9,1986));
-	auto pv289 = EqualVisitor(std::make_unique<Date>("28.9.1986"));
+	auto pv28_9 = EqualVisitor(std::make_shared<Date>(28,9,1986));
+	auto pv289 = EqualVisitor(std::make_shared<Date>("28.9.1986"));
 	assert(!dp->Is(pv28_9));
-	auto dlv289 = LessVisitor(std::make_unique<Date>("30.9.1986"));
+	auto dlv289 = LessVisitor(std::make_shared<Date>("30.9.1986"));
 	assert(dp->Is(dlv289));
-	auto dlv299 = LessVisitor(std::make_unique<Date>("29.9.1986"));
+	auto dlv299 = LessVisitor(std::make_shared<Date>("29.9.1986"));
 	assert(!dp->Is(dlv299));
 
-	auto iv1 = EqualVisitor(std::make_unique<IBAN>(std::string("DE82660501011021592702")));
+	auto iv1 = EqualVisitor(std::make_shared<IBAN>(std::string("DE82660501011021592702")));
 	assert(ip->Is(iv1));
-	auto iv2 = EqualVisitor(std::make_unique<IBAN>(std::string("DE82660501011021592703")));
+	auto iv2 = EqualVisitor(std::make_shared<IBAN>(std::string("DE82660501011021592703")));
 	assert(!ip->Is(iv2));
-	auto ilv1 = LessVisitor(std::make_unique<IBAN>(std::string("DE82660501011021592702")));
+	auto ilv1 = LessVisitor(std::make_shared<IBAN>(std::string("DE82660501011021592702")));
 	assert(!ip->Is(ilv1));
-	auto ilv2 = LessVisitor(std::make_unique<IBAN>(std::string("DE82660501011021590002")));
+	auto ilv2 = LessVisitor(std::make_shared<IBAN>(std::string("DE82660501011021590002")));
 	assert(!ip->Is(ilv1));
 
     using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
@@ -104,9 +104,9 @@ int Run()
 	assert(!tv.Is(dlv299));
 	assert(tv.Is(dlv289));
 
-//	Factory<IPredicateVisitor, std::unique_ptr<IElement>> fm;
-//    fm.Register("EQ",[](std::unique_ptr<IElement> p) { return std::make_unique<EqualVisitor>(std::move(p)); });
-//    assert(fm.Size()==1);
+	Factory<IPredicateVisitor, std::shared_ptr<IElement>> fm;
+    fm.Register("EQ",[](std::shared_ptr<IElement> p) { return std::make_unique<EqualVisitor>(std::move(p)); });
+    assert(fm.Size()==1);
 
 	std::cout<<"END Visitor"<<pv289<<std::endl;
 	std::cout<<"END Visitor"<<std::endl;

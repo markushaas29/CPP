@@ -33,7 +33,7 @@ public:
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
 protected:
 	using Base = PredicateVisitor<D,E>;
-	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
+	PredicateVisitor(std::shared_ptr<IElement> v): value{std::move(v)} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const PredicateVisitor& t) 	{ return s<<"Value: "<<(*t.value);	}
 	template<bool EnableType, typename T>
@@ -47,15 +47,15 @@ private:
 	template<typename T>
 	ReturnType visitImpl(T& q) 
 	{
-		if(auto p = Cast::dynamic_unique_ptr<T>(std::move(value)))
+		if(auto p = std::dynamic_pointer_cast<T>(std::move(value)))
 		{
-			 value = std::make_unique<T>(*p);
+			 value = std::make_shared<T>(*p);
              return Derived::op(q,*p);
 		}
 
 		return false; 
 	};
-	std::unique_ptr<IElement> value;
+	std::shared_ptr<IElement> value;
 };
 
 class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
@@ -63,7 +63,7 @@ class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
 	friend class PredicateVisitor<EqualVisitor,true>;
 	template<typename T> inline static bool op(T l,T r) { return l == r; } 
 public:
-	EqualVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
+	EqualVisitor(std::shared_ptr<IElement> v): Base{std::move(v)} {}
 };
 
 class LessVisitor: public PredicateVisitor<LessVisitor,false>
@@ -71,5 +71,5 @@ class LessVisitor: public PredicateVisitor<LessVisitor,false>
 	friend class PredicateVisitor<LessVisitor,false>;
 	template<typename T> inline static bool op(T l,T r) { return l < r; } 
 public:
-	LessVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
+	LessVisitor(std::shared_ptr<IElement> v): Base{std::move(v)} {}
 };
