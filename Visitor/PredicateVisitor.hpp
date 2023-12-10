@@ -13,9 +13,17 @@ class IBAN;
 class IElement;
 template<typename,typename, typename> class Quantity;
 
-class PredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date, IBAN>
+class IPredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date, IBAN>
 {
+public:
 	using ReturnType = bool;
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) = 0;
+	virtual ReturnType Visit(Date& d) = 0;
+	virtual ReturnType Visit(IBAN& i) = 0;
+};
+
+class PredicateVisitor: public IPredicateVisitor
+{
 public:
 	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit(q); }
