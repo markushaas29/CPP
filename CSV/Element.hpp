@@ -12,7 +12,7 @@
 #include <chrono>
 #include <ctime>
 
-class PredicateVisitor;
+template<typename, bool> class PredicateVisitor;
 
 #pragma once
 class IElement: public BaseVisitable<void>, public BoolVisitable<bool>

@@ -47,12 +47,8 @@ private:
 	template<typename T>
 	ReturnType visitImpl(T& q) 
 	{
-		if(auto p = std::dynamic_pointer_cast<T>(std::move(value)))
-		{
-			 value = std::make_shared<T>(*p);
+		if(auto p = std::dynamic_pointer_cast<T>(value))
              return Derived::op(q,*p);
-		}
-
 		return false; 
 	};
 	std::shared_ptr<IElement> value;
