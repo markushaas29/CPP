@@ -103,6 +103,10 @@ int Run()
 	assert(!tv.Is(pv228));
 	assert(!tv.Is(dlv299));
 	assert(tv.Is(dlv289));
+	
+	Factory<IElement> fme;
+    fme.Register("Q",[](const std::string s) { return std::make_unique<IBAN>(s); });
+    assert(fme.Size()==1);
 
 	Factory<IPredicateVisitor, std::shared_ptr<IElement>> fm;
     fm.Register("EQ",[](std::shared_ptr<IElement> p) { return std::make_unique<EqualVisitor>(std::move(p)); });
