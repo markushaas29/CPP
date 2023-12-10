@@ -34,15 +34,15 @@ int Run()
 	const auto cd = Date(1,1,2020);
 	cd.Accept(vd);
 
-	auto pv = PredicateVisitor(std::make_unique<Quantity<Sum>>(29));
+	auto pv = EqualVisitor(std::make_unique<Quantity<Sum>>(29));
 	assert(sp->Is(pv));
 	assert(sp->Is(pv));
-	auto pv228 = PredicateVisitor(std::make_unique<Quantity<Sum>>(228));
+	auto pv228 = EqualVisitor(std::make_unique<Quantity<Sum>>(228));
 	assert(!sp->Is(pv228));
-	auto pv29_9 = PredicateVisitor(std::make_unique<Date>(29,9,1986));
+	auto pv29_9 = EqualVisitor(std::make_unique<Date>(29,9,1986));
 	assert(dp->Is(pv29_9));
-	auto pv28_9 = PredicateVisitor(std::make_unique<Date>(28,9,1986));
-	auto pv289 = PredicateVisitor(std::make_unique<Date>("28.9.1986"));
+	auto pv28_9 = EqualVisitor(std::make_unique<Date>(28,9,1986));
+	auto pv289 = EqualVisitor(std::make_unique<Date>("28.9.1986"));
 	assert(!dp->Is(pv28_9));
 
     using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;

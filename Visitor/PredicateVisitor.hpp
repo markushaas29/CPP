@@ -22,13 +22,18 @@ public:
 	virtual ReturnType Visit(IBAN& i) = 0;
 };
 
+template<typename D, bool E = false>
 class PredicateVisitor: public IPredicateVisitor
 {
+	using Derived = D;
+	inline static constexpr bool EnableOperation = E;
 public:
-	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit(q); }
 	virtual ReturnType Visit(Date& d) { return visit(d); }
 	virtual ReturnType Visit(IBAN& i) { return visit(i); }
+protected:
+	using Base = PredicateVisitor<D,E>;
+	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const PredicateVisitor& t) 	{ return s<<"Value: "<<(*t.value);	}
 	template<typename T>
@@ -42,4 +47,13 @@ private:
 		return false; 
 	};
 	std::unique_ptr<IElement> value;
+};
+
+class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
+{
+	friend class PredicateVisitor<EqualVisitor,true>;
+public:
+	EqualVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
+private:
+	//template<typename T>
 };
