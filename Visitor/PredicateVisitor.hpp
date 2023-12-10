@@ -28,18 +28,18 @@ class PredicateVisitor: public IPredicateVisitor
 	using Derived = D;
 	inline static constexpr bool EnableOperation = E;
 public:
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit(q); }
-	virtual ReturnType Visit(Date& d) { return visit(d); }
-	virtual ReturnType Visit(IBAN& i) { return visit(i); }
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
+	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
+	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
 protected:
 	using Base = PredicateVisitor<D,E>;
 	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const PredicateVisitor& t) 	{ return s<<"Value: "<<(*t.value);	}
-	template<typename T>
+	template<bool EnableType, typename T>
 	ReturnType visit(T& q) 
 	{
-		if constexpr (!EnableOperation)
+		if constexpr (!EnableOperation && !EnableType)
 			return false;
 		else
 			return visitImpl(q); 

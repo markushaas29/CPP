@@ -25,6 +25,7 @@ int Run()
 	ElementVisitor vd;
 	std::shared_ptr<IElement> dp = std::make_shared<Date>(29,9,1986);
 	std::shared_ptr<IElement> sp = std::make_shared<Quantity<Sum>>(29);
+	std::shared_ptr<IElement> ip = std::make_shared<IBAN>(std::string("DE82660501011021592702"));
 	auto qs = Quantity<Sum>(29);
 	IElement* ie = &qs;
 	dp->Accept(vd);
@@ -44,6 +45,12 @@ int Run()
 	auto pv28_9 = EqualVisitor(std::make_unique<Date>(28,9,1986));
 	auto pv289 = EqualVisitor(std::make_unique<Date>("28.9.1986"));
 	assert(!dp->Is(pv28_9));
+
+	auto iv1 = EqualVisitor(std::make_unique<IBAN>(std::string("DE82660501011021592702")));
+	assert(ip->Is(iv1));
+	auto iv2 = EqualVisitor(std::make_unique<IBAN>(std::string("DE82660501011021592703")));
+	assert(!ip->Is(iv2));
+
 
     using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
     using M2E = Matrix<2,ME2D>;
