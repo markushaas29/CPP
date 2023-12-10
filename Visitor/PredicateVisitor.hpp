@@ -42,7 +42,7 @@ private:
 		if(auto p = Cast::dynamic_unique_ptr<T>(std::move(value)))
 		{
 			 value = std::make_unique<T>(*p);
-             return q == *p;
+             return Derived::op(q,*p);
 		}
 		return false; 
 	};
@@ -55,5 +55,6 @@ class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
 public:
 	EqualVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
 private:
-	//template<typename T>
+	template<typename T>
+	inline static bool op(T l,T r) { return l == r; } 
 };
