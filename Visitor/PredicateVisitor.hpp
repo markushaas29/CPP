@@ -39,11 +39,20 @@ private:
 	template<typename T>
 	ReturnType visit(T& q) 
 	{
+		if constexpr (!EnableOperation)
+			return false;
+		else
+			return visitImpl(q); 
+	};
+	template<typename T>
+	ReturnType visitImpl(T& q) 
+	{
 		if(auto p = Cast::dynamic_unique_ptr<T>(std::move(value)))
 		{
 			 value = std::make_unique<T>(*p);
              return Derived::op(q,*p);
 		}
+
 		return false; 
 	};
 	std::unique_ptr<IElement> value;
