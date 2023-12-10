@@ -3,6 +3,7 @@
  #include "Visitor.hpp"
  #include "ElementVisitor.hpp"
  #include "VisitorOperations.hpp"
+ #include "PredicateVisitor.hpp"
 
 #pragma once 
  
@@ -63,25 +64,26 @@ public:
 		using P = typename FU::Type;
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	    auto values = fa(*visitors);   
+		auto pred = LessVisitor(std::make_unique<Quantity<Sum>>(-40));
 
 		std::vector<MT> res;
-//	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
-//	    {    
-//	        std::vector<std::shared_ptr<IElement>> temp;                
-//			std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
-//	        {       
-//	            if(f(v,x))                                                                        
-//	            {                                      
-//	               auto e = v.Create();    
-//	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
-//	            }                                   
-//	        });      
-//	                   
-//	        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
-//	    	res.push_back(MT(md,temp));    
-//	    });    
-//		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
-		return values;
+	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
+	    {    
+	        std::vector<std::shared_ptr<IElement>> temp;                
+			std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
+	        {       
+				auto p = std::make_shared<P>(x);
+	            if(v.Is(pred))// && p->Is(pred))                                                                        
+	            {                                      
+	               auto e = v.Create();    
+	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+	            }                                   
+	        });      
+	                   
+	        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
+	    	res.push_back(MT(md,temp));    
+	    });    
+		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
     }
 private:
 	template<typename P, typename F>        

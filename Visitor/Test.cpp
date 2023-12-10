@@ -7,6 +7,7 @@
 #include "ElementVisitor.hpp"
 #include "PredicateVisitor.hpp"
 #include "../CSV/Elements.hpp"
+#include "../ObjectFactory/Factory.hpp"
 #include "../Common/Date.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Matrix/Matrix.hpp"
@@ -102,6 +103,10 @@ int Run()
 	assert(!tv.Is(pv228));
 	assert(!tv.Is(dlv299));
 	assert(tv.Is(dlv289));
+
+//	Factory<IPredicateVisitor, std::unique_ptr<IElement>> fm;
+//    fm.Register("EQ",[](std::unique_ptr<IElement> p) { return std::make_unique<EqualVisitor>(std::move(p)); });
+//    assert(fm.Size()==1);
 
 	std::cout<<"END Visitor"<<pv289<<std::endl;
 	std::cout<<"END Visitor"<<std::endl;
