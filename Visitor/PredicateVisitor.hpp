@@ -61,9 +61,15 @@ private:
 class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
 {
 	friend class PredicateVisitor<EqualVisitor,true>;
+	template<typename T> inline static bool op(T l,T r) { return l == r; } 
 public:
 	EqualVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
-private:
-	template<typename T>
-	inline static bool op(T l,T r) { return l == r; } 
+};
+
+class LessVisitor: public PredicateVisitor<LessVisitor,false>
+{
+	friend class PredicateVisitor<LessVisitor,false>;
+	template<typename T> inline static bool op(T l,T r) { return l < r; } 
+public:
+	LessVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
 };
