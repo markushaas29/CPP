@@ -104,21 +104,32 @@ int Run()
 	assert(!tv.Is(dlv299));
 	assert(tv.Is(dlv289));
 	
-	auto fme =std::make_shared<Factory<IElement>>();
-    fme->Register("Q",[](const std::string s) { return std::make_unique<IBAN>(s); });
-    assert(fme->Size()==1);
-
 	Factory<IPredicateVisitor, std::shared_ptr<IElement>> fm;
     fm.Register("EQ",[](std::shared_ptr<IElement> p) { return std::make_unique<EqualVisitor>(std::move(p)); });
     assert(fm.Size()==1);
 	
+	auto fme =std::make_shared<Factory<IElement>>();
+    fme->Register("I",[](const std::string s) { return std::make_unique<IBAN>(s); });
+    assert(fme->Size()==1);
+    fme->Register("D",[](const std::string s) { return std::make_unique<Date>(s); });
+    assert(fme->Size()==2);
+    fme->Register("Q",[](const std::string s) { return std::make_unique<Quantity<Sum,Pure,double>>(s); });
+    assert(fme->Size()==3);
+	
 	auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fme);
 	pfs->Register("EQ",[](std::shared_ptr<IElement> e) { return std::make_unique<EqualVisitor>(e); });
     assert(pfs->Size()==1);
-	auto eqv = ((*pfs)("EQ", { "Q", "DE82660501011021592702"}));
+	pfs->Register("L",[](std::shared_ptr<IElement> e) { return std::make_unique<LessVisitor>(e); });
+    assert(pfs->Size()==2);
+	auto eqv = ((*pfs)("EQ", { "I", "DE82660501011021592702"}));
+	auto eqvq = ((*pfs)("EQ", { "Q", "29"}));
+	auto eqvd = ((*pfs)("EQ", { "D", "29.9.1986"}));
+	auto lvq = ((*pfs)("L", { "Q", "30"}));
 	auto ib = IBAN(std::string("DE82660501011021592702"));
     assert(eqv->Visit(ib));
 	assert(ip->Is(*eqv));
+	assert(dp->Is(*eqvd));
+	assert(sp->Is(*lvq));
 
 	std::cout<<"END Visitor"<<pv289<<std::endl;
 	std::cout<<"END Visitor"<<std::endl;
