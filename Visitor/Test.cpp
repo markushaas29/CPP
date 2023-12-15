@@ -115,7 +115,7 @@ int Run()
 	auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fme);
 	pfs->Register("EQ",[](std::shared_ptr<IElement> e) { return std::make_unique<EqualVisitor>(e); });
     assert(pfs->Size()==1);
-	auto eqv = ((*pfs)("EQ", { "Q", "ABS"}));
+	auto eqv = ((*pfs)("EQ", { "Q", "DE82660501011021592702"}));
 	auto ib = IBAN(std::string("DE82660501011021592702"));
     assert(eqv->Visit(ib));
 
