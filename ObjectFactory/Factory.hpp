@@ -127,7 +127,7 @@ private:
 	std::map< IdentifierType, CreatorType> creators;
 };
 
-template<class T, class F, typename CT = std::shared_ptr<IElement>>
+template<class T, class F, typename CT = std::unique_ptr<IElement>>
 class CompositeFactory
 {
 public:
