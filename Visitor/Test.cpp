@@ -118,6 +118,7 @@ int Run()
 	auto eqv = ((*pfs)("EQ", { "Q", "DE82660501011021592702"}));
 	auto ib = IBAN(std::string("DE82660501011021592702"));
     assert(eqv->Visit(ib));
+	assert(ip->Is(*eqv));
 
 	std::cout<<"END Visitor"<<pv289<<std::endl;
 	std::cout<<"END Visitor"<<std::endl;
