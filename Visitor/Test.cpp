@@ -104,13 +104,20 @@ int Run()
 	assert(!tv.Is(dlv299));
 	assert(tv.Is(dlv289));
 	
-	Factory<IElement> fme;
-    fme.Register("Q",[](const std::string s) { return std::make_unique<IBAN>(s); });
-    assert(fme.Size()==1);
+	auto fme =std::make_shared<Factory<IElement>>();
+    fme->Register("Q",[](const std::string s) { return std::make_unique<IBAN>(s); });
+    assert(fme->Size()==1);
 
 	Factory<IPredicateVisitor, std::shared_ptr<IElement>> fm;
     fm.Register("EQ",[](std::shared_ptr<IElement> p) { return std::make_unique<EqualVisitor>(std::move(p)); });
     assert(fm.Size()==1);
+	
+	auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fme);
+	pfs->Register("EQ",[](std::shared_ptr<IElement> e) { return std::make_unique<EqualVisitor>(e); });
+    assert(pfs->Size()==1);
+	auto eqv = ((*pfs)("EQ", { "Q", "ABS"}));
+	auto ib = IBAN(std::string("DE82660501011021592702"));
+    assert(eqv->Visit(ib));
 
 	std::cout<<"END Visitor"<<pv289<<std::endl;
 	std::cout<<"END Visitor"<<std::endl;

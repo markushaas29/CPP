@@ -127,6 +127,35 @@ private:
 	std::map< IdentifierType, CreatorType> creators;
 };
 
+template<class T, class F, typename CT = std::shared_ptr<IElement>>
+class CompositeFactory
+{
+public:
+	using PtrType = std::unique_ptr<T>;
+	using IdentifierType = std::string;
+	using ArgumentType = FactoryUnit<IdentifierType, IdentifierType>;
+	using CreatorType = std::function<std::unique_ptr<T>(CT)>;
+	using FactoryType = F; 
+	inline static constexpr const char TypeIdentifier[] = "FactoryStack";
+   	inline static constexpr Literal TypeId{TypeIdentifier};
+	CompositeFactory(std::shared_ptr<FactoryType> f): factory{f} {}
+	void Register(const IdentifierType& id,  CreatorType c) { creators.try_emplace(id,c); } 
+	const CreatorType& operator[](const  IdentifierType& id) {	return find(id);	}
+	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { return (*this)[id]((*factory)("Q", "B"));	}
+	size_t Size() { return creators.size(); }
+private:
+	template<typename E> using IsT =  Is<E,TypeId>;
+	const CreatorType& find(const IdentifierType& id) 
+	{
+		auto i = creators.find(id);
+		if(i == creators.end())
+			IsT<Throwing>(Format(id))(false);
+		return (i->second); 
+	}
+	std::shared_ptr<FactoryType> factory;
+	std::map< IdentifierType, CreatorType> creators;
+};
+
 template<class TList, template<class> class Unit = FactoryUnit, template<class> class CreatePolicy = CreateFactoryUnitNewPolicy>
 class AbstractFactory
 {

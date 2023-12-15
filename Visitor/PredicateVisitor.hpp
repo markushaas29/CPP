@@ -17,6 +17,7 @@ class IPredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>,
 {
 public:
 	using ReturnType = bool;
+	using ElementType = bool;
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) = 0;
 	virtual ReturnType Visit(Date& d) = 0;
 	virtual ReturnType Visit(IBAN& i) = 0;
