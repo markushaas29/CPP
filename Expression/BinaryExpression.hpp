@@ -2,44 +2,41 @@
 
 #pragma once
 
-template<template<typename,typename> class D,typename L, typename R>
-class BinaryExpression: public Expression<BinaryExpression<D,L,R>>
+template<typename D>
+class BinaryExpression: public Expression<BinaryExpression<D>>
 {
-	using Derived = D<L,R>;
-	using Type = BinaryExpression<D,L,R>;
+	using Derived = D;
+	using Type = BinaryExpression<D>;
 	using Base = Expression<Type>;
 	friend class Expression<Type>;
 	inline static constexpr const char* sign = Derived::sign; 
-	friend class D<L,R>;
+	friend D;
 public:
-	using LeftType = L;
-	using RightType = R;
-	BinaryExpression(const LeftType& l,const RightType& r ): right{r}, left{l} { }
+	using LeftType = std::unique_ptr<IExpression>;
+	using RightType = std::unique_ptr<IExpression>;
+	BinaryExpression(LeftType l, RightType r): right{std::move(r)}, left{std::move(l)} { }
 	BinaryExpression(const BinaryExpression& b ): right{b.right}, left{b.left} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
-	bool operator()() const { return Derived::op(left,right); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 	constexpr decltype(auto) Left() const { return left; }
 	constexpr decltype(auto) Right() const { return right; };
 private:
-	friend std::ostream& operator<<(std::ostream& s, const BinaryExpression& c) { return s<<"{"<<c.left<<" "<<c.sign<<" "<<c.right<<"}";  }
+	//friend std::ostream& operator<<(std::ostream& s, const BinaryExpression& c) { return s<<"{"<<*(c.left)<<" "<<c.sign<<" "<<*(c.right)<<"}";  }
 	RightType right;
 	LeftType left;
 };
 
-template<typename L, typename R>
-class And: public BinaryExpression<And,L,R>
+class And: public BinaryExpression<And>
 {
-	using Base = BinaryExpression<And,L,R>;
-	friend class BinaryExpression<And,L,R>;
-	static decltype(auto) op(const auto l, const auto r) { return l() && r(); }
+	using Base = BinaryExpression<And>;
+	friend class BinaryExpression<And>;
 	static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) + r(v); }
 public:
-	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
-	And(const L& l, const R& r): Base{l,r} {}
+	And(typename Base::LeftType l, typename Base::LeftType r): Base{std::move(l),std::move(r)} {}
+	virtual bool operator()() const { return (*Base::left)() && (*Base::right)(); }
 private:
-	inline static constexpr const char* sign = "+"; 
+	inline static constexpr const char* sign = "&&"; 
 };
 //
 //template<typename L, typename R>
