@@ -10,6 +10,7 @@
 #include "String/Test.cpp"
 #include "Visitor/Test.cpp"
 #include "Functional/Test.cpp"
+#include "Expression/Test.cpp"
 #include "ObjectFactory/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
@@ -42,6 +43,8 @@ int main()
 	ElementTest et;
 	et.Run();
 	
+	ExpressionTest ex;
+	ex.Run();
 	std::cout<<"END"<<std::endl;
 	return 0;
 }
