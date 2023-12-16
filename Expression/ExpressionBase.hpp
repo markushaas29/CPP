@@ -1,12 +1,12 @@
 #pragma once
 
 template<typename D>
-class Functional
+class Expression
 {
 	using Derived = D;
-	using Type = Functional<D>;
+	using Type = Expression<D>;
 public:
-	virtual ~Functional(){};
+	virtual ~Expression(){};
 	decltype(auto) operator()() const
 	{ 
 		auto cderived = const_cast<Type&>(*this);

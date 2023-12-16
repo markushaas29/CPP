@@ -7,17 +7,17 @@
 template<class> class Fx;
 
 template<template<typename> class D,typename V>
-class UnaryFunctional: public Functional<UnaryFunctional<D,V>>
+class UnaryExpression: public Expression<UnaryExpression<D,V>>
 {
 	using ValueType = V;
 	using Derived = D<V>;
-	using Type = UnaryFunctional<D,V>;
-	using Base = Functional<Type>;
-	friend class Functional<Type>;
+	using Type = UnaryExpression<D,V>;
+	using Base = Expression<Type>;
+	friend class Expression<Type>;
 	template<typename> friend class D;
 	inline static constexpr const char* sign = Derived::sign; 
 public:
-	UnaryFunctional(const ValueType& v): value{v} {}
+	UnaryExpression(const ValueType& v): value{v} {}
 	decltype(auto) operator()(const auto& v) const 
 	{
 		if constexpr (std::is_same_v<D<V>,Fx<V>>)
@@ -35,20 +35,20 @@ public:
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
 	template<template<typename> class D1,typename V1>
-	decltype(auto) operator<=>(const UnaryFunctional<D1,V1>& u){ return (*this)() <=> u();	}
+	decltype(auto) operator<=>(const UnaryExpression<D1,V1>& u){ return (*this)() <=> u();	}
 	template<template<typename> class D1,typename V1>
-	decltype(auto) operator==(const UnaryFunctional<D1,V1>& u){ return (*this)() == u();	}
+	decltype(auto) operator==(const UnaryExpression<D1,V1>& u){ return (*this)() == u();	}
 private:
-	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<c.value;  }
+	friend std::ostream& operator<<(std::ostream& s, const UnaryExpression& c) { return s<<c.value;  }
 	ValueType value;
 };
 
 template<class Domain=double>
-class Constant: public UnaryFunctional<Constant,Domain>
+class Constant: public UnaryExpression<Constant,Domain>
 {
 	using Type = Constant<Domain>;
-	using Base = UnaryFunctional<Constant, Domain>;
-	friend class UnaryFunctional<Constant, Domain>;
+	using Base = UnaryExpression<Constant, Domain>;
+	friend class UnaryExpression<Constant, Domain>;
 public:
 	Constant(const Domain& v): Base{v} {}
 	template<typename T>
@@ -60,11 +60,11 @@ private:
 };
 
 template<class Domain=double>
-class Parameter: public UnaryFunctional<Parameter, std::shared_ptr<Domain>>
+class Parameter: public UnaryExpression<Parameter, std::shared_ptr<Domain>>
 {
 	using Type = Parameter<Domain>;
-	using Base = UnaryFunctional<Parameter, std::shared_ptr<Domain>>;
-	template<template<typename> class, typename> friend class UnaryFunctional;
+	using Base = UnaryExpression<Parameter, std::shared_ptr<Domain>>;
+	template<template<typename> class, typename> friend class UnaryExpression;
 public:
 	Parameter(const Domain& v): Base{std::make_shared<Domain>(v)} {}
 	Parameter(std::shared_ptr<Domain> v): Base{v} {} 
@@ -78,11 +78,11 @@ private:
 };
 
 template<class Domain=double>
-class Fx: public UnaryFunctional<Fx, Domain>
+class Fx: public UnaryExpression<Fx, Domain>
 {
 	using Type = Fx<Domain>;
-	using Base = UnaryFunctional<Fx, Domain>;
-	template<template<typename> class, typename> friend class UnaryFunctional;
+	using Base = UnaryExpression<Fx, Domain>;
+	template<template<typename> class, typename> friend class UnaryExpression;
 public:
 	Fx(const Domain& v = Domain{}): Base{v} {}
 private:
