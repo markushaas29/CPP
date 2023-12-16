@@ -70,3 +70,44 @@ class LessVisitor: public PredicateVisitor<LessVisitor,false>
 public:
 	LessVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
 };
+
+template<typename D, bool E = false>
+class BinaryVisitor: public IPredicateVisitor
+{
+	using Derived = D;
+	inline static constexpr bool EnableOperation = E;
+public:
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
+	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
+	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
+protected:
+	using Base = BinaryVisitor<D,E>;
+	BinaryVisitor(std::unique_ptr<IPredicateVisitor> p1, std::unique_ptr<IPredicateVisitor> p2): v1{std::move(p1)}, v2{std::move(p2)} {}
+private:
+	//friend std::ostream& operator<<(std::ostream& s, const BinaryVisitor& t) 	{ return s<<"Value: "<<(*t.v1)<<" "<<(*t.v2);	}
+	template<bool EnableType, typename T>
+	ReturnType visit(T& q) 
+	{
+		if constexpr (!EnableOperation && !EnableType)
+			return false;
+		else
+			return visitImpl(q); 
+	};
+	template<typename T>
+	ReturnType visitImpl(T& q) 
+	{
+		//if(auto p = Cast::dynamic_unique_ptr<T>(value->Clone()))
+        //	return Derived::op(q,*p);
+		return false; 
+	};
+	std::unique_ptr<IPredicateVisitor> v1;
+	std::unique_ptr<IPredicateVisitor> v2;
+};
+
+class AndVisitor: public BinaryVisitor<AndVisitor,false>
+{
+	friend class BinaryVisitor<AndVisitor,false>;
+	template<typename T> inline static bool op(T l,T r) { return l && r; } 
+public:
+	AndVisitor(std::unique_ptr<IPredicateVisitor> p1, std::unique_ptr<IPredicateVisitor> p2): Base{std::move(p1), std::move(p2)} {}
+};
