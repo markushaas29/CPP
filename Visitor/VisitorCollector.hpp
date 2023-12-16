@@ -58,23 +58,20 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
-	template<typename F, typename FU>                      
-	decltype(auto) Sort(F f, FU fa) const                      
+	template<typename P2, typename P1, typename F>                      
+	decltype(auto) Sort(P1 pred, F fa) const                      
 	{
-		using P = typename FU::Type;
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	    auto values = fa(*visitors);   
-		auto pred = LessVisitor(std::make_unique<Quantity<Sum>>(-40));
 
 		std::vector<MT> res;
-	    std::for_each(values.cbegin(), values.cend(), [&](const auto& x)          
+	    std::for_each(values.cbegin(), values.cend(), [&](auto& x)          
 	    {    
 	        std::vector<std::shared_ptr<IElement>> temp;                
 			std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
 	        {       
-				auto p = std::make_shared<P>(x);
-				std::cout<<"P"<<*p<<pred<<std::endl;
-	            if(v.Is(pred))// && p->Is(pred))                                                                        
+				auto p = P2(std::make_unique<IBAN>(x));
+	            if(v.Is(pred) && v.Is(p))                                                                        
 	            {                                      
 	               auto e = v.Create();    
 	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
