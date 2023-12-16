@@ -48,11 +48,8 @@ private:
 	template<typename T>
 	ReturnType visitImpl(T& q) 
 	{
-		if(auto p = Cast::dynamic_unique_ptr<T>(std::move(value)))
-		{
-			value = std::make_unique<T>(*p);
+		if(auto p = Cast::dynamic_unique_ptr<T>(value->Clone()))
         	return Derived::op(q,*p);
-		}
 		return false; 
 	};
 	std::unique_ptr<IElement> value;

@@ -73,6 +73,7 @@ public:
 			std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
 	        {       
 				auto p = std::make_shared<P>(x);
+				std::cout<<"P"<<*p<<pred<<std::endl;
 	            if(v.Is(pred))// && p->Is(pred))                                                                        
 	            {                                      
 	               auto e = v.Create();    
