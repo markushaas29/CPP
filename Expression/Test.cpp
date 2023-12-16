@@ -25,6 +25,10 @@ class ExpressionTest
 			assert(!BooleanExpression(3==4)());
 			assert(!BooleanExpression(false)());
 
+			auto a = And(BooleanExpression(true),BooleanExpression(true));
+			assert(a());
+			assert(!And(BooleanExpression(true),BooleanExpression(false)));
+
 			std::cout<<"END"<<std::endl;
 
 			return 0;

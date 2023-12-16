@@ -1,7 +1,7 @@
 #include <type_traits>
 #include "ExpressionBase.hpp"
 #include "UnaryExpression.hpp"
-//#include "Binary.hpp"
+#include "BinaryExpression.hpp"
 //#include "VecBinary.hpp"
 //#include "VecUnary.hpp"
 //#include "ExpressionOperators.hpp"
