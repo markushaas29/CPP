@@ -282,7 +282,7 @@ class M3Test
 			auto ivs = std::string("DE56600501017402051588");
 			auto iban = IBAN(ivs);
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
-			auto vib = mv.Collector().Sort(f,Unique<IBAN>());
+			auto vib = mv.Collector().Sort<EqualVisitor>(LessVisitor(std::make_unique<Quantity<Sum>>(-40)),Unique<IBAN>());
 			std::cout<<"M3 D:"<<vib<<" "<<vib<<std::endl;
 //			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
 //			for(auto d : vs)
