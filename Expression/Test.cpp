@@ -19,6 +19,12 @@ class ExpressionTest
 			using T = std::tuple<Quantity<Sum>,Quantity<Mass>>;
 	
 			QM qm{5};
+
+			assert(BooleanExpression(true)());
+			assert(BooleanExpression(3!=4)());
+			assert(!BooleanExpression(3==4)());
+			assert(!BooleanExpression(false)());
+
 			std::cout<<"END"<<std::endl;
 
 			return 0;
