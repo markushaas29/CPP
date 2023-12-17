@@ -2,6 +2,7 @@
 #include "ExpressionBase.hpp"
 #include "UnaryExpression.hpp"
 #include "BinaryExpression.hpp"
+#include "BoolExpression.hpp"
 //#include "VecBinary.hpp"
 //#include "VecUnary.hpp"
 //#include "ExpressionOperators.hpp"

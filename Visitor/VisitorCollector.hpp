@@ -4,6 +4,7 @@
  #include "ElementVisitor.hpp"
  #include "VisitorOperations.hpp"
  #include "PredicateVisitor.hpp"
+ #include "../Expression/Expression.hpp"
 
 #pragma once 
  
@@ -63,7 +64,9 @@ public:
 	{
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	    auto values = fa(*visitors);   
-
+		auto v1 = std::make_shared<Var>(false);
+		auto v2 = std::make_shared<Var>(false);
+		auto a = And(v1,v2);
 		std::vector<MT> res;
 	    std::for_each(values.cbegin(), values.cend(), [&](auto& x)          
 	    {    
@@ -71,7 +74,9 @@ public:
 			std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
 	        {       
 				auto p = P2(std::make_unique<IBAN>(x));
-	            if(v.Is(pred) && v.Is(p))                                                                        
+	            (*v1)(v.Is(pred));
+				(*v2)(v.Is(p));                                                                        
+	            if(a())                                                                        
 	            {                                      
 	               auto e = v.Create();    
 	               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
@@ -81,7 +86,7 @@ public:
 	        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
 	    	res.push_back(MT(md,temp));    
 	    });    
-		return M3<std::shared_ptr<IElement>,MatrixDescriptor<2,std::shared_ptr<IElement>>>(res);
+		return M3<std::shared_ptr<IElement>,MatrixDescriptor<3,std::shared_ptr<IElement>>>(res);
     }
 private:
 	template<typename P, typename F>        
