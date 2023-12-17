@@ -34,7 +34,7 @@ class UnaryExpression: public Expression<UnaryExpression<D>>
 	friend Derived;
 	inline static constexpr const char* sign = Derived::sign; 
 public:
-	UnaryExpression(std::unique_ptr<IExpression> v): value{std::move(v)} {}
+	UnaryExpression(std::shared_ptr<IExpression> v): value{std::move(v)} {}
 	decltype(auto) operator()(const auto& v) const 
 	{
 //		if constexpr (std::is_same_v<D>,Fx<V>>)
@@ -48,7 +48,7 @@ public:
 	decltype(auto) operator==(const UnaryExpression<D1>& u){ return (*this)() == u();	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryExpression& c) { return s<<c.value;  }
-	std::unique_ptr<IExpression> value;
+	std::shared_ptr<IExpression> value;
 };
 
 class Not: public UnaryExpression<Not>
@@ -57,7 +57,7 @@ class Not: public UnaryExpression<Not>
 	using Base = UnaryExpression<Not>;
 	friend class UnaryExpression<Not>;
 public:
-	Not(std::unique_ptr<IExpression> v): Base{std::move(v)} {}
+	Not(std::shared_ptr<IExpression> v): Base{std::move(v)} {}
 	virtual bool operator()() const { return (*Base::value)(); }
 private:
 };

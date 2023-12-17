@@ -12,8 +12,8 @@ class BinaryExpression: public Expression<BinaryExpression<D>>
 	inline static constexpr const char* sign = Derived::sign; 
 	friend D;
 public:
-	using LeftType = std::unique_ptr<IExpression>;
-	using RightType = std::unique_ptr<IExpression>;
+	using LeftType = std::shared_ptr<IExpression>;
+	using RightType = std::shared_ptr<IExpression>;
 	BinaryExpression(LeftType l, RightType r): right{std::move(r)}, left{std::move(l)} { }
 	BinaryExpression(const BinaryExpression& b ): right{b.right}, left{b.left} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }

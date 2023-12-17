@@ -28,11 +28,13 @@ class ExpressionTest
 			assert(!Var(3==4)());
 			assert(!Var(false)());
 
-			auto a = And(std::make_unique<Var>(true),std::make_unique<Var>(true));
+			auto pv = std::make_shared<Var>(true);
+			auto a = And(std::make_shared<Var>(true),pv);
 			assert(a());
+			(*pv)(false);
 			//std::cout<<"AND "<<a<<std::endl;
-			assert(!And(std::make_unique<Var>(true),std::make_unique<Var>(false))());
-			assert(!And(std::make_unique<Var>(true),std::make_unique<And>(std::make_unique<Var>(true),std::make_unique<Var>(false)))());
+			assert(!And(std::make_shared<Var>(true),std::make_shared<Var>(false))());
+			assert(!And(std::make_shared<Var>(true),std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<Var>(false)))());
 
 			std::cout<<"END"<<std::endl;
 
