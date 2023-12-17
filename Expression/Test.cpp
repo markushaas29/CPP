@@ -20,6 +20,9 @@ class ExpressionTest
 	
 			QM qm{5};
 			auto b = Var(true);
+			assert(b());
+			b(false);
+			assert(!b());
 			assert(Var(true)());
 			assert(Var(3!=4)());
 			assert(!Var(3==4)());
