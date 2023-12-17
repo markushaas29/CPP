@@ -21,6 +21,7 @@ class ExpressionTest
 			QM qm{5};
 			auto b = Var(true);
 			assert(b());
+			assert(b==b);
 			b(false);
 			assert(!b());
 			assert(Var(true)());
@@ -29,6 +30,8 @@ class ExpressionTest
 			assert(!Var(false)());
 
 			auto pv = std::make_shared<Var>(true);
+			std::shared_ptr<IExpression> pv2 = pv->Clone();
+			assert(pv==pv);
 			auto a = And(std::make_shared<Var>(true),pv);
 			assert(a());
 			(*pv)(false);

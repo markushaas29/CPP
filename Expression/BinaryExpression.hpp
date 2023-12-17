@@ -19,6 +19,7 @@ public:
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
+	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(left,right); } 
 	constexpr decltype(auto) Left() const { return left; }
 	constexpr decltype(auto) Right() const { return right; };
 private:

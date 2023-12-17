@@ -14,10 +14,10 @@ class Var: public Expression<Var>
 public:
 	Var(bool v): value{v} {}
 	virtual bool operator()() const { return value; }
+	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(value); }
 	decltype(auto) operator()(bool v) { value = v; }
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
-	template<typename D1>
 	decltype(auto) operator==(const Var& u){ return (*this)() == u();	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Var& c) { return s<<c.value;  }
@@ -35,17 +35,11 @@ class UnaryExpression: public Expression<UnaryExpression<D>>
 	inline static constexpr const char* sign = Derived::sign; 
 public:
 	UnaryExpression(std::shared_ptr<IExpression> v): value{std::move(v)} {}
-	decltype(auto) operator()(const auto& v) const 
-	{
-//		if constexpr (std::is_same_v<D>,Fx<V>>)
-//			return Derived::op(v); 
-//		else
-//			return Derived::op(value); 
-	}
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
 	template<typename D1>
 	decltype(auto) operator==(const UnaryExpression<D1>& u){ return (*this)() == u();	}
+	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(value); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryExpression& c) { return s<<c.value;  }
 	std::shared_ptr<IExpression> value;

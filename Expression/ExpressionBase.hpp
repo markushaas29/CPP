@@ -1,9 +1,10 @@
+#include <memory>
 #pragma once
 
 class IExpression
 {
 public:
-	//virtual ~IExpression() = 0;
+	virtual std::shared_ptr<IExpression> Clone() = 0;
 	virtual bool operator()() const = 0;
 };
 
