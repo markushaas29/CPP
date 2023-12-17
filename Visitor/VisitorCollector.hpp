@@ -64,8 +64,8 @@ public:
 	{
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	    auto values = fa(*visitors);   
-		auto v1 = std::make_shared<Var>(false);
-		auto v2 = std::make_shared<Var>(false);
+		auto v1 = std::make_shared<Var<bool>>(false);
+		auto v2 = std::make_shared<Var<bool>>(false);
 		auto a = And(v1,v2);
 		std::vector<MT> res;
 	    std::for_each(values.cbegin(), values.cend(), [&](auto& x)          
