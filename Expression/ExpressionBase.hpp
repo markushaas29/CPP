@@ -12,7 +12,7 @@ protected:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IExpression& c) 
 	{ 
-		s<<"{";
+		s<<"{"<<std::boolalpha;
 		c.display(s);
 		return s<<"}";  
 	}
