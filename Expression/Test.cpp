@@ -31,7 +31,9 @@ class ExpressionTest
 
 			auto pv = std::make_shared<Var>(true);
 			std::shared_ptr<IExpression> pv2 = pv->Clone();
-			assert(pv==pv);
+			assert((*pv)());
+			assert((*pv2)());
+			//assert(pv2==pv);
 			auto a = And(std::make_shared<Var>(true),pv);
 			assert(a());
 			(*pv)(false);
