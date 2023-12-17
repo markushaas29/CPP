@@ -6,18 +6,35 @@
 
 template<class> class Fx;
 
-template<typename D,typename V>
-class UnaryExpression: public Expression<UnaryExpression<D,V>>
+class Var: public Expression<Var>
 {
-	using ValueType = V;
+	using Type = Var;
+	using Base = Expression<Type>;
+	friend class Expression<Type>;
+public:
+	Var(bool v): value{v} {}
+	virtual bool operator()() const { return value; }
+	decltype(auto) operator()(bool v) { value = v; }
+	template<typename T>
+	explicit operator T() const { return static_cast<T>((*this)()); }
+	template<typename D1>
+	decltype(auto) operator==(const Var& u){ return (*this)() == u();	}
+private:
+	friend std::ostream& operator<<(std::ostream& s, const Var& c) { return s<<c.value;  }
+	bool value;
+};
+
+template<typename D>
+class UnaryExpression: public Expression<UnaryExpression<D>>
+{
 	using Derived = D;
-	using Type = UnaryExpression<D,V>;
+	using Type = UnaryExpression<D>;
 	using Base = Expression<Type>;
 	friend class Expression<Type>;
 	friend Derived;
 	inline static constexpr const char* sign = Derived::sign; 
 public:
-	UnaryExpression(const ValueType& v): value{v} {}
+	UnaryExpression(std::unique_ptr<IExpression> v): value{std::move(v)} {}
 	decltype(auto) operator()(const auto& v) const 
 	{
 //		if constexpr (std::is_same_v<D>,Fx<V>>)
@@ -25,31 +42,24 @@ public:
 //		else
 //			return Derived::op(value); 
 	}
-	bool operator()() const 
-	{ 
-		if constexpr(std::is_invocable_v<ValueType>)
-			return value();
-		else
-			return Derived::op(value); 
-	}
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
-	template<typename D1,typename V1>
-	decltype(auto) operator==(const UnaryExpression<D1,V1>& u){ return (*this)() == u();	}
+	template<typename D1>
+	decltype(auto) operator==(const UnaryExpression<D1>& u){ return (*this)() == u();	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryExpression& c) { return s<<c.value;  }
-	ValueType value;
+	std::unique_ptr<IExpression> value;
 };
 
-class BooleanExpression: public UnaryExpression<BooleanExpression,bool>
+class Not: public UnaryExpression<Not>
 {
-	using Type = BooleanExpression;
-	using Base = UnaryExpression<BooleanExpression, bool>;
-	friend class UnaryExpression<BooleanExpression, bool>;
+	using Type = Not;
+	using Base = UnaryExpression<Not>;
+	friend class UnaryExpression<Not>;
 public:
-	BooleanExpression(bool v): Base{v} {}
+	Not(std::unique_ptr<IExpression> v): Base{std::move(v)} {}
+	virtual bool operator()() const { return (*Base::value)(); }
 private:
-	static decltype(auto) op(bool v) { return v; }
 };
 //
 //template<class Domain=double>
