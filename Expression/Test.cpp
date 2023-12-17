@@ -20,16 +20,16 @@ class ExpressionTest
 	
 			QM qm{5};
 			auto b = Var(true);
-			//assert(Var(true)());
-//			assert(Var(3!=4)());
-//			assert(!Var(3==4)());
-//			assert(!Var(false)());
-//
-//			auto a = And(std::make_unique<Var>(true),std::make_unique<Var>(true));
-//			assert(a());
-//			//std::cout<<"AND "<<a<<std::endl;
-//			assert(!And(std::make_unique<Var>(true),std::make_unique<Var>(false))());
-//			assert(!And(std::make_unique<Var>(true),std::make_unique<And>(std::make_unique<Var>(true),std::make_unique<Var>(false)))());
+			assert(Var(true)());
+			assert(Var(3!=4)());
+			assert(!Var(3==4)());
+			assert(!Var(false)());
+
+			auto a = And(std::make_unique<Var>(true),std::make_unique<Var>(true));
+			assert(a());
+			//std::cout<<"AND "<<a<<std::endl;
+			assert(!And(std::make_unique<Var>(true),std::make_unique<Var>(false))());
+			assert(!And(std::make_unique<Var>(true),std::make_unique<And>(std::make_unique<Var>(true),std::make_unique<Var>(false)))());
 
 			std::cout<<"END"<<std::endl;
 
