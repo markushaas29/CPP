@@ -43,6 +43,9 @@ class ExpressionTest
 			assert(And(std::make_shared<Var>(true),pv)());
 			
 			assert(!And(std::make_shared<Var>(true),std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<Var>(false)))());
+			auto ao = std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<Var>(false)));
+
+			std::cout<<*ao<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 

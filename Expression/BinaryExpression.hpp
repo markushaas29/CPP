@@ -20,8 +20,9 @@ public:
 	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(left,right); } 
 	constexpr decltype(auto) Left() const { return left; }
 	constexpr decltype(auto) Right() const { return right; };
+protected:
+	std::ostream& display(std::ostream& s) const { return s<<*(left)<<" "<<sign<<" "<<*(right);  }
 private:
-	//friend std::ostream& operator<<(std::ostream& s, const BinaryExpression& c) { return s<<"{"<<*(c.left)<<" "<<c.sign<<" "<<*(c.right)<<"}";  }
 	RightType right;
 	LeftType left;
 };

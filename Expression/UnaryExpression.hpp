@@ -17,6 +17,8 @@ public:
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
 	decltype(auto) operator==(const Var& u){ return (*this)() == u();	}
+protected:
+    std::ostream& display(std::ostream& s) const { return s<<value;  } 
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Var& c) { return s<<c.value;  }
 	bool value;
@@ -36,6 +38,8 @@ public:
 	template<typename D1>
 	decltype(auto) operator==(const UnaryExpression<D1>& u){ return (*this)() == u();	}
 	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(value); }
+protected:
+    std::ostream& display(std::ostream& s) const { return s<<*value;  } 
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryExpression& c) { return s<<c.value;  }
 	std::shared_ptr<IExpression> value;
