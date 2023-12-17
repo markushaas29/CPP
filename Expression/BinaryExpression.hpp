@@ -3,12 +3,10 @@
 #pragma once
 
 template<typename D>
-class BinaryExpression: public Expression<BinaryExpression<D>>
+class BinaryExpression: public IExpression
 {
 	using Derived = D;
 	using Type = BinaryExpression<D>;
-	using Base = Expression<Type>;
-	friend class Expression<Type>;
 	inline static constexpr const char* sign = Derived::sign; 
 	friend D;
 public:

@@ -6,15 +6,13 @@
 
 template<class> class Fx;
 
-class Var: public Expression<Var>
+class Var: public IExpression
 {
 	using Type = Var;
-	using Base = Expression<Type>;
-	friend class Expression<Type>;
 public:
 	Var(bool v): value{v} {}
 	virtual bool operator()() const { return value; }
-	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(value); }
+	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Var>(value); }
 	decltype(auto) operator()(bool v) { value = v; }
 	template<typename T>
 	explicit operator T() const { return static_cast<T>((*this)()); }
@@ -25,12 +23,10 @@ private:
 };
 
 template<typename D>
-class UnaryExpression: public Expression<UnaryExpression<D>>
+class UnaryExpression: public IExpression
 {
 	using Derived = D;
 	using Type = UnaryExpression<D>;
-	using Base = Expression<Type>;
-	friend class Expression<Type>;
 	friend Derived;
 	inline static constexpr const char* sign = Derived::sign; 
 public:
