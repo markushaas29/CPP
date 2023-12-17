@@ -4,6 +4,27 @@
 
 #pragma once
 
+template<class> class Fx;
+
+template<typename T>
+class Var: public IExpression<T>
+{
+	using Type = Var<T>;
+public:
+	Var(bool v): value{v} {}
+	virtual T operator()() const { return value; }
+	virtual std::shared_ptr<IExpression<T>> Clone()  { return std::make_shared<Type>(value); }
+	decltype(auto) operator()(bool v) { value = v; }
+	template<typename TO>
+	explicit operator TO() const { return static_cast<TO>((*this)()); }
+	decltype(auto) operator==(const Type& u){ return (*this)() == u();	}
+protected:
+    std::ostream& display(std::ostream& s) const { return s<<value;  } 
+private:
+	friend std::ostream& operator<<(std::ostream& s, const Type& c) { return s<<c.value;  }
+	T value;
+};
+
 class Not: public UnaryExpression<Not,bool>
 {
 	using Type = Not;
