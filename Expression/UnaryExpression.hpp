@@ -31,10 +31,10 @@ class Var: public IExpression<T>
 {
     using Type = Var<T>;
 public:
-    Var(bool v): value{v} {}
+    Var(T v): value{v} {}
     virtual T operator()() const { return value; }
     virtual std::shared_ptr<IExpression<T>> Clone()  { return std::make_shared<Type>(value); }
-    decltype(auto) operator()(bool v) { value = v; }
+    decltype(auto) operator()(int v) { value = v; }
     template<typename TO>
     explicit operator TO() const { return static_cast<TO>((*this)()); }  
     decltype(auto) operator==(const Type& u){ return (*this)() == u();  }

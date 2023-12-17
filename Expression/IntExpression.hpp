@@ -4,48 +4,28 @@
 
 #pragma once
 
-template<class> class Fx;
-
-template<typename T>
-class Var: public IExpression<T>
+class AddExp: public BinaryExpression<AddExp,int>
 {
-	using Type = Var<T>;
-public:
-	Var(bool v): value{v} {}
-	virtual T operator()() const { return value; }
-	virtual std::shared_ptr<IExpression<T>> Clone()  { return std::make_shared<Type>(value); }
-	decltype(auto) operator()(bool v) { value = v; }
-	template<typename TO>
-	explicit operator TO() const { return static_cast<TO>((*this)()); }
-	decltype(auto) operator==(const Type& u){ return (*this)() == u();	}
-protected:
-    std::ostream& display(std::ostream& s) const { return s<<value;  } 
-private:
-	friend std::ostream& operator<<(std::ostream& s, const Type& c) { return s<<c.value;  }
-	T value;
-};
-
-class Not: public UnaryExpression<Not,bool>
-{
-	using Type = Not;
-	using Base = UnaryExpression<Not,bool>;
-	friend class UnaryExpression<Not,bool>;
-public:
-	Not(std::shared_ptr<typename Base::Interface> v): Base{std::move(v)} {}
-	virtual bool operator()() const { return (*Base::value)(); }
-private:
-};
-
-class And: public BinaryExpression<And,bool>
-{
-    using Base = BinaryExpression<And,bool>;
-    friend class BinaryExpression<And,bool>;
+    using Base = BinaryExpression<AddExp,int>;
+    friend class BinaryExpression<AddExp,int>;
     static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) + r(v); }
 public:
-    And(typename Base::LeftType l, typename Base::LeftType r): Base{std::move(l),std::move(r)} {}
-    virtual bool operator()() const { return (*Base::left)() && (*Base::right)(); }
+    AddExp(typename Base::LeftType l, typename Base::LeftType r): Base{std::move(l),std::move(r)} {}
+    virtual int operator()() const { return (*Base::left)() + (*Base::right)(); }
 private:
-    inline static constexpr const char* sign = "&&";
+    inline static constexpr const char* sign = "+";
+};
+
+class SubExp: public BinaryExpression<SubExp,int>
+{
+    using Base = BinaryExpression<SubExp,int>;
+    friend class BinaryExpression<SubExp,int>;
+    static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) - r(v); }
+public:
+    SubExp(typename Base::LeftType l, typename Base::LeftType r): Base{std::move(l),std::move(r)} {}
+    virtual int operator()() const { return (*Base::left)() - (*Base::right)(); }
+private:
+    inline static constexpr const char* sign = "-";
 };
 //
 //template<class Domain=double>

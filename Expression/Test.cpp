@@ -46,6 +46,18 @@ class ExpressionTest
 			auto ao = std::make_shared<And>(std::make_shared<Var<bool>>(true),std::make_shared<And>(std::make_shared<Var<bool>>(true),std::make_shared<Var<bool>>(false)));
 
 			std::cout<<*ao<<std::endl;
+			
+			auto i = Var<int>(3);
+			assert(i()==3);
+			i(4);
+			assert(i()==4);
+			auto i9 = std::make_shared<Var<int>>(9);
+			auto ai = std::make_shared<AddExp>(i9,std::make_shared<SubExp>(i9,std::make_shared<Var<int>>(5)));
+			std::cout<<(*ai)()<<std::endl;
+			assert((*ai)()==13);
+			(*i9)(25);
+			assert((*ai)()==45);
+			std::cout<<(*ai)<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 
