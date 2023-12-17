@@ -6,52 +6,54 @@
 
 template<class> class Fx;
 
-class Var: public IExpression
+template<typename T>
+class Var: public IExpression<T>
 {
-	using Type = Var;
+	using Type = Var<T>;
 public:
 	Var(bool v): value{v} {}
-	virtual bool operator()() const { return value; }
-	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Var>(value); }
+	virtual T operator()() const { return value; }
+	virtual std::shared_ptr<IExpression<T>> Clone()  { return std::make_shared<Type>(value); }
 	decltype(auto) operator()(bool v) { value = v; }
-	template<typename T>
-	explicit operator T() const { return static_cast<T>((*this)()); }
-	decltype(auto) operator==(const Var& u){ return (*this)() == u();	}
+	template<typename TO>
+	explicit operator TO() const { return static_cast<TO>((*this)()); }
+	decltype(auto) operator==(const Type& u){ return (*this)() == u();	}
 protected:
     std::ostream& display(std::ostream& s) const { return s<<value;  } 
 private:
-	friend std::ostream& operator<<(std::ostream& s, const Var& c) { return s<<c.value;  }
-	bool value;
+	friend std::ostream& operator<<(std::ostream& s, const Type& c) { return s<<c.value;  }
+	T value;
 };
 
-template<typename D>
-class UnaryExpression: public IExpression
+template<typename D, typename T>
+class UnaryExpression: public IExpression<T>
 {
 	using Derived = D;
-	using Type = UnaryExpression<D>;
+	using Interface = IExpression<T>;
+	using Type = UnaryExpression<D,T>;
 	friend Derived;
 	inline static constexpr const char* sign = Derived::sign; 
 public:
-	UnaryExpression(std::shared_ptr<IExpression> v): value{std::move(v)} {}
-	template<typename T>
-	explicit operator T() const { return static_cast<T>((*this)()); }
+	UnaryExpression(std::shared_ptr<Interface> v): value{std::move(v)} {}
+	template<typename TO>
+	explicit operator TO() const { return static_cast<TO>((*this)()); }
 	template<typename D1>
-	decltype(auto) operator==(const UnaryExpression<D1>& u){ return (*this)() == u();	}
-	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(value); }
+	decltype(auto) operator==(const Type& u){ return (*this)() == u();	}
+	virtual std::shared_ptr<Interface> Clone()  { return std::make_shared<Derived>(value); }
 protected:
     std::ostream& display(std::ostream& s) const { return s<<*value;  } 
 private:
 	friend std::ostream& operator<<(std::ostream& s, const UnaryExpression& c) { return s<<c.value;  }
-	std::shared_ptr<IExpression> value;
+	std::shared_ptr<Interface> value;
 };
 
-class Not: public UnaryExpression<Not>
+class Not: public UnaryExpression<Not,bool>
 {
 	using Type = Not;
-	using Base = UnaryExpression<Not>;
-	friend class UnaryExpression<Not>;
+	using Base = UnaryExpression<Not,bool>;
+	friend class UnaryExpression<Not,bool>;
 public:
-	Not(std::shared_ptr<IExpression> v): Base{std::move(v)} {}
+	Not(std::shared_ptr<typename Base::Interface> v): Base{std::move(v)} {}
 	virtual bool operator()() const { return (*Base::value)(); }
 private:
 };

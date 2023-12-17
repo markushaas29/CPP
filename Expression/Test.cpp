@@ -19,31 +19,31 @@ class ExpressionTest
 			using T = std::tuple<Quantity<Sum>,Quantity<Mass>>;
 	
 			QM qm{5};
-			auto b = Var(true);
+			auto b = Var<bool>(true);
 			assert(b());
 			assert(b==b);
 			b(false);
 			assert(!b());
-			assert(Var(true)());
-			assert(Var(3!=4)());
-			assert(!Var(3==4)());
-			assert(!Var(false)());
+			assert(Var<bool>(true)());
+			assert(Var<bool>(3!=4)());
+			assert(!Var<bool>(3==4)());
+			assert(!Var<bool>(false)());
 
-			auto pv = std::make_shared<Var>(true);
-			std::shared_ptr<IExpression> pv2 = pv->Clone();
+			auto pv = std::make_shared<Var<bool>>(true);
+			std::shared_ptr<IExpression<bool>> pv2 = pv->Clone();
 			assert((*pv)());
 			assert((*pv2)());
 			//assert(pv2==pv);
-			auto a = And(std::make_shared<Var>(true),pv);
+			auto a = And(std::make_shared<Var<bool>>(true),pv);
 			assert(a());
 			(*pv)(false);
 			assert(!a());
-			assert(!And(std::make_shared<Var>(true),pv)());
+			assert(!And(std::make_shared<Var<bool>>(true),pv)());
 			(*pv)(true);
-			assert(And(std::make_shared<Var>(true),pv)());
+			assert(And(std::make_shared<Var<bool>>(true),pv)());
 			
-			assert(!And(std::make_shared<Var>(true),std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<Var>(false)))());
-			auto ao = std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<And>(std::make_shared<Var>(true),std::make_shared<Var>(false)));
+			assert(!And(std::make_shared<Var<bool>>(true),std::make_shared<And>(std::make_shared<Var<bool>>(true),std::make_shared<Var<bool>>(false)))());
+			auto ao = std::make_shared<And>(std::make_shared<Var<bool>>(true),std::make_shared<And>(std::make_shared<Var<bool>>(true),std::make_shared<Var<bool>>(false)));
 
 			std::cout<<*ao<<std::endl;
 

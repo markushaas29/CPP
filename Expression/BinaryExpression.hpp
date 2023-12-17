@@ -2,22 +2,23 @@
 
 #pragma once
 
-template<typename D>
-class BinaryExpression: public IExpression
+template<typename D, typename T>
+class BinaryExpression: public IExpression<T>
 {
 	using Derived = D;
-	using Type = BinaryExpression<D>;
+	using Type = BinaryExpression<D,T>;
+	using Interface = IExpression<T>;
 	inline static constexpr const char* sign = Derived::sign; 
 	friend D;
 public:
-	using LeftType = std::shared_ptr<IExpression>;
-	using RightType = std::shared_ptr<IExpression>;
+	using LeftType = std::shared_ptr<Interface>;
+	using RightType = std::shared_ptr<Interface>;
 	BinaryExpression(LeftType l, RightType r): right{std::move(r)}, left{std::move(l)} { }
 	BinaryExpression(const BinaryExpression& b ): right{b.right}, left{b.left} {}
 	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
-	template<typename T>
-	operator T() const { return static_cast<T>((*this)()); }
-	virtual std::shared_ptr<IExpression> Clone()  { return std::make_shared<Derived>(left,right); } 
+	template<typename TO>
+	operator TO() const { return static_cast<TO>((*this)()); }
+	virtual std::shared_ptr<Interface> Clone()  { return std::make_shared<Derived>(left,right); } 
 	constexpr decltype(auto) Left() const { return left; }
 	constexpr decltype(auto) Right() const { return right; };
 protected:
@@ -27,10 +28,10 @@ private:
 	LeftType left;
 };
 
-class And: public BinaryExpression<And>
+class And: public BinaryExpression<And,bool>
 {
-	using Base = BinaryExpression<And>;
-	friend class BinaryExpression<And>;
+	using Base = BinaryExpression<And,bool>;
+	friend class BinaryExpression<And,bool>;
 	static decltype(auto) op(const auto l, const auto r, const auto v) { return l(v) + r(v); }
 public:
 	And(typename Base::LeftType l, typename Base::LeftType r): Base{std::move(l),std::move(r)} {}
