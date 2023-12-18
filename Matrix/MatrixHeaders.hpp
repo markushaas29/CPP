@@ -12,6 +12,7 @@
 #include "MatrixCalculator.hpp"
 #include "MatrixAccess.hpp"
 #include "MatrixIO.hpp"
+#include "MatrixAcceptor.hpp"
 #include "MatrixFwd.hpp"
 #include "MatrixFunctions.hpp"
 #include "MatrixParser.hpp"
