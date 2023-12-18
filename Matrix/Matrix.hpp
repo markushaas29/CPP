@@ -62,11 +62,13 @@ public:
 	template<typename T>
 	decltype(auto) Accept(const MatrixVisitor<T>& m) const { return m.Visit(this); }
 	template<typename T>
-	decltype(auto) Accept(std::unique_ptr<T> m) const 
+	decltype(auto) Accept(T&& m) const 
 	{
-		MatrixVisitor<TransferVisitor> mv;
-	    Accept(mv);
-		return mv.Collector().Get(4.1); }
+		MatrixAcceptor<Type>::accept(this);
+//		MatrixVisitor<TransferVisitor> mv;
+//	    Accept(mv);
+//		return mv.Collector().Get(4.1); 
+	}
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
@@ -108,6 +110,7 @@ private:
 	friend class MatrixIO<Type>;
 	friend class MatrixParser<Type>;
 	friend class MatrixFilter<Type>;
+	friend class MatrixAcceptor<Type>;
 	template<typename> friend class MatrixVisitor;
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
