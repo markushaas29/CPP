@@ -61,6 +61,12 @@ public:
 
 	template<typename T>
 	decltype(auto) Accept(const MatrixVisitor<T>& m) const { return m.Visit(this); }
+	template<typename T>
+	decltype(auto) Accept(std::unique_ptr<T> m) const 
+	{
+		MatrixVisitor<TransferVisitor> mv;
+	    Accept(mv);
+		return mv.Collector().Get(4.1); }
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }

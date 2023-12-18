@@ -286,6 +286,7 @@ class M3Test
 			auto vib2 = mv.Collector().Get(4.1);
 			std::cout<<"M3 D:"<<vib<<std::endl;
 			std::cout<<"M3 D2:"<<vib2<<std::endl;
+			std::cout<<"M3 D2:"<<mcP.Accept(std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-40)))<<std::endl;
 //			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
 //			for(auto d : vs)
 //				std::cout<<"M3 D:"<<d<<std::endl;
