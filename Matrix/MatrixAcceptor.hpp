@@ -41,21 +41,16 @@ private:
 		vip.push_back(std::make_unique<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
 		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(m);
-		std::vector<std::shared_ptr<IElement>> temp;
-        auto mat = mv.Collector().Create(vip.cbegin());    
-		return apply(std::move(mat),vip.cbegin()+1, vip.cend());
+		return apply(mv.Collector().Create(vip.cbegin()),vip.cbegin()+1, vip.cend());
     }
 	template<typename It>
     static decltype(auto) apply(M&& m, It begin, It end)
     {
 		if(begin==end)
 			return M(m.descriptor, *m.elements);
-			auto mv = MatrixVisitor<TransferVisitor>();
-		std::cout<<"ACCCEPT"<<mv<<std::endl;
+		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(&m);
-		std::vector<std::shared_ptr<IElement>> temp;
-        auto mat = mv.Collector().Create(std::move(begin));    
-		return apply(std::move(mat),begin+1,end);
+		return apply(mv.Collector().Create(std::move(begin)),begin+1,end);
 
     }
 };
