@@ -34,7 +34,7 @@ private:
     using VisitorType = TransferVisitor;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	//template<typename T, typename A>
-    decltype(auto) accept(const M* m)
+    static decltype(auto) accept(const M* m)
     {
 		std::vector<std::unique_ptr<IPredicateVisitor>> vip;
 		vip.push_back(std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-30)));
@@ -46,14 +46,10 @@ private:
 		return apply(std::move(mat),vip.cbegin()+1, vip.cend());
     }
 	template<typename It>
-    decltype(auto) apply(M&& m, It begin, It end)
+    static decltype(auto) apply(M&& m, It begin, It end)
     {
 		if(begin==end)
-		{
-		std::cout<<"ACCCEPT start"<<m<<std::endl;
-		matrix = M(m.descriptor, *m.elements);
 			return M(m.descriptor, *m.elements);
-		}
 			auto mv = MatrixVisitor<TransferVisitor>();
 		std::cout<<"ACCCEPT"<<mv<<std::endl;
 		mv.Visit(&m);
