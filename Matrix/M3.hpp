@@ -96,10 +96,11 @@ public:
 	}
 
 	template<typename V>
-   	decltype(auto) Accept(const V& v) const
+   	decltype(auto) Accept(const V& visitors) const
 	{
 		std::vector<typename MatrixInitializer<2,std::shared_ptr<IElement>>::MatrixType> mx;
-		std::for_each(elements->cbegin(), elements->cend(), [&mx,&v](const auto& v2) { mx.push_back( v2.Accept(v) ); });
+		for(auto v : visitors)
+			std::for_each(elements->cbegin(), elements->cend(), [&mx,&v](const auto& v2) { mx.push_back( v2.Accept(v) ); });
 		return M3<std::shared_ptr<IElement>>(mx); 
 	}
 

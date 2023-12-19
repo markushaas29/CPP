@@ -285,11 +285,13 @@ class M3Test
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-30))); 
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
-			auto resv = mcP.Accept(std::move(vip));
+			auto resv = mcP.Accept(vip);
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
 			
-			auto mp3 = m22_23.Cols(0,2,4).Parse(matcher);
-			std::cout<<"M3 D2 RES:"<<mp3.Accept(vip)<<std::endl;
+			auto mp3 = m22_23.Cols(4,7,11).Parse(matcher);
+	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
+			std::cout<<"M3 Accept dsfsd:"<<mp3<<std::endl;
+			std::cout<<"M3 Accept dsfsd:"<<mp3.Accept(vip)<<std::endl;
 
 //			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
 //			for(auto d : vs)
