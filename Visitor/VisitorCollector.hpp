@@ -72,7 +72,9 @@ public:
 	           auto e = v.Create();    
 	           std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
 	        }                                   
-	    });      
+	    });     
+
+		std::cout<<"TEMP"<<temp.size()<<std::endl;
 	               
 	    MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
 	    return MT(md,temp);    

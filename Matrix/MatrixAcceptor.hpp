@@ -28,32 +28,38 @@ public:
 	//using ResultType = Matrix<Order, DescriptorType>;
 	inline static constexpr const char TypeIdentifier[] = "MatrixAcceptor";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
+	const M& Get() { return matrix; }
 private:
+	M matrix;
     using VisitorType = TransferVisitor;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	//template<typename T, typename A>
-    static decltype(auto) accept(const M* m)
+    decltype(auto) accept(const M* m)
     {
 		std::vector<std::unique_ptr<IPredicateVisitor>> vip;
+		vip.push_back(std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-30)));
 		vip.push_back(std::make_unique<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
-		vip.push_back(std::make_unique<EqualVisitor>(std::make_unique<Quantity<Sum>>(83.94)));
 		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(m);
 		std::vector<std::shared_ptr<IElement>> temp;
         auto mat = mv.Collector().Create(vip.cbegin());    
-		return apply(&mat,vip.cbegin()+1, vip.cend());
+		return apply(std::move(mat),vip.cbegin()+1, vip.cend());
     }
 	template<typename It>
-    static decltype(auto) apply(const M* m, It begin, It end)
+    decltype(auto) apply(M&& m, It begin, It end)
     {
-		auto mv = MatrixVisitor<TransferVisitor>();
-		mv.Visit(m);
+		if(begin==end)
+		{
+		std::cout<<"ACCCEPT start"<<m<<std::endl;
+		matrix = M(m.descriptor, *m.elements);
+			return 9;
+		}
+			auto mv = MatrixVisitor<TransferVisitor>();
 		std::cout<<"ACCCEPT"<<mv<<std::endl;
+		mv.Visit(&m);
 		std::vector<std::shared_ptr<IElement>> temp;
         auto mat = mv.Collector().Create(std::move(begin));    
-		if(begin==end)
-			return mat;
-		return apply(&mat,begin+1,end);
+		return apply(std::move(mat),begin+1,end);
 
     }
 };

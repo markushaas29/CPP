@@ -284,7 +284,7 @@ class M3Test
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
 			std::vector<std::unique_ptr<IPredicateVisitor>> vip;// = { std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))};
 			auto resv = mcP.Accept(std::move(vip));
-			std::cout<<"M3 D2:"<<resv<<std::endl;
+			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
 			auto vib = mv.Collector().Sort<EqualVisitor>(LessVisitor(std::make_unique<Quantity<Sum>>(-40)),Unique<IBAN>());
 			auto vib2 = mv.Collector().Get(4.1);
 			std::cout<<"M3 D:"<<vib<<std::endl;

@@ -64,7 +64,12 @@ public:
 	template<typename T>
 	decltype(auto) Accept(T&& m) const 
 	{
-		return MatrixAcceptor<Type>::accept(this);
+		auto ma = MatrixAcceptor<Type>();
+		ma.accept(this);
+		auto x = ma.Get();
+		std::cout<<"X "<<x<<std::endl;
+		using Res = decltype(x);
+		return Res(x.descriptor, *x.elements); 
 //		MatrixVisitor<TransferVisitor> mv;
 //	    Accept(mv);
 //		return mv.Collector().Get(4.1); 
