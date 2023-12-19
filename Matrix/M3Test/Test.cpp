@@ -288,9 +288,8 @@ class M3Test
 			auto resv = mcP.Accept(std::move(vip));
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
 			
-			std::cout<<"M3 D2 RES:"<<m22_23.Cols(4,7,11)<<std::endl;
-
 			auto mp3 = m22_23.Cols(0,2,4).Parse(matcher);
+			std::cout<<"M3 D2 RES:"<<mp3.Accept(vip)<<std::endl;
 
 //			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
 //			for(auto d : vs)
