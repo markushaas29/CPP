@@ -86,6 +86,14 @@ public:
 
 		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
 	}
+
+
+	decltype(auto) Parse(const Matcher& m) const 
+	{
+		std::vector<typename MatrixInitializer<2,std::shared_ptr<IElement>>::MatrixType> mx;
+		std::for_each(elements->cbegin(), elements->cend(), [&mx, &m](const auto& v2) { mx.push_back( v2.Parse(m) ); });
+		return M3<std::shared_ptr<IElement>>(mx); 
+	}
 	template<typename TO>
 	decltype(auto) To() const 
 	{
