@@ -52,7 +52,7 @@ private:
 		{
 		std::cout<<"ACCCEPT start"<<m<<std::endl;
 		matrix = M(m.descriptor, *m.elements);
-			return 9;
+			return M(m.descriptor, *m.elements);
 		}
 			auto mv = MatrixVisitor<TransferVisitor>();
 		std::cout<<"ACCCEPT"<<mv<<std::endl;
