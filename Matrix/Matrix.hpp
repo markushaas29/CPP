@@ -62,7 +62,7 @@ public:
 	template<typename T>
 	decltype(auto) Accept(const MatrixVisitor<T>& m) const { return m.Visit(this); }
 	template<typename T>
-	decltype(auto) Accept(T&& m) const 	{	return MatrixAcceptor<Type>::accept(this); 	}
+	decltype(auto) Accept(const T& v) const 	{	return MatrixAcceptor<Type>::accept(this,v); 	}
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }

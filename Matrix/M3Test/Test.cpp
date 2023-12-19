@@ -282,7 +282,9 @@ class M3Test
 			auto ivs = std::string("DE56600501017402051588");
 			auto iban = IBAN(ivs);
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
-			std::vector<std::unique_ptr<IPredicateVisitor>> vip;// = { std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))};
+			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
+	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-30))); 
+	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
 			auto resv = mcP.Accept(std::move(vip));
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
 //			auto vib = mv.Collector().Sort<EqualVisitor>(LessVisitor(std::make_unique<Quantity<Sum>>(-40)),Unique<IBAN>());
