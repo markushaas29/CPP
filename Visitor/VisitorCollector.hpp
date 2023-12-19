@@ -59,15 +59,23 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
-	decltype(auto) Create()  const
+	template<typename P>                      
+	decltype(auto) Create(P p)  const
 	{
-		std::vector<std::shared_ptr<IElement>> res;
-		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
-				{  	auto r = v.Create();
-					for(auto x : r)
-						res.push_back(x);
-				});
-		return res; 
+		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
+		std::vector<MT> res;
+	    std::vector<std::shared_ptr<IElement>> temp;                
+		std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
+	    {       
+	        if(v.Is(**p))                                                                        
+	        {                                      
+	           auto e = v.Create();    
+	           std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+	        }                                   
+	    });      
+	               
+	    MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
+	    return MT(md,temp);    
 	}
 	template<typename T>                      
 	decltype(auto) Get(T t) const                      

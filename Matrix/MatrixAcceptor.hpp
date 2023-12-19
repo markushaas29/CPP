@@ -40,7 +40,7 @@ private:
 		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(m);
 		std::vector<std::shared_ptr<IElement>> temp;
-        auto mat = mv.Collector().Create(**vip.cbegin());    
+        auto mat = mv.Collector().Create(vip.cbegin());    
 		return apply(&mat,vip.cbegin()+1, vip.cend());
     }
 	template<typename It>
@@ -50,7 +50,7 @@ private:
 		mv.Visit(m);
 		std::cout<<"ACCCEPT"<<mv<<std::endl;
 		std::vector<std::shared_ptr<IElement>> temp;
-        auto mat = mv.Collector().Create(std::move(**begin));    
+        auto mat = mv.Collector().Create(std::move(begin));    
 		if(begin==end)
 			return mat;
 		return apply(&mat,begin+1,end);
