@@ -29,31 +29,31 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixAcceptor";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 private:
+    using VisitorType = TransferVisitor;
+	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	//template<typename T, typename A>
     static decltype(auto) accept(const M* m)
     {
 		std::vector<std::unique_ptr<IPredicateVisitor>> vip;
-		vip.push_back(std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-40)));
-		vip.push_back(std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(880)));
+		vip.push_back(std::make_unique<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
+		vip.push_back(std::make_unique<EqualVisitor>(std::make_unique<Quantity<Sum>>(83.94)));
 		auto mv = MatrixVisitor<TransferVisitor>();
-		std::cout<<"ACCCEPT"<<std::endl;
-		return apply(m,mv,vip.cbegin(), vip.cend());
-    }
-	template<typename R, typename It>
-    static decltype(auto) apply(const M* m, R r, It begin, It end)
-    {
-		r.Visit(m);
-		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
+		mv.Visit(m);
 		std::vector<std::shared_ptr<IElement>> temp;
-        auto e = r.Collector().Create();    
-        //std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
-    	using VisitorType = TransferVisitor;
-    	MatrixDescriptor<2,std::shared_ptr<IElement>> md{{e.size()/VisitorType::Order,VisitorType::Order}};    
-   	 	auto mat = MT(md,e);
-		//std::cout<<"APPLY"<<mat<<std::endl;
+        auto mat = mv.Collector().Create(**vip.cbegin());    
+		return apply(&mat,vip.cbegin()+1, vip.cend());
+    }
+	template<typename It>
+    static decltype(auto) apply(const M* m, It begin, It end)
+    {
+		auto mv = MatrixVisitor<TransferVisitor>();
+		mv.Visit(m);
+		std::cout<<"ACCCEPT"<<mv<<std::endl;
+		std::vector<std::shared_ptr<IElement>> temp;
+        auto mat = mv.Collector().Create(std::move(**begin));    
 		if(begin==end)
 			return mat;
-		return apply(m,r,begin+1,end);
+		return apply(&mat,begin+1,end);
 
     }
 };
