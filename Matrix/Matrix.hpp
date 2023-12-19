@@ -64,7 +64,7 @@ public:
 	template<typename T>
 	decltype(auto) Accept(T&& m) const 
 	{
-		MatrixAcceptor<Type>::accept(this);
+		return MatrixAcceptor<Type>::accept(this);
 //		MatrixVisitor<TransferVisitor> mv;
 //	    Accept(mv);
 //		return mv.Collector().Get(4.1); 

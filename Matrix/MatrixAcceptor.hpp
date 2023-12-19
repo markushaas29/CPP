@@ -43,9 +43,16 @@ private:
     static decltype(auto) apply(const M* m, R r, It begin, It end)
     {
 		r.Visit(m);
-		std::cout<<"APPLY"<<r<<std::endl;
+		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
+		std::vector<std::shared_ptr<IElement>> temp;
+        auto e = r.Collector().Create();    
+        //std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+    	using VisitorType = TransferVisitor;
+    	MatrixDescriptor<2,std::shared_ptr<IElement>> md{{e.size()/VisitorType::Order,VisitorType::Order}};    
+   	 	auto mat = MT(md,e);
+		//std::cout<<"APPLY"<<mat<<std::endl;
 		if(begin==end)
-			return r;
+			return mat;
 		return apply(m,r,begin+1,end);
 
     }

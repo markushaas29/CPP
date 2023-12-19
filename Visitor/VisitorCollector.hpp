@@ -59,6 +59,16 @@ public:
 		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) { s = s + v.template To<typename VisitorType::SumType>(); });
 		return s; 
 	}
+	decltype(auto) Create()  const
+	{
+		std::vector<std::shared_ptr<IElement>> res;
+		std::for_each(visitors->cbegin(), visitors->cend(), [&](auto& v) 
+				{  	auto r = v.Create();
+					for(auto x : r)
+						res.push_back(x);
+				});
+		return res; 
+	}
 	template<typename T>                      
 	decltype(auto) Get(T t) const                      
 	{
