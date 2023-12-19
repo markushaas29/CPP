@@ -36,9 +36,9 @@ private:
 	//template<typename T, typename A>
     static decltype(auto) accept(const M* m)
     {
-		std::vector<std::unique_ptr<IPredicateVisitor>> vip;
-		vip.push_back(std::make_unique<LessVisitor>(std::make_unique<Quantity<Sum>>(-30)));
-		vip.push_back(std::make_unique<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
+		std::vector<std::shared_ptr<IPredicateVisitor>> vip;
+		vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-30)));
+		vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
 		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(m);
 		return apply(mv.Collector().Create(vip.cbegin()),vip.cbegin()+1, vip.cend());

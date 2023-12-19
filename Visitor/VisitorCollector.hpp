@@ -63,7 +63,6 @@ public:
 	decltype(auto) Create(P p)  const
 	{
 		using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
-		std::vector<MT> res;
 	    std::vector<std::shared_ptr<IElement>> temp;                
 		std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
 	    {       
@@ -73,8 +72,6 @@ public:
 	           std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
 	        }                                   
 	    });     
-
-		std::cout<<"TEMP"<<temp.size()<<std::endl;
 	               
 	    MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
 	    return MT(md,temp);    
