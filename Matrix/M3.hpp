@@ -43,6 +43,7 @@ public:
 		IsT<Throwing>(Format("Index: ",i, " exceeds extents ", Rows()))(i < Rows());
 		return elements->at(i); 
 	}
+
 	decltype(auto) Cols(auto... v) const { return apply([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v...)); }); } 
 	template<typename VT>
 	decltype(auto) Cols(const VT& v) const { return apply([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v)); }); } 
@@ -139,7 +140,7 @@ private:
 	{ 
 		std::vector<MatrixType> mx;
 		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { f(mx,e); });
-		return Type(mx); 
+		return M3<T,DT>(mx); 
 	}
 
 	decltype(auto) getCols()
