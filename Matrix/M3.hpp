@@ -43,19 +43,9 @@ public:
 		IsT<Throwing>(Format("Index: ",i, " exceeds extents ", Rows()))(i < Rows());
 		return elements->at(i); 
 	}
-	decltype(auto) Cols(auto... v) const 
-	{ 
-		std::vector<MatrixType> mx;
-		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { mx.push_back(e.Cols(v...)); });
-		return Type(mx); 
-	}
+	decltype(auto) Cols(auto... v) const { return apply([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v...)); }); } 
 	template<typename VT>
-	decltype(auto) Cols(const VT& v) const 
-	{ 
-		std::vector<MatrixType> mx;
-		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { mx.push_back(e.Cols(v)); });
-		return Type(mx); 
-	}
+	decltype(auto) Cols(const VT& v) const { return apply([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v)); }); } 
 
 	decltype(auto) Parse(const Matcher& m) const 
 	{
@@ -142,6 +132,14 @@ private:
 			for(auto i=0; i<m.Rows(); ++i)
 				s<<m.elements->at(i)<<(i+1 == m.Rows()? "" : ", ");
 		return s<<" }";
+	}
+
+	template<typename F>
+	decltype(auto) apply(F f) const 
+	{ 
+		std::vector<MatrixType> mx;
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { f(mx,e); });
+		return Type(mx); 
 	}
 
 	decltype(auto) getCols()
