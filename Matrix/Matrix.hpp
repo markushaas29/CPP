@@ -64,6 +64,7 @@ public:
 	template<typename T>
 	decltype(auto) Accept(const T& v) const 	{	return MatrixAcceptor<Type>::accept(this,v); 	}
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
+	decltype(auto) Match(const Matcher& m) const { return MatrixParser<Type>::match(this, m); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>

@@ -158,6 +158,8 @@ class M3Test
             v->push_back(std::make_unique<ValueToken>());
             v->push_back(std::make_unique<QuantityToken>());
             v->push_back(std::make_unique<KeyValueToken>());
+            v->push_back(std::make_unique<EmptyToken>());
+            v->push_back(std::make_unique<IBANIndexToken>());
 
             Matcher matcher(std::move(v));
 
@@ -275,7 +277,6 @@ class M3Test
 
 			auto ivs = std::string("DE56600501017402051588");
 			auto iban = IBAN(ivs);
-			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
 	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
@@ -287,16 +288,25 @@ class M3Test
 			assert(d20112022==Date(16,11,2022));
 			std::cout<<"M3 Accept dsfsd:"<<d20112022<<std::endl;
 			
+			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+            vi->push_back(std::make_unique<DateIndexToken>());
+            vi->push_back(std::make_unique<IBANIndexToken>());
+            vi->push_back(std::make_unique<BICIndexToken>());
+            vi->push_back(std::make_unique<SumIndexToken>());
+
+            Matcher imatcher(std::move(vi));
+
 			auto mp3 = m22_23.Cols(4,7,11).Parse(matcher);
+			std::cout<<"M3 :"<<m22_23.Match(imatcher)<<std::endl;
 			auto res3 = mp3.Accept(vip);
 			std::cout<<"M3 :"<<res3<<std::endl;
 
-			auto vi = std::vector<std::unique_ptr<IToken>>();
-            vi.push_back(std::make_unique<DateIndexToken>());
-            auto r23 = m23S.Cols(vi).Rows();
-            auto r22 = m22S.Cols(vi).Rows();
-			auto r22_23_0 = m22_23.Cols(vi)[0].Rows();
-			auto r22_23_1 = m22_23.Cols(vi)[1].Rows();
+			auto vit = std::vector<std::unique_ptr<IToken>>();
+            vit.push_back(std::make_unique<DateIndexToken>());
+            auto r23 = m23S.Cols(vit).Rows();
+            auto r22 = m22S.Cols(vit).Rows();
+			auto r22_23_0 = m22_23.Cols(vit)[0].Rows();
+			auto r22_23_1 = m22_23.Cols(vit)[1].Rows();
 			auto r22_23 = r22_23_0+r22_23_1;
 			assert(r22_23_0+r22_23_1==(r22+r23));
 

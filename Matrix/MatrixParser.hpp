@@ -40,5 +40,17 @@ private:
 		auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
 		return Matrix<Order,DescriptorType>(d,ToDataType(el));
     }
+    static decltype(auto) match(const M* m, const Matcher& matcher) 
+    { 
+		auto cols = std::vector<size_t>();
+        size_t c{};
+		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i, ++c) 
+			if(matcher.Match(**i))
+				cols.push_back(c); 
+
+		//IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
+
+		return m->Cols(cols);
+    }
 	template<typename U> using IsT =  Is<U,TypeId>;
 };
