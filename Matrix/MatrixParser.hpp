@@ -30,9 +30,6 @@ private:
 				{ 
 					if(matcher.Match(*e))
 						el.push_back(matcher(*e)); 
-					//TODO entfernen
-					else
-						el.push_back(std::make_shared<Date>(1,1,2000)); 
 				});
 
 		IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
