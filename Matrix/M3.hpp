@@ -45,24 +45,10 @@ public:
 	}
 	decltype(auto) Cols(auto... v) const 
 	{ 
-		std::vector<DataType> result;
-		for(auto el : *elements)
-		{
-			auto m = el.Cols(v...);
-			for(auto i = 0; i < m.Rows(); ++i)
-			{
-				auto row = m.row(i);
-				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
-			}
-		}
-
-		std::array<size_t,Order-1> e;
-		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
-		auto cols = elements->at(0).Cols(v...).Cols();
-		e[0] = result.size() / cols;
-		e[1] = cols;
-
-		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
+		std::vector<MatrixType> mx;
+		//int i = elements->at(0).Cols(v...);
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { mx.push_back(e.Cols(v...)); });
+		return Type(mx); 
 	}
 	template<typename VT>
 	decltype(auto) Cols(const VT& v) const 
@@ -86,7 +72,6 @@ public:
 
 		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
 	}
-
 
 	decltype(auto) Parse(const Matcher& m) const 
 	{

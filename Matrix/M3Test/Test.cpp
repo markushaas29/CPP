@@ -291,7 +291,7 @@ class M3Test
 			auto mp3 = m22_23.Cols(4,7,11).Parse(matcher);
 	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
 			std::cout<<"M3 Accept dsfsd:"<<mp3<<std::endl;
-			std::cout<<"M3 Accept dsfsd:"<<mp3.Accept(vip)<<std::endl;
+//			std::cout<<"M3 Accept dsfsd:"<<mp3.Accept(vip)<<std::endl;
 
 //			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
 //			for(auto d : vs)
