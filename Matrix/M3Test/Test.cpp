@@ -278,8 +278,8 @@ class M3Test
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
-	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
-	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
+	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
+	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE68600501010002057075")));
 			auto resv = mcP.Accept(vip);
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
 			auto d20112022 = mcP[1][0].As<Date>();
