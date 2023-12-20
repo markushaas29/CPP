@@ -306,18 +306,20 @@ class M3Test
             auto r22 = m22S.Cols(vi).Rows();
             //std::cout<<"COL"<<m23S.Cols(vi)<<std::endl;
 			//
-			auto r22_23 = m22_23.Cols(vi).Rows();
-			assert(r22_23==(r22+r23));
+			auto r22_23_0 = m22_23.Cols(vi)[0].Rows();
+			auto r22_23_1 = m22_23.Cols(vi)[1].Rows();
+			auto r22_23 = r22_23_0+r22_23_1;
+			assert(r22_23_0+r22_23_1==(r22+r23));
 
 			std::vector<size_t> v024 = {0,2,4};
-            auto c024 = m22_23.Cols(v024);
-			assert(r22_23==c024.Rows());
+            auto c024_0 = m22_23.Cols(v024)[0];
+            auto c024_1 = m22_23.Cols(v024)[1];
+            auto c024 = c024_0+c024_1;
+			assert(r22_23==c024_0.Rows()+c024_1.Rows());
 			assert(3==c024.Cols());
             auto a024 = m22_23.Cols(std::array<size_t,2>{1,4});
-			assert(r22_23==c024.Rows());
 			assert(4==a024.Cols());
             auto i024 = m22_23.Cols(0,2,4,3,1);
-			assert(r22_23==i024.Rows());
 			assert(5==i024.Cols());
 
 			std::cout<<"END"<<std::endl;
