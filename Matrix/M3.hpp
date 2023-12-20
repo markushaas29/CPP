@@ -56,8 +56,7 @@ public:
    	decltype(auto) Accept(const V& visitors) const
 	{
 		std::vector<typename MatrixInitializer<2,std::shared_ptr<IElement>>::MatrixType> mx;
-		for(auto v : visitors)
-			std::for_each(elements->cbegin(), elements->cend(), [&mx,&v](const auto& v2) { mx.push_back( v2.Accept(v) ); });
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& v2) { mx.push_back( v2.Accept(visitors) ); });
 		return M3<std::shared_ptr<IElement>>(mx); 
 	}
 

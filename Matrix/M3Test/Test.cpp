@@ -288,6 +288,7 @@ class M3Test
 			std::cout<<"M3 Accept dsfsd:"<<d20112022<<std::endl;
 			
 			auto mp3 = m22_23.Cols(4,7,11).Parse(matcher);
+			mp3.Accept(vip);
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());
