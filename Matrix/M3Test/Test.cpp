@@ -293,10 +293,11 @@ class M3Test
             vi->push_back(std::make_unique<IBANIndexToken>());
             vi->push_back(std::make_unique<BICIndexToken>());
             vi->push_back(std::make_unique<SumIndexToken>());
+            //vi->push_back(std::make_unique<UseIndexToken>());
 
             Matcher imatcher(std::move(vi));
 
-			auto mp3 = m22_23.Cols(4,7,11).Parse(matcher);
+			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
 			std::cout<<"M3 :"<<m22_23.Match(imatcher)<<std::endl;
 			auto res3 = mp3.Accept(vip);
 			std::cout<<"M3 :"<<res3<<std::endl;
