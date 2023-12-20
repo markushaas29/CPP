@@ -128,3 +128,14 @@ private:
 	inline static std::string check(const std::string& s) { return s; }
 	T val;
 };
+
+class Empty: public Element<Empty>
+{
+	using Base = Element<Empty>;
+	friend class Element<Empty>;
+public:
+    inline static constexpr const char* Identifier = "Empty";
+	Empty(const std::string& c): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};

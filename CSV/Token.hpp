@@ -84,6 +84,7 @@ struct SumToken: public Token<SumToken, Quantity<Sum>>		{	inline static constexp
 struct ValueToken: public Token<ValueToken, Value<int>>		{	inline static constexpr const char* Pattern = ""; };
 struct WordToken: public Token<WordToken, Entry>			{	inline static constexpr const char* Pattern = "[a-zA-z]+";};
 struct IDToken: public Token<IDToken, ID<int>>				{	inline static constexpr const char* Pattern = "^[0-9]+$";};
+struct EmptyToken: public Token<EmptyToken, Empty>			{	inline static constexpr const char* Pattern = "^(\\s*$)";};
 
 struct DateIndexToken: public Token<DateIndexToken, Date>	{	inline static constexpr const char* Pattern = "Buchungstag";};
 struct NameIndexToken: public Token<NameIndexToken, Entry>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};

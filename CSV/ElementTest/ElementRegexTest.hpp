@@ -26,6 +26,7 @@ public:
 		v->push_back(std::make_unique<QuantityToken>());
 		v->push_back(std::make_unique<KeyValueToken>());
 		v->push_back(std::make_unique<DateIndexToken>());
+		v->push_back(std::make_unique<EmptyToken>());
 
 		std::smatch m;
 		std::string t = "29.5.1986";
@@ -146,6 +147,18 @@ public:
   		assert(ni.Match(t));
 		t = "ad name";
   		//assert(ni.Match(t));
+		
+		auto e = EmptyToken();
+		t = "";
+  		assert(e.Match(t));
+		t = "   ";
+  		assert(e.Match(t));
+		t = "	";
+  		assert(e.Match(t));
+		t = "A";
+  		assert(!e.Match(t));
+		t = "A B";
+  		assert(!e.Match(t));
 		
 		auto indexLine = std::string("Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz");
 		auto iline20 = "Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben";
