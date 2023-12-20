@@ -44,16 +44,13 @@ public:
 		return elements->at(i); 
 	}
 
-	decltype(auto) Cols(auto... v) const { return apply([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v...)); }); } 
+	decltype(auto) Cols(auto... v) const { return apply<T>([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v...)); }); } 
 	template<typename VT>
-	decltype(auto) Cols(const VT& v) const { return apply([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v)); }); } 
+	decltype(auto) Cols(const VT& v) const { return apply<T>([&](auto& mx, const auto& e) { mx.push_back(e.Cols(v)); }); } 
 
-	decltype(auto) Parse(const Matcher& m) const 
-	{
-		std::vector<typename MatrixInitializer<2,std::shared_ptr<IElement>>::MatrixType> mx;
-		std::for_each(elements->cbegin(), elements->cend(), [&mx, &m](const auto& v2) { mx.push_back( v2.Parse(m) ); });
-		return M3<std::shared_ptr<IElement>>(mx); 
-	}
+	decltype(auto) Parse(const Matcher& m) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Parse(m)); }); }
+	template<typename TO>
+	decltype(auto) To() const { return apply<TO>([&](auto& mx, const auto& e) { mx.push_back(e.template To<TO>()); }); }
 
 	template<typename V>
    	decltype(auto) Accept(const V& visitors) const
@@ -62,14 +59,6 @@ public:
 		for(auto v : visitors)
 			std::for_each(elements->cbegin(), elements->cend(), [&mx,&v](const auto& v2) { mx.push_back( v2.Accept(v) ); });
 		return M3<std::shared_ptr<IElement>>(mx); 
-	}
-
-	template<typename TO>
-	decltype(auto) To() const 
-	{
-		std::vector<typename MatrixInitializer<2,TO>::MatrixType> mx;
-		std::for_each(elements->cbegin(), elements->cend(), [&mx](const auto& v2) { mx.push_back( v2.template To<TO>() ); });
-		return M3<TO>(mx); 
 	}
 
 	template<typename ET = ElementType>
@@ -135,12 +124,12 @@ private:
 		return s<<" }";
 	}
 
-	template<typename F>
+	template<typename C, typename F>
 	decltype(auto) apply(F f) const 
 	{ 
-		std::vector<MatrixType> mx;
+		std::vector<typename MatrixInitializer<2,C>::MatrixType> mx;
 		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { f(mx,e); });
-		return M3<T,DT>(mx); 
+		return M3<C,DT>(mx); 
 	}
 
 	decltype(auto) getCols()
