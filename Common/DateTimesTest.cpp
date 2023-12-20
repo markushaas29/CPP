@@ -12,12 +12,12 @@ class DateTest
 	public:
 int Run()
 {    
+    std::cout<<"START DateTest"<<std::endl;
 	const std::chrono::time_point now{std::chrono::system_clock::now()};
 	const std::chrono::year_month_day ymd{std::chrono::floor<std::chrono::days>(now)};
     
     std::cout << "Current Year: " << static_cast<int>(ymd.year());
     
-    std::cout<<"START"<<std::endl;
     auto j = Month::Get(1);
 	Logger::Log()<<j.Value()<<std::endl;
 	Logger::Log()<<j.Next().Value()<<std::endl;
@@ -37,7 +37,9 @@ int Run()
 	std::cout<<"TODAY"<<Date::Today()<<std::endl;
 	std::cout<<"TODAY"<<Date(32,15,3001)<<std::endl;
 	
-	std::cout<<"Extract"<<Date("20.11.2022")<<std::endl;
+	auto ds20112022 = Date("20.11.2022");
+	auto d20112022 = Date(20,11,2022);
+	assert(ds20112022==d20112022);
 	std::cout<<"Extract"<<Date("2.11.2022")<<std::endl;
 	std::cout<<"Extract"<<Date("2.1.2022")<<std::endl;
 	std::cout<<"Extract 2.01.2022"<<Date("2.01.2022")<<std::endl;

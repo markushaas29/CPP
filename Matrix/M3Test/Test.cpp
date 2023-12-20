@@ -130,10 +130,6 @@ class M3Test
 			
 			M3 m3s(ms3v);
 			auto m49 = m3s.M(MatrixRowQuery<MS2,std::string>(pfs, mUO49));
-			std::cout<<"M3S: \n"<<m3s<<std::endl;
-			std::cout<<"M3S: \n"<<m33s.Cols()<<std::endl;
-			std::cout<<"M3S: \n"<<m3s.Cols()<<std::endl;
-			std::cout<<"M3S: \n"<<m49<<std::endl;
 			assert(m33s.Cols()==3);
 			assert(m3s.Cols()==3);
 
@@ -277,35 +273,26 @@ class M3Test
 			MatrixVisitor<TransferVisitor> mv;
 			mcP.Accept(mv);
 
-			std::cout<<"Collector:\n"<<mv<<std::endl;
-			std::cout<<"Collector T:\n"<<mv.Collector().Total()<<std::endl;
 			auto ivs = std::string("DE56600501017402051588");
 			auto iban = IBAN(ivs);
 			auto f = [](auto l, auto r) { return l.template To<IBAN>() == r; };
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
-	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-30))); 
+	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
+	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Quantity<Sum>>(-48)));
 			auto resv = mcP.Accept(vip);
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
+			auto d20112022 = mcP[1][0].As<Date>();
+			assert(d20112022==Date("16.11.2022"));
+			assert(d20112022==Date(16,11,2022));
+			std::cout<<"M3 Accept dsfsd:"<<d20112022<<std::endl;
 			
 			auto mp3 = m22_23.Cols(4,7,11).Parse(matcher);
-	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
-			std::cout<<"M3 Accept dsfsd:"<<mp3<<std::endl;
-//			std::cout<<"M3 Accept dsfsd:"<<mp3.Accept(vip)<<std::endl;
-
-//			auto vs = mv.Collector().Sort(f,Less<Quantity<Sum,Pure,double>>(Quantity<Sum,Pure,double>(-42.0)));
-//			for(auto d : vs)
-//				std::cout<<"M3 D:"<<d<<std::endl;
-//			auto vd = mv.Collector().Sort(f,Less<Date>(Date(1,7,2022)));
-//			for(auto d : vd)
-//				std::cout<<"M3 D:"<<d<<std::endl;
 
 			auto vi = std::vector<std::unique_ptr<IToken>>();
             vi.push_back(std::make_unique<DateIndexToken>());
             auto r23 = m23S.Cols(vi).Rows();
             auto r22 = m22S.Cols(vi).Rows();
-            //std::cout<<"COL"<<m23S.Cols(vi)<<std::endl;
-			//
 			auto r22_23_0 = m22_23.Cols(vi)[0].Rows();
 			auto r22_23_1 = m22_23.Cols(vi)[1].Rows();
 			auto r22_23 = r22_23_0+r22_23_1;

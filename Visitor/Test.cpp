@@ -25,6 +25,7 @@ int Run()
 
 	ElementVisitor vd;
 	std::unique_ptr<IElement> dp = std::make_unique<Date>(29,9,1986);
+	std::unique_ptr<IElement> d20112022 = std::make_unique<Date>("20.11.2022");
 	std::unique_ptr<IElement> sp = std::make_unique<Quantity<Sum>>(29);
 	std::unique_ptr<IElement> ip = std::make_unique<IBAN>(std::string("DE82660501011021592702"));
 	auto qs = Quantity<Sum>(29);
@@ -51,6 +52,8 @@ int Run()
 	auto pv28_9 = EqualVisitor(std::make_unique<Date>(28,9,1986));
 	auto pv289 = EqualVisitor(std::make_unique<Date>("28.9.1986"));
 	assert(!dp->Is(pv28_9));
+	auto pv20112022 = EqualVisitor(std::make_unique<Date>(20,11,2022));
+	assert(d20112022->Is(pv20112022));
 	auto dlv289 = LessVisitor(std::make_unique<Date>("30.9.1986"));
 	assert(dp->Is(dlv289));
 	auto dlv299 = LessVisitor(std::make_unique<Date>("29.9.1986"));
