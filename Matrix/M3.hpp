@@ -51,14 +51,8 @@ public:
 	decltype(auto) Parse(const Matcher& m) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Parse(m)); }); }
 	template<typename TO>
 	decltype(auto) To() const { return apply<TO>([&](auto& mx, const auto& e) { mx.push_back(e.template To<TO>()); }); }
-
 	template<typename V>
-   	decltype(auto) Accept(const V& visitors) const
-	{
-		std::vector<typename MatrixInitializer<2,std::shared_ptr<IElement>>::MatrixType> mx;
-		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& v2) { mx.push_back( v2.Accept(visitors) ); });
-		return M3<std::shared_ptr<IElement>>(mx); 
-	}
+   	decltype(auto) Accept(const V& visitors) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Accept(visitors)); }); }
 
 	template<typename ET = ElementType>
 	decltype(auto) M(const IMatrixQuery<MatrixType, ET>& query) 
