@@ -16,6 +16,7 @@
 #pragma once
 
 using TP = std::chrono::system_clock::time_point;
+using YMD = std::chrono::year_month_day;
 
 template<typename T>
 constexpr bool isYMD() {	return std::is_same_v<T,Day> || std::is_same_v<T,Month> || std::is_same_v<T,Year>;	}
@@ -47,7 +48,7 @@ public:
 	std::string TimeString(const TP& tp) { return Creator<Date>::timeString(tp); }
 	static Date Today(){ return Creator<Date>::today(); }
 
-	constexpr bool Valid() const noexcept { return valid && std::chrono::year_month_day(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
+	constexpr bool Valid() const noexcept { return valid && YMD(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
 	constexpr explicit operator Day() { return day; } 
 	constexpr explicit operator Month() { return month; } 
 	constexpr explicit operator Year() { return year; } 
@@ -72,18 +73,14 @@ public:
 			return (T)t == std::get<T>(std::make_tuple(day,month,year)); 
 		return false;
 	};
-	bool operator==(const Date& date) const	{	
-		std::cout<<day<<date.day << month<<date.month << year<<date.year<<std::endl;
-		return day==date.day && month==date.month && year==date.year; };
-	constexpr bool operator>(const Date& d) const { return day>d.day && month>d.month && year>d.year;	}
-	constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return 
-		std::chrono::year_month_day(std::chrono::year(year),std::chrono::month(month),std::chrono::day(day)) <=> std::chrono::year_month_day(std::chrono::year(d.year),std::chrono::month(d.month),std::chrono::day(d.day)); }		
+	constexpr auto operator==(const Date& date) const	{	return day==date.day && month==date.month && year==date.year; };
+	constexpr auto operator<=>( const Date& d) noexcept { return YMD(std::chrono::year(year),std::chrono::month(month),std::chrono::day(day)) <=> YMD(std::chrono::year(d.year),std::chrono::month(d.month),std::chrono::day(d.day)); }		
 private:
 	bool valid = false;
 	Day day;
 	Month month;
 	Year year;
-	std::chrono::year_month_day ymd;
+	YMD ymd;
 	TP tp;
 	String_::ParserFrom<uint> converter;
 	friend decltype(auto) operator-(const Date& d1, const Date& d2);

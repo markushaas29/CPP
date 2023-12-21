@@ -55,6 +55,7 @@ public:
 protected:
 	uint value;
 private:
+	friend std::ostream& operator<<(std::ostream& out, const DateTimeBase& s){	return out<<s.Value();	}
 	template<typename T1, typename T2> friend decltype(auto) operator==(const DateTimeBase<T1,T2>& d1, const DateTimeBase<T1,T2>& d2);
 	template<typename T1, typename T2> friend decltype(auto) operator<=>(const DateTimeBase<T1,T2>& d1, const DateTimeBase<T1,T2>& d2);
 	const ChronoType chronoValue;
@@ -103,12 +104,9 @@ inline constexpr static Month Oct= Month(10);
 inline constexpr static Month Nov= Month(11);
 inline constexpr static Month Dec= Month(12);
 
-
 template<typename T, typename TC>
 decltype(auto) operator==(const DateTimeBase<T,TC>& d1, const DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;	}
 
 template<typename T, typename TC>
 decltype(auto) operator<=>(const DateTimeBase<T,TC>& d1, const DateTimeBase<T,TC>& d2){ return d1.chronoValue <=> d2.chronoValue;	}
 
-template<typename T, typename TC>
-std::ostream& operator<<(std::ostream& out, const DateTimeBase<T,TC>& s){	return out<<s.Value();	}
