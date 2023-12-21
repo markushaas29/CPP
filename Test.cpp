@@ -12,6 +12,8 @@
 #include "Functional/Test.cpp"
 #include "Expression/Test.cpp"
 #include "ObjectFactory/Test.cpp"
+#include "Singleton/Test.cpp"
+#include "Repository/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
 
@@ -42,6 +44,12 @@ int main()
 
 	ElementTest et;
 	et.Run();
+	
+	SingletonTest s;
+	s.Run();
+	
+	RepositoryTest r;
+	r.Run();
 	
 	ExpressionTest ex;
 	ex.Run();
