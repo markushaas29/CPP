@@ -72,9 +72,12 @@ public:
 			return (T)t == std::get<T>(std::make_tuple(day,month,year)); 
 		return false;
 	};
-	constexpr bool operator==(const Date& date) const{ return ymd == date.ymd; };
-	constexpr bool operator>(const Date& d) const { return ymd > d.ymd;	}
-	constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return ymd <=> d.ymd; }		
+	bool operator==(const Date& date) const	{	
+		std::cout<<day<<date.day << month<<date.month << year<<date.year<<std::endl;
+		return day==date.day && month==date.month && year==date.year; };
+	constexpr bool operator>(const Date& d) const { return day>d.day && month>d.month && year>d.year;	}
+	constexpr std::strong_ordering operator<=>( const Date& d) noexcept { return 
+		std::chrono::year_month_day(std::chrono::year(year),std::chrono::month(month),std::chrono::day(day)) <=> std::chrono::year_month_day(std::chrono::year(d.year),std::chrono::month(d.month),std::chrono::day(d.day)); }		
 private:
 	bool valid = false;
 	Day day;
