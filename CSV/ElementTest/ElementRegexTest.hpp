@@ -162,7 +162,16 @@ public:
 		
 		auto indexLine = std::string("Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Kategorie;Steuerrelevant;Glaeubiger ID;Mandatsreferenz");
 		auto iline20 = "Buchungstag;Valuta;Textschlüssel;Primanota;Zahlungsempfänger;ZahlungsempfängerKto;ZahlungsempfängerIBAN;ZahlungsempfängerBLZ;ZahlungsempfängerBIC;Vorgang/Verwendungszweck;Kundenreferenz;Währung;Umsatz;Soll/Haben";
+		auto useGem = "588880002829/Wasser RUCHENSTR. 14 Abschlag/Abwasser RUCHENSTR. 14 Abschlag EREF: 140500005788 MREF: 588880002829001 CRED: DE70ZZZ00000146440 IBAN: DE12660623660000005703 BIC: GENODE61DET";
 		auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+		auto en = EntryToken();
+		t = useGem;
+  		assert(en.Match(t));
+		auto useEnBW = "701033135722 Strom Abschlagsforderung DS-Info: enbw.com/datenschutz EREF: B21254239078 701033135722 MREF: V5500000054391824 CRED: DE6900000000084184 IBAN: DE56600501017402051588 BIC: SOLADEST600";
+		t = useEnBW;
+  		//assert(en.Match(t));
+  		
+		assert(!e.Match(t));
 		vi->push_back(std::make_unique<DateIndexToken>());
 		Matcher imatcher(std::move(vi));
 		
