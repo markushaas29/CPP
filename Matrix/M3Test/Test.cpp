@@ -287,19 +287,19 @@ class M3Test
 			auto d20112022 = mcP[1][0].As<Date>();
 			assert(d20112022==Date("16.11.2022"));
 			assert(d20112022==Date(16,11,2022));
-			std::cout<<"M3 Accept dsfsd:"<<d20112022<<std::endl;
 			
 			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
             vi->push_back(std::make_unique<DateIndexToken>());
             vi->push_back(std::make_unique<IBANIndexToken>());
             vi->push_back(std::make_unique<BICIndexToken>());
             vi->push_back(std::make_unique<SumIndexToken>());
-         //   vi->push_back(std::make_unique<UseIndexToken>());
+            vi->push_back(std::make_unique<UseIndexToken>());
 
+			std::cout<<"M22_23_G :"<<m22_23<<std::endl;
             Matcher imatcher(std::move(vi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
-		//	std::cout<<"M3 :"<<m22_23.Match(imatcher)<<std::endl;
+			std::cout<<"M3 :"<<m22_23.Match(imatcher)<<std::endl;
 			auto res3 = mp3.Accept(vip);
 			std::cout<<"M3 :"<<res3<<std::endl;
 
