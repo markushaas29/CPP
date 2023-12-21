@@ -15,7 +15,7 @@ class RepositoryTest
 		{
 			std::cout<<"START Repository"<<std::endl;
 
-			Repository<int>::Get();
+			Repository::Get().Is();
 
 			std::cout<<"END Repository"<<std::endl;
 

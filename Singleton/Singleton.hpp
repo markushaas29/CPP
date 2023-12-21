@@ -13,9 +13,9 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Singleton";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
-	static Singleton& Get()
+	static T& Get()
 	{
-		static Singleton instance;
+		static T instance;
 		return instance;
 	}
 private:

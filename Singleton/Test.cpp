@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "Singleton.hpp"
+#include "../Repository/Repository.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -15,7 +16,7 @@ class SingletonTest
 		{
 			std::cout<<"START Singleton"<<std::endl;
 
-			Singleton<int>::Get();
+			Singleton<Repository>::Get().Is();
 
 			std::cout<<"END Singleton"<<std::endl;
 
