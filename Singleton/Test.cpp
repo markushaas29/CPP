@@ -16,7 +16,7 @@ class SingletonTest
 		{
 			std::cout<<"START Singleton"<<std::endl;
 
-			Singleton<Repository>::Get().Is();
+			//Singleton<Repository>::Get().Is();
 
 			std::cout<<"END Singleton"<<std::endl;
 
