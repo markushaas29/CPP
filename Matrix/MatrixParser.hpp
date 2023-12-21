@@ -24,7 +24,8 @@ public:
 	MatrixParser() {}
 private:
 	friend M;
-    static decltype(auto) parse(const M* m, const Matcher& matcher) 
+    
+	static decltype(auto) parse(const M* m, const Matcher& matcher) 
     { 
 		if constexpr (std::is_same_v<typename M::ElementType, std::string>)
 		{
@@ -43,7 +44,8 @@ private:
 		return Matrix<Order,DescriptorType>(d,ToDataType(el));
 		}
     }
-    static decltype(auto) match(const M* m, const Matcher& matcher) 
+    
+	static decltype(auto) match(const M* m, const Matcher& matcher) 
     { 
 		auto cols = std::vector<size_t>();
         size_t c{};
@@ -51,9 +53,8 @@ private:
 			if(matcher.Match(**i))
 				cols.push_back(c); 
 
-		//IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
-
 		return m->Cols(cols);
     }
+
 	template<typename U> using IsT =  Is<U,TypeId>;
 };

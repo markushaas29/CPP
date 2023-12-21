@@ -289,6 +289,7 @@ class M3Test
 			assert(d20112022==Date(16,11,2022));
 			
 			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+            vi->push_back(std::make_unique<NameIndexToken>());
             vi->push_back(std::make_unique<DateIndexToken>());
             vi->push_back(std::make_unique<IBANIndexToken>());
             vi->push_back(std::make_unique<BICIndexToken>());
@@ -299,7 +300,6 @@ class M3Test
             Matcher imatcher(std::move(vi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
-			std::cout<<"M3 :"<<m22_23.Match(imatcher)<<std::endl;
 			auto res3 = mp3.Accept(vip);
 			std::cout<<"M3 :"<<res3<<std::endl;
 
