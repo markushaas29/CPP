@@ -33,6 +33,7 @@ class TypeRegistrationTest
 			auto fme =std::make_shared<Factory<IElement>>();
 			auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fme);
      		pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
+			auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
 
 			std::cout<<"END TypeRegistration"<<std::endl;
 
