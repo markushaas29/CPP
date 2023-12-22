@@ -104,9 +104,9 @@ class TypeFactory: public Factory<T,CT>
 	using Base = Factory<T,CT>; 
 	using Reg = Registration<Base, TS...>;
 public:
-	TypeFactory(): registration(Reg(this))	{	}
+	TypeFactory(): registration(std::make_unique<Registration<Base, TS...>>(this))	{	}
 private:
-	Reg registration;
+	std::unique_ptr<Reg> registration;
 };
 
 template<class T, class F, typename CT = std::unique_ptr<std::vector<std::unique_ptr<T>>>>
