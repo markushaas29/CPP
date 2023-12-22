@@ -28,9 +28,10 @@ private:
 		if constexpr (std::tuple_size<Tup>()==N)
 			return;
 		else
-		{	//
-			std::cout<<std::get<N>(t)<<std::endl;
-			interface->Register("Q",[](const std::string& s) { return std::make_unique<std::tuple_element_t<N,Tup>>(s); });
+		{
+			using Type = std::tuple_element_t<N,Tup>;
+			std::cout<<Type::Identifier<<std::endl;
+			interface->Register(Type::Identifier,[](const std::string& s) { return std::make_unique<Type>(s); });
 	    reg<N+1>();}
 	}
 };

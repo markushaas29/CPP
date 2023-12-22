@@ -18,10 +18,9 @@ class TypeRegistrationTest
 
 
 			Factory<IElement> fmt;
-			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN>(&fmt);
-    		fmt.Register("IBAN",[](const std::string& s) { return std::make_unique<IBAN>(s); });
+			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date>(&fmt);
 
-			auto qp = fmt("Q","100");
+			auto qp = fmt("Sum","100");
 			std::cout<<fmt<<std::endl;
 
 			std::cout<<"END TypeRegistration"<<std::endl;
