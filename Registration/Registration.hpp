@@ -7,7 +7,7 @@
 
 #pragma once
 
-template<typename I, typename F, typename... T>
+template<typename I, typename... T>
 class Registration
 {
 	using Tup = std::tuple<T...>;
@@ -16,10 +16,9 @@ public:
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
 	Registration() = delete;
-	Registration(I* i, F f): interface(i), function(f)	{ reg<0>();	}
+	Registration(I* i): interface(i){ reg<0>();	}
 private:
 	std::tuple<T...> t;
-	F function;
 	I* interface;
 	friend std::ostream& operator<<(std::ostream& s, const Registration& c){return s;}
 	 
