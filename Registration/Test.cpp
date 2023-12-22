@@ -6,6 +6,7 @@
 #include "Registration.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/Token.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../ObjectFactory/Factory.hpp"
 
@@ -18,10 +19,13 @@ class TypeRegistrationTest
 
 
 			Factory<IElement> fmt;
-			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index>(&fmt);
+			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>(&fmt);
 
 			auto qp = fmt("Sum","100");
 			std::cout<<fmt<<std::endl;
+			
+			Factory<IToken> fmt2;
+			//auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
 
 			std::cout<<"END TypeRegistration"<<std::endl;
 
