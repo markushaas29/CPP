@@ -18,7 +18,7 @@ class TypeRegistrationTest
 
 
 			Factory<IElement> fmt;
-			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date>(&fmt);
+			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index>(&fmt);
 
 			auto qp = fmt("Sum","100");
 			std::cout<<fmt<<std::endl;
