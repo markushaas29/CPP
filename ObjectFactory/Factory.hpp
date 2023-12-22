@@ -98,10 +98,10 @@ private:
 	std::map< typename Base::IdentifierType, typename Base::CreatorType> creators;
 };
 
-template<class T, typename CT, typename... TS>
-class TypeFactory: public Factory<T,CT>
+template<class T, typename... TS>
+class TypeFactory: public T
 {
-	using Base = Factory<T,CT>; 
+	using Base = T; 
 	using Reg = Registration<Base, TS...>;
 public:
 	TypeFactory(): registration(std::make_unique<Reg>(this))	{	}
