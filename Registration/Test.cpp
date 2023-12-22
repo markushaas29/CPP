@@ -35,6 +35,9 @@ class TypeRegistrationTest
 			auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
 
 			auto eqv = ((*pfs)("Visitor", { "IBAN", "DE82660501011021592702"}));
+		
+			auto tf = TypeFactory<IElement, std::string, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+	//		auto regT = Registration<TypeFactory<IToken>>(&tf);//,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
 
 			std::cout<<"END TypeRegistration"<<std::endl;
 

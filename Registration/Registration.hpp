@@ -15,8 +15,9 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Registration";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
-	Registration() = delete;
+	Registration() = default;
 	Registration(I* i): interface(i){ reg<0>();	}
+	void Set(I* i) { interface = i;}
 private:
 	std::tuple<T...> t;
 	I* interface;

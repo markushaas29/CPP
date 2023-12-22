@@ -4,6 +4,7 @@
 #include <string_view>
 #include "../Is/Is.hpp"
 #include "../String/Format.hpp"
+#include "../Registration/Registration.hpp"
 
 #pragma once
 
@@ -70,10 +71,7 @@ class Factory: public IFactory<T,CT>
 {
 	using Base = IFactory<T,CT>; 
 public:
-	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) 
-	{ 
-		std::cout<<"REG->"<<id<<std::endl;
-		creators.try_emplace(id,c); } 
+	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) { creators.try_emplace(id,c); } 
 	const typename Base::CreatorType& operator[](const  typename Base::IdentifierType& id) {	return find(id);	}
 	typename Base::PtrType operator()(const typename Base::IdentifierType& id, const typename Base::ArgumentType& arg) { return find(id)(arg);}
 	std::unique_ptr<std::vector< typename Base::PtrType>> operator()(const std::vector<FactoryUnit< typename Base::IdentifierType,  typename Base::ArgumentType>> units) 
@@ -98,6 +96,20 @@ private:
 		return (i->second); 
 	}
 	std::map< typename Base::IdentifierType, typename Base::CreatorType> creators;
+};
+
+template<class T, typename CT, typename... TS>
+class TypeFactory: public Factory<T,CT>
+{
+	using Base = Factory<T,CT>; 
+	using Reg = Registration<Base, TS...>;
+public:
+	TypeFactory() 
+	{
+		this->registration = Reg(this);
+	}
+private:
+	Reg registration;
 };
 
 template<class T, class F, typename CT = std::unique_ptr<std::vector<std::unique_ptr<T>>>>
