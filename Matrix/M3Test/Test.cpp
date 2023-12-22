@@ -154,7 +154,6 @@ class M3Test
             v->push_back(std::make_unique<BICToken>());
             v->push_back(std::make_unique<WordToken>());
             v->push_back(std::make_unique<SumToken>());
-            v->push_back(std::make_unique<EntryToken>());
             v->push_back(std::make_unique<ValueToken>());
             v->push_back(std::make_unique<QuantityToken>());
             v->push_back(std::make_unique<KeyValueToken>());
@@ -278,7 +277,7 @@ class M3Test
 			auto ivs = std::string("DE56600501017402051588");
 			auto iban = IBAN(ivs);
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
-			std::cout<<"M3 D2 RES:"<<mcP<<std::endl;
+			//std::cout<<"M3 D2 RES:"<<mcP<<std::endl;
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")));
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
