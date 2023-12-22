@@ -104,10 +104,7 @@ class TypeFactory: public Factory<T,CT>
 	using Base = Factory<T,CT>; 
 	using Reg = Registration<Base, TS...>;
 public:
-	TypeFactory() 
-	{
-		this->registration = Reg(this);
-	}
+	TypeFactory(): registration(Reg(this))	{	}
 private:
 	Reg registration;
 };

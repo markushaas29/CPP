@@ -15,7 +15,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Registration";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
-	Registration() = default;
+	Registration() = delete;
 	Registration(I* i): interface(i){ reg<0>();	}
 	void Set(I* i) { interface = i;}
 private:
