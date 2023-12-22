@@ -19,10 +19,10 @@ class TypeRegistrationTest
 			std::cout<<"START TypeRegistration"<<std::endl;
 
 
-			Factory<IElement> fmt;
-			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>(&fmt);
+			auto fmt=std::make_shared<Factory<IElement>>();
+			auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>(&(*fmt));
 
-			auto qp = fmt("Sum","100");
+			auto qp = (*fmt)("Sum","100");
 			std::cout<<fmt<<std::endl;
 			
 			Factory<IToken> fmt2;
@@ -30,10 +30,11 @@ class TypeRegistrationTest
 			auto qp2 = fmt2("SumToken","100");
 			std::cout<<*qp2<<std::endl;
 
-			auto fme =std::make_shared<Factory<IElement>>();
-			auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fme);
+			auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
      		pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
 			auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
+
+			auto eqv = ((*pfs)("Visitor", { "IBAN", "DE82660501011021592702"}));
 
 			std::cout<<"END TypeRegistration"<<std::endl;
 
