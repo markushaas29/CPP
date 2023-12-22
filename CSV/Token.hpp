@@ -40,7 +40,7 @@ class Token: public IToken
 	using Derived = D;
 	using Type = T;
 public:
-	inline static const std::string Identifier = "Token";
+	inline static const std::string Identifier = std::string(T::Identifier) + "Token";
  	Token(const std::string& s = ""): exclude{s} { };
 	const std::string_view Data() const  {	return Derived::Pattern; };	
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
