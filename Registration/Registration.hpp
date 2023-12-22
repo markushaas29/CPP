@@ -32,7 +32,8 @@ private:
 		{
 			using Type = std::tuple_element_t<N,Tup>;
 			std::cout<<Type::Identifier<<std::endl;
-			interface->Register(Type::Identifier,[&](const std::string& s) { return function.template Make<Type>(s); });
-	    reg<N+1>();}
+			interface->Register(Type::Identifier,&Type::Make);
+			reg<N+1>();
+		}
 	}
 };

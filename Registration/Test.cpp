@@ -43,6 +43,8 @@ class TypeRegistrationTest
 			Factory<IToken> fmt2;
 			TC tc;
 			auto reg2 = Registration<Factory<IToken>,TC,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2, tc);
+			auto qp2 = fmt2("SumToken","100");
+			std::cout<<*qp2<<std::endl;
 
 			std::cout<<"END TypeRegistration"<<std::endl;
 

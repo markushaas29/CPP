@@ -63,6 +63,7 @@ public:
 		return result;
 	};	
 	virtual std::unique_ptr<IToken> Clone() const  { return std::make_unique<Derived>();};	
+	static std::unique_ptr<IToken> Make(const std::string& s) { return std::make_unique<Derived>(); };	
 
 	bool operator==(const Token& e) const{ return Data() == e.Data(); };
 protected:

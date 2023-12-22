@@ -52,6 +52,7 @@ public:
 
 	const std::string& Data() const  {	return value; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
+	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
