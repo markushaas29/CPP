@@ -39,6 +39,13 @@ int Run()
 	for(auto& p : v)
 		std::cout<<"P: "<<p->Data()<<" "<<*(p->Clone())<<std::endl;
 
+	Factory<IElement> fmt;
+    fmt.Register("Q",[](const std::string& s) { return std::make_unique<Quantity<Sum>>(s); });
+    fmt.Register("IBAN",[](const std::string& s) { return std::make_unique<IBAN>(s); });
+    
+    auto qp = fmt("Q","100");   
+	//assert(*qp==Quantity<Sum>(100));
+
 	ElementRegexTest er;
 	assert(er.Run());
 
