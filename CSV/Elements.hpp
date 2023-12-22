@@ -19,7 +19,7 @@ public:
 	using ValueType = T;
 	using Type = ID<T>;
 	inline static constexpr const char* Identifier = "ID";
-	ID(const std::string& k): Base(k){};
+	ID(const std::string& k = Identifier): Base(k){};
 	template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>	
 	ID(TT t): Base(std::to_string(t)){};
 private:
@@ -64,7 +64,7 @@ class BIC: public Element<BIC>
 	friend class Element<BIC>;
 public:
 	inline static constexpr const char* Identifier = "BIC";
-	BIC(const std::string& c): Base(c){ };
+	BIC(const std::string& c=Identifier): Base(c){ };
 private:
 	inline static std::string check(const std::string& s) { return s; }
 };
@@ -96,7 +96,7 @@ class Index: public Element<Index>
 	friend class Matcher; 
 public:
 	inline static constexpr const char* Identifier = "Index";
-	explicit Index(const std::string& s): Base(s), id{0}{};
+	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:
 	friend std::ostream& operator<<(std::ostream& out, const Index& e) { return out<<e.Data()<<": "<<e.id;}
@@ -110,7 +110,7 @@ class Name: public Element<Name>
 	friend class Element<Name>;
 public:
     inline static constexpr const char* Identifier = "Name";
-	Name(const std::string& c): Base(c){ };
+	Name(const std::string& c = Identifier): Base(c){ };
 private:
 	inline static std::string check(const std::string& s) { return s; }
 };
@@ -123,7 +123,7 @@ class Value: public Element<Value<T>>
 public:
 	inline static constexpr const char* Identifier = "Value";
 	Value(T t): Base(std::to_string(t)) {};
-	Value(const std::string& s): Base(s) {};
+	Value(const std::string& s = Identifier): Base(s) {};
 private:
 	inline static std::string check(const std::string& s) { return s; }
 	T val;
