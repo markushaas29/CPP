@@ -104,7 +104,7 @@ class TypeFactory: public Factory<T,CT>
 	using Base = Factory<T,CT>; 
 	using Reg = Registration<Base, TS...>;
 public:
-	TypeFactory(): registration(std::make_unique<Registration<Base, TS...>>(this))	{	}
+	TypeFactory(): registration(std::make_unique<Reg>(this))	{	}
 private:
 	std::unique_ptr<Reg> registration;
 };
