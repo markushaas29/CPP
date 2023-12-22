@@ -15,7 +15,7 @@ class TypeRegistrationTest
 		{
 			std::cout<<"START TypeRegistration"<<std::endl;
 
-//			TypeRegistration::Get().Is();
+			Registration<IBAN> reg;
 
 			std::cout<<"END TypeRegistration"<<std::endl;
 

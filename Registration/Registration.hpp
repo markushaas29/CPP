@@ -7,13 +7,12 @@
 #pragma once
 
 template<typename... T>
-class TypeRegistratiom
+class Registration
 {
 public:
-	inline static constexpr const char TypeIdentifier[] = "TypeRegistratiom";
+	inline static constexpr const char TypeIdentifier[] = "Registration";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
-	bool Is() { return false; }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const TypeRegistratiom& c){return s;}
+	friend std::ostream& operator<<(std::ostream& s, const Registration& c){return s;}
 };
