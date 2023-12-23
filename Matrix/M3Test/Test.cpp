@@ -280,7 +280,6 @@ class M3Test
 			//std::cout<<"M3 D2 RES:"<<mcP<<std::endl;
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")));
-	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Year>(2022)));
 			auto resv = mcP.Accept(vip);
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
@@ -300,6 +299,11 @@ class M3Test
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
 			auto res3 = mp3.Accept(vip);
+			std::cout<<"M3 :"<<res3<<std::endl;
+			
+			std::vector<std::shared_ptr<IPredicateVisitor>> vip1;                                            
+	        vip1.push_back(std::make_shared<EqualVisitor>(std::make_unique<Month>(1)));
+			res3 = mp3.Accept(vip1);
 			std::cout<<"M3 :"<<res3<<std::endl;
 
 			auto vit = std::vector<std::unique_ptr<IToken>>();
