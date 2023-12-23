@@ -34,6 +34,8 @@ private:
     using VisitorType = TransferVisitor;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	template<typename T>
+    static decltype(auto) pipe(const M* m, std::unique_ptr<T> p) { return pipe(m, std::shared_ptr<T>(std::move(p)));}
+	template<typename T>
     static decltype(auto) pipe(const M* m, std::shared_ptr<T> p)
     {
 		std::vector<std::shared_ptr<T>> v;

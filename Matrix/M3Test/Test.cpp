@@ -308,6 +308,7 @@ class M3Test
 			std::cout<<"M3 :"<<(mp3 | vip1[0])<<std::endl;
 			std::cout<<"M3 make :"<<(mp3 | std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")) | vip1[0])<<std::endl;
 			std::cout<<"M3 make :"<<(mp3 | std::make_unique<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")) | vip1[0])<<std::endl;
+			std::cout<<"M2 make :"<<(mp3[1] | std::make_unique<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")) | vip1[0])<<std::endl;
 
 			auto vit = std::vector<std::unique_ptr<IToken>>();
             vit.push_back(std::make_unique<DateIndexToken>());
