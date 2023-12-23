@@ -26,7 +26,7 @@ public:
 	std::string ToString() const { return std::to_string(value); };
 	constexpr uint Value() const { return value; }
 	DateTimeBase(const std::string& s): DateTimeBase(::To<uint>(s)) {  }
-	DateTimeBase(uint v): Base(std::to_string(value)), value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
+	DateTimeBase(uint v): Base(std::to_string(v)), value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
 	{
 		if(v > max || v < min || v == 0)
 			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);

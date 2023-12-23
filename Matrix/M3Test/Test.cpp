@@ -296,7 +296,6 @@ class M3Test
             vi->push_back(std::make_unique<SumIndexToken>());
             vi->push_back(std::make_unique<UseIndexToken>());
 
-			std::cout<<"M22_23_G :"<<m22_23<<std::endl;
             Matcher imatcher(std::move(vi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);

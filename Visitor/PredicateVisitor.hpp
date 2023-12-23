@@ -50,8 +50,22 @@ private:
 	template<typename T>
 	ReturnType visitImpl(T& q) 
 	{
-		if(auto p = Cast::dynamic_unique_ptr<T>(value->Clone()))
-        	return Derived::op(q,*p);
+		if constexpr (std::is_same_v<T,Date>)
+		{
+			if(auto p = Cast::dynamic_unique_ptr<T>(value->Clone()))
+        		return Derived::op(q,*p);
+			if(auto p = Cast::dynamic_unique_ptr<Year>(value->Clone()))
+        		return Derived::op(q.Y(),*p);
+			if(auto p = Cast::dynamic_unique_ptr<Month>(value->Clone()))
+        		return Derived::op(q.M(),*p);
+			if(auto p = Cast::dynamic_unique_ptr<Day>(value->Clone()))
+        		return Derived::op(q.D(),*p);
+		}
+		else
+		{
+			if(auto p = Cast::dynamic_unique_ptr<T>(value->Clone()))
+        		return Derived::op(q,*p);
+		}
 		return false; 
 	};
 	std::unique_ptr<IElement> value;
@@ -60,7 +74,7 @@ private:
 class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
 {
 	friend class PredicateVisitor<EqualVisitor,true>;
-	template<typename T> inline static bool op(T l,T r) { return l == r; } 
+	template<typename T> inline static bool op(T l,T r) {	return l == r; } 
 public:
 	inline static const std::string Identifier = "Equal" + Base::Identifier;
 	EqualVisitor(std::unique_ptr<IElement> v = nullptr): Base{std::move(v)} {}
