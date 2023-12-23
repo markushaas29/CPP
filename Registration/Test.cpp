@@ -34,7 +34,7 @@ class TypeRegistrationTest
      		pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
 			auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
 
-			auto eqv = ((*pfs)("Visitor", { "IBAN", "DE82660501011021592702"}));
+			auto eqv = ((*pfs)("EqualVisitor", { "IBAN", "DE82660501011021592702"}));
 		
 			auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
 			auto tfc = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor>(fmt);

@@ -29,12 +29,12 @@ class PredicateVisitor: public IPredicateVisitor
 	using Derived = D;
 	inline static constexpr bool EnableOperation = E;
 public:
-	inline static const std::string Identifier = "Visitor";
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
 	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
 	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> e) { return std::make_unique<Derived>(std::move(e)); };
 protected:
+	inline static const std::string Identifier =  "Visitor";
 	using Base = PredicateVisitor<D,E>;
 	PredicateVisitor(std::unique_ptr<IElement> v): value{std::move(v)} {}
 private:
@@ -62,6 +62,7 @@ class EqualVisitor: public PredicateVisitor<EqualVisitor,true>
 	friend class PredicateVisitor<EqualVisitor,true>;
 	template<typename T> inline static bool op(T l,T r) { return l == r; } 
 public:
+	inline static const std::string Identifier = "Equal" + Base::Identifier;
 	EqualVisitor(std::unique_ptr<IElement> v = nullptr): Base{std::move(v)} {}
 };
 
@@ -69,6 +70,7 @@ class LessVisitor: public PredicateVisitor<LessVisitor,false>
 {
 	friend class PredicateVisitor<LessVisitor,false>;
 	template<typename T> inline static bool op(T l,T r) { return l < r; } 
+	inline static const std::string Identifier = "Less" + Base::Identifier;
 public:
 	LessVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
 };
@@ -79,6 +81,7 @@ class BinaryVisitor: public IPredicateVisitor
 	using Derived = D;
 	inline static constexpr bool EnableOperation = E;
 public:
+	inline static const std::string Identifier = "Visitor";
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
 	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
@@ -110,6 +113,7 @@ class AndVisitor: public BinaryVisitor<AndVisitor,false>
 {
 	friend class BinaryVisitor<AndVisitor,false>;
 	template<typename T> inline static bool op(T l,T r) { return l && r; } 
+	inline static const std::string Identifier = "And" + Base::Identifier;
 public:
 	AndVisitor(std::unique_ptr<IPredicateVisitor> p1, std::unique_ptr<IPredicateVisitor> p2): Base{std::move(p1), std::move(p2)} {}
 };
