@@ -125,6 +125,25 @@ int Run()
 	assert(y2022 == d1);
 	assert(d1 == m3);
 	assert(d1 == y2022);
+	
+	auto ds5 = Day{"5"};
+	auto ds29 = Day{"29"};
+	auto ms3 = Month{"3"};
+	auto ms2 = Month{"2"};
+	auto ys2022 = Year{"2022"};
+	auto ys2024 = Year{"2024"};
+	assert(ys2022 == Year(2022));
+	assert(ys2024 == Year(2024));
+	assert(ms2 == Month(2));
+	assert(ms3 == Month(3));
+	assert(ds5 == Day(5));
+	assert(ds29 == Day(29));
+	assert(Day("40") == Day(1));
+	assert(!Day("40").Valid());
+	assert(Month("40") == Month(1));
+	assert(!Month("40").Valid());
+	assert(Year("40") == Year(1900));
+	assert(!Year("40").Valid());
 
 	auto cd12122021 = Date{12,12,2021};
 	auto cd29022024 = Date{d29,m2,y2024};
