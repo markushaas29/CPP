@@ -26,11 +26,7 @@ public:
 	std::string ToString() const { return std::to_string(value); };
 	constexpr uint Value() const { return value; }
 	DateTimeBase(const std::string& s): DateTimeBase(::To<uint>(s)) {  }
-	DateTimeBase(uint v): Base(std::to_string(v)), value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
-	{
-		if(v > max || v < min || v == 0)
-			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
-	}
+	DateTimeBase(uint v): Base(std::to_string(v)), value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v} { }
 	Derived operator=(const DateTimeBase& d) 
 	{ 
 		value = d.value;
@@ -58,12 +54,13 @@ public:
 	std::ostream& Display(std::ostream& os) { return os<<value; }
 	static std::string check(std::string s)
   	{
-  	    if (s.size() == 0)
-  	        return  "";
-  	    for(int i =0; i < s.size(); ++i )
-  	        if(s[i] < 46 || s[i] > 57)
-  	            return  "";
-  	    return s;
+		auto v = ::To<uint>(s);
+		if(v > max || v < min || v == 0)
+		{
+			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
+			s = std::to_string(min);
+		}
+		return s;
   	}
 protected:
 	uint value;
