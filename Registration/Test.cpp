@@ -46,7 +46,6 @@ class TypeRegistrationTest
 			std::unique_ptr<IElement> d20112022 = std::make_unique<Date>("20.11.2022");
 			std::unique_ptr<IElement> sp = std::make_unique<Quantity<Sum>>(29);
 			std::unique_ptr<IElement> ip = std::make_unique<IBAN>(std::string("DE82660501011021592702"));
-			//assert(eqv->Visit(ib));
 			assert(ip->Is(*eqv));
 			assert(dp->Is(*eqvd));
 			assert(!d20112022->Is(*eqvd));
