@@ -49,6 +49,7 @@ class TypeRegistrationTest
 			//assert(eqv->Visit(ib));
 			assert(ip->Is(*eqv));
 			assert(dp->Is(*eqvd));
+			assert(!d20112022->Is(*eqvd));
 			assert(sp->Is(*lvq));
 
 			//auto tfc = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor, AndVisitor>(fmt);
