@@ -56,6 +56,8 @@ public:
    	decltype(auto) Accept(const V& visitors) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Accept(visitors)); }); }
 	template<typename V>
    	decltype(auto) operator |(V v) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back((e | v)); }); }
+	template<typename V>
+   	decltype(auto) operator |(std::unique_ptr<V> v) const {	return (*this) | std::shared_ptr<V>(std::move(v)); }
 
 	template<typename ET = ElementType>
 	decltype(auto) M(const IMatrixQuery<MatrixType, ET>& query) 
