@@ -84,6 +84,8 @@ public:
 	decltype(auto) operator*(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::multiply(*this,m); 	}
   	template<size_t N2, typename D2>
   	decltype(auto) operator/(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::divide(*this,m);	}
+	template<typename T>
+	decltype(auto) operator |(T v) const 	{	return MatrixAcceptor<Type>::pipe(this,v); 	}
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;

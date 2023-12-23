@@ -54,6 +54,8 @@ public:
 	decltype(auto) To() const { return apply<TO>([&](auto& mx, const auto& e) { mx.push_back(e.template To<TO>()); }); }
 	template<typename V>
    	decltype(auto) Accept(const V& visitors) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Accept(visitors)); }); }
+	template<typename V>
+   	decltype(auto) operator |(V v) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back((e | v)); }); }
 
 	template<typename ET = ElementType>
 	decltype(auto) M(const IMatrixQuery<MatrixType, ET>& query) 

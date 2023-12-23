@@ -305,6 +305,7 @@ class M3Test
 	        vip1.push_back(std::make_shared<EqualVisitor>(std::make_unique<Month>(1)));
 			res3 = mp3.Accept(vip1);
 			std::cout<<"M3 :"<<res3<<std::endl;
+			std::cout<<"M3 :"<<(mp3 | vip1[0])<<std::endl;
 
 			auto vit = std::vector<std::unique_ptr<IToken>>();
             vit.push_back(std::make_unique<DateIndexToken>());
