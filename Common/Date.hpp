@@ -49,12 +49,12 @@ public:
 	static Date Today(){ return Creator<Date>::today(); }
 
 	constexpr bool Valid() const noexcept { return valid && YMD(std::chrono::year{1900},std::chrono::month{1},std::chrono::day{1}) != ymd && ymd.ok(); };
-	constexpr explicit operator Day() { return day; } 
-	constexpr explicit operator Month() { return month; } 
-	constexpr explicit operator Year() { return year; } 
-	constexpr Day D() const { return day; } 
-	constexpr Month M() const { return month; } 
-	constexpr Year Y() const { return year; } 
+ 	explicit operator Day() { return day; } 
+ 	explicit operator Month() { return month; } 
+ 	explicit operator Year() { return year; } 
+	Day D() const { return day; } 
+	Month M() const { return month; } 
+	Year Y() const { return year; } 
 	
 	Date operator=(const Date& date)
 	{ 
@@ -73,7 +73,7 @@ public:
 			return (T)t == std::get<T>(std::make_tuple(day,month,year)); 
 		return false;
 	};
-	constexpr auto operator==(const Date& date) const	{	return day==date.day && month==date.month && year==date.year; };
+	auto operator==(const Date& date) const	{	return day==date.day && month==date.month && year==date.year; };
 	constexpr auto operator<=>( const Date& d) noexcept { return YMD(std::chrono::year(year),std::chrono::month(month),std::chrono::day(day)) <=> YMD(std::chrono::year(d.year),std::chrono::month(d.month),std::chrono::day(d.day)); }		
 private:
 	bool valid = false;

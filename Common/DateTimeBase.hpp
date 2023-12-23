@@ -11,9 +11,10 @@
 #pragma once
 
 template<typename T, typename TChrono, uint Max = 3000, uint Min = 1, typename TChronoVal = uint, typename TValue = TChronoVal>
-class DateTimeBase
+class DateTimeBase: public Element<T>
 {
 public:
+	using Base = Element<T>;
 	using Derived = T;
 	using ValueType = TValue;
 	using ChronoType = TChrono;
@@ -24,7 +25,8 @@ public:
 	static constexpr Derived Get(int i) { return Derived((uint)i);}
 	std::string ToString() const { return std::to_string(value); };
 	constexpr uint Value() const { return value; }
-	constexpr DateTimeBase(uint v):value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
+	DateTimeBase(const std::string& s): DateTimeBase(::To<uint>(s)) {  }
+	DateTimeBase(uint v): Base(std::to_string(value)), value {RangeValidator<uint,min,max>::Check(v)}, valid{RangeValidator<uint,min,max>::Condition(v)}, chronoValue{(ChronoValueType)v}
 	{
 		if(v > max || v < min || v == 0)
 			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
@@ -36,8 +38,10 @@ public:
 	}
 	DateTimeBase operator=(const DateTimeBase& d) const { return DateTimeBase(d.value);}
 	constexpr bool Valid() const { return valid; }
-	constexpr operator uint() const { return value; }
+	explicit constexpr operator uint() const { return value; }
 	constexpr operator ChronoType() const { return chronoValue;}
+	constexpr auto operator==(const DateTimeBase& d) const  {  return value==d.value; };
+	constexpr auto operator<=>(const DateTimeBase& d) const  {  return value<=>d.value; };
 	static decltype(auto) Create(std::istream& is, std::ostream& os)
 	{
 		os<<Derived::TypeIdentifier<<": ";
@@ -52,6 +56,15 @@ public:
 		return Derived{cv};
 	}
 	std::ostream& Display(std::ostream& os) { return os<<value; }
+	static std::string check(std::string s)
+  	{
+  	    if (s.size() == 0)
+  	        return  "";
+  	    for(int i =0; i < s.size(); ++i )
+  	        if(s[i] < 46 || s[i] > 57)
+  	            return  "";
+  	    return s;
+  	}
 protected:
 	uint value;
 private:
@@ -69,7 +82,8 @@ class Day: public DateTimeBase<Day,std::chrono::day,31>
 public:
 	using Base = DateTimeBase<Day,std::chrono::day,31>;
 	static constexpr const char* TypeIdentifier = "Day";
-	constexpr Day(uint v): Base(v){};
+	Day(uint v): Base(v){};
+	explicit Day(const std::string& v): Base(::To<uint>(v)){};
 };
 	
 class Month: public DateTimeBase<Month,std::chrono::month,12>
@@ -77,7 +91,8 @@ class Month: public DateTimeBase<Month,std::chrono::month,12>
 public:
 	using Base = DateTimeBase<Month,std::chrono::month,12>;
 	static constexpr const char* TypeIdentifier = "Month";
-	constexpr Month(uint v): Base(v){};
+	Month(uint v): Base(v){};
+	explicit Month(const std::string& v): Base(::To<uint>(v)){};
 };
 
 class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int, uint>
@@ -85,24 +100,25 @@ class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int, uint>
 public:
 	using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int, uint>;
 	static constexpr const char* TypeIdentifier = "Year";
-	constexpr Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
+	Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
+	explicit Year(const std::string& v): Base(::To<uint>(v)){};
 	bool IsLeap;
 };
 	
 bool operator<(const Year& y1, const Year& y2) { return y1.Value() < y2.Value(); };
 
-inline constexpr static Month Jan = Month(1);
-inline constexpr static Month Feb= Month(2);
-inline constexpr static Month Mar= Month(3);
-inline constexpr static Month Apr= Month(4);
-inline constexpr static Month May= Month(5);
-inline constexpr static Month Jun= Month(6);
-inline constexpr static Month Jul= Month(7);
-inline constexpr static Month Aug= Month(8);
-inline constexpr static Month Sep= Month(9);
-inline constexpr static Month Oct= Month(10);
-inline constexpr static Month Nov= Month(11);
-inline constexpr static Month Dec= Month(12);
+inline static Month Jan = Month(1);
+inline static Month Feb= Month(2);
+inline static Month Mar= Month(3);
+inline static Month Apr= Month(4);
+inline static Month May= Month(5);
+inline static Month Jun= Month(6);
+inline static Month Jul= Month(7);
+inline static Month Aug= Month(8);
+inline static Month Sep= Month(9);
+inline static Month Oct= Month(10);
+inline static Month Nov= Month(11);
+inline static Month Dec= Month(12);
 
 template<typename T, typename TC>
 decltype(auto) operator==(const DateTimeBase<T,TC>& d1, const DateTimeBase<T,TC>& d2){ return d1.chronoValue == d2.chronoValue;	}

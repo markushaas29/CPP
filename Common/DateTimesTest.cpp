@@ -24,8 +24,8 @@ int Run()
 	Logger::Log()<<j.Prev().Value()<<std::endl;
 	std::cout<<"END"<<std::endl;
     
-	constexpr uint uint2021{2021};
-	constexpr auto y2021 = Year::Get(uint2021);
+	uint uint2021{2021};
+	auto y2021 = Year::Get(uint2021);
 	assert(y2021.Value()==uint2021);
 	assert(y2021.ToString()=="2021");
 
@@ -38,9 +38,10 @@ int Run()
 	std::cout<<"TODAY"<<Date(32,15,3001)<<std::endl;
 	
 	auto ds20112022 = Date("20.11.2022");
+	std::cout<<"Extract"<<ds20112022<<std::endl;
 	auto d20112022 = Date(20,11,2022);
+	std::cout<<"Extract"<<d20112022<<std::endl;
 	assert(ds20112022==d20112022);
-	std::cout<<"Extract"<<Date("2.11.2022")<<std::endl;
 	std::cout<<"Extract"<<Date("2.1.2022")<<std::endl;
 	std::cout<<"Extract 2.01.2022"<<Date("2.01.2022")<<std::endl;
 	
@@ -114,13 +115,13 @@ int Run()
 	assert(cy.Value() == 2022);
 	assert(cy.Valid());
 	
-	constexpr auto dy5 = Day{5};
-	constexpr auto d29 = Day{29};
-	constexpr auto m5 = Month{3};
-	constexpr auto m2 = Month{2};
-	constexpr auto m3 = Month{3};
-	constexpr auto y2022 = Year{2022};
-	constexpr auto y2024 = Year{2024};
+	auto dy5 = Day{5};
+	auto d29 = Day{29};
+	auto m5 = Month{3};
+	auto m2 = Month{2};
+	auto m3 = Month{3};
+	auto y2022 = Year{2022};
+	auto y2024 = Year{2024};
 	assert(y2022 == d1);
 	assert(d1 == m3);
 	assert(d1 == y2022);

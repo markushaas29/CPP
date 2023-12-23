@@ -280,7 +280,8 @@ class M3Test
 			//std::cout<<"M3 D2 RES:"<<mcP<<std::endl;
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")));
-	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
+	        //vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Date>(16,11,2022)));
+	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Year>(2022)));
 			auto resv = mcP.Accept(vip);
 			std::cout<<"M3 D2 RES:"<<resv<<std::endl;
 			auto d20112022 = mcP[1][0].As<Date>();
