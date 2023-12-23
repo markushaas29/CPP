@@ -85,6 +85,7 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
 	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
+	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> l, std::unique_ptr<IElement> r) { return std::make_unique<Derived>(std::move(l), std::move(r)); };
 protected:
 	using Base = BinaryVisitor<D,E>;
 	BinaryVisitor(std::unique_ptr<IPredicateVisitor> p1, std::unique_ptr<IPredicateVisitor> p2): v1{std::move(p1)}, v2{std::move(p2)} {}
