@@ -70,9 +70,9 @@ class LessVisitor: public PredicateVisitor<LessVisitor,false>
 {
 	friend class PredicateVisitor<LessVisitor,false>;
 	template<typename T> inline static bool op(T l,T r) { return l < r; } 
-	inline static const std::string Identifier = "Less" + Base::Identifier;
 public:
-	LessVisitor(std::unique_ptr<IElement> v): Base{std::move(v)} {}
+	inline static const std::string Identifier = "Less" + Base::Identifier;
+	LessVisitor(std::unique_ptr<IElement> v = nullptr): Base{std::move(v)} {}
 };
 
 template<typename D, bool E = false>
@@ -113,7 +113,7 @@ class AndVisitor: public BinaryVisitor<AndVisitor,false>
 {
 	friend class BinaryVisitor<AndVisitor,false>;
 	template<typename T> inline static bool op(T l,T r) { return l && r; } 
-	inline static const std::string Identifier = "And" + Base::Identifier;
 public:
-	AndVisitor(std::unique_ptr<IPredicateVisitor> p1, std::unique_ptr<IPredicateVisitor> p2): Base{std::move(p1), std::move(p2)} {}
+	inline static const std::string Identifier = "And" + Base::Identifier;
+	AndVisitor(std::unique_ptr<IPredicateVisitor> p1 = nullptr, std::unique_ptr<IPredicateVisitor> p2 = nullptr): Base{std::move(p1), std::move(p2)} {}
 };
