@@ -167,6 +167,7 @@ class MatrixVisitorTest
 			auto mpInsurance = mp3 | EqualVisitor::Make(IBAN::Make("DE97500500000003200029")) | EqualVisitor::Make(Year::Make("2022"));
             std::cout<<"MatrixQuery a:\n"<<mpCleaning<<std::endl;
             assert(mpInsurance[0].Rows()==1);
+			auto mpInsurance2022 = mp3[0] | EqualVisitor::Make(IBAN::Make("DE97500500000003200029")) | EqualVisitor::Make(Year::Make("2022"));
             //assert(Quantity<Sum>(mBuildingInsurance.ColSum(4))==Quantity<Sum>(-1671.31));
 			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZie  = { "A",  {{"EQ", "DE10660501011022126625"}, {"C", "Miete"},{"C","2022"}}}; 
