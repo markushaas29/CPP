@@ -155,6 +155,12 @@ public:
 	void Register(const IdentifierType& id,  CreatorType c) { creators.try_emplace(id,c); } 
 	const CreatorType& operator[](const  IdentifierType& id) {	return find(id);	}
 	PtrType operator()(const IdentifierType& id, const ArgumentType& arg) { return (*this)[id]((*factory)(arg.Id(), arg.Arg()));	}
+	decltype(auto) operator()(const std::vector<FactoryUnit<IdentifierType,ArgumentType>> v) 
+	{ 
+		std::vector<PtrType> result;
+		std::for_each(v.cbegin(), v.cend(), [&](auto& u) { result.push_back((*this)(u.Id(), u.Arg()));});
+		return result;
+	}
 	size_t Size() { return creators.size(); }
 private:
 	template<typename E> using IsT =  Is<E,TypeId>;
