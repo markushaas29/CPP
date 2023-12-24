@@ -146,7 +146,7 @@ class MatrixVisitorTest
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
 			auto res3 = mp3.Accept(vip);
 
-			auto mpCleaning = mp3 | std::make_shared<EqualVisitor>(IBAN::Make("DE05100110012620778704")) | std::make_shared<EqualVisitor>(std::make_unique<Year>(2022));
+			auto mpCleaning = mp3 | EqualVisitor::Make(IBAN::Make("DE05100110012620778704")) | EqualVisitor::Make(Year::Make("2022"));
             assert(mpCleaning[0].Rows()==3);
             //mCleaning =m22_23.M(mBC23).Cols(4,6,7,9,11);
             //double s = Quantity<Sum>(mCleaning.ColSum(4)).Value();
@@ -164,7 +164,7 @@ class MatrixVisitorTest
             assert(mWasteFees.Rows()==2);
             assert(Quantity<Sum>(mWasteFees.ColSum(4))==Quantity<Sum>(-322.0));
             
-			auto mpInsurance = mp3 | std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE97500500000003200029")) | std::make_shared<EqualVisitor>(std::make_unique<Year>(2022));
+			auto mpInsurance = mp3 | EqualVisitor::Make(IBAN::Make("DE97500500000003200029")) | EqualVisitor::Make(Year::Make("2022"));
             std::cout<<"MatrixQuery a:\n"<<mpCleaning<<std::endl;
             assert(mpInsurance[0].Rows()==1);
             //assert(Quantity<Sum>(mBuildingInsurance.ColSum(4))==Quantity<Sum>(-1671.31));
