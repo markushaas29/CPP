@@ -18,6 +18,7 @@ class IPredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>,
 public:
 	using ReturnType = bool;
 	using ElementType = bool;
+	virtual std::unique_ptr<IPredicateVisitor> Clone() = 0;
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) = 0;
 	virtual ReturnType Visit(Date& d) = 0;
 	virtual ReturnType Visit(IBAN& i) = 0;
@@ -32,6 +33,7 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
 	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
+	virtual std::unique_ptr<IPredicateVisitor> Clone() { return std::make_unique<Derived>(value->Clone()); };
 	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> e) { return std::make_unique<Derived>(std::move(e)); };
 protected:
 	inline static const std::string Identifier =  "Visitor";
