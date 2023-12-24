@@ -40,7 +40,6 @@ public:
 	constexpr auto operator<=>(const DateTimeBase& d) const  {  return value<=>d.value; };
 	static decltype(auto) Create(std::istream& is, std::ostream& os)
 	{
-		os<<Derived::TypeIdentifier<<": ";
 		return Create(is);
 	}
 	static decltype(auto) Create(std::istream& is)
@@ -57,7 +56,7 @@ public:
 		auto v = ::To<uint>(s);
 		if(v > max || v < min || v == 0)
 		{
-			Logger::Log<Error>("Value",v," is invalid for",Derived::TypeIdentifier);
+			Logger::Log<Error>("Value",v," is invalid for",Derived::Identifier);
 			s = std::to_string(min);
 		}
 		return s;
@@ -78,7 +77,7 @@ class Day: public DateTimeBase<Day,std::chrono::day,31>
 {
 public:
 	using Base = DateTimeBase<Day,std::chrono::day,31>;
-	static constexpr const char* TypeIdentifier = "Day";
+	static constexpr const char* Identifier = "Day";
 	Day(uint v): Base(v){};
 	explicit Day(const std::string& v): Base(::To<uint>(v)){};
 };
@@ -87,7 +86,7 @@ class Month: public DateTimeBase<Month,std::chrono::month,12>
 {
 public:
 	using Base = DateTimeBase<Month,std::chrono::month,12>;
-	static constexpr const char* TypeIdentifier = "Month";
+	static constexpr const char* Identifier = "Month";
 	Month(uint v): Base(v){};
 	explicit Month(const std::string& v): Base(::To<uint>(v)){};
 };
@@ -96,9 +95,9 @@ class Year: public DateTimeBase<Year, std::chrono::year,3000, 1900, int, uint>
 {
 public:
 	using Base = DateTimeBase<Year,std::chrono::year,3000,1900, int, uint>;
-	static constexpr const char* TypeIdentifier = "Year";
+	static constexpr const char* Identifier = "Year";
 	Year(uint v): Base(v), IsLeap(((std::chrono::year)(*this)).is_leap()){};
-	explicit Year(const std::string& v): Base(::To<uint>(v)){};
+	explicit Year(const std::string& v = "1900"): Base(::To<uint>(v)){};
 	bool IsLeap;
 };
 	

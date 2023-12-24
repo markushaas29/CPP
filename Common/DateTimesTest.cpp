@@ -45,7 +45,7 @@ int Run()
 	std::cout<<"Extract"<<Date("2.1.2022")<<std::endl;
 	std::cout<<"Extract 2.01.2022"<<Date("2.01.2022")<<std::endl;
 	
-	std::cout<<"Days"<<std::endl;
+	std::cout<<"ID "<<Year::Identifier<<std::endl;
 	
 	auto dy2 = Day{2};
 	assert(dy2==2);

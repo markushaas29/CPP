@@ -45,7 +45,7 @@ class Element: public IElement
 {
 	using Derived = D;
 public:
-	inline static const std::string Identifier = "Element";
+	inline static const std::string Identifier = D::Identifier;
  	Element(const std::string& s): value{Derived::check(s)}, size{s.size()} { };
 // 	template<typename T>
 //	Element(T t): Element(std::to_string(t)) { };

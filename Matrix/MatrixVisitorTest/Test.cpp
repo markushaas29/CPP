@@ -82,7 +82,7 @@ class MatrixVisitorTest
             auto mCleaning = mpCleaning.Cols(1);
 
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty, Year>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Empty>(&(*fmt));
             
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
@@ -117,7 +117,7 @@ class MatrixVisitorTest
             assert(mpInsurance2022.Rows()==1);
 			std::cout<<"M3 D2 RES:"<<mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum()<<std::endl;
             assert((mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
-			
+			tfc("EqualVisitor", { "Year", "2022"});
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZie  = { "A",  {{"EQ", "DE10660501011022126625"}, {"C", "Miete"},{"C","2022"}}}; 
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZei  = { "A",  {{"C", "Zeiher"}, {"C", "Miete"},{"C","2022"}}}; 
 //            auto mZ = MatrixQuery<decltype(m22S),std::string>(pfs, {fUZie, fUZei});
