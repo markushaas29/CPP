@@ -22,6 +22,7 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) = 0;
 	virtual ReturnType Visit(Date& d) = 0;
 	virtual ReturnType Visit(IBAN& i) = 0;
+	virtual std::ostream& Display(std::ostream& s) = 0;
 };
 
 template<typename D, bool E = false>
@@ -35,6 +36,7 @@ public:
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
 	virtual std::unique_ptr<IPredicateVisitor> Clone() { return std::make_unique<Derived>(value->Clone()); };
 	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> e) { return std::make_unique<Derived>(std::move(e)); };
+	virtual std::ostream& Display(std::ostream& s) { return s<<"Value: "<<(*value);	};
 protected:
 	inline static const std::string Identifier =  "Visitor";
 	using Base = PredicateVisitor<D,E>;
