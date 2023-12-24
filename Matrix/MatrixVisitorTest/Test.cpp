@@ -146,7 +146,7 @@ class MatrixVisitorTest
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
 			auto res3 = mp3.Accept(vip);
 
-			auto mpCleaning = mp3 | std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE05100110012620778704")) | std::make_shared<EqualVisitor>(std::make_unique<Year>(2022));
+			auto mpCleaning = mp3 | std::make_shared<EqualVisitor>(IBAN::Make("DE05100110012620778704")) | std::make_shared<EqualVisitor>(std::make_unique<Year>(2022));
             assert(mpCleaning[0].Rows()==3);
             //mCleaning =m22_23.M(mBC23).Cols(4,6,7,9,11);
             //double s = Quantity<Sum>(mCleaning.ColSum(4)).Value();
