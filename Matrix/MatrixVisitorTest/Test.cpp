@@ -78,7 +78,6 @@ class MatrixVisitorTest
             vi->push_back(std::make_unique<UseIndexToken>());
 			
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
-			//std::cout<<"M3 D2 RES:"<<mcP<<std::endl;
 	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")));
 	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Year>(2022)));
@@ -91,9 +90,7 @@ class MatrixVisitorTest
 			auto mpCleaning = mp3 | EqualVisitor::Make(IBAN::Make("DE05100110012620778704")) | EqualVisitor::Make(Year::Make("2022"));
             assert(mpCleaning[0].Rows()==3);
             auto mCleaning = mpCleaning.Cols(1);
-            std::cout<<"MatrixQuery:\n"<<mCleaning.To<Quantity<Sum>>()[0].ColSum()<<std::endl;
-            //double s = Quantity<Sum>(mCleaning.ColSum(4)).Value();
-			//double q=  Quantity<Sum>(-446.57).Value();
+            //assert((double)(mCleaning.To<Quantity<Sum>>()[0].ColSum())[0]==-214.2);
             
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
             auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
@@ -112,6 +109,8 @@ class MatrixVisitorTest
             assert(mpInsurance[0].Rows()==1);
 			auto mpInsurance2022 = mp3[0] | EqualVisitor::Make(IBAN::Make("DE97500500000003200029")) | EqualVisitor::Make(Year::Make("2022"));
             assert(mpInsurance2022.Rows()==1);
+			std::cout<<"M3 D2 RES:"<<mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum()<<std::endl;
+            assert((mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
 			
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZie  = { "A",  {{"EQ", "DE10660501011022126625"}, {"C", "Miete"},{"C","2022"}}}; 
 			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZei  = { "A",  {{"C", "Zeiher"}, {"C", "Miete"},{"C","2022"}}}; 
