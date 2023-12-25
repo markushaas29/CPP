@@ -71,7 +71,7 @@ public:
 		return MatrixType(typename MatrixType::DescriptorType{{result.size() / cols, cols}}, result); 
 	}
 	template<typename V>
-   	decltype(auto) operator |(V v) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back((e | v)); }); }
+   	decltype(auto) operator |(V v) const { return apply2(v); }
 	template<typename V>
    	decltype(auto) operator |(std::unique_ptr<V> v) const {	return (*this) | std::shared_ptr<V>(std::move(v)); }
 
@@ -137,6 +137,25 @@ private:
 		return M3<C,DT>(mx); 
 	}
 
+	template<typename V>
+   	decltype(auto) apply2(const V& visitors) const
+	{ 
+		size_t cols;
+		std::vector<std::shared_ptr<IElement>> result;
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) 
+				{ 
+					std::vector<V> v { visitors };
+					auto m = e.Accept(v);
+					for(auto i = 0; i < m.Rows(); ++i)
+					{
+						auto row = m.row(i);
+						cols = m.Cols();
+						std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(*v); });
+					}
+				});
+
+		return MatrixType(typename MatrixType::DescriptorType{{result.size() / cols, cols}}, result); 
+	}
 	decltype(auto) getCols()
 	{
 		IsT<Throwing>(Format("No Data!"))(elements->size()>0);
