@@ -53,7 +53,23 @@ public:
 	template<typename TO>
 	decltype(auto) To() const { return apply<TO>([&](auto& mx, const auto& e) { mx.push_back(e.template To<TO>()); }); }
 	template<typename V>
-   	decltype(auto) Accept(const V& visitors) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Accept(visitors)); }); }
+   	decltype(auto) Accept(const V& visitors) const
+	{ 
+		size_t cols;
+		std::vector<std::shared_ptr<IElement>> result;
+		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) 
+				{ 
+					auto m = e.Accept(visitors);
+					for(auto i = 0; i < m.Rows(); ++i)
+					{
+						auto row = m.row(i);
+						cols = m.Cols();
+						std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(*v); });
+					}
+				});
+
+		return MatrixType(typename MatrixType::DescriptorType{{result.size() / cols, cols}}, result); 
+	}
 	template<typename V>
    	decltype(auto) operator |(V v) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back((e | v)); }); }
 	template<typename V>
@@ -73,11 +89,7 @@ public:
 			}
 		}
 
-		std::array<size_t,Order-1> e;
-		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
-		e[0] = result.size() / e[1];
-
-		return MatrixType(typename MatrixType::DescriptorType{e}, result); 
+		return MatrixType(typename MatrixType::DescriptorType{{result.size() / elements->at(0).descriptor.Extents()[1], elements->at(0).descriptor.Extents()[1]}}, result); 
 	}
 
 	template<typename Q, typename U>
@@ -87,7 +99,6 @@ public:
 		for(auto el : *elements)
 		{
 			auto m = s(el);
-			std::cout<<"M3 "<<m<<std::endl;
 			auto item = m.Items();
 			for(auto i = 0; i < item.Rows(); ++i)
 			{
@@ -96,11 +107,7 @@ public:
 			}
 		}
 
-		std::array<size_t,Order-1> e;
-		std::copy(elements->at(0).descriptor.Extents().begin(), elements->at(0).descriptor.Extents().end(), e.begin());
-		e[0] = result.size() / e[1];
-
-		auto resM = MatrixType(typename MatrixType::DescriptorType{e}, result); 
+		auto resM = MatrixType(typename MatrixType::DescriptorType{{result.size() / elements->at(0).descriptor.Extents()[1], elements->at(0).descriptor.Extents()[1]}}, result); 
 		return typename IMatrixStrategy<MatrixType, Q, U>::ResultType(Quantity<Sum>(resM.ColSum(11)), resM, s.Units(),std::string(s.Name())); 
 	}
 private:
