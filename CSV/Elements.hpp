@@ -76,17 +76,25 @@ class Entry: public Element<Entry>
 public:
 	inline static constexpr const char* Identifier = "Entry";
 	Entry(const std::string& c): Base(c){ };
-	void split()
+	virtual bool operator==(const Entry& e) const 
+	{
+		auto vals = split();
+		for(auto v : vals)
+			if(e.Data() == v)
+				return true;
+		return false;
+	};
+	inline static std::string check(const std::string& s) { return s; }
+private:
+	std::vector<std::string> split() const
 	{
 		auto s = std::string(Data());
 		std::regex rgx("(\\s+)");
-		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1);
-		std::sregex_token_iterator end;
-		for ( ; iter != end; ++iter)
-			std::cout << *iter << '\n';
+		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1), end;
+		std::vector<std::string> result;
+		std::for_each(iter,end, [&result](const auto& s) { result.push_back(s);});
+		return result;
 	}
-	inline static std::string check(const std::string& s) { return s; }
-private:
 };
 
 class Index: public Element<Index>

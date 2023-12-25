@@ -49,8 +49,9 @@ int Run()
 	ElementRegexTest er;
 	assert(er.Run());
 
-	auto ese = Entry(se);
-	ese.split();
+	auto useE = Entry(se);
+	auto useA = Entry("Abschlagsforderung");
+	assert(useE==useA);
 
     return 0;
 }
