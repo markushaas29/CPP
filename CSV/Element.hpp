@@ -21,7 +21,7 @@ public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
 	virtual bool Is(BaseVisitor& visitor) = 0;
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
-//	virtual constexpr bool operator==(const IElement& e) const = 0;
+	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual const std::string& Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
