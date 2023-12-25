@@ -52,6 +52,10 @@ int Run()
 	auto useE = Entry(se);
 	auto useA = Entry("Abschlagsforderung");
 	assert(useE==useA);
+	useA = Entry("Abschagsforderung");
+	assert(useE!=useA);
+	useA = Entry("DE6900000000084184");
+	assert(useE==useA);
 
     return 0;
 }
