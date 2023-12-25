@@ -10,10 +10,11 @@
 #pragma once 
 class Date;
 class IBAN;
+class Entry;
 class IElement;
 template<typename,typename, typename> class Quantity;
 
-class IPredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date, IBAN>
+class IPredicateVisitor: public VariadicVisitor<bool, Quantity<Sum,Pure,double>, Date, IBAN, Entry>
 {
 public:
 	using ReturnType = bool;
@@ -22,6 +23,7 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) = 0;
 	virtual ReturnType Visit(Date& d) = 0;
 	virtual ReturnType Visit(IBAN& i) = 0;
+	virtual ReturnType Visit(Entry& i) = 0;
 	virtual std::ostream& Display(std::ostream& s) = 0;
 };
 
@@ -34,6 +36,7 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { return visit<true>(q); }
 	virtual ReturnType Visit(Date& d) { return visit<true>(d); }
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
+	virtual ReturnType Visit(Entry& i) { 	return visit<false>(i); }
 	virtual std::unique_ptr<IPredicateVisitor> Clone() { return std::make_unique<Derived>(value->Clone()); };
 	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> e) { return std::make_unique<Derived>(std::move(e)); };
 	virtual std::ostream& Display(std::ostream& s) { return s<<"Value: "<<(*value);	};

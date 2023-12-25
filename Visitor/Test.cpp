@@ -28,6 +28,7 @@ int Run()
 	std::unique_ptr<IElement> d20112022 = std::make_unique<Date>("20.11.2022");
 	std::unique_ptr<IElement> sp = std::make_unique<Quantity<Sum>>(29);
 	std::unique_ptr<IElement> ip = std::make_unique<IBAN>(std::string("DE82660501011021592702"));
+	std::unique_ptr<IElement> ep = std::make_unique<Entry>(std::string("A B C D"));
 	auto qs = Quantity<Sum>(29);
 	IElement* ie = &qs;
 	dp->Accept(vd);
@@ -37,6 +38,13 @@ int Run()
 	const auto cd = Date(1,1,2020);
 	cd.Accept(vd);
 
+	auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
+	assert(ep->Is(ev));
+	ev = EqualVisitor(std::make_unique<Entry>(std::string("B")));
+	assert(ep->Is(ev));
+	ev = EqualVisitor(std::make_unique<Entry>(std::string("E")));
+	assert(!ep->Is(ev));
+	
 	auto pv = EqualVisitor(std::make_unique<Quantity<Sum>>(29));
 	assert(sp->Is(pv));
 	assert(sp->Is(pv));
@@ -90,8 +98,8 @@ int Run()
         {std::make_shared<Quantity<Sum>>(4.5), std::make_shared<Quantity<Sum>>(3.5)},
     };
 	MS2 ms22{
-             {std::string("1,00"),std::string("2,00"),std::string("2.2.1989"), std::string("DE82660501011021592702")} ,
-             {std::string("5,00"),std::string("6,00"),std::string("2.2.1989"), std::string("DE82660501011021592702")}
+             {std::string("1,00"),std::string("2,00"),std::string("2.2.1989"), std::string("DE82660501011021592702"), std::string("A B E")} ,
+             {std::string("5,00"),std::string("6,00"),std::string("2.2.1989"), std::string("DE82660501011021592702"), std::string("U V W")}
     };
 
     auto mq = ms22.Parse(matcher);
@@ -106,6 +114,14 @@ int Run()
 	assert(!tv.Is(pv228));
 	assert(tv.Is(dlv299));
 	assert(tv.Is(dlv289));
+	
+	auto e = Entry("A B E");
+	tv.Visit(e);
+	assert(tv.Is(ev));
+	ev = EqualVisitor(std::make_unique<Entry>(std::string("B")));
+	assert(tv.Is(ev));
+	ev = EqualVisitor(std::make_unique<Entry>(std::string("C")));
+	assert(!tv.Is(ev));
 	
 	auto fme =std::make_shared<Factory<IElement>>();
     fme->Register("I",[](const std::string s) { return std::make_unique<IBAN>(s); });

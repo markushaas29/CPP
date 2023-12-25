@@ -29,19 +29,19 @@ private:
     { 
 		if constexpr (std::is_same_v<typename M::ElementType, std::string>)
 		{
-		auto el = std::vector<PointerType>();
-        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) 
-				{ 
-					if(matcher.Match(*e))
-						el.push_back(matcher(*e)); 
-					else
-						el.push_back(std::make_shared<Entry>(*e)); 
-				});
-
-		IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
-
-		auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
-		return Matrix<Order,DescriptorType>(d,ToDataType(el));
+			auto el = std::vector<PointerType>();
+	        std::for_each(m->elements->cbegin(), m->elements->cend(), [&](const auto& e) 
+					{ 
+						if(matcher.Match(*e))
+							el.push_back(matcher(*e)); 
+						else
+							el.push_back(std::make_shared<Entry>(*e)); 
+					});
+	
+			IsT<Throwing>(Format("Parsed elements: ",el.size(), " matrix elements: ", m->elements->size() ))(el.size()==m->elements->size());
+	
+			auto d = DescriptorType(m->descriptor.Extents(), m->descriptor.Strides());
+			return Matrix<Order,DescriptorType>(d,ToDataType(el));
 		}
     }
     

@@ -75,7 +75,7 @@ class Entry: public Element<Entry>
 	friend class Element<Entry>;
 public:
 	inline static constexpr const char* Identifier = "Entry";
-	Entry(const std::string& c): Base(c){ };
+	Entry(const std::string& c = Identifier): Base(c){ };
 	virtual bool operator==(const Entry& e) const 
 	{
 		auto vals = split();

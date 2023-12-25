@@ -83,7 +83,6 @@ class MatrixVisitorTest
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             auto qp2 = fmt2("SumToken","100");
-            std::cout<<*qp2<<std::endl;
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
@@ -101,8 +100,10 @@ class MatrixVisitorTest
 
             //assert((double)(mCleaning.To<Quantity<Sum>>()[0].ColSum())[0]==-214.2);
             
-			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | tfc("EqualVisitor", { "Year", "2022"})| tfc("EqualVisitor", { "Entry", "Grundsteuer"});
-          	assert(mPropertyTax[0].Rows()==4);
+            //std::cout<<mp3<<std::endl;
+			//auto mPropertyTax = mp3 | tfc("EqualVisitor", { "Entry", "Miete"});
+            //std::cout<<mPropertyTax<<std::endl;
+          	//assert(mPropertyTax[0].Rows()==4);
           	//assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
 		
 //            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUW  = { "A",  {{"EQ", "DE44600501010008017284"}, {"C","2022"}}}; 
@@ -127,10 +128,11 @@ class MatrixVisitorTest
 //            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
 			
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBru  = { "A",  {{"EQ", "DE83660623660009262008"}, {"C", "MIETE"},{"C","2022"}}}; 
-//            auto mB = MatrixQuery<decltype(m22S),std::string>(pfs, {fUBru});
-//            auto mBrustat =m22_23.M(mB).Cols(4,6,7,9,11);
-//            assert(mBrustat.Rows()==12);
-//            assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
+			//auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "Miete"}); //| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});//| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});
+			auto mBrustat = mp3 |  tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"}) | tfc("EqualVisitor", { "Year", "2022"});
+            std::cout<<mBrustat<<std::endl;
+            assert(mBrustat[0].Rows()==13);
+            //assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
 			
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUJansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
