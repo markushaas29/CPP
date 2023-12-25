@@ -78,7 +78,7 @@ class MatrixVisitorTest
 			auto res3 = mp3.Accept(vip);
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Empty>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Entry,Empty>(&(*fmt));
             
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
@@ -101,12 +101,10 @@ class MatrixVisitorTest
 
             //assert((double)(mCleaning.To<Quantity<Sum>>()[0].ColSum())[0]==-214.2);
             
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUDetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","2022"}, {"C","Grundsteuer"}}}; 
-//            auto mDG = MatrixQuery<decltype(m22S),std::string>(pfs, {fUDetG});
-//            auto mPropertyTax =m22_23.M(mDG).Cols(4,6,7,9,11);
-//            assert(mPropertyTax.Rows()==4);
-//            assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
-			
+			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | tfc("EqualVisitor", { "Year", "2022"})| tfc("EqualVisitor", { "Entry", "Grundsteuer"});
+          	assert(mPropertyTax[0].Rows()==4);
+          	//assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
+		
 //            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUW  = { "A",  {{"EQ", "DE44600501010008017284"}, {"C","2022"}}}; 
 //            auto mW = MatrixQuery<decltype(m22S),std::string>(pfs, {fUW});
 //            auto mWasteFees =m22_23.M(mW).Cols(4,6,7,9,11);
