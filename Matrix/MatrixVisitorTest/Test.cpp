@@ -101,8 +101,8 @@ class MatrixVisitorTest
             //assert((double)(mCleaning.To<Quantity<Sum>>()[0].ColSum())[0]==-214.2);
             
             //std::cout<<mp3<<std::endl;
-			//auto mPropertyTax = mp3 | tfc("EqualVisitor", { "Entry", "Miete"});
-            //std::cout<<mPropertyTax<<std::endl;
+			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"})| tfc("EqualVisitor", { "Year", "2022"});
+            std::cout<<"ENTRY:\n"<<mPropertyTax<<std::endl;
           	//assert(mPropertyTax[0].Rows()==4);
           	//assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
 		
@@ -113,7 +113,6 @@ class MatrixVisitorTest
 //            assert(Quantity<Sum>(mWasteFees.ColSum(4))==Quantity<Sum>(-322.0));
             
 			auto mpInsurance = mp3 | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2022"});
-            std::cout<<"MatrixQuery a:\n"<<mpCleaning<<std::endl;
             assert(mpInsurance[0].Rows()==1);
 			auto mpInsurance2022 = mp3[0] | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpInsurance2022.Rows()==1);
@@ -129,9 +128,9 @@ class MatrixVisitorTest
 			
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBru  = { "A",  {{"EQ", "DE83660623660009262008"}, {"C", "MIETE"},{"C","2022"}}}; 
 			//auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "Miete"}); //| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});//| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});
-			auto mBrustat = mp3 |  tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"}) | tfc("EqualVisitor", { "Year", "2022"});
+			auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"})| tfc("EqualVisitor", { "Year", "2022"});
             std::cout<<mBrustat<<std::endl;
-            assert(mBrustat[0].Rows()==13);
+            assert(mBrustat[0].Rows()==12);
             //assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
 			
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
