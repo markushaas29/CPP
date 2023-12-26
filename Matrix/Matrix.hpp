@@ -107,7 +107,7 @@ private:
 	friend class MatrixIO<Type>;
 	friend class MatrixParser<Type>;
 	friend class MatrixFilter<Type>;
-	friend class MatrixAcceptor<Type>;
+	template<typename> friend class MatrixAcceptor;
 	template<typename> friend class MatrixVisitor;
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
