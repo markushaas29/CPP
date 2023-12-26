@@ -107,13 +107,9 @@ class MatrixVisitorTest
           	//assert(mPropertyTax.Rows()==4);
           	//assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
 		
-//            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUW  = { "A",  {{"EQ", "DE44600501010008017284"}, {"C","2022"}}}; 
-//            auto mW = MatrixQuery<decltype(m22S),std::string>(pfs, {fUW});
-//            auto mWasteFees =m22_23.M(mW).Cols(4,6,7,9,11);
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});
-            std::cout<<"Grundsteuer:\n"<<mWasteFees<<std::endl;
             assert(mWasteFees.Rows()==2);
-//            assert(Quantity<Sum>(mWasteFees.ColSum(4))==Quantity<Sum>(-322.0));
+            //assert(Quantity<Sum>(mWasteFees.ColSum(1))==Quantity<Sum>(-322.0));
             
 			auto mpInsurance = mp3 | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpInsurance.Rows()==1);
@@ -122,18 +118,13 @@ class MatrixVisitorTest
 			std::cout<<"M3 D2 RES:"<<mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum()<<std::endl;
             assert((mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
 			tfc("EqualVisitor", { "Year", "2022"});
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZie  = { "A",  {{"EQ", "DE10660501011022126625"}, {"C", "Miete"},{"C","2022"}}}; 
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUZei  = { "A",  {{"C", "Zeiher"}, {"C", "Miete"},{"C","2022"}}}; 
-//            auto mZ = MatrixQuery<decltype(m22S),std::string>(pfs, {fUZie, fUZei});
-//            auto mZeiher =m22_23.M(mZ).Cols(4,6,7,9,11);
-//            assert(mZeiher.Rows()==12);
+			
+			auto mZie = mp3 | tfc("EqualVisitor", { "IBAN", "DE10660501011022126625"})| tfc("EqualVisitor", { "Year", "2022"});
+			auto mZei = mp3 | tfc("EqualVisitor", { "IBAN", "DE47660501011020531958"})| tfc("EqualVisitor", { "Year", "2022"});
+            assert((mZei.Rows()+mZie.Rows())==13);
 //            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
 			
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUBru  = { "A",  {{"EQ", "DE83660623660009262008"}, {"C", "MIETE"},{"C","2022"}}}; 
-			//auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "Miete"}); //| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});//| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});
-			//auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"});
 			auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"})| tfc("EqualVisitor", { "Year", "2022"});
-            //std::cout<<mp3<<std::endl;
             std::cout<<mBrustat<<std::endl;
             assert(mBrustat.Rows()==12);
             //assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
@@ -143,6 +134,7 @@ class MatrixVisitorTest
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fURast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
 //            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUProp, fUJansen, fURast});
 //            
+			auto mEnBW = mp3 | tfc("EqualVisitor", { "IBAN", "DE47660501011020531958"})| tfc("EqualVisitor", { "Year", "2022"});
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2022"}, {"C","Strom Abschlagsforderung"}, {"C","701006843905"}}}; 
 //            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2022"}, {"C","Gas Abschlagsforderung"}, {"C","8201090081"}}};
 //            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2023"}, {"C","Rechnung"}, {"C","8201090081"}}};
