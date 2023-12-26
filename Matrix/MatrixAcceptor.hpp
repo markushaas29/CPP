@@ -52,10 +52,8 @@ private:
 		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(m);
 		visit(m);
-
-		std::cout<<"VISITORS"<<std::endl;
-        std::for_each(visitors->begin(), visitors->end(), [&](auto& v) { std::cout<<v<<std::endl; }); 
-		std::cout<<"VISITORS END\n\n"<<std::endl;
+		auto mc = create(v.cbegin());
+//        std::for_each(visitors->begin(), visitors->end(), [&](auto& v) { std::cout<<v<<std::endl; }); 
 
 		return apply(mv.Collector().Create(v.cbegin()),v.cbegin()+1, v.cend());
     }
@@ -76,13 +74,9 @@ private:
     {
         if constexpr (MT::Order==1)
         {
-		std::cout<<"VISITOR P START"<<std::endl;
-
             VisitorType v;
             for(auto i=0; i<m->Rows(); ++i)
                 (*m->elements->at(i))->Accept(v);
- 
-		std::cout<<"VISITOR P"<<v<<std::endl;
             visitors->push_back(v);
         }
         else
