@@ -27,7 +27,7 @@ class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, D
 public:
 	using PtrType = std::vector<std::shared_ptr<IElement>>;
 	using SumType = Quantity<Sum,Pure,double>;
-	inline static constexpr size_t Order = 3;
+	inline static constexpr size_t Order = 4;
 	auto I() const { return iban; }
 	template<typename T>
 	auto To() const
@@ -39,7 +39,7 @@ public:
 		else if constexpr (std::is_same_v<T,Date>)
 			return date;
 	}
-	auto Create() const	{	return std::vector<std::shared_ptr<IElement>> {std::make_shared<IBAN>(iban), std::make_shared<Quantity<Sum,Pure,double>>(sum), std::make_shared<Date>(date.D(), date.M(), date.Y()) };	}
+	auto Create() const	{	return std::vector<std::shared_ptr<IElement>> {std::make_shared<IBAN>(iban), std::make_shared<Quantity<Sum,Pure,double>>(sum), std::make_shared<Date>(date.D(), date.M(), date.Y()), std::make_shared<Entry>(entry) };	}
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { sum = sum + q; };
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };
