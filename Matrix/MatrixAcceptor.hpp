@@ -77,4 +77,22 @@ private:
                 (*m)[i].Accept(*this);
         }
     };
+
+    template<typename P>                      
+    decltype(auto) Create(P p)  const
+    {
+        using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
+        std::vector<std::shared_ptr<IElement>> temp;                
+        std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
+        {       
+            if(v.Is(**p))                                                                        
+            {                                      
+               auto e = v.Create();    
+               std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
+            }                                   
+        });     
+                   
+        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
+        return MT(md,temp);    
+    }
 };
