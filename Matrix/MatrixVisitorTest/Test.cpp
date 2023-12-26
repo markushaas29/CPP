@@ -102,10 +102,10 @@ class MatrixVisitorTest
             //assert((double)(mCleaning.To<Quantity<Sum>>()[0].ColSum())[0]==-214.2);
             
             //std::cout<<mp3<<std::endl;
-			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "Entry", "Grundsteuer"});//| tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"});
+			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
             std::cout<<"Grundsteuer:\n"<<mPropertyTax<<std::endl;
-          	//assert(mPropertyTax.Rows()==4);
-          	//assert(Quantity<Sum>(mPropertyTax.ColSum(4))==Quantity<Sum>(-423.01));
+          	assert(mPropertyTax.Rows()==4);
+          	assert((mPropertyTax.Cols(1).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
 		
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});
             assert(mWasteFees.Rows()==2);
