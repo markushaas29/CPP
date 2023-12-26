@@ -78,7 +78,6 @@ public:
 	Entry(const std::string& c = Identifier): Base(c){  };
 	virtual bool operator==(const Entry& e) const 
 	{
-std::cout<<Data()<<std::endl;
 		auto vals = split();
 		for(auto v : vals)
 			if(e.Data() == v)
