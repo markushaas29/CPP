@@ -50,7 +50,8 @@ private:
     {
 		auto mv = MatrixVisitor<TransferVisitor>();
 		mv.Visit(m);
-	//	visit(m);
+		if constexpr (M::Order < 3)
+			visit(m);
 		return apply(mv.Collector().Create(v.cbegin()),v.cbegin()+1, v.cend());
     }
 	
@@ -65,9 +66,10 @@ private:
 
     }
 
-	decltype(auto) visit(M* m) const
+	template<typename MT>
+	decltype(auto) visit(MT* m) const
     {
-        if constexpr (M::Order==1)
+        if constexpr (MT::Order==1)
         {
             VisitorType v;
             for(auto i=0; i<m->Rows(); ++i)
@@ -77,8 +79,10 @@ private:
         }
         else
         {
+            MatrixVisitor<VisitorType> v;
             for(auto i = 0; i != m->Rows(); ++i)
-                (*m)[i].Accept(*this);
+				(*m)[i].Accept(v);
+                //accept(m[i]);
         }
     };
 
