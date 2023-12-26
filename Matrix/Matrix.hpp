@@ -62,7 +62,7 @@ public:
 	template<typename T>
 	decltype(auto) Accept(const MatrixVisitor<T>& m) const { return m.Visit(this); }
 	template<typename T>
-	decltype(auto) Accept(const T& v) const 	{	return MatrixAcceptor<Type>::accept(this,v); 	}
+	decltype(auto) Accept(const T& v) const 	{	return MatrixAcceptor<Type>().accept(this,v); 	}
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	decltype(auto) Match(const Matcher& m) const { return MatrixParser<Type>::match(this, m); }
 	template<typename F>
@@ -85,7 +85,7 @@ public:
   	template<size_t N2, typename D2>
   	decltype(auto) operator/(const Matrix<N2, D2>& m)	{ return MC<Matrix<N2,D2>>::divide(*this,m);	}
 	template<typename T>
-	decltype(auto) operator |(T v) const 	{	return MatrixAcceptor<Type>::pipe(this,std::move(v->Clone())); 	}
+	decltype(auto) operator |(T v) const 	{	return MatrixAcceptor<Type>().pipe(this,std::move(v->Clone())); 	}
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	template<typename T> using MC = MatrixCalculator<Type, T>;
