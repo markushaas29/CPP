@@ -134,47 +134,20 @@ class MatrixVisitorTest
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fURast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
 //            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUProp, fUJansen, fURast});
 //            
-			auto mEnBW = mp3 | tfc("EqualVisitor", { "IBAN", "DE47660501011020531958"})| tfc("EqualVisitor", { "Year", "2022"});
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2022"}, {"C","Strom Abschlagsforderung"}, {"C","701006843905"}}}; 
-//            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgas = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2022"}, {"C","Gas Abschlagsforderung"}, {"C","8201090081"}}};
-//            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUErdgasInv = { "A",  {{"EQ","DE68600501010002057075"}, {"C","2023"}, {"C","Rechnung"}, {"C","8201090081"}}};
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUEnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","2023"}, {"C","Rechnung"}, {"C","701006843905"} }}; 
-//			auto mq39 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUEnBW, fUErdgas, fUEnBWInv, fUErdgasInv});
-//            auto Heating =m22_23.M(mq39).Cols(4,6,7,9,11);
+			//auto mEnBW = mp3 | tfc("EqualVisitor", { "Entry", "701006843905"})| tfc("EqualVisitor", { "Entry", "Abschlagsforderung"}) | tfc("EqualVisitor", { "IBAN", "DE56600501017402051588"})| tfc("EqualVisitor", { "Year", "2022"});
+			auto mEnBW = mp3 | tfc("EqualVisitor", { "Entry", "Abschlagsforderung"}) | tfc("EqualVisitor", { "IBAN", "DE56600501017402051588"})| tfc("EqualVisitor", { "Year", "2022"});
+            std::cout<<mEnBW<<std::endl;
+			auto mGas = mp3 | tfc("EqualVisitor", { "Entry", "Abschlagsforderung"}) | tfc("EqualVisitor", { "IBAN", "DE68600501010002057075"})| tfc("EqualVisitor", { "Year", "2022"});
+            assert(mGas.Rows()==11);
+			auto mGasI = mp3 | tfc("EqualVisitor", { "Entry", "Rechnung"}) | tfc("EqualVisitor", { "IBAN", "DE68600501010002057075"})| tfc("EqualVisitor", { "Year", "2023"});
+            assert(mGasI.Rows()==1);
+            std::cout<<mGasI<<std::endl;
+			auto mEnBWI = mp3 | tfc("EqualVisitor", { "Entry", "Rechnung"}) | tfc("EqualVisitor", { "IBAN", "DE56600501017402051588"})| tfc("EqualVisitor", { "Year", "2023"});
+            std::cout<<mEnBWI<<std::endl;
+            assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
 //			assert(Heating.Rows()==25);
 //			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
-//
-//			Year y{2022};
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_EnBW = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Strom Abschlagsforderung"}, {"C","701006843905"}}}; 
-//            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_Erdgas = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Gas Abschlagsforderung"}}};
-//            FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_ErdgasInv = { "A",  {{"EQ","DE68600501010002057075"},  {"C","Rechnung"}, {"C","8201090081"}}};
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_EnBWInv = { "A",  {{"EQ", "DE56600501017402051588"}, {"C","Rechnung"}, {"C","701006843905"} }}; 
-//			YearStrategy<decltype(m22S)> un( pfs,{fU_EnBW, fU_Erdgas, fU_EnBWInv, fU_ErdgasInv}, y, "BuildingInsurance");
-//			assert(un.Name()=="BuildingInsurance");
-//			auto qms = un(m22S);
-			
-//			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fU_DetG = { "A",  {{"EQ", "DE12660623660000005703"}, {"C","Grundsteuer"}}}; 
-//			YearStrategy<decltype(m22S)> ys( pfs,{fU_DetG}, y,"BuildingInsurance");
-//			std::cout<<"ID "<<ys(m22S)<<std::endl;
-//            assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
-//            assert(m22S.M(ys).Result()==Quantity<Sum>(-423.01));
-//
-//			auto id = std::string("8201090081");
-//			IDStrategy<decltype(m22S)> ids(pfs,{fU_Erdgas}, y, id,"Gas");
-//            assert(ids(m22S).Result()==Quantity<Sum>(-2113.00));
-//            
-//			auto msR = m22_23.M(ids);
-//			auto msR2 = msR.Compose(msR);
-//            assert(ys(m22S).Result()==Quantity<Sum>(-423.01));
-//			
-//			BaseMatrixStrategy<decltype(m22S)> ws( pfs,{fU_DetG}, "With");
-//			auto mb = ws.With(y);
-//            assert(m22S.M(mb).Result()==Quantity<Sum>(-423.01));
-//		
-//			std::vector<std::shared_ptr<IPredicateVisitor>> vip1;                                            
-//	        vip1.push_back(std::make_shared<EqualVisitor>(std::make_unique<Month>(1)));
-//			res3 = mp3.Accept(vip1);
 //
 			std::cout<<"END"<<std::endl;
 		   
