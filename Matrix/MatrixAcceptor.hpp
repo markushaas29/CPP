@@ -32,6 +32,7 @@ public:
 private:
 	M matrix;
     using VisitorType = TransferVisitor;
+	std::unique_ptr<std::vector<VisitorType>> visitors;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	template<typename T>
     static decltype(auto) pipe(const M* m, std::unique_ptr<T> p) { return pipe(m, std::shared_ptr<T>(std::move(p)));}
@@ -59,4 +60,21 @@ private:
 		return apply(mv.Collector().Create(std::move(begin)),begin+1,end);
 
     }
+
+	decltype(auto) Visit(M* m) const
+    {
+        if constexpr (M::Order==1)
+        {
+            VisitorType v;
+            for(auto i=0; i<m->Rows(); ++i)
+                (*m->elements->at(i))->Accept(v);
+ 
+            visitors->push_back(v);
+        }
+        else
+        {
+            for(auto i = 0; i != m->Rows(); ++i)
+                (*m)[i].Accept(*this);
+        }
+    };
 };
