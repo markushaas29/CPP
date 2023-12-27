@@ -148,6 +148,10 @@ public:
 		t = "ad name";
   		//assert(ni.Match(t));
 		
+		auto bi = BICIndexToken();
+		t = "BIC (SWIFT-Code) Zahlungsbeteiligter";
+  		assert(bi.Match(t));
+		
 		auto e = EmptyToken();
 		t = "";
   		assert(e.Match(t));

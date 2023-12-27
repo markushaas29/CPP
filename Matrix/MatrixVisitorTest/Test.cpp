@@ -63,18 +63,13 @@ class MatrixVisitorTest
             vi->push_back(std::make_unique<DateIndexToken>());
             vi->push_back(std::make_unique<IBANIndexToken>());
             vi->push_back(std::make_unique<BICIndexToken>());
+            vi->push_back(std::make_unique<BICIndexToken>());
             vi->push_back(std::make_unique<SumIndexToken>());
             vi->push_back(std::make_unique<UseIndexToken>());
 			
-			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            
-	        vip.push_back(std::make_shared<LessVisitor>(std::make_unique<Quantity<Sum>>(-40))); 
-	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")));
-	        vip.push_back(std::make_shared<EqualVisitor>(std::make_unique<Year>(2022)));
-
             Matcher imatcher(std::move(vi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
-			auto res3 = mp3.Accept(vip);
             std::cout<<mp3<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
@@ -96,24 +91,24 @@ class MatrixVisitorTest
 				v->Display(std::cout);
 			auto mpCleaning = mp3 | tfc("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpCleaning.Rows()==3);
-          //	assert((mpCleaning.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
+          //	assert((mpCleaning.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
             auto mCleaning = mpCleaning.Cols(1);
 
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
           	assert(mPropertyTax.Rows()==4);
-          	assert((mPropertyTax.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
+          	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
 		
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});
             std::cout<<mWasteFees<<std::endl;
             assert(mWasteFees.Rows()==2);
-          	assert((mWasteFees.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-322));
+          	assert((mWasteFees.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-322));
             
 			auto mpInsurance = mp3 | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpInsurance.Rows()==1);
 			auto mpInsurance2022 = mp3[0] | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpInsurance2022.Rows()==1);
 			std::cout<<"M3 D2 RES:"<<mpInsurance2022.Cols(1).To<Quantity<Sum>>().ColSum()<<std::endl;
-            assert((mpInsurance2022.Cols(3).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
+            assert((mpInsurance2022.Cols(4).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
 			tfc("EqualVisitor", { "Year", "2022"});
 			
 			auto mZie = mp3 | tfc("EqualVisitor", { "IBAN", "DE10660501011022126625"})| tfc("EqualVisitor", { "Year", "2022"});
@@ -123,7 +118,7 @@ class MatrixVisitorTest
 			
 			auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"})| tfc("EqualVisitor", { "Year", "2022"});
             assert(mBrustat.Rows()==12);
-          	assert((mBrustat.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
+          	assert((mBrustat.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
 			
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUJansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 

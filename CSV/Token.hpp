@@ -90,7 +90,7 @@ struct EmptyToken: public Token<EmptyToken, Empty>			{	inline static constexpr c
 struct DateIndexToken: public Token<DateIndexToken, Date>	{	inline static constexpr const char* Pattern = "Buchungstag";};
 struct NameIndexToken: public Token<NameIndexToken, Entry>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
 struct IBANIndexToken: public Token<IBANIndexToken, Entry>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
-struct BICIndexToken: public Token<BICIndexToken, Entry>	{	inline static constexpr const char* Pattern = "BIC"; };
+struct BICIndexToken: public Token<BICIndexToken, Entry>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
 struct SumIndexToken: public Token<SumIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 struct QuantityToken: public Token<QuantityToken, Entry>	{	inline static constexpr const char* Pattern = ""; };
