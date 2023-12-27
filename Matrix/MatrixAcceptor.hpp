@@ -56,12 +56,10 @@ private:
     decltype(auto) accept(const M* m, const T& v)
     {
 		auto mv = MatrixVisitor<TransferVisitor>();
-		mv.Visit(m);
 		visit(m);
 		auto mc = create(v.cbegin());
-//        std::for_each(visitors->begin(), visitors->end(), [&](auto& v) { std::cout<<v<<std::endl; }); 
 
-		return apply(mv.Collector().Create(v.cbegin()),v.cbegin()+1, v.cend());
+		return apply(std::move(mc),v.cbegin()+1, v.cend());
     }
 	
 	template<typename It>
@@ -70,8 +68,10 @@ private:
 		if(begin==end)
 			return M(m.descriptor, *m.elements);
 		auto mv = MatrixVisitor<TransferVisitor>();
-		mv.Visit(&m);
-		return apply(mv.Collector().Create(std::move(begin)),begin+1,end);
+		visit(&m);
+		auto mc = create(begin);
+		std::cout<<mc<<std::endl;
+		return apply(std::move(mc),begin+1,end);
 
     }
 
@@ -114,7 +114,9 @@ private:
                std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
             }                                   
         });     
-                   
+        
+		//data->erase(data->begin(), data->end());
+
         MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
         return MT(md,temp);    
     }
