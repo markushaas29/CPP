@@ -271,9 +271,6 @@ class M3Test
 			assert(mcP.Col(2).To<Quantity<Sum>>()[0]()==Quantity<Sum>(-48));
 			assert(mcP.Col(2)[0].As<Quantity<Sum>>()==Quantity<Sum>(-48));
 
-			MatrixVisitor<TransferVisitor> mv;
-			mcP.Accept(mv);
-
 			auto ivs = std::string("DE56600501017402051588");
 			auto iban = IBAN(ivs);
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip;                                            

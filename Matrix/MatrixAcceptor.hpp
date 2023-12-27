@@ -79,7 +79,6 @@ private:
         }
         else
         {
-            MatrixVisitor<VisitorType> v;
             for(auto i = 0; i != m->Rows(); ++i)
 			{
 				auto x = (*m)[i];

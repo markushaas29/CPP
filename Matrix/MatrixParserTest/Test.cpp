@@ -61,9 +61,6 @@ class MatrixParserTest
 			auto mq = ms22.Parse(matcher);			
 			std::cout<<"Quanti"<<mq<<std::endl;
 
-			MatrixVisitor<TransferVisitor> mv;
-			mq.Accept(mv);			
-
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
