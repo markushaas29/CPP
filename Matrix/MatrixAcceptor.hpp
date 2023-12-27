@@ -35,10 +35,9 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixAcceptor";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	const M& Get() { return matrix; }
-	MatrixAcceptor(): visitors{std::make_unique<std::vector<VisitorType>>()}, data{std::make_unique<std::vector<Data>>()} { }
+	MatrixAcceptor(): data{std::make_unique<std::vector<Data>>()} { }
 private:
 	M matrix;
-	std::unique_ptr<std::vector<VisitorType>> visitors;
 	std::unique_ptr<std::vector<Data>> data;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	template<typename T>
@@ -53,19 +52,14 @@ private:
     }
 	
 	template<typename T>
-    decltype(auto) accept(const M* m, const T& v)
-    {
-		visit(m);
-		return apply(create(v.cbegin()),v.cbegin()+1, v.cend());
-    }
+    decltype(auto) accept(const M* m, const T& v) {	return apply(create(v.cbegin(),m),v.cbegin()+1, v.cend());   }
 	
 	template<typename It>
     decltype(auto) apply(M&& m, It begin, It end)
     {
 		if(begin==end)
 			return M(m.descriptor, *m.elements);
-		visit(&m);
-		return apply(create(begin),begin+1,end);
+		return apply(create(begin,&m),begin+1,end);
 
     }
 
@@ -81,7 +75,6 @@ private:
                 (*m->elements->at(i))->Accept(v);
                 elements.push_back((*m->elements->at(i)));
 			}
-			visitors->push_back(v);
             data->push_back({v,elements});
         }
         else
@@ -95,10 +88,10 @@ private:
         }
     };
 
-    template<typename P>                      
-    decltype(auto) create(P p)  const
+    template<typename P, typename MType>                      
+    decltype(auto) create(P p, MType* m)  const
     {
-        using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
+		visit(m);
         std::vector<std::shared_ptr<IElement>> temp;                
         std::for_each(data->begin(), data->end(), [&](auto& d) 
         {       
@@ -106,7 +99,8 @@ private:
                std::for_each(d.elements.cbegin(), d.elements.cend(), [&](const auto& v) { temp.push_back(v); });             
         });     
 
-        MatrixDescriptor<2,std::shared_ptr<IElement>> md{{temp.size()/VisitorType::Order,VisitorType::Order}};    
-        return MT(md,temp);    
+        MatrixDescriptor<MType::Order,std::shared_ptr<IElement>> md{{temp.size()/m->Cols(),m->Cols()}};    
+
+        return Matrix<MType::Order,MatrixDescriptor<MType::Order,std::shared_ptr<IElement>>>(md,temp);    
     }
 };
