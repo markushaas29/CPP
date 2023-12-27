@@ -35,10 +35,11 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixAcceptor";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
 	const M& Get() { return matrix; }
-	MatrixAcceptor(): visitors{std::make_unique<std::vector<VisitorType>>()} { }
+	MatrixAcceptor(): visitors{std::make_unique<std::vector<VisitorType>>()}, data{std::make_unique<std::vector<Data>>()} { }
 private:
 	M matrix;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
+	std::unique_ptr<std::vector<Data>> data;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	template<typename T>
     decltype(auto) pipe(const M* m, std::unique_ptr<T> p) { return pipe(m, std::shared_ptr<T>(std::move(p)));}
@@ -80,9 +81,14 @@ private:
         if constexpr (MT::Order==1)
         {
             VisitorType v;
+        	std::vector<std::shared_ptr<IElement>> elements;                
             for(auto i=0; i<m->Rows(); ++i)
+			{
                 (*m->elements->at(i))->Accept(v);
-            visitors->push_back(v);
+                elements.push_back((*m->elements->at(i)));
+			}
+			visitors->push_back(v);
+            data->push_back({v,elements});
         }
         else
         {
@@ -100,11 +106,11 @@ private:
     {
         using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
         std::vector<std::shared_ptr<IElement>> temp;                
-        std::for_each(visitors->begin(), visitors->end(), [&](auto& v) 
+        std::for_each(data->begin(), data->end(), [&](auto& d) 
         {       
-            if(v.Is(**p))                                                                        
+            if(d.visitor.Is(**p))                                                                        
             {                                      
-               auto e = v.Create();    
+               auto e = d.elements;    
                std::for_each(e.cbegin(), e.cend(), [&](const auto& v) { temp.push_back(v); });             
             }                                   
         });     
