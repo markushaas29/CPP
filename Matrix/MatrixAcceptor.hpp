@@ -21,6 +21,12 @@ template<std::size_t N, typename DT> class Matrix;
 template<typename M>
 class MatrixAcceptor 
 {
+    using VisitorType = TransferVisitor;
+	struct Data
+	{
+		VisitorType visitor;
+        std::vector<std::shared_ptr<IElement>> elements;                
+	};
 	friend M;
 public:
 	static constexpr uint Order = M::Order;
@@ -32,7 +38,6 @@ public:
 	MatrixAcceptor(): visitors{std::make_unique<std::vector<VisitorType>>()} { }
 private:
 	M matrix;
-    using VisitorType = TransferVisitor;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
 	using MT = Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>;                                
 	template<typename T>
