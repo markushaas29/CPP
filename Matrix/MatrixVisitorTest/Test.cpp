@@ -97,19 +97,17 @@ class MatrixVisitorTest
 			auto mpCleaning = mp3 | tfc("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | tfc("EqualVisitor", { "Year", "2022"});
             std::cout<<mpCleaning<<std::endl;
             assert(mpCleaning.Rows()==3);
+          //	assert((mpCleaning.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
             auto mCleaning = mpCleaning.Cols(1);
 
-            //assert((double)(mCleaning.To<Quantity<Sum>>()[0].ColSum())[0]==-214.2);
-            
-            //std::cout<<mp3<<std::endl;
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
-            std::cout<<"Grundsteuer:\n"<<mPropertyTax<<std::endl;
           	assert(mPropertyTax.Rows()==4);
           	assert((mPropertyTax.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
 		
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});
+            std::cout<<mWasteFees<<std::endl;
             assert(mWasteFees.Rows()==2);
-            //assert(Quantity<Sum>(mWasteFees.ColSum(1))==Quantity<Sum>(-322.0));
+          	assert((mWasteFees.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-322));
             
 			auto mpInsurance = mp3 | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpInsurance.Rows()==1);
@@ -125,9 +123,8 @@ class MatrixVisitorTest
 //            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
 			
 			auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"})| tfc("EqualVisitor", { "Year", "2022"});
-            std::cout<<mBrustat<<std::endl;
             assert(mBrustat.Rows()==12);
-            //assert(Quantity<Sum>(mBrustat.ColSum(4))==Quantity<Sum>(7720));
+          	assert((mBrustat.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
 			
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
 //			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUJansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
