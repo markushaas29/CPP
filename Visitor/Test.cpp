@@ -103,9 +103,6 @@ int Run()
     };
 
     auto mq = ms22.Parse(matcher);
-    MatrixVisitor<TransferVisitor> mv;
-    mq.Accept(mv);
-
 	TransferVisitor tv;
 	auto d = Date(29,9,1986);
 	tv.Visit(d);
