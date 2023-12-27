@@ -75,6 +75,7 @@ class MatrixVisitorTest
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
 			auto res3 = mp3.Accept(vip);
+            std::cout<<mp3<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Entry,Empty>(&(*fmt));
@@ -94,7 +95,6 @@ class MatrixVisitorTest
 			for(auto& v : vc)
 				v->Display(std::cout);
 			auto mpCleaning = mp3 | tfc("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | tfc("EqualVisitor", { "Year", "2022"});
-            std::cout<<mpCleaning<<std::endl;
             assert(mpCleaning.Rows()==3);
           //	assert((mpCleaning.Cols(3).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
             auto mCleaning = mpCleaning.Cols(1);
