@@ -4,7 +4,6 @@
 #include <vector>
 #include "MatrixDescriptor.hpp"
 #include "MatrixOperations.hpp"
-#include "MatrixVisitor.hpp"
 #include "../Functional/Functional.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"

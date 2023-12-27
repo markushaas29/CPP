@@ -11,7 +11,6 @@
 #include "../MatrixAnalyzer.hpp"
 #include "../M3.hpp"
 #include "../MatrixCategory.hpp"
-#include "../MatrixVisitor.hpp"
 #include "../MatrixQuery.hpp"
 #include "../MatrixMultiCategory.hpp"
 #include "../MatrixStrategy.hpp"
