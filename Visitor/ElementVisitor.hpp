@@ -23,11 +23,14 @@ public:
 
 template<typename T>
 class SetVisitor: public BaseVisitor, public Visitor<T>
-//class SetVisitor: public VaridicVisitor<void,T>
 {
 	using Base = Visitor<T>;
 public:
-	virtual typename Base::ReturnType Visit(T& q) {  };
+	virtual typename Base::ReturnType Visit(T& t) { element = t; };
+	const T& operator()() { return element; }
+private:
+	friend std::ostream& operator<<(std::ostream& s, const SetVisitor& t) 	{ return s<<"Element: "<<t.element;	}
+	T element;
 };
 
 class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN, Entry>, public BoolVisitable<bool>
