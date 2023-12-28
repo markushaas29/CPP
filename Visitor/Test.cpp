@@ -76,7 +76,10 @@ int Run()
 	auto ilv2 = LessVisitor(std::make_unique<IBAN>(std::string("DE82660501011021590002")));
 	assert(!ip->Is(ilv1));
 
-    using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
+	auto sv = SetVisitor<IBAN>(std::string("DE82660501011021592702"));
+	assert(sv()==IBAN(std::string("DE82660501011021592702")));
+    
+	using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
     using M2E = Matrix<2,ME2D>;
 	using MDS2 = MatrixDescriptor<2,std::string>;
     using MS2 = Matrix<2,MDS2>;

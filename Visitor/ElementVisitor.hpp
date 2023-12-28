@@ -26,6 +26,7 @@ class SetVisitor: public BaseVisitor, public Visitor<T>
 {
 	using Base = Visitor<T>;
 public:
+	SetVisitor(const T& t): element{t} { }
 	virtual typename Base::ReturnType Visit(T& t) { element = t; };
 	const T& operator()() { return element; }
 private:
