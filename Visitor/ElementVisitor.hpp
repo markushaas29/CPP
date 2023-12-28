@@ -21,6 +21,15 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
+template<typename T>
+class SetVisitor: public BaseVisitor, public Visitor<T>
+//class SetVisitor: public VaridicVisitor<void,T>
+{
+	using Base = Visitor<T>;
+public:
+	virtual typename Base::ReturnType Visit(T& q) {  };
+};
+
 class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN, Entry>, public BoolVisitable<bool>
 {
 	using ReturnType = void;

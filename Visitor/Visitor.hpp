@@ -19,7 +19,11 @@ public:
 };
 
 template<typename R, typename... T>
-class VariadicVisitor: public BaseVisitor, public Visitor<T,R>... {};
+class VariadicVisitor: public BaseVisitor, public Visitor<T,R>... 
+{
+public:
+	using ReturnType = R;
+};
 	
 template<typename R = void>
 class BaseVisitable
