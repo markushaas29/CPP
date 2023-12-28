@@ -22,11 +22,11 @@ public:
 };
 
 template<typename T>
-class SetVisitor: public BaseVisitor, public Visitor<T>
+class SetVisitor
 {
 	using Base = Visitor<T>;
 public:
-	SetVisitor(const T& t): element{t} { }
+	SetVisitor(const T& t = T{}): element{t} { }
 	virtual typename Base::ReturnType Visit(T& t) { element = t; };
 	const T& operator()() { return element; }
 private:
@@ -34,10 +34,12 @@ private:
 	T element;
 };
 
-template<typename... Types>
-class TransferVisitor: public VariadicVisitor<void, Types...>, public BoolVisitable<bool>
+template<typename... TS>
+//class TransferVisitor: public VariadicVisitor<void, Types...>, public BoolVisitable<bool>
+class TransferVisitor: public VariadicVisitor<void, TS...>, public BoolVisitable<bool>, public virtual SetVisitor<TS>...
 {
 	using ReturnType = void;
+	using Types = std::tuple<int, bool, char>;
 public:
 	using PtrType = std::vector<std::shared_ptr<IElement>>;
 	using SumType = Quantity<Sum,Pure,double>;
