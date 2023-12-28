@@ -21,8 +21,8 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-template<typename T>
-class SetVisitor
+template<class T>
+class SetVisitor: public Visitor<T>
 {
 	using Base = Visitor<T>;
 public:
@@ -35,15 +35,16 @@ private:
 };
 
 template<typename... TS>
-//class TransferVisitor: public VariadicVisitor<void, Types...>, public BoolVisitable<bool>
-class TransferVisitor: public VariadicVisitor<void, TS...>, public BoolVisitable<bool>, public virtual SetVisitor<TS>...
+class TransferVisitor: public VariadicVisitor<void, TS...>, public BoolVisitable<bool>
+//template<typename... TS>
+//class TransferVisitor: public BaseVisitor, public BoolVisitable<bool>, public SetVisitor<TS>...
 {
 	using ReturnType = void;
-	using Types = std::tuple<int, bool, char>;
+	using Types = std::tuple<TS...>;
 public:
 	using PtrType = std::vector<std::shared_ptr<IElement>>;
 	using SumType = Quantity<Sum,Pure,double>;
-	inline static constexpr size_t Order = 4;
+	inline static constexpr size_t Order = std::tuple_size_v<Types>;
 	auto I() const { return iban; }
 	template<typename T>
 	auto To() const
@@ -60,6 +61,7 @@ public:
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };
 	virtual ReturnType Visit(Entry& i) { entry = i; };
+	virtual ReturnType Visit(BIC& i) { ; };
 	virtual bool Is(BaseVisitor& visitor) 
 	{
 		std::vector<std::shared_ptr<IElement>> v = { std::make_shared<SumType>(sum), std::make_shared<IBAN>(iban), std::make_shared<Date>(date), std::make_shared<Entry>(entry) };

@@ -38,6 +38,10 @@ int Run()
 	const auto cd = Date(1,1,2020);
 	cd.Accept(vd);
 
+	TransferVisitor<IBAN,BIC,Date,Quantity<Sum>,Entry> tvv;
+	assert(decltype(tvv)::Order==5);
+
+
 	auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
 	assert(ep->Is(ev));
 	ev = EqualVisitor(std::make_unique<Entry>(std::string("B")));
