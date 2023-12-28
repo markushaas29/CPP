@@ -78,6 +78,10 @@ int Run()
 
 	auto sv = SetVisitor<IBAN>(std::string("DE82660501011021592702"));
 	assert(sv()==IBAN(std::string("DE82660501011021592702")));
+	
+	auto svd = SetVisitor<Date>(std::string("29.9.1986"));
+	std::cout<<svd<<std::endl;
+	assert(svd()==Date(29,9,1986));
     
 	using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
     using M2E = Matrix<2,ME2D>;
