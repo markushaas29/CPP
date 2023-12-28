@@ -20,7 +20,7 @@ template<std::size_t N, typename DT> class Matrix;
 template<typename M>
 class MatrixAcceptor 
 {
-    using VisitorType = TransferVisitor;
+    using VisitorType = TransferVisitor<Date, IBAN, Quantity<Sum,Pure,double>, Entry>;
 	struct Data
 	{
 		VisitorType visitor;

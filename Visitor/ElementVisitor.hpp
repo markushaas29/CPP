@@ -34,7 +34,8 @@ private:
 	T element;
 };
 
-class TransferVisitor: public VariadicVisitor<void, Quantity<Sum,Pure,double>, Date, IBAN, Entry>, public BoolVisitable<bool>
+template<typename... Types>
+class TransferVisitor: public VariadicVisitor<void, Types...>, public BoolVisitable<bool>
 {
 	using ReturnType = void;
 public:
