@@ -21,23 +21,20 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-template<class T>
-class SetVisitor: public Visitor<T>
+template<typename T>
+class SetVisitor
 {
-	using Base = Visitor<T>;
 public:
 	SetVisitor(const T& t = T{}): element{t} { }
-	virtual typename Base::ReturnType Visit(T& t) { element = t; };
+	virtual void Visit(T& i) { element = i; };
 	const T& operator()() { return element; }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const SetVisitor& t) 	{ return s<<"Element: "<<t.element;	}
+	friend std::ostream& operator<<(std::ostream& s, const SetVisitor& t) 	{ return s<<"Element: "<<T::Identifier<<t.element;	}
 	T element;
 };
 
 template<typename... TS>
-class TransferVisitor: public VariadicVisitor<void, TS...>, public BoolVisitable<bool>
-//template<typename... TS>
-//class TransferVisitor: public BaseVisitor, public BoolVisitable<bool>, public SetVisitor<TS>...
+class TransferVisitor: public BaseVisitor, public BoolVisitable<bool>, private SetVisitor<TS>...
 {
 	using ReturnType = void;
 	using Types = std::tuple<TS...>;
@@ -45,7 +42,7 @@ public:
 	using PtrType = std::vector<std::shared_ptr<IElement>>;
 	using SumType = Quantity<Sum,Pure,double>;
 	inline static constexpr size_t Order = std::tuple_size_v<Types>;
-	auto I() const { return iban; }
+	auto I() const {exec<0>() ;return iban; }
 	template<typename T>
 	auto To() const
 	{
@@ -61,7 +58,7 @@ public:
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };
 	virtual ReturnType Visit(Entry& i) { entry = i; };
-	virtual ReturnType Visit(BIC& i) { ; };
+	virtual ReturnType Visit(BIC& i) { SetVisitor<BIC>::Visit(i); };
 	virtual bool Is(BaseVisitor& visitor) 
 	{
 		std::vector<std::shared_ptr<IElement>> v = { std::make_shared<SumType>(sum), std::make_shared<IBAN>(iban), std::make_shared<Date>(date), std::make_shared<Entry>(entry) };
@@ -76,4 +73,18 @@ private:
 	Date date;
 	Entry entry;
 	friend std::ostream& operator<<(std::ostream& s, const TransferVisitor& t) 	{ return s<<"IBAN: "<<t.iban<<"Date: "<<t.date<<"Sum: "<<t.sum;	}
+
+	template<size_t N>
+	void exec() const
+	{
+		if constexpr (N==Order)
+			return;
+		else
+		{
+			using Type = std::tuple_element_t<N, Types>;
+			std::cout<<"N: "<<N<<" "<<Type::Identifier<<std::endl;
+			exec<N+1>();
+		}
+
+	}
 };

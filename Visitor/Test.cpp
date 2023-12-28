@@ -40,7 +40,7 @@ int Run()
 
 	TransferVisitor<IBAN,BIC,Date,Quantity<Sum>,Entry> tvv;
 	assert(decltype(tvv)::Order==5);
-
+	tvv.I();
 
 	auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
 	assert(ep->Is(ev));
@@ -114,7 +114,7 @@ int Run()
     };
 
     auto mq = ms22.Parse(matcher);
-	TransferVisitor tv;
+	TransferVisitor<Date,Entry,IBAN,BIC,Quantity<Sum>> tv;
 	auto d = Date(29,9,1986);
 	tv.Visit(d);
 	assert(tv.Is(pv29_9));
