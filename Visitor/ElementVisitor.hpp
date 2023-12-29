@@ -22,16 +22,20 @@ public:
 };
 
 template<typename T>
-class SetVisitor: public BaseVisitor, public Visitor<T>
+class CollectorVisitor: public BaseVisitor, public Visitor<T>
 {
 	using Base = Visitor<T>;
 public:
-	SetVisitor(const T& t): element{t} { }
-	virtual typename Base::ReturnType Visit(T& t) { element = t; };
-	const T& operator()() { return element; }
+	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
+	const T& operator()() { return elements; }
+	size_t Size() { return elements.size(); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const SetVisitor& t) 	{ return s<<"Element: "<<t.element;	}
-	T element;
+	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) 	
+	{ 
+		std::for_each(t.elements.cbegin(), t.elements.cend(), [&](const T& e) { s<<e<<"\n"; });
+		return s;	
+	}
+	std::vector<T> elements;
 };
 
 template<typename... Types>

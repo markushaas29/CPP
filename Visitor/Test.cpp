@@ -76,12 +76,17 @@ int Run()
 	auto ilv2 = LessVisitor(std::make_unique<IBAN>(std::string("DE82660501011021590002")));
 	assert(!ip->Is(ilv1));
 
-	auto sv = SetVisitor<IBAN>(std::string("DE82660501011021592702"));
-	assert(sv()==IBAN(std::string("DE82660501011021592702")));
+	auto sv = CollectorVisitor<IBAN>();
+	auto ib = IBAN(std::string("DE82660501011021592702"));
+	sv.Visit(ib);
+	assert(sv.Size()==1);
 	
-	auto svd = SetVisitor<Date>(std::string("29.9.1986"));
+	auto svd = CollectorVisitor<Date>();
+	auto d = Date(29,9,1986);
+	//svd.Visit(ib);
+	svd.Visit(d);
 	std::cout<<svd<<std::endl;
-	assert(svd()==Date(29,9,1986));
+	assert(svd.Size()==1);
     
 	using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
     using M2E = Matrix<2,ME2D>;
@@ -111,7 +116,6 @@ int Run()
 
     auto mq = ms22.Parse(matcher);
 	TransferVisitor tv;
-	auto d = Date(29,9,1986);
 	tv.Visit(d);
 	assert(tv.Is(pv29_9));
 	assert(!tv.Is(pv28_9));
@@ -144,7 +148,6 @@ int Run()
 	auto eqvq = ((*pfs)("EQ", { "Q", "29"}));
 	auto eqvd = ((*pfs)("EQ", { "D", "29.9.1986"}));
 	auto lvq = ((*pfs)("L", { "Q", "30"}));
-	auto ib = IBAN(std::string("DE82660501011021592702"));
     //assert(eqv->Visit(ib));
 	assert(ip->Is(*eqv));
 	assert(dp->Is(*eqvd));
