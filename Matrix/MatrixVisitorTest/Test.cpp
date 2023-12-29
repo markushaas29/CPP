@@ -95,14 +95,18 @@ class MatrixVisitorTest
 				v->Display(std::cout);
 			auto mpCleaning = mp3 | tfc("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpCleaning.Rows()==3);
-          //	assert((mpCleaning.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
             auto mCleaning = mpCleaning.Cols(1);
 
-			cv = mp3[0].Accept(std::move(cv));
+//			cv = mpCleaning.Accept(std::move(cv));
+//		  	(cv->As<AccumulationVisitor>())();
+//          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
 
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
           	assert(mPropertyTax.Rows()==4);
           	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
+			cv = mPropertyTax.Accept(std::move(cv));
+		  	(cv->As<AccumulationVisitor>())();
+          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-423.01));
 		
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});
             std::cout<<mWasteFees<<std::endl;
