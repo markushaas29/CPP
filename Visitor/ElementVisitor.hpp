@@ -45,8 +45,8 @@ private:
 class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>
 {
 	using Base = CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>;
-	virtual typename Base::Type operator()() { return std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0}); };
 public:
+	virtual typename Base::Type operator()() { return std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0}); };
 	inline static constexpr const char* Identifier = "Accumulation";
 };
 

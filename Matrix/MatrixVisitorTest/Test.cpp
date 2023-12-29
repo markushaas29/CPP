@@ -146,7 +146,7 @@ class MatrixVisitorTest
 //			assert(Heating.Rows()==25);
 //			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
 //
-            std::cout<<cv->As<AccumulationVisitor>()<<std::endl;
+            std::cout<<(cv->As<AccumulationVisitor>())()<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
