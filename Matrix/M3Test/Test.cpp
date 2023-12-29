@@ -292,13 +292,13 @@ class M3Test
             Matcher imatcher(std::move(vi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
-			auto res3 = mp3.Accept(vip);
-			std::cout<<"M3 :"<<res3<<std::endl;
+//			auto res3 = mp3.Accept(vip);
+//			std::cout<<"M3 :"<<res3<<std::endl;
 			
 			std::vector<std::shared_ptr<IPredicateVisitor>> vip1;                                            
 	        vip1.push_back(std::make_shared<EqualVisitor>(std::make_unique<Month>(1)));
-			res3 = mp3.Accept(vip1);
-			std::cout<<"M3 :"<<res3<<std::endl;
+//			res3 = mp3.Accept(vip1);
+//			std::cout<<"M3 :"<<res3<<std::endl;
 			std::cout<<"M3 :"<<(mp3 | vip1[0])<<std::endl;
 			std::cout<<"M3 make :"<<(mp3 | std::make_shared<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")) | vip1[0])<<std::endl;
 			std::cout<<"M3 make :"<<(mp3 | std::make_unique<EqualVisitor>(std::make_unique<IBAN>("DE56600501017402051588")) | vip1[0])<<std::endl;

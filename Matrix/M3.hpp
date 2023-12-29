@@ -145,7 +145,8 @@ private:
 		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) 
 				{ 
 					std::vector<V> v { visitors };
-					auto m = e.Accept(v);
+					auto m = e;
+					std::for_each(v.begin(), v.end(), [&](auto val) { m = m | val;  });
 					for(auto i = 0; i < m.Rows(); ++i)
 					{
 						auto row = m.row(i);
