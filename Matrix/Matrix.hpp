@@ -59,7 +59,7 @@ public:
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 
-    decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return MatrixAcceptor<Type>().accept(this,*bp);   }
+    decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return MatrixAcceptor<Type>().accept(this,std::move(bp));   }
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	decltype(auto) Match(const Matcher& m) const { return MatrixParser<Type>::match(this, m); }
 	template<typename F>
