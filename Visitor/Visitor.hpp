@@ -7,6 +7,14 @@
 class BaseVisitor
 {
 public:
+	template<typename T>
+	T As() 
+	{
+		if(auto p = dynamic_cast<T*>(this))
+			return *p;
+		
+		return T();
+	}		
 	virtual ~BaseVisitor(){}
 };
 

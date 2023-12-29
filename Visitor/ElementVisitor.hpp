@@ -21,11 +21,13 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-template<typename T>
+template<typename D, typename T>
 class CollectorVisitor: public BaseVisitor, public Visitor<T>
 {
 	using Base = Visitor<T>;
+	using Derived = D;
 public:
+	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
 	const T& operator()() { return elements; }
 	size_t Size() { return elements.size(); }
@@ -36,6 +38,12 @@ private:
 		return s;	
 	}
 	std::vector<T> elements;
+};
+
+class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>
+{
+public:
+	inline static constexpr const char* Identifier = "Accumulation";
 };
 
 template<typename... Types>
