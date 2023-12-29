@@ -94,7 +94,8 @@ class MatrixVisitorTest
           //	assert((mpCleaning.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
             auto mCleaning = mpCleaning.Cols(1);
 
-			mp3[0].A(CollectorVisitor<Quantity<Sum>>());
+			auto cv = CollectorVisitor<Quantity<Sum>>();
+			mp3[0].A(cv);
 
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
           	assert(mPropertyTax.Rows()==4);
@@ -142,6 +143,7 @@ class MatrixVisitorTest
 //			assert(Heating.Rows()==25);
 //			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
 //
+            std::cout<<cv<<std::endl;
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
