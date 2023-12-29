@@ -78,7 +78,7 @@ int Run()
 
 	auto sv = CollectorVisitor<IBAN>();
 	auto ib = IBAN(std::string("DE82660501011021592702"));
-	sv.Visit(ib);
+	ib.Accept(sv);
 	assert(sv.Size()==1);
 	
 	auto svd = CollectorVisitor<Date>();
