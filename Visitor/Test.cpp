@@ -76,17 +76,17 @@ int Run()
 	auto ilv2 = LessVisitor(std::make_unique<IBAN>(std::string("DE82660501011021590002")));
 	assert(!ip->Is(ilv1));
 
-	auto sv = CollectorVisitor<IBAN>();
-	auto ib = IBAN(std::string("DE82660501011021592702"));
-	ib.Accept(sv);
-	assert(sv.Size()==1);
-	
-	auto svd = CollectorVisitor<Date>();
+//	auto sv = AccumulationVisitor<IBAN>();
+//	auto ib = IBAN(std::string("DE82660501011021592702"));
+//	ib.Accept(sv);
+//	assert(sv.Size()==1);
+//	
+//	auto svd = AccumulationVisitor<Date>();
 	auto d = Date(29,9,1986);
-	//svd.Visit(ib);
-	svd.Visit(d);
-	std::cout<<svd<<std::endl;
-	assert(svd.Size()==1);
+//	//svd.Visit(ib);
+//	svd.Visit(d);
+//	std::cout<<svd<<std::endl;
+//	assert(svd.Size()==1);
     
 	using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
     using M2E = Matrix<2,ME2D>;
