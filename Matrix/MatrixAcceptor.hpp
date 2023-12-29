@@ -50,8 +50,7 @@ private:
 		return accept(m,v);
     }
 	
-	template<typename T, typename R>
-    decltype(auto) accept(const M* m, const Visitor<T,R>& v) {	std::cout<<"VISIT"<<std::endl;   }
+    decltype(auto) accept(const M* m, BaseVisitor& v) {	std::for_each(m->elements->begin(), m->elements->end(), [&](auto& d){ (**d).Accept(v); });    }
 	
 	template<typename T>
     decltype(auto) accept(const M* m, const T& v) {	return apply(create(v.cbegin(),m),v.cbegin()+1, v.cend());   }
