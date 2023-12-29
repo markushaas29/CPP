@@ -61,8 +61,7 @@ public:
 
 	template<typename T>
 	decltype(auto) Accept(const T& v) const 	{	return MatrixAcceptor<Type>().accept(this,v); 	}
-	template<typename T, typename R>
-    decltype(auto) A(const Visitor<T,R>& v) {  std::for_each(elements->begin(), elements->end(), [&](auto& d){ d->Accept(v); });   }
+    decltype(auto) Acept(BaseVisitor& v) {  std::for_each(elements->begin(), elements->end(), [&](auto& d){ (**d).Accept(v); });   }
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	decltype(auto) Match(const Matcher& m) const { return MatrixParser<Type>::match(this, m); }
 	template<typename F>

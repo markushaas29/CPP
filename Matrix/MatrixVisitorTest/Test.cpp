@@ -95,7 +95,7 @@ class MatrixVisitorTest
             auto mCleaning = mpCleaning.Cols(1);
 
 			auto cv = CollectorVisitor<Quantity<Sum>>();
-			mp3[0].A(cv);
+			mp3[0].Acept(cv);
 
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
           	assert(mPropertyTax.Rows()==4);
