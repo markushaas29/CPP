@@ -78,6 +78,9 @@ class MatrixVisitorTest
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             auto qp2 = fmt2("SumToken","100");
+            
+			Factory<BaseVisitor> fbv;
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor>(&fbv);
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
@@ -94,7 +97,7 @@ class MatrixVisitorTest
           //	assert((mpCleaning.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-214.2));
             auto mCleaning = mpCleaning.Cols(1);
 
-			auto cv = CollectorVisitor<Quantity<Sum>>();
+			auto cv = AccumulationVisitor();
 			mp3[0].Acept(cv);
 
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2022"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
