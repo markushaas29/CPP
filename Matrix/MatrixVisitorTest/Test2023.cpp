@@ -118,7 +118,7 @@ class MatrixVisitorTest2023
             //assert(mpInsurance.Rows()==1);
 			auto mpInsurance2023 = mp3[0] | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2023"});
             //assert(mpInsurance2023.Rows()==1);
-			std::cout<<"Insurance:"<<mpInsurance2023<<std::endl;
+			std::cout<<"Insurance:"<<mpInsurance<<std::endl;
             //assert((mpInsurance2023.Cols(4).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
 			
 			auto mZie = mp3 | tfc("EqualVisitor", { "IBAN", "DE10660501011022126625"})| tfc("EqualVisitor", { "Year", "2023"});
