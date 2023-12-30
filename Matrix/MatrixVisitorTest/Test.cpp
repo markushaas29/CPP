@@ -21,6 +21,7 @@
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
 #include "../../Common/DateTimes.hpp"
+#include "../../Visitor/CollectorVisitor.hpp"
 
 class MatrixVisitorTest
 {
