@@ -39,11 +39,11 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixV";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	BaseMatrixV(F& f, const std::string& n): name{n}, factory{f} {}
+	BaseMatrixV(FactoryType f, const std::string& n): name{n}, factory{f} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 
-		auto mP = m | factory("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | factory("EqualVisitor", { "Year", "2023"}) | factory("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
+		auto mP = m | (*factory)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*factory)("EqualVisitor", { "Year", "2023"}) | (*factory)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
 		std::cout<<"MV"<<mP<<std::endl;
 		return Q(5);
 	}
@@ -52,7 +52,7 @@ protected:
 	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const { return v;};// = 0;
 private:
 	std::string name;
-	F& factory;
+	FactoryType factory;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixV& m) 
 	{ 
