@@ -19,7 +19,6 @@ public:
 	Registration(I* i): interface(i){ reg<0>();	}
 	void Set(I* i) { interface = i;}
 private:
-	std::tuple<T...> t;
 	I* interface;
 	friend std::ostream& operator<<(std::ostream& s, const Registration& c){return s;}
 	 
