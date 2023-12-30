@@ -34,16 +34,16 @@ protected:
 	using Base = IMatrixV<T,Q>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
-	using FactoryType = std::shared_ptr<F>;
+	using PredicateFactory = std::shared_ptr<F>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixV";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	BaseMatrixV(FactoryType f, const std::string& n): name{n}, factory{f} {}
+	BaseMatrixV(PredicateFactory f, const std::string& n): name{n}, predicates{f} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 
-		auto mP = m | (*factory)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*factory)("EqualVisitor", { "Year", "2023"}) | (*factory)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
+		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
 		std::cout<<"MV"<<mP<<std::endl;
 		return Q(5);
 	}
@@ -52,7 +52,7 @@ protected:
 	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const { return v;};// = 0;
 private:
 	std::string name;
-	FactoryType factory;
+	PredicateFactory predicates;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixV& m) 
 	{ 
