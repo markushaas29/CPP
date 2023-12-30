@@ -8,7 +8,7 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
-#include "../MatrixAnalyzer.hpp"
+#include "../MatrixV.hpp"
 #include "../M3.hpp"
 #include "../MatrixCategory.hpp"
 #include "../MatrixQuery.hpp"
@@ -116,8 +116,6 @@ class MatrixVisitorTest2023
             
 			auto mpInsurance = mp3 | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2023"});
             //assert(mpInsurance.Rows()==1);
-			auto mpInsurance2023 = mp3[0] | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2023"});
-            //assert(mpInsurance2023.Rows()==1);
 			std::cout<<"Insurance:"<<mpInsurance<<std::endl;
             //assert((mpInsurance2023.Cols(4).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
 			
