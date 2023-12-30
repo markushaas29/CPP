@@ -29,7 +29,7 @@ public:
 };
 
 template<typename T, typename F, typename Q = Quantity<Sum>>
-class BaseMatrixV : public IMatrixV<T,Q>//,Q,FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>>
+class MatrixChainElement : public IMatrixV<T,Q>//,Q,FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>>
 {
 protected:
 	using Base = IMatrixV<T,Q>;
@@ -38,10 +38,10 @@ protected:
 	using PredicateFactory = std::shared_ptr<F>;
 	using VisitorFactory = std::shared_ptr<Factory<BaseVisitor>>;
 public:
-	inline static constexpr const char TypeIdentifier[] = "MatrixV";
+	inline static constexpr const char TypeIdentifier[] = "MatrixChainElement";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	BaseMatrixV(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v} {}
+	MatrixChainElement(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 
@@ -60,7 +60,7 @@ private:
 	PredicateFactory predicates;
 	VisitorFactory visitors;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixV& m) 
+	friend std::ostream& operator<<(std::ostream& s, const MatrixChainElement& m) 
 	{ 
 		s<<"Name: "<<m.name<<std::endl;
 		std::vector<UnitType> eunits = m.enrich(m.units);

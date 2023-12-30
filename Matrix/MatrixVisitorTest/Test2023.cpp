@@ -8,7 +8,7 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
-#include "../MatrixV.hpp"
+#include "../MatrixChain.hpp"
 #include "../M3.hpp"
 #include "../MatrixCategory.hpp"
 #include "../MatrixQuery.hpp"
@@ -93,7 +93,7 @@ class MatrixVisitorTest2023
 			auto mpCleaning = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
 			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
             auto mCleaning = mpCleaning.Cols(1);
-			auto mv = BaseMatrixV<decltype(mp3), TF>(tfc,fbv,"");
+			auto mv = MatrixChainElement<decltype(mp3), TF>(tfc,fbv,"");
 			std::cout<<"MV"<<mv(mp3)<<std::endl;
 
 //			cv = mpCleaning.Accept(std::move(cv));
