@@ -32,7 +32,7 @@ class MatrixVisitorTest2023
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MS2 = Matrix<2,MDS2>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
-
+			using EVF = Factory<BaseVisitor>;
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
 			auto m22r = MatrixReader(u22);
@@ -79,9 +79,9 @@ class MatrixVisitorTest2023
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             auto qp2 = fmt2("SumToken","100");
             
-			Factory<BaseVisitor> fbv;
-            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor>(&fbv);
-            auto cv = fbv("Accumulation","100");
+			auto fbv = std::make_shared<Factory<BaseVisitor>>();
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor>(&(*fbv));
+            auto cv = (*fbv)("Accumulation","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
@@ -93,7 +93,7 @@ class MatrixVisitorTest2023
 			auto mpCleaning = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
 			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
             auto mCleaning = mpCleaning.Cols(1);
-			auto mv = BaseMatrixV<decltype(mp3), TF>(tfc,"");
+			auto mv = BaseMatrixV<decltype(mp3), TF>(tfc,fbv,"");
 			std::cout<<"MV"<<mv(mp3)<<std::endl;
 
 //			cv = mpCleaning.Accept(std::move(cv));

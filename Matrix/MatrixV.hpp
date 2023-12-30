@@ -8,6 +8,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
+#include "../Visitor/CollectorVisitor.hpp"
 
 #pragma once
 
@@ -35,16 +36,20 @@ protected:
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using PredicateFactory = std::shared_ptr<F>;
+	using VisitorFactory = std::shared_ptr<Factory<BaseVisitor>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixV";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	BaseMatrixV(PredicateFactory f, const std::string& n): name{n}, predicates{f} {}
+	BaseMatrixV(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 
 		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
-		std::cout<<"MV"<<mP<<std::endl;
+		auto cv = (*visitors)("Accumulation","100");
+		cv = mP.Accept(std::move(cv));
+		std::cout<<"MV"<<mP<<
+        (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
 	virtual std::string_view Name() const { return name; };
@@ -53,6 +58,7 @@ protected:
 private:
 	std::string name;
 	PredicateFactory predicates;
+	VisitorFactory visitors;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixV& m) 
 	{ 
