@@ -100,6 +100,8 @@ class MatrixVisitorTest2023
 //		  	(cv->As<AccumulationVisitor>())();
 //          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
 
+			auto mv = BaseMatrixV<decltype(mp3), decltype(tfc)>(tfc,"");
+			std::cout<<"MV"<<mv(mp3)<<std::endl;
 			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2023"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
           	assert(mPropertyTax.Rows()==4);
           	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
@@ -151,6 +153,7 @@ class MatrixVisitorTest2023
 //			assert(Heating.Rows()==25);
 //			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
 //
+			std::cout<<"MV"<<mv(mp3)<<std::endl;
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;

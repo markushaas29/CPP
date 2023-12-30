@@ -27,28 +27,32 @@ public:
 //	virtual const std::vector<UnitType> Units() const = 0;
 };
 
-template<typename T, typename Q = Quantity<Sum>>
+template<typename T, typename F, typename Q = Quantity<Sum>>
 class BaseMatrixV : public IMatrixV<T,Q>//,Q,FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>>
 {
 protected:
 	using Base = IMatrixV<T,Q>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
-	using FactoryType = std::shared_ptr<FactoryStack<IMatrixCategory<std::string>, Factory<IMatrixCategory<std::string>>>>;
+	using FactoryType = std::shared_ptr<F>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixV";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	BaseMatrixV(FactoryType f, const std::vector<UnitType>& u, const std::string& n): name{n}, factory{f} {}
-	virtual typename Base::ResultType operator()(Base::MatrixType& m) const
+	BaseMatrixV(F& f, const std::string& n): name{n}, factory{f} {}
+	virtual Q operator()(Base::MatrixType& m) const
 	{
+
+		auto mP = m | factory("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | factory("EqualVisitor", { "Year", "2023"}) | factory("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
+		std::cout<<"MV"<<mP<<std::endl;
+		return Q(5);
 	}
 	virtual std::string_view Name() const { return name; };
 protected:
 	virtual std::vector<UnitType> enrich(const std::vector<UnitType>& v) const { return v;};// = 0;
 private:
 	std::string name;
-	FactoryType factory;
+	F& factory;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const BaseMatrixV& m) 
 	{ 
