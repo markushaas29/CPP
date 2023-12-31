@@ -46,11 +46,12 @@ public:
 	MatrixComposition(std::unique_ptr<std::vector<PredicateType>> p, std::unique_ptr<std::vector<VisitorType>> v, const std::string& n): predicates{std::move(p)}, visitors{std::move(v)}, name{n} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
-//		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
-//		auto cv = (*visitors)("Accumulation","100");
-//		cv = mP.Accept(std::move(cv));
-//		std::cout<<"MV"<<mP<<
-//        (cv->As<AccumulationVisitor>())()<<std::endl;
+		Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement> > > mP = m | predicates->at(0)->Clone();
+
+		auto cv = mP.Accept(visitors->at(0)->Copy());
+		std::cout<<"MV"<<mP<<std::endl;
+		auto i =((cv->template As<AccumulationVisitor>())());
+		std::cout<<"MV"<<i<<std::endl;
 		return Q(5);
 	}
 	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposition>(predicates,visitors,name);};

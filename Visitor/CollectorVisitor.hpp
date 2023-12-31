@@ -24,6 +24,7 @@ public:
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
 	virtual T operator()() = 0;
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return elements.size(); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) 	

@@ -17,6 +17,7 @@ class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,doubl
 {
 	using ReturnType = void;
 public:
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) {  };
 	virtual ReturnType Visit(Date& q) {  };
 };
@@ -45,6 +46,7 @@ public:
 	virtual ReturnType Visit(Date& d) { date = d;  };
 	virtual ReturnType Visit(IBAN& i) { iban = i; };
 	virtual ReturnType Visit(Entry& i) { entry = i; };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<TransferVisitor>(); };
 	virtual bool Is(BaseVisitor& visitor) 
 	{
 		std::vector<std::shared_ptr<IElement>> v = { std::make_shared<SumType>(sum), std::make_shared<IBAN>(iban), std::make_shared<Date>(date), std::make_shared<Entry>(entry) };

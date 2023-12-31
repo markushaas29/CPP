@@ -38,6 +38,8 @@ public:
 	virtual ReturnType Visit(IBAN& i) { return visit<false>(i); }
 	virtual ReturnType Visit(Entry& i) { 	return visit<false>(i); }
 	virtual std::unique_ptr<IPredicateVisitor> Clone() { return std::make_unique<Derived>(value->Clone()); };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(value->Clone()); };
+
 	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> e) { return std::make_unique<Derived>(std::move(e)); };
 	virtual std::ostream& Display(std::ostream& s) { return s<<"Value: "<<(*value);	};
 protected:

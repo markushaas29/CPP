@@ -16,6 +16,7 @@ public:
 		return T();
 	}		
 	virtual ~BaseVisitor(){}
+	virtual std::unique_ptr<BaseVisitor> Copy() = 0;
 };
 
 template<class T, typename R = void>
