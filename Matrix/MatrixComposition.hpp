@@ -78,7 +78,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposite";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposite(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v} {}
+	MatrixComposite(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v}, composites{std::make_unique<std::vector<IMatrixComposite<T,Q>>>()} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 
@@ -91,6 +91,7 @@ public:
 	}
 	virtual std::string_view Name() const { return name; };
 private:
+	std::unique_ptr<std::vector<IMatrixComposite<T,Q>>> composites;
 	std::string name;
 	PredicateFactory predicates;
 	VisitorFactory visitors;
