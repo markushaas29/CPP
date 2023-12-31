@@ -72,6 +72,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) 
 	{ 
 		s<<"Name: "<<m.name<<std::endl;
+		std::for_each(m.predicates->cbegin(), m.predicates->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
+		//std::for_each(m.visitors->cbegin(), m.visitors->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		return s;  
 	}
 };

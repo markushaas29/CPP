@@ -97,7 +97,8 @@ class MatrixVisitorTest2023
 			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
             auto mCleaning = mpCleaning.Cols(1);
 			auto mv = MatrixComposition<decltype(mp3)>((*tfc)(fu),(*fbv)(fv),"Cleaning");
-			std::cout<<"MV"<<mv(mp3)<<std::endl;
+			std::cout<<"MV OUT"<<mv(mp3)<<std::endl;
+			std::cout<<"MV OUT"<<mv<<std::endl;
 
 			auto mc = MatrixComposite<decltype(mp3), TF>(tfc,fbv,"Compsite");
 			//mc.Add(mv.Clone());

@@ -24,7 +24,8 @@ public:
 	virtual ReturnType Visit(Date& d) = 0;
 	virtual ReturnType Visit(IBAN& i) = 0;
 	virtual ReturnType Visit(Entry& i) = 0;
-	virtual std::ostream& Display(std::ostream& s) = 0;
+	friend std::ostream& operator<<(std::ostream& s, const IPredicateVisitor& i) { return i.Display(s); }
+	virtual std::ostream& Display(std::ostream& s) const = 0;
 };
 
 template<typename D, bool E = false>
@@ -41,7 +42,7 @@ public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(value->Clone()); };
 
 	static std::unique_ptr<IPredicateVisitor> Make(std::unique_ptr<IElement> e) { return std::make_unique<Derived>(std::move(e)); };
-	virtual std::ostream& Display(std::ostream& s) { return s<<"Value: "<<(*value);	};
+	virtual std::ostream& Display(std::ostream& s) const { return s<<"Value: "<<(*value);	};
 protected:
 	inline static const std::string Identifier =  "Visitor";
 	using Base = PredicateVisitor<D,E>;
