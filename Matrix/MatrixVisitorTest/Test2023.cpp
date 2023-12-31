@@ -91,14 +91,15 @@ class MatrixVisitorTest2023
             auto tfc = std::make_shared<TF>(fmt);
 
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fu{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto fus = (*tfc)(fu);
 			auto mpCleaning = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
 			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
             auto mCleaning = mpCleaning.Cols(1);
-			auto mv = MatrixComposition<decltype(mp3), TF>(tfc,fbv,"Cleaning");
+			auto mv = MatrixComposition<decltype(mp3)>(std::move(fus),fbv,"Cleaning");
 			std::cout<<"MV"<<mv(mp3)<<std::endl;
 
 			auto mc = MatrixComposite<decltype(mp3), TF>(tfc,fbv,"Compsite");
-			mc.Add(mv.Clone());
+			//mc.Add(mv.Clone());
 			std::cout<<"Comp:"<<mc<<std::endl;
 //			cv = mpCleaning.Accept(std::move(cv));
 //		  	(cv->As<AccumulationVisitor>())();

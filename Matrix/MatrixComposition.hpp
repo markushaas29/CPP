@@ -25,41 +25,39 @@ public:
 	//using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
 	virtual Q operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
-	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
+	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
-template<typename T, typename F, typename Q = Quantity<Sum>>
+template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposition: public IMatrixComposite<T,Q>
 {
 protected:
 	using Base = IMatrixComposite<T,Q>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
-	using PredicateFactory = std::shared_ptr<F>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorFactory = std::shared_ptr<Factory<BaseVisitor>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposition(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v} {}
+	MatrixComposition(std::unique_ptr<std::vector<std::unique_ptr<IPredicateVisitor>>> p, VisitorFactory v, const std::string& n): predicates{std::move(p)}, visitors{v}, name{n} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
-		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
-		auto cv = (*visitors)("Accumulation","100");
-		cv = mP.Accept(std::move(cv));
-		std::cout<<"MV"<<mP<<
-        (cv->As<AccumulationVisitor>())()<<std::endl;
+//		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
+//		auto cv = (*visitors)("Accumulation","100");
+//		cv = mP.Accept(std::move(cv));
+//		std::cout<<"MV"<<mP<<
+//        (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
-	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposition>(predicates,visitors,name);};
+	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposition>(predicates,visitors,name);};
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
-	//std::vector<PredicateType> predicates;
-	PredicateFactory predicates;
+	std::unique_ptr<std::vector<PredicateType>> predicates;
 	VisitorFactory visitors;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
@@ -94,9 +92,9 @@ public:
         (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
-	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
+	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
 	virtual std::string_view Name() const { return name; };
-	virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(c->Clone()); };
+	//virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(c->Clone()); };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> composites;
 	std::string name;

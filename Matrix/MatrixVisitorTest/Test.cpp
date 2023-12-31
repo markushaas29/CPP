@@ -93,8 +93,6 @@ class MatrixVisitorTest
             auto tfc = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>(fmt);
 
 			auto vc = tfc({{"EqualVisitor", { "IBAN", "DE05100110012620778704"}},{"EqualVisitor", { "Year", "2022"}}});
-			for(auto& v : vc)
-				v->Display(std::cout);
 			auto mpCleaning = mp3 | tfc("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | tfc("EqualVisitor", { "Year", "2022"});
             assert(mpCleaning.Rows()==3);
             auto mCleaning = mpCleaning.Cols(1);
