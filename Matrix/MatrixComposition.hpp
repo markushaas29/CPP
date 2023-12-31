@@ -38,6 +38,7 @@ protected:
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using PredicateFactory = std::shared_ptr<F>;
+	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorFactory = std::shared_ptr<Factory<BaseVisitor>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
@@ -57,6 +58,7 @@ public:
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
+	//std::vector<PredicateType> predicates;
 	PredicateFactory predicates;
 	VisitorFactory visitors;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };

@@ -90,6 +90,7 @@ class MatrixVisitorTest2023
             auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fu{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}};
 			auto mpCleaning = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
 			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
             auto mCleaning = mpCleaning.Cols(1);
