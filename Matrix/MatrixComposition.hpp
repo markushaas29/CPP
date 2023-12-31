@@ -38,12 +38,12 @@ protected:
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
-	using VisitorFactory = std::shared_ptr<Factory<BaseVisitor>>;
+	using VisitorType = std::unique_ptr<BaseVisitor>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposition(std::unique_ptr<std::vector<std::unique_ptr<IPredicateVisitor>>> p, VisitorFactory v, const std::string& n): predicates{std::move(p)}, visitors{v}, name{n} {}
+	MatrixComposition(std::unique_ptr<std::vector<PredicateType>> p, std::unique_ptr<std::vector<VisitorType>> v, const std::string& n): predicates{std::move(p)}, visitors{std::move(v)}, name{n} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 //		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
@@ -58,7 +58,7 @@ public:
 private:
 	std::string name;
 	std::unique_ptr<std::vector<PredicateType>> predicates;
-	VisitorFactory visitors;
+	std::unique_ptr<std::vector<VisitorType>> visitors;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) 
