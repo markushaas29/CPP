@@ -25,6 +25,7 @@ public:
 	//using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
 	virtual Q operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 //	virtual const std::vector<UnitType> Units() const = 0;
 };
 
@@ -52,6 +53,7 @@ public:
         (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposition>(predicates,visitors,name);};
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
@@ -89,6 +91,7 @@ public:
         (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
 	virtual std::string_view Name() const { return name; };
 private:
 	std::unique_ptr<std::vector<IMatrixComposite<T,Q>>> composites;

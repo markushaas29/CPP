@@ -96,6 +96,7 @@ class MatrixVisitorTest2023
 			auto mv = MatrixComposition<decltype(mp3), TF>(tfc,fbv,"");
 			std::cout<<"MV"<<mv(mp3)<<std::endl;
 
+			auto mc = MatrixComposition<decltype(mp3), TF>(tfc,fbv,"");
 //			cv = mpCleaning.Accept(std::move(cv));
 //		  	(cv->As<AccumulationVisitor>())();
 //          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
