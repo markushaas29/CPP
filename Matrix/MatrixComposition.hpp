@@ -26,7 +26,8 @@ public:
 	virtual Q operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
-//	virtual const std::vector<UnitType> Units() const = 0;
+	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
+	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
 template<typename T, typename F, typename Q = Quantity<Sum>>
@@ -45,7 +46,6 @@ public:
 	MatrixComposition(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
-
 		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
 		auto cv = (*visitors)("Accumulation","100");
 		cv = mP.Accept(std::move(cv));
@@ -59,6 +59,7 @@ private:
 	std::string name;
 	PredicateFactory predicates;
 	VisitorFactory visitors;
+	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) 
 	{ 
@@ -80,7 +81,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposite";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposite(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v}, composites{std::make_unique<std::vector<IMatrixComposite<T,Q>>>()} {}
+	MatrixComposite(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 
@@ -93,15 +94,20 @@ public:
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
 	virtual std::string_view Name() const { return name; };
+	virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(c->Clone()); };
 private:
-	std::unique_ptr<std::vector<IMatrixComposite<T,Q>>> composites;
+	std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> composites;
 	std::string name;
 	PredicateFactory predicates;
 	VisitorFactory visitors;
+	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) 
 	{ 
 		s<<"Name: "<<m.name<<std::endl;
+		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) { c->display(s); }); 
+
+		s<<"Name END: "<<m.name<<std::endl;
 		return s;  
 	}
 };

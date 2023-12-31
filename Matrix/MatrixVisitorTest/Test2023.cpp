@@ -93,10 +93,12 @@ class MatrixVisitorTest2023
 			auto mpCleaning = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
 			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
             auto mCleaning = mpCleaning.Cols(1);
-			auto mv = MatrixComposition<decltype(mp3), TF>(tfc,fbv,"");
+			auto mv = MatrixComposition<decltype(mp3), TF>(tfc,fbv,"Cleaning");
 			std::cout<<"MV"<<mv(mp3)<<std::endl;
 
-			auto mc = MatrixComposition<decltype(mp3), TF>(tfc,fbv,"");
+			auto mc = MatrixComposite<decltype(mp3), TF>(tfc,fbv,"Compsite");
+			mc.Add(mv.Clone());
+			std::cout<<"Comp:"<<mc<<std::endl;
 //			cv = mpCleaning.Accept(std::move(cv));
 //		  	(cv->As<AccumulationVisitor>())();
 //          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
