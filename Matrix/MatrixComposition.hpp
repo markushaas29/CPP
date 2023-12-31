@@ -23,6 +23,7 @@ public:
 	//using UnitType = U;
 	using ElementType = T::ElementType;
 	//using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
+	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 	virtual Q operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
@@ -39,6 +40,7 @@ protected:
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorType = std::unique_ptr<BaseVisitor>;
+	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -46,13 +48,17 @@ public:
 	MatrixComposition(std::unique_ptr<std::vector<PredicateType>> p, std::unique_ptr<std::vector<VisitorType>> v, const std::string& n): predicates{std::move(p)}, visitors{std::move(v)}, name{n} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
-		Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement> > > mP = m | predicates->at(0)->Clone();
-
-		auto cv = mP.Accept(visitors->at(0)->Copy());
-		std::cout<<"MV"<<mP<<std::endl;
-		auto i =((cv->template As<AccumulationVisitor>())());
-		std::cout<<"MV"<<i<<std::endl;
-		return Q(5);
+		ResultType result;
+		if(predicates->size()>0)
+		{
+			result = m |  (predicates->at(0)->Clone());
+			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { result = result | (i->Clone()); });
+			auto cv =result.Accept(visitors->at(0)->Copy());
+			//std::cout<<"MV"<<mP<<std::endl;
+			auto i =((cv->template As<AccumulationVisitor>())());
+			std::cout<<"MV abc"<<i<<"\n"<<result<<std::endl;
+		}
+		return Q{5};
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 
