@@ -25,7 +25,7 @@ public:
 	//using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
 	virtual Q operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
-	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
@@ -54,7 +54,14 @@ public:
 		std::cout<<"MV"<<i<<std::endl;
 		return Q(5);
 	}
-	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposition>(predicates,visitors,name);};
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
+	{ 
+		std::unique_ptr<std::vector<PredicateType>> p;
+		std::for_each(predicates->cbegin(), predicates->cend(), [&p](const auto& i) { p->push_back(i->Clone()); });
+		std::unique_ptr<std::vector<VisitorType>> v;
+		std::for_each(visitors->cbegin(), visitors->cend(), [&v](const auto& i) { v->push_back(i->Copy()); });
+		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),name);
+	}
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
@@ -93,7 +100,7 @@ public:
         (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
-	//virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
 	virtual std::string_view Name() const { return name; };
 	//virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(c->Clone()); };
 private:
