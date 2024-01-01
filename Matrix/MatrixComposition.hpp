@@ -32,11 +32,29 @@ public:
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
-template<typename T, typename Q = Quantity<Sum>>
-class MatrixComposition: public IMatrixComposite<T,Q>
+template<template<typename, typename> class D, typename T, typename Q = Quantity<Sum>>
+class MatrixCompositeBase: public IMatrixComposite<T,Q>
 {
 protected:
 	using Base = IMatrixComposite<T,Q>;
+	using Derived = D<T,Q>;
+	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
+	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
+public:
+	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+
+	MatrixCompositeBase(const std::string& n):  name{n} {}
+	virtual std::string_view Name() const { return name; };
+private:
+	std::string name;
+	//virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
+};
+template<typename T, typename Q = Quantity<Sum>>
+class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
+{
+protected:
+	using Base = MatrixCompositeBase<MatrixComposition,T,Q>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
@@ -46,7 +64,7 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposition(std::unique_ptr<std::vector<PredicateType>> p, std::unique_ptr<std::vector<VisitorType>> v, const std::string& n): predicates{std::move(p)}, visitors{std::move(v)}, name{n} {}
+	MatrixComposition(std::unique_ptr<std::vector<PredicateType>> p, std::unique_ptr<std::vector<VisitorType>> v, const std::string& n): Base{n}, predicates{std::move(p)}, visitors{std::move(v)} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 		ResultType result;
@@ -88,22 +106,19 @@ private:
 };
 
 template<typename T, typename Q = Quantity<Sum>>
-class MatrixComposite: public IMatrixComposite<T,Q>
+class MatrixComposite: public MatrixCompositeBase<MatrixComposite,T,Q>
 {
 protected:
-	using Base = IMatrixComposite<T,Q>;
+	using Base = MatrixCompositeBase<MatrixComposite,T,Q>;
 	using DataType = std::unique_ptr<IMatrixComposite<T,Q>>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposite";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposite(const std::string& n): name{n}, composites{std::make_unique<std::vector<DataType>>()} {}
-	MatrixComposite(const std::string& n, std::unique_ptr<std::vector<DataType>> c): name{n}, composites{std::move(c)} {}
-	MatrixComposite(const std::string& n, DataType c): name{n}, composites{std::make_unique<std::vector<DataType>>()} 
-	{
-		composites->push_back(std::move(c));
-	}
+	MatrixComposite(const std::string& n): Base{n}, composites{std::make_unique<std::vector<DataType>>()} {}
+	MatrixComposite(const std::string& n, std::unique_ptr<std::vector<DataType>> c): Base{n}, composites{std::move(c)} {}
+	MatrixComposite(const std::string& n, DataType c): Base{n}, composites{std::make_unique<std::vector<DataType>>()} {	composites->push_back(std::move(c)); }
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 		Q result{0};
