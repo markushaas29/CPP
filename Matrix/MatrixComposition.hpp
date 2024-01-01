@@ -101,6 +101,10 @@ public:
 
 	MatrixComposite(const std::string& n): name{n}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} {}
 	MatrixComposite(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c): name{n}, composites{std::move(c)} {}
+	MatrixComposite(const std::string& n, std::unique_ptr<IMatrixComposite<T,Q>> c): name{n}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} 
+	{
+		composites->push_back(std::move(c));
+	}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
 		return Q(5);
