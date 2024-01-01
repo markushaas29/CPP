@@ -38,6 +38,7 @@ class MatrixCompositeBase: public IMatrixComposite<T,Q>
 protected:
 	using Base = IMatrixComposite<T,Q>;
 	using Derived = D<T,Q>;
+	friend class D<T,Q>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 public:
@@ -53,7 +54,6 @@ private:
 template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
 {
-protected:
 	using Base = MatrixCompositeBase<MatrixComposition,T,Q>;
 	using QueryType = MatrixQuery<T>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
@@ -73,12 +73,10 @@ public:
 			result = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { result = result | (i->Clone()); });
 			auto cv =result.Accept(visitors->at(0)->Copy());
-			//std::cout<<"MV"<<mP<<std::endl;
-			auto i =((cv->template As<AccumulationVisitor>())());
-			std::cout<<"MV abc"<<i<<"\n"<<result<<std::endl;
-		return i;
+			return ((cv->template As<AccumulationVisitor>())());
 		}
-		return Q{5};
+
+		return Q{0};
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 
@@ -86,19 +84,17 @@ public:
 		std::for_each(predicates->cbegin(), predicates->cend(), [&p](const auto& i) { p->push_back(i->Clone()); });
 		std::unique_ptr<std::vector<VisitorType>> v= std::make_unique<std::vector<VisitorType>>();
 		std::for_each(visitors->cbegin(), visitors->cend(), [&v](const auto& i) { v->push_back(i->Copy()); });
-		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),name);
+		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),Base::name);
 	}
-	virtual std::string_view Name() const { return name; };
 	virtual size_t Size() const { return 1; };
 private:
-	std::string name;
 	std::unique_ptr<std::vector<PredicateType>> predicates;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) 
 	{ 
-		s<<"Name: "<<m.name<<std::endl;
+		s<<"Name: "<<m.Name()<<std::endl;
 		std::for_each(m.predicates->cbegin(), m.predicates->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		//std::for_each(m.visitors->cbegin(), m.visitors->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		return s;  
@@ -108,7 +104,6 @@ private:
 template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposite: public MatrixCompositeBase<MatrixComposite,T,Q>
 {
-protected:
 	using Base = MatrixCompositeBase<MatrixComposite,T,Q>;
 	using DataType = std::unique_ptr<IMatrixComposite<T,Q>>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
@@ -129,25 +124,22 @@ public:
 	{ 
 		std::unique_ptr<std::vector<DataType>> c = std::make_unique<std::vector<DataType>>();
 		std::for_each(composites->cbegin(), composites->cend(), [&c](const auto& i) { c->push_back(i->Clone()); });
-		return std::make_unique<MatrixComposite>(name, std::move(c));
+		return std::make_unique<MatrixComposite>(Base::name, std::move(c));
 	};
-	virtual std::string_view Name() const { return name; };
 	virtual size_t Size() const { return composites->size(); };
 	virtual void Add(DataType c) const {  composites->push_back(std::move(c)); };
 private:
 	std::unique_ptr<std::vector<DataType>> composites;
-	std::string name;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) 
 	{ 
-		s<<"Name: "<<m.name<<std::endl;
+		s<<"Name: "<<m.Name()<<std::endl;
 		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) 
 				{ 	s<<"\n";
 					c->display(s);
 					s<<"\n"; }); 
 
-		s<<"Name END: "<<m.name<<std::endl;
 		return s;  
 	}
 };
