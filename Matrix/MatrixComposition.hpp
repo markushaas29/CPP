@@ -97,25 +97,24 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposite";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposite(PredicateFactory f, VisitorFactory v, const std::string& n): name{n}, predicates{f}, visitors{v}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} {}
+	MatrixComposite(const std::string& n): name{n}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} {}
+	MatrixComposite(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c): name{n}, composites{std::move(c)} {}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
-
-		auto mP = m | (*predicates)("EqualVisitor", { "IBAN", "DE12660623660000005703"}) | (*predicates)("EqualVisitor", { "Year", "2023"}) | (*predicates)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"});
-		auto cv = (*visitors)("Accumulation","100");
-		cv = mP.Accept(std::move(cv));
-		std::cout<<"MV"<<mP<<
-        (cv->As<AccumulationVisitor>())()<<std::endl;
 		return Q(5);
 	}
-	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const { return std::make_unique<MatrixComposite>(predicates,visitors,name);};
+	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
+	{ 
+		std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c;
+		std::for_each(composites->cbegin(), composites->cend(), [&c](const auto& i) { c->push_back(i->Clone()); });
+		return std::make_unique<MatrixComposite>(name, std::move(c));
+	};
 	virtual std::string_view Name() const { return name; };
+	virtual size_t Size() const { return composites->size(); };
 	//virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(c->Clone()); };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> composites;
 	std::string name;
-	PredicateFactory predicates;
-	VisitorFactory visitors;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) 
