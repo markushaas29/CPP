@@ -115,7 +115,7 @@ class MatrixVisitorTest2023
 //		  	(cv->As<AccumulationVisitor>())();
 //          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
 
-//			auto mPropertyTax = mp3 | tfc("EqualVisitor", { "IBAN", "DE12660623660000005703"})| tfc("EqualVisitor", { "Year", "2023"}) | tfc("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
+//			auto mPropertyTax = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE12660623660000005703"})| (*tfc)("EqualVisitor", { "Year", "2023"}) | (*tfc)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
 //          	assert(mPropertyTax.Rows()==4);
 //          	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
 //			cv = mPropertyTax.Accept(std::move(cv));
@@ -123,24 +123,24 @@ class MatrixVisitorTest2023
 //			std::cout<<"Property Tax:"<<mPropertyTax<<std::endl;
 //          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-423.01));
 //		
-//			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2023"});
+//			auto mWasteFees = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE44600501010008017284"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 //            std::cout<<mWasteFees<<std::endl;
 //            assert(mWasteFees.Rows()==2);
 //			std::cout<<"Waste Fees:"<<mWasteFees<<std::endl;
 //          	//assert((mWasteFees.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-322));
 //            
-//			auto mpInsurance = mp3 | tfc("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | tfc("EqualVisitor", { "Year", "2023"});
+//			auto mpInsurance = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
 //            //assert(mpInsurance.Rows()==1);
 //			std::cout<<"Insurance:"<<mpInsurance<<std::endl;
 //            //assert((mpInsurance2023.Cols(4).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
 //			
-//			auto mZie = mp3 | tfc("EqualVisitor", { "IBAN", "DE10660501011022126625"})| tfc("EqualVisitor", { "Year", "2023"});
-//			auto mZei = mp3 | tfc("EqualVisitor", { "IBAN", "DE47660501011020531958"})| tfc("EqualVisitor", { "Year", "2023"});
+//			auto mZie = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE10660501011022126625"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+//			auto mZei = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE47660501011020531958"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 //            //assert((mZei.Rows()+mZie.Rows())==13);
 //			std::cout<<"Zei:"<<mZei<<std::endl;
 ////            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
 //			
-//			auto mBrustat = mp3 | tfc("EqualVisitor", { "Entry", "MIETE"})| tfc("EqualVisitor", { "IBAN", "DE83660623660009262008"})| tfc("EqualVisitor", { "Year", "2023"});
+//			auto mBrustat = mp3 | (*tfc)("EqualVisitor", { "Entry", "MIETE"})| (*tfc)("EqualVisitor", { "IBAN", "DE83660623660009262008"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 //            //assert(mBrustat.Rows()==12);
 //          	//assert((mBrustat.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
 //			std::cout<<"Brus:"<<mBrustat<<std::endl;
@@ -150,17 +150,17 @@ class MatrixVisitorTest2023
 ////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fURast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
 ////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUProp, fUJansen, fURast});
 ////            
-//			//auto mEnBW = mp3 | tfc("EqualVisitor", { "Entry", "701006843905"})| tfc("EqualVisitor", { "Entry", "Abschlagsforderung"}) | tfc("EqualVisitor", { "IBAN", "DE56600501017402051588"})| tfc("EqualVisitor", { "Year", "2023"});
-//			auto mEnBW = mp3 | tfc("EqualVisitor", { "Entry", "Abschlagsforderung"}) | tfc("EqualVisitor", { "IBAN", "DE56600501017402051588"})| tfc("EqualVisitor", { "Year", "2023"});
-//            std::cout<<"ENBW"<<mEnBW<<std::endl;
-//			auto mGas = mp3 | tfc("EqualVisitor", { "Entry", "Abschlagsforderung"}) | tfc("EqualVisitor", { "IBAN", "DE68600501010002057075"})| tfc("EqualVisitor", { "Year", "2023"});
-//			std::cout<<"GAS:"<<mGas<<std::endl;
-//            //assert(mGas.Rows()==11);
-//			auto mGasI = mp3 | tfc("EqualVisitor", { "Entry", "Rechnung"}) | tfc("EqualVisitor", { "IBAN", "DE68600501010002057075"})| tfc("EqualVisitor", { "Year", "2023"});
-//			std::cout<<"GAS:"<<mGasI<<std::endl;
-//            //assert(mGasI.Rows()==1);
-//			auto mEnBWI = mp3 | tfc("EqualVisitor", { "Entry", "Rechnung"}) | tfc("EqualVisitor", { "IBAN", "DE56600501017402051588"})| tfc("EqualVisitor", { "Year", "2023"});
-//            std::cout<<"ENBW"<<mEnBWI<<std::endl;
+//			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+			auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+            std::cout<<"ENBW"<<mEnBW<<std::endl;
+			auto mGas = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+			std::cout<<"GAS:"<<mGas<<std::endl;
+            //assert(mGas.Rows()==11);
+			auto mGasI = mp3 | (*tfc)("EqualVisitor", { "Entry", "Rechnung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+			std::cout<<"GAS:"<<mGasI<<std::endl;
+            //assert(mGasI.Rows()==1);
+			auto mEnBWI = mp3 | (*tfc)("EqualVisitor", { "Entry", "Rechnung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+            std::cout<<"ENBW"<<mEnBWI<<std::endl;
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
 //			assert(Heating.Rows()==25);
