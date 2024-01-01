@@ -62,9 +62,9 @@ public:
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 
-		std::unique_ptr<std::vector<PredicateType>> p;
+		std::unique_ptr<std::vector<PredicateType>> p = std::make_unique<std::vector<PredicateType>>();
 		std::for_each(predicates->cbegin(), predicates->cend(), [&p](const auto& i) { p->push_back(i->Clone()); });
-		std::unique_ptr<std::vector<VisitorType>> v;
+		std::unique_ptr<std::vector<VisitorType>> v= std::make_unique<std::vector<VisitorType>>();
 		std::for_each(visitors->cbegin(), visitors->cend(), [&v](const auto& i) { v->push_back(i->Copy()); });
 		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),name);
 	}
@@ -111,7 +111,7 @@ public:
 	};
 	virtual std::string_view Name() const { return name; };
 	virtual size_t Size() const { return composites->size(); };
-	//virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(c->Clone()); };
+	virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(std::move(c)); };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> composites;
 	std::string name;
