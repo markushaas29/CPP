@@ -20,7 +20,6 @@ class IMatrixComposite
 public:
 	using MatrixType = T;
 	using QuantityType = Q;
-	//using UnitType = U;
 	using ElementType = T::ElementType;
 	//using ResultType = StrategyResult<QuantityType,MatrixType,UnitType>;
 	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
@@ -29,8 +28,10 @@ public:
 	virtual size_t Size() const = 0;
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
+private:
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
+
 
 template<template<typename, typename> class D, typename T, typename Q = Quantity<Sum>>
 class MatrixCompositeBase: public IMatrixComposite<T,Q>
@@ -49,7 +50,7 @@ public:
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
-	//virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
+	//virtual std::ostream& display(std::ostream& s) const { return s<<static_cast<Derived>(*this); };
 };
 template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
@@ -135,11 +136,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) 
 	{ 
 		s<<"Name: "<<m.Name()<<std::endl;
-		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) 
-				{ 	s<<"\n";
-					c->display(s);
-					s<<"\n"; }); 
-
+		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) { 	s<<"\n"<<*c<<"\n"; }); 
 		return s;  
 	}
 };
