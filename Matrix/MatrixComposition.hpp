@@ -40,7 +40,6 @@ protected:
 	using Base = IMatrixComposite<T,Q>;
 	using Derived = D<T,Q>;
 	friend class D<T,Q>;
-	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
@@ -57,7 +56,6 @@ class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
 {
 	using Base = MatrixCompositeBase<MatrixComposition,T,Q>;
 	using QueryType = MatrixQuery<T>;
-	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorType = std::unique_ptr<BaseVisitor>;
 	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
@@ -107,7 +105,6 @@ class MatrixComposite: public MatrixCompositeBase<MatrixComposite,T,Q>
 {
 	using Base = MatrixCompositeBase<MatrixComposite,T,Q>;
 	using DataType = std::unique_ptr<IMatrixComposite<T,Q>>;
-	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposite";
     inline static constexpr Literal TypeId{TypeIdentifier};
