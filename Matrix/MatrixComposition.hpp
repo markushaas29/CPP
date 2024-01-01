@@ -106,7 +106,9 @@ public:
 	}
 	virtual Q operator()(Base::MatrixType& m) const
 	{
-		return Q(5);
+		Q result{0};
+		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	{ 	result = result + (*c)(m); }); 
+		return result;
 	}
 	virtual DataType Clone() const 
 	{ 
