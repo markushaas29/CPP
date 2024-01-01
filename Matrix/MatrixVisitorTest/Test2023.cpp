@@ -100,7 +100,7 @@ class MatrixVisitorTest2023
 			std::cout<<"MV ->"<<mv(mp3)<<std::endl;
 			std::cout<<"MV OUT"<<mv<<std::endl;
 
-			auto mc = MatrixComposite<decltype(mp3), TF>("Compsite");
+			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
 			mv.Clone();
 			mc.Add(mv.Clone());
             assert(mc.Size()==1);
@@ -108,7 +108,7 @@ class MatrixVisitorTest2023
             assert(mc.Size()==2);
 			auto mc2 = mc.Clone();
             assert(mc2->Size()==2);
-			auto mc3 = MatrixComposite<decltype(mp3), TF>("Compsite", mv.Clone());
+			auto mc3 = MatrixComposite<decltype(mp3)>("Compsite", mv.Clone());
             assert(mc3.Size()==1);
 			std::cout<<"Comp:"<<mc<<std::endl;
 //			cv = mpCleaning.Accept(std::move(cv));

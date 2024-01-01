@@ -86,22 +86,20 @@ private:
 	}
 };
 
-template<typename T, typename F, typename Q = Quantity<Sum>>
+template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposite: public IMatrixComposite<T,Q>
 {
 protected:
 	using Base = IMatrixComposite<T,Q>;
-	using QueryType = MatrixQuery<T>;
+	using DataType = std::unique_ptr<IMatrixComposite<T,Q>>;
 	using UnitType = FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>>;
-	using PredicateFactory = std::shared_ptr<F>;
-	using VisitorFactory = std::shared_ptr<Factory<BaseVisitor>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposite";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixComposite(const std::string& n): name{n}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} {}
-	MatrixComposite(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c): name{n}, composites{std::move(c)} {}
-	MatrixComposite(const std::string& n, std::unique_ptr<IMatrixComposite<T,Q>> c): name{n}, composites{std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>()} 
+	MatrixComposite(const std::string& n): name{n}, composites{std::make_unique<std::vector<DataType>>()} {}
+	MatrixComposite(const std::string& n, std::unique_ptr<std::vector<DataType>> c): name{n}, composites{std::move(c)} {}
+	MatrixComposite(const std::string& n, DataType c): name{n}, composites{std::make_unique<std::vector<DataType>>()} 
 	{
 		composites->push_back(std::move(c));
 	}
@@ -109,17 +107,17 @@ public:
 	{
 		return Q(5);
 	}
-	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
+	virtual DataType Clone() const 
 	{ 
-		std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c = std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>();
+		std::unique_ptr<std::vector<DataType>> c = std::make_unique<std::vector<DataType>>();
 		std::for_each(composites->cbegin(), composites->cend(), [&c](const auto& i) { c->push_back(i->Clone()); });
 		return std::make_unique<MatrixComposite>(name, std::move(c));
 	};
 	virtual std::string_view Name() const { return name; };
 	virtual size_t Size() const { return composites->size(); };
-	virtual void Add(std::unique_ptr<IMatrixComposite<T,Q>> c) const {  composites->push_back(std::move(c)); };
+	virtual void Add(DataType c) const {  composites->push_back(std::move(c)); };
 private:
-	std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> composites;
+	std::unique_ptr<std::vector<DataType>> composites;
 	std::string name;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
