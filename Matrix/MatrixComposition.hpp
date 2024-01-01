@@ -58,6 +58,7 @@ public:
 			//std::cout<<"MV"<<mP<<std::endl;
 			auto i =((cv->template As<AccumulationVisitor>())());
 			std::cout<<"MV abc"<<i<<"\n"<<result<<std::endl;
+		return i;
 		}
 		return Q{5};
 	}

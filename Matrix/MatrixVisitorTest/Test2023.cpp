@@ -152,15 +152,23 @@ class MatrixVisitorTest2023
 ////            
 //			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 			auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-            std::cout<<"ENBW"<<mEnBW<<std::endl;
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto me = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
+            std::cout<<"ENBW"<<me(mp3)<<std::endl;
 			auto mGas = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::cout<<"GAS:"<<mGas<<std::endl;
-            //assert(mGas.Rows()==11);
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuGas{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto mg = MatrixComposition<decltype(mp3)>((*tfc)(fuGas),(*fbv)(fv),"EnBW");
+            std::cout<<"Gas"<<mg(mp3)<<std::endl;
 			auto mGasI = mp3 | (*tfc)("EqualVisitor", { "Entry", "Rechnung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuGasI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
 			std::cout<<"GAS:"<<mGasI<<std::endl;
+			auto mgi = MatrixComposition<decltype(mp3)>((*tfc)(fuGasI),(*fbv)(fv),"EnBW");
+            std::cout<<"Gas"<<mgi(mp3)<<std::endl;
             //assert(mGasI.Rows()==1);
 			auto mEnBWI = mp3 | (*tfc)("EqualVisitor", { "Entry", "Rechnung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-            std::cout<<"ENBW"<<mEnBWI<<std::endl;
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
+            std::cout<<"ENBW"<<mei(mp3)<<std::endl;
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
 //			assert(Heating.Rows()==25);
