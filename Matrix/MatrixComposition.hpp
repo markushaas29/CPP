@@ -120,7 +120,10 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) 
 	{ 
 		s<<"Name: "<<m.name<<std::endl;
-		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) { c->display(s); }); 
+		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) 
+				{ 	s<<"\n";
+					c->display(s);
+					s<<"\n"; }); 
 
 		s<<"Name END: "<<m.name<<std::endl;
 		return s;  

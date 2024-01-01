@@ -102,7 +102,10 @@ class MatrixVisitorTest2023
 
 			auto mc = MatrixComposite<decltype(mp3), TF>("Compsite");
 			mv.Clone();
-			//mc.Add(mv.Clone());
+			mc.Add(mv.Clone());
+            assert(mc.Size()==1);
+			mc.Add(mv.Clone());
+            assert(mc.Size()==2);
 			std::cout<<"Comp:"<<mc<<std::endl;
 //			cv = mpCleaning.Accept(std::move(cv));
 //		  	(cv->As<AccumulationVisitor>())();
