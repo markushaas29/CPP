@@ -152,7 +152,7 @@ class MatrixVisitorTest2023
 ////            
 //			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 			auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
 			auto me = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
             auto enBW1 = me(mp3);
 			auto mGas = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
@@ -177,7 +177,9 @@ class MatrixVisitorTest2023
 			mcHeating.Add(mei.Clone());
             assert(mcHeating.Size()==4);
 			auto allR = mcHeating(mp3);
+			assert(allR==Quantity<Sum>(-3558.17));
 			std::cout<<"All:"<<all<<allR<<std::endl;
+			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
 //			assert(Heating.Rows()==25);
