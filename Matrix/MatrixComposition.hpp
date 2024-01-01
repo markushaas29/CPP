@@ -26,6 +26,7 @@ public:
 	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 	virtual Q operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
+	virtual size_t Size() const = 0;
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
@@ -69,6 +70,7 @@ public:
 		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),name);
 	}
 	virtual std::string_view Name() const { return name; };
+	virtual size_t Size() const { return 1; };
 private:
 	std::string name;
 	std::unique_ptr<std::vector<PredicateType>> predicates;
@@ -105,7 +107,7 @@ public:
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 
-		std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c;
+		std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c = std::make_unique<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>>();
 		std::for_each(composites->cbegin(), composites->cend(), [&c](const auto& i) { c->push_back(i->Clone()); });
 		return std::make_unique<MatrixComposite>(name, std::move(c));
 	};

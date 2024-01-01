@@ -106,6 +106,8 @@ class MatrixVisitorTest2023
             assert(mc.Size()==1);
 			mc.Add(mv.Clone());
             assert(mc.Size()==2);
+			auto mc2 = mc.Clone();
+            assert(mc2->Size()==2);
 			std::cout<<"Comp:"<<mc<<std::endl;
 //			cv = mpCleaning.Accept(std::move(cv));
 //		  	(cv->As<AccumulationVisitor>())();
