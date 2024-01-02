@@ -91,14 +91,12 @@ class MatrixVisitorTest2023
             auto tfc = std::make_shared<TF>(fmt);
 
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fu{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}};
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuj{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}};
 			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation","100"}};
 			auto fus = (*tfc)(fu);
-			auto mpCleaning = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE05100110012620778704"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::cout<<"Cleanig:"<<mpCleaning<<std::endl;
-            auto mCleaning = mpCleaning.Cols(1);
 			auto mv = MatrixComposition<decltype(mp3)>((*tfc)(fu),(*fbv)(fv),"Cleaning");
-			std::cout<<"MV ->"<<mv(mp3)<<std::endl;
-			std::cout<<"MV OUT"<<mv<<std::endl;
+			auto mcj = MatrixComposition<decltype(mp3)>((*tfc)(fuj),(*fbv)(fv),"Cleaning");
+			std::cout<<"Cleanig:"<<mcj(mp3)<<std::endl;
 
 			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
 			mv.Clone();
