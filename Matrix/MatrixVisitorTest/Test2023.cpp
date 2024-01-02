@@ -169,7 +169,7 @@ class MatrixVisitorTest2023
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
 			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
             auto enBW2 = mei(mp3);
-            auto all = enBW1 + enBW2 + gas1 +gas2;
+            auto all = enBW1.Value() + enBW2.Value() + gas1.Value() +gas2.Value();
 			std::cout<<"All:"<<all<<std::endl;
 			auto mcHeating = MatrixComposite<decltype(mp3)>("Heating", me.Clone());
 			mcHeating.Add(mg.Clone());
@@ -177,7 +177,7 @@ class MatrixVisitorTest2023
 			mcHeating.Add(mei.Clone());
             assert(mcHeating.Size()==4);
 			auto allR = mcHeating(mp3);
-			assert(allR==Quantity<Sum>(-3558.17));
+			assert(allR.Value()==Quantity<Sum>(-3558.17));
 			std::cout<<"All:"<<all<<allR<<std::endl;
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
