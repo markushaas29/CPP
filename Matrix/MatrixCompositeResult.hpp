@@ -15,7 +15,7 @@ class MatrixCompositeResult
 public:
 	using QuantityType = Q;
 	using MatrixType = M;
-	MatrixCompositeResult(const QuantityType& q, const std::vector<MatrixType>& m = std::vector<MatrixType>(), const std::string& n =""): value{q}, items(m), name{n} {};
+	MatrixCompositeResult(const QuantityType&& q, const std::vector<MatrixType>&& m = std::vector<MatrixType>(), const std::string& n =""): value{q}, items(m), name{n} {};
 	decltype(auto) Value() { return value; }
 	decltype(auto) Items() { return items; }
 private:

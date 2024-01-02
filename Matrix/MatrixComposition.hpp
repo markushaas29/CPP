@@ -74,7 +74,7 @@ public:
 			auto cv =mr.Accept(visitors->at(0)->Copy());
 			std::vector<typename Base::ResultMatrixType> result;
 			result.push_back(mr);
-			return typename Base::ResultType((cv->template As<AccumulationVisitor>())(), result);
+			return typename Base::ResultType((cv->template As<AccumulationVisitor>())(), std::move(result));
 		}
 
 		return typename Base::ResultType{Q{0}};
@@ -125,7 +125,7 @@ public:
 					std::for_each(i.begin(), i.end(), [&result](const auto& m) { result.push_back(m); });
 					value = value + temp.Value(); 
 				}); 
-		return typename Base::ResultType{value,result};
+		return typename Base::ResultType{std::move(value), std::move(result)};
 	}
 	virtual DataType Clone() const 
 	{ 
