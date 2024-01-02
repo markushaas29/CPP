@@ -14,6 +14,7 @@
 
 template<std::size_t, typename> class Matrix;
 
+template<typename T, typename Q> class MatrixComposition;
 template<typename T, typename Q>
 class IMatrixComposite
 {
@@ -21,10 +22,14 @@ public:
 	using MatrixType = T;
 	using QuantityType = Q;
 	using ElementType = T::ElementType;
+	using PredicateType = std::unique_ptr<IPredicateVisitor>;
+	using VisitorType = std::unique_ptr<BaseVisitor>;
 	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 	using ResultType = MatrixCompositeResult<QuantityType,ResultMatrixType>;
-	static std::unique_ptr<IMatrixComposite> Create(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c) {}
-	static std::unique_ptr<IMatrixComposite> Create(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IPredicateVisitor>>> p, std::unique_ptr<std::vector<std::unique_ptr<BaseVisitor>>> v) {}
+	static std::unique_ptr<IMatrixComposite> Create(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IPredicateVisitor>>> p, std::unique_ptr<std::vector<std::unique_ptr<BaseVisitor>>> v) 
+	{
+
+	}
 	virtual ResultType operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
 	virtual size_t Size() const = 0;
@@ -88,6 +93,12 @@ public:
 		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),Base::name);
 	}
 	virtual size_t Size() const { return 1; };
+	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
+	template<typename FT, typename VT, typename VV>
+	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const UnitVectorType& u, const VV& vv) 
+	{
+		return std::make_unique<MatrixComposition<T,Q>>((*f)(u),(*v)(vv),n);
+	}
 private:
 	std::unique_ptr<std::vector<PredicateType>> predicates;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
