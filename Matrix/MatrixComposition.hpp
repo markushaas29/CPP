@@ -67,12 +67,13 @@ public:
 	MatrixComposition(std::unique_ptr<std::vector<PredicateType>> p, std::unique_ptr<std::vector<VisitorType>> v, const std::string& n): Base{n}, predicates{std::move(p)}, visitors{std::move(v)} {}
 	virtual typename Base::ResultType operator()(Base::MatrixType& m) const
 	{
-		typename Base::ResultMatrixType result;
 		if(predicates->size()>0)
 		{
-			result = m |  (predicates->at(0)->Clone());
-			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { result = result | (i->Clone()); });
-			auto cv =result.Accept(visitors->at(0)->Copy());
+			auto mr = m |  (predicates->at(0)->Clone());
+			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
+			auto cv =mr.Accept(visitors->at(0)->Copy());
+			std::vector<typename Base::ResultMatrixType> result;
+			result.push_back(mr);
 			return typename Base::ResultType((cv->template As<AccumulationVisitor>())(), result);
 		}
 
@@ -115,9 +116,16 @@ public:
 	MatrixComposite(const std::string& n, DataType c): Base{n}, composites{std::make_unique<std::vector<DataType>>()} {	composites->push_back(std::move(c)); }
 	virtual typename Base::ResultType operator()(Base::MatrixType& m) const
 	{
-		Q result{0};
-		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	{ 	result = result + ((*c)(m)).Value(); }); 
-		return typename Base::ResultType{result};
+		Q value{0};
+		std::vector<typename Base::ResultMatrixType> result;
+		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	
+				{ 
+					auto temp = (*c)(m);
+					auto i = temp.Items();
+					std::for_each(i.begin(), i.end(), [&result](const auto& m) { result.push_back(m); });
+					value = value + temp.Value(); 
+				}); 
+		return typename Base::ResultType{value,result};
 	}
 	virtual DataType Clone() const 
 	{ 
