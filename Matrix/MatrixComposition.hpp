@@ -23,6 +23,8 @@ public:
 	using ElementType = T::ElementType;
 	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 	using ResultType = MatrixCompositeResult<QuantityType,ResultMatrixType>;
+	static std::unique_ptr<IMatrixComposite> Create(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IMatrixComposite<T,Q>>>> c) {}
+	static std::unique_ptr<IMatrixComposite> Create(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IPredicateVisitor>>> p, std::unique_ptr<std::vector<std::unique_ptr<BaseVisitor>>> v) {}
 	virtual ResultType operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
 	virtual size_t Size() const = 0;
