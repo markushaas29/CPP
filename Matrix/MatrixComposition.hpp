@@ -1,7 +1,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
-#include "MatrixQuery.hpp"
+#include "MatrixCompositeResult.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
