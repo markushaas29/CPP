@@ -35,3 +35,18 @@ private:
 	M item;
 	std::string name;
 };
+
+template<typename Q, typename M>
+class MatrixCompositeResult: public ICompositeResult<Q,M>
+{
+	using Base = ICompositeResult<Q,M>;
+public:
+	MatrixCompositeResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
+	virtual Q Value() const { return value; }
+private:
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)	{	return out<<"\nName: "<<s.name<<"\n"<<s.item<<"\n\nValue: "<<s.value;	}
+	std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	typename Base::QuantityType value;
+	M item;
+	std::string name;
+};
