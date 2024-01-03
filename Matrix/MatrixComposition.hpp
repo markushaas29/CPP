@@ -44,6 +44,7 @@ protected:
 	using Derived = D<T,Q>;
 	friend class D<T,Q>;
 	using ResultType = typename Base::ResultType;
+	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -89,12 +90,8 @@ public:
 		return std::make_unique<MatrixComposition>(std::move(p),std::move(v),Base::name);
 	}
 	virtual size_t Size() const { return 1; };
-	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
 	template<typename FT, typename VT, typename VV>
-	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const UnitVectorType& u, const VV& vv) 
-	{
-		return std::make_unique<MatrixComposition<T,Q>>((*f)(u),(*v)(vv),n);
-	}
+	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const typename Base::UnitVectorType& u, const VV& vv) 	{	return std::make_unique<MatrixComposition<T,Q>>((*f)(u),(*v)(vv),n); }
 private:
 	std::unique_ptr<std::vector<PredicateType>> predicates;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
@@ -142,13 +139,11 @@ public:
 	};
 	virtual size_t Size() const { return composites->size(); };
 	virtual void Add(DataType c) const {  composites->push_back(std::move(c)); };
-	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
 	template<typename FT, typename VT, typename VV>
-	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const std::vector<UnitVectorType>& u, const VV& vv) 
+	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const std::vector<typename Base::UnitVectorType>& u, const VV& vv) 
 	{
 		auto mc = std::make_unique<MatrixComposite<T,Q>>(n);
-		for(const auto& unit : u)
-			mc->Add(MatrixComposition<T>::Create(f,v,std::string(n),unit,vv));
+		std::for_each(u.cbegin(), u.cend(), [&](const auto& unit) { mc->Add(MatrixComposition<T>::Create(f,v,std::string(n),unit,vv)); });
 		return mc;
 	}
 private:
