@@ -26,10 +26,6 @@ public:
 	using VisitorType = std::unique_ptr<BaseVisitor>;
 	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 	using ResultType = MatrixCompositeResult<QuantityType,ResultMatrixType>;
-	static std::unique_ptr<IMatrixComposite> Create(const std::string& n, std::unique_ptr<std::vector<std::unique_ptr<IPredicateVisitor>>> p, std::unique_ptr<std::vector<std::unique_ptr<BaseVisitor>>> v) 
-	{
-
-	}
 	virtual ResultType operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
 	virtual size_t Size() const = 0;
@@ -146,6 +142,15 @@ public:
 	};
 	virtual size_t Size() const { return composites->size(); };
 	virtual void Add(DataType c) const {  composites->push_back(std::move(c)); };
+	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
+	template<typename FT, typename VT, typename VV>
+	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const std::vector<UnitVectorType>& u, const VV& vv) 
+	{
+		auto mc = std::make_unique<MatrixComposite<T,Q>>(n);
+		for(const auto& unit : u)
+			mc->Add(MatrixComposition<T>::Create(f,v,std::string(n),unit,vv));
+		return mc;
+	}
 private:
 	std::unique_ptr<std::vector<DataType>> composites;
 	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };

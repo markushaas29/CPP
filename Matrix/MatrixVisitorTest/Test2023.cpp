@@ -100,6 +100,9 @@ class MatrixVisitorTest2023
 			auto mcc = MatrixComposition<decltype(mp3)>::Create(tfc,fbv,"Cleaning",fuj,fv);
 			std::cout<<"Cleanig:"<<(*mcc)(mp3)<<std::endl;
 			
+			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { fu, fuj };
+			auto mccs = MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"Cleaning", cleanings,fv);
+
 			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
 			mv.Clone();
 			mc.Add(mv.Clone());
@@ -110,7 +113,9 @@ class MatrixVisitorTest2023
             assert(mc2->Size()==2);
 			auto mc3 = MatrixComposite<decltype(mp3)>("Compsite", mv.Clone());
             assert(mc3.Size()==1);
-			std::cout<<"Comp:"<<mc<<std::endl;
+			auto cleaningR = (*mccs)(mp3);
+			std::cout<<"Comp:"<<cleaningR<<std::endl;
+            assert(cleaningR.Value()==Quantity<Sum>(-662.74));
 //			cv = mpCleaning.Accept(std::move(cv));
 //		  	(cv->As<AccumulationVisitor>())();
 //          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
