@@ -166,13 +166,13 @@ class MatrixVisitorTest2023
 			auto mgi = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGasI),(*fbv)(fv),"EnBW");
 		
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}}};
-			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBW),(*fbv)(fv),"EnBW");
+			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBWI),(*fbv)(fv),"EnBW");
             
 			auto mcHeating = MatrixComposite<decltype(mp3)>("Heating", me.Clone());
 			mcHeating.Add(mg.Clone());
 			mcHeating.Add(mgi.Clone());
-			//mcHeating.Add(mei.Clone());
-            //assert(mcHeating.Size()==4);
+			mcHeating.Add(mei.Clone());
+            assert(mcHeating.Size()==4);
 			auto heatingR = mcHeating(mp3);
 			//assert(heatingR.Value()==Quantity<Sum>(-3558.17));
 			std::cout<<"Heating:"<<heatingR<<std::endl;
