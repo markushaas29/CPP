@@ -174,16 +174,21 @@ class MatrixVisitorTest2023
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
 			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
             auto enBW2 = mei(mp3);
-            auto all = enBW1.Value() + enBW2.Value() + gas1.Value() +gas2.Value();
-			std::cout<<"All:"<<all<<std::endl;
+            auto heating = enBW1.Value() + enBW2.Value() + gas1.Value() +gas2.Value();
+			std::cout<<"heating:"<<heating<<std::endl;
 			auto mcHeating = MatrixComposite<decltype(mp3)>("Heating", me.Clone());
 			mcHeating.Add(mg.Clone());
 			mcHeating.Add(mgi.Clone());
 			mcHeating.Add(mei.Clone());
             assert(mcHeating.Size()==4);
-			auto allR = mcHeating(mp3);
-			assert(allR.Value()==Quantity<Sum>(-3558.17));
-			std::cout<<"All:"<<all<<allR<<std::endl;
+			auto heatingR = mcHeating(mp3);
+			assert(heatingR.Value()==Quantity<Sum>(-3558.17));
+			std::cout<<"heating:"<<heating<<heatingR<<std::endl;
+
+
+			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All", mccs->Clone());
+			all->Add(mcHeating.Clone());
+			std::cout<<"All:"<<(*all)(mp3)<<std::endl;
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
