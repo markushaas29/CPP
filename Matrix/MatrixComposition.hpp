@@ -25,7 +25,7 @@ public:
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorType = std::unique_ptr<BaseVisitor>;
 	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
-	using ResultType = MatrixCompositeResult<QuantityType,ResultMatrixType>;
+	using ResultType = std::unique_ptr<ICompositeResult<QuantityType,ResultMatrixType>>;
 	virtual ResultType operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
 	virtual size_t Size() const = 0;
@@ -44,6 +44,7 @@ protected:
 	using Derived = D<T,Q>;
 	friend class D<T,Q>;
 	using ResultType = typename Base::ResultType;
+	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
@@ -74,12 +75,8 @@ public:
 			auto mr = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
 			auto cv =mr.Accept(visitors->at(0)->Copy());
-			std::vector<typename Base::ResultMatrixType> result;
-			result.push_back(mr);
-			return typename Base::ResultType((cv->template As<AccumulationVisitor>())(), std::move(result));
+			return std::make_unique<MatrixCompositionResult<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor>())(), std::move(mr));
 		}
-
-		return typename Base::ResultType{Q{0}};
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 

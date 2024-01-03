@@ -100,109 +100,109 @@ class MatrixVisitorTest2023
 			auto mcc = MatrixComposition<decltype(mp3)>::Create(tfc,fbv,"Cleaning",jansenUnits,fv);
 			std::cout<<"Cleanig:"<<(*mcc)(mp3)<<std::endl;
 			
-			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { properUnits, jansenUnits };
-			auto mccs = MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"Cleaning", cleanings,fv);
-
-			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
-			mv.Clone();
-			mc.Add(mv.Clone());
-            assert(mc.Size()==1);
-			mc.Add(mv.Clone());
-            assert(mc.Size()==2);
-			auto mc2 = mc.Clone();
-            assert(mc2->Size()==2);
-			auto mc3 = MatrixComposite<decltype(mp3)>("Compsite", mv.Clone());
-            assert(mc3.Size()==1);
-			auto cleaningR = (*mccs)(mp3);
-			std::cout<<"Comp:"<<cleaningR<<std::endl;
-            assert(cleaningR.Value()==Quantity<Sum>(-662.74));
-//			cv = mpCleaning.Accept(std::move(cv));
-//		  	(cv->As<AccumulationVisitor>())();
-//          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
-
-//			auto mPropertyTax = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE12660623660000005703"})| (*tfc)("EqualVisitor", { "Year", "2023"}) | (*tfc)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
-//          	assert(mPropertyTax.Rows()==4);
-//          	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
-//			cv = mPropertyTax.Accept(std::move(cv));
-//		  	(cv->As<AccumulationVisitor>())();
-//			std::cout<<"Property Tax:"<<mPropertyTax<<std::endl;
-//          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-423.01));
-//		
-//			auto mWasteFees = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE44600501010008017284"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-//            std::cout<<mWasteFees<<std::endl;
-//            assert(mWasteFees.Rows()==2);
-//			std::cout<<"Waste Fees:"<<mWasteFees<<std::endl;
-//          	//assert((mWasteFees.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-322));
-//            
-//			auto mpInsurance = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
-//            //assert(mpInsurance.Rows()==1);
-//			std::cout<<"Insurance:"<<mpInsurance<<std::endl;
-//            //assert((mpInsurance2023.Cols(4).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
-//			
-//			auto mZie = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE10660501011022126625"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-//			auto mZei = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE47660501011020531958"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-//            //assert((mZei.Rows()+mZie.Rows())==13);
-//			std::cout<<"Zei:"<<mZei<<std::endl;
-////            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
-//			
-//			auto mBrustat = mp3 | (*tfc)("EqualVisitor", { "Entry", "MIETE"})| (*tfc)("EqualVisitor", { "IBAN", "DE83660623660009262008"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-//            //assert(mBrustat.Rows()==12);
-//          	//assert((mBrustat.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
-//			std::cout<<"Brus:"<<mBrustat<<std::endl;
-//			
-////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
-////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> jansenUnitsansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
-////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsRast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
-////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {properUnitsProp, jansenUnitsansen, properUnitsRast});
+//			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { properUnits, jansenUnits };
+//			auto mccs = MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"Cleaning", cleanings,fv);
+//
+//			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
+//			mv.Clone();
+//			mc.Add(mv.Clone());
+//            assert(mc.Size()==1);
+//			mc.Add(mv.Clone());
+//            assert(mc.Size()==2);
+//			auto mc2 = mc.Clone();
+//            assert(mc2->Size()==2);
+//			auto mc3 = MatrixComposite<decltype(mp3)>("Compsite", mv.Clone());
+//            assert(mc3.Size()==1);
+//			auto cleaningR = (*mccs)(mp3);
+//			std::cout<<"Comp:"<<cleaningR<<std::endl;
+//            assert(cleaningR.Value()==Quantity<Sum>(-662.74));
+////			cv = mpCleaning.Accept(std::move(cv));
+////		  	(cv->As<AccumulationVisitor>())();
+////          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-214.20));
+//
+////			auto mPropertyTax = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE12660623660000005703"})| (*tfc)("EqualVisitor", { "Year", "2023"}) | (*tfc)("EqualVisitor", { "Entry", "501000000891/Grundsteuer"}) ;
+////          	assert(mPropertyTax.Rows()==4);
+////          	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
+////			cv = mPropertyTax.Accept(std::move(cv));
+////		  	(cv->As<AccumulationVisitor>())();
+////			std::cout<<"Property Tax:"<<mPropertyTax<<std::endl;
+////          	assert((cv->As<AccumulationVisitor>())()==Quantity<Sum>(-423.01));
+////		
+////			auto mWasteFees = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE44600501010008017284"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+////            std::cout<<mWasteFees<<std::endl;
+////            assert(mWasteFees.Rows()==2);
+////			std::cout<<"Waste Fees:"<<mWasteFees<<std::endl;
+////          	//assert((mWasteFees.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-322));
 ////            
-//			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
-			auto me = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBW),(*fbv)(fv),"EnBW");
-
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGas{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
-			auto mg = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGas),(*fbv)(fv),"EnBW");
-
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGasI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}};
-			auto mgi = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGasI),(*fbv)(fv),"EnBW");
-		
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}}};
-			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBWI),(*fbv)(fv),"EnBW");
-            
-			auto mcHeating = MatrixComposite<decltype(mp3)>("Heating", me.Clone());
-			mcHeating.Add(mg.Clone());
-			mcHeating.Add(mgi.Clone());
-			mcHeating.Add(mei.Clone());
-            assert(mcHeating.Size()==4);
-			auto heatingR = mcHeating(mp3);
-			//assert(heatingR.Value()==Quantity<Sum>(-3558.17));
-			std::cout<<"Heating:"<<heatingR<<std::endl;
-
-			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
-			{
-				{
-					{
-						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
-					}
-				}, 
-				{
-					{
-						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
-					}
-				},
-				{
-					{
-						properUnits, 
-						jansenUnits
-					}
-				}
-			};
-
-			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All", mcHeating.Clone());
-
-			for(auto v : allFactoryUnits)
-					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", v,fv));
-
-			std::cout<<"All:"<<(*all)(mp3)<<std::endl;
+////			auto mpInsurance = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE97500500000003200029"}) | (*tfc)("EqualVisitor", { "Year", "2023"});
+////            //assert(mpInsurance.Rows()==1);
+////			std::cout<<"Insurance:"<<mpInsurance<<std::endl;
+////            //assert((mpInsurance2023.Cols(4).To<Quantity<Sum>>().ColSum())[0]==Quantity<Sum>(-1671.31));
+////			
+////			auto mZie = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE10660501011022126625"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+////			auto mZei = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE47660501011020531958"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+////            //assert((mZei.Rows()+mZie.Rows())==13);
+////			std::cout<<"Zei:"<<mZei<<std::endl;
+//////            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
+////			
+////			auto mBrustat = mp3 | (*tfc)("EqualVisitor", { "Entry", "MIETE"})| (*tfc)("EqualVisitor", { "IBAN", "DE83660623660009262008"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+////            //assert(mBrustat.Rows()==12);
+////          	//assert((mBrustat.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
+////			std::cout<<"Brus:"<<mBrustat<<std::endl;
+////			
+//////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
+//////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> jansenUnitsansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
+//////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsRast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
+//////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {properUnitsProp, jansenUnitsansen, properUnitsRast});
+//////            
+////			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
+//			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
+//			auto me = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBW),(*fbv)(fv),"EnBW");
+//
+//			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGas{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
+//			auto mg = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGas),(*fbv)(fv),"EnBW");
+//
+//			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGasI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}};
+//			auto mgi = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGasI),(*fbv)(fv),"EnBW");
+//		
+//			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}}};
+//			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBWI),(*fbv)(fv),"EnBW");
+//            
+//			auto mcHeating = MatrixComposite<decltype(mp3)>("Heating", me.Clone());
+//			mcHeating.Add(mg.Clone());
+//			mcHeating.Add(mgi.Clone());
+//			mcHeating.Add(mei.Clone());
+//            assert(mcHeating.Size()==4);
+//			auto heatingR = mcHeating(mp3);
+//			//assert(heatingR.Value()==Quantity<Sum>(-3558.17));
+//			std::cout<<"Heating:"<<heatingR<<std::endl;
+//
+//			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
+//			{
+//				{
+//					{
+//						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
+//					}
+//				}, 
+//				{
+//					{
+//						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
+//					}
+//				},
+//				{
+//					{
+//						properUnits, 
+//						jansenUnits
+//					}
+//				}
+//			};
+//
+//			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All", mcHeating.Clone());
+//
+//			for(auto v : allFactoryUnits)
+//					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", v,fv));
+//
+//			std::cout<<"All:"<<(*all)(mp3)<<std::endl;
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);

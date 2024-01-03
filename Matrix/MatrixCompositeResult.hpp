@@ -10,22 +10,24 @@
 template<std::size_t, typename> class Matrix;
 
 template<typename Q, typename M>
-class MatrixCompositeResult
+class ICompositeResult
 {
 public:
 	using QuantityType = Q;
 	using MatrixType = M;
-	MatrixCompositeResult(const QuantityType&& q, const std::vector<MatrixType>&& m = std::vector<MatrixType>(), const std::string& n =""): value{q}, items(m), name{n} {};
-	decltype(auto) Value() { return value; }
-	decltype(auto) Items() { return items; }
+	virtual Q Value() const = 0;
+};
+
+template<typename Q, typename M>
+class MatrixCompositionResult: public ICompositeResult<Q,M>
+{
+	using Base = ICompositeResult<Q,M>;
+public:
+	MatrixCompositionResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
+	virtual Q Value() const { return value; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)
-	{ 
-		out<<"Name: "<<s.name<<"\n";
-		std::for_each(s.items.cbegin(), s.items.cend(),[&out](const auto& m) { out<<m<<"\n"; });
-		return out<<"\n\nResult: "<<s.value;	
-	}
-	QuantityType value;
-	std::vector<MatrixType> items;
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositionResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\n\nValue: "<<s.value;	}
+	typename Base::QuantityType value;
+	M item;
 	std::string name;
 };
