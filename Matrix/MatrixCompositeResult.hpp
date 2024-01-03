@@ -16,6 +16,9 @@ public:
 	using QuantityType = Q;
 	using MatrixType = M;
 	virtual Q Value() const = 0;
+private:
+	friend 	std::ostream& operator<<(std::ostream& out, const ICompositeResult& s) {	return s.display(out);	}
+	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
 
 template<typename Q, typename M>
@@ -26,7 +29,8 @@ public:
 	MatrixCompositionResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositionResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\n\nValue: "<<s.value;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositionResult& s)	{	return out<<"\nName: "<<s.name<<"\n"<<s.item<<"\n\nValue: "<<s.value;	}
+	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
 	M item;
 	std::string name;

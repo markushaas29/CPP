@@ -96,9 +96,10 @@ class MatrixVisitorTest2023
 			auto properUnitss = (*tfc)(properUnits);
 			auto mv = MatrixComposition<decltype(mp3)>((*tfc)(properUnits),(*fbv)(fv),"Cleaning");
 			auto mcj = MatrixComposition<decltype(mp3)>((*tfc)(jansenUnits),(*fbv)(fv),"Cleaning");
-			std::cout<<"Cleanig:"<<mcj(mp3)<<std::endl;
+			//std::cout<<"Cleanig:"<<mcj(mp3)<<std::endl;
 			auto mcc = MatrixComposition<decltype(mp3)>::Create(tfc,fbv,"Cleaning",jansenUnits,fv);
-			std::cout<<"Cleanig:"<<(*mcc)(mp3)<<std::endl;
+			auto clP = (*mcc)(mp3);
+			std::cout<<"Cleanig:"<<(*((*mcc)(mp3)))<<std::endl;
 			
 //			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { properUnits, jansenUnits };
 //			auto mccs = MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"Cleaning", cleanings,fv);
