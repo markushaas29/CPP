@@ -90,17 +90,17 @@ class MatrixVisitorTest2023
             auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fu{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}};
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuj{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}};
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnits{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}};
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> jansenUnits{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}};
 			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation","100"}};
-			auto fus = (*tfc)(fu);
-			auto mv = MatrixComposition<decltype(mp3)>((*tfc)(fu),(*fbv)(fv),"Cleaning");
-			auto mcj = MatrixComposition<decltype(mp3)>((*tfc)(fuj),(*fbv)(fv),"Cleaning");
+			auto properUnitss = (*tfc)(properUnits);
+			auto mv = MatrixComposition<decltype(mp3)>((*tfc)(properUnits),(*fbv)(fv),"Cleaning");
+			auto mcj = MatrixComposition<decltype(mp3)>((*tfc)(jansenUnits),(*fbv)(fv),"Cleaning");
 			std::cout<<"Cleanig:"<<mcj(mp3)<<std::endl;
-			auto mcc = MatrixComposition<decltype(mp3)>::Create(tfc,fbv,"Cleaning",fuj,fv);
+			auto mcc = MatrixComposition<decltype(mp3)>::Create(tfc,fbv,"Cleaning",jansenUnits,fv);
 			std::cout<<"Cleanig:"<<(*mcc)(mp3)<<std::endl;
 			
-			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { fu, fuj };
+			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { properUnits, jansenUnits };
 			auto mccs = MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"Cleaning", cleanings,fv);
 
 			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
@@ -150,29 +150,29 @@ class MatrixVisitorTest2023
 //          	//assert((mBrustat.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
 //			std::cout<<"Brus:"<<mBrustat<<std::endl;
 //			
-////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
-////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fUJansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
-////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> fURast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
-////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {fUProp, fUJansen, fURast});
+////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
+////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> jansenUnitsansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
+////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsRast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
+////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {properUnitsProp, jansenUnitsansen, properUnitsRast});
 ////            
 //			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 			auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
-			auto me = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto me = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBW),(*fbv)(fv),"EnBW");
             auto enBW1 = me(mp3);
 			auto mGas = mp3 | (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuGas{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
-			auto mg = MatrixComposition<decltype(mp3)>((*tfc)(fuGas),(*fbv)(fv),"EnBW");
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGas{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto mg = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGas),(*fbv)(fv),"EnBW");
             auto gas1 = mg(mp3);
 			auto mGasI = mp3 | (*tfc)("EqualVisitor", { "Entry", "Rechnung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE68600501010002057075"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuGasI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGasI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
 			std::cout<<"GAS:"<<mGasI<<std::endl;
-			auto mgi = MatrixComposition<decltype(mp3)>((*tfc)(fuGasI),(*fbv)(fv),"EnBW");
+			auto mgi = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsGasI),(*fbv)(fv),"EnBW");
             auto gas2 = mgi(mp3);
             //assert(mGasI.Rows()==1);
 			auto mEnBWI = mp3 | (*tfc)("EqualVisitor", { "Entry", "Rechnung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fuEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
-			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(fuEnBW),(*fbv)(fv),"EnBW");
+			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
+			auto mei = MatrixComposition<decltype(mp3)>((*tfc)(properUnitsEnBW),(*fbv)(fv),"EnBW");
             auto enBW2 = mei(mp3);
             auto heating = enBW1.Value() + enBW2.Value() + gas1.Value() +gas2.Value();
 			std::cout<<"heating:"<<heating<<std::endl;
@@ -185,9 +185,33 @@ class MatrixVisitorTest2023
 			assert(heatingR.Value()==Quantity<Sum>(-3558.17));
 			std::cout<<"heating:"<<heating<<heatingR<<std::endl;
 
+			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
+			{
+				{
+					{
+						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
+					}
+				}, 
+				{
+					{
+						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
+					}
+				},
+				{
+					{
+						properUnits, 
+						jansenUnits
+					}
+				}
+			};
 
 			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All", mccs->Clone());
 			all->Add(mcHeating.Clone());
+
+			for(auto v : allFactoryUnits)
+				//for(auto fuItem : v)
+					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", v,fv));
+
 			std::cout<<"All:"<<(*all)(mp3)<<std::endl;
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
