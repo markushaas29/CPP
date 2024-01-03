@@ -77,6 +77,7 @@ public:
 			auto cv =mr.Accept(visitors->at(0)->Copy());
 			return std::make_unique<MatrixCompositionResult<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor>())(), std::move(mr));
 		}
+		return std::make_unique<MatrixCompositionResult<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType());
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 
