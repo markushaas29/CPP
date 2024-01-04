@@ -59,7 +59,9 @@ class MatrixReadingVisitorTest
 			
             Matcher imatcher(std::move(vi));
 	//		auto mp3 = m22_23.Match(imatcher).Parse(matcher);
+			auto mp = me.Parse(matcher);
             std::cout<<me<<std::endl;
+            std::cout<<mp<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Work>, Date, Name, Year, Index, Entry, Empty>(&(*fmt));
