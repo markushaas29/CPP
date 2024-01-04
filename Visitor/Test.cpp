@@ -6,6 +6,7 @@
 #include "Visitor.hpp"
 #include "ElementVisitor.hpp"
 #include "PredicateVisitor.hpp"
+#include "CollectorVisitor.hpp"
 #include "../CSV/Elements.hpp"
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/Date.hpp"

@@ -1,11 +1,12 @@
- #include "Visitor.hpp"
- #include "../CSV/Element.hpp"
- #include "../CSV/Elements.hpp"
- #include "../Common/Date.hpp"
- #include "../Common/UniqueCast.hpp"
- #include "../Unit/Unit.hpp"
- #include "../Quantity/Quantity.hpp"
- #include "../Quantity/QuantityRatio.hpp"
+#include "Visitor.hpp"
+#include <numeric>
+#include "../CSV/Element.hpp"
+#include "../CSV/Elements.hpp"
+#include "../Common/Date.hpp"
+#include "../Common/UniqueCast.hpp"
+#include "../Unit/Unit.hpp"
+#include "../Quantity/Quantity.hpp"
+#include "../Quantity/QuantityRatio.hpp"
 
 #pragma once 
 class Date;
@@ -40,5 +41,19 @@ class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor, Quantity
 	using Base = CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>;
 public:
 	virtual typename Base::Type operator()() { return std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0}); };
+	inline static constexpr const char* Identifier = "Accumulation";
+};
+
+template<typename T>
+class DifferenceVisitor: public CollectorVisitor<AccumulationVisitor, T>
+{
+	using Base = CollectorVisitor<AccumulationVisitor, T>;
+public:
+	virtual typename Base::Type operator()() 
+	{ 
+		std::vector<T> res;
+		std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin()); 
+		return *(res.end()-1);
+	};
 	inline static constexpr const char* Identifier = "Accumulation";
 };
