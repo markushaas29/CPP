@@ -120,7 +120,12 @@ public:
 	{
 		Q value{0};
 		auto result = std::make_unique<std::vector<typename Base::ResultType>>();
-		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	{	result->push_back( (*c)(m));	}); 
+		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	
+				{
+					auto mc = (*c)(m);
+					value = value + mc->Value();
+					result->push_back(std::move(mc));	
+				}); 
 		return std::make_unique<MatrixCompositeResult<Q, typename Base::ResultMatrixType>>(std::move(value), std::move(result));
 	}
 	virtual DataType Clone() const 
