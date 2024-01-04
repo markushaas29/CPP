@@ -29,7 +29,7 @@ public:
 	MatrixCompositionResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositionResult& s)	{	return out<<"\nName: "<<s.name<<"\n"<<s.item<<"\n\nValue: "<<s.value;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositionResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
 	M item;
@@ -46,10 +46,9 @@ public:
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)	
 	{	
+		out<<"Name: "<<s.name<<"\n";	
 		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
-		//for(auto& i : s.items)
-		//	out<<"A"<<"\n";
-		return out<<"\nName: "<<s.name<<"\n\nValue: "<<s.value;	
+		return out<<"Value: "<<s.value;	
 	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
