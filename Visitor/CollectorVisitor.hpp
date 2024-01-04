@@ -45,15 +45,18 @@ public:
 };
 
 template<typename T>
-class DifferenceVisitor: public CollectorVisitor<AccumulationVisitor, T>
+class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>, T>
 {
-	using Base = CollectorVisitor<AccumulationVisitor, T>;
+	using Base = CollectorVisitor<DifferenceVisitor<T>, T>;
 public:
 	virtual typename Base::Type operator()() 
 	{ 
 		std::vector<T> res;
-		std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin()); 
-		return *(res.end()-1);
+		std::cout<<"SIZE\n"<<res.size()<<std::endl;
+		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin()); 
+		//std:for_each(Base::elements.begin()+1, Base::elements.end(), res.begin()); 
+		//std::cout<<"SIZE\n"<<res.size()<<std::endl;
+		return T();
 	};
-	inline static constexpr const char* Identifier = "Accumulation";
+	inline static constexpr const char* Identifier = "Difference";
 };

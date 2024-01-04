@@ -154,6 +154,14 @@ int Run()
 	assert(dp->Is(*eqvd));
 	assert(sp->Is(*lvq));
 
+    //auto mep = m2e.Parse(matcher);
+	std::unique_ptr<BaseVisitor> dv = std::make_unique<DifferenceVisitor<Quantity<Sum>>>();
+	dv = m2e.Accept(std::move(dv));
+	auto vc = (dv->template As<DifferenceVisitor<Quantity<Sum>>>());
+	std::cout<<"Visitor"<<vc()<<std::endl;
+
+	//std::cout<<"END Visitor _>"<<((dv->template As<DifferenceVisitor<Quantity<Sum>>>())())<<std::endl;
+
 	std::cout<<"END Visitor"<<std::endl;
    
 	return 0;
