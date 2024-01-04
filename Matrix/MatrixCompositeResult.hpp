@@ -10,26 +10,26 @@
 template<std::size_t, typename> class Matrix;
 
 template<typename Q, typename M>
-class ICompositeResult
+class IMatrixQueryResult
 {
 public:
 	using QuantityType = Q;
 	using MatrixType = M;
 	virtual Q Value() const = 0;
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const ICompositeResult& s) {	return s.display(out);	}
+	friend 	std::ostream& operator<<(std::ostream& out, const IMatrixQueryResult& s) {	return s.display(out);	}
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
 
 template<typename Q, typename M>
-class MatrixCompositionResult: public ICompositeResult<Q,M>
+class MatrixQueryResult: public IMatrixQueryResult<Q,M>
 {
-	using Base = ICompositeResult<Q,M>;
+	using Base = IMatrixQueryResult<Q,M>;
 public:
-	MatrixCompositionResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
+	MatrixQueryResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositionResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixQueryResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
 	M item;
@@ -37,14 +37,14 @@ private:
 };
 
 template<typename Q, typename M>
-class MatrixCompositeResult: public ICompositeResult<Q,M>
+class MatrixCompositeQueryResult: public IMatrixQueryResult<Q,M>
 {
-	using Base = ICompositeResult<Q,M>;
+	using Base = IMatrixQueryResult<Q,M>;
 public:
-	MatrixCompositeResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
+	MatrixCompositeQueryResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)	
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeQueryResult& s)	
 	{	
 		out<<"Name: "<<s.name<<"\n";	
 		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
