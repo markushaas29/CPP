@@ -119,15 +119,12 @@ public:
 	virtual typename Base::ResultType operator()(Base::MatrixType& m) const
 	{
 		Q value{0};
-		std::vector<typename Base::ResultMatrixType> result;
+		std::vector<typename Base::ResultType> result;
 		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	
 				{ 
-					auto temp = (*c)(m);
-					auto i = temp.Items();
-					std::for_each(i.begin(), i.end(), [&result](const auto& m) { result.push_back(m); });
-					value = value + temp.Value(); 
+					result.push_back( (*c)(m));
 				}); 
-		return typename Base::ResultType{std::move(value), std::move(result)};
+		return std::make_unique<MatrixCompositeResult<Q, typename Base::ResultMatrixType>>(std::move(value), std::move(result));
 	}
 	virtual DataType Clone() const 
 	{ 
