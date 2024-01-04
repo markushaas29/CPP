@@ -41,12 +41,18 @@ class MatrixCompositeResult: public ICompositeResult<Q,M>
 {
 	using Base = ICompositeResult<Q,M>;
 public:
-	MatrixCompositeResult(const Q&& q, const std::vector<std::unique_ptr<Base>>&& v, const std::string& n =""): value{q}, name{n} {};
+	MatrixCompositeResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)	{	return out<<"\nName: "<<s.name<<"\n"<<s.item<<"\n\nValue: "<<s.value;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)	
+	{	
+		//std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
+		//for(auto& i : s.items)
+		//	out<<"A"<<"\n";
+		//return out<<"\nName: "<<s.name<<"\n\nValue: "<<s.value;	
+	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
-	M item;
+	std::unique_ptr<std::vector<std::unique_ptr<Base>>> items;
 	std::string name;
 };
