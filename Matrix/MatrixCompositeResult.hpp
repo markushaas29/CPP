@@ -46,10 +46,10 @@ public:
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeResult& s)	
 	{	
-		//std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
+		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
 		//for(auto& i : s.items)
 		//	out<<"A"<<"\n";
-		//return out<<"\nName: "<<s.name<<"\n\nValue: "<<s.value;	
+		return out<<"\nName: "<<s.name<<"\n\nValue: "<<s.value;	
 	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;

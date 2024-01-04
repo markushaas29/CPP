@@ -174,9 +174,9 @@ class MatrixVisitorTest2023
 			mcHeating.Add(mgi.Clone());
 			mcHeating.Add(mei.Clone());
             assert(mcHeating.Size()==4);
-//			auto heatingR = mcHeating(mp3);
+			auto heatingR = mcHeating(mp3);
 //			//assert(heatingR.Value()==Quantity<Sum>(-3558.17));
-//			std::cout<<"Heating:"<<heatingR<<std::endl;
+			std::cout<<"Heating:"<<*heatingR<<std::endl;
 //
 //			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 //			{
