@@ -120,6 +120,10 @@ public:
 		t = "12,303€";
   		assert(!st.Match(t));
 		
+		auto wk = WorkToken();
+		t = "12.30W";
+  		assert(wk.Match(t));
+		
 		auto kt = KeyValueToken();
 		t = "12:ABC";
   		assert(!kt.Match(t));
