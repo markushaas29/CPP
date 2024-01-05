@@ -70,14 +70,14 @@ class MatrixReadingVisitorTest
             //auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor>(&(*fbv));
-            auto cv = (*fbv)("Accumulation","100");
+            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Work>>>(&(*fbv));
+            auto cv = (*fbv)("Difference","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
  
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+            auto tf = TypeFactory<Factory<IElement>, Quantity<Work>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 		
 			std::cout<<"END Reading 2023"<<std::endl;
