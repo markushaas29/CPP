@@ -46,7 +46,7 @@ class MatrixReadingVisitorTest
             v->push_back(std::make_unique<WordToken>());
             v->push_back(std::make_unique<SumToken>());
             v->push_back(std::make_unique<ValueToken>());
-            v->push_back(std::make_unique<QuantityToken>());
+            v->push_back(std::make_unique<WorkToken>());
             v->push_back(std::make_unique<EmptyToken>());
 
             Matcher matcher(std::move(v));
@@ -60,7 +60,6 @@ class MatrixReadingVisitorTest
             Matcher imatcher(std::move(vi));
 	//		auto mp3 = m22_23.Match(imatcher).Parse(matcher);
 			auto mp = me.Parse(matcher);
-            std::cout<<me<<std::endl;
             std::cout<<mp<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
@@ -79,7 +78,10 @@ class MatrixReadingVisitorTest
  
             auto tf = TypeFactory<Factory<IElement>, Quantity<Work>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
-		
+
+			cv = mp.Accept(std::move(cv));
+            std::cout<<(cv->template As<DifferenceVisitor<Quantity<Work>>>())()<<std::endl;
+
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
 			return 0;
