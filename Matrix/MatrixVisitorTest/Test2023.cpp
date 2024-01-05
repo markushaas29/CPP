@@ -195,6 +195,11 @@ class MatrixVisitorTest2023
 						properUnits, 
 						jansenUnits
 					}
+				},
+				{
+					{
+						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}},  {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
+					}
 				}
 			};
 
