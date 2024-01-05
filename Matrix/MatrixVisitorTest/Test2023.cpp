@@ -205,6 +205,11 @@ class MatrixVisitorTest2023
 					{
 						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
 					}
+				},
+				{
+					{
+						{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", "2023"}}
+					}
 				}
 			};
 
