@@ -61,11 +61,11 @@ public:
 };
 
 template<>
-class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days>>
+class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days, uint>>
 {
-	using Base = CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days>>;
+	using Base = CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days,uint>>;
 public:
-	virtual Quantity<Time,Days> operator()() 
+	virtual Quantity<Time,Days,uint> operator()() 
 	{ 
 		std::vector<Quantity<Time,Days,uint>> res;
 		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
