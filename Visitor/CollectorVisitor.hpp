@@ -59,3 +59,20 @@ public:
 	};
 	inline static constexpr const char* Identifier = "Difference";
 };
+
+template<typename T>
+class ConsumptionVisitor: public virtual DifferenceVisitor<T>, public virtual DifferenceVisitor<Date>
+{
+	using BaseT = DifferenceVisitor<T>; 
+	using BaseD = DifferenceVisitor<Date>;
+public:
+	virtual typename Base::Type operator()() 
+	{ 
+		std::vector<T> res;
+		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
+		for(size_t i = 0; i < Base::elements.size()-1; ++i)
+			res.push_back(Base::elements[i] - Base::elements[i+1]);
+		return res[0];
+	};
+	inline static constexpr const char* Identifier = "Consumption";
+};
