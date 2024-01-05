@@ -69,8 +69,9 @@ class MatrixReadingVisitorTest
             //auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Work>>>(&(*fbv));
+            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Work>>,DifferenceVisitor<Date>>(&(*fbv));
             auto cv = (*fbv)("Difference","100");
+            //auto dtv = (*fbv)("Date","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
@@ -79,8 +80,15 @@ class MatrixReadingVisitorTest
             auto tf = TypeFactory<Factory<IElement>, Quantity<Work>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
+			std::unique_ptr<BaseVisitor> dtv = std::make_unique<DifferenceVisitor<Date>>();
 			cv = mp.Accept(std::move(cv));
-            std::cout<<(cv->template As<DifferenceVisitor<Quantity<Work>>>())()<<std::endl;
+			dtv = mp.Accept(std::move(dtv));
+			auto dv = cv->template As<DifferenceVisitor<Quantity<Work>>>();
+			auto dttv = dtv->template As<DifferenceVisitor<Date>>();
+            std::cout<<dv()<<std::endl;
+			//assert(dv()==Quantity<Work>(0.1));
+            std::cout<<dv<<std::endl;
+            std::cout<<dttv()<<std::endl;
 
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
