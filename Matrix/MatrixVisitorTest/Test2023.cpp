@@ -200,6 +200,11 @@ class MatrixVisitorTest2023
 					{
 						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}},  {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
 					}
+				},
+				{
+					{
+						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
+					}
 				}
 			};
 
