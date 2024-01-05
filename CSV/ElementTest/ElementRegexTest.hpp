@@ -139,6 +139,8 @@ public:
   		assert(!wk.Match(t));
 		t = "0.312321WW";
   		assert(!wk.Match(t));
+		t = "0.312321€";
+  		assert(!wk.Match(t));
 		
 		auto kt = KeyValueToken();
 		t = "12:ABC";
