@@ -5,9 +5,12 @@
 #include "../CSV/Element.hpp"
 #include "../Unit/Unit.hpp"
 
-int main()
+class QRTest
+{
+	public:
+int Run()
 {       
-    std::cout<<"START"<<std::endl;
+    std::cout<<"QR START"<<std::endl;
 
 	using K = Kilo;
     std::cout<<"L: "<<K::Num<<" / "<<K::Denom<<std::endl;
@@ -122,7 +125,8 @@ int main()
 
     std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
     
-    std::cout<<"END"<<std::endl;
+    std::cout<<"QR END"<<std::endl;
 
     return 0;
 }
+};
