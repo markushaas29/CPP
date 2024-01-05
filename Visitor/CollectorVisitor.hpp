@@ -77,11 +77,11 @@ public:
 };
 
 template<typename T>
-class ConsumptionVisitor: public virtual DifferenceVisitor<T>, public virtual DifferenceVisitor<Date>
+class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,T>, public Visitor<Date>
 {
-	using BaseT = DifferenceVisitor<T>; 
-	using BaseD = DifferenceVisitor<Date>;
+	using Base = CollectorVisitor<ConsumptionVisitor<T>,T>;
 public:
+	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
 	virtual typename Base::Type operator()() 
 	{ 
 		std::vector<T> res;
@@ -91,4 +91,6 @@ public:
 		return res[0];
 	};
 	inline static constexpr const char* Identifier = "Consumption";
+private:
+	std::vector<Date> elements;
 };
