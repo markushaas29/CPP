@@ -89,6 +89,7 @@ class MatrixReadingVisitorTest
 			//assert(dv()==Quantity<Work>(0.1));
             std::cout<<dv<<std::endl;
             std::cout<<dttv()<<std::endl;
+            std::cout<<Quantity<Volume>(1.5)<<std::endl;
 
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
