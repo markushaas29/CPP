@@ -52,11 +52,12 @@ public:
 	virtual typename Base::Type operator()() 
 	{ 
 		std::vector<T> res;
+		std::cout<<"SIZE\n"<<Base::elements[0]<<std::endl;
+		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
+		for(size_t i = 0; i < Base::elements.size()-1; ++i)
+			res.push_back(Base::elements[i] - Base::elements[i+1]);
 		std::cout<<"SIZE\n"<<res.size()<<std::endl;
-		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin()); 
-		//std:for_each(Base::elements.begin()+1, Base::elements.end(), res.begin()); 
-		//std::cout<<"SIZE\n"<<res.size()<<std::endl;
-		return T();
+		return res[0];
 	};
 	inline static constexpr const char* Identifier = "Difference";
 };
