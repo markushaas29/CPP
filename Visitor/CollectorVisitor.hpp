@@ -24,7 +24,7 @@ class CollectorVisitor: public BaseVisitor, public Visitor<T>
 public:
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
-	virtual R operator()() = 0;
+	virtual R operator()(size_t i = 0) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return elements.size(); }
 private:
@@ -40,7 +40,7 @@ class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor, Quantity
 {
 	using Base = CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>;
 public:
-	virtual typename Base::Type operator()() { return std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0}); };
+	virtual typename Base::Type operator()(size_t i = 0) { return std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0}); };
 	inline static constexpr const char* Identifier = "Accumulation";
 };
 
@@ -49,7 +49,7 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>, T>
 {
 	using Base = CollectorVisitor<DifferenceVisitor<T>, T>;
 public:
-	virtual typename Base::Type operator()() 
+	virtual typename Base::Type operator()(size_t i = 0) 
 	{ 
 		std::vector<T> res;
 		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
@@ -65,7 +65,7 @@ class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>, 
 {
 	using Base = CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days,uint>>;
 public:
-	virtual Quantity<Time,Days,uint> operator()() 
+	virtual Quantity<Time,Days,uint> operator()(size_t i = 0) 
 	{ 
 		std::vector<Quantity<Time,Days,uint>> res;
 		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
@@ -82,7 +82,7 @@ class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,T>, publ
 	using Base = CollectorVisitor<ConsumptionVisitor<T>,T>;
 public:
 	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
-	virtual typename Base::Type operator()() 
+	virtual typename Base::Type operator()(size_t i = 0) 
 	{ 
 		std::vector<T> res;
 		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
