@@ -170,7 +170,7 @@ class MatrixInitializerTest
 
 			auto mRC = mR.Cols(0,1);
 			auto mD = mRC.Col(0).To<Date>().Calc<Diff>();  
-			auto mW = mRC.Col(1).To<Quantity<Work>>().Calc<Diff>();  
+			auto mW = mRC.Col(1).To<Quantity<Energy>>().Calc<Diff>();  
             
             auto mWD = mW / mD;
 			std::cout<<"Reading Matrix \n"<<mWD<<std::endl;

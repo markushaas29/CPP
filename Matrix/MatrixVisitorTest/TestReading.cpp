@@ -46,7 +46,7 @@ class MatrixReadingVisitorTest
             v->push_back(std::make_unique<WordToken>());
             v->push_back(std::make_unique<SumToken>());
             v->push_back(std::make_unique<ValueToken>());
-            v->push_back(std::make_unique<WorkToken>());
+            v->push_back(std::make_unique<EnergyToken>());
             v->push_back(std::make_unique<EmptyToken>());
 
             Matcher matcher(std::move(v));
@@ -63,13 +63,13 @@ class MatrixReadingVisitorTest
             std::cout<<mp<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Work>, Date, Name, Year, Index, Entry, Empty>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Energy>, Date, Name, Year, Index, Entry, Empty>(&(*fmt));
             
             Factory<IToken> fmt2;
             //auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Work>>,DifferenceVisitor<Date>>(&(*fbv));
+            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy>>,DifferenceVisitor<Date>>(&(*fbv));
             auto cv = (*fbv)("Difference","100");
             //auto dtv = (*fbv)("Date","100");
  
@@ -77,16 +77,16 @@ class MatrixReadingVisitorTest
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
  
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Work>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+            auto tf = TypeFactory<Factory<IElement>, Quantity<Energy>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
 			std::unique_ptr<BaseVisitor> dtv = std::make_unique<DifferenceVisitor<Date>>();
 			cv = mp.Accept(std::move(cv));
 			dtv = mp.Accept(std::move(dtv));
-			auto dv = cv->template As<DifferenceVisitor<Quantity<Work>>>();
+			auto dv = cv->template As<DifferenceVisitor<Quantity<Energy>>>();
 			auto dttv = dtv->template As<DifferenceVisitor<Date>>();
             std::cout<<dv()<<std::endl;
-			//assert(dv()==Quantity<Work>(0.1));
+			//assert(dv()==Quantity<Energy>(0.1));
             std::cout<<dv<<std::endl;
             std::cout<<dttv()<<std::endl;
             std::cout<<Quantity<Volume>(1.5)<<std::endl;

@@ -120,7 +120,7 @@ public:
 		t = "12,303€";
   		assert(!st.Match(t));
 		
-		auto wk = WorkToken();
+		auto wk = EnergyToken();
 		t = "12.30W";
   		assert(wk.Match(t));
 		t = "12.3W";
