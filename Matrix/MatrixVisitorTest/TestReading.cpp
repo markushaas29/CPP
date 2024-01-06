@@ -47,6 +47,7 @@ class MatrixReadingVisitorTest
             v->push_back(std::make_unique<SumToken>());
             v->push_back(std::make_unique<ValueToken>());
             v->push_back(std::make_unique<EnergyToken>());
+            v->push_back(std::make_unique<VolumeToken>());
             v->push_back(std::make_unique<EmptyToken>());
 
             Matcher matcher(std::move(v));
@@ -103,6 +104,8 @@ class MatrixReadingVisitorTest
 			{
 				auto mvr = MatrixReader(f);
 				auto mv = mvr.M<2>();
+				auto mctr = mv.Parse(matcher);
+            	std::cout<<mctr<<std::endl;
 			}
 
 			std::cout<<"END Reading 2023"<<std::endl;
