@@ -103,7 +103,7 @@ class M3Test
 			MPSC mps(mR);
 			std::cout<<"Stages:\n"<<mps<<std::endl;
   			
-			using QE = Quantity<Work>;
+			using QE = Quantity<Energy>;
   			using TRF = std::tuple<Date,QE,Entry>;
 
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };

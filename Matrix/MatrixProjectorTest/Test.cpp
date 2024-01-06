@@ -144,7 +144,7 @@ class MatrixProjectorTest
   			auto mrR = MatrixReader(rpath);
   			auto mR = mrR.M<2>();
   			
-  			using QE = Quantity<Work>;
+  			using QE = Quantity<Energy>;
   			using TRF = std::tuple<Date,QE,Entry>;
 
 			auto s0=  m33.Col(0);

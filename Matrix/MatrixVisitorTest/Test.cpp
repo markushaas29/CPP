@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "Test2023.cpp"
+#include "TestReading.cpp"
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
@@ -155,6 +156,9 @@ class MatrixVisitorTest
 
 			MatrixVisitorTest2023 sut2023;
 			sut2023.Run();
+			
+			MatrixReadingVisitorTest sutRea;
+			sutRea.Run();
 		   
 			return 0;
 		}

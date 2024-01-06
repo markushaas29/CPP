@@ -6,6 +6,7 @@
 #include "Visitor.hpp"
 #include "ElementVisitor.hpp"
 #include "PredicateVisitor.hpp"
+#include "CollectorVisitor.hpp"
 #include "../CSV/Elements.hpp"
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/Date.hpp"
@@ -152,6 +153,22 @@ int Run()
 	assert(ip->Is(*eqv));
 	assert(dp->Is(*eqvd));
 	assert(sp->Is(*lvq));
+
+    //auto mep = m2e.Parse(matcher);
+	std::unique_ptr<BaseVisitor> dv = std::make_unique<DifferenceVisitor<Quantity<Sum>>>();
+	dv = m2e.Accept(std::move(dv));
+	auto vc = (dv->template As<DifferenceVisitor<Quantity<Sum>>>());
+	assert(vc()==Quantity<Sum>(-1.00));
+	std::cout<<"Visitor"<<vc()<<std::endl;
+	
+	std::unique_ptr<BaseVisitor> cv = std::make_unique<ConsumptionVisitor<Quantity<Sum>>>();
+    M2E m2ce {
+        {std::make_shared<Date>(2,5,2020), std::make_shared<Quantity<Sum>>(3.5)},
+        {std::make_shared<Date>(4,5,2020), std::make_shared<Quantity<Sum>>(3.5)},
+    };
+	cv = m2ce.Accept(std::move(cv));
+
+	//std::cout<<"END Visitor _>"<<((dv->template As<DifferenceVisitor<Quantity<Sum>>>())())<<std::endl;
 
 	std::cout<<"END Visitor"<<std::endl;
    

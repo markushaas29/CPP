@@ -120,6 +120,28 @@ public:
 		t = "12,303€";
   		assert(!st.Match(t));
 		
+		auto wk = EnergyToken();
+		t = "12.30W";
+  		assert(wk.Match(t));
+		t = "12.3W";
+  		assert(wk.Match(t));
+		t = "12,3W";
+  		assert(wk.Match(t));
+		t = "12312,3W";
+  		assert(wk.Match(t));
+		t = "0.3W";
+  		assert(wk.Match(t));
+		t = "0.312321W";
+  		assert(wk.Match(t));
+		t = "0.312321 W";
+  		assert(!wk.Match(t));
+		t = "0.312321Wo";
+  		assert(!wk.Match(t));
+		t = "0.312321WW";
+  		assert(!wk.Match(t));
+		t = "0.312321€";
+  		assert(!wk.Match(t));
+		
 		auto kt = KeyValueToken();
 		t = "12:ABC";
   		assert(!kt.Match(t));

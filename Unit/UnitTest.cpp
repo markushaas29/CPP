@@ -26,9 +26,9 @@ int main()
 	std::cout<<decltype(u2)::Sign()<<std::endl;
 	std::cout<<decltype(u2)::SiUnit()<<std::endl;
 	
-	std::cout<<"Work"<<std::endl;
-	std::cout<<Work::Sign()<<std::endl;
-	std::cout<<Work::SiUnit()<<std::endl;
+	std::cout<<"Energy"<<std::endl;
+	std::cout<<Energy::Sign()<<std::endl;
+	std::cout<<Energy::SiUnit()<<std::endl;
 	
 	std::cout<<"Volume"<<std::endl;
 	std::cout<<Volume::Sign()<<std::endl;
