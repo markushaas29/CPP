@@ -99,6 +99,13 @@ struct KiloBase: public QuantityRatioBase<1000, 1, Ex, KiloBase>
 };
 
 template<int Ex>
+struct KiloHourBase: public QuantityRatioBase<3600, 1, Ex, KiloBase> 
+{	
+	inline static constexpr const char* Sign = "k"; 
+	inline static constexpr const char* Name = "KiloHour"; 
+};
+
+template<int Ex>
 struct MegaBase: public QuantityRatioBase<1000000, 1, Ex, MegaBase> 
 {	
 	inline static constexpr const char* Sign = "M"; 
@@ -124,6 +131,7 @@ using Hours = HoursBase<1>;
 using Days = DaysBase<1>;
 using Milli = MilliBase<1>;
 using Kilo = KiloBase<1>;
+using KiloHour = KiloHourBase<1>;
 using Mega = MegaBase<1>;
 using Pure = PureBase<1>;
 using Deka = DekaBase<1>;

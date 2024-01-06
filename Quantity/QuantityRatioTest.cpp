@@ -101,6 +101,7 @@ int Run()
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
 	auto d1 = Quantity<Time,Days>(1);
+	auto kwh = Quantity<Energy,KiloHour>(1);
 	
     assert(d1.PureValue()==86400);
     assert(h1.PureValue()==3600);
@@ -124,6 +125,7 @@ int Run()
     assert(kmPerHCastH.Value()==1);
 
     std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
+    std::cout<<kwh<<" kwh "<<kwh.PureValue()<<std::endl;
     
     std::cout<<"QR END"<<std::endl;
 
