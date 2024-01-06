@@ -36,6 +36,9 @@ class MatrixReadingVisitorTest
 			auto ur = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energ.csv" };
 			auto mr = MatrixReader(ur);
 			auto me = mr.M<2>();
+			auto vr = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Vol.csv" };
+			auto mvr = MatrixReader(vr);
+			auto mv = mvr.M<2>();
 			auto t = false;
 			//std::vector<MS2> m22_23v{m22S, m23S};
 			//M3 m22_23(m22_23v);
