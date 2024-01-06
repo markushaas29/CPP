@@ -36,9 +36,6 @@ class MatrixReadingVisitorTest
 			auto ur = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energ.csv" };
 			auto mr = MatrixReader(ur);
 			auto me = mr.M<2>();
-			auto vr = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Vol.csv" };
-			auto mvr = MatrixReader(vr);
-			auto mv = mvr.M<2>();
 			auto t = false;
 			//std::vector<MS2> m22_23v{m22S, m23S};
 			//M3 m22_23(m22_23v);
@@ -95,11 +92,18 @@ class MatrixReadingVisitorTest
 			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy, KiloHour>>>();
 			auto s = cons();	
 			auto val = Quantity<Unit<0, 1, 2, -3>>(1.7);
-            std::cout<<s.PureValue()<<"Consumption "<<val.PureValue()<<std::endl;
-			//assert(s.PureValue()==val.PureValue());
+            std::cout<<s.Value()<<"Consumption "<<val.Value()<<((double)s.Value()==(double)val.Value())<<std::endl;
+			//assert((double)s.PureValue()==(double)val.PureValue());
             std::cout<<"Consumption "<<cons()<<std::endl;
             std::cout<<dttv()<<std::endl;
             std::cout<<Quantity<Volume>(1.5)<<std::endl;
+			
+			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }};
+			for(auto f : CtrFs)
+			{
+				auto mvr = MatrixReader(f);
+				auto mv = mvr.M<2>();
+			}
 
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
