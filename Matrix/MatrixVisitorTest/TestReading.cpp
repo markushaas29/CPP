@@ -89,8 +89,14 @@ class MatrixReadingVisitorTest
 			auto dv = cv->template As<DifferenceVisitor<Quantity<Energy>>>();
 			auto dttv = dtv->template As<DifferenceVisitor<Date>>();
             std::cout<<dv()<<std::endl;
-			//assert(dv()==Quantity<Energy>(0.1));
-            std::cout<<dv<<std::endl;
+			
+			std::unique_ptr<BaseVisitor> conv = std::make_unique<ConsumptionVisitor<Quantity<Energy>>>();
+			conv = mp.Accept(std::move(conv));
+			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy>>>();
+			auto s = cons();	
+			auto val = Quantity<Unit<0, 1, 2, -3>>(1.7);
+			//assert(s==val);
+            std::cout<<"Consumption "<<cons()<<std::endl;
             std::cout<<dttv()<<std::endl;
             std::cout<<Quantity<Volume>(1.5)<<std::endl;
 
