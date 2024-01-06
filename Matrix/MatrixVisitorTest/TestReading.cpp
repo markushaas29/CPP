@@ -95,7 +95,9 @@ class MatrixReadingVisitorTest
 			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy>>>();
 			auto s = cons();	
 			auto val = Quantity<Unit<0, 1, 2, -3>>(1.7);
-			//assert(s==val);
+            std::cout<<s.PureValue()<<"Consumption "<<val.PureValue()<<std::endl;
+			assert(1.7==1.7);
+			//assert(s.PureValue()==val.PureValue());
             std::cout<<"Consumption "<<cons()<<std::endl;
             std::cout<<dttv()<<std::endl;
             std::cout<<Quantity<Volume>(1.5)<<std::endl;
