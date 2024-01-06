@@ -121,25 +121,29 @@ public:
   		assert(!st.Match(t));
 		
 		auto wk = EnergyToken();
-		t = "12.30W";
+		t = "12.30kWs";
   		assert(wk.Match(t));
-		t = "12.3W";
+		t = "12.3kWs";
   		assert(wk.Match(t));
-		t = "12,3W";
+		t = "12,3kWs";
   		assert(wk.Match(t));
-		t = "12312,3W";
+		t = "12312,3kWs";
   		assert(wk.Match(t));
-		t = "0.3W";
+		t = "0.3kWs";
   		assert(wk.Match(t));
-		t = "0.312321W";
+		t = "0.312321kWs";
   		assert(wk.Match(t));
-		t = "0.312321 W";
+		t = "0.312321 kWs";
   		assert(!wk.Match(t));
 		t = "0.312321Wo";
   		assert(!wk.Match(t));
 		t = "0.312321WW";
   		assert(!wk.Match(t));
 		t = "0.312321€";
+  		assert(!wk.Match(t));
+		t = "0.312321Ws";
+  		assert(!wk.Match(t));
+		t = "0.312321kW";
   		assert(!wk.Match(t));
 		
 		auto vt = VolumeToken();

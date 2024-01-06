@@ -126,6 +126,7 @@ int Run()
 
     std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
     std::cout<<kwh<<" kwh "<<kwh.PureValue()<<std::endl;
+	assert(kwh.PureValue()==3600);
     
     std::cout<<"QR END"<<std::endl;
 

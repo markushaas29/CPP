@@ -66,13 +66,13 @@ class MatrixReadingVisitorTest
             std::cout<<mp<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Energy>, Date, Name, Year, Index, Entry, Empty>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Energy, KiloHour>, Date, Name, Year, Index, Entry, Empty>(&(*fmt));
             
             Factory<IToken> fmt2;
             //auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy>>,DifferenceVisitor<Date>>(&(*fbv));
+            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>>(&(*fbv));
             auto cv = (*fbv)("Difference","100");
             //auto dtv = (*fbv)("Date","100");
  
@@ -80,23 +80,22 @@ class MatrixReadingVisitorTest
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
  
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Energy>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+            auto tf = TypeFactory<Factory<IElement>, Quantity<Energy, KiloHour>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
 			std::unique_ptr<BaseVisitor> dtv = std::make_unique<DifferenceVisitor<Date>>();
 			cv = mp.Accept(std::move(cv));
 			dtv = mp.Accept(std::move(dtv));
-			auto dv = cv->template As<DifferenceVisitor<Quantity<Energy>>>();
+			auto dv = cv->template As<DifferenceVisitor<Quantity<Energy, KiloHour>>>();
 			auto dttv = dtv->template As<DifferenceVisitor<Date>>();
             std::cout<<dv()<<std::endl;
 			
-			std::unique_ptr<BaseVisitor> conv = std::make_unique<ConsumptionVisitor<Quantity<Energy>>>();
+			std::unique_ptr<BaseVisitor> conv = std::make_unique<ConsumptionVisitor<Quantity<Energy, KiloHour>>>();
 			conv = mp.Accept(std::move(conv));
-			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy>>>();
+			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy, KiloHour>>>();
 			auto s = cons();	
 			auto val = Quantity<Unit<0, 1, 2, -3>>(1.7);
             std::cout<<s.PureValue()<<"Consumption "<<val.PureValue()<<std::endl;
-			assert(1.7==1.7);
 			//assert(s.PureValue()==val.PureValue());
             std::cout<<"Consumption "<<cons()<<std::endl;
             std::cout<<dttv()<<std::endl;
