@@ -15,7 +15,7 @@ struct UnitTypeBase
 	{ 
 		if(Derived::N == 0) return "";
 		if(Derived::N == 1) return std::string(Derived::Sign);
-		return std::string(Derived::Sign) + "^(" + std::to_string(Derived::N) + ")"; };
+		return std::string(Derived::Sign) + "^" + std::to_string(Derived::N); };
 };
 
 template<int n = 0>
