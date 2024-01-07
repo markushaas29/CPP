@@ -86,6 +86,7 @@ public:
 	virtual typename Base::Type operator()(size_t i = 0, size_t j = 0) 
 	{ 
 		std::vector<T> res;
+		//Error
 		for(size_t i = 1; i < Base::elements.size(); ++i)
 			res.push_back(Base::elements[0] - Base::elements[i]);
 		for(size_t j = 1; j < elements.size(); ++j)
