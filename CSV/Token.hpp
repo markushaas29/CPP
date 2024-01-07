@@ -82,7 +82,7 @@ struct DateToken: public Token<DateToken, Date>				{	inline static constexpr con
 struct EntryToken: public Token<EntryToken, Entry>			{	inline static constexpr const char* Pattern = "(\\d|\\s|\\w|[.,:/])+";};
 struct BICToken: public Token<BICToken, BIC>				{	inline static constexpr const char* Pattern = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)"; };
 struct SumToken: public Token<SumToken, Quantity<Sum>>		{	inline static constexpr const char* Pattern = "((^[-+]?((\\d+[.,]\\d{2})|([1-9]\\d+))€$)|(^[-+]?((\\d+[.,]\\d{2}))$))";};
-struct VolumeToken: public Token<VolumeToken, Quantity<Volume>>	{	inline static constexpr const char* Pattern = "(((\\d+[.,]\\d+))m\\^\\(3\\)$)";};
+struct VolumeToken: public Token<VolumeToken, Quantity<Volume>>	{	inline static constexpr const char* Pattern = "(((\\d+[.,]\\d+))m\\^[\\(]?3[\\)]?)";};
 struct EnergyToken: public Token<EnergyToken, Quantity<Energy, KiloHour>>	{	inline static constexpr const char* Pattern = "(((\\d+[.,]\\d+))kWs$)";};
 struct ValueToken: public Token<ValueToken, Value<int>>		{	inline static constexpr const char* Pattern = ""; };
 struct WordToken: public Token<WordToken, Entry>			{	inline static constexpr const char* Pattern = "[a-zA-z]+";};

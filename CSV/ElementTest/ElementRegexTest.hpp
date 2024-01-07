@@ -147,12 +147,17 @@ public:
   		assert(!wk.Match(t));
 		
 		auto vt = VolumeToken();
+		t = "12.30m^3";
+  		assert(vt.Match(t));
 		t = "12.30m^(3)";
   		assert(vt.Match(t));
-		t = "12.30m^(4)";
+		t = "12.30m^(-3)";
   		assert(!vt.Match(t));
-		t = "12.30cm^(3)";
+		t = "12.30m^4";
   		assert(!vt.Match(t));
+		t = "12.30cm^3";
+  		assert(!vt.Match(t));
+		
 		
 		auto kt = KeyValueToken();
 		t = "12:ABC";

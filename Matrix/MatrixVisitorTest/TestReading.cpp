@@ -99,13 +99,18 @@ class MatrixReadingVisitorTest
             std::cout<<dttv()<<std::endl;
             std::cout<<Quantity<Volume>(1.5)<<std::endl;
 			
-			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }};
+			//auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }};
+			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/Vol.csv" }};
 			for(auto f : CtrFs)
 			{
 				auto mvr = MatrixReader(f);
 				auto mv = mvr.M<2>();
 				auto mctr = mv.Parse(matcher);
-            	std::cout<<mctr<<std::endl;
+				std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
+				civ = mctr.Accept(std::move(civ));
+				auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
+				auto s = consV();	
+            	std::cout<<mctr<<consV<<s<<std::endl;
 			}
 
 			std::cout<<"END Reading 2023"<<std::endl;
