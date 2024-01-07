@@ -97,7 +97,7 @@ private:
 	
 	decltype(auto) row(size_t i) const { return access->row(i, this); }
 	decltype(auto) col(size_t i) const { return access->col(i, this); }
-	decltype(auto) check() const {	IsT<Throwing>(Format("Matrix is jagged Rows/Cols: ",Rows(), "/", Cols(), " Size: ", elements->size()))((Rows()*descriptor.Stride(0))==elements->size());	}
+	decltype(auto) check() const {	IsT<Throwing>(Format("Matrix is jagged Rows/Cols: ",Rows(), "/", Cols(), " Size: ", elements->size()))(N > 1 ? (Rows()*descriptor.Stride(0))==elements->size() : true);	}
 
 	friend std::ostream& operator<<(std::ostream& s, const Matrix& m) { return (*m.io)(s,&m); }
 	friend class MatrixAccess<Type>;

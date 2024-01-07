@@ -30,7 +30,9 @@ class MatrixReadingVisitorTest
 		{
 			std::cout<<"START MatrixVisitor Reading 2023"<<std::endl;
 		    using MDS2 = MatrixDescriptor<2,std::string>;
+		    using MDE1 = MatrixDescriptor<1,std::shared_ptr<IElement>>;
 		    using MS2 = Matrix<2,MDS2>;
+		    using ME1 = Matrix<2,MDE1>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 			using EVF = Factory<BaseVisitor>;
 			auto ur = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energ.csv" };
@@ -115,6 +117,8 @@ class MatrixReadingVisitorTest
 			for(auto e : els)
             	std::cout<<*e<<std::endl;
 
+			ME1 me1(MDE1{els.size()},els);
+			//std::cout<<me1<<std::endl;
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
 			return 0;
