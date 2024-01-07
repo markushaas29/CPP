@@ -93,7 +93,6 @@ class MatrixReadingVisitorTest
 			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy, KiloHour>>>();
 			auto s = cons();	
 			auto val = Quantity<Unit<0, 1, 2, -3>>(1.7);
-            std::cout<<s.Value()<<"Consumption "<<val.Value()<<((double)s.Value()==(double)val.Value())<<std::endl;
 			//assert((double)s.PureValue()==(double)val.PureValue());
             std::cout<<"Consumption "<<cons()<<std::endl;
             std::cout<<dttv()<<std::endl;
@@ -101,7 +100,7 @@ class MatrixReadingVisitorTest
 			
 			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/TCold.csv" },
 													{ "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/BCold.csv" }};
-			//auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }};
+			auto els = std::vector<std::shared_ptr<IElement>>{};
 			for(auto f : CtrFs)
 			{
 				auto mvr = MatrixReader(f);
@@ -111,8 +110,10 @@ class MatrixReadingVisitorTest
 				civ = mctr.Accept(std::move(civ));
             	std::cout<<mctr<<std::endl;
 				auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-				auto s = consV();	
+				els.push_back(consV());	
 			}
+			for(auto e : els)
+            	std::cout<<*e<<std::endl;
 
 			std::cout<<"END Reading 2023"<<std::endl;
 		   

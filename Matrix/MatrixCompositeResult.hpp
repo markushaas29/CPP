@@ -27,6 +27,7 @@ class MatrixQueryResult: public IMatrixQueryResult<Q,M>
 	using Base = IMatrixQueryResult<Q,M>;
 public:
 	MatrixQueryResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
+	MatrixQueryResult(std::shared_ptr<IElement> q, const M&& m = M(), const std::string& n =""): value{Q(q->Data())}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixQueryResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
@@ -42,6 +43,7 @@ class MatrixCompositeQueryResult: public IMatrixQueryResult<Q,M>
 	using Base = IMatrixQueryResult<Q,M>;
 public:
 	MatrixCompositeQueryResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
+	MatrixCompositeQueryResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{*q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeQueryResult& s)	
