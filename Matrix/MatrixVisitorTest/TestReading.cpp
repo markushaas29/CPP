@@ -117,8 +117,9 @@ class MatrixReadingVisitorTest
 			for(auto e : els)
             	std::cout<<*e<<std::endl;
 
-			ME1 me1(MDE1{els.size()},els);
-			//std::cout<<me1<<std::endl;
+			auto med1 = Init(els);
+			//auto me1 = ME1(med1,els);
+			std::cout<<med1()<<std::endl;
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
 			return 0;
