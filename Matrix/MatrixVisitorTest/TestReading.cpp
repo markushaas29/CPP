@@ -99,7 +99,8 @@ class MatrixReadingVisitorTest
             std::cout<<dttv()<<std::endl;
             std::cout<<Quantity<Volume>(1.5)<<std::endl;
 			
-			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/TCold.csv" }};
+			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/TCold.csv" },
+													{ "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/BCold.csv" }};
 			//auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }};
 			for(auto f : CtrFs)
 			{
