@@ -17,9 +17,14 @@ public:
 	using MatrixType = MType;
 	using ElementMatrixType =  Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
 	virtual Q Value() const = 0;
-	virtual ElementMatrixType Elements() const = 0;
+	virtual ElementMatrixType Elements()
+	{
+		auto m = Init(this->elements());
+		return m(); 
+	};
 	virtual MType M() const = 0;
 private:
+	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	friend 	std::ostream& operator<<(std::ostream& out, const IMatrixQueryResult& s) {	return s.display(out);	}
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
@@ -33,10 +38,10 @@ public:
 	MatrixQueryResult(std::shared_ptr<IElement> q, const MType&& m = MType(), const std::string& n =""): value{Q(q->Data())}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
 	virtual MType M() const { return item; };
-	virtual typename Base::ElementMatrixType Elements() const { return typename Base::ElementMatrixType(); };
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixQueryResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(value) };	};
 	typename Base::QuantityType value;
 	MType item;
 	std::string name;
@@ -65,6 +70,12 @@ private:
 		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
 		return out<<"Value: "<<s.value;	
 	}
+	virtual std::vector<std::shared_ptr<IElement>> elements() const
+	{
+		std::vector<std::shared_ptr<IElement>> v;
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
+		return v; 
+	};
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
 	std::unique_ptr<std::vector<std::unique_ptr<Base>>> items;

@@ -54,7 +54,6 @@ public:
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
-	//virtual std::ostream& display(std::ostream& s) const { return s<<static_cast<Derived>(*this); };
 };
 template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
@@ -62,7 +61,6 @@ class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
 	using Base = MatrixCompositeBase<MatrixComposition,T,Q>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorType = std::unique_ptr<BaseVisitor>;
-//	using ResultType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
