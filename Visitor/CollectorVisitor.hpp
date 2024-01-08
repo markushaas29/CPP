@@ -7,8 +7,11 @@
 #include "../Unit/Unit.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Quantity/QuantityRatio.hpp"
+#include "../Is/Is.hpp"
+#include "../String/Literal.hpp"
 
 #pragma once 
+
 class Date;
 class IBAN;
 class IElement;
@@ -22,12 +25,15 @@ class CollectorVisitor: public BaseVisitor, public Visitor<T>
 	using Type = T;
 	friend D;
 public:
+	inline static constexpr const char TypeIdentifier[] = "CollectorVisitor";
+	inline static constexpr Literal TypeId{TypeIdentifier};
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
 	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return elements.size(); }
 private:
+	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) 	
 	{ 
 		std::for_each(t.elements.cbegin(), t.elements.cend(), [&](const T& e) { s<<e<<"\n"; });
@@ -86,7 +92,7 @@ public:
 	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) 
 	{ 
 		std::vector<T> res;
-		//Error
+		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::elements.size());
 		for(size_t i = 1; i < Base::elements.size(); ++i)
 			res.push_back(Base::elements[0] - Base::elements[i]);
 		for(size_t j = 1; j < elements.size(); ++j)
