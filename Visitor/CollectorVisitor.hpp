@@ -58,15 +58,14 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>, T>
 {
 	using Base = CollectorVisitor<DifferenceVisitor<T>, T>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return nullptr; };
-	virtual std::shared_ptr<IElement> operator()() 
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
 	{ 
 		std::vector<T> res;
-		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
 		for(size_t i = 0; i < Base::elements.size()-1; ++i)
 			res.push_back(Base::elements[i] - Base::elements[i+1]);
 		return std::make_shared<T>(res[0]);
 	};
+	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::elements.size()); };
 	inline static constexpr const char* Identifier = "Difference";
 };
 
@@ -78,19 +77,11 @@ public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
 	{ 
 		std::vector<Quantity<Time,Days,uint>> res;
-		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
 		for(size_t i = 0; i < Base::elements.size()-1; ++i)
 			res.push_back(Base::elements[i] - Base::elements[i+1]);
 		return std::make_shared<Quantity<Time,Days,uint>>(res[i]);
 	};
-	virtual std::shared_ptr<IElement> operator()() { return nullptr; };
-//	{ 
-//		std::vector<Quantity<Time,Days,uint>> res;
-//		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
-//		for(size_t i = 0; i < Base::elements.size()-1; ++i)
-//			res.push_back(Base::elements[i] - Base::elements[i+1]);
-//		return std::make_shared<Quantity<Time,Days,uint>>(res[i]);
-//	};
+	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::elements.size()); };
 	inline static constexpr const char* Identifier = "Difference";
 };
 
