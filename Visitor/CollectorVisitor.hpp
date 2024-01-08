@@ -48,8 +48,8 @@ class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>, T>
 {
 	using Base = CollectorVisitor<AccumulationVisitor<T>, T>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin()+i, Base::elements.end()+j, typename Base::Type{0})); };
-	virtual std::shared_ptr<IElement> operator()() { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0})); };
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin()+i, Base::elements.begin()+j, typename Base::Type{0})); };
+	virtual std::shared_ptr<IElement> operator()() { return (*this)(0, Base::elements.size()); };
 	inline static constexpr const char* Identifier = "Accumulation";
 };
 

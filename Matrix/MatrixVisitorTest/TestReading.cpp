@@ -125,11 +125,8 @@ class MatrixReadingVisitorTest
             auto accBV = (*fbv)("Accumulation","100");
 			accBV = readings.Accept(std::move(accBV));
 			auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
-			std::cout<<"Acc"<<(*accV(0,2))<<std::endl;
 			assert((*accV(0,2))==Quantity<Volume>(33.559));
-			std::cout<<"Acc"<<(*accV(2,4))<<std::endl;
 			assert((*accV(2,4))==Quantity<Volume>(62.424));
-			std::cout<<"Acc"<<(*accV(4,6))<<std::endl;
 			assert((*accV(4,6))==Quantity<Volume>(47.361));
 			std::cout<<"Acc"<<(*accV())<<std::endl;
 

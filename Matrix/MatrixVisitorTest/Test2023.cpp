@@ -217,8 +217,10 @@ class MatrixVisitorTest2023
 
 			for(auto v : allFactoryUnits)
 					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", v,fv));
-
-			std::cout<<"All:"<<(*(*all)(mp3))<<std::endl;
+			//std::unique_ptr<IMatrixQueryResult<Quantity<Sum>,Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> result = (*all)(mp3);
+			auto result = (*all)(mp3);
+			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(mp3))<<std::endl;
+			std::cout<<"\n-------------------All Res---------------------\n:\n"<<result->Elements()<<std::endl;
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);

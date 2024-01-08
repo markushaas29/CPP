@@ -9,42 +9,55 @@
 
 template<std::size_t, typename> class Matrix;
 
-template<typename Q, typename M>
+template<typename Q, typename MType>
 class IMatrixQueryResult
 {
 public:
 	using QuantityType = Q;
-	using MatrixType = M;
+	using MatrixType = MType;
+	using ElementMatrixType =  Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
 	virtual Q Value() const = 0;
+	virtual ElementMatrixType Elements() const = 0;
+	virtual MType M() const = 0;
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IMatrixQueryResult& s) {	return s.display(out);	}
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
 
-template<typename Q, typename M>
-class MatrixQueryResult: public IMatrixQueryResult<Q,M>
+template<typename Q, typename MType>
+class MatrixQueryResult: public IMatrixQueryResult<Q,MType>
 {
-	using Base = IMatrixQueryResult<Q,M>;
+	using Base = IMatrixQueryResult<Q,MType>;
 public:
-	MatrixQueryResult(const Q&& q, const M&& m = M(), const std::string& n =""): value{q}, item(m), name{n} {};
-	MatrixQueryResult(std::shared_ptr<IElement> q, const M&& m = M(), const std::string& n =""): value{Q(q->Data())}, item(m), name{n} {};
+	MatrixQueryResult(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
+	MatrixQueryResult(std::shared_ptr<IElement> q, const MType&& m = MType(), const std::string& n =""): value{Q(q->Data())}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
+	virtual MType M() const { return item; };
+	virtual typename Base::ElementMatrixType Elements() const { return typename Base::ElementMatrixType(); };
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixQueryResult& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
-	M item;
+	MType item;
 	std::string name;
 };
 
-template<typename Q, typename M>
-class MatrixCompositeQueryResult: public IMatrixQueryResult<Q,M>
+template<typename Q, typename MType>
+class MatrixCompositeQueryResult: public IMatrixQueryResult<Q,MType>
 {
-	using Base = IMatrixQueryResult<Q,M>;
+	using Base = IMatrixQueryResult<Q,MType>;
 public:
 	MatrixCompositeQueryResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
 	MatrixCompositeQueryResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{*q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
+	virtual MType M() const { return MType(); };
+	virtual typename Base::ElementMatrixType Elements() const 
+	{
+		std::vector<std::shared_ptr<IElement>> v;
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
+		auto m = Init(v);
+		return m(); 
+	};
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const MatrixCompositeQueryResult& s)	
 	{	
