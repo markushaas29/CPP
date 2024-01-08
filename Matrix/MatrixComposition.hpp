@@ -75,7 +75,7 @@ public:
 			auto mr = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
 			auto cv =mr.Accept(visitors->at(0)->Copy());
-			return std::make_unique<MatrixQueryResult<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor>())(), std::move(mr));
+			return std::make_unique<MatrixQueryResult<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor<>>())(), std::move(mr));
 		}
 		return std::make_unique<MatrixQueryResult<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType());
 	}

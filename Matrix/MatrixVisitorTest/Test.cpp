@@ -83,7 +83,7 @@ class MatrixVisitorTest
             auto qp2 = fmt2("SumToken","100");
             
 			Factory<BaseVisitor> fbv;
-            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor>(&fbv);
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&fbv);
             auto cv = fbv("Accumulation","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
@@ -106,8 +106,8 @@ class MatrixVisitorTest
           	assert(mPropertyTax.Rows()==4);
           	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
 			cv = mPropertyTax.Accept(std::move(cv));
-		  	(cv->As<AccumulationVisitor>())();
-          	assert((*(cv->As<AccumulationVisitor>())())==Quantity<Sum>(-423.01));
+		  	(cv->As<AccumulationVisitor<>>())();
+          	assert((*(cv->As<AccumulationVisitor<>>())())==Quantity<Sum>(-423.01));
 		
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});
             std::cout<<mWasteFees<<std::endl;
@@ -151,7 +151,7 @@ class MatrixVisitorTest
 //			assert(Heating.Rows()==25);
 //			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
 //
-            std::cout<<(cv->As<AccumulationVisitor>())()<<std::endl;
+            std::cout<<(cv->As<AccumulationVisitor<>>())()<<std::endl;
 			std::cout<<"END"<<std::endl;
 
 			MatrixVisitorTest2023 sut2023;

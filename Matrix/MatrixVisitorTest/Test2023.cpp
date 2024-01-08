@@ -80,7 +80,7 @@ class MatrixVisitorTest2023
             auto qp2 = fmt2("SumToken","100");
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor>(&(*fbv));
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*fbv));
             auto cv = (*fbv)("Accumulation","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);

@@ -42,9 +42,10 @@ private:
 	std::vector<T> elements;
 };
 
-class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>
+template<typename T=Quantity<Sum,Pure,double>>
+class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>, T>
 {
-	using Base = CollectorVisitor<AccumulationVisitor, Quantity<Sum,Pure,double>>;
+	using Base = CollectorVisitor<AccumulationVisitor<T>, T>;
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0})); };
 	inline static constexpr const char* Identifier = "Accumulation";
