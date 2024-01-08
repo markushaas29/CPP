@@ -221,6 +221,9 @@ class MatrixVisitorTest2023
 			auto result = (*all)(mp3);
 			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(mp3))<<std::endl;
 			std::cout<<"\n-------------------All Res---------------------\n:\n"<<result->Elements()<<std::endl;
+			auto ms = result->Elements().To<Quantity<Sum>>();
+			std::cout<<"\n-------------------All Res---------------------\n:\n"<<ms<<std::endl;
+			//v = ms[5];
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
 //			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
