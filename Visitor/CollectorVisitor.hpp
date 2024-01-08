@@ -29,7 +29,8 @@ public:
 	inline static constexpr Literal TypeId{TypeIdentifier};
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
-	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) = 0;
+	virtual std::shared_ptr<IElement> operator()() = 0;
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return elements.size(); }
 private:
@@ -47,7 +48,8 @@ class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>, T>
 {
 	using Base = CollectorVisitor<AccumulationVisitor<T>, T>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0})); };
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin()+i, Base::elements.end()+j, typename Base::Type{0})); };
+	virtual std::shared_ptr<IElement> operator()() { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin(), Base::elements.end(), typename Base::Type{0})); };
 	inline static constexpr const char* Identifier = "Accumulation";
 };
 
@@ -56,7 +58,8 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>, T>
 {
 	using Base = CollectorVisitor<DifferenceVisitor<T>, T>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) 
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return nullptr; };
+	virtual std::shared_ptr<IElement> operator()() 
 	{ 
 		std::vector<T> res;
 		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
@@ -72,7 +75,7 @@ class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>, 
 {
 	using Base = CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days,uint>>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) 
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
 	{ 
 		std::vector<Quantity<Time,Days,uint>> res;
 		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
@@ -80,6 +83,14 @@ public:
 			res.push_back(Base::elements[i] - Base::elements[i+1]);
 		return std::make_shared<Quantity<Time,Days,uint>>(res[i]);
 	};
+	virtual std::shared_ptr<IElement> operator()() { return nullptr; };
+//	{ 
+//		std::vector<Quantity<Time,Days,uint>> res;
+//		//std::adjacent_difference(Base::elements.begin(), Base::elements.end(), res.begin(), [&](const auto& l, const auto& r) { return Base::elements[0]; } ); I
+//		for(size_t i = 0; i < Base::elements.size()-1; ++i)
+//			res.push_back(Base::elements[i] - Base::elements[i+1]);
+//		return std::make_shared<Quantity<Time,Days,uint>>(res[i]);
+//	};
 	inline static constexpr const char* Identifier = "Difference";
 };
 
@@ -90,7 +101,8 @@ class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,T>, publ
 	using Ds = Quantity<Unit<0, 0, 0, 1>, DaysBase<1>, unsigned int>;
 public:
 	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
-	virtual std::shared_ptr<IElement> operator()(size_t i = 0, size_t j = 0) 
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return nullptr; };
+	virtual std::shared_ptr<IElement> operator()() 
 	{ 
 		std::vector<T> res;
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::elements.size());
