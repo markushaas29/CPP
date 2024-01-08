@@ -72,7 +72,7 @@ class MatrixReadingVisitorTest
             //auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>>(&(*fbv));
+            auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
             auto cv = (*fbv)("Difference","100");
             //auto dtv = (*fbv)("Date","100");
  
@@ -119,8 +119,14 @@ class MatrixReadingVisitorTest
             	std::cout<<*e<<std::endl;
 
 			auto med1 = Init(els);
-			//auto me1 = ME1(med1,els);
+			auto readings = med1();
 			std::cout<<med1()<<std::endl;
+
+            auto accBV = (*fbv)("Accumulation","100");
+			accBV = readings.Accept(std::move(accBV));
+			auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
+			std::cout<<"Acc"<<(*accV())<<std::endl;
+
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
 			return 0;
