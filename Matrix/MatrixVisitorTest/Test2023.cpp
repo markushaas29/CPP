@@ -80,6 +80,9 @@ class MatrixVisitorTest2023
             vsi->push_back(std::make_unique<WasteIndexToken>());
             vsi->push_back(std::make_unique<HeatingIndexToken>());
             vsi->push_back(std::make_unique<CleaningIndexToken>());
+            vsi->push_back(std::make_unique<SewageIndexToken>());
+            vsi->push_back(std::make_unique<PropertyTaxIndexToken>());
+            vsi->push_back(std::make_unique<InsuranceIndexToken>());
             Matcher smatcher(std::move(vsi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);

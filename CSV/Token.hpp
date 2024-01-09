@@ -101,5 +101,8 @@ struct WasteIndexToken: public Token<WasteIndexToken, Entry>	{	inline static con
 struct HeatingIndexToken: public Token<HeatingIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Heating"; };
 struct StageIndexToken: public Token<StageIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Stage"; };
 struct CleaningIndexToken: public Token<CleaningIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Cleaning"; };
+struct SewageIndexToken: public Token<SewageIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Sewage"; };
+struct PropertyTaxIndexToken: public Token<PropertyTaxIndexToken, Entry>	{	inline static constexpr const char* Pattern = "PropertyTax"; };
+struct InsuranceIndexToken: public Token<InsuranceIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Insurance"; };
 
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
