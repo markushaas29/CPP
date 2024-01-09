@@ -97,4 +97,9 @@ struct SumIndexToken: public Token<SumIndexToken, Entry>	{	inline static constex
 struct UseIndexToken: public Token<UseIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 struct QuantityToken: public Token<QuantityToken, Entry>	{	inline static constexpr const char* Pattern = ""; };
 
+struct WasteIndexToken: public Token<WasteIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Waste"; };
+struct HeatingIndexToken: public Token<HeatingIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Heating"; };
+struct StageIndexToken: public Token<StageIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Stage"; };
+struct CleaningIndexToken: public Token<CleaningIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Cleaning"; };
+
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};

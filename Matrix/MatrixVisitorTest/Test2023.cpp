@@ -36,11 +36,13 @@ class MatrixVisitorTest2023
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
+			auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
             auto mrR = MatrixReader(rpath);
             auto mR = mrR.M<2>().Cols(3,4,5,6,7,8);
             auto msm = mR.To<Quantity<Scalar>>();
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
+			auto mS = MatrixReader(sNew).M<2>();
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
 			auto t = false;
@@ -67,11 +69,18 @@ class MatrixVisitorTest2023
             vi->push_back(std::make_unique<DateIndexToken>());
             vi->push_back(std::make_unique<IBANIndexToken>());
             vi->push_back(std::make_unique<BICIndexToken>());
-            vi->push_back(std::make_unique<BICIndexToken>());
             vi->push_back(std::make_unique<SumIndexToken>());
             vi->push_back(std::make_unique<UseIndexToken>());
 			
             Matcher imatcher(std::move(vi));
+			
+			auto vsi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
+            vsi->push_back(std::make_unique<NameIndexToken>());
+            vsi->push_back(std::make_unique<StageIndexToken>());
+            vsi->push_back(std::make_unique<WasteIndexToken>());
+            vsi->push_back(std::make_unique<HeatingIndexToken>());
+            vsi->push_back(std::make_unique<CleaningIndexToken>());
+            Matcher smatcher(std::move(vsi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
    //         std::cout<<mp3<<std::endl;
@@ -237,6 +246,8 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------Summen:---------------------\n:\n"<<ms<<"\nDivider"<<cs<<std::endl;
 			auto mcs = cs * ms;
 			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
+			auto mps = mS.Match(smatcher).Parse(matcher);
+			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
 			//assert(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31});
 			//v = ms[5];
 			//assert(allR==)
