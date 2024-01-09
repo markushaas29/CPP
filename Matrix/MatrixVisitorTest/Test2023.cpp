@@ -35,13 +35,14 @@ class MatrixVisitorTest2023
 			using EVF = Factory<BaseVisitor>;
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
-			auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
-			auto mssr = MatrixReader(spath);
+			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
+            auto mrR = MatrixReader(rpath);
+            auto mR = mrR.M<2>().Cols(3,7,8,9,4,5,6);
+            auto msm = mR.To<double>();
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
-			auto msm = mssr.M<2>();
 			auto t = false;
 			std::vector<MS2> m22_23v{m22S, m23S};
 			M3 m22_23(m22_23v);
@@ -225,7 +226,11 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(mp3))<<std::endl;
 			std::cout<<"\n-------------------All Res---------------------\n:\n"<<result->Elements()<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
-			std::cout<<"\n-------------------All Res---------------------\n:\n"<<ms<<std::endl;
+
+			auto cs = msm / mR.ColSum();
+			std::cout<<"\n-------------------All Res---------------------\n:\n"<<ms<<"\n"<<cs<<std::endl;
+			auto mcs = cs * ms;
+			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
 			//v = ms[5];
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
