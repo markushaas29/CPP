@@ -37,7 +37,7 @@ class MatrixVisitorTest2023
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
             auto mrR = MatrixReader(rpath);
-            auto mR = mrR.M<2>().Cols(3,7,8,9,4,5,6);
+            auto mR = mrR.M<2>().Cols(3,4,5,6,7,8);
             auto msm = mR.To<Quantity<Scalar>>();
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
@@ -186,41 +186,44 @@ class MatrixVisitorTest2023
 			{
 				{
 					{
-						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
+						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}} // Waste
 					}
 				}, 
 				{
 					{
-						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
+						{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}} //Heatung
 					}
 				},
 				{
 					{
+						{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", "2023"}} // Insurance
+					}
+				},
+				{
+					{ //Cleaning
 						properUnits, 
 						jansenUnits
 					}
 				},
 				{
 					{
-						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}},  {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}
+						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}} //Grundsteuer
 					}
 				},
 				{
 					{
-						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}
-					}
-				},
-				{
+						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}, //Abwasser
+					},
 					{
-						{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", "2023"}}
+						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2024"}}, {"EqualVisitor", { "Entry", "Rechung/Abwasser"}} //Abwasser
 					}
 				}
 			};
 
-			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All", mcHeating.Clone());
+			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All");//, mcHeating.Clone());
 
-			for(auto v : allFactoryUnits)
-					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", v,fv));
+			for(uint i = 0; i < allFactoryUnits.size(); ++i)
+					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", allFactoryUnits[i],fv));
 			//std::unique_ptr<IMatrixQueryResult<Quantity<Sum>,Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> result = (*all)(mp3);
 			auto result = (*all)(mp3);
 			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(mp3))<<std::endl;
@@ -228,9 +231,10 @@ class MatrixVisitorTest2023
 			auto ms = result->Elements().To<Quantity<Sum>>();
 
 			auto cs = msm / mR.ColSum();
-			std::cout<<"\n-------------------All Res---------------------\n:\n"<<ms<<"\n"<<cs<<std::endl;
+			std::cout<<"\n-------------------Summen:---------------------\n:\n"<<ms<<"\nDivider"<<cs<<std::endl;
 			auto mcs = cs * ms;
-			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
+			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31})<<std::endl;
+			assert(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31});
 			//v = ms[5];
 			//assert(allR==)
             //assert(mEnBWI.Rows()==2);
