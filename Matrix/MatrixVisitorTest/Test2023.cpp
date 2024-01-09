@@ -38,7 +38,7 @@ class MatrixVisitorTest2023
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
             auto mrR = MatrixReader(rpath);
             auto mR = mrR.M<2>().Cols(3,7,8,9,4,5,6);
-            auto msm = mR.To<double>();
+            auto msm = mR.To<Quantity<Scalar>>();
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
 			auto m22S = m22r.M<2>();
