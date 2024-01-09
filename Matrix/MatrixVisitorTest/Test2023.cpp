@@ -192,6 +192,9 @@ class MatrixVisitorTest2023
 				{
 					{
 						{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}} //Heatung
+					},
+					{
+						{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}
 					}
 				},
 				{
@@ -233,9 +236,7 @@ class MatrixVisitorTest2023
 			auto cs = msm / mR.ColSum();
 			std::cout<<"\n-------------------Summen:---------------------\n:\n"<<ms<<"\nDivider"<<cs<<std::endl;
 			auto mcs = cs * ms;
-			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31})<<std::endl;
-			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<Quantity<Sum>{-1346.31}.Value()<<std::endl;
-			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<(mcs[0].To<Quantity<Sum>>().Value())<<std::endl;
+			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
 			//assert(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31});
 			//v = ms[5];
 			//assert(allR==)
