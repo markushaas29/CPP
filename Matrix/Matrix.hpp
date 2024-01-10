@@ -42,7 +42,7 @@ public:
 	size_t Size() const { return descriptor.Size(); }
 
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
-	decltype(auto) Modify(ElementType e, auto... i) { return access->modify(this,e,i...); }
+	decltype(auto) Set(ElementType e, auto... i) { return access->set(this,e,i...); }
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }
 	decltype(auto) Cols(auto... i) const { return access->cols(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }

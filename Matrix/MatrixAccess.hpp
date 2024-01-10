@@ -24,7 +24,7 @@ public:
 private:
 	friend M;
 	template<typename T> using IsT = Is<T,LiteralType>;
-	decltype(auto) modify(M* m, typename M::ElementType e, auto... I)
+	decltype(auto) set(M* m, typename M::ElementType e, auto... I)
     {
 		std::vector<typename M::DataType> v;
 		std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<typename M::ElementType>(*i)); } );
