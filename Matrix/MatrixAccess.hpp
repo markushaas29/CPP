@@ -24,9 +24,12 @@ public:
 private:
 	friend M;
 	template<typename T> using IsT = Is<T,LiteralType>;
-	decltype(auto) modify(M* m, typename M::ElementType e, auto... I) const
+	decltype(auto) modify(M* m, typename M::ElementType e, auto... I)
     {
-       return (*m)(I...); 
+		std::vector<typename M::DataType> v;
+		std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<typename M::ElementType>(*i)); } );
+      	(*m)(I...) = std::make_shared<typename M::ElementType>(e); 
+		m->elements = std::make_unique<std::vector<typename M::DataType>>(v.begin(), v.end());
     }
 	decltype(auto) addRow(const std::vector<typename M::ElementType>& v, M* m)
     {
