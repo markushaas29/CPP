@@ -26,10 +26,14 @@ private:
 	template<typename T> using IsT = Is<T,LiteralType>;
 	decltype(auto) set(M* m, typename M::ElementType e, auto... I)
     {
+		static_assert(sizeof...(I) == Order, "Arguments do not mtach");
 		std::vector<typename M::DataType> v;
+	    auto i = M::MI::computePosition(m->descriptor.Extents(),m->descriptor.Strides(), I...);
 		std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<typename M::ElementType>(*i)); } );
-      	(*m)(I...) = std::make_shared<typename M::ElementType>(e); 
-		m->elements = std::make_unique<std::vector<typename M::DataType>>(v.begin(), v.end());
+      	v.at(i) = std::make_shared<typename M::ElementType>(e); 
+
+		return M(m->descriptor,v); 
+		//m->elements = std::make_unique<std::vector<typename M::DataType>>(v.begin(), v.end());
     }
 	decltype(auto) addRow(const std::vector<typename M::ElementType>& v, M* m)
     {

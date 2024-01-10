@@ -71,6 +71,11 @@ class MatrixAccessTest
 				{std::string("1"),std::string("2")} ,
 				{std::string("5"),std::string("6")} 
 		    };
+			
+			assert((int)m33[0][1]==4);
+			auto m33M = m33.Set(8,0,1);
+			assert((int)m33[0][1]==4);
+			assert((int)m33M[0][1]==8);
 
 			auto msq = ms1.To<Quantity<Area>>();
 			std::cout<<"msq"<<msq<<std::endl;
@@ -210,7 +215,6 @@ class MatrixAccessTest
 			auto m95 = m2e.Set(std::make_shared<Quantity<Sum>>(9.5),0,0);
 			assert(m2q[0][0]==Quantity<Sum>(2.5));
 			assert(m95.To<Quantity<Sum>>()[0][0]==Quantity<Sum>(9.5));
-			std::cout<<"M2Q:\n"<<m95;
 			
 			M2E m2ed {                
 				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},

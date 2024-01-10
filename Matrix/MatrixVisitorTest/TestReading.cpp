@@ -128,8 +128,12 @@ class MatrixReadingVisitorTest
 			assert((*accV(0,2))==Quantity<Volume>(33.559));
 			assert((*accV(2,4))==Quantity<Volume>(62.424));
 			assert((*accV(4,6))==Quantity<Volume>(47.361));
-			std::cout<<"Acc"<<(*accV())<<std::endl;
+			auto d1 = (*accV(0,2)).To<Quantity<Volume>>() / (*accV()).To<Quantity<Volume>>();
+			auto d2 = (*accV(2,4)).To<Quantity<Volume>>() / (*accV()).To<Quantity<Volume>>();
+			auto d3 = (*accV(4,6)).To<Quantity<Volume>>() / (*accV()).To<Quantity<Volume>>();
 
+
+			std::cout<<"D:\t"<<d1<<"\t"<<d2<<"\t"<<d3<<"\t"<<std::endl;
 			std::cout<<"END Reading 2023"<<std::endl;
 		   
 			return 0;
