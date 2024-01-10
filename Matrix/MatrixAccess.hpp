@@ -214,10 +214,13 @@ private:
 		else if constexpr (PointerConcept<typename M::ElementType>)
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e)
 					{
-    					if (auto ptr = std::dynamic_pointer_cast<T>(*e))
-							result.push_back(std::make_shared<T>(*ptr)); 
+						if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+							result.push_back(std::make_shared<T>((*e)->template To<T>())); 
 						else
-							result.push_back(std::make_shared<T>("")); 
+    						if (auto ptr = std::dynamic_pointer_cast<T>(*e))
+								result.push_back(std::make_shared<T>(*ptr)); 
+							else
+								result.push_back(std::make_shared<T>("")); 
 					});
 		else
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });

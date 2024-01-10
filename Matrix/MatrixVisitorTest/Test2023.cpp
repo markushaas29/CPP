@@ -227,8 +227,7 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------Summen:---------------------\n:\n"<<ms<<"\nDivider"<<cs<<std::endl;
 			auto mcs = cs * ms;
 			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
-			auto mpsA = mS.Match(smatcher).Parse(matcher);
-			auto mps = mpsA.Cols(2,3,4,5,6,7);
+			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 		//	mps = mps.Set(std::make_shared<Quantity<Volume>>(47.361),1,5);
 		//	mps = mps.Set(std::make_shared<Quantity<Volume>>(62.424),2,5);
 		//	mps = mps.Set(std::make_shared<Quantity<Volume>>(33.559),3,5);
@@ -238,7 +237,7 @@ class MatrixVisitorTest2023
 			auto mpsM = (msm / msm.ColSum());
 			auto res = mpsM * ms;
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
-			std::cout<<"\n-------------------MPS Mul---------------------\n:\n"<<mpsM<<std::endl;
+			std::cout<<"\n-------------------MPS Parsed---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Mul---------------------\n:\n"<<res<<std::endl;
 			//assert(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31});
 			//v = ms[5];
