@@ -110,30 +110,8 @@ class MatrixVisitorTest2023
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnits{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}};
 			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> jansenUnits{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}};
 			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation","100"}};
-			auto properUnitss = (*tfc)(properUnits);
-			auto mv = MatrixComposition<decltype(mp3)>((*tfc)(properUnits),(*fbv)(fv),"Cleaning");
-			auto mcj = MatrixComposition<decltype(mp3)>((*tfc)(jansenUnits),(*fbv)(fv),"Cleaning");
-			//std::cout<<"Cleanig:"<<mcj(mp3)<<std::endl;
-			auto mcc = MatrixComposition<decltype(mp3)>::Create(tfc,fbv,"Cleaning",jansenUnits,fv);
-			auto clP = (*mcc)(mp3);
-			std::cout<<"Cleanig:"<<(*((*mcc)(mp3)))<<std::endl;
-			
-			std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> cleanings = { properUnits, jansenUnits };
-			auto mccs = MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"Cleaning", cleanings,fv);
 
 			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
-			mv.Clone();
-			mc.Add(mv.Clone());
-            assert(mc.Size()==1);
-			mc.Add(mv.Clone());
-            assert(mc.Size()==2);
-			auto mc2 = mc.Clone();
-            assert(mc2->Size()==2);
-			auto mc3 = MatrixComposite<decltype(mp3)>("Compsite", mv.Clone());
-            assert(mc3.Size()==1);
-			auto cleaningR = (*mccs)(mp3);
-			std::cout<<"Comp:"<<cleaningR->Value()<<std::endl;
-            assert(cleaningR->Value()==Quantity<Sum>(-662.74));
 ////			auto mZie = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE10660501011022126625"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 ////			auto mZei = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE47660501011020531958"})| (*tfc)("EqualVisitor", { "Year", "2023"});
 ////            //assert((mZei.Rows()+mZie.Rows())==13);
@@ -217,36 +195,19 @@ class MatrixVisitorTest2023
 
 			for(uint i = 0; i < allFactoryUnits.size(); ++i)
 					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", allFactoryUnits[i],fv));
-			//std::unique_ptr<IMatrixQueryResult<Quantity<Sum>,Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> result = (*all)(mp3);
 			auto result = (*all)(mp3);
 			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(mp3))<<std::endl;
-			std::cout<<"\n-------------------All Res---------------------\n:\n"<<result->Elements()<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
 
-			auto cs = msm / mR.ColSum();
-			std::cout<<"\n-------------------Summen:---------------------\n:\n"<<ms<<"\nDivider"<<cs<<std::endl;
-			auto mcs = cs * ms;
-			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 			mps = mps.Set(Quantity<Scalar>(47.361),1,5);
 			mps = mps.Set(Quantity<Scalar>(62.424),2,5);
 			mps = mps.Set(Quantity<Scalar>(33.559),3,5);
-			msm = msm.Set(Quantity<Scalar>(47.361),0,5);
-			msm = msm.Set(Quantity<Scalar>(62.424),1,5);
-			msm = msm.Set(Quantity<Scalar>(33.559),2,5);
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
-			std::cout<<"\n-------------------MPS Parsed---------------------\n:\n"<<mpsM<<std::endl;
-			std::cout<<"\n-------------------MPS Mul---------------------\n:\n"<<res<<std::endl;
-			//assert(mcs[0].To<Quantity<Sum>>()==Quantity<Sum>{-1346.31});
-			//v = ms[5];
-			//assert(allR==)
-            //assert(mEnBWI.Rows()==2);
-//			auto mcP = Heating.Cols(0,2,4).Parse(matcher);
-//			assert(Heating.Rows()==25);
-//			assert(Quantity<Sum>(Heating.ColSum(4))==Quantity<Sum>(-2048.23));
-//
+			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
+			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
