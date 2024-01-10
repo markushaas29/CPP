@@ -229,6 +229,12 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------All Calc---------------------\n:\n"<<mcs<<std::endl;
 			auto mpsA = mS.Match(smatcher).Parse(matcher);
 			auto mps = mpsA.Cols(2,3,4,5,6,7);
+		//	mps = mps.Set(std::make_shared<Quantity<Volume>>(47.361),1,5);
+		//	mps = mps.Set(std::make_shared<Quantity<Volume>>(62.424),2,5);
+		//	mps = mps.Set(std::make_shared<Quantity<Volume>>(33.559),3,5);
+			msm = msm.Set(Quantity<Scalar>(47.361),0,5);
+			msm = msm.Set(Quantity<Scalar>(62.424),1,5);
+			msm = msm.Set(Quantity<Scalar>(33.559),2,5);
 			auto mpsM = (msm / msm.ColSum());
 			auto res = mpsM * ms;
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
