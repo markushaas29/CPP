@@ -24,6 +24,10 @@ public:
 private:
 	friend M;
 	template<typename T> using IsT = Is<T,LiteralType>;
+	decltype(auto) modify(M* m, typename M::ElementType e, auto... I) const
+    {
+       return (*m)(I...); 
+    }
 	decltype(auto) addRow(const std::vector<typename M::ElementType>& v, M* m)
     {
         std::for_each(v.cbegin(), v.cend(), [&](auto i) { m->elements->push_back(std::make_shared<typename M::ElementType>(i)); } );
