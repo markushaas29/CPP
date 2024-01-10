@@ -208,6 +208,8 @@ class MatrixAccessTest
 			assert(m2q[0][1]==Quantity<Sum>(3.5));
 
 			auto m95 = m2e.Set(std::make_shared<Quantity<Sum>>(9.5),0,0);
+			assert(m2q[0][0]==Quantity<Sum>(2.5));
+			assert(m95.To<Quantity<Sum>>()[0][0]==Quantity<Sum>(9.5));
 			std::cout<<"M2Q:\n"<<m95;
 			
 			M2E m2ed {                
