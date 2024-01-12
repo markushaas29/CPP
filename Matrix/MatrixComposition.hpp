@@ -31,8 +31,8 @@ public:
 	virtual size_t Size() const = 0;
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
-private:
 	virtual std::ostream& display(std::ostream& s, size_t i = 0) const = 0;
+private:
 };
 
 
@@ -54,7 +54,7 @@ public:
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
-	std::ostream& in(std::ostream& s, size_t add)
+	static std::ostream& in(std::ostream& s, size_t add) 
 	{
 		for(auto i=0; i<add; ++i)
 			s<<" ";
@@ -67,6 +67,7 @@ class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
 	using Base = MatrixCompositeBase<MatrixComposition,T,Q>;
 	using PredicateType = std::unique_ptr<IPredicateVisitor>;
 	using VisitorType = std::unique_ptr<BaseVisitor>;
+	template<typename, typename> friend class MatrixComposite;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -101,8 +102,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s, size_t i = 0) const 
 	{ 
-		s<<"Name: "<<Name()<<std::endl;
-		std::for_each(predicates->cbegin(), predicates->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
+		Base::in(s,i)<<"Name: "<<Name()<<std::endl;
+		std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& p) { Base::in(s,i)<<*p<<"\n"; });
 		//std::for_each(m.visitors->cbegin(), m.visitors->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		return s;  
 	}
@@ -153,8 +154,14 @@ private:
 	virtual std::ostream& display(std::ostream& s, size_t i = 0) const 
 	{ 
 		s<<"Name: "<<Name()<<std::endl;
-		std::for_each(composites->cbegin(), composites->cend(), [&s](const auto& c) { 	s<<"\n"<<*c<<"\n"; }); 
+		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c) 
+				{ 	
+					s<<"\n";
+					Base::in(s,i);
+					c->display(s,i);
+					s<<"\n"; 
+					}); 
 		return s;  
 	}
-	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) { return m.display(s); }
+	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) { return m.display(s,0); }
 };
