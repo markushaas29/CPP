@@ -95,7 +95,7 @@ struct IBANIndexToken: public Token<IBANIndexToken, Entry>	{	inline static const
 struct BICIndexToken: public Token<BICIndexToken, Entry>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
 struct SumIndexToken: public Token<SumIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
-struct QuantityToken: public Token<QuantityToken, Entry>	{	inline static constexpr const char* Pattern = ""; };
+struct QuantityToken: public Token<QuantityToken, Quantity<Scalar>>	{	inline static constexpr const char* Pattern = ""; };
 
 struct WasteIndexToken: public Token<WasteIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Waste"; };
 struct HeatingIndexToken: public Token<HeatingIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Heating"; };
