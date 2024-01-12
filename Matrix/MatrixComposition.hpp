@@ -97,12 +97,12 @@ public:
 private:
 	std::unique_ptr<std::vector<PredicateType>> predicates;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
-	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) 
+	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) { return m.display(s); }
+	virtual std::ostream& display(std::ostream& s) const 
 	{ 
-		s<<"Name: "<<m.Name()<<std::endl;
-		std::for_each(m.predicates->cbegin(), m.predicates->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
+		s<<"Name: "<<Name()<<std::endl;
+		std::for_each(predicates->cbegin(), predicates->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		//std::for_each(m.visitors->cbegin(), m.visitors->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		return s;  
 	}
