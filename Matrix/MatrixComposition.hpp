@@ -32,7 +32,7 @@ public:
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
 private:
-	virtual std::ostream& display(std::ostream& s) const = 0;
+	virtual std::ostream& display(std::ostream& s, size_t i = 0) const = 0;
 };
 
 
@@ -99,7 +99,7 @@ private:
 	std::unique_ptr<std::vector<VisitorType>> visitors;
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) { return m.display(s); }
-	virtual std::ostream& display(std::ostream& s) const 
+	virtual std::ostream& display(std::ostream& s, size_t i = 0) const 
 	{ 
 		s<<"Name: "<<Name()<<std::endl;
 		std::for_each(predicates->cbegin(), predicates->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
@@ -150,7 +150,7 @@ public:
 private:
 	std::unique_ptr<std::vector<DataType>> composites;
 	template<typename U> using IsT =  Is<U,TypeId>;
-	virtual std::ostream& display(std::ostream& s) const 
+	virtual std::ostream& display(std::ostream& s, size_t i = 0) const 
 	{ 
 		s<<"Name: "<<Name()<<std::endl;
 		std::for_each(composites->cbegin(), composites->cend(), [&s](const auto& c) { 	s<<"\n"<<*c<<"\n"; }); 
