@@ -49,18 +49,9 @@ class MatrixVisitorTest2023
 			std::vector<MS2> m22_23v{m22S, m23S};
 			M3 m22_23(m22_23v);
  			
-
-			auto v = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
-            v->push_back(std::make_unique<DateToken>());
-            v->push_back(std::make_unique<IBANToken>("DE19660623660009232702"));
-            v->push_back(std::make_unique<BICToken>());
-            v->push_back(std::make_unique<WordToken>());
-            v->push_back(std::make_unique<SumToken>());
-            v->push_back(std::make_unique<ValueToken>());
-            v->push_back(std::make_unique<QuantityToken>());
-            v->push_back(std::make_unique<KeyValueToken>());
-            v->push_back(std::make_unique<EmptyToken>());
-            v->push_back(std::make_unique<IBANIndexToken>());
+            Factory<IToken> fmt2;
+            auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>(&fmt2);
+            auto v = fmt2({{"SumToken",""},{"IBANToken",""},{"DateToken",""},{"EmptyToken",""},{"ValueToken",""},{"EntryToken",""},{"ScalarToken",""}});
 
             Matcher matcher(std::move(v));
 
@@ -90,9 +81,6 @@ class MatrixVisitorTest2023
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Entry,Empty>(&(*fmt));
-            
-            Factory<IToken> fmt2;
-            auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
             auto qp2 = fmt2("SumToken","");
             auto vT = fmt2({{"SumToken",""},{"IBANToken",""}});
 
