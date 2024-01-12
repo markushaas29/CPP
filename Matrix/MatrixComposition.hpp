@@ -54,6 +54,12 @@ public:
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
+	std::ostream& in(std::ostream& s, size_t add)
+	{
+		for(auto i=0; i<add; ++i)
+			s<<" ";
+		return s;
+	}
 };
 template<typename T, typename Q = Quantity<Sum>>
 class MatrixComposition: public MatrixCompositeBase<MatrixComposition,T,Q>
@@ -143,12 +149,12 @@ public:
 	}
 private:
 	std::unique_ptr<std::vector<DataType>> composites;
-	virtual std::ostream& display(std::ostream& s) const { return s<<(*this); };
 	template<typename U> using IsT =  Is<U,TypeId>;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) 
+	virtual std::ostream& display(std::ostream& s) const 
 	{ 
-		s<<"Name: "<<m.Name()<<std::endl;
-		std::for_each(m.composites->cbegin(), m.composites->cend(), [&s](const auto& c) { 	s<<"\n"<<*c<<"\n"; }); 
+		s<<"Name: "<<Name()<<std::endl;
+		std::for_each(composites->cbegin(), composites->cend(), [&s](const auto& c) { 	s<<"\n"<<*c<<"\n"; }); 
 		return s;  
 	}
+	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) { return m.display(s); }
 };
