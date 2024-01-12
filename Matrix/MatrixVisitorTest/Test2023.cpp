@@ -52,7 +52,6 @@ class MatrixVisitorTest2023
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>(&fmt2);
             auto v = fmt2({{"SumToken",""},{"IBANToken",""},{"DateToken",""},{"EmptyToken",""},{"ValueToken",""},{"EntryToken",""},{"ScalarToken",""}});
-
             Matcher matcher(std::move(v));
 
 			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
@@ -81,8 +80,6 @@ class MatrixVisitorTest2023
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Entry,Empty>(&(*fmt));
-            auto qp2 = fmt2("SumToken","");
-            auto vT = fmt2({{"SumToken",""},{"IBANToken",""}});
 
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*fbv));
