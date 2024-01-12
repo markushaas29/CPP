@@ -66,7 +66,7 @@ class MatrixReadingVisitorTest
             std::cout<<mp<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Energy, KiloHour>, Date, Name, Year, Index, Entry, Empty>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Energy, KiloHour>, Date, Name, Year, Index<int>, Entry, Empty>(&(*fmt));
             
             Factory<IToken> fmt2;
             //auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
@@ -80,7 +80,7 @@ class MatrixReadingVisitorTest
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
  
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Energy, KiloHour>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+            auto tf = TypeFactory<Factory<IElement>, Quantity<Energy, KiloHour>, IBAN, Date, BIC, ID<std::string>, Name, Index<int>, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
 			std::unique_ptr<BaseVisitor> dtv = std::make_unique<DifferenceVisitor<Date>>();

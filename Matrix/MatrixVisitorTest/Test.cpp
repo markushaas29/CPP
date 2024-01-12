@@ -76,7 +76,7 @@ class MatrixVisitorTest
             std::cout<<mp3<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Entry,Empty>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index<int>, Entry,Empty>(&(*fmt));
             
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, WordToken>(&fmt2);
@@ -90,7 +90,7 @@ class MatrixVisitorTest
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
  
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+            auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index<int>, Empty>();
             auto tfc = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>(fmt);
 
 			auto vc = tfc({{"EqualVisitor", { "IBAN", "DE05100110012620778704"}},{"EqualVisitor", { "Year", "2022"}}});

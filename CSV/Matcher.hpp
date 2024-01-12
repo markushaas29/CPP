@@ -44,9 +44,9 @@ public:
 		return result;
 	};	
 	
-	virtual std::vector<std::unique_ptr<Index>> Indices(const std::string& s) const  
+	virtual std::vector<std::unique_ptr<Index<int>>> Indices(const std::string& s) const  
 	{
-		std::vector<std::unique_ptr<Index>> result;
+		std::vector<std::unique_ptr<Index<int>>> result;
 		std::smatch match;
 
 		std::regex rgx(";");
@@ -61,7 +61,7 @@ public:
 						if (t->Match(si))
 						{
 							std::cout<<"ID"<<i<<std::endl;
-							auto index = std::make_unique<Index>(si);
+							auto index = std::make_unique<Index<int>>(si);
 							index->id = i;
 							result.push_back(std::move(index));
 						}
@@ -70,9 +70,9 @@ public:
 		return result;
 	};	
 	
-	virtual std::vector<std::unique_ptr<Index>> Indices(const std::vector<std::string>& s) const  
+	virtual std::vector<std::unique_ptr<Index<int>>> Indices(const std::vector<std::string>& s) const  
 	{
-		std::vector<std::unique_ptr<Index>> result;
+		std::vector<std::unique_ptr<Index<int>>> result;
 
 		for (size_t i = 0; i < s.size(); ++i)
 		{
@@ -82,7 +82,7 @@ public:
 						if (t->Match(si))
 						{
 							std::cout<<"ID"<<i<<std::endl;
-							auto index = std::make_unique<Index>(si);
+							auto index = std::make_unique<Index<int>>(si);
 							index->id = i;
 							result.push_back(std::move(index));
 						}

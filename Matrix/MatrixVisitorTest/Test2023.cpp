@@ -79,7 +79,7 @@ class MatrixVisitorTest2023
    //         std::cout<<mp3<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index, Entry,Empty>(&(*fmt));
+            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index<int>, Entry,Empty>(&(*fmt));
 
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*fbv));
@@ -89,7 +89,7 @@ class MatrixVisitorTest2023
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
  
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index, Empty>();
+            auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index<int>, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
 		 	std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation","100"}};

@@ -97,13 +97,14 @@ private:
 	}
 };
 
-class Index: public Element<Index>
+template<typename T>//, typename U, typename TVal = double>
+class Index: public Element<Index<T>>
 {
-	using Base = Element<Index>;
-	friend class Element<Index>; 
+	using Base = Element<Index<T>>;
+	friend class Element<Index<T>>; 
 	friend class Matcher; 
 public:
-	inline static constexpr const char* Identifier = "Index";
+	inline static std::string Identifier = "Index";
 	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:
