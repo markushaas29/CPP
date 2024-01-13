@@ -104,7 +104,7 @@ class Index: public Element<Index<T>>
 	friend class Element<Index<T>>; 
 	friend class Matcher; 
 public:
-	inline static std::string Identifier = "Index";
+	inline static std::string Identifier = "Index" + std::is_same_v<T,int> ? std::string("<int>") : T::Identifier;
 	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:
