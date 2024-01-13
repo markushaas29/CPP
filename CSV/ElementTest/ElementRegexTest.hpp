@@ -192,12 +192,14 @@ public:
   		assert(bi.Match(t));
   		
 		auto si = SumIndexToken();
-		std::cout<<decltype(si)::Identifier<<std::endl;
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		
-		auto ui = UseIndexToken();
-		std::cout<<decltype(ui)::Identifier<<std::endl;
-		assert(decltype(ui)::Identifier=="VerwendungszweckIndexToken");
+		auto ii = IBANIndexToken();
+		std::cout<<decltype(si)::Identifier<<std::endl;
+		assert(IBANIndexToken::Identifier=="IBANIndexToken");
+		
+		assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");
+		assert(WasteIndexToken::Identifier=="WasteIndexToken");
 		
 		auto e = EmptyToken();
 		t = "";
