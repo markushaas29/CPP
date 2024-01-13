@@ -104,7 +104,7 @@ class Index: public Element<Index<T>>
 	friend class Element<Index<T>>; 
 	friend class Matcher; 
 public:
-	inline static std::string Identifier = "Index" + T::Identifier;
+	inline static std::string Identifier = T::Identifier + std::string("Index");
 	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:
@@ -120,7 +120,7 @@ class Index<int>: public Element<Index<int>>
 	friend class Element<Index<int>>; 
 	friend class Matcher; 
 public:
-	inline static std::string Identifier = "Index" + std::string("<int>");
+	inline static std::string Identifier = std::string("Int") + "Index";
 	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:

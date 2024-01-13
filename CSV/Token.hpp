@@ -34,13 +34,13 @@ private:
 };
 //--------------------------------Token------------------------------------------------
 
-template<typename D, typename T = int, typename I = T>
+template<typename D, typename T = int>
 class Token: public IToken
 {
 	using Derived = D;
 	using Type = T;
 public:
-	inline static const std::string Identifier = std::string(I::Identifier) + "Token";
+	inline static const std::string Identifier = std::string(T::Identifier) + "Token";
  	Token(const std::string& s = ""): exclude{s} { };
 	const std::string_view Data() const  {	return Derived::Pattern; };	
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
@@ -88,14 +88,14 @@ struct ValueToken: public Token<ValueToken, Value<int>>		{	inline static constex
 struct WordToken: public Token<WordToken, Entry>			{	inline static constexpr const char* Pattern = "[a-zA-z]+";};
 struct IDToken: public Token<IDToken, ID<int>>				{	inline static constexpr const char* Pattern = "^[0-9]+$";};
 struct EmptyToken: public Token<EmptyToken, Empty>			{	inline static constexpr const char* Pattern = "^(\\s*$)";};
-
-struct DateIndexToken: public Token<DateIndexToken, Date>	{	inline static constexpr const char* Pattern = "Buchungstag";};
-struct NameIndexToken: public Token<NameIndexToken, Entry>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
-struct IBANIndexToken: public Token<IBANIndexToken, Entry>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
-struct BICIndexToken: public Token<BICIndexToken, Entry>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
-struct SumIndexToken: public Token<SumIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Betrag";};
-struct UseIndexToken: public Token<UseIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 struct QuantityToken: public Token<QuantityToken, Quantity<Scalar>>	{	inline static constexpr const char* Pattern = ""; };
+
+struct DateIndexToken: public Token<DateIndexToken, Index<Date>>	{	inline static constexpr const char* Pattern = "Buchungstag";};
+struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
+struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
+struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
+struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
+struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 
 struct WasteIndexToken: public Token<WasteIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Waste"; };
 struct HeatingIndexToken: public Token<HeatingIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Heating"; };

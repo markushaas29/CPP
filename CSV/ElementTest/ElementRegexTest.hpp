@@ -190,6 +190,10 @@ public:
 		auto bi = BICIndexToken();
 		t = "BIC (SWIFT-Code) Zahlungsbeteiligter";
   		assert(bi.Match(t));
+  		
+		auto si = SumIndexToken();
+		std::cout<<decltype(si)::Identifier<<std::endl;
+		assert(decltype(si)::Identifier=="SumIndexToken");
 		
 		auto e = EmptyToken();
 		t = "";
