@@ -97,36 +97,38 @@ private:
 	}
 };
 
-template<typename T>//, typename U, typename TVal = double>
-class Index: public Element<Index<T>>
+template<typename T, template<typename> class D>
+class IndexBase: public Element<D<T>>
 {
-	using Base = Element<Index<T>>;
-	friend class Element<Index<T>>; 
+	using Base = Element<D<T>>;
+	friend class Element<D<T>>; 
 	friend class Matcher; 
+protected:
+	explicit IndexBase(const std::string& s): Base(s), id{0}{};
 public:
-	inline static std::string Identifier = T::Identifier + std::string("Index");
-	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:
-	friend std::ostream& operator<<(std::ostream& out, const Index& e) { return out<<e.Data()<<": "<<e.id;}
+	friend std::ostream& operator<<(std::ostream& out, const IndexBase& e) { return out<<e.Data()<<": "<<e.id;}
 	inline static std::string check(const std::string& s) { return s; }
 	size_t id;
 };
 
-template<>//, typename U, typename TVal = double>
-class Index<int>: public Element<Index<int>>
+template<typename T>
+class Index: public IndexBase<T,Index>
 {
-	using Base = Element<Index<int>>;
-	friend class Element<Index<int>>; 
-	friend class Matcher; 
+	using Base = IndexBase<T,Index>;
+public:
+	inline static std::string Identifier = T::Identifier + std::string("Index");
+	explicit Index(const std::string& s = Base::Identifier): Base(s){};
+};
+
+template<>
+class Index<int>: public IndexBase<int,Index>
+{
+	using Base = IndexBase<int,Index>;
 public:
 	inline static std::string Identifier = std::string("Int") + "Index";
-	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
-	size_t Id() const { return id; };
-private:
-	friend std::ostream& operator<<(std::ostream& out, const Index& e) { return out<<e.Data()<<": "<<e.id;}
-	inline static std::string check(const std::string& s) { return s; }
-	size_t id;
+	explicit Index(const std::string& s = Base::Identifier): Base(s){};
 };
 
 class Name: public Element<Name>

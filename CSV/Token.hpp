@@ -109,7 +109,7 @@ struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static co
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 
-struct WasteIndexToken: public Token<WasteIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Waste"; };
+struct WasteIndexToken: public Token<WasteIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Waste"; };
 struct HeatingIndexToken: public Token<HeatingIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Heating"; };
 struct StageIndexToken: public Token<StageIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Stage"; };
 struct CleaningIndexToken: public Token<CleaningIndexToken, Entry>	{	inline static constexpr const char* Pattern = "Cleaning"; };
