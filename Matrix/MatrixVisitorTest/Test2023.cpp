@@ -54,6 +54,8 @@ class MatrixVisitorTest2023
             auto v = fmt2({{"SumToken",""},{"IBANToken",""},{"DateToken",""},{"EmptyToken",""},{"ValueToken",""},{"EntryToken",""},{"ScalarToken",""}});
             Matcher matcher(std::move(v));
 
+            Factory<IToken> fIIT;
+            auto rIIT = Registration<Factory<IToken>, IBANIndexToken>(&fIIT);
 			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
             vi->push_back(std::make_unique<NameIndexToken>());
             vi->push_back(std::make_unique<DateIndexToken>());
