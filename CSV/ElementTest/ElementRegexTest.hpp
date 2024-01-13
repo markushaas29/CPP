@@ -195,6 +195,10 @@ public:
 		std::cout<<decltype(si)::Identifier<<std::endl;
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		
+		auto ui = UseIndexToken();
+		std::cout<<decltype(ui)::Identifier<<std::endl;
+		assert(decltype(ui)::Identifier=="VerwendungszweckIndexToken");
+		
 		auto e = EmptyToken();
 		t = "";
   		assert(e.Match(t));

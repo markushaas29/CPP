@@ -73,6 +73,44 @@ private:
 	std::string exclude;
 };
 
+template<typename D>
+class Token<D,Index<Entry>>: public IToken
+{
+	using Derived = D;
+	using Type = Index<Entry>;
+public:
+	inline static const std::string Identifier = D::Pattern + std::string("IndexToken");
+ 	Token(const std::string& s = ""): exclude{s} { };
+	const std::string_view Data() const  {	return Derived::Pattern; };	
+	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
+	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
+	virtual const std::regex Pattern() const { return pattern; };	
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const  
+	{
+		std::vector<std::unique_ptr<IElement>> result;
+		std::smatch match;
+
+		std::regex rgx(";");
+		std::sregex_token_iterator iter(s.begin(),s.end(), rgx, -1);
+		std::sregex_token_iterator end;
+		for ( ; iter != end; ++iter)
+		{
+			std::string si(*iter);
+			if (Match(si))
+				result.push_back(std::make_unique<Type>(si));
+		}
+		return result;
+	};	
+	virtual std::unique_ptr<IToken> Clone() const  { return std::make_unique<Derived>();};	
+	static std::unique_ptr<IToken> Make(const std::string& s) { return std::make_unique<Derived>(); };	
+
+	bool operator==(const Token& e) const{ return Data() == e.Data(); };
+protected:
+private:
+	std::regex pattern = std::regex( Derived::Pattern );
+	std::string exclude;
+};
+
 struct IBANToken: public Token<IBANToken, IBAN>
 {	
 	IBANToken(const std::string& e = ""): Base(e) {}	
