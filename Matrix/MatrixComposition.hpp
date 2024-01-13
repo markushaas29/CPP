@@ -57,7 +57,7 @@ private:
 	static std::ostream& in(std::ostream& s, size_t add) 
 	{
 		for(auto i=0; i<add; ++i)
-			s<<" ";
+			s<<"  ";
 		return s;
 	}
 };
@@ -102,8 +102,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposition& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s, size_t i = 0) const 
 	{ 
-		Base::in(s,i)<<"Name: "<<Name()<<std::endl;
-		std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& p) { Base::in(s,i)<<*p<<"\n"; });
+		Base::in(s,i+1)<<"Name: "<<Name()<<std::endl;
+		std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& p) { Base::in(s,i+1)<<*p<<"\n"; });
 		//std::for_each(m.visitors->cbegin(), m.visitors->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		return s;  
 	}
@@ -157,7 +157,7 @@ private:
 		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c) 
 				{ 	
 					s<<"\n";
-					Base::in(s,i);
+					Base::in(s,i+1);
 					c->display(s,i);
 					s<<"\n"; 
 					}); 

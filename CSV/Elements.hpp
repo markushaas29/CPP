@@ -104,7 +104,23 @@ class Index: public Element<Index<T>>
 	friend class Element<Index<T>>; 
 	friend class Matcher; 
 public:
-	inline static std::string Identifier = "Index" + std::is_same_v<T,int> ? std::string("<int>") : T::Identifier;
+	inline static std::string Identifier = "Index" + T::Identifier;
+	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
+	size_t Id() const { return id; };
+private:
+	friend std::ostream& operator<<(std::ostream& out, const Index& e) { return out<<e.Data()<<": "<<e.id;}
+	inline static std::string check(const std::string& s) { return s; }
+	size_t id;
+};
+
+template<>//, typename U, typename TVal = double>
+class Index<int>: public Element<Index<int>>
+{
+	using Base = Element<Index<int>>;
+	friend class Element<Index<int>>; 
+	friend class Matcher; 
+public:
+	inline static std::string Identifier = "Index" + std::string("<int>");
 	explicit Index(const std::string& s = Identifier): Base(s), id{0}{};
 	size_t Id() const { return id; };
 private:
