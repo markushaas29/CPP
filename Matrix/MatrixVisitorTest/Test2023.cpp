@@ -56,8 +56,7 @@ class MatrixVisitorTest2023
 
             Factory<IToken> fIIT;
             auto rIIT = Registration<Factory<IToken>, IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken>(&fIIT);
-            auto vi = fIIT({{"SumIndexToken",""},{"IBANIndexToken",""},{"DateIndexToken",""},{"BICIndexToken",""},{"NameIndexToken",""}});
-			vi->push_back(std::make_unique<UseIndexToken>());
+            auto vi = fIIT({{"SumIndexToken",""},{"IBANIndexToken",""},{"DateIndexToken",""},{"BICIndexToken",""},{"NameIndexToken",""}, {"VerwendungszweckIndexToken",""}});
             Matcher imatcher(std::move(vi));
 			
 			auto vsi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
