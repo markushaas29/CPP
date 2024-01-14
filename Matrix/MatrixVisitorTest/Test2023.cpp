@@ -59,15 +59,9 @@ class MatrixVisitorTest2023
             auto vi = fIIT({{"SumIndexToken",""},{"IBANIndexToken",""},{"DateIndexToken",""},{"BICIndexToken",""},{"NameIndexToken",""}, {"VerwendungszweckIndexToken",""}});
             Matcher imatcher(std::move(vi));
 			
-			auto vsi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
-            vsi->push_back(std::make_unique<NameIndexToken>());
-            vsi->push_back(std::make_unique<StageIndexToken>());
-            vsi->push_back(std::make_unique<WasteIndexToken>());
-            vsi->push_back(std::make_unique<HeatingIndexToken>());
-            vsi->push_back(std::make_unique<CleaningIndexToken>());
-            vsi->push_back(std::make_unique<SewageIndexToken>());
-            vsi->push_back(std::make_unique<PropertyTaxIndexToken>());
-            vsi->push_back(std::make_unique<InsuranceIndexToken>());
+            Factory<IToken> fSIT;
+            auto rISIT = Registration<Factory<IToken>, NameIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken>(&fSIT);
+            auto vsi = fSIT({{"NameIndexToken",""},{"StageIndexToken",""},{"WasteIndexToken",""},{"HeatingIndexToken",""},{"CleaningIndexToken",""},{"SewageIndexToken",""},{"PropertyTaxIndexToken",""},{"InsuranceIndexToken",""}, });
             Matcher smatcher(std::move(vsi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
