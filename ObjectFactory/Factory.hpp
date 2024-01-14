@@ -22,7 +22,7 @@ template<typename IdentifierType=std::string, typename ArgumentType=std::string>
 class FactoryUnit
 {
 public:
-	FactoryUnit(const IdentifierType& id, const ArgumentType& arg) : identifier{id}, argument{arg} {}
+	FactoryUnit(const IdentifierType& id, const ArgumentType& arg = ArgumentType{}) : identifier{id}, argument{arg} {}
 	decltype(auto) Arg() const { return argument; }
 	decltype(auto) Add(const auto& fu) 
 	{

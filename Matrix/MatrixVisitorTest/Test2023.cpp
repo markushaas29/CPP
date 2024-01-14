@@ -51,17 +51,17 @@ class MatrixVisitorTest2023
  			
             Factory<IToken> fmt2;
             auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>(&fmt2);
-            auto v = fmt2({{"SumToken",""},{"IBANToken",""},{"DateToken",""},{"EmptyToken",""},{"ValueToken",""},{"EntryToken",""},{"ScalarToken",""}});
+            auto v = fmt2({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
             Matcher matcher(std::move(v));
 
             Factory<IToken> fIIT;
             auto rIIT = Registration<Factory<IToken>, IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken>(&fIIT);
-            auto vi = fIIT({{"SumIndexToken",""},{"IBANIndexToken",""},{"DateIndexToken",""},{"BICIndexToken",""},{"NameIndexToken",""}, {"VerwendungszweckIndexToken",""}});
+            auto vi = fIIT({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
             Matcher imatcher(std::move(vi));
 			
             Factory<IToken> fSIT;
             auto rISIT = Registration<Factory<IToken>, NameIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken>(&fSIT);
-            auto vsi = fSIT({{"NameIndexToken",""},{"StageIndexToken",""},{"WasteIndexToken",""},{"HeatingIndexToken",""},{"CleaningIndexToken",""},{"SewageIndexToken",""},{"PropertyTaxIndexToken",""},{"InsuranceIndexToken",""}, });
+            auto vsi = fSIT({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"}, });
             Matcher smatcher(std::move(vsi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
