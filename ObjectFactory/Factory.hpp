@@ -175,6 +175,14 @@ private:
 	std::map< IdentifierType, CreatorType> creators;
 };
 
+template<typename I, typename... T>
+decltype(auto) Build()                                                                                                                                                                                                   
+{
+	auto f =std::make_shared<Factory<I>>();
+    auto r = Registration<Factory<I>, T...>(&(*f));
+	return f;
+}
+
 template<class TList, template<class> class Unit = FactoryUnit, template<class> class CreatePolicy = CreateFactoryUnitNewPolicy>
 class AbstractFactory
 {

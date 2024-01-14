@@ -67,8 +67,7 @@ class MatrixVisitorTest2023
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
    //         std::cout<<mp3<<std::endl;
 			
-			auto fmt=std::make_shared<Factory<IElement>>();
-            auto reg = Registration<Factory<IElement>,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index<int>, Entry,Empty>(&(*fmt));
+            auto fmt = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Index<int>, Entry,Empty>();
 
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*fbv));
