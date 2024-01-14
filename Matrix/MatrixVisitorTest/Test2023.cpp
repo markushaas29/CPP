@@ -99,14 +99,6 @@ class MatrixVisitorTest2023
 //////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsRast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
 //////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {properUnitsProp, jansenUnitsansen, properUnitsRast});
 //////            
-////			//auto mEnBW = mp3 | (*tfc)("EqualVisitor", { "Entry", "701006843905"})| (*tfc)("EqualVisitor", { "Entry", "Abschlagsforderung"}) | (*tfc)("EqualVisitor", { "IBAN", "DE56600501017402051588"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBW{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}};
-
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGas{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}};
-
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsGasI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}};
-		
-			std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> properUnitsEnBWI{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}}};
 
 			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 			{
@@ -121,6 +113,12 @@ class MatrixVisitorTest2023
 					},
 					{
 						{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}
+					},
+					{
+						{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}} //Heatung
+					},
+					{
+						{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}
 					}
 				},
 				{
