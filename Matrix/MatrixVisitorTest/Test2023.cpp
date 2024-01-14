@@ -59,9 +59,8 @@ class MatrixVisitorTest2023
             auto vi = fIIT({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
             Matcher imatcher(std::move(vi));
 			
-            Factory<IToken> fSIT;
-            auto rISIT = Registration<Factory<IToken>, NameIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken>(&fSIT);
-            auto vsi = fSIT({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"}, });
+            auto fSIT = Build<IToken, NameIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken>();
+            auto vsi = (*fSIT)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"}, });
             Matcher smatcher(std::move(vsi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
