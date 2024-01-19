@@ -130,6 +130,9 @@ class MatrixVisitorTest2023
 					},
 					{ //Cleaning
 						{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}
+					},
+					{ //Cleaning
+						{"EqualVisitor", { "IBAN", "DE79660623660000101303"}}, {"EqualVisitor", { "Year", "2023"}}
 					}
 				},
 				{
