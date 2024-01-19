@@ -57,8 +57,8 @@ class MatrixVisitorTest2023
             auto v = fmt2({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
             Matcher matcher(std::move(v));
 
-            auto fSIT = Build<IToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken>();
-            auto vsi = (*fSIT)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"}, });
+            auto fSIT = Build<IToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken>();
+            auto vsi = (*fSIT)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
             auto vi = (*fSIT)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
             Matcher imatcher(std::move(vi));
             Matcher smatcher(std::move(vsi));
@@ -159,6 +159,7 @@ class MatrixVisitorTest2023
 			auto ms = result->Elements().To<Quantity<Sum>>();
 
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
+			std::cout<<mS.Match(smatcher).Parse(matcher)<<std::endl;
 			mps = mps.Set(Quantity<Scalar>(47.361),1,5);
 			mps = mps.Set(Quantity<Scalar>(62.424),2,5);
 			mps = mps.Set(Quantity<Scalar>(33.559),3,5);
