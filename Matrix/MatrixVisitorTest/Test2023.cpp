@@ -35,6 +35,7 @@ class MatrixVisitorTest2023
 			using EVF = Factory<BaseVisitor>;
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
+			auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
 			auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
             auto mrR = MatrixReader(rpath);
@@ -42,11 +43,13 @@ class MatrixVisitorTest2023
             auto msm = mR.To<Quantity<Scalar>>();
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
+			auto m24r = MatrixReader(u24);
 			auto mS = MatrixReader(sNew).M<2>();
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
+			auto m24S = m24r.M<2>();
 			auto t = false;
-			std::vector<MS2> m22_23v{m22S, m23S};
+			std::vector<MS2> m22_23v{m22S, m23S, m24S};
 			M3 m22_23(m22_23v);
  			
             Factory<IToken> fmt2;
