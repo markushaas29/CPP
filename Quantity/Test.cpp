@@ -52,6 +52,10 @@ int Run()
     std::cout<<"m500: "<<m500<<std::endl;
     assert(km1.PureValue()==1000);
     assert(km1==km1);
+	assert(km1!=km2);
+	assert(km1==m1000);
+	assert(km1!=mm500);
+
     assert(km1<km2);
     assert(km1.Value()==1);
     assert(decltype(km1)::QuantityRatioType::Exponent==1);
