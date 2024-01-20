@@ -159,7 +159,11 @@ class MatrixVisitorTest2023
 			auto ms = result->Elements().To<Quantity<Sum>>();
 
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
-			std::cout<<mS.Match(smatcher).Parse(matcher)<<std::endl;
+			auto stageQ = mS.Match(smatcher).Parse(matcher);
+			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
+			std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
+			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
+			std::cout<<payment<<extras[0]<<std::endl;
 			mps = mps.Set(Quantity<Scalar>(47.361),1,5);
 			mps = mps.Set(Quantity<Scalar>(62.424),2,5);
 			mps = mps.Set(Quantity<Scalar>(33.559),3,5);
