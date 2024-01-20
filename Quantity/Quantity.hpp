@@ -41,6 +41,8 @@ public:
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
 	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(""),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
+	bool Equals(const Quantity<U,QR,T1>& y) const {		return value == y.value; }
+	
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return value <=> y.value; }
 	bool operator==(const Quantity<U,QR,T1>& y) const {		return value == y.value; }
 	constexpr operator ValueType() const { return Value(); }

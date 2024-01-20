@@ -172,7 +172,8 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
 			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
-			//assert(res[1].To<Quantity<Sum>>()==Quantity<Sum>{-2487.87});
+		//assert(res[1].To<Quantity<Sum>>()==Quantity<Sum>{-2487.87});
+			std::cout<<payment<<res[1].To<Quantity<Sum>>().Data()<<Quantity<Sum>{-2487.87}.Data()<<std::endl;
 			//assert(res[2].To<Quantity<Sum>>()==Quantity<Sum>{-2627.11});
 			//assert(res[3].To<Quantity<Sum>>()==Quantity<Sum>{-2642.64});
 			std::cout<<"END 2023"<<std::endl;
