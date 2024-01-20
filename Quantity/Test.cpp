@@ -41,7 +41,7 @@ int Run()
 	auto km05 = Quantity<Length,Kilo>(0.5);
 	auto km1 = Quantity<Length,Kilo>(1);
 	auto km1_001 = Quantity<Length,Kilo>(1.001);
-	auto km1_0001 = Quantity<Length,Kilo>(1.0001);
+	auto km1_002 = Quantity<Length,Kilo>(1.002);
 	auto km2 = Quantity<Length,Kilo>(2);
 	auto m500 = Quantity<Length,Pure>(500);
 	auto m1000 = Quantity<Length,Pure>(1000);
@@ -57,8 +57,8 @@ int Run()
     assert(km1==km1);
     assert(km1!=km1_001);
     assert(km1.Equals(km1_001));
-//    assert(!km1.Equals(km1_0001));
-//    assert(km1.Equals(km1_0001,0.0001));
+    assert(!km1.Equals(km1_002));
+    assert(km1.Equals(km1_002,0.003));
 	assert(km1!=km2);
 	assert(km05==m500);
 	assert(km1==m1000);
