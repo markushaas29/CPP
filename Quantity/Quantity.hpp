@@ -42,7 +42,7 @@ public:
 	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(""),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return value <=> y.value; }
-	bool operator==(const Quantity<U,QR,T1>& y) const {		return value == y.value ? true : (this->Data()==y.Data()); }
+	bool operator==(const Quantity<U,QR,T1>& y) const {		return value == y.value; }
 	constexpr operator ValueType() const { return Value(); }
 
 	static decltype(auto) Create(std::istream& is)
