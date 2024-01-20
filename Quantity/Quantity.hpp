@@ -41,20 +41,9 @@ public:
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
 	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(""),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
-	bool Equals(const Quantity<U,QR,T1>& y, double epsilon = 0.001) const 
-	{	
-		int factor = 3;
-		double min_a = y - (y - std::nextafter(y, std::numeric_limits<double>::lowest())) * factor;
-  		double max_a = y + (std::nextafter(y, std::numeric_limits<double>::max()) - y) * factor;
-		std::cout<<std::nextafter(y, std::numeric_limits<double>::lowest())<<std::endl;
-		std::cout<<std::nextafter(y, std::numeric_limits<double>::max())<<std::endl;
-		std::cout<<max_a<<std::endl;
-		std::cout<<max_a<<std::endl;
-		std::cout<<*this<<y<<fabs(value-y.value)<<std::endl;
-		return std::fabs(value-y.value) <= epsilon; }
-	
+	constexpr bool Equals(const Quantity<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Value()-y.Value()) <= epsilon; }
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return value <=> y.value; }
-	bool operator==(const Quantity<U,QR,T1>& y) const {		return value == y.value; }
+	constexpr bool operator==(const Quantity<U,QR,T1>& y) const {		return value == y.value; }
 	constexpr operator ValueType() const { return Value(); }
 
 	static decltype(auto) Create(std::istream& is)

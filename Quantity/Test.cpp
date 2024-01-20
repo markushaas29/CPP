@@ -56,7 +56,7 @@ int Run()
     assert(km1.PureValue()==1000);
     assert(km1==km1);
     assert(km1!=km1_001);
-//    assert(km1.Equals(km1_001));
+    assert(km1.Equals(km1_001));
 //    assert(!km1.Equals(km1_0001));
 //    assert(km1.Equals(km1_0001,0.0001));
 	assert(km1!=km2);
