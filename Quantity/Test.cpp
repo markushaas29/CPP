@@ -38,7 +38,10 @@ int Run()
     //~ std::cout<<"q12: "<<q12.Value()<<std::endl;
 	
 	Quantity<Length,Kilo>::UnitType u;
+	auto km05 = Quantity<Length,Kilo>(0.5);
 	auto km1 = Quantity<Length,Kilo>(1);
+	auto km1_001 = Quantity<Length,Kilo>(1.001);
+	auto km1_0001 = Quantity<Length,Kilo>(1.0001);
 	auto km2 = Quantity<Length,Kilo>(2);
 	auto m500 = Quantity<Length,Pure>(500);
 	auto m1000 = Quantity<Length,Pure>(1000);
@@ -52,7 +55,12 @@ int Run()
     std::cout<<"m500: "<<m500<<std::endl;
     assert(km1.PureValue()==1000);
     assert(km1==km1);
+    assert(km1!=km1_001);
+//    assert(km1.Equals(km1_001));
+//    assert(!km1.Equals(km1_0001));
+//    assert(km1.Equals(km1_0001,0.0001));
 	assert(km1!=km2);
+	assert(km05==m500);
 	assert(km1==m1000);
 	assert(km1!=mm500);
 
