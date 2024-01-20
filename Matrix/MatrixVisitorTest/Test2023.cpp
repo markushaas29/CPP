@@ -189,7 +189,10 @@ class MatrixVisitorTest2023
 			assert(ms[3].To<Quantity<Sum>>()==Quantity<Sum>{-918.91}); // Cleaning
 			assert(ms[4].To<Quantity<Sum>>()==Quantity<Sum>{-423.00}); // Property
 			assert(ms[5].To<Quantity<Sum>>()==Quantity<Sum>{-855.00}); // Sewage
-		//assert(res[1].To<Quantity<Sum>>()==Quantity<Sum>{-2487.87});
+			assert(res[1].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2449.34},0.01));
+			assert(res[2].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2588.57},0.01));
+			assert(Bru23.Equals(Quantity<Sum>{-25.34},0.01));
+			assert(Z23.Equals(Quantity<Sum>{-68.57},0.01));
 			std::cout<<payment<<res[1].To<Quantity<Sum>>().Data()<<Quantity<Sum>{-2487.87}.Data()<<std::endl;
 			//assert(res[2].To<Quantity<Sum>>()==Quantity<Sum>{-2627.11});
 			//assert(res[3].To<Quantity<Sum>>()==Quantity<Sum>{-2642.64});
