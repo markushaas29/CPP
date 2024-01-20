@@ -70,7 +70,6 @@ class MatrixVisitorTest2023
 
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*fbv));
-            auto cv = (*fbv)("Accumulation","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
@@ -81,22 +80,6 @@ class MatrixVisitorTest2023
 
 		 	std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation","100"}};
 			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
-////			auto mZie = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE10660501011022126625"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-////			auto mZei = mp3 | (*tfc)("EqualVisitor", { "IBAN", "DE47660501011020531958"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-////            //assert((mZei.Rows()+mZie.Rows())==13);
-////			std::cout<<"Zei:"<<mZei<<std::endl;
-//////            assert(Quantity<Sum>(mZeiher.ColSum(4))==Quantity<Sum>(9000));
-////			
-////			auto mBrustat = mp3 | (*tfc)("EqualVisitor", { "Entry", "MIETE"})| (*tfc)("EqualVisitor", { "IBAN", "DE83660623660009262008"})| (*tfc)("EqualVisitor", { "Year", "2023"});
-////            //assert(mBrustat.Rows()==12);
-////          	//assert((mBrustat.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(7720));
-////			std::cout<<"Brus:"<<mBrustat<<std::endl;
-////			
-//////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsProp = { "A",  {{"EQ", "DE05100110012620778704"}, {"C","2023"}}}; 
-//////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> jansenUnitsansen = { "A",  {{"EQ", "DE08548500101700257437"}, {"C","2023"}}}; 
-//////			FactoryUnit<std::string, std::vector<FactoryUnit<std::string, std::string>>> properUnitsRast = { "A",  {{"EQ", "DE79660623660000101303"}, {"C","2023"}}}; 
-//////            auto mBC23 = MatrixQuery<decltype(m22S),std::string>(pfs, {properUnitsProp, jansenUnitsansen, properUnitsRast});
-//////            
 
 			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 			{
