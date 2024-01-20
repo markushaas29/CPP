@@ -64,7 +64,6 @@ class MatrixVisitorTest2023
             Matcher smatcher(std::move(vsi));
 
 			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
-   //         std::cout<<mp3<<std::endl;
 			
             auto fmt = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
 
