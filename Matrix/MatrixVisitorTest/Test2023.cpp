@@ -132,6 +132,9 @@ class MatrixVisitorTest2023
 						{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}
 					},
 					{ //Cleaning
+						{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2024"}}
+					},
+					{ //Cleaning
 						{"EqualVisitor", { "IBAN", "DE79660623660000101303"}}, {"EqualVisitor", { "Year", "2023"}}
 					}
 				},
@@ -163,7 +166,7 @@ class MatrixVisitorTest2023
 			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
 			std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
 			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
-			std::cout<<payment<<extras[0]<<std::endl;
+			std::cout<<"Payment:\n"<<payment<<extras[0]<<std::endl;
 			mps = mps.Set(Quantity<Scalar>(47.361),1,5);
 			mps = mps.Set(Quantity<Scalar>(62.424),2,5);
 			mps = mps.Set(Quantity<Scalar>(33.559),3,5);
@@ -172,6 +175,20 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
 			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
+			auto resQ = res.To<Quantity<Sum>>();
+			
+			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
+			std::cout<<"\nBru---------------------\n:\n"<<Bru23<<std::endl;
+			auto Z23 = extras[1] + resQ[2].To<Quantity<Sum>>();
+			std::cout<<"\nBru---------------------\n:\n"<<Z23<<std::endl;
+			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
+
+			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
+			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating
+			assert(ms[2].To<Quantity<Sum>>()==Quantity<Sum>{-1951.57}); // Insurance
+			assert(ms[3].To<Quantity<Sum>>()==Quantity<Sum>{-918.91}); // Cleaning
+			assert(ms[4].To<Quantity<Sum>>()==Quantity<Sum>{-423.00}); // Property
+			assert(ms[5].To<Quantity<Sum>>()==Quantity<Sum>{-855.00}); // Property
 		//assert(res[1].To<Quantity<Sum>>()==Quantity<Sum>{-2487.87});
 			std::cout<<payment<<res[1].To<Quantity<Sum>>().Data()<<Quantity<Sum>{-2487.87}.Data()<<std::endl;
 			//assert(res[2].To<Quantity<Sum>>()==Quantity<Sum>{-2627.11});
