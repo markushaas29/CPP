@@ -37,15 +37,6 @@ class Readings
 		    using ME1 = Matrix<2,MDE1>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 			using EVF = Factory<BaseVisitor>;
-			auto t = false;
- 			
-
-			auto v = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
-            v->push_back(std::make_unique<DateToken>());
-            v->push_back(std::make_unique<WordToken>());
-            v->push_back(std::make_unique<SumToken>());
-            v->push_back(std::make_unique<ValueToken>());
-            v->push_back(std::make_unique<EmptyToken>());
 
 			auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"ValueToken"}, {"EmptyToken"}});
             elementTokens->push_back(std::make_unique<EnergyToken>());
@@ -58,12 +49,8 @@ class Readings
             vi->push_back(std::make_unique<BICIndexToken>());
             vi->push_back(std::make_unique<BICIndexToken>());
 			
-            Matcher imatcher(std::move(vi));
-			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Energy, KiloHour>, Date, Name, Year, Index<int>, Entry, Empty>(&(*fmt));
-            
-            Factory<IToken> fmt2;
             
 			auto fbv = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
@@ -107,4 +94,6 @@ class Readings
 		}
 	private:
 		std::shared_ptr<Factory<IToken>> tokenFactory;
+		std::shared_ptr<Factory<IElement>> elementFactory;
+		std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
 };
