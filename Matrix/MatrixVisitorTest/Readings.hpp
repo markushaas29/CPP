@@ -130,9 +130,9 @@ class Readings
 			assert((*accV(0,2))==Quantity<Volume>(33.559));
 			assert((*accV(2,4))==Quantity<Volume>(62.424));
 			assert((*accV(4,6))==Quantity<Volume>(47.361));
-			auto d1 = std::make_shared<Quantity<Volume>>((*accV(0,2)).To<Quantity<Volume>>());
+			auto d3 = std::make_shared<Quantity<Volume>>((*accV(0,2)).To<Quantity<Volume>>());
 			auto d2 = std::make_shared<Quantity<Volume>>((*accV(2,4)).To<Quantity<Volume>>());
-			auto d3 = std::make_shared<Quantity<Volume>>((*accV(4,6)).To<Quantity<Volume>>());
+			auto d1 = std::make_shared<Quantity<Volume>>((*accV(4,6)).To<Quantity<Volume>>());
 
 			std::vector<std::shared_ptr<IElement>> elements = { d1, d2 ,d3 };
 			auto m = Init(elements);

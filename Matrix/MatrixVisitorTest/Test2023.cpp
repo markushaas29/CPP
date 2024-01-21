@@ -151,9 +151,9 @@ class MatrixVisitorTest2023
 			auto readingsMatrix = readings();
 			std::cout<<"\n-------------------readings---------------------\n:\n"<<readingsMatrix<<std::endl;
 
-			mps = mps.Set(Quantity<Scalar>(47.361),1,5);
-			mps = mps.Set(Quantity<Scalar>(62.424),2,5);
-			mps = mps.Set(Quantity<Scalar>(33.559),3,5);
+			mps = mps.Set(Quantity<Scalar>(readingsMatrix[0]()->Data()),1,5);
+			mps = mps.Set(Quantity<Scalar>(readingsMatrix[1]()->Data()),2,5);
+			mps = mps.Set(Quantity<Scalar>(readingsMatrix[2]()->Data()),3,5);
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
