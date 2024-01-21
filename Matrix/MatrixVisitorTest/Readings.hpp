@@ -28,6 +28,7 @@
 class Readings
 {
 	public:
+		Readings(std::shared_ptr<Factory<IToken>> f):tokenFactory{f} {};
 		decltype(auto) operator()()
 		{
 		    using MDS2 = MatrixDescriptor<2,std::string>;
@@ -103,4 +104,6 @@ class Readings
 			auto m = Init(elements);
  	        return m();
 		}
+	private:
+		std::shared_ptr<Factory<IToken>> tokenFactory;
 };

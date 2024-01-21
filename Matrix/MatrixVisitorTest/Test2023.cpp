@@ -52,17 +52,14 @@ class MatrixVisitorTest2023
 			auto t = false;
 			std::vector<MS2> accountFiles{m22S, m23S, m24S};
 			M3 accountMatrix(accountFiles);
- 			
-            Factory<IToken> tokenFactory;
-            auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>(&tokenFactory);
-            auto v = tokenFactory({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-            Matcher matcher(std::move(v));
 
-            auto indexTokenFactory = Build<IToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken>();
-            auto stageIndexTokens = (*indexTokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-            auto csvIndexTokens = (*indexTokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-            Matcher imatcher(std::move(csvIndexTokens));
+            auto tokenFactory = Build<IToken,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken>();
+            auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
             Matcher smatcher(std::move(stageIndexTokens));
+            auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
+            Matcher imatcher(std::move(csvIndexTokens));
+            auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+            Matcher matcher(std::move(v));
 
 			auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);
 			
@@ -147,7 +144,7 @@ class MatrixVisitorTest2023
 			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 			std::cout<<"Payment:\n"<<payment<<extras[0]<<std::endl;
 
-			Readings readings;
+			auto readings = Readings{tokenFactory};
 			auto readingsMatrix = readings();
 			std::cout<<"\n-------------------readings---------------------\n:\n"<<readingsMatrix<<std::endl;
 
@@ -177,9 +174,7 @@ class MatrixVisitorTest2023
 			assert(res[2].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2588.57},0.01));
 			assert(Bru23.Equals(Quantity<Sum>{-25.34},0.01));
 			assert(Z23.Equals(Quantity<Sum>{-68.57},0.01));
-			std::cout<<payment<<res[1].To<Quantity<Sum>>().Data()<<Quantity<Sum>{-2487.87}.Data()<<std::endl;
-			//assert(res[2].To<Quantity<Sum>>()==Quantity<Sum>{-2627.11});
-			//assert(res[3].To<Quantity<Sum>>()==Quantity<Sum>{-2642.64});
+
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
