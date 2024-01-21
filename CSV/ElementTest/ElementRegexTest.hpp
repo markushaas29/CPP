@@ -120,7 +120,7 @@ public:
 		t = "12,303€";
   		assert(!st.Match(t));
 		
-		auto wk = EnergyToken();
+		auto wk = WorkToken();
 		t = "12.30kWs";
   		assert(wk.Match(t));
 		t = "12.3kWs";
@@ -197,7 +197,7 @@ public:
 		auto ii = IBANIndexToken();
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		assert(IBANIndexToken::Identifier=="IBANIndexToken");
-		assert(EnergyToken::Identifier=="WorkToken");
+		assert(WorkToken::Identifier=="WorkToken");
 		assert(VolumeToken::Identifier=="VolumeToken");
 		
 		assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");

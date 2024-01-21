@@ -48,7 +48,7 @@ class MatrixReadingVisitorTest
             v->push_back(std::make_unique<WordToken>());
             v->push_back(std::make_unique<SumToken>());
             v->push_back(std::make_unique<ValueToken>());
-            v->push_back(std::make_unique<EnergyToken>());
+            v->push_back(std::make_unique<WorkToken>());
             v->push_back(std::make_unique<VolumeToken>());
             v->push_back(std::make_unique<EmptyToken>());
 
