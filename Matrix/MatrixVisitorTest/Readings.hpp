@@ -30,16 +30,12 @@ class Readings
 	public:
 		decltype(auto) operator()()
 		{
-			std::cout<<"START MatrixVisitor Reading 2023"<<std::endl;
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MDE1 = MatrixDescriptor<1,std::shared_ptr<IElement>>;
 		    using MS2 = Matrix<2,MDS2>;
 		    using ME1 = Matrix<2,MDE1>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 			using EVF = Factory<BaseVisitor>;
-			auto ur = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energ.csv" };
-			auto mr = MatrixReader(ur);
-			auto me = mr.M<2>();
 			auto t = false;
  			
 
@@ -61,8 +57,6 @@ class Readings
             vi->push_back(std::make_unique<BICIndexToken>());
 			
             Matcher imatcher(std::move(vi));
-			auto mp = me.Parse(matcher);
-            std::cout<<mp<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Energy, KiloHour>, Date, Name, Year, Index<int>, Entry, Empty>(&(*fmt));
@@ -80,18 +74,6 @@ class Readings
             auto tf = TypeFactory<Factory<IElement>, Quantity<Energy, KiloHour>, IBAN, Date, BIC, ID<std::string>, Name, Index<int>, Empty>();
             auto tfc = std::make_shared<TF>(fmt);
 
-			std::unique_ptr<BaseVisitor> dtv = std::make_unique<DifferenceVisitor<Date>>();
-			cv = mp.Accept(std::move(cv));
-			dtv = mp.Accept(std::move(dtv));
-			auto dv = cv->template As<DifferenceVisitor<Quantity<Energy, KiloHour>>>();
-			auto dttv = dtv->template As<DifferenceVisitor<Date>>();
-			
-			std::unique_ptr<BaseVisitor> conv = std::make_unique<ConsumptionVisitor<Quantity<Energy, KiloHour>>>();
-			conv = mp.Accept(std::move(conv));
-			auto cons = conv->template As<ConsumptionVisitor<Quantity<Energy, KiloHour>>>();
-			auto s = cons();	
-			auto val = Quantity<Unit<0, 1, 2, -3>>(1.7);
-			
 			auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/TCold.csv" },
 													{ "/home/markus/Downloads/CSV_TestFiles_2/MHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/MCold.csv" },
 													{ "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/BCold.csv" }};
@@ -109,7 +91,6 @@ class Readings
 
 			auto med1 = Init(els);
 			auto readings = med1();
-			std::cout<<med1()<<std::endl;
 
             auto accBV = (*fbv)("Accumulation","100");
 			accBV = readings.Accept(std::move(accBV));
