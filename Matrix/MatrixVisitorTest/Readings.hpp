@@ -45,11 +45,12 @@ class Readings
             v->push_back(std::make_unique<WordToken>());
             v->push_back(std::make_unique<SumToken>());
             v->push_back(std::make_unique<ValueToken>());
-            v->push_back(std::make_unique<EnergyToken>());
-            v->push_back(std::make_unique<VolumeToken>());
             v->push_back(std::make_unique<EmptyToken>());
 
-            Matcher matcher(std::move(v));
+			auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"ValueToken"}, {"EmptyToken"}});
+            elementTokens->push_back(std::make_unique<EnergyToken>());
+            elementTokens->push_back(std::make_unique<VolumeToken>());
+            Matcher matcher(std::move(elementTokens));
 
 			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
             vi->push_back(std::make_unique<DateIndexToken>());
