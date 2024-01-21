@@ -49,12 +49,12 @@ class MatrixVisitorTest2023
 			auto m23S = m23r.M<2>();
 			auto m24S = m24r.M<2>();
 			auto t = false;
-			std::vector<MS2> m22_23v{m22S, m23S, m24S};
-			M3 m22_23(m22_23v);
+			std::vector<MS2> accountFiles{m22S, m23S, m24S};
+			M3 accountMatrix(accountFiles);
  			
-            Factory<IToken> fmt2;
-            auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>(&fmt2);
-            auto v = fmt2({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+            Factory<IToken> tokenFactory;
+            auto reg2 = Registration<Factory<IToken>,SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>(&tokenFactory);
+            auto v = tokenFactory({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
             Matcher matcher(std::move(v));
 
             auto indexTokenFactory = Build<IToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken>();
@@ -63,23 +63,18 @@ class MatrixVisitorTest2023
             Matcher imatcher(std::move(csvIndexTokens));
             Matcher smatcher(std::move(stageIndexTokens));
 
-			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
+			auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);
 			
-            auto fmt = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
+            auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
+            auto typeFactory = std::make_shared<TF>(elementFactory);
 
-			auto fbv = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*fbv));
+			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&(*visitorFactory));
  
-            auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
-            pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
-            auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*pfs));
- 
-            auto tf = TypeFactory<Factory<IElement>, Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Index<int>, Empty>();
-            auto tfc = std::make_shared<TF>(fmt);
-
-		 	std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation","100"}};
-			auto mc = MatrixComposite<decltype(mp3)>("Compsite");
-
+            auto predicateVisitorFactory = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(elementFactory);
+            predicateVisitorFactory->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
+            auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*predicateVisitorFactory));
+		 	
 			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 			{
 				{
@@ -135,12 +130,13 @@ class MatrixVisitorTest2023
 				}
 			};
 
-			auto all = std::make_unique<MatrixComposite<decltype(mp3)>>("All");//, mcHeating.Clone());
+			auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");//, mcHeating.Clone());
 
+			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation"}};
 			for(uint i = 0; i < allFactoryUnits.size(); ++i)
-					all->Add(MatrixComposite<decltype(mp3)>::Create(tfc,fbv,"", allFactoryUnits[i],fv));
-			auto result = (*all)(mp3);
-			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(mp3))<<std::endl;
+					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,"", allFactoryUnits[i],fv));
+			auto result = (*all)(parsedAccountMatrix);
+			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
 
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
