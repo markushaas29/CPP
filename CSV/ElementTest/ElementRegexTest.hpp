@@ -61,7 +61,7 @@ public:
 			std::cout<<"IB "<<*i<<std::endl;
 
 
-		std::cout<<"PE:"<<*pe<<std::endl;
+		std::cout<<"PE:"<<VolumeToken::Identifier<<std::endl;
 		
 		t = "DE19660623660009234702";
   		assert(it.Match(t));
@@ -195,8 +195,10 @@ public:
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		
 		auto ii = IBANIndexToken();
-		std::cout<<decltype(si)::Identifier<<std::endl;
+		assert(decltype(si)::Identifier=="SumIndexToken");
 		assert(IBANIndexToken::Identifier=="IBANIndexToken");
+		assert(EnergyToken::Identifier=="WorkToken");
+		assert(VolumeToken::Identifier=="VolumeToken");
 		
 		assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");
 		assert(WasteIndexToken::Identifier=="WasteIndexToken");

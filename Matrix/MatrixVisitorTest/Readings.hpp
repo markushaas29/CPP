@@ -53,9 +53,7 @@ public:
 	    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 		using EVF = Factory<BaseVisitor>;
 
-		auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"ValueToken"}, {"EmptyToken"}});
-        elementTokens->push_back(std::make_unique<EnergyToken>());
-        elementTokens->push_back(std::make_unique<VolumeToken>());
+		auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
 
 		auto fmt=std::make_shared<Factory<IElement>>();

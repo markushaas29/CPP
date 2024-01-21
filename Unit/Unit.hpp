@@ -185,6 +185,7 @@ template<> const char* Sum::Name = SumType<0>::Name;
 template<> const char* Energy::Name = "Work";
 template<> const char* Current::Name = CurrentType<0>::Name;
 template<> const char* Scalar::Name = "Scalar";
+template<> const char* Volume::Name = "Volume";
 
 template<> struct UnitSign<Energy> {	static constexpr const char* Get(){ return "Ws";} };
 // template<> struct UnitSign<Area> {	static std::string Get(){ return "m²";} };
