@@ -43,12 +43,6 @@ class Readings
             elementTokens->push_back(std::make_unique<VolumeToken>());
             Matcher matcher(std::move(elementTokens));
 
-			auto vi = std::make_unique<std::vector<std::unique_ptr<IToken>>>();
-            vi->push_back(std::make_unique<DateIndexToken>());
-            vi->push_back(std::make_unique<IBANIndexToken>());
-            vi->push_back(std::make_unique<BICIndexToken>());
-            vi->push_back(std::make_unique<BICIndexToken>());
-			
 			auto fmt=std::make_shared<Factory<IElement>>();
             auto reg = Registration<Factory<IElement>,Quantity<Energy, KiloHour>, Date, Name, Year, Index<int>, Entry, Empty>(&(*fmt));
             
