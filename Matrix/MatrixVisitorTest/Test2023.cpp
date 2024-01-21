@@ -144,7 +144,7 @@ class MatrixVisitorTest2023
 			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 			std::cout<<"Payment:\n"<<payment<<extras[0]<<std::endl;
 
-			auto readings = Readings{tokenFactory};
+			auto readings = Readings{tokenFactory,elementFactory,visitorFactory};
 			auto readingsMatrix = readings();
 			std::cout<<"\n-------------------readings---------------------\n:\n"<<readingsMatrix<<std::endl;
 

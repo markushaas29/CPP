@@ -25,10 +25,20 @@
 
 #pragma once
 
-class Readings
+class XBase
+{
+	protected:
+		XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB} {};
+//	private:
+		std::shared_ptr<Factory<IToken>> tokenFactory;
+		std::shared_ptr<Factory<IElement>> elementFactory;
+		std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
+};
+
+class Readings: public XBase
 {
 	public:
-		Readings(std::shared_ptr<Factory<IToken>> f):tokenFactory{f} {};
+		Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): XBase{fT,fE,fB} {};
 		decltype(auto) operator()()
 		{
 		    using MDS2 = MatrixDescriptor<2,std::string>;
@@ -86,8 +96,4 @@ class Readings
 			auto m = Init(elements);
  	        return m();
 		}
-	private:
-		std::shared_ptr<Factory<IToken>> tokenFactory;
-		std::shared_ptr<Factory<IElement>> elementFactory;
-		std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
 };
