@@ -154,11 +154,10 @@ class MatrixVisitorTest
             std::cout<<(cv->As<AccumulationVisitor<>>())()<<std::endl;
 			std::cout<<"END"<<std::endl;
 
-			MatrixVisitorTest2023 sut2023;
-			sut2023.Run();
-			
 			MatrixReadingVisitorTest sutRea;
 			sutRea.Run();
+			MatrixVisitorTest2023 sut2023;
+			sut2023.Run();
 		   
 			return 0;
 		}

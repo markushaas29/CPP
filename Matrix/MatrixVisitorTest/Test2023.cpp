@@ -3,6 +3,7 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
+#include "Readings.hpp"
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
@@ -145,6 +146,11 @@ class MatrixVisitorTest2023
 			std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
 			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 			std::cout<<"Payment:\n"<<payment<<extras[0]<<std::endl;
+
+			Readings readings;
+			auto readingsMatrix = readings();
+			std::cout<<"\n-------------------readings---------------------\n:\n"<<readingsMatrix<<std::endl;
+
 			mps = mps.Set(Quantity<Scalar>(47.361),1,5);
 			mps = mps.Set(Quantity<Scalar>(62.424),2,5);
 			mps = mps.Set(Quantity<Scalar>(33.559),3,5);
