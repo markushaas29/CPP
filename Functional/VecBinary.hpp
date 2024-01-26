@@ -27,9 +27,7 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VecBinary& c) 
 	{ 
-		auto v = c();
-        std::for_each(v.cbegin(), v.cend(), [&](const auto& i) { s<<i; });            
-        return s;
+        return s<<Derived::create(c.left,c.right);
 	}
 	RVecType right;
 	LVecType left;
@@ -68,8 +66,29 @@ public:
 
 		return Acc<RT>(inter)(); 
 	}
+	
+	template<typename T, typename U=T>
+	static constexpr decltype(auto) create(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
+	{ 
+		using RT = Mul<Constant<T>,Constant<U>>;
+        std::vector<RT> inter;
+		for(uint i =0; i < v1.size(); ++i)
+			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
 
-	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<"{"<<c()<<"}";  }
+		return Acc<RT>(inter); 
+	}
+	
+	template<typename T, typename U=T>
+	static constexpr decltype(auto) create(const std::vector<T>& v1, const std::vector<U>& v2) 
+	{ 
+		using RT = Mul<Constant<T>,Constant<U>>;
+        std::vector<RT> inter;
+		for(uint i =0; i < v1.size(); ++i)
+			inter.push_back(Mul<Constant<T>,Constant<U>>(Constant(v1[i]),Constant(v2[i])));
+
+		return Acc<RT>(inter); 
+	}
+
 private:
 };
 
