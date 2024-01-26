@@ -2,6 +2,7 @@
 #include <initializer_list>
 #include <memory>
 #include "PointerConcept.hpp"
+#include "../Functional/FunctionalConcept.hpp"
 #include "../Components/Interfaces.hpp"
 #include "../Is/Is.hpp"
 #include "../CSV/Token.hpp"
@@ -36,13 +37,18 @@ private:
     }
 	decltype(auto) exec(M* m)
     {
-		using RT = decltype((*(m->elements->at(0)))());
-		using MDT = MatrixDescriptor<Order, RT>;
-		std::array<size_t,Order> e;
-		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
-		std::vector<std::shared_ptr<RT>> v;
-		std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<RT>((*i)())); } );
-		return Matrix<Order, MDT>(MDT{e}, v);
+		if constexpr (FunctionalConcept<typename M::ElementType>)
+		{
+			using RT = decltype((*(m->elements->at(0)))());
+			using MDT = MatrixDescriptor<Order, RT>;
+			std::array<size_t,Order> e;
+			std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
+			std::vector<std::shared_ptr<RT>> v;
+			std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<RT>((*i)())); } );
+			return Matrix<Order, MDT>(MDT{e}, v);
+		}
+		else
+			return *m;
     }
 	decltype(auto) addRow(const std::vector<typename M::ElementType>& v, M* m)
     {

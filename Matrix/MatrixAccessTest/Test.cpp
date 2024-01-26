@@ -239,6 +239,8 @@ class MatrixAccessTest
          	vi.push_back(std::make_unique<DateIndexToken>());
 			std::cout<<"COL"<<mr22.Cols(vi)<<std::endl;
 
+			std::cout<<"COL"<<mr22()<<std::endl;
+
 			return 0;
 		}
 };
