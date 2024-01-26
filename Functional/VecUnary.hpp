@@ -26,7 +26,7 @@ private:
 	{
 		s<<"{";
 		for(size_t i= 0;i < c.value.size(); ++i)
-			s<<c.value[i]<<(i < (c.value.size()-1) ? "+" : "");
+			s<<c.value[i]<<(i < (c.value.size()-1) ? Derived::sign : "");
 		return s<<"}";  
 	}
 	VecType value;
@@ -38,6 +38,7 @@ class Acc: public VecUnary<Acc,V>
 	using Base = VecUnary<Acc,V>;
 	friend class VecUnary<Acc,V>;
 public:
+	inline static constexpr const char* sign = "+";
 	Acc(const Base::VecType& v): Base{v} {}
 
 	template<typename T>
@@ -64,6 +65,7 @@ class Diff: public VecUnary<Diff,V>
 	using Base = VecUnary<Diff,V>;
 	friend class VecUnary<Diff,V>;
 public:
+	inline static constexpr const char* sign = "-";
 	using ResultType = Sub<Constant<V>,Constant<V>>;
 	
 	Diff(const Base::VecType& v): Base{v} {}
