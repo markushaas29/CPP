@@ -24,8 +24,8 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) 
 	{ 
-		auto v = c();
-		std::for_each(v.cbegin(), v.cend(), [&](const auto& i) { s<<i; });
+		for(size_t i= 0;i < c.value.size(); ++i)
+			s<<c.value[i]<<(i < (c.value.size()-1) ? "+" : "");
 		return s;  
 	}
 	VecType value;

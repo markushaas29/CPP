@@ -158,6 +158,7 @@ class FunctionalTest
 
 			auto acc1 = Acc<int>(v1);
 			assert(acc1()==6);
+			std::cout<<"D "<<acc1<<std::endl;
 
 			auto dot1 = Dot<int,int>(v1,v2);
 			assert(dot1()==14);
