@@ -46,26 +46,10 @@ public:
 	Dot(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 
-	{ 
-		using RT = Mul<Constant<T>,Constant<U>>;
-        std::vector<RT> inter;
-		for(uint i =0; i < v1.size(); ++i)
-			inter.push_back(Mul<Constant<T>,Constant<U>>(Constant(v1[i]),Constant(v2[i])));
-
-		return Acc<RT>(inter)(); 
-	}
+	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 	{ return create(v1,v2)(); 	}
 	
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
-	{ 
-		using RT = Mul<Constant<T>,Constant<U>>;
-        std::vector<RT> inter;
-		for(uint i =0; i < v1.size(); ++i)
-			inter.push_back(Mul<Constant<T>,Constant<U>>(*v1[i],*v2[i]));
-
-		return Acc<RT>(inter)(); 
-	}
+	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) { 	return create(v1,v2)(); }
 	
 	template<typename T, typename U=T>
 	static constexpr decltype(auto) create(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
