@@ -167,7 +167,7 @@ class FunctionalTest
 			auto diff1 = Diff<int>(v1)();
 			auto diff = Diff<int>(v1);
 			
-			std::cout<<"A "<<diff<<std::endl;
+			std::cout<<"DIFF "<<diff<<std::endl;
 			
 			assert(diff1.size()==2);
 			assert(diff1[0]()==-1);
