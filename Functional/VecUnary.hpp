@@ -23,10 +23,11 @@ public:
 	operator T() const { return static_cast<T>((*this)()); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) 
-	{ 
+	{
+		s<<"{";
 		for(size_t i= 0;i < c.value.size(); ++i)
 			s<<c.value[i]<<(i < (c.value.size()-1) ? "+" : "");
-		return s;  
+		return s<<"}";  
 	}
 	VecType value;
 };
