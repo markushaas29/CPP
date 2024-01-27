@@ -20,14 +20,16 @@ public:
 	using RightType = R;
 	using RVecType = std::vector<R>;
 	VecBinary(const LVecType& l,const RVecType& r ): right{r}, left{l} {}
-	decltype(auto) operator()(const auto& v) const { return Derived::op(left,right,v); }
-	decltype(auto) operator()() const 	{ return Derived::op(left,right); 	}
+	decltype(auto) operator()(const auto& v) const { return cast().op(left,right,v); }
+	decltype(auto) operator()() const 	{ return cast().op(left,right); 	}
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const VecBinary& c) 
+	friend std::ostream& operator<<(std::ostream& s, const VecBinary& c) { return s<<22; }//c.cast().create(c.left,c.right);	}
+	Derived cast() const 
 	{ 
-        return s<<Derived::create(c.left,c.right);
+		 auto cderived = const_cast<Type&>(*this);
+         return  static_cast<Derived&>(cderived);
 	}
 	RVecType right;
 	LVecType left;
@@ -45,14 +47,15 @@ public:
 	
 	Dot(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
+private:
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 	{ return create(v1,v2)(); 	}
+	decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 	{ return create(v1,v2)(); 	}
 	
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) { 	return create(v1,v2)(); }
+	decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) { 	return create(v1,v2)(); }
 	
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) create(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
+	decltype(auto) create(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
 	{ 
 		using RT = Mul<Constant<T>,Constant<U>>;
         std::vector<RT> inter;
@@ -63,7 +66,7 @@ public:
 	}
 	
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) create(const std::vector<T>& v1, const std::vector<U>& v2) 
+	decltype(auto) create(const std::vector<T>& v1, const std::vector<U>& v2) 
 	{ 
 		using RT = Mul<Constant<T>,Constant<U>>;
         std::vector<RT> inter;
@@ -73,7 +76,6 @@ public:
 		return Acc<RT>(inter); 
 	}
 
-private:
 };
 
 
