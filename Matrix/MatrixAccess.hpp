@@ -37,7 +37,7 @@ private:
     }
 	decltype(auto) exec(M* m)
     {
-		if constexpr (FunctionalConcept<typename M::ElementType>)
+		if constexpr(std::is_invocable_v<typename M::ValueType>)
 		{
 			using RT = decltype((*(m->elements->at(0)))());
 			using MDT = MatrixDescriptor<Order, RT>;
