@@ -17,8 +17,8 @@ public:
 	using ValueType = V;
 	using VecType = std::vector<V>;
 	VecUnary(const VecType& v): value{v} {}
-	decltype(auto) operator()(const auto& v) const { return Derived::op(value,v); }
-	decltype(auto) operator()() const 	{	return Derived::op(value); }
+	decltype(auto) operator()(const auto& v) const { return cast().op(value,v); }
+	decltype(auto) operator()() const 	{	return cast().op(value); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
@@ -29,6 +29,11 @@ private:
 			s<<c.value[i]<<(i < (c.value.size()-1) ? Derived::sign : "");
 		return s<<"}";  
 	}
+	Derived cast() const                                                                                                 
+    { 
+         auto cderived = const_cast<Type&>(*this);                                                                                                       
+         return  static_cast<Derived&>(cderived);   
+    }
 	VecType value;
 };
 
@@ -40,9 +45,9 @@ class Acc: public VecUnary<Acc,V>
 public:
 	inline static constexpr const char* sign = "+";
 	Acc(const Base::VecType& v): Base{v} {}
-
+private:
 	template<typename T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1) 
+	decltype(auto) op(const std::vector<T>& v1) 
 	{ 
 		double r = 0;
 		std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(i); });
@@ -50,13 +55,12 @@ public:
 	}
 	
 	template<typename T>
-	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1) 
+	decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1) 
 	{ 
 		double r = 0;
 		std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(*i); });
 		return Acc<V>(v1); 
 	}
-private:
 };
 
 template<typename V>
@@ -67,11 +71,11 @@ class Diff: public VecUnary<Diff,V>
 public:
 	inline static constexpr const char* sign = "-";
 	using ResultType = Sub<Constant<V>,Constant<V>>;
-	
 	Diff(const Base::VecType& v): Base{v} {}
 
+private:
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<T>& v1) 
+	decltype(auto) op(const std::vector<T>& v1) 
 	{ 
 		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)
@@ -80,7 +84,7 @@ public:
 	}
 	
 	template<typename T, typename U=T>
-	static constexpr decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1) 
+	decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1) 
 	{ 
 		std::vector<ResultType> result;
 		for(uint i =0; i < (v1.size() - 1); ++i)

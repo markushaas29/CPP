@@ -25,7 +25,7 @@ public:
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 private:
-	friend std::ostream& operator<<(std::ostream& s, const VecBinary& c) { return s<<c.cast().create(c.left,c.right);	}
+	friend std::ostream& operator<<(std::ostream& s, const VecBinary<D,L,R>& c) { return s<<c.cast().create(c.left,c.right);	}
 	Derived cast() const 
 	{ 
 		 auto cderived = const_cast<Type&>(*this);
@@ -40,6 +40,7 @@ class Dot: public VecBinary<Dot,L,R>
 {
 	using Base = VecBinary<Dot,L,R>;
 	friend class VecBinary<Dot,L,R>;
+	//template<template<typename,typename> class D,typename L1, typename R1>
 	friend std::ostream& operator<<(std::ostream& s, const VecBinary<Dot,L,R>& c);
 public:
 	using Type = Dot<L,R>;
