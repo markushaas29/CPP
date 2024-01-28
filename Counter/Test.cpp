@@ -15,7 +15,7 @@ class CounterTest
 		{
 			std::cout<<"START COunterTest"<<std::endl;
 			auto tf = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>();
-			Counter<int,int> c{tf};
+			Counter<int> c{tf};
 
 			std::cout<<"Counter\n"<<c<<std::endl;
 

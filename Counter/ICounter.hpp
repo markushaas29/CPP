@@ -13,12 +13,12 @@ private:
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
-template<typename L, typename R, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
+template<typename U, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
 class Counter: public ICounter
 {
-	//using Derived = D<L,R>;
 	using DataModel = DM;
-	using Type = Counter<L,R, DataModel>;
+	using Unit = U;
+	using Type = Counter<U, DataModel>;
 public:
 	Counter(std::shared_ptr<Factory<IToken>> tf): tokenFactory{tf}  
 	{
