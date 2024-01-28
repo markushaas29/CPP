@@ -27,12 +27,13 @@ public:
 		std::string f = "/home/markus/Downloads/CSV_TestFiles_2/THot.csv";
 		auto mvr = MatrixReader(f);
         auto mv = mvr.template M<2>();
+		dataModel = std::make_unique<DataModel>(mv.Parse(matcher));
 	}
 private:
 	std::unique_ptr<DataModel> dataModel;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
-	friend std::ostream& operator<<(std::ostream& s, const CounterBase& c) { return s<<c.cast().create(c.left,c.right);	}
-	std::ostream& display(std::ostream& s) const { return s; };
+	friend std::ostream& operator<<(std::ostream& s, const CounterBase& c) { return c.display(s);	}
+	std::ostream& display(std::ostream& s) const { return s<<*dataModel; };
 //	Derived cast() const 
 //	{ 
 //		 auto cderived = const_cast<Type&>(*this);

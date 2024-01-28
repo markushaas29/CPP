@@ -17,6 +17,8 @@ class CounterTest
 			auto tf = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>();
 			CounterBase<int,int> c{tf};
 
+			std::cout<<"Counter\n"<<c<<std::endl;
+
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
