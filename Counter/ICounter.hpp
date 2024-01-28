@@ -29,11 +29,13 @@ public:
         auto mv = mvr.template M<2>();
 		dataModel = std::make_unique<DataModel>(mv.Parse(matcher));
 	}
+	template<typename T>
+	decltype(auto) To() const { return dataModel->template To<T>(); }
 private:
 	std::unique_ptr<DataModel> dataModel;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	friend std::ostream& operator<<(std::ostream& s, const Counter& c) { return c.display(s);	}
-	std::ostream& display(std::ostream& s) const { return s<<*dataModel; };
+	std::ostream& display(std::ostream& s) const { return s<<"\n"<<Unit::Name<<*dataModel; };
 //	Derived cast() const 
 //	{ 
 //		 auto cderived = const_cast<Type&>(*this);
