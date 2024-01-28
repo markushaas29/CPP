@@ -14,13 +14,13 @@ private:
 };
 
 template<typename L, typename R, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
-class CounterBase: public ICounter
+class Counter: public ICounter
 {
 	//using Derived = D<L,R>;
 	using DataModel = DM;
-	using Type = CounterBase<L,R, DataModel>;
+	using Type = Counter<L,R, DataModel>;
 public:
-	CounterBase(std::shared_ptr<Factory<IToken>> tf): tokenFactory{tf}  
+	Counter(std::shared_ptr<Factory<IToken>> tf): tokenFactory{tf}  
 	{
 		auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
@@ -32,7 +32,7 @@ public:
 private:
 	std::unique_ptr<DataModel> dataModel;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
-	friend std::ostream& operator<<(std::ostream& s, const CounterBase& c) { return c.display(s);	}
+	friend std::ostream& operator<<(std::ostream& s, const Counter& c) { return c.display(s);	}
 	std::ostream& display(std::ostream& s) const { return s<<*dataModel; };
 //	Derived cast() const 
 //	{ 
