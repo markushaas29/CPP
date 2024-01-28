@@ -24,6 +24,9 @@ public:
 	decltype(auto) operator()() const 	{ return cast().op(left,right); 	}
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
+protected:
+	RVecType right;
+	LVecType left;
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VecBinary<D,L,R>& c) { return s<<c.cast().create(c.left,c.right);	}
 	Derived cast() const 
@@ -31,8 +34,6 @@ private:
 		 auto cderived = const_cast<Type&>(*this);
          return  static_cast<Derived&>(cderived);
 	}
-	RVecType right;
-	LVecType left;
 };
 
 template<typename L, typename R>
@@ -41,7 +42,6 @@ class Dot: public VecBinary<Dot,L,R>
 	using Base = VecBinary<Dot,L,R>;
 	friend class VecBinary<Dot,L,R>;
 	//template<template<typename,typename> class D,typename L1, typename R1>
-	friend std::ostream& operator<<(std::ostream& s, const VecBinary<Dot,L,R>& c);
 public:
 	using Type = Dot<L,R>;
 	using LeftType = L;
@@ -50,6 +50,7 @@ public:
 	Dot(const Base::LVecType& l, const Base::RVecType& r): Base{l,r} {}
 
 private:
+	friend std::ostream& operator<<(std::ostream& s, const Dot& c) { return s<<c.create(c.left,c.right);	}
 	template<typename T, typename U=T>
 	decltype(auto) op(const std::vector<T>& v1, const std::vector<U>& v2) 	{ return create(v1,v2)(); 	}
 	
@@ -57,7 +58,7 @@ private:
 	decltype(auto) op(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) { 	return create(v1,v2)(); }
 	
 	template<typename T, typename U=T>
-	decltype(auto) create(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) 
+	decltype(auto) create(const std::vector<std::shared_ptr<T>>& v1, const std::vector<std::shared_ptr<U>>& v2) const
 	{ 
 		using RT = Mul<Constant<T>,Constant<U>>;
         std::vector<RT> inter;
@@ -68,7 +69,7 @@ private:
 	}
 	
 	template<typename T, typename U=T>
-	decltype(auto) create(const std::vector<T>& v1, const std::vector<U>& v2) 
+	decltype(auto) create(const std::vector<T>& v1, const std::vector<U>& v2) const 
 	{ 
 		using RT = Mul<Constant<T>,Constant<U>>;
         std::vector<RT> inter;
