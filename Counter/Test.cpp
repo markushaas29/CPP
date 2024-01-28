@@ -8,6 +8,7 @@
 #include "../Unit/Unit.hpp"
 #include "../CSV/Elements.hpp"
 #include "../CSV/Matcher.hpp"
+#include "../Visitor/CollectorVisitor.hpp"
 
 class CounterTest
 {
@@ -19,7 +20,10 @@ class CounterTest
 			Counter<Volume> c{tf};
 
 			std::cout<<"Counter\n"<<c<<std::endl;
-			//std::cout<<"Counter\n"<<c.To<Quantity<Energy>>()<<std::endl;
+			std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
+			civ = c.Accept(std::move(civ));
+            auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
+			std::cout<<"Counter\n"<<*(consV())<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   

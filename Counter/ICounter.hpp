@@ -24,13 +24,14 @@ public:
 	{
 		auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
-		std::string f = "/home/markus/Downloads/CSV_TestFiles_2/THot.csv";
+		std::string f = "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv";
 		auto mvr = MatrixReader(f);
         auto mv = mvr.template M<2>();
 		dataModel = std::make_unique<DataModel>(mv.Parse(matcher));
 	}
 	template<typename T>
 	decltype(auto) To() const { return dataModel->template To<T>(); }
+	decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return dataModel->Accept(std::move(bp));   }
 private:
 	std::unique_ptr<DataModel> dataModel;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
