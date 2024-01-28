@@ -17,11 +17,11 @@ class CounterTest
 		{
 			std::cout<<"START COunterTest"<<std::endl;
 			auto tf = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>();
-			Counter<Volume> c{tf};
+			auto c = std::make_unique<Counter<Volume>>(tf);
 
-			std::cout<<"Counter\n"<<c<<std::endl;
+			std::cout<<"Counter\n"<<*c<<std::endl;
 			std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
-			civ = c.Accept(std::move(civ));
+			civ = c->Accept(std::move(civ));
             auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 			std::cout<<"Counter\n"<<*(consV())<<std::endl;
 
