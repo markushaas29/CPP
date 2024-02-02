@@ -34,14 +34,21 @@ class GasEntity: public Entity<Volume>
 };
 
 
-template<typename E, typename S,  size_t No = 0>
-class CounterDescription
+class IDescription
 {
+	virtual std::ostream& display(std::ostream& out) const = 0;
+	friend std::ostream& operator<<(std::ostream& out, const IDescription& i) {	return i.display(out); } 
+};
+
+template<typename E, typename S,  size_t No = 0>
+class CounterDescription: public IDescription
+{
+public:
 	inline static constexpr uint Number = No;
 	inline static std::string CounterName = std::to_string(No) + "_" ;//+ std::string(MeterType::Name) + std::string(AdditionalInformation);
 	using Unit = E::Unit;
-		
-	friend std::ostream& operator<<(std::ostream& out, const CounterDescription& g) { 	out<<"Number\t"<<CounterDescription::Number<<std::endl;
+private:	
+	virtual std::ostream& display(std::ostream& out) const { 	out<<"Number\t"<<Number<<std::endl;
 				//										out<<"Name\t"<<CounterName<<std::endl;
 				//										out<<"Type\t"<<MeterType::Name<<std::endl;
 				//										out<<"Unit\t"<<U::Sign()<<std::endl;
