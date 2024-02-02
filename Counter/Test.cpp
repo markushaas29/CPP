@@ -3,6 +3,7 @@
 #include <vector> 
 #include <memory> 
 #include "CounterHeaders.hpp"
+#include "CounterDescription.hpp"
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Unit/Unit.hpp"
@@ -24,6 +25,7 @@ class CounterTest
 			civ = c->Accept(std::move(civ));
             auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 			std::cout<<"Counter\n"<<*(consV())<<std::endl;
+			std::cout<<"Counter\n"<<GasDescription()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
