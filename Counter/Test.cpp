@@ -25,7 +25,10 @@ class CounterTest
 			civ = c->Accept(std::move(civ));
             auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 			std::cout<<"Counter\n"<<*(consV())<<std::endl;
-			std::cout<<"Counter\n"<<GasDescription()<<std::endl;
+
+			auto tfd = TypeFactory<Factory<IDescription>, GasDesc>();
+			auto dv = tfd({{"1202757_","d"}});
+			std::cout<<"Counter\n"<<*(dv->at(0))<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   

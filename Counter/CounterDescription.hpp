@@ -44,10 +44,13 @@ template<typename E, typename S,  size_t No = 0>
 class CounterDescription: public IDescription
 {
 public:
+	CounterDescription(const std::string& p): path{p} {}
 	inline static constexpr uint Number = No;
-	inline static std::string CounterName = std::to_string(No) + "_" ;//+ std::string(MeterType::Name) + std::string(AdditionalInformation);
+	inline static std::string Identifier = std::to_string(No) + "_" ;//+ std::string(MeterType::Name) + std::string(AdditionalInformation);
+	static std::unique_ptr<IDescription> Make(const std::string& s) { return std::make_unique<CounterDescription>(s);	}
 	using Unit = E::Unit;
 private:	
+	std::string path;
 	virtual std::ostream& display(std::ostream& out) const { 	out<<"Number\t"<<Number<<std::endl;
 				//										out<<"Name\t"<<CounterName<<std::endl;
 				//										out<<"Type\t"<<MeterType::Name<<std::endl;
@@ -57,7 +60,7 @@ private:
 };
 
 
-using GasDescription = CounterDescription<GasEntity,Top,1202757>;
+using GasDesc = CounterDescription<GasEntity,Top,1202757>;
 //using EnBWHouseEnergyDescription = CounterDescription<Energy,21740069, Work>;
 //using EnBWHallEnergyDescription = CounterDescription<Energy,11256983, Work>;
 //using VattenfallEnergyDescription = CounterDescription<Energy,11144078, Work>;
