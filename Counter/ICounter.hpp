@@ -18,11 +18,12 @@ template<typename Desc, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_
 class Counter: public ICounter
 {
 	using DataModel = DM;
-	using DescriptorType = Desc;
+	using DescriptionType = Desc;
 	using Unit = typename Desc::Unit;
 	using Type = Counter<Unit, DataModel>;
 public:
-	Counter(std::shared_ptr<Factory<IToken>> tf): tokenFactory{tf}  
+	Counter(std::string s, std::shared_ptr<Factory<IToken>> tf): Counter{DescriptionType::Make(s),tf} {}
+	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): description{std::move(d)}, tokenFactory{tf}
 	{
 		auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
@@ -35,6 +36,7 @@ public:
 	decltype(auto) To() const { return dataModel->template To<T>(); }
 	decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return dataModel->Accept(std::move(bp));   }
 private:
+	std::unique_ptr<DescriptionType> description;
 	std::unique_ptr<DataModel> dataModel;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	friend std::ostream& operator<<(std::ostream& s, const Counter& c) { return c.display(s);	}
