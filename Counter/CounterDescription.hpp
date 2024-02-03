@@ -41,6 +41,15 @@ public:
 	inline static std::string Identifier = std::string(Entity) + std::string(D::Value) + "_" + std::string(Stage) + "_" + std::to_string(No);
 	static std::unique_ptr<CounterDescription> Make(std::shared_ptr<Factory<IToken>> f,const std::string& s) { return std::make_unique<CounterDescription>(f,s);	}
 	virtual const std::string& Path() const { return path; };
+	virtual std::unique_ptr<DataModel> Read() const 
+	{
+        auto mvr = MatrixReader(path);   
+		std::cout<<path<<mvr<<std::endl;
+        auto mv = mvr.template M<2>();
+        auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
+        Matcher matcher(std::move(elementTokens));
+        return std::make_unique<DataModel>(mv.Parse(matcher));
+    }
 private:	
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
@@ -52,14 +61,6 @@ private:
 				//										out<<"Unit\t"<<U::Sign()<<std::endl;
 				//										out<<"SiUnit\t"<<U::SiUnit()<<std::endl;
 														return out;	}
-	virtual std::unique_ptr<DataModel> Read() const 
-	{
-        auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
-        Matcher matcher(std::move(elementTokens));
-        auto mvr = MatrixReader(path);   
-        auto mv = mvr.template M<2>();
-        return std::make_unique<DataModel>(mv.Parse(matcher));
-    }
 };
 
 
@@ -80,4 +81,4 @@ using GasDesc = CounterDescription<GasEntity,House,1202757>;
 //using Middle_HWaterDescription = CounterDescription<Water,23267492, Volume, AdditionalInformation<Hot>>;
 //using Middle_CWaterDescription = CounterDescription<Water,14524889, Volume, AdditionalInformation<Cold>>;
 //using Top_CWaterDescription = CounterDescription<Water,25489823, Volume, AdditionalInformation<Cold>>;
-//using Top_HWaterDescription = CounterDescription<Water,25470737, Volume, AdditionalInformation<Hot>>;
+using TopHotWaterDesc = CounterDescription<WaterEntity,Top,25470737>;

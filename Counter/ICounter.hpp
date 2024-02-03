@@ -23,7 +23,7 @@ class Counter: public ICounter
 	using Type = Counter<Desc>;
 public:
 	Counter(std::string s, std::shared_ptr<Factory<IToken>> tf): Counter{DescriptionType::Make(tf,s),tf} {}
-	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): description{std::move(d)}, tokenFactory{tf}
+	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): description{std::move(d)}, tokenFactory{tf}, dataModel{description->Read()}
 	{
 		auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
