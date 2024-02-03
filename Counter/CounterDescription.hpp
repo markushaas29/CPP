@@ -6,11 +6,6 @@ struct None 	{	inline static constexpr const char* Value = ""; };
 struct Hot		{	inline static constexpr const char* Value = "Hot";	};
 struct Cold		{	inline static constexpr const char* Value = "Cold"; };
 
-struct Top  	{	inline static constexpr const char* Value = "Top"; };
-struct Bottom 	{	inline static constexpr const char* Value = "Bottom"; };
-struct Middle  	{	inline static constexpr const char* Value = "Middle"; };
-struct All  	{	inline static constexpr const char* Value = "All"; };
-
 template<typename T>
 class Entity
 {
@@ -50,7 +45,12 @@ private:
 };
 
 
-using GasDesc = CounterDescription<GasEntity,All,1202757>;
+struct Top  	{	inline static constexpr const char* Value = "Top"; };
+struct Bottom 	{	inline static constexpr const char* Value = "Bottom"; };
+struct Middle  	{	inline static constexpr const char* Value = "Middle"; };
+struct House  	{	inline static constexpr const char* Value = "House"; };
+
+using GasDesc = CounterDescription<GasEntity,House,1202757>;
 //using EnBWHouseEnergyDescription = CounterDescription<Energy,21740069, Work>;
 //using EnBWHallEnergyDescription = CounterDescription<Energy,11256983, Work>;
 //using VattenfallEnergyDescription = CounterDescription<Energy,11144078, Work>;
