@@ -2,7 +2,7 @@
 
 #pragma once
 
-struct None 	{	inline static constexpr const char* Value = "None"; };
+struct None 	{	inline static constexpr const char* Value = ""; };
 struct Hot		{	inline static constexpr const char* Value = "Hot";	};
 struct Cold		{	inline static constexpr const char* Value = "Cold"; };
 
@@ -18,9 +18,9 @@ public:
 	using Unit = T;
 };
 
-struct EnergyEntity: public Entity<Energy> 	{	inline static constexpr const char* Id = "Energy"; };
-struct WaterEntity: public Entity<Volume>	{	inline static constexpr const char* Id = "Water"; };
-struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* Id = "Gas"; };
+struct EnergyEntity: public Entity<Energy> 	{	inline static constexpr const char* Name = "Energy"; };
+struct WaterEntity: public Entity<Volume>	{	inline static constexpr const char* Name = "Water"; };
+struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* Name = "Gas"; };
 
 class IDescription
 {
@@ -28,13 +28,15 @@ class IDescription
 	friend std::ostream& operator<<(std::ostream& out, const IDescription& i) {	return i.display(out); } 
 };
 
-template<typename E, typename S,  size_t No = 0>
+template<typename E, typename S,  size_t No = 0,typename D = None>
 class CounterDescription: public IDescription
 {
 public:
 	CounterDescription(const std::string& p): path{p} {}
 	inline static constexpr uint Number = No;
-	inline static std::string Identifier = std::to_string(No) + "_" ;//+ std::string(MeterType::Name) + std::string(AdditionalInformation);
+	inline static constexpr const char* Entity = E::Name;
+	inline static constexpr const char* Stage = S::Value;
+	inline static std::string Identifier = std::string(Entity) + std::string(D::Value) + "_" + std::string(Stage) + "_" + std::to_string(No);
 	static std::unique_ptr<CounterDescription> Make(const std::string& s) { return std::make_unique<CounterDescription>(s);	}
 	using Unit = E::Unit;
 private:	
