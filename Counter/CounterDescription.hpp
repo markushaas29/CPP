@@ -1,4 +1,6 @@
 #include "../Unit/Unit.hpp"
+#include "../Matrix/Matrix.hpp"
+#include "../Matrix/MatrixReader.hpp"
 
 #pragma once
 
@@ -23,10 +25,11 @@ class IDescription
 	friend std::ostream& operator<<(std::ostream& out, const IDescription& i) {	return i.display(out); } 
 };
 
-template<typename E, typename S,  size_t No = 0,typename D = None>
+template<typename E, typename S,  size_t No = 0,typename D = None, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
 class CounterDescription: public IDescription
 {
 public:
+	using DataModel = DM;
 	CounterDescription(const std::string& p): path{p} {}
 	inline static constexpr uint Number = No;
 	inline static constexpr const char* Entity = E::Name;

@@ -14,13 +14,13 @@ private:
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
-template<typename Desc, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
+template<typename Desc>
 class Counter: public ICounter
 {
-	using DataModel = DM;
 	using DescriptionType = Desc;
+	using DataModel = typename Desc::DataModel;
 	using Unit = typename Desc::Unit;
-	using Type = Counter<Unit, DataModel>;
+	using Type = Counter<Desc>;
 public:
 	Counter(std::string s, std::shared_ptr<Factory<IToken>> tf): Counter{DescriptionType::Make(s),tf} {}
 	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): description{std::move(d)}, tokenFactory{tf}
