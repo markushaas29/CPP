@@ -21,6 +21,9 @@ struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* N
 
 class IDescription
 {
+public:
+	virtual const std::string& Path() const = 0;
+private:
 	virtual std::ostream& display(std::ostream& out) const = 0;
 	friend std::ostream& operator<<(std::ostream& out, const IDescription& i) {	return i.display(out); } 
 };
@@ -30,17 +33,20 @@ class CounterDescription: public IDescription
 {
 public:
 	using DataModel = DM;
-	CounterDescription(const std::string& p): path{p} {}
+	using Unit = E::Unit;
+	CounterDescription(const std::string& p): path{createPath(p)} {}
 	inline static constexpr uint Number = No;
 	inline static constexpr const char* Entity = E::Name;
 	inline static constexpr const char* Stage = S::Value;
 	inline static std::string Identifier = std::string(Entity) + std::string(D::Value) + "_" + std::string(Stage) + "_" + std::to_string(No);
 	static std::unique_ptr<CounterDescription> Make(const std::string& s) { return std::make_unique<CounterDescription>(s);	}
-	using Unit = E::Unit;
+	virtual const std::string& Path() const { return path; };
 private:	
 	std::string path;
+	inline static constexpr const char* ending = ".csv";
+	inline static std::string createPath(const std::string& p) { return p + "/" + Identifier + std::string(ending) ;};
 	virtual std::ostream& display(std::ostream& out) const { 	out<<"Number\t"<<Number<<std::endl;
-				//										out<<"Name\t"<<CounterName<<std::endl;
+														out<<"Name\t"<<path<<std::endl;
 				//										out<<"Type\t"<<MeterType::Name<<std::endl;
 				//										out<<"Unit\t"<<U::Sign()<<std::endl;
 				//										out<<"SiUnit\t"<<U::SiUnit()<<std::endl;
