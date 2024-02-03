@@ -2,14 +2,14 @@
 
 #pragma once
 
-class None {	inline static constexpr const char* Value = ""; };
-class Hot	{	inline static constexpr const char* Value = "Hot";	};
-class Cold	{	inline static constexpr const char* Value = "Cold"; };
+struct None 	{	inline static constexpr const char* Value = "None"; };
+struct Hot		{	inline static constexpr const char* Value = "Hot";	};
+struct Cold		{	inline static constexpr const char* Value = "Cold"; };
 
-class Top  {	inline static constexpr const char* Value = ""; };
-class Bottom {	inline static constexpr const char* Value = ""; };
-class Middle  {	inline static constexpr const char* Value = ""; };
-class All  {	inline static constexpr const char* Value = ""; };
+struct Top  	{	inline static constexpr const char* Value = "Top"; };
+struct Bottom 	{	inline static constexpr const char* Value = "Bottom"; };
+struct Middle  	{	inline static constexpr const char* Value = "Middle"; };
+struct All  	{	inline static constexpr const char* Value = "All"; };
 
 template<typename T>
 class Entity
@@ -18,21 +18,9 @@ public:
 	using Unit = T;
 };
 
-class EnergyEntity: public Entity<Energy>
-{	
-	inline static constexpr const char* Id = "Energy"; 
-};
-
-class WaterEntity: public Entity<Volume>
-{	
-	inline static constexpr const char* Id = "Water"; 
-};
-
-class GasEntity: public Entity<Volume>
-{	
-	inline static constexpr const char* Id = "Gas"; 
-};
-
+struct EnergyEntity: public Entity<Energy> 	{	inline static constexpr const char* Id = "Energy"; };
+struct WaterEntity: public Entity<Volume>	{	inline static constexpr const char* Id = "Water"; };
+struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* Id = "Gas"; };
 
 class IDescription
 {
@@ -60,7 +48,7 @@ private:
 };
 
 
-using GasDesc = CounterDescription<GasEntity,Top,1202757>;
+using GasDesc = CounterDescription<GasEntity,All,1202757>;
 //using EnBWHouseEnergyDescription = CounterDescription<Energy,21740069, Work>;
 //using EnBWHallEnergyDescription = CounterDescription<Energy,11256983, Work>;
 //using VattenfallEnergyDescription = CounterDescription<Energy,11144078, Work>;
