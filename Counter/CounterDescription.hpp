@@ -34,15 +34,16 @@ class CounterDescription: public IDescription
 public:
 	using DataModel = DM;
 	using Unit = E::Unit;
-	CounterDescription(const std::string& p): path{createPath(p)} {}
+	CounterDescription(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{createPath(p)} {}
 	inline static constexpr uint Number = No;
 	inline static constexpr const char* Entity = E::Name;
 	inline static constexpr const char* Stage = S::Value;
 	inline static std::string Identifier = std::string(Entity) + std::string(D::Value) + "_" + std::string(Stage) + "_" + std::to_string(No);
-	static std::unique_ptr<CounterDescription> Make(const std::string& s) { return std::make_unique<CounterDescription>(s);	}
+	static std::unique_ptr<CounterDescription> Make(std::shared_ptr<Factory<IToken>> f,const std::string& s) { return std::make_unique<CounterDescription>(f,s);	}
 	virtual const std::string& Path() const { return path; };
 private:	
 	std::string path;
+	std::shared_ptr<Factory<IToken>> tokenFactory;
 	inline static constexpr const char* ending = ".csv";
 	inline static std::string createPath(const std::string& p) { return p + "/" + Identifier + std::string(ending) ;};
 	virtual std::ostream& display(std::ostream& out) const { 	out<<"Number\t"<<Number<<std::endl;
@@ -51,6 +52,15 @@ private:
 				//										out<<"Unit\t"<<U::Sign()<<std::endl;
 				//										out<<"SiUnit\t"<<U::SiUnit()<<std::endl;
 														return out;	}
+	virtual std::unique_ptr<DataModel> Read() const 
+	{
+        auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
+        Matcher matcher(std::move(elementTokens));
+        std::string f = "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv";
+        auto mvr = MatrixReader(f);   
+        auto mv = mvr.template M<2>();
+        return std::make_unique<DataModel>(mv.Parse(matcher));
+    }
 };
 
 
