@@ -157,14 +157,16 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res()<<std::endl;
-			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res[1]<<std::endl;
-			std::cout<<"\n-------------------MPS Result =---------------------\n:\n"<<res[1]()<<std::endl;
+			std::cout<<"\n-------------------MPS 1---------------------\n:\n"<<res[1]<<std::endl;
+			std::cout<<"\n-------------------MPS 1 Result =---------------------\n:\n"<<res[1]()<<std::endl;
+			std::cout<<"\n-------------------MPS 2---------------------\n:\n"<<res[2]<<std::endl;
+			std::cout<<"\n-------------------MPS 2 Result =---------------------\n:\n"<<res[2]()<<std::endl;
 			auto resQ = res.To<Quantity<Sum>>();
 			
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
 			std::cout<<"\nBru---------------------\n:\n"<<Bru23<<std::endl;
 			auto Z23 = extras[1] + resQ[2].To<Quantity<Sum>>();
-			std::cout<<"\nBru---------------------\n:\n"<<Z23<<std::endl;
+			std::cout<<"\nZei---------------------\n:\n"<<Z23<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
 
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
