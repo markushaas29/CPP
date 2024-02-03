@@ -47,7 +47,7 @@ public:
 	CounterDescription(const std::string& p): path{p} {}
 	inline static constexpr uint Number = No;
 	inline static std::string Identifier = std::to_string(No) + "_" ;//+ std::string(MeterType::Name) + std::string(AdditionalInformation);
-	static std::unique_ptr<IDescription> Make(const std::string& s) { return std::make_unique<CounterDescription>(s);	}
+	static std::unique_ptr<CounterDescription> Make(const std::string& s) { return std::make_unique<CounterDescription>(s);	}
 	using Unit = E::Unit;
 private:	
 	std::string path;
