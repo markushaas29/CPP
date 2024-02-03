@@ -48,7 +48,7 @@ private:
 	inline static std::string createPath(const std::string& p) { return p + "/" + Identifier + std::string(ending) ;};
 	virtual std::ostream& display(std::ostream& out) const { 	out<<"Number\t"<<Number<<std::endl;
 														out<<"Name\t"<<path<<std::endl;
-				//										out<<"Type\t"<<MeterType::Name<<std::endl;
+														out<<"Type\t"<<*(Read())<<std::endl;
 				//										out<<"Unit\t"<<U::Sign()<<std::endl;
 				//										out<<"SiUnit\t"<<U::SiUnit()<<std::endl;
 														return out;	}
@@ -56,8 +56,7 @@ private:
 	{
         auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
-        std::string f = "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv";
-        auto mvr = MatrixReader(f);   
+        auto mvr = MatrixReader(path);   
         auto mv = mvr.template M<2>();
         return std::make_unique<DataModel>(mv.Parse(matcher));
     }
