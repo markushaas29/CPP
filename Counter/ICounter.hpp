@@ -1,5 +1,6 @@
 #include <memory>
 #include <iostream>
+#include "CounterDescription.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixReader.hpp"
 
@@ -13,12 +14,13 @@ private:
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
-template<typename U, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
+template<typename Desc, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
 class Counter: public ICounter
 {
 	using DataModel = DM;
-	using Unit = U;
-	using Type = Counter<U, DataModel>;
+	using DescriptorType = Desc;
+	using Unit = typename Desc::Unit;
+	using Type = Counter<Unit, DataModel>;
 public:
 	Counter(std::shared_ptr<Factory<IToken>> tf): tokenFactory{tf}  
 	{
