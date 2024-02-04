@@ -19,13 +19,16 @@ struct EnergyEntity: public Entity<Energy> 	{	inline static constexpr const char
 struct WaterEntity: public Entity<Volume>	{	inline static constexpr const char* Name = "Water"; };
 struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* Name = "Gas"; };
 
-class IDescription
+class IDescriptor
+{
+	virtual std::ostream& display(std::ostream& out) const = 0;
+	friend std::ostream& operator<<(std::ostream& out, const IDescriptor& i) {	return i.display(out); } 
+};
+
+class IDescription: public IDescriptor
 {
 public:
 	virtual const std::string& Path() const = 0;
-private:
-	virtual std::ostream& display(std::ostream& out) const = 0;
-	friend std::ostream& operator<<(std::ostream& out, const IDescription& i) {	return i.display(out); } 
 };
 
 template<typename E, typename S,  size_t No = 0,typename D = None, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
