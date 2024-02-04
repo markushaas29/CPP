@@ -36,7 +36,6 @@ public:
 	virtual std::unique_ptr<DataModel> Read() const 
 	{
         auto mvr = MatrixReader(path);   
-		std::cout<<path<<mvr<<std::endl;
         auto mv = mvr.template M<2>();
         auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
         Matcher matcher(std::move(elementTokens));
