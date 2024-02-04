@@ -3,6 +3,7 @@
 #include <memory>
 #include <initializer_list>
 #include "MatrixProjector.hpp" 
+#include "../Descriptor/IDescriptor.hpp" 
 
 #pragma once
 
@@ -17,7 +18,7 @@ template<size_t, typename> class MatrixDescriptor;
 template<size_t, typename> class Matrix;
 
 template<size_t N, typename T>
-class MatrixDescriptorBase
+class MatrixDescriptorBase: public IDescriptor
 {
 	friend class MatrixImpl<N,MatrixDescriptor<N,T>>;
 	using MI = MatrixImpl<N,MatrixDescriptor<N,T>>;
@@ -57,12 +58,12 @@ private:
 	std::size_t start;
 	std::array<std::size_t,N> extents;
 	std::array<std::size_t,N> strides;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixDescriptorBase& i) 
+	virtual std::ostream& display(std::ostream& s) const 
 	{ 
 		s<<"Extents: ";
-		std::for_each(i.extents.cbegin(),i.extents.cend(), [&](const auto e) { s<<e<<"\t"; });
+		std::for_each(extents.cbegin(),extents.cend(), [&](const auto e) { s<<e<<"\t"; });
 		s<<"\nStrides: ";
-		std::for_each(i.strides.cbegin(),i.strides.cend(), [&](const auto e) { s<<e<<"\t"; });
+		std::for_each(strides.cbegin(),strides.cend(), [&](const auto e) { s<<e<<"\t"; });
 		return s;  
 	}
 	decltype(auto) computeStrides()     
