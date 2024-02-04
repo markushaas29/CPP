@@ -21,7 +21,7 @@ struct WaterEntity: public Entity<Volume>	{	inline static constexpr const char* 
 struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* Name = "Gas"; };
 
 template<typename E, typename S,  size_t No = 0,typename D = None, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
-class CounterDescription: public IDescription
+class CounterDescription: public DescriptorBase
 {
 public:
 	using DataModel = DM;

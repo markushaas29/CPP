@@ -6,7 +6,7 @@ class IDescriptor
 	friend std::ostream& operator<<(std::ostream& out, const IDescriptor& i) {	return i.display(out); } 
 };
 
-class IDescription: public IDescriptor
+class DescriptorBase: public IDescriptor
 {
 public:
 	virtual const std::string& Path() const = 0;
