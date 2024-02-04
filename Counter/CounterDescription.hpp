@@ -48,7 +48,6 @@ private:
 	inline static std::string createPath(const std::string& p) { return p + "/" + Identifier + std::string(ending) ;};
 	virtual std::ostream& display(std::ostream& out) const { 	out<<"Number\t"<<Number<<std::endl;
 														out<<"Name\t"<<path<<std::endl;
-														out<<"Type\t"<<*(Read())<<std::endl;
 				//										out<<"Unit\t"<<U::Sign()<<std::endl;
 				//										out<<"SiUnit\t"<<U::SiUnit()<<std::endl;
 														return out;	}
