@@ -2,6 +2,7 @@
 #include <vector>
 #include <array>
 #include <variant>
+#include <filesystem>
 #include "Matrix.hpp" 
 #include "MatrixInitializer.hpp" 
 #include "../File/Node.hpp" 
@@ -44,12 +45,14 @@ private:
 	
 	VariantType execute(const std::string& s)
 	{
+		std::string line;
+		Type d;
+		std::vector<Type> vec;
+		IsT<Throwing>(Format("File: ", s, "does not exist!"))(std::filesystem::exists(std::filesystem::path(s)));
+		auto is = std::make_unique<std::ifstream>(s);
+
 		try
 		{
-			std::string line;
-			Type d;
-			std::vector<Type> vec;
-			auto is = std::make_unique<std::ifstream>(s);
 			getline (*is,line); 
 			std::istringstream iss{line};
 			while(iss)
