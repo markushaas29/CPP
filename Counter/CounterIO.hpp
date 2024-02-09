@@ -36,7 +36,7 @@ private:
 	{
         auto mvr = MatrixReader(path);   
         auto mv = mvr.template M<2>();
-        auto elementTokens = (*tokenFactory)({{"DateToken"},{ Unit::TokenIdentifier }});
+        auto elementTokens = (*tokenFactory)({{"DateToken"},{ Unit::TokenName }});
         Matcher matcher(std::move(elementTokens));
         return std::make_unique<DataModel>(mv.Parse(matcher));
     }

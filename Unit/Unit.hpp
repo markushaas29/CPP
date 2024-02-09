@@ -1,6 +1,7 @@
 #include <string>
 #include <array>
 #include <iostream>
+#include "../CSV/TokenLiterals.hpp" 
 #include "../Logger/Logger.hpp" 
 
 #pragma once
@@ -127,7 +128,7 @@ struct Unit
 	}
 	
 	static const char* Name;
-	inline static const std::string TokenIdentifier = std::string(Name) + "Token";
+	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + AngleType::Unit() + IntensityType::Unit() + Sum::Unit(); };
 	static const std::string Sign() { return UnitSign<Type>::Get(); }; 
 };
