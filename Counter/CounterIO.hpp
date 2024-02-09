@@ -18,7 +18,6 @@ class ICounterIO
 template<typename T>
 class CounterIO: public ICounterIO<T>
 {
-	friend T;
 public:
 	using Type = T;
 	using DataModel = typename T::DataModel;
@@ -37,7 +36,7 @@ private:
 	{
         auto mvr = MatrixReader(path);   
         auto mv = mvr.template M<2>();
-        auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
+        auto elementTokens = (*tokenFactory)({{"DateToken"},{"VolumeToken"}});
         Matcher matcher(std::move(elementTokens));
         return std::make_unique<DataModel>(mv.Parse(matcher));
     }

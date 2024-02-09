@@ -33,14 +33,6 @@ public:
 	inline static std::string Identifier = std::string(Entity) + std::string(D::Value) + "_" + std::string(Stage) + "_" + std::to_string(No);
 	static std::unique_ptr<CounterDescription> Make(std::shared_ptr<Factory<IToken>> f,const std::string& s) { return std::make_unique<CounterDescription>(f,s);	}
 	virtual const std::string& Path() const { return path; };
-	virtual std::unique_ptr<DataModel> Read() const 
-	{
-        auto mvr = MatrixReader(path);   
-        auto mv = mvr.template M<2>();
-        auto elementTokens = (*tokenFactory)({{"SumToken"},{"EntryToken"},{"DateToken"},{"WorkToken"},{"VolumeToken"},{"ValueToken"}, {"EmptyToken"}});
-        Matcher matcher(std::move(elementTokens));
-        return std::make_unique<DataModel>(mv.Parse(matcher));
-    }
 private:	
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
