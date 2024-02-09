@@ -1,6 +1,7 @@
 #include <memory>
 #include <iostream>
 #include "CounterDescription.hpp"
+#include "CounterIO.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixReader.hpp"
 
