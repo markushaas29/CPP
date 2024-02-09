@@ -5,16 +5,20 @@
 
 #pragma once
 
-template<typename DataModel>
+template<typename T>
 class ICounterIO
 {
+	friend T;
+	using Type = T;
+	using DataModel = typename T::DataModel;
 	virtual std::unique_ptr<DataModel> read() const = 0;
 	virtual std::ostream& display(std::ostream& out) const = 0;
 };
 
 template<typename T>
-class CounterIO: public ICounterIO<typename T::DataModel>
+class CounterIO: public ICounterIO<T>
 {
+	friend T;
 public:
 	using Type = T;
 	using DataModel = typename T::DataModel;
