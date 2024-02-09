@@ -127,6 +127,7 @@ struct Unit
 	}
 	
 	static const char* Name;
+	inline static const std::string TokenIdentifier = std::string(Name) + "Token";
 	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + AngleType::Unit() + IntensityType::Unit() + Sum::Unit(); };
 	static const std::string Sign() { return UnitSign<Type>::Get(); }; 
 };

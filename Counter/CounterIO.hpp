@@ -21,7 +21,7 @@ class CounterIO: public ICounterIO<T>
 public:
 	using Type = T;
 	using DataModel = typename T::DataModel;
-//	using Unit = E::Unit;
+	using Unit = typename T::Unit;
 	CounterIO(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{p} {}
 //	inline static constexpr uint Number = No;
 //	inline static constexpr const char* Entity = E::Name;
@@ -36,7 +36,7 @@ private:
 	{
         auto mvr = MatrixReader(path);   
         auto mv = mvr.template M<2>();
-        auto elementTokens = (*tokenFactory)({{"DateToken"},{"VolumeToken"}});
+        auto elementTokens = (*tokenFactory)({{"DateToken"},{ Unit::TokenIdentifier }});
         Matcher matcher(std::move(elementTokens));
         return std::make_unique<DataModel>(mv.Parse(matcher));
     }
