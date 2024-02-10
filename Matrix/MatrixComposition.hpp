@@ -80,9 +80,9 @@ public:
 			auto mr = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
 			auto cv =mr.Accept(visitors->at(0)->Copy());
-			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor<>>())(), std::move(mr));
+			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor<>>())(), std::move(mr), Base::name);
 		}
-		return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType());
+		return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType(), Base::name);
 	}
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const 
 	{ 
@@ -131,7 +131,7 @@ public:
 					value = value + mc->Value();
 					result->push_back(std::move(mc));	
 				}); 
-		return std::make_unique<CompositeResult<Q, typename Base::ResultMatrixType>>(std::move(value), std::move(result));
+		return std::make_unique<CompositeResult<Q, typename Base::ResultMatrixType>>(std::move(value), std::move(result), Base::name);
 	}
 	virtual DataType Clone() const 
 	{ 

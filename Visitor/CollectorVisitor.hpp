@@ -63,10 +63,8 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>,Diff<T>,T>
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
 	{ 
-		std::vector<T> res;
-		for(size_t i = 0; i < Base::elements.size()-1; ++i)
-			res.push_back(Base::elements[i] - Base::elements[i+1]);
-		return std::make_shared<T>(res[0]);
+		auto res = Diff<T>(std::vector<T>(Base::elements.begin()+i, Base::elements.begin()+j))();
+		return std::make_shared<T>(res[0]());
 	};
 	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::elements.size()); };
 	inline static constexpr const char* Identifier = "Difference";
