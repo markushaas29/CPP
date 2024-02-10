@@ -24,7 +24,7 @@ class CollectorVisitor: public BaseVisitor, public Visitor<T>
 	using Base = Visitor<T>;
 	using Derived = D;
 	using Type = T;
-	using Func = F;
+	using FuncType = F;
 	friend D;
 public:
 	inline static constexpr const char TypeIdentifier[] = "CollectorVisitor";
@@ -32,7 +32,7 @@ public:
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
 	virtual std::shared_ptr<IElement> operator()() = 0;
-	virtual Func FT() { return Func(elements); };
+	virtual FuncType Func() { return FuncType(elements); };
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return elements.size(); }
