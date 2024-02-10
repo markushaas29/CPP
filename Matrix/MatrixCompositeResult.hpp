@@ -4,6 +4,7 @@
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"    
+#include "../Functional/Functional.hpp"    
 
 #pragma once
 
@@ -14,6 +15,7 @@ class IMatrixQueryResult
 {
 public:
 	using QuantityType = Q;
+	using FuncType = Acc<Q>;
 	using MatrixType = MType;
 	using ElementMatrixType =  Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
 	virtual Q Value() const = 0;
