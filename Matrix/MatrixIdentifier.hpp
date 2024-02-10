@@ -3,7 +3,6 @@
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/Elements.hpp"
-#include "../Calculator/CalculatorResult.hpp"
 #include "../String/Literal.hpp"
 #include "../String/String_.hpp"
 #include "../To/To.hpp"
@@ -51,15 +50,10 @@ public:
 	}
 	decltype(auto) operator()() const 
 	{
-		if constexpr (	IsResultType<ValueType>	)
-			return static_cast<double>(value);
-		else
-		{
-			if constexpr(std::is_invocable_v<ValueType>)
-             	 return value();
-          	else
-				return static_cast<ValueType>(value); 
-		}
+		if constexpr(std::is_invocable_v<ValueType>)
+         	 return value();
+      	else
+			return static_cast<ValueType>(value); 
 	}
 	std::unique_ptr<IIdentifier> Clone() { return std::make_unique<Type>(*this); }
 	decltype(auto) Get() const { return ElementType((*this)()); }

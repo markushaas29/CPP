@@ -4,7 +4,6 @@
 #include "../Is/Is.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/Elements.hpp"
-#include "../Calculator/CalculatorResult.hpp"
 #include "../String/Literal.hpp"
 #include "../String/String_.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -66,15 +65,10 @@ public:
 	} 
 	decltype(auto) operator()() const 
 	{
-		if constexpr (	IsResultType<ValueType>	)
-			return static_cast<double>(value);
-		else
-		{
-			if constexpr(std::is_invocable_v<ValueType>)
-             	 return value();
-          	else
-				return static_cast<ValueType>(value); 
-		}
+		if constexpr(std::is_invocable_v<ValueType>)
+         	 return value();
+      	else
+			return static_cast<ValueType>(value); 
 	}
 	std::unique_ptr<IMatrixElement> Clone() { return std::make_unique<Type>(*this); }
 	decltype(auto) Get() const { return ElementType((*this)()); }
@@ -118,17 +112,6 @@ public:
 	using Base = MatrixElementBase<std::string, Entry>;
 	MatrixElement(const std::string& v): Base{v} { }
 	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<": "<<Base::value; }
-private:
-	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
-};
-
-template<typename T> requires ( IsResultType<T> )
-class MatrixElement<T>: public MatrixElementBase<T, Quantity<Scalar,Pure,double>>
-{
-public:
-	using Base = MatrixElementBase<T, Quantity<Scalar,Pure,double>>;
-	MatrixElement(const T& v): Base{v} { }
-	std::ostream& Display(std::ostream& os) const { return os<<Base::LiteralType<<" :"<<Base::value; }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixElement& me) { return me.Display(s);  }
 };
