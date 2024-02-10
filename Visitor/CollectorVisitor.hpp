@@ -2,6 +2,7 @@
 #include <numeric>
 #include "../CSV/Element.hpp"
 #include "../CSV/Elements.hpp"
+#include "../Functional/Functional.hpp"
 #include "../Common/Date.hpp"
 #include "../Common/UniqueCast.hpp"
 #include "../Unit/Unit.hpp"
@@ -17,7 +18,7 @@ class IBAN;
 class IElement;
 template<typename,typename, typename> class Quantity;
 
-template<typename D, typename T, typename R=T>
+template<typename D, typename F, typename T, typename R=T>
 class CollectorVisitor: public BaseVisitor, public Visitor<T>
 {
 	using Base = Visitor<T>;
@@ -44,9 +45,9 @@ private:
 };
 
 template<typename T=Quantity<Sum,Pure,double>>
-class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>, T>
+class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>,Acc<T>,T>
 {
-	using Base = CollectorVisitor<AccumulationVisitor<T>, T>;
+	using Base = CollectorVisitor<AccumulationVisitor<T>,Acc<T>, T>;
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return std::make_shared<typename Base::Type>(std::accumulate(Base::elements.begin()+i, Base::elements.begin()+j, typename Base::Type{0})); };
 	virtual std::shared_ptr<IElement> operator()() { return (*this)(0, Base::elements.size()); };
@@ -54,9 +55,9 @@ public:
 };
 
 template<typename T>
-class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>, T>
+class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>,Diff<T>,T>
 {
-	using Base = CollectorVisitor<DifferenceVisitor<T>, T>;
+	using Base = CollectorVisitor<DifferenceVisitor<T>,Diff<T>, T>;
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
 	{ 
@@ -70,9 +71,9 @@ public:
 };
 
 template<>
-class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days, uint>>
+class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>,Diff<Date>,Date, Quantity<Time,Days, uint>>
 {
-	using Base = CollectorVisitor<DifferenceVisitor<Date>, Date, Quantity<Time,Days,uint>>;
+	using Base = CollectorVisitor<DifferenceVisitor<Date>,Diff<Date>, Date, Quantity<Time,Days,uint>>;
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
 	{ 
@@ -86,9 +87,9 @@ public:
 };
 
 template<typename T>
-class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,T>, public Visitor<Date>
+class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>, public Visitor<Date>
 {
-	using Base = CollectorVisitor<ConsumptionVisitor<T>,T>;
+	using Base = CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>;
 	using Ds = Quantity<Unit<0, 0, 0, 1>, DaysBase<1>, unsigned int>;
 public:
 	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
