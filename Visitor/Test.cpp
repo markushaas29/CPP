@@ -166,12 +166,12 @@ int Run()
 	assert((*vc())==Quantity<Sum>(-1.00));
 	std::cout<<"Visitor"<<*vc()<<std::endl;
 	
-	std::unique_ptr<BaseVisitor> cv = std::make_unique<ConsumptionVisitor<Quantity<Sum>>>();
-    M2E m2ce {
-        {std::make_shared<Date>(2,5,2020), std::make_shared<Quantity<Sum>>(3.5)},
-        {std::make_shared<Date>(4,5,2020), std::make_shared<Quantity<Sum>>(3.5)},
-    };
-	cv = m2ce.Accept(std::move(cv));
+//	std::unique_ptr<BaseVisitor> cv = std::make_unique<ConsumptionVisitor<Quantity<Sum>>>();
+//    M2E m2ce {
+//        {std::make_shared<Date>(2,5,2020), std::make_shared<Quantity<Sum>>(3.5)},
+//        {std::make_shared<Date>(4,5,2020), std::make_shared<Quantity<Sum>>(3.5)},
+//    };
+//	cv = m2ce.Accept(std::move(cv));
 
 	//std::cout<<"END Visitor _>"<<((dv->template As<DifferenceVisitor<Quantity<Sum>>>())())<<std::endl;
 
