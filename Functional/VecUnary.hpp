@@ -16,12 +16,13 @@ class VecUnary: public Functional<VecUnary<D,V>>
 public:
 	using ValueType = V;
 	using VecType = std::vector<V>;
-	VecUnary(const VecType& v): value{v} {}
 	decltype(auto) Push(const V& v) { value.push_back(v); }
 	decltype(auto) operator()(const auto& v) const { return cast().op(value,v); }
 	decltype(auto) operator()() const 	{	return cast().op(value); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
+protected:
+	VecUnary(const VecType& v = VecType()): value{v} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) 
 	{
