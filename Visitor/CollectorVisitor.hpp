@@ -35,7 +35,7 @@ public:
 	virtual FuncType Func() { return func; };
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
-	size_t Size() { return elements.size(); }
+	size_t Size() { return func.Size(); }
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) { 	return s<<t.func;	}
@@ -59,7 +59,7 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>,Diff<T>,T>
 	using Base = CollectorVisitor<DifferenceVisitor<T>,Diff<T>, T>;
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j){ return std::make_shared<T>(Base::func()[0]);	};
-	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::elements.size()); };
+	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::func.Size()); };
 	inline static constexpr const char* Identifier = "Difference";
 };
 
@@ -68,14 +68,8 @@ class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>,D
 {
 	using Base = CollectorVisitor<DifferenceVisitor<Date>,Diff<Date>, Date, Quantity<Time,Days,uint>>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
-	{ 
-		std::vector<Quantity<Time,Days,uint>> res;
-		for(size_t i = 0; i < Base::elements.size()-1; ++i)
-			res.push_back(Base::elements[i] - Base::elements[i+1]);
-		return std::make_shared<Quantity<Time,Days,uint>>(res[i]);
-	};
-	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::elements.size()); };
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) {	return std::make_shared<Quantity<Time,Days,uint>>(Base::func()[i]);	};
+	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::func.Size()); };
 	inline static constexpr const char* Identifier = "Difference";
 };
 
