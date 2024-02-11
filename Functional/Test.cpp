@@ -160,6 +160,7 @@ class FunctionalTest
 			assert(acc1()==6);
 			acc1.Push(4);
 			assert(acc1()==10);
+			assert(acc1.Size()==4);
 			
 			auto acc2 = Acc<int>();
 			acc2.Push(10);
