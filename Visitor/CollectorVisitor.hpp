@@ -31,15 +31,14 @@ public:
 	inline static constexpr Literal TypeId{TypeIdentifier};
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
 	virtual typename Base::ReturnType Visit(T& t) { func.Push(t); };
-	virtual std::shared_ptr<IElement> operator()() = 0;
 	virtual FuncType Func() { return func; };
+	virtual std::shared_ptr<IElement> operator()() = 0;
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return func.Size(); }
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
 	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) { 	return s<<t.func;	}
-	std::vector<T> elements;
 	FuncType func;
 };
 
