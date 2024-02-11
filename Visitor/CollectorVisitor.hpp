@@ -30,20 +30,17 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "CollectorVisitor";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 	static std::unique_ptr<BaseVisitor> Make(const std::string& s) { return std::make_unique<Derived>();	}
-	virtual typename Base::ReturnType Visit(T& t) { elements.push_back(t); };
+	virtual typename Base::ReturnType Visit(T& t) { func.Push(t); };
 	virtual std::shared_ptr<IElement> operator()() = 0;
-	virtual FuncType Func() { return FuncType(elements); };
+	virtual FuncType Func() { return func; };
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) = 0;
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<Derived>(); };
 	size_t Size() { return elements.size(); }
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
-	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) 	
-	{ 
-		std::for_each(t.elements.cbegin(), t.elements.cend(), [&](const T& e) { s<<e<<"\n"; });
-		return s;	
-	}
+	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) { 	return s<<t.func;	}
 	std::vector<T> elements;
+	FuncType func;
 };
 
 template<typename T=Quantity<Sum,Pure,double>>
@@ -61,11 +58,7 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>,Diff<T>,T>
 {
 	using Base = CollectorVisitor<DifferenceVisitor<T>,Diff<T>, T>;
 public:
-	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j)
-	{ 
-		auto res = Diff<T>(std::vector<T>(Base::elements.begin()+i, Base::elements.begin()+j))();
-		return std::make_shared<T>(res[0]());
-	};
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j){ return std::make_shared<T>(Base::func()[0]);	};
 	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::elements.size()); };
 	inline static constexpr const char* Identifier = "Difference";
 };
