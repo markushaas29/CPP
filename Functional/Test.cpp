@@ -160,7 +160,10 @@ class FunctionalTest
 			assert(acc1()==6);
 			acc1.Push(4);
 			assert(acc1()==10);
-			std::cout<<"Acc "<<acc1<<std::endl;
+			
+			auto acc2 = Acc<int>();
+			acc2.Push(10);
+			assert(acc2()==10);
 
 			auto dot1 = Dot<int,int>(v1,v2);
 			assert(dot1()==14);

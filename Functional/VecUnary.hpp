@@ -22,7 +22,7 @@ public:
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 protected:
-	VecUnary(const VecType& v = VecType()): value{v} {}
+	VecUnary(const VecType& v): value{v} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const VecUnary& c) 
 	{
@@ -46,7 +46,7 @@ class Acc: public VecUnary<Acc,V>
 	friend class VecUnary<Acc,V>;
 public:
 	inline static constexpr const char* sign = "+";
-	Acc(const Base::VecType& v): Base{v} {}
+	Acc(const Base::VecType& v =  typename Base::VecType()): Base{v} {}
 private:
 	template<typename T>
 	decltype(auto) op(const std::vector<T>& v1) 
@@ -73,7 +73,7 @@ class Diff: public VecUnary<Diff,V>
 public:
 	inline static constexpr const char* sign = "-";
 	using ResultType = Sub<Constant<V>,Constant<V>>;
-	Diff(const Base::VecType& v): Base{v} {}
+	Diff(const Base::VecType& v = typename Base::VecType()): Base{v} {}
 
 private:
 	template<typename T, typename U=T>
