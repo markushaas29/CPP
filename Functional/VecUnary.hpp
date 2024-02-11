@@ -22,6 +22,7 @@ public:
 	decltype(auto) End() { return value.end(); }
 	decltype(auto) operator()(const auto& v) const { return cast().op(value,v); }
 	decltype(auto) operator()() const 	{	return cast().op(value); }
+	decltype(auto) operator()(size_t i, size_t j) const 	{	return cast().op(VecType(value.begin()+i, value.begin()+j)); }
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 protected:
