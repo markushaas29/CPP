@@ -158,10 +158,10 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res()<<std::endl;
-			std::cout<<"\n-------------------MPS 1---------------------\n:\n"<<res[1]<<std::endl;
-			std::cout<<"\n-------------------MPS 1 Result =---------------------\n:\n"<<res[1]()<<std::endl;
-			std::cout<<"\n-------------------MPS 2---------------------\n:\n"<<res[2]<<std::endl;
-			std::cout<<"\n-------------------MPS 2 Result =---------------------\n:\n"<<res[2]()<<std::endl;
+			std::cout<<"\n-------------------MPS Bru---------------------\n:\n"<<res[1]<<std::endl;
+			std::cout<<"\n-------------------MPS Bru Result =---------------------\n:\n"<<res[1]()<<std::endl;
+			std::cout<<"\n-------------------MPS Zei---------------------\n:\n"<<res[2]<<std::endl;
+			std::cout<<"\n-------------------MPS Zei Result =---------------------\n:\n"<<res[2]()<<std::endl;
 			auto resQ = res.To<Quantity<Sum>>();
 			
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();

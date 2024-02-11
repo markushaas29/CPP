@@ -41,7 +41,6 @@ class Dot: public VecBinary<Dot,L,R>
 {
 	using Base = VecBinary<Dot,L,R>;
 	friend class VecBinary<Dot,L,R>;
-	//template<template<typename,typename> class D,typename L1, typename R1>
 public:
 	using Type = Dot<L,R>;
 	using LeftType = L;
