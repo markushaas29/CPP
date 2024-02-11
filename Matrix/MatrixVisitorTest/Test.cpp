@@ -106,7 +106,7 @@ class MatrixVisitorTest
           	assert(mPropertyTax.Rows()==4);
           	assert((mPropertyTax.Cols(4).To<Quantity<Sum>>().ColSum()[0])==Quantity<Sum>(-423.01));
 			cv = mPropertyTax.Accept(std::move(cv));
-		  	(cv->As<AccumulationVisitor<>>())();
+			std::cout<<*(cv->As<AccumulationVisitor<>>())()<<std::endl;
           	assert((*(cv->As<AccumulationVisitor<>>())())==Quantity<Sum>(-423.01));
 		
 			auto mWasteFees = mp3 | tfc("EqualVisitor", { "IBAN", "DE44600501010008017284"})| tfc("EqualVisitor", { "Year", "2022"});

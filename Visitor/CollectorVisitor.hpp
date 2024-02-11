@@ -49,7 +49,7 @@ class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>,Acc<T>
 	using Base = CollectorVisitor<AccumulationVisitor<T>,Acc<T>, T>;
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return std::make_shared<typename Base::Type>(Base::func(i,j)); };
-	virtual std::shared_ptr<IElement> operator()() { return (*this)(0, Base::elements.size()); };
+	virtual std::shared_ptr<IElement> operator()() { return (*this)(0, Base::func.Size()); };
 	inline static constexpr const char* Identifier = "Accumulation";
 };
 
@@ -89,10 +89,8 @@ public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return nullptr; };
 	virtual std::shared_ptr<IElement> operator()() 
 	{ 
-		std::vector<T> res;
-		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::elements.size());
-		for(size_t i = 1; i < Base::elements.size(); ++i)
-			res.push_back(Base::elements[0] - Base::elements[i]);
+		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
+		auto res = Base::func();
 		for(size_t j = 1; j < elements.size(); ++j)
 			if((elements[0] - elements[j]) > Ds(320) && (elements[0] - elements[j]) < Ds(400))
 				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
