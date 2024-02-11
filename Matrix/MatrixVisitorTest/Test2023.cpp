@@ -131,8 +131,9 @@ class MatrixVisitorTest2023
 			auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");//, mcHeating.Clone());
 
 			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation"}};
+			std::vector<std::string> names{"Waste","","Heating","Insurance","Cleaning","PopertyTax","Sewage"};
 			for(uint i = 0; i < allFactoryUnits.size(); ++i)
-					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,"", allFactoryUnits[i],fv));
+					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(names[i]), allFactoryUnits[i],fv));
 			auto result = (*all)(parsedAccountMatrix);
 			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
