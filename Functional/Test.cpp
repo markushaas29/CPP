@@ -168,6 +168,8 @@ class FunctionalTest
 			auto acc2 = Acc<int>();
 			acc2.Push(10);
 			assert(acc2()==10);
+			acc2.Push(10);
+			assert(acc2()==20);
 
 			auto dot1 = Dot<int,int>(v1,v2);
 			assert(dot1()==14);
