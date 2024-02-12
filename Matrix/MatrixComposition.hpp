@@ -142,11 +142,6 @@ public:
 	};
 	virtual size_t Size() const { return composites->size(); };
 	virtual void Add(DataType c) const {  composites->push_back(std::move(c)); };
-	//template<typename FT, typename VT, typename VV>
-//	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>& u, const VV& vv) 
-//	{
-//		return Create(f,v,std::move(n),u.Units(),vv);
-//	}
 	template<typename FT, typename VT, typename VV>
 	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const std::vector<typename Base::UnitVectorType>& u, const VV& vv) 
 	{
