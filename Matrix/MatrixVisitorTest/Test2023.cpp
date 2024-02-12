@@ -94,7 +94,7 @@ class MatrixVisitorTest2023
 						{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}
 					}}
 				},
-				{"Insurance",{
+				{"BuildingInsurance",{
 					{
 						{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", "2023"}} // Insurance
 					}}
@@ -113,12 +113,12 @@ class MatrixVisitorTest2023
 						{"EqualVisitor", { "IBAN", "DE79660623660000101303"}}, {"EqualVisitor", { "Year", "2023"}}
 					}}
 				},
-				{"Ptop",{
+				{"PropertyTax",{
 					{
 						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}} //Grundsteuer
 					}}
 				},
-				{"Sew",{
+				{"Sewage",{
 					{
 						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}, //Abwasser
 					},

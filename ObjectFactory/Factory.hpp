@@ -46,6 +46,24 @@ private:
 	ArgumentType argument;
 };
 
+template<typename UnitType>
+class FactoryUnitContainer
+{
+public:
+	FactoryUnitContainer(const std::string& n, const UnitType& u): name{n}, units{u} {}
+	decltype(auto) Units() const { return units; }
+	decltype(auto) Name() const { return name; } 
+private:
+	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
+	{ 
+		s<<f.name<<std::endl;
+		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
+		return s;
+	}
+	std::string name;
+	UnitType units;
+};
+
 template<class T, typename CT = std::string>
 class IFactory
 {
