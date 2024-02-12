@@ -157,6 +157,7 @@ private:
 	std::shared_ptr<FactoryType> factory;
 	std::map< IdentifierType, CreatorType> creators;
 };
+class IElement;
 
 template<class T, class F, typename CT = std::unique_ptr<IElement>>
 class CompositeFactory
