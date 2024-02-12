@@ -95,7 +95,7 @@ public:
 	virtual size_t Size() const { return 1; };
 	template<typename FT, typename VT, typename VV>
 	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const typename Base::UnitVectorType& u, const VV& vv) 	
-	{	return std::make_unique<MatrixComposition<T,Q>>((*f)(u.Units()),(*v)(vv),n); }
+	{	return std::make_unique<MatrixComposition<T,Q>>((*f)(u.Units()),(*v)(vv),u.Name()); }
 private:
 	std::unique_ptr<std::vector<PredicateType>> predicates;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
