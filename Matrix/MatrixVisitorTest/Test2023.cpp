@@ -73,14 +73,14 @@ class MatrixVisitorTest2023
             predicateVisitorFactory->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*predicateVisitorFactory));
 		 	
-			std::vector<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
+			std::vector<FactoryUnitContainer<std::vector<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>> allFactoryUnits = 
 			{
-				{
+				{"Waste",{
 					{
 						{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}} // Waste
-					}
+					}}
 				}, 
-				{
+				{"Heating",{
 					{
 						{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}} //Heatung
 					},
@@ -92,14 +92,14 @@ class MatrixVisitorTest2023
 					},
 					{
 						{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}
-					}
+					}}
 				},
-				{
+				{"Insurance",{
 					{
 						{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", "2023"}} // Insurance
-					}
+					}}
 				},
-				{
+				{"Cleaning",{
 					{ //Cleaning
 						{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}
 					},
@@ -111,29 +111,28 @@ class MatrixVisitorTest2023
 					},
 					{ //Cleaning
 						{"EqualVisitor", { "IBAN", "DE79660623660000101303"}}, {"EqualVisitor", { "Year", "2023"}}
-					}
+					}}
 				},
-				{
+				{"Ptop",{
 					{
 						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}} //Grundsteuer
-					}
+					}}
 				},
-				{
+				{"Sew",{
 					{
 						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}, //Abwasser
 					},
 					{
 						{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2024"}}, {"EqualVisitor", { "Entry", "Rechung/Abwasser"}} //Abwasser
-					}
+					}}
 				}
 			};
 
 			auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");//, mcHeating.Clone());
 
 			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation"}};
-			std::vector<std::string> names{"Waste","","Heating","Insurance","Cleaning","PopertyTax","Sewage"};
 			for(uint i = 0; i < allFactoryUnits.size(); ++i)
-					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(names[i]), allFactoryUnits[i],fv));
+					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
 			auto result = (*all)(parsedAccountMatrix);
 			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
