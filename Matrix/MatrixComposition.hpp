@@ -45,7 +45,7 @@ protected:
 	friend class D<T,Q>;
 	using ResultType = typename Base::ResultType;
 	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
-	using UnitVectorType = std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
+	using UnitVectorType = FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
@@ -94,7 +94,8 @@ public:
 	}
 	virtual size_t Size() const { return 1; };
 	template<typename FT, typename VT, typename VV>
-	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const typename Base::UnitVectorType& u, const VV& vv) 	{	return std::make_unique<MatrixComposition<T,Q>>((*f)(u),(*v)(vv),n); }
+	static std::unique_ptr<IMatrixComposite<T,Q>> Create(std::shared_ptr<FT> f, std::shared_ptr<VT> v, std::string&& n, const typename Base::UnitVectorType& u, const VV& vv) 	
+	{	return std::make_unique<MatrixComposition<T,Q>>((*f)(u.Units()),(*v)(vv),n); }
 private:
 	std::unique_ptr<std::vector<PredicateType>> predicates;
 	std::unique_ptr<std::vector<VisitorType>> visitors;
