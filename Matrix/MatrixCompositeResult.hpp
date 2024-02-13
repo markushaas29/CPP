@@ -18,15 +18,23 @@ public:
 	using FuncType = Acc<Q>;
 	using MatrixType = MType;
 	using ElementMatrixType =  Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
+	using FuncMatrixType =  Matrix<1, MatrixDescriptor<1, Acc<Quantity<Unit<1>>>>>;
 	virtual Q Value() const = 0;
 	virtual ElementMatrixType Elements()
 	{
 		auto m = Init(this->elements());
 		return m(); 
 	};
+	FuncMatrixType F()
+	{
+		auto m = Init(this->elements());
+		return m(); 
+	};
 	virtual MType M() const = 0;
+	decltype(auto) FS() { return funcs(); }
 private:
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
+	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const = 0;
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
@@ -45,6 +53,7 @@ private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(value) };	};
+	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const { return {result};};
 	typename Base::QuantityType value;
 	MType item;
 	std::string name;
@@ -78,6 +87,12 @@ private:
 	{
 		std::vector<std::shared_ptr<IElement>> v;
 		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
+		return v; 
+	};
+	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const
+	{
+		std::vector<Acc<Quantity<Unit<1>>>> v;
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(i->FS()[0]); });
 		return v; 
 	};
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
