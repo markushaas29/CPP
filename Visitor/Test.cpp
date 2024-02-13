@@ -157,8 +157,8 @@ int Run()
 	std::unique_ptr<BaseVisitor> av = std::make_unique<AccumulationVisitor<Quantity<Sum>>>();
 	av = m2e.Accept(std::move(av));
 	auto avc = (av->template As<AccumulationVisitor<Quantity<Sum>>>());
-	assert((avc.Func())==Quantity<Sum>(14.00));
-	std::cout<<"Visitor"<<avc.Func()<<std::endl;
+	assert((avc.Result())==Quantity<Sum>(14.00));
+	std::cout<<"Visitor"<<avc.Result()<<std::endl;
 
 	std::unique_ptr<BaseVisitor> dv = std::make_unique<DifferenceVisitor<Quantity<Sum>>>();
 	dv = m2e.Accept(std::move(dv));

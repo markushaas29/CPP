@@ -117,7 +117,7 @@ class MatrixVisitorTest2023
 			for(uint i = 0; i < allFactoryUnits.size(); ++i)
 					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
 			auto result = (*all)(parsedAccountMatrix);
-			std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
+			//std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
 
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
@@ -136,7 +136,7 @@ class MatrixVisitorTest2023
 			mps = mps.Set(Quantity<Scalar>(readingsMatrix[2]()->Data()),3,5);
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
-			std::cout<<"\n-------------------MPS---------------------\n:\n"<<mps<<std::endl;
+			std::cout<<"\n-------------------MPS---------------------\n:\n"<<ms<<std::endl;
 			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res()<<std::endl;

@@ -33,6 +33,7 @@ public:
 			auto mr = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
 			auto cv =mr.Accept(visitors->at(0)->Copy());
+			std::cout<<"MC"<<cv->template As<AccumulationVisitor<>>().Result()<<std::endl;
 			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor<>>())(), std::move(mr), Base::name);
 		}
 		return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType(), Base::name);
@@ -82,6 +83,7 @@ public:
 		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	
 				{
 					auto mc = (*c)(m);
+					std::cout<<"MC"<<*mc<<std::endl;
 					value = value + mc->Value();
 					result->push_back(std::move(mc));	
 				}); 
