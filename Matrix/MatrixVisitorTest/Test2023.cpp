@@ -121,6 +121,8 @@ class MatrixVisitorTest2023
 			auto ms = result->Elements().To<Quantity<Sum>>();
 			auto fms = result->F();
 			std::cout<<"\n-------------------All---------------------\n:\n"<<fms<<std::endl;
+			std::cout<<"\n-------------------All---------------------\n:\n"<<fms()<<std::endl;
+			std::cout<<"\n-------------------All---------------------\n:\n"<<fms[0]()<<std::endl;
 
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 			auto stageQ = mS.Match(smatcher).Parse(matcher);
