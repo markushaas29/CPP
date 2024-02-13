@@ -33,8 +33,8 @@ public:
 			auto mr = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
 			auto cv =mr.Accept(visitors->at(0)->Copy());
-			std::cout<<"MC"<<cv->template As<AccumulationVisitor<>>().Result()<<std::endl;
-			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>((cv->template As<AccumulationVisitor<>>())(), std::move(mr), Base::name);
+			auto func = cv->template As<AccumulationVisitor<>>().Result();
+			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(std::move(func), std::move(mr), Base::name);
 		}
 		return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType(), Base::name);
 	}

@@ -36,17 +36,19 @@ class Result: public IResult<Q,MType>
 {
 	using Base = IResult<Q,MType>;
 public:
+	Result(const Acc<Quantity<Unit<1> >>&& q, const MType&& m = MType(), const std::string& n =""): value{q()}, item(m), name{n}, result{q} {};
 	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	Result(std::shared_ptr<IElement> q, const MType&& m = MType(), const std::string& n =""): value{Q(q->Data())}, item(m), name{n} {};
 	virtual Q Value() const { return value; }
 	virtual MType M() const { return item; };
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(value) };	};
 	typename Base::QuantityType value;
 	MType item;
 	std::string name;
+	Acc<Quantity<Unit<1> >> result;
 };
 
 template<typename Q, typename MType>
