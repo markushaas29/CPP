@@ -92,7 +92,12 @@ private:
 	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const
 	{
 		std::vector<Acc<Quantity<Unit<1>>>> v;
-		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(i->FS()[0]); });
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) 
+				{
+					auto fs = i->FS();
+					//std::for_each(fs.cbegin(), fs.cend(), [&v](const auto& f) { v.push_back(f);}); 
+					v.insert(v.end(), fs.begin(),fs.end());
+				});
 		return v; 
 	};
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
