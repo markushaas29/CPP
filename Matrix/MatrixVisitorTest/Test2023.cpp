@@ -119,6 +119,8 @@ class MatrixVisitorTest2023
 			auto result = (*all)(parsedAccountMatrix);
 			//std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
+			auto fms = result->F();
+			std::cout<<"\n-------------------All---------------------\n:\n"<<fms<<std::endl;
 
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 			auto stageQ = mS.Match(smatcher).Parse(matcher);

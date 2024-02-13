@@ -27,7 +27,7 @@ public:
 	};
 	FuncMatrixType F()
 	{
-		auto m = Init(this->elements());
+		auto m = Init(this->funcs());
 		return m(); 
 	};
 	virtual MType M() const = 0;
