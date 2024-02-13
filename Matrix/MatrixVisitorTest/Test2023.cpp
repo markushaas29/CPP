@@ -106,7 +106,7 @@ class MatrixVisitorTest2023
 				},
 				{"Sewage",{
 						{"Deduction",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}}}, //Abwasser
-						{"Invoice",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2024"}}, {"EqualVisitor", { "Entry", "Rechung/Abwasser"}}}} //Abwasser
+						{"Invoice",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2024"}}, {"EqualVisitor", { "Entry", "Rechnung/Abwasser"}}}} //Abwasser
 					}
 				}
 			};
@@ -157,11 +157,11 @@ class MatrixVisitorTest2023
 			assert(ms[2].To<Quantity<Sum>>()==Quantity<Sum>{-1951.57}); // Insurance
 			assert(ms[3].To<Quantity<Sum>>()==Quantity<Sum>{-918.91}); // Cleaning
 			assert(ms[4].To<Quantity<Sum>>()==Quantity<Sum>{-423.00}); // Property
-			assert(ms[5].To<Quantity<Sum>>()==Quantity<Sum>{-855.00}); // Sewage
-			assert(res[1].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2449.34},0.01));
-			assert(res[2].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2588.57},0.01));
-			assert(Bru23.Equals(Quantity<Sum>{-25.34},0.01));
-			assert(Z23.Equals(Quantity<Sum>{-68.57},0.01));
+			assert(ms[5].To<Quantity<Sum>>()==Quantity<Sum>{-1061.32}); // Sewage
+			assert(res[1].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2517.51},0.01));
+			assert(res[2].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2678.42},0.01));
+			assert(Bru23.Equals(Quantity<Sum>{-93.51},0.01));
+			assert(Z23.Equals(Quantity<Sum>{-158.42},0.01));
 
 			std::cout<<"END 2023"<<std::endl;
 		   
