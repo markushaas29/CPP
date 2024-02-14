@@ -44,24 +44,24 @@ class FunctionalTest
 
 			std::cout<<"Const "<<ccm5<<std::endl;
 
-			auto ac = Add<Constant<QM>, Constant<QM>>(cm,cm);
+			auto ac = Add(cm,cm);
 			assert(ac()==QM{10});
 			assert(10==(int)ac);
 			std::cout<<"Add "<<ac(5)<<std::endl;
 			
-			auto ac2 = Add<decltype(ac), Constant<QM>>(ac,cm);
+			auto ac2 = Add(ac,cm);
 			assert(ac2()==QM{15});
 			assert(15==(int)ac2);
 			
-			auto sc = Sub<decltype(ac2), Constant<QM>>(ac2,cm);
+			auto sc = Sub(ac2,cm);
 			assert(sc()==QM{10});
 			assert(10==(int)sc);
 			
-			auto mc = Mul<decltype(ac), Constant<QM>>(ac,cm);
+			auto mc = Mul(ac,cm);
 			assert(mc()==(QM{5}*QM{10}));
 			assert(50==(int)mc);
 			
-			auto dc = Div<decltype(mc), Constant<QM>>(mc,cm);
+			auto dc = Div(mc,cm);
 			assert(dc()==QM{10});
 			assert(10==(int)dc);
 		

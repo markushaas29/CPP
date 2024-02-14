@@ -43,6 +43,9 @@ private:
 };
 
 template<typename L, typename R>
+Add(const L&, const R&) -> Add<L,R>;
+
+template<typename L, typename R>
 class Sub: public BinaryFunctional<Sub,L,R>
 {
 	using Base = BinaryFunctional<Sub,L,R>;
@@ -54,6 +57,9 @@ public:
 	Sub(const L& l, const R& r): Base{l,r} {}
 	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 };
+
+template<typename L, typename R>
+Sub(const L&, const R&) -> Sub<L,R>;
 
 template<typename L, typename R>
 class Mul: public BinaryFunctional<Mul,L,R>
@@ -69,6 +75,9 @@ public:
 };
 
 template<typename L, typename R>
+Mul(const L&, const R&) -> Mul<L,R>;
+
+template<typename L, typename R>
 class Div: public BinaryFunctional<Div,L,R>
 {
 	using Base = BinaryFunctional<Div,L,R>;
@@ -80,6 +89,9 @@ public:
 	Div(const L& l, const R& r): Base{l,r} {}
 	using ResultType = decltype(op(std::declval<L>(),std::declval<R>()));
 };
+
+template<typename L, typename R>
+Div(const L&, const R&) -> Div<L,R>;
 
 constexpr int GCD(const auto x, const auto y) noexcept { return y == 0 ? x : GCD(y,x % y);  }
 
@@ -100,3 +112,6 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const Fraction& c) { return s<<c.Left()<<sign<<c.Right();  }
 };
+
+template<typename L, typename R>
+Fraction(const L&, const R&) -> Fraction<L,R>;
