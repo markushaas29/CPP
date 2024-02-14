@@ -140,6 +140,7 @@ class MatrixVisitorTest2023
 			mps = mps.Set(Quantity<Scalar>(readingsMatrix[2]()->Data()),3,5);
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
+			std::cout<<"\n-------------------FMS---------------------\n:\n"<<fms().To<Quantity<Sum>>()<<std::endl;
 			std::cout<<"\n-------------------MPS---------------------\n:\n"<<ms<<std::endl;
 			std::cout<<"\n-------------------MPS divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
 			std::cout<<"\n-------------------MPS Result---------------------\n:\n"<<res<<std::endl;
