@@ -44,7 +44,7 @@ int main()
 
 	auto it = Is<Throwing>(s);
 	//it(2 == 3);
-	it(3 == 3);
+	it(3 != 3);
 	auto itt = Is<Terminating>(s);
 	itt(3==3);
 	//Is<int>()(2 == 3);

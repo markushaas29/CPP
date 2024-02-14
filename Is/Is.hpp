@@ -3,6 +3,7 @@
 #include<iostream> 
 #include<sstream> 
 #include<stdexcept> 
+#include<source_location>
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../String/Literal.hpp"
@@ -58,12 +59,13 @@ public:
 	constexpr auto Lit() { return literal; };
 	constexpr const char* Message() { return message; };
 protected:
-	constexpr IsBase(const char* m, Literal<L.Size> l): message{m}, literal{l} {}
-	const std::string ToString() { return std::string(literal.Value.cbegin(), literal.Value.cend()) + " > " + std::string{message}; };
+	constexpr IsBase(const char* m, Literal<L.Size> l, auto lc): message{m}, literal{l}, loc{lc} {}
+	const std::string ToString() { return std::string(literal.Value.cbegin(), literal.Value.cend()) + " > " + std::string{message} + loc.function_name() + std::to_string(loc.line()); };
 	friend std::ostream& operator<<(std::ostream& s, const IsBase& i) { return s<<i.literal;  }  
 private:
 	Literal<L.Size> literal;
 	const char*  message;
+	std::source_location loc;
 };
 
 template<typename T, Literal L = "", bool B = true>
@@ -72,7 +74,7 @@ class Is: public IsBase<Is<T,L,B>, L>
 	using Policy = T;
 	using Base = IsBase<Is<T,L,B>, L>;
 public:
-	Is(const std::string& m = ""): Base{m.c_str(), L} {}
+	Is(const std::string& m, std::source_location l = std::source_location::current()): Base{m.c_str(), L, l} {}
 	bool operator()(bool c)
 	{
 		if(!c)
@@ -88,7 +90,7 @@ class Is<CompileTime, L,B>: public IsBase<Is<CompileTime,L,B>, L>
 {
 	using Base = IsBase<Is<CompileTime,L,B>, L>;
 public:
-	constexpr Is(const char* m = ""): Base{m, L} {}
+	constexpr Is(const char* m = ""): Base{m, L, std::source_location::current()} {}
 	constexpr bool operator()(bool con)
 	{
 		static_assert(B);
