@@ -18,7 +18,7 @@ class FunctionalTest
 			using T = std::tuple<Quantity<Sum>,Quantity<Mass>>;
 	
 			QM qm{5};
-			auto cm = Constant<QM>(qm);
+			auto cm = Constant(qm);
 			auto cm2 = Constant(2.0);
 			auto cm5 = Constant(5);
 			auto ccm5 = Constant<Constant<int>>(cm5);

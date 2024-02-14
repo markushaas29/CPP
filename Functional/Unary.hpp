@@ -59,6 +59,9 @@ private:
 	static decltype(auto) op(const auto& v) { return v; }
 };
 
+template<typename T>
+Constant(const T&) -> Constant<T>;
+
 template<class Domain=double>
 class Parameter: public UnaryFunctional<Parameter, std::shared_ptr<Domain>>
 {
