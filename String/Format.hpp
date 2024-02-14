@@ -21,6 +21,7 @@ class Format
 {	
 public:
 	Format(auto... ts): value{exec(ts...)}, loc {std::source_location::current()} {}
+	Format(std::source_location l, auto... ts): value{exec(ts...)}, loc {l} {}
 	operator std::string() const { return value; }
 private:
 	friend  std::ostream& operator<<(std::ostream& out, const Format& f) { return out<<f.loc.function_name()<<f.value; }
