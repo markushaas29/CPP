@@ -47,7 +47,7 @@ public:
 	Result(const Acc<Quantity<Unit<1> >>&& q, const MType&& m = MType(), const std::string& n =""): value{q()}, item(m), name{n}, result{q} {};
 	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	Result(std::shared_ptr<IElement> q, const MType&& m = MType(), const std::string& n =""): value{Q(q->Data())}, item(m), name{n} {};
-	virtual Q Value() const { return value; }
+	virtual Q Value() const { return Q{result()}; }
 	virtual MType M() const { return item; };
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
