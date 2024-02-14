@@ -80,4 +80,6 @@ private:
 
 };
 
+template<typename L, typename R>
+Dot(const std::vector<L>&, const std::vector<R>&) -> Dot<L,R>;
 

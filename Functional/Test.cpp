@@ -171,7 +171,7 @@ class FunctionalTest
 			acc2.Push(10);
 			assert(acc2()==20);
 
-			auto dot1 = Dot<int,int>(v1,v2);
+			auto dot1 = Dot(v1,v2);
 			assert(dot1()==14);
 			std::cout<<"Dot "<<dot1<<std::endl;
 			
