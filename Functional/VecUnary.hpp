@@ -69,6 +69,9 @@ private:
 	}
 };
 
+template<typename T>
+Acc(const std::vector<T>&) -> Acc<T>;
+
 template<typename V>
 class Diff: public VecUnary<Diff,V>
 {
@@ -98,4 +101,7 @@ private:
 		return result; 
 	}
 };
+
+template<typename T>
+Diff(const std::vector<T>&) -> Diff<T>;
 
