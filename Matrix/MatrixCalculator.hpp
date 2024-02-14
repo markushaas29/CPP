@@ -201,7 +201,7 @@ private:
 
 		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v(l.Rows());
 		for(int i = 0; i != l.Rows(); ++i)
-			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(Dot<typename Base::LeftType::DataType, typename Base::RightType::DataType>(l.row(i),r.col(0)));
+			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(Dot(l.row(i),r.col(0)));
 
 		return typename Base::DotProductType::ResultType(md,v);
 	}
