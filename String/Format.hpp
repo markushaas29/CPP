@@ -16,9 +16,18 @@ static decltype(auto) format(std::stringstream& s, auto t, auto... ts)
 	return format(s,ts...);    
 };
 
-static std::string Format(auto... ts) 
+class Format
 {	
-	std::stringstream s;
-	format(s,ts...);    
-	return s.str();    
+public:
+	Format(auto... ts): value{exec(ts...)} {}
+	operator std::string() const { return value; }
+private:
+	friend  std::ostream& operator<<(std::ostream& out, const Format& f) { return out<<f.value; }
+	std::string value;
+	static auto exec(auto... ts) 
+	{
+		std::stringstream s;
+		format(s,ts...);    
+		return s.str();
+	}
 };
