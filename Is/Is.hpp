@@ -7,6 +7,7 @@
 #include "../Logger/Logger.hpp"
 #include "../Wrapper/Wrapper.hpp"
 #include "../String/Literal.hpp"
+#include "../String/Format.hpp"
 
 #pragma once
 
@@ -60,12 +61,16 @@ public:
 	constexpr const char* Message() { return message; };
 protected:
 	constexpr IsBase(const char* m, Literal<L.Size> l, auto lc): message{m}, literal{l}, loc{lc} {}
-	const std::string ToString() { return std::string(literal.Value.cbegin(), literal.Value.cend()) + " > " + std::string{message} + loc.function_name() + std::to_string(loc.line()); };
-	friend std::ostream& operator<<(std::ostream& s, const IsBase& i) { return s<<i.literal;  }  
+	const std::string ToString() { return  exec(literal,message,loc); };
 private:
-	Literal<L.Size> literal;
+	friend std::ostream& operator<<(std::ostream& s, const IsBase& i) { return s<<i.literal;  }  
 	const char*  message;
+	Literal<L.Size> literal;
 	std::source_location loc;
+	static std::string exec(const auto& lit, const std::string_view m, const auto& l)
+	{ 
+		return std::string(l.file_name()) + " " + l.function_name() + " " + std::to_string(l.line())+ ": " + std::string(lit.Value.cbegin(), lit.Value.cend()) + " > " + std::string(m) ;	
+	}
 };
 
 template<typename T, Literal L = "", bool B = true>
