@@ -17,17 +17,15 @@ public:
 	using QuantityType = Q;
 	using FuncType = Acc<Q>;
 	using MatrixType = MType;
-	using ElementMatrixType =  Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
-	using FuncMatrixType =  Matrix<1, MatrixDescriptor<1, FuncType>>;
 	virtual Q Value() const = 0;
 	virtual MType M() const = 0;
-	ElementMatrixType Elements() {	return Init(elements())(); 	};
-	FuncMatrixType Funcs()	{	return Init(funcs())(); };
-	decltype(auto) FS() { return funcs(); }
+	decltype(auto) Elements() {	return Init(elements())(); 	};
+	decltype(auto) Funcs()	{	return Init(funcs())(); };
+	decltype(auto) FuncVec() { return funcs(); }
 private:
+	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
-	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
 
@@ -60,7 +58,7 @@ public:
 	CompositeResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{*q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
 	virtual MType M() const { return MType(); };
-	virtual typename Base::ElementMatrixType Elements() const 
+	decltype(auto) Elements() const 
 	{
 		std::vector<std::shared_ptr<IElement>> v;
 		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
@@ -85,7 +83,7 @@ private:
 		std::vector<typename Base::FuncType> v;
 		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) 
 				{
-					auto fs = i->FS();
+					auto fs = i->FuncVec();
 					v.insert(v.end(), fs.begin(),fs.end());
 				});
 		return v; 
