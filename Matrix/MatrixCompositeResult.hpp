@@ -18,23 +18,15 @@ public:
 	using FuncType = Acc<Q>;
 	using MatrixType = MType;
 	using ElementMatrixType =  Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
-	using FuncMatrixType =  Matrix<1, MatrixDescriptor<1, Acc<Quantity<Unit<1>>>>>;
+	using FuncMatrixType =  Matrix<1, MatrixDescriptor<1, FuncType>>;
 	virtual Q Value() const = 0;
-	virtual ElementMatrixType Elements()
-	{
-		auto m = Init(this->elements());
-		return m(); 
-	};
-	FuncMatrixType F()
-	{
-		auto m = Init(this->funcs());
-		return m(); 
-	};
 	virtual MType M() const = 0;
+	ElementMatrixType Elements() {	return Init(elements())(); 	};
+	FuncMatrixType Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FS() { return funcs(); }
 private:
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
-	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const = 0;
+	virtual std::vector<FuncType> funcs() const = 0;
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 };
@@ -44,7 +36,7 @@ class Result: public IResult<Q,MType>
 {
 	using Base = IResult<Q,MType>;
 public:
-	Result(const Acc<Quantity<Unit<1> >>&& q, const MType&& m = MType(), const std::string& n =""): value{q()}, item(m), name{n}, result{q} {};
+	Result(const typename Base::FuncType&& q, const MType&& m = MType(), const std::string& n =""): value{q()}, item(m), name{n}, result{q} {};
 	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return Q{result()}; }
 	virtual MType M() const { return item; };
@@ -52,11 +44,11 @@ private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
-	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const { return {result};};
+	virtual std::vector<typename Base::FuncType> funcs() const { return {result};};
 	typename Base::QuantityType value;
 	MType item;
 	std::string name;
-	Acc<Quantity<Unit<1> >> result;
+	typename Base::FuncType result;
 };
 
 template<typename Q, typename MType>
@@ -88,13 +80,12 @@ private:
 		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
 		return v; 
 	};
-	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const
+	virtual std::vector<typename Base::FuncType> funcs() const
 	{
-		std::vector<Acc<Quantity<Unit<1>>>> v;
+		std::vector<typename Base::FuncType> v;
 		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) 
 				{
 					auto fs = i->FS();
-					//std::for_each(fs.cbegin(), fs.cend(), [&v](const auto& f) { v.push_back(f);}); 
 					v.insert(v.end(), fs.begin(),fs.end());
 				});
 		return v; 

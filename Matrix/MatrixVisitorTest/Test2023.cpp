@@ -119,7 +119,7 @@ class MatrixVisitorTest2023
 			auto result = (*all)(parsedAccountMatrix);
 			//std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
 			auto ms = result->Elements().To<Quantity<Sum>>();
-			auto fms = result->F();
+			auto fms = result->Funcs();
 			std::cout<<"\n-------------------All---------------------\n:\n"<<fms<<std::endl;
 			std::cout<<"\n-------------------All---------------------\n:\n"<<fms()<<std::endl;
 			std::cout<<"\n-------------------All---------------------\n:\n"<<fms[0]()<<std::endl;
