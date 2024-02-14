@@ -52,7 +52,7 @@ public:
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
-	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(value) };	};
+	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
 	virtual std::vector<Acc<Quantity<Unit<1>>>> funcs() const { return {result};};
 	typename Base::QuantityType value;
 	MType item;
