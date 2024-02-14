@@ -170,6 +170,10 @@ class FunctionalTest
 			assert(acc2()==10);
 			acc2.Push(10);
 			assert(acc2()==20);
+			
+			std::vector<Acc<int>> va = {acc1,acc2};
+			auto acca = Acc(va);
+			std::cout<<"ACCA "<<acca()<<std::endl;
 
 			auto dot1 = Dot(v1,v2);
 			assert(dot1()==14);

@@ -4,18 +4,18 @@
 
 #pragma once
 
-template<template<typename> class D,typename V>
+template<template<typename,typename> class D,typename V, typename VEC = V>
 class VecUnary: public Functional<VecUnary<D,V>>
 {
-	using Derived = D<V>;
-	using Type = VecUnary<D,V>;
+	using Derived = D<V,VEC>;
+	using Type = VecUnary<D,V,VEC>;
 	using Base = Functional<Type>;
 	friend class Functional<Type>;
 	inline static constexpr const char* sign = Derived::sign; 
-	friend class D<V>;
+	friend class D<V,VEC>;
 public:
 	using ValueType = V;
-	using VecType = std::vector<V>;
+	using VecType = std::vector<VEC>;
 	decltype(auto) Push(const V& v) { value.push_back(v); }
 	decltype(auto) Size() { return value.size(); }
 	decltype(auto) Begin() { return value.begin(); }
@@ -43,11 +43,11 @@ private:
 	VecType value;
 };
 
-template<typename V>
-class Acc: public VecUnary<Acc,V>
+template<typename V, typename VEC = V>
+class Acc: public VecUnary<Acc,V,VEC>
 {
-	using Base = VecUnary<Acc,V>;
-	friend class VecUnary<Acc,V>;
+	using Base = VecUnary<Acc,V,VEC>;
+	friend class VecUnary<Acc,V,VEC>;
 public:
 	inline static constexpr const char* sign = "+";
 	Acc(const Base::VecType& v =  typename Base::VecType()): Base{v} {}
@@ -56,7 +56,10 @@ private:
 	decltype(auto) op(const std::vector<T>& v1) 
 	{ 
 		double r = 0;
-		std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(i); });
+		if constexpr (std::is_invocable_v<T>)
+			std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(i()); });
+		else
+			std::for_each(v1.cbegin(), v1.cend(), [&](const auto& i) {	r += (double)(i); });
 		return r; 
 	}
 	
@@ -72,8 +75,11 @@ private:
 template<typename T>
 Acc(const std::vector<T>&) -> Acc<T>;
 
-template<typename V>
-class Diff: public VecUnary<Diff,V>
+template<typename T>
+Acc(const std::vector<Acc<T>>&) -> Acc<T,Acc<T>>;
+
+template<typename V, typename VEC = V>
+class Diff: public VecUnary<Diff,V,V>
 {
 	using Base = VecUnary<Diff,V>;
 	friend class VecUnary<Diff,V>;
