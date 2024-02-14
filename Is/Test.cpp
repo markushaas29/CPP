@@ -39,14 +39,15 @@ int main()
 	il2(3 == 3);
 	
 	auto ia = Is<Asserting>(s);
-	ia(2 == 3);
+	//ia(2 == 3);
 	ia(3 == 3);
 
 	auto it = Is<Throwing>(s);
-	//it(2 == 3);
-	it(3 != 3);
+	it(2 == 3);
+	
+	try{ it(3 == 3); } catch(...) {}
 	auto itt = Is<Terminating>(s);
-	itt(3==3);
+	//itt(3==3);
 	//Is<int>()(2 == 3);
 	std::cout<<"END"<<std::endl;
 
