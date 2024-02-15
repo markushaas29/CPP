@@ -11,7 +11,6 @@ template<typename I, template<typename> class T, typename... DS>
 class Builder
 {
 	using Tup = std::tuple<DS...>;
-	using Args = std::string;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Builder";
 	inline static constexpr Literal TypeId{TypeIdentifier};
@@ -20,10 +19,7 @@ public:
 	template<typename... Args>
 	decltype(auto) operator()(Args&&... args) { return exec<0>(std::make_unique<std::vector<std::unique_ptr<I>>>(), std::forward<Args>(args)...); }
 private:
-	const Args args;
-	std::shared_ptr<Factory<IToken>> factory;
 	friend std::ostream& operator<<(std::ostream& s, const Builder& c){return s;}
-	 
 	template<size_t N, typename... Args>
 	auto exec(auto&& res, Args&&... args)
 	{
