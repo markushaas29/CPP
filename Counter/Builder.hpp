@@ -7,18 +7,21 @@
 
 #pragma once
 
-template<typename I, typename... T>
+template<typename I, template<typename> class T, typename... DS>
 class Builder
 {
-	using Tup = std::tuple<T...>;
+	using Tup = std::tuple<DS...>;
+	using Args = std::string;
 public:
 	inline static constexpr const char TypeIdentifier[] = "Builder";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
 	Builder() = delete;
+	Builder(const std::string& a, std::shared_ptr<Factory<IToken>> f): args{a}, factory{f} {};
 	decltype(auto) operator()() { return exec<0>(std::make_unique<std::vector<I>>()); }
 private:
-	I* interface;
+	const Args args;
+	std::shared_ptr<Factory<IToken>> factory;
 	friend std::ostream& operator<<(std::ostream& s, const Builder& c){return s;}
 	 
 	template<size_t N>
@@ -30,7 +33,6 @@ private:
 		{
 			using Type = std::tuple_element_t<N,Tup>;
 			std::cout<<Type::Identifier<<std::endl;
-			interface->Register(Type::Identifier,&Type::Make);
 			exec<N+1>(res);
 		}
 	}

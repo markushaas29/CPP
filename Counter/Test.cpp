@@ -35,6 +35,7 @@ class CounterTest
 			auto dv = GasDesc{tf,"/home/markus/Downloads/CSV_TestFiles_2"};
 			std::cout<<"Counter\n"<<dv<<std::endl;
 
+			Builder<ICounter,Counter,TopHotWaterDesc> b("/home/markus/Downloads/CSV_TestFiles_2", tf);
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
