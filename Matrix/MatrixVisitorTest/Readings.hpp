@@ -6,14 +6,11 @@
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
-#include "../MatrixProjector.hpp"
-#include "../MatrixFilter.hpp"
 #include "../MatrixComposition.hpp"
 #include "../M3.hpp"
-#include "../MatrixCategory.hpp"
-#include "../MatrixQuery.hpp"
-#include "../MatrixMultiCategory.hpp"
 #include "../MatrixStrategy.hpp"
+#include "../../Builder/Builder.hpp"
+#include "../../Counter/ICounter.hpp"
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
@@ -69,6 +66,8 @@ public:
 
         auto tf = TypeFactory<Factory<IElement>, Quantity<Energy, KiloHour>, IBAN, Date, BIC, ID<std::string>, Name, Index<int>, Empty>();
         auto tfc = std::make_shared<TF>(fmt);
+		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
+		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
 
 		auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/TCold.csv" },
 												{ "/home/markus/Downloads/CSV_TestFiles_2/MHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/MCold.csv" },
@@ -84,6 +83,8 @@ public:
 			auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 			els.push_back(consV());	
 		}
+		
+		std::for_each(cV->begin(), cV->end(), [&](const auto& i){ std::cout<<*i<<std::endl;  });
 
 		auto med1 = Init(els);
 		auto readings = med1();
