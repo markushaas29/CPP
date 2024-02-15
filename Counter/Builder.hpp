@@ -18,21 +18,21 @@ public:
 
 	Builder() = default;
 	template<typename... Args>
-	decltype(auto) operator()(Args... args) { return exec<0>(std::make_unique<std::vector<std::unique_ptr<I>>>(), args...); }
+	decltype(auto) operator()(Args&&... args) { return exec<0>(std::make_unique<std::vector<std::unique_ptr<I>>>(), std::forward<Args>(args)...); }
 private:
 	const Args args;
 	std::shared_ptr<Factory<IToken>> factory;
 	friend std::ostream& operator<<(std::ostream& s, const Builder& c){return s;}
 	 
 	template<size_t N, typename... Args>
-	auto exec(auto&& res, Args... args)
+	auto exec(auto&& res, Args&&... args)
 	{
 		if constexpr (std::tuple_size<Tup>()==N)
 			return std::move(res);
 		else
 		{
 			using Type = std::tuple_element_t<N,Tup>;
-			res->push_back(std::make_unique<T<Type>>(args...));
+			res->push_back(std::make_unique<T<Type>>(std::forward<Args>(args)...));
 			std::cout<<Type::Identifier<<std::endl;
 			return exec<N+1>(res, args...);
 		}
