@@ -41,7 +41,8 @@ class Readings: public XBase
 {
 public:
 	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): XBase{fT,fE,fB} {};
-	decltype(auto) operator()()
+	template<typename M>
+	decltype(auto) operator()(M&& m)
 	{
 		auto fbv = std::make_shared<Factory<BaseVisitor>>();
         auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
@@ -57,21 +58,24 @@ public:
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 					els.push_back(consV());	
-					std::cout<<*i<<std::endl;  
 				});
 
-		auto med1 = Init(els);
-		auto readings = med1();
+		auto med = Init(els);
+		auto readings = med();
 
         auto accBV = (*fbv)("Accumulation","100");
 		accBV = readings.Accept(std::move(accBV));
+
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
 		auto d3 = std::make_shared<Quantity<Volume>>((*accV(0,2)).To<Quantity<Volume>>());
 		auto d2 = std::make_shared<Quantity<Volume>>((*accV(2,4)).To<Quantity<Volume>>());
 		auto d1 = std::make_shared<Quantity<Volume>>((*accV(4,6)).To<Quantity<Volume>>());
 
-		std::vector<std::shared_ptr<IElement>> elements = { d1, d2 ,d3 };
-		auto m = Init(elements);
-        return m();
+		auto sum = *d1 + *d2 + *d3;
+        m = m.Set(*d1 / sum,1,5);
+        m = m.Set(*d2 / sum,2,5);
+        m = m.Set(*d3 / sum,3,5);
+        
+		return std::move(m);
 	}
 };

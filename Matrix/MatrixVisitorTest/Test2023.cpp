@@ -132,12 +132,8 @@ class MatrixVisitorTest2023
 			std::cout<<"Payment:\n"<<payment<<extras[0]<<std::endl;
 
 			auto readings = Readings{tokenFactory,elementFactory,visitorFactory};
-			auto readingsMatrix = readings();
-			std::cout<<"\n-------------------readings---------------------\n:\n"<<readingsMatrix<<std::endl;
+			mps = readings(std::move(mps));
 
-			mps = mps.Set(Quantity<Scalar>(readingsMatrix[0]()->Data()),1,5);
-			mps = mps.Set(Quantity<Scalar>(readingsMatrix[1]()->Data()),2,5);
-			mps = mps.Set(Quantity<Scalar>(readingsMatrix[2]()->Data()),3,5);
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
 			std::cout<<"\n-------------------FMS---------------------\n:\n"<<fms().To<Quantity<Sum>>()<<std::endl;
