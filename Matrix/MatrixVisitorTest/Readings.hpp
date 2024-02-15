@@ -69,9 +69,6 @@ public:
 		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
 
-		auto CtrFs = std::vector<std::string>{{ "/home/markus/Downloads/CSV_TestFiles_2/THot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/TCold.csv" },
-												{ "/home/markus/Downloads/CSV_TestFiles_2/MHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/MCold.csv" },
-												{ "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/BCold.csv" }};
 		auto els = std::vector<std::shared_ptr<IElement>>{};
 		
 		std::for_each(cV->begin(), cV->end(), [&](const auto& i)

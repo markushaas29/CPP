@@ -11,6 +11,7 @@ class ICounter
 {
 public:
 	virtual ~ICounter() {};
+	virtual std::unique_ptr<BaseVisitor> Accept(std::unique_ptr<BaseVisitor> bp) const = 0;
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICounter& c) { return c.display(s);	}
 	virtual std::ostream& display(std::ostream& s) const = 0;
@@ -28,7 +29,7 @@ public:
 	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): descriptor{std::move(d)}, io{std::make_unique<CounterIO<Type>>(tf,descriptor->Path())},tokenFactory{tf}, dataModel{io->read()}	{	}
 	template<typename T>
 	decltype(auto) To() const { return dataModel->template To<T>(); }
-	decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return dataModel->Accept(std::move(bp));   }
+	std::unique_ptr<BaseVisitor> Accept(std::unique_ptr<BaseVisitor> bp) const {  return dataModel->Accept(std::move(bp));   }
 private:
 	std::unique_ptr<DescriptionType> descriptor;
 	std::unique_ptr<ICounterIO<Type>> io;

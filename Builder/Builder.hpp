@@ -33,7 +33,6 @@ private:
 		{
 			using Type = std::tuple_element_t<N,Tup>;
 			res->push_back(std::make_unique<T<Type>>(std::forward<Args>(args)...));
-			std::cout<<Type::Identifier<<std::endl;
 			return exec<N+1>(res, args...);
 		}
 	}
