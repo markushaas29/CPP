@@ -73,18 +73,15 @@ public:
 												{ "/home/markus/Downloads/CSV_TestFiles_2/MHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/MCold.csv" },
 												{ "/home/markus/Downloads/CSV_TestFiles_2/BHot.csv" }, { "/home/markus/Downloads/CSV_TestFiles_2/BCold.csv" }};
 		auto els = std::vector<std::shared_ptr<IElement>>{};
-		for(auto f : CtrFs)
-		{
-			auto mvr = MatrixReader(f);
-			auto mv = mvr.M<2>();
-			auto mctr = mv.Parse(matcher);
-			std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
-			civ = mctr.Accept(std::move(civ));
-			auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-			els.push_back(consV());	
-		}
 		
-		std::for_each(cV->begin(), cV->end(), [&](const auto& i){ std::cout<<*i<<std::endl;  });
+		std::for_each(cV->begin(), cV->end(), [&](const auto& i)
+				{ 
+					std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
+					civ = i->Accept(std::move(civ));
+					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
+					els.push_back(consV());	
+					std::cout<<*i<<std::endl;  
+				});
 
 		auto med1 = Init(els);
 		auto readings = med1();
