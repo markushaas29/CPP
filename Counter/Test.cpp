@@ -19,10 +19,10 @@ class CounterTest
 		{
 			std::cout<<"START COunterTest"<<std::endl;
 			auto tf = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>();
-			auto wd = TopHotWaterDesc{tf,"/home/markus/Downloads/CSV_TestFiles_2"};
+			auto wd = TopHotDesc{tf,"/home/markus/Downloads/CSV_TestFiles_2"};
 			std::cout<<"CABSter\n"<<wd<<std::endl;
 
-			auto c = std::make_unique<Counter<TopHotWaterDesc>>("/home/markus/Downloads/CSV_TestFiles_2",tf);
+			auto c = std::make_unique<Counter<TopHotDesc>>("/home/markus/Downloads/CSV_TestFiles_2",tf);
 
 			std::cout<<"Counter\n"<<*c<<std::endl;
 			std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
@@ -35,7 +35,7 @@ class CounterTest
 			auto dv = GasDesc{tf,"/home/markus/Downloads/CSV_TestFiles_2"};
 			std::cout<<"Counter\n"<<dv<<std::endl;
 
-			Builder<ICounter,Counter,TopHotWaterDesc> b("/home/markus/Downloads/CSV_TestFiles_2", tf);
+			Builder<ICounter,Counter,TopHotDesc> b("/home/markus/Downloads/CSV_TestFiles_2", tf);
 			auto cV = b();
 			std::cout<<"cv"<<cV->size()<<std::endl;
 			std::for_each(cV->begin(), cV->end(), [&](const auto& i){ std::cout<<*i<<std::endl;  });
