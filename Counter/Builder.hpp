@@ -16,25 +16,25 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "Builder";
 	inline static constexpr Literal TypeId{TypeIdentifier};
 
-	Builder() = delete;
-	Builder(const std::string& a, std::shared_ptr<Factory<IToken>> f): args{a}, factory{f} {};
-	decltype(auto) operator()() { return exec<0>(std::make_unique<std::vector<std::unique_ptr<I>>>()); }
+	Builder() = default;
+	template<typename... Args>
+	decltype(auto) operator()(Args... args) { return exec<0>(std::make_unique<std::vector<std::unique_ptr<I>>>(), args...); }
 private:
 	const Args args;
 	std::shared_ptr<Factory<IToken>> factory;
 	friend std::ostream& operator<<(std::ostream& s, const Builder& c){return s;}
 	 
-	template<size_t N>
-	auto exec(auto&& res)
+	template<size_t N, typename... Args>
+	auto exec(auto&& res, Args... args)
 	{
 		if constexpr (std::tuple_size<Tup>()==N)
 			return std::move(res);
 		else
 		{
 			using Type = std::tuple_element_t<N,Tup>;
-			res->push_back(std::make_unique<T<Type>>(args,factory));
+			res->push_back(std::make_unique<T<Type>>(args...));
 			std::cout<<Type::Identifier<<std::endl;
-			return exec<N+1>(res);
+			return exec<N+1>(res, args...);
 		}
 	}
 };
