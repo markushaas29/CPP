@@ -12,6 +12,7 @@ class ICounter
 public:
 	virtual ~ICounter() {};
 private:
+	friend std::ostream& operator<<(std::ostream& s, const ICounter& c) { return c.display(s);	}
 	virtual std::ostream& display(std::ostream& s) const = 0;
 };
 

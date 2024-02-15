@@ -28,13 +28,13 @@ private:
 	auto exec(auto&& res)
 	{
 		if constexpr (std::tuple_size<Tup>()==N)
-			return res;
+			return std::move(res);
 		else
 		{
 			using Type = std::tuple_element_t<N,Tup>;
 			res->push_back(std::make_unique<T<Type>>(args,factory));
 			std::cout<<Type::Identifier<<std::endl;
-			exec<N+1>(res);
+			return exec<N+1>(res);
 		}
 	}
 };
