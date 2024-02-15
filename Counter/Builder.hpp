@@ -18,7 +18,7 @@ public:
 
 	Builder() = delete;
 	Builder(const std::string& a, std::shared_ptr<Factory<IToken>> f): args{a}, factory{f} {};
-	decltype(auto) operator()() { return exec<0>(std::make_unique<std::vector<I>>()); }
+	decltype(auto) operator()() { return exec<0>(std::make_unique<std::vector<std::unique_ptr<I>>>()); }
 private:
 	const Args args;
 	std::shared_ptr<Factory<IToken>> factory;
@@ -32,6 +32,7 @@ private:
 		else
 		{
 			using Type = std::tuple_element_t<N,Tup>;
+			res->push_back(std::make_unique<T<Type>>(args,factory));
 			std::cout<<Type::Identifier<<std::endl;
 			exec<N+1>(res);
 		}
