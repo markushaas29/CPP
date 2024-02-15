@@ -52,9 +52,9 @@ struct Middle  	{	inline static constexpr const char* Value = "Middle"; };
 struct House  	{	inline static constexpr const char* Value = "House"; };
 
 using GasDesc = CounterDescription<GasEntity,House,1202757>;
-//using EnBWHouseEnergyDescription = CounterDescription<Energy,21740069, Work>;
-//using EnBWHallEnergyDescription = CounterDescription<Energy,11256983, Work>;
-//using VattenfallEnergyDescription = CounterDescription<Energy,11144078, Work>;
+using EnBWHouseEnergyDescription = CounterDescription<EnergyEntity,House,21740069>;
+using EnBWHallEnergyDescription = CounterDescription<EnergyEntity,House,11256983>;
+using VattenfallEnergyDescription = CounterDescription<EnergyEntity,House,11144078>;
 //using AllWaterDescription = CounterDescription<Water,18061860, Volume>;
 //using OWaterDescription = CounterDescription<Water,279638, Volume>;
 //using OutWaterDescription = CounterDescription<Water,458711, Volume>;
