@@ -23,7 +23,7 @@ struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* N
 template<size_t I>
 struct Stage
 {
-	static inline constexpr size_t Index = I;
+	static inline constexpr int Index = I;
 };
 
 struct Top: public Stage<3>  	{	inline static constexpr const char* Value = "Top"; };

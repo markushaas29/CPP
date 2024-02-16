@@ -72,9 +72,9 @@ public:
 		auto d1 = std::make_shared<Quantity<Volume>>((*accV(4,6)).To<Quantity<Volume>>());
 
 		auto sum = *d1 + *d2 + *d3;
-        m = m.Set(*d1 / sum,1,5);
-        m = m.Set(*d2 / sum,2,5);
-        m = m.Set(*d3 / sum,3,5);
+        m = m.Set(*d1 / sum,Bottom::Index,5);
+        m = m.Set(*d2 / sum,Middle::Index,5);
+        m = m.Set(*d3 / sum,Top::Index,5);
         
 		return std::move(m);
 	}
