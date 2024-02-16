@@ -28,11 +28,11 @@ class XBase
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
 protected:
-	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB} {};
-//	private:
+	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
+	const std::string path;
 private:
 	friend std::ostream& operator<<(std::ostream& s, const XBase& m) { return s; }
 };
@@ -40,7 +40,7 @@ private:
 class Readings: public XBase
 {
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): XBase{fT,fE,fB} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
 	template<typename M>
 	decltype(auto) operator()(M&& m)
 	{
@@ -48,7 +48,7 @@ public:
         auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
 
 		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
-		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
+		auto cV = b(path, tokenFactory);
 
 		auto els = std::vector<std::shared_ptr<IElement>>{};
 		
@@ -79,4 +79,5 @@ public:
         
 		return std::move(m);
 	}
+private:
 };
