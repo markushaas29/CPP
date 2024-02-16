@@ -10,15 +10,26 @@ struct Hot		{	inline static constexpr const char* Value = "Hot";	};
 struct Cold		{	inline static constexpr const char* Value = "Cold"; };
 
 template<typename T>
-class Entity
+struct Entity
 {
-public:
 	using Unit = T;
 };
 
 struct EnergyEntity: public Entity<Energy> 	{	inline static constexpr const char* Name = "Energy"; };
 struct WaterEntity: public Entity<Volume>	{	inline static constexpr const char* Name = "Water"; };
 struct GasEntity: public Entity<Volume>		{	inline static constexpr const char* Name = "Gas"; };
+
+
+template<size_t I>
+struct Stage
+{
+	static inline constexpr size_t Index = I;
+};
+
+struct Top: public Stage<3>  	{	inline static constexpr const char* Value = "Top"; };
+struct Bottom: public Stage<1> 	{	inline static constexpr const char* Value = "Bottom"; };
+struct Middle: public Stage<2>  	{	inline static constexpr const char* Value = "Middle"; };
+struct House: public Stage<0>  	{	inline static constexpr const char* Value = "House"; };
 
 template<typename E, typename S,  size_t No = 0,typename D = None, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
 class CounterDescription: public DescriptorBase
@@ -45,11 +56,6 @@ private:
 														return out;	}
 };
 
-
-struct Top  	{	inline static constexpr const char* Value = "Top"; };
-struct Bottom 	{	inline static constexpr const char* Value = "Bottom"; };
-struct Middle  	{	inline static constexpr const char* Value = "Middle"; };
-struct House  	{	inline static constexpr const char* Value = "House"; };
 
 using GasDesc = CounterDescription<GasEntity,House,1202757>;
 using EnBWHouseEnergyDesc = CounterDescription<EnergyEntity,House,21740069>;
