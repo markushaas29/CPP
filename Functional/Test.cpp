@@ -28,6 +28,9 @@ class FunctionalTest
 			assert(5==(int)cm5);
 			assert(5==cm5());
 			assert(5==(int)cm);
+			
+			auto p5 = Percentage(5);
+			assert(p5()==5);
 
 			auto acm = cm + cm;
 			assert((qm+qm)==acm());
@@ -49,6 +52,9 @@ class FunctionalTest
 			assert(10==(int)ac);
 			std::cout<<"Add "<<ac(5)<<std::endl;
 			
+			auto pac = Percentage(ac);
+			assert(pac()==10);
+			
 			auto ac2 = Add(ac,cm);
 			assert(ac2()==QM{15});
 			assert(15==(int)ac2);
@@ -64,6 +70,9 @@ class FunctionalTest
 			auto dc = Div(mc,cm);
 			assert(dc()==QM{10});
 			assert(10==(int)dc);
+			
+			auto pdc = Percentage(dc);
+			assert(pdc()==10);
 		
 			auto fd = Func<Div>(mc,cm);
 			assert(fd()==QM{10});

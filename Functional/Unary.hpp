@@ -59,6 +59,22 @@ private:
 	static decltype(auto) op(const auto& v) { return v; }
 };
 
+template<class Domain=double>
+class Percentage: public UnaryFunctional<Percentage,Domain>
+{
+	using Type = Percentage<Domain>;
+	using Base = UnaryFunctional<Percentage, Domain>;
+	friend class UnaryFunctional<Percentage, Domain>;
+public:
+	Percentage(const Domain& v): Base{v} {}
+	template<typename T>
+	Percentage(const Percentage<T>& c): Base{c()} {}
+	template<typename T>
+	Percentage(std::is_arithmetic<T> v): Base{static_cast<Domain>(v)} {} 
+private:
+	static decltype(auto) op(const auto& v) { return v; }
+};
+
 template<typename T>
 Constant(const T&) -> Constant<T>;
 
