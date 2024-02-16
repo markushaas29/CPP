@@ -39,7 +39,8 @@ public:
 	template<template<typename> class D1,typename V1>
 	decltype(auto) operator==(const UnaryFunctional<D1,V1>& u){ return (*this)() == u();	}
 private:
-	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return s<<c.value;  }
+	friend std::ostream& operator<<(std::ostream& s, const UnaryFunctional& c) { return c.display(s);  }
+	virtual std::ostream& display(std::ostream& s) const { return s<<value;  }
 	ValueType value;
 };
 
@@ -72,11 +73,15 @@ public:
 	template<typename T>
 	Percentage(std::is_arithmetic<T> v): Base{static_cast<Domain>(v)} {} 
 private:
+	virtual std::ostream& display(std::ostream& s) const { return s<<Base::value<<"%";  }
 	static decltype(auto) op(const auto& v) { return v; }
 };
 
 template<typename T>
 Constant(const T&) -> Constant<T>;
+
+template<typename T>
+Percentage(const T&) -> Percentage<T>;
 
 template<class Domain=double>
 class Parameter: public UnaryFunctional<Parameter, std::shared_ptr<Domain>>

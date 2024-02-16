@@ -50,7 +50,6 @@ class FunctionalTest
 			auto ac = Add(cm,cm);
 			assert(ac()==QM{10});
 			assert(10==(int)ac);
-			std::cout<<"Add "<<ac(5)<<std::endl;
 			
 			auto pac = Percentage(ac);
 			assert(pac()==10);
@@ -73,6 +72,7 @@ class FunctionalTest
 			
 			auto pdc = Percentage(dc);
 			assert(pdc()==10);
+			std::cout<<"Per "<<pdc<<std::endl;
 		
 			auto fd = Func<Div>(mc,cm);
 			assert(fd()==QM{10});
