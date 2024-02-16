@@ -165,6 +165,12 @@ class FunctionalTest
 			assert(acc1(2,4)==7);
 			assert(acc1(1,4)==9);
 			
+			std::vector<int> vn = {-1,-2,3};
+			acc1 = Acc(vn);
+			assert(acc1()==0);
+			assert(acc1.Size()==3);
+			assert(acc1(0,2)==-3);
+			
 			auto acc2 = Acc<int>();
 			acc2.Push(10);
 			assert(acc2()==10);
