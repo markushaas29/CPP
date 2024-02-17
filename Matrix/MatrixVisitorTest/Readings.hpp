@@ -28,7 +28,10 @@ class XBase
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	using MatrixType = Matrix<1, MatrixDescriptor<1, Quantity<Unit<>>>>;
+    inline static constexpr size_t Order = 1;
+	using ElementType = std::shared_ptr<IElement>;
+	using DescriptorType = MatrixDescriptor<1,ElementType>;
+	using MatrixType = Matrix<1, DescriptorType>;
 	virtual MatrixType operator()() const = 0;
 protected:
 	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, path{p} {};
@@ -77,13 +80,12 @@ public:
 		auto d = Quantity<Volume>((*accV(l,h)).To<Quantity<Volume>>());
 
 	 	auto sum = (*accV()).To<Quantity<Volume>>();
-        std::vector<decltype(d / (*accV()).To<Quantity<Volume>>())> resQ = { d / (*accV()).To<Quantity<Volume>>() };
-		auto res = Init(resQ);
-		std::cout<<"RES:"<<res()<<(Quantity<Volume>((*accV(4,6)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
-		std::cout<<"RES:"<<res()<<(Quantity<Volume>((*accV(2,4)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
+        std::vector<typename Base::ElementType> resQ = { std::make_shared<Quantity<Scalar>>(d / (*accV()).To<Quantity<Volume>>()) };
+		std::cout<<"RES:"<<(Quantity<Volume>((*accV(4,6)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
+		std::cout<<"RES:"<<(Quantity<Volume>((*accV(2,4)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
 		std::cout<<"RES:"<<sum<<(Quantity<Volume>((*accV(0,2)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
-        
-		return res();
+
+        return Matrix<Order,DescriptorType>(typename Base::DescriptorType({resQ.size()}),ToDataType(resQ));
 	}
 private:
 };
@@ -151,10 +153,8 @@ public:
 //		std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
 //		std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 //		std::cout<<"\n-------------------Stages()---------------------\n:\n"<<payment<<extras[0]<<std::endl;
-		std::vector<Quantity<Scalar>> resQ = { Quantity<Scalar>{0} };
-		auto res = Init(resQ);
-        
-		return res();
+        std::vector<typename Base::ElementType> resQ;// = { std::make_shared<typename Base::ElementType>("") };
+        return Matrix<Order,DescriptorType>(typename Base::DescriptorType({resQ.size()}),ToDataType(resQ));
 	}
 private:
 };

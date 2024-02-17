@@ -141,9 +141,9 @@ class MatrixVisitorTest2023
 			auto rB = readingsB();
 
 			int c = mps.Cols()-1;
-	        mps = mps.Set(rT[0],Bottom::Index,c);
-	        mps = mps.Set(rM[0],Middle::Index,c);
-	        mps = mps.Set(rB[0],Top::Index,c);
+	        mps = mps.Set(rT[0].As<Quantity<Scalar>>(),Bottom::Index,c);
+	        mps = mps.Set(rM[0].As<Quantity<Scalar>>(),Middle::Index,c);
+	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
 			std::cout<<"\n-------------------Stages MPS---------------------\n:\n"<<mps<<std::endl;
 
 			stages();
