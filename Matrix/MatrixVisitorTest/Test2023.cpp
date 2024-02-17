@@ -37,11 +37,7 @@ class MatrixVisitorTest2023
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
 			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
 			auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
-			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
 			auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
-            auto mrR = MatrixReader(rpath);
-            auto mR = mrR.M<2>().Cols(3,4,5,6,7,8);
-            auto msm = mR.To<Quantity<Scalar>>();
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
 			auto m24r = MatrixReader(u24);
@@ -84,7 +80,8 @@ class MatrixVisitorTest2023
 			auto readingsT = Readings<Top>{tokenFactory,elementFactory,visitorFactory, path};
 			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			auto stages = Account{tokenFactory,elementFactory,visitorFactory, path};
+			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
+			auto stages = Stages{tokenFactory,elementFactory,visitorFactory, path};
 			auto rT = readingsT();
 			auto rM = readingsM();
 			auto rB = readingsB();
@@ -93,22 +90,14 @@ class MatrixVisitorTest2023
 	        mps = mps.Set(rT[0].As<Quantity<Scalar>>(),Bottom::Index,c);
 	        mps = mps.Set(rM[0].As<Quantity<Scalar>>(),Middle::Index,c);
 	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
-			std::cout<<"\n-------------------Stages MPS---------------------\n:\n"<<mps<<std::endl;
+			std::cout<<"\n-------------------account MPS---------------------\n:\n"<<mps<<std::endl;
 
-			auto pay = stages();
+			auto pay = account();
 			auto ms = pay.To<Quantity<Sum>>();
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
-//			std::cout<<"\n-------------------Fractions()---------------------\n:\n"<<fms().To<Quantity<Sum>>()<<std::endl;
-//			std::cout<<"\n-------------------Costs---------------------\n:\n"<<ms<<std::endl;
-//			std::cout<<"\n-------------------Stages divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
-//			std::cout<<"\n-------------------Stages / Colsum() + Costs---------------------\n:\n"<<res<<std::endl;
-//			std::cout<<"\n-------------------MPS Result()---------------------\n:\n"<<res()<<std::endl;
-//			std::cout<<"\n-------------------MPS Bru---------------------\n:\n"<<res[1]<<std::endl;
-//			std::cout<<"\n-------------------MPS Bru Result() =---------------------\n:\n"<<res[1]()<<std::endl;
-//			std::cout<<"\n-------------------MPS Zei---------------------\n:\n"<<res[2]<<std::endl;
-//			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<res[2]()<<std::endl;
+			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
 			auto resQ = res.To<Quantity<Sum>>();
 			
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
