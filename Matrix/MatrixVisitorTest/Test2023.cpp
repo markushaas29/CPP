@@ -82,6 +82,7 @@ class MatrixVisitorTest2023
 			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
 			auto stages = Stages{tokenFactory,elementFactory,visitorFactory, path};
+			auto extrasC = ExtraCosts{tokenFactory,elementFactory,visitorFactory, path};
 			auto rT = readingsT();
 			auto rM = readingsM();
 			auto rB = readingsB();
@@ -105,6 +106,7 @@ class MatrixVisitorTest2023
 			auto Z23 = extras[1] + resQ[2].To<Quantity<Sum>>();
 			std::cout<<"\nZei---------------------\n:\n"<<Z23<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
+			std::cout<<"\n-------------------EXTRAS MPS---------------------\n:\n"<<extrasC()<<std::endl;
 
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
 			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating
