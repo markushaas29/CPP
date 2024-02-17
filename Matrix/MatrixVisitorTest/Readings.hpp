@@ -97,30 +97,22 @@ public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
 	typename Base::MatrixType operator()() const
 	{
-//		
-//		auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
-//		auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
-//		auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN.csv" };
-//		auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
-//		auto mrR = MatrixReader(rpath);
-//		auto mR = mrR.M<2>().Cols(3,4,5,6,7,8);
-//		auto msm = mR.To<Quantity<Scalar>>();
-//		auto m22r = MatrixReader(u22);
-//		auto m23r = MatrixReader(u23);
-//		auto m24r = MatrixReader(u24);
-//		auto mS = MatrixReader(sNew).M<2>();
-//		auto m22S = m22r.M<2>();
-//		auto m23S = m23r.M<2>();
-//		auto m24S = m24r.M<2>();
-//		auto t = false;
-//		std::vector<MS2> accountFiles{m22S, m23S, m24S};
-//		M3 accountMatrix(accountFiles);
-//		
-//		auto tokenFactory = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumI
-//		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"Re
-//		Matcher smatcher(std::move(stageIndexTokens));
-//		auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-//		Matcher imatcher(std::move(csvIndexTokens));
+		using MDS2 = MatrixDescriptor<2,std::string>;
+        using MS2 = Matrix<2,MDS2>;
+		auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
+		auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
+		auto m23r = MatrixReader(u23);
+		auto m24r = MatrixReader(u24);
+		auto m23S = m23r.M<2>();
+		auto m24S = m24r.M<2>();
+		std::vector<MS2> accountFiles{m23S, m24S};
+		M3 accountMatrix(accountFiles);
+		
+		auto tokenFactory = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken>();
+		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
+		Matcher smatcher(std::move(stageIndexTokens));
+		auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
+		Matcher imatcher(std::move(csvIndexTokens));
 //		auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
 //		Matcher matcher(std::move(v));
 //		
