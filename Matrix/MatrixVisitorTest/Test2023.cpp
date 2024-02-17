@@ -73,57 +73,6 @@ class MatrixVisitorTest2023
             predicateVisitorFactory->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
             auto regC = Registration<CompositeFactory<IPredicateVisitor, Factory<IElement>>,EqualVisitor>(&(*predicateVisitorFactory));
 		 	
-			std::vector<FactoryUnitContainer<std::vector<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>>> allFactoryUnits = 
-			{
-				{"Waste",
-					{
-					
-						{"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}}} // Waste
-					}
-				}, 
-				{"Heating",
-					{
-						{"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}}},
-						{"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}}},
-						{"Invoice",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}}}},
-						{"Rechnung",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}}},
-					}
-				},
-				{"BuildingInsurance",{
-						{"Invoice",{{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", "2023"}}}} // Insurance
-					}
-				},
-				{"Cleaning",{
-						{"Alles Proper",{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", "2023"}}}},
-						{"Jansen",{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", "2023"}}}},
-						{"Jansen",{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Month", "1"}}}},
-						{"Rastaetter",{{"EqualVisitor", { "IBAN", "DE79660623660000101303"}}, {"EqualVisitor", { "Year", "2023"}}}},
-					}
-				},
-				{"PropertyTax",{
-						{"Deduction",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}}} //Grundsteuer
-					}
-				},
-				{"Sewage",{
-						{"Deduction",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2023"}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}}}, //Abwasser
-						{"Invoice",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", "2024"}}, {"EqualVisitor", { "Entry", "Rechnung/Abwasser"}}}} //Abwasser
-					}
-				}
-			};
-
-			auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");//, mcHeating.Clone());
-
-			std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation"}};
-			for(uint i = 0; i < allFactoryUnits.size(); ++i)
-					all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
-			auto result = (*all)(parsedAccountMatrix);
-			//std::cout<<"\n-------------------All---------------------\n:\n"<<(*(*all)(parsedAccountMatrix))<<std::endl;
-			auto ms = result->Elements().To<Quantity<Sum>>();
-			auto fms = result->Funcs();
-			std::cout<<"\n-------------------All---------------------\n:\n"<<fms<<std::endl;
-			std::cout<<"\n-------------------All()---------------------\n:\n"<<fms()<<std::endl;
-			std::cout<<"\n-------------------All[0]()---------------------\n:\n"<<fms[0]()<<std::endl;
-
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 			auto stageQ = mS.Match(smatcher).Parse(matcher);
 			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
@@ -147,19 +96,19 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------Stages MPS---------------------\n:\n"<<mps<<std::endl;
 
 			auto pay = stages();
-			ms = result->Elements().To<Quantity<Sum>>();
+			auto ms = pay.To<Quantity<Sum>>();
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
-			std::cout<<"\n-------------------Fractions()---------------------\n:\n"<<fms().To<Quantity<Sum>>()<<std::endl;
-			std::cout<<"\n-------------------Costs---------------------\n:\n"<<ms<<std::endl;
-			std::cout<<"\n-------------------Stages divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
-			std::cout<<"\n-------------------Stages / Colsum() + Costs---------------------\n:\n"<<res<<std::endl;
-			std::cout<<"\n-------------------MPS Result()---------------------\n:\n"<<res()<<std::endl;
-			std::cout<<"\n-------------------MPS Bru---------------------\n:\n"<<res[1]<<std::endl;
-			std::cout<<"\n-------------------MPS Bru Result() =---------------------\n:\n"<<res[1]()<<std::endl;
-			std::cout<<"\n-------------------MPS Zei---------------------\n:\n"<<res[2]<<std::endl;
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<res[2]()<<std::endl;
+//			std::cout<<"\n-------------------Fractions()---------------------\n:\n"<<fms().To<Quantity<Sum>>()<<std::endl;
+//			std::cout<<"\n-------------------Costs---------------------\n:\n"<<ms<<std::endl;
+//			std::cout<<"\n-------------------Stages divided by ColSum---------------------\n:\n"<<mpsM<<std::endl;
+//			std::cout<<"\n-------------------Stages / Colsum() + Costs---------------------\n:\n"<<res<<std::endl;
+//			std::cout<<"\n-------------------MPS Result()---------------------\n:\n"<<res()<<std::endl;
+//			std::cout<<"\n-------------------MPS Bru---------------------\n:\n"<<res[1]<<std::endl;
+//			std::cout<<"\n-------------------MPS Bru Result() =---------------------\n:\n"<<res[1]()<<std::endl;
+//			std::cout<<"\n-------------------MPS Zei---------------------\n:\n"<<res[2]<<std::endl;
+//			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<res[2]()<<std::endl;
 			auto resQ = res.To<Quantity<Sum>>();
 			
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
