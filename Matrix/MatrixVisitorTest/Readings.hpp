@@ -106,9 +106,6 @@ public:
 	
 		auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
         auto stageQ = mS.Match(smatcher).Parse(matcher);
-        auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
-        std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
-        std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 
         return stageQ.Cols(8,9,10)[1];
 	}
