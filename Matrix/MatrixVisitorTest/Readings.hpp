@@ -27,6 +27,9 @@ class XBase
 	inline static constexpr const char TypeIdentifier[] = "Matrix";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
+public:
+	using MatrixType = Matrix<2, MatrixDescriptor<2, Quantity<Unit<>>>>;
+	virtual MatrixType operator()(MatrixType&& m) const = 0;
 protected:
 	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
@@ -39,10 +42,10 @@ private:
 
 class Readings: public XBase
 {
+	using Base = XBase;
 public:
 	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	template<typename M>
-	decltype(auto) operator()(M&& m)
+	typename Base::MatrixType operator()(typename Base::MatrixType&& m) const
 	{
 		auto fbv = std::make_shared<Factory<BaseVisitor>>();
         auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
@@ -84,10 +87,10 @@ private:
 
 class Stages: public XBase
 {
+	using Base = XBase;
 public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	template<typename M>
-	decltype(auto) operator()(M&& m)
+	typename Base::MatrixType operator()(typename Base::MatrixType&& m) const
 	{
 //		
 //		auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
