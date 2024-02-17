@@ -40,9 +40,11 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const XBase& m) { return s; }
 };
 
+template<typename S>
 class Readings: public XBase
 {
 	using Base = XBase;
+	using Stage = S;
 public:
 	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
 	typename Base::MatrixType operator()(typename Base::MatrixType&& m) const
@@ -66,7 +68,7 @@ public:
 		auto med = Init(els);
 		auto readings = med();
 
-        auto accBV = (*fbv)("Accumulation","100");
+        auto accBV = (*fbv)("Accumulation","");
 		accBV = readings.Accept(std::move(accBV));
 
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();

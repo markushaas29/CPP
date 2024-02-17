@@ -132,9 +132,11 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------Stages()---------------------\n:\n"<<payment<<extras[0]<<std::endl;
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
-			auto readings = Readings{tokenFactory,elementFactory,visitorFactory, path};
+			auto readingsT = Readings<Top>{tokenFactory,elementFactory,visitorFactory, path};
+			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto stages = Stages{tokenFactory,elementFactory,visitorFactory, path};
-			mps = readings(std::move(mps));
+			mps = readingsT(std::move(mps));
 			mps = stages(std::move(mps));
 
 			auto mpsM = (mps / mps.ColSum());
