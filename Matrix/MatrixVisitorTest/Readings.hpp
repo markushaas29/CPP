@@ -71,15 +71,17 @@ public:
         auto accBV = (*fbv)("Accumulation","");
 		accBV = readings.Accept(std::move(accBV));
 
+		int h = S::Index*2;
+		int l = (S::Index-1)*2;
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
-		auto d3 = Quantity<Volume>((*accV(0,2)).To<Quantity<Volume>>());
-		auto d2 = Quantity<Volume>((*accV(2,4)).To<Quantity<Volume>>());
-		auto d1 = Quantity<Volume>((*accV(4,6)).To<Quantity<Volume>>());
+		auto d = Quantity<Volume>((*accV(l,h)).To<Quantity<Volume>>());
 
-		auto sum = d1 + d2 + d3;
-		std::vector<decltype(d1 / sum)> resQ = { d1 / sum };
+	 	auto sum = (*accV()).To<Quantity<Volume>>();
+        std::vector<decltype(d / (*accV()).To<Quantity<Volume>>())> resQ = { d / (*accV()).To<Quantity<Volume>>() };
 		auto res = Init(resQ);
-		std::cout<<"RES:"<<res()<<std::endl;
+		std::cout<<"RES:"<<res()<<(Quantity<Volume>((*accV(4,6)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
+		std::cout<<"RES:"<<res()<<(Quantity<Volume>((*accV(2,4)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
+		std::cout<<"RES:"<<sum<<(Quantity<Volume>((*accV(0,2)).To<Quantity<Volume>>())/ (*accV()).To<Quantity<Volume>>())<<std::endl;
         
 		return res();
 	}
