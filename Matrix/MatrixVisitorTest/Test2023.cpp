@@ -146,7 +146,8 @@ class MatrixVisitorTest2023
 	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
 			std::cout<<"\n-------------------Stages MPS---------------------\n:\n"<<mps<<std::endl;
 
-			stages();
+			auto pay = stages();
+			ms = result->Elements().To<Quantity<Sum>>();
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
