@@ -136,8 +136,14 @@ class MatrixVisitorTest2023
 			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto stages = Stages{tokenFactory,elementFactory,visitorFactory, path};
-			mps = readingsT(std::move(mps));
-			mps = stages(std::move(mps));
+			auto m = readingsT();
+
+			int c = m.Cols()-1;
+//	        m = m.Set(*d1 / sum,Bottom::Index,c);
+//	        m = m.Set(*d2 / sum,Middle::Index,c);
+//	        m = m.Set(*d3 / sum,Top::Index,c)
+
+			stages();
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;

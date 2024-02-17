@@ -28,8 +28,8 @@ class XBase
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	using MatrixType = Matrix<2, MatrixDescriptor<2, Quantity<Unit<>>>>;
-	virtual MatrixType operator()(MatrixType&& m) const = 0;
+	using MatrixType = Matrix<1, MatrixDescriptor<1, Quantity<Unit<>>>>;
+	virtual MatrixType operator()() const = 0;
 protected:
 	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
@@ -47,7 +47,7 @@ class Readings: public XBase
 	using Stage = S;
 public:
 	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	typename Base::MatrixType operator()(typename Base::MatrixType&& m) const
+	typename Base::MatrixType operator()() const
 	{
 		auto fbv = std::make_shared<Factory<BaseVisitor>>();
         auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
@@ -72,17 +72,16 @@ public:
 		accBV = readings.Accept(std::move(accBV));
 
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
-		auto d3 = std::make_shared<Quantity<Volume>>((*accV(0,2)).To<Quantity<Volume>>());
-		auto d2 = std::make_shared<Quantity<Volume>>((*accV(2,4)).To<Quantity<Volume>>());
-		auto d1 = std::make_shared<Quantity<Volume>>((*accV(4,6)).To<Quantity<Volume>>());
+		auto d3 = Quantity<Volume>((*accV(0,2)).To<Quantity<Volume>>());
+		auto d2 = Quantity<Volume>((*accV(2,4)).To<Quantity<Volume>>());
+		auto d1 = Quantity<Volume>((*accV(4,6)).To<Quantity<Volume>>());
 
-		auto sum = *d1 + *d2 + *d3;
-		int c = m.Cols()-1;
-        m = m.Set(*d1 / sum,Bottom::Index,c);
-        m = m.Set(*d2 / sum,Middle::Index,c);
-        m = m.Set(*d3 / sum,Top::Index,c);
+		auto sum = d1 + d2 + d3;
+		std::vector<decltype(d1 / sum)> resQ = { d1 / sum };
+		auto res = Init(resQ);
+		std::cout<<"RES:"<<res()<<std::endl;
         
-		return std::move(m);
+		return res();
 	}
 private:
 };
@@ -92,7 +91,7 @@ class Stages: public XBase
 	using Base = XBase;
 public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	typename Base::MatrixType operator()(typename Base::MatrixType&& m) const
+	typename Base::MatrixType operator()() const
 	{
 //		
 //		auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
@@ -150,8 +149,10 @@ public:
 //		std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
 //		std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 //		std::cout<<"\n-------------------Stages()---------------------\n:\n"<<payment<<extras[0]<<std::endl;
+		std::vector<Quantity<Scalar>> resQ = { Quantity<Scalar>{0} };
+		auto res = Init(resQ);
         
-		return std::move(m);
+		return res();
 	}
 private:
 };
