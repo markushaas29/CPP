@@ -95,17 +95,10 @@ private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec() const
 	{
-        auto stringMatrix = MatrixReader(path + "//" + fileName).M<2>();
-
-		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-		Matcher indexTokenMatcher(std::move(stageIndexTokens));
-		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-		Matcher elementTokenMatcher(std::move(elementIndexTokens));
-	
-		return matrix(stringMatrix, std::move(indexTokenMatcher), std::move(elementTokenMatcher));
+		return matrix();
 	}
 
-	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& s, Matcher&& sm) const = 0;
+	virtual typename Base::MatrixType matrix() const = 0;
 };
 
 class Stages: public StageBase
@@ -114,7 +107,7 @@ class Stages: public StageBase
 public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): StageBase{fT,fE,fB, p} {};
 private:
-	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& im, Matcher&& em) const { return m.Match(im).Parse(em).Cols(8,9,10)[1];	}
+	virtual typename Base::MatrixType matrix() const { return (*parser)().Cols(8,9,10)[1];	}
 };
 
 class ExtraCosts: public StageBase
@@ -123,9 +116,9 @@ class ExtraCosts: public StageBase
 public:
 	ExtraCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): StageBase{fT,fE,fB, p} {};
 private:
-	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& im, Matcher&& em) const
+	virtual typename Base::MatrixType matrix() const
 	{
-        auto payment = m.Match(im).Parse(em).Cols(8,9,10).To<Quantity<Sum>>();
+        auto payment = (*parser)().Cols(8,9,10).To<Quantity<Sum>>();
         std::vector<std::shared_ptr<IElement>> extras = 
 			{	std::make_shared<Quantity<Sum>>(payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()),
 				std::make_shared<Quantity<Sum>>(payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>())
