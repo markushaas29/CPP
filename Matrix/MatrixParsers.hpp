@@ -21,32 +21,37 @@
 
 #pragma once
 
+class IBaseMatrixParser
+{
+public:
+	using ElementType = std::shared_ptr<IElement>;
+private:
+	virtual std::ostream& display(std::ostream& os) const = 0;
+	friend std::ostream& operator<<(std::ostream& s, const IBaseMatrixParser& m) { return s; }
+};
+
 template<size_t N>
-class IMatrixParser
+class IMatrixParser: public IBaseMatrixParser
 {
 public:
     inline static constexpr size_t Order = N;
-	using ElementType = std::shared_ptr<IElement>;
-	using MatrixType = Matrix<N, MatrixDescriptor<N, std::shared_ptr<IElement>>>;
+	using Base = IBaseMatrixParser;
+	using MatrixType = Matrix<N, MatrixDescriptor<N, Base::ElementType>>;
 	MatrixType operator()() const { return exec(); };
 private:
 	virtual MatrixType exec() const = 0;
-	virtual std::ostream& display(std::ostream& os) const = 0;
-	friend std::ostream& operator<<(std::ostream& s, const IMatrixParser& m) { return s; }
 };
 
 template<>
-class IMatrixParser<3>
+class IMatrixParser<3>: public IBaseMatrixParser
 {
 public:
     inline static constexpr size_t Order = 3;
-	using ElementType = std::shared_ptr<IElement>;
-	using MatrixType = M3<std::shared_ptr<IElement>, MatrixDescriptor<3, std::shared_ptr<IElement>>>;
+	using Base = IBaseMatrixParser;
+	using MatrixType = M3<Base::ElementType, MatrixDescriptor<3, Base::ElementType>>;
 	MatrixType operator()() const { return exec(); };
 private:
 	virtual MatrixType exec() const = 0;
-	virtual std::ostream& display(std::ostream& os) const = 0;
-	friend std::ostream& operator<<(std::ostream& s, const IMatrixParser& m) { return s; }
 };
 
 template<size_t N>
