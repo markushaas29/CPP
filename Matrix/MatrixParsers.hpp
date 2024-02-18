@@ -82,8 +82,8 @@ private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec() const
 	{
-		auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
-        auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
+		auto u23 = std::string{ path + "//U_2023.csv" };
+        auto u24 = std::string{ path + "//U_2024.csv" };
         auto m23r = MatrixReader(u23);
         auto m24r = MatrixReader(u24);
         auto m23S = m23r.M<2>();
