@@ -91,19 +91,17 @@ class StageBase: public XBase
 protected:
 	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
 private:
+	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec() const
 	{
-		auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
-        auto mS = MatrixReader(sNew).M<2>();
+        auto stringMatrix = MatrixReader(path + "//" + fileName).M<2>();
 
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-		Matcher smatcher(std::move(stageIndexTokens));
-		auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-		Matcher imatcher(std::move(csvIndexTokens));
-		auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-		Matcher matcher(std::move(v));
+		Matcher indexTokenMatcher(std::move(stageIndexTokens));
+		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+		Matcher elementTokenMatcher(std::move(elementIndexTokens));
 	
-		return matrix(mS, std::move(smatcher), std::move(matcher));
+		return matrix(stringMatrix, std::move(indexTokenMatcher), std::move(elementTokenMatcher));
 	}
 
 	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& s, Matcher&& sm) const = 0;
@@ -115,7 +113,7 @@ class Stages: public StageBase
 public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): StageBase{fT,fE,fB, p} {};
 private:
-	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& s, Matcher&& sm) const { return m.Match(s).Parse(sm).Cols(8,9,10)[1];	}
+	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& im, Matcher&& em) const { return m.Match(im).Parse(em).Cols(8,9,10)[1];	}
 };
 
 class ExtraCosts: public StageBase
@@ -124,10 +122,9 @@ class ExtraCosts: public StageBase
 public:
 	ExtraCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): StageBase{fT,fE,fB, p} {};
 private:
-	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& s, Matcher&& sm) const
+	virtual typename Base::MatrixType matrix(Matrix<2, MatrixDescriptor<2, std::string>> m, Matcher&& im, Matcher&& em) const
 	{
-        auto stageQ = m.Match(s).Parse(sm);
-        auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
+        auto payment = m.Match(im).Parse(em).Cols(8,9,10).To<Quantity<Sum>>();
         std::vector<std::shared_ptr<IElement>> extras = 
 			{	std::make_shared<Quantity<Sum>>(payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()),
 				std::make_shared<Quantity<Sum>>(payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>())
@@ -160,14 +157,12 @@ private:
 		std::vector<MS2> accountFiles{m23S, m24S};
 		M3 accountMatrix(accountFiles);
 		
-		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-		Matcher smatcher(std::move(stageIndexTokens));
 		auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-		Matcher imatcher(std::move(csvIndexTokens));
-		auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-		Matcher matcher(std::move(v));
+		Matcher indexTokenMatcher(std::move(csvIndexTokens));
+		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+		Matcher elementTokenMatcher(std::move(elementIndexTokens));
 		
-		auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);
+		auto parsedAccountMatrix = accountMatrix.Match(indexTokenMatcher).Parse(elementTokenMatcher);
 		
 		auto typeFactory = std::make_shared<TF>(elementFactory);
 
