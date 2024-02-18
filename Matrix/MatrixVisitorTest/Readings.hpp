@@ -33,11 +33,11 @@ public:
 	using MatrixType = Matrix<1, DescriptorType>;
 	MatrixType operator()() const { return exec(); };
 protected:
-	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, parser{std::make_unique<StageParser>(fT,p)},path{p} {};
+	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, std::unique_ptr<IMatrixParser<2>> p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, parser{std::move(p)} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
-	std::unique_ptr<IMatrixParser> parser;
+	std::unique_ptr<IMatrixParser<2>> parser;
 	const std::string path;
 private:
 	virtual MatrixType exec() const = 0;
@@ -50,7 +50,7 @@ class Readings: public XBase
 	using Base = XBase;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, std::make_unique<StageParser>(fT,p)} {};
 private:
 	typename Base::MatrixType exec() const
 	{
@@ -58,7 +58,7 @@ private:
         auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
 
 		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
-		auto cV = b(path, tokenFactory);
+		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
 
 		auto els = std::vector<std::shared_ptr<IElement>>{};
 		
@@ -90,14 +90,10 @@ class StageBase: public XBase
 {
 	using Base = XBase;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, std::make_unique<StageParser>(fT,p)} {};
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::MatrixType exec() const
-	{
-		return matrix();
-	}
-
+	typename Base::MatrixType exec() const	{	return matrix();	}
 	virtual typename Base::MatrixType matrix() const = 0;
 };
 
@@ -135,28 +131,15 @@ class Account: public XBase
 {
 	using Base = XBase;
 public:
-	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
+	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB,std::make_unique<StageParser>(fT,p)} {};
 private:
 	typename Base::MatrixType exec() const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
 		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
-		auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
-		auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
-		auto m23r = MatrixReader(u23);
-		auto m24r = MatrixReader(u24);
-		auto m23S = m23r.M<2>();
-		auto m24S = m24r.M<2>();
-		std::vector<MS2> accountFiles{m23S, m24S};
-		M3 accountMatrix(accountFiles);
 		
-		auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-		Matcher indexTokenMatcher(std::move(csvIndexTokens));
-		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-		Matcher elementTokenMatcher(std::move(elementIndexTokens));
-		
-		auto parsedAccountMatrix = accountMatrix.Match(indexTokenMatcher).Parse(elementTokenMatcher);
+		auto parsedAccountMatrix = AccountParser(tokenFactory,"/home/markus/Downloads/CSV_TestFiles_2")();
 		
 		auto typeFactory = std::make_shared<TF>(elementFactory);
 
