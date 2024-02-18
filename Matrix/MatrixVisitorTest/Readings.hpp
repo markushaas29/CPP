@@ -7,7 +7,7 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixComposition.hpp"
 #include "../M3.hpp"
-#include "../MatrixStrategy.hpp"
+#include "../MatrixParsers.hpp"
 #include "../../Builder/Builder.hpp"
 #include "../../Counter/ICounter.hpp"
 #include "../../ObjectFactory/Factory.hpp"
@@ -33,7 +33,7 @@ public:
 	using MatrixType = Matrix<1, DescriptorType>;
 	MatrixType operator()() const { return exec(); };
 protected:
-	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, path{p} {};
+	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, parser{std::make_unique<StageParser>(fT,p)},path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
