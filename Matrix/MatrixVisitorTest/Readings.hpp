@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cassert> 
 #include <vector> 
-#include <tuple> 
 #include <memory> 
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
@@ -79,7 +78,7 @@ private:
 		int h = S::Index*2;
 		int l = (S::Index-1)*2;
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
-		auto d = Quantity<Volume>((*accV(l,h)).To<Quantity<Volume>>());
+		auto d = Quantity<Volume>((*accV((int)((S::Index-1)*2),(int)(S::Index*2))).To<Quantity<Volume>>());
 
 	 	auto sum = (*accV()).To<Quantity<Volume>>();
         std::vector<typename Base::ElementType> resQ = { std::make_shared<Quantity<Scalar>>(d / (*accV()).To<Quantity<Volume>>()) };
