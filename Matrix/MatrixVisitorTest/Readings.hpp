@@ -37,6 +37,7 @@ protected:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
+	std::unique_ptr<IMatrixParser> parser;
 	const std::string path;
 private:
 	virtual MatrixType exec() const = 0;

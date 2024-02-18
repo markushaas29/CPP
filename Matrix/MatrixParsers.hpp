@@ -41,9 +41,8 @@ class IMatrixParserBase: public IMatrixParser
 public:
 	MatrixType operator()() const { return exec(); };
 protected:
-	IMatrixParserBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE, const std::string& p):tokenFactory{fT}, elementFactory{fE}, path{p} {};
+	IMatrixParserBase(std::shared_ptr<Factory<IToken>> fT, const std::string& p):tokenFactory{fT}, path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
-	std::shared_ptr<Factory<IElement>> elementFactory;
 	const std::string path;
 private:
 	virtual MatrixType exec() const = 0;
@@ -55,7 +54,7 @@ class StageParser: public IMatrixParserBase
 {
 	using Base = IMatrixParserBase;
 public:
-	StageParser(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE, const std::string& p): IMatrixParserBase{fT,fE, p} {};
+	StageParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec() const

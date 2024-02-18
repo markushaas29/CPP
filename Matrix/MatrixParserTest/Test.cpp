@@ -71,7 +71,7 @@ class MatrixParserTest
 //            auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
 //            Matcher matcher(std::move(v));
 //
-			auto sp = StageParser(tokenFactory, elementFactory,"/home/markus/Downloads/CSV_TestFiles_2");
+			auto sp = StageParser(tokenFactory, "/home/markus/Downloads/CSV_TestFiles_2");
 
 			std::cout<<sp()<<std::endl;
 
