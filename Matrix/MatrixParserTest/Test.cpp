@@ -6,6 +6,7 @@
 #include "../Matrix.hpp"
 #include "../M3.hpp"
 #include "../MatrixReader.hpp"
+#include "../MatrixParsers.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
