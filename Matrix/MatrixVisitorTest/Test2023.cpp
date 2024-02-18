@@ -106,7 +106,13 @@ class MatrixVisitorTest2023
 			auto Z23 = extras[1] + resQ[2].To<Quantity<Sum>>();
 			std::cout<<"\nZei---------------------\n:\n"<<Z23<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
+
+			auto em = extrasC()[0];
+			if(auto qs = em.As<Quantity<Sum>>())
+				std::cout<<"\n-------------------QS---------------------\n:\n"<<qs<<std::endl;
+
 			std::cout<<"\n-------------------EXTRAS MPS---------------------\n:\n"<<extrasC()<<std::endl;
+
 
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
 			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating
