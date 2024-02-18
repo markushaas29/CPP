@@ -41,7 +41,7 @@ class IMatrixParser<3>
 public:
     inline static constexpr size_t Order = 3;
 	using ElementType = std::shared_ptr<IElement>;
-	using MatrixType = M3<std::shared_ptr<IElement>, MatrixDescriptor<3, std::string>>;
+	using MatrixType = M3<std::shared_ptr<IElement>, MatrixDescriptor<3, std::shared_ptr<IElement>>>;
 	MatrixType operator()() const { return exec(); };
 private:
 	virtual MatrixType exec() const = 0;

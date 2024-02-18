@@ -134,7 +134,7 @@ private:
 	{ 
 		std::vector<typename MatrixInitializer<2,C>::MatrixType> mx;
 		std::for_each(elements->cbegin(), elements->cend(), [&](const auto& e) { f(mx,e); });
-		return M3<C,DT>(mx); 
+		return M3<C,MatrixDescriptor<3,C>>(mx); 
 	}
 
 	template<typename V>
