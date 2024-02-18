@@ -32,7 +32,7 @@ public:
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<1, DescriptorType>;
-	virtual MatrixType operator()() const = 0;
+	MatrixType operator()() const { return exec(); };
 protected:
 	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB}, path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
@@ -40,6 +40,7 @@ protected:
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
 	const std::string path;
 private:
+	virtual MatrixType exec() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const XBase& m) { return s; }
 };
 
@@ -50,7 +51,8 @@ class Readings: public XBase
 	using Stage = S;
 public:
 	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	typename Base::MatrixType operator()() const
+private:
+	typename Base::MatrixType exec() const
 	{
 		auto fbv = std::make_shared<Factory<BaseVisitor>>();
         auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
@@ -84,7 +86,6 @@ public:
 
         return Matrix<Order,DescriptorType>(typename Base::DescriptorType({resQ.size()}),ToDataType(resQ));
 	}
-private:
 };
 
 class Stages: public XBase
@@ -92,7 +93,8 @@ class Stages: public XBase
 	using Base = XBase;
 public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	typename Base::MatrixType operator()() const
+private:
+	typename Base::MatrixType exec() const
 	{
 		auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
         auto mS = MatrixReader(sNew).M<2>();
@@ -109,7 +111,6 @@ public:
 
         return stageQ.Cols(8,9,10)[1];
 	}
-private:
 };
 
 class ExtraCosts: public XBase
@@ -117,7 +118,8 @@ class ExtraCosts: public XBase
 	using Base = XBase;
 public:
 	ExtraCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	typename Base::MatrixType operator()() const
+private:
+	typename Base::MatrixType exec() const
 	{
 		auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
         auto mS = MatrixReader(sNew).M<2>();
@@ -142,7 +144,6 @@ public:
 
         return Matrix<Order,DescriptorType>(typename Base::DescriptorType({extrasR.size()}),ToDataType(extrasR));
 	}
-private:
 };
 
 class Account: public XBase
@@ -150,7 +151,8 @@ class Account: public XBase
 	using Base = XBase;
 public:
 	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB, p} {};
-	typename Base::MatrixType operator()() const
+private:
+	typename Base::MatrixType exec() const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
@@ -222,5 +224,4 @@ public:
 		auto ms = result->Elements().To<Quantity<Sum>>();
 		return result->Elements();
 	}
-private:
 };
