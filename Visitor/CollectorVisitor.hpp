@@ -89,7 +89,7 @@ public:
 				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
 		return std::make_shared<T>(res[0]);
 	};
-	inline static constexpr const char* Identifier = "Consumption";
+	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:
 	std::vector<Date> elements;
 };

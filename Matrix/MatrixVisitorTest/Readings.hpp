@@ -62,7 +62,7 @@ private:
 		
 		std::for_each(cV->begin(), cV->end(), [&](const auto& i)
 				{ 
-        			std::unique_ptr<BaseVisitor> civ = (*fbv)("Consumption","");
+        			std::unique_ptr<BaseVisitor> civ = (*fbv)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 					els.push_back(consV());	
