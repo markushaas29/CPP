@@ -1,4 +1,5 @@
- #include "../Unit/Unit.hpp"
+ #include "../Is/Is.hpp"
+ #include "../String/Literal.hpp"
  #include "../Unit/Unit.hpp"
  #include "../Quantity/QuantityRatio.hpp"
 
