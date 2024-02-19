@@ -9,7 +9,6 @@
 #include "M3.hpp"
 #include "MatrixStrategy.hpp"
 #include "../Builder/Builder.hpp"
-#include "../Counter/ICounter.hpp"
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
@@ -97,6 +96,23 @@ private:
         Matcher elementTokenMatcher(std::move(elementIndexTokens));
         
         return accountMatrix.Match(indexTokenMatcher).Parse(elementTokenMatcher);
+	}
+};
+
+template<typename T>
+class CounterParser: public IMatrixParserBase<2>
+{
+	using Base = IMatrixParserBase;
+	using Type = T;
+public:
+	CounterParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
+private:
+	typename Base::MatrixType exec() const
+	{
+        auto stringMatrix = MatrixReader(path).template M<2>();
+        auto elementTokens = (*tokenFactory)({{"DateToken"},{ Type::Unit::TokenName }});
+        Matcher matcher(std::move(elementTokens));
+        return stringMatrix.Parse(matcher);
 	}
 };
 

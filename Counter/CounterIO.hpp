@@ -2,6 +2,7 @@
 #include "../Descriptor/IDescriptor.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixReader.hpp"
+#include "../Matrix/MatrixParsers.hpp"
 
 #pragma once
 
@@ -22,11 +23,12 @@ public:
 	using Type = T;
 	using DataModel = typename T::DataModel;
 	using Unit = typename T::Unit;
-	CounterIO(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{p}, reader{std::make_unique<MatrixReader<std::string>>(path)} {}
+	CounterIO(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{p}, parser{std::make_unique<CounterParser<Type>>(f,path)}, reader{std::make_unique<MatrixReader<std::string>>(path)} {}
 private:	
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::string path;
     std::unique_ptr<MatrixReader<std::string>> reader;   
+    std::unique_ptr<IMatrixParser<2>> parser;   
 	virtual std::unique_ptr<DataModel> read() const 
 	{
         auto mv = (*reader).template M<2>();
