@@ -12,11 +12,15 @@ public:
 	{
 		if(auto p = dynamic_cast<T*>(this))
 			return *p;
-		
-		return T();
+		IsT<Throwing>(Format("INVALID AS CAST!"))(false);
+        throw;
 	}		
 	virtual ~BaseVisitor(){}
 	virtual std::unique_ptr<BaseVisitor> Copy() = 0;
+private:
+	inline static constexpr const char TypeId[] = "BaseVisitor";
+    inline static constexpr Literal LiteralType{TypeId};
+    template<typename U> using IsT =  Is<U,LiteralType>;
 };
 
 template<class T, typename R = void>
