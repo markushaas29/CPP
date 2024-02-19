@@ -131,15 +131,16 @@ class Account: public XBase
 {
 	using Base = XBase;
 public:
-	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB} {};
+	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
+	std::unique_ptr<IMatrixParser<3>> parser;
 	typename Base::MatrixType exec() const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
 		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 		
-		auto parsedAccountMatrix = AccountParser(tokenFactory,"/home/markus/Downloads/CSV_TestFiles_2")();
+		auto parsedAccountMatrix = (*parser)();
 		
 		auto typeFactory = std::make_shared<TF>(elementFactory);
 
