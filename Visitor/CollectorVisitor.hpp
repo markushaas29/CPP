@@ -59,7 +59,7 @@ class DifferenceVisitor: public CollectorVisitor<DifferenceVisitor<T>,Diff<T>,T>
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j){ return std::make_shared<T>(Base::func()[0]);	};
 	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::func.Size()); };
-	inline static constexpr const char* Identifier = "Difference";
+	inline static std::string Identifier = std::string("Difference") + T::Identifier;
 };
 
 template<>
@@ -69,7 +69,7 @@ class DifferenceVisitor<Date>: public CollectorVisitor<DifferenceVisitor<Date>,D
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) {	return std::make_shared<Quantity<Time,Days,uint>>(Base::func()[i]);	};
 	virtual std::shared_ptr<IElement> operator()() { return (*this)(0,Base::func.Size()); };
-	inline static constexpr const char* Identifier = "Difference";
+	inline static std::string Identifier = std::string("Difference") + Date::Identifier;
 };
 
 template<typename T>
