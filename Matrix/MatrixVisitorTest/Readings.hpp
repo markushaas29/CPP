@@ -71,7 +71,7 @@ private:
 		auto med = Init(els);
 		auto readings = med();
 
-        auto accBV = (*fbv)("Accumulation","");
+        std::unique_ptr<BaseVisitor> accBV = std::make_unique<AccumulationVisitor<Quantity<Volume>>>();
 		accBV = readings.Accept(std::move(accBV));
 
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
