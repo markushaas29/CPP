@@ -32,7 +32,11 @@ class Factory: public IFactory<T,CT>
 {
 	using Base = IFactory<T,CT>; 
 public:
-	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) { creators.try_emplace(id,c); } 
+	void Register(const typename Base::IdentifierType& id,  typename Base::CreatorType c) 
+	{
+		if (creators.find(id) == creators.end())
+			creators.try_emplace(id,c); 
+	} 
 	const typename Base::CreatorType& operator[](const  typename Base::IdentifierType& id) {	return find(id);	}
 	typename Base::PtrType operator()(const typename Base::IdentifierType& id, const typename Base::ArgumentType& arg) { return find(id)(arg);}
 	std::unique_ptr<std::vector< typename Base::PtrType>> operator()(const std::vector<FactoryUnit< typename Base::IdentifierType,  typename Base::ArgumentType>> units) 

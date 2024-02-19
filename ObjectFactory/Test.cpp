@@ -24,6 +24,14 @@ int Run()
 	assert(fm.Size()==1);
 	fm.Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
 	assert(fm.Size()==2);
+	fm.Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+	assert(fm.Size()==2);
+	fm.Register("EQ",[](const std::string& s) { return std::make_unique<EquivalenceCat<std::string>>(std::string(s)); });
+	assert(fm.Size()==2);
+	fm.Register("C",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
+	assert(fm.Size()==2);
+	fm.Register("CI",[](std::string_view s) { return std::make_unique<HasCat<std::string>>(std::string(s)); });
+	assert(fm.Size()==3);
 
 	auto eqp = fm["EQ"];
 	auto eq2 = eqp("2");
