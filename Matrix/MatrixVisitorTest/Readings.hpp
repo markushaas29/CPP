@@ -53,7 +53,7 @@ private:
 	typename Base::MatrixType exec() const
 	{
 		auto fbv = std::make_shared<Factory<BaseVisitor>>();
-        auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
+        auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>,ConsumptionVisitor<Quantity<Volume, Pure, double>>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
 
 		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
@@ -62,7 +62,7 @@ private:
 		
 		std::for_each(cV->begin(), cV->end(), [&](const auto& i)
 				{ 
-					std::unique_ptr<BaseVisitor> civ = std::make_unique<ConsumptionVisitor<Quantity<Volume, Pure, double>>>();
+        			std::unique_ptr<BaseVisitor> civ = (*fbv)("Consumption","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 					els.push_back(consV());	
@@ -137,11 +137,11 @@ private:
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
+		
 		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
+		auto typeFactory = std::make_shared<TF>(elementFactory);
 		
 		auto parsedAccountMatrix = (*parser)();
-		
-		auto typeFactory = std::make_shared<TF>(elementFactory);
 
 		std::vector<FactoryUnitContainer<std::vector<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>>> allFactoryUnits = 
         {
