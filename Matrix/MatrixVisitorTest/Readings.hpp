@@ -183,7 +183,7 @@ private:
 
 		auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");//, mcHeating.Clone());
 
-        std::vector<FactoryUnit<std::string, std::string>> fv{{"Accumulation"}};
+        std::vector<FactoryUnit<std::string, std::string>> fv{{"AccumulationSum"}};
         for(uint i = 0; i < allFactoryUnits.size(); ++i)
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         auto result = (*all)(parsedAccountMatrix);

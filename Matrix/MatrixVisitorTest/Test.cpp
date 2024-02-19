@@ -84,7 +84,7 @@ class MatrixVisitorTest
             
 			Factory<BaseVisitor> fbv;
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>>(&fbv);
-            auto cv = fbv("Accumulation","100");
+            auto cv = fbv("AccumulationSum","100");
  
             auto pfs = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(fmt);
             pfs->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });

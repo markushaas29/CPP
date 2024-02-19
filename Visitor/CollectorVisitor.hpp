@@ -49,7 +49,7 @@ class AccumulationVisitor: public CollectorVisitor<AccumulationVisitor<T>,Acc<T>
 public:
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return std::make_shared<typename Base::Type>(Base::func(i,j)); };
 	virtual std::shared_ptr<IElement> operator()() { return (*this)(0, Base::func.Size()); };
-	inline static constexpr const char* Identifier = "Accumulation";
+	inline static std::string Identifier = std::string("Accumulation") + T::Identifier;
 };
 
 template<typename T>
