@@ -33,11 +33,9 @@ public:
 	using MatrixType = Matrix<1, DescriptorType>;
 	MatrixType operator()() const { return exec(); };
 protected:
-	XBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB):tokenFactory{fT}, elementFactory{fE}, visitorFactory{fB} {};
-	std::shared_ptr<Factory<IToken>> tokenFactory;
+	XBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): elementFactory{fE}, visitorFactory{fB} {};
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
-	const std::string path;
 private:
 	virtual MatrixType exec() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const XBase& m) { return s; }
@@ -49,8 +47,9 @@ class Readings: public XBase
 	using Base = XBase;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fE,fB}, tokenFactory{fT} {};
 private:
+	std::shared_ptr<Factory<IToken>> tokenFactory;
 	typename Base::MatrixType exec() const
 	{
 		auto fbv = std::make_shared<Factory<BaseVisitor>>();
@@ -89,7 +88,7 @@ class StageBase: public XBase
 {
 	using Base = XBase;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
@@ -131,7 +130,7 @@ class Account: public XBase
 {
 	using Base = XBase;
 public:
-	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fT,fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	typename Base::MatrixType exec() const
