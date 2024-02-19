@@ -37,7 +37,13 @@ public:
 	template<typename O>
 	operator O() const { return static_cast<O>(value); }
 	template<typename O>
-	decltype(auto) As() const {	return *(std::dynamic_pointer_cast<O>(value));	}
+	decltype(auto) As() const 
+	{
+		if(auto p = std::dynamic_pointer_cast<O>(value))
+			return *p;
+		IsT<Throwing>(Format("INVALID AS CAST!"))(false);
+		throw;
+	}
 	template<typename O>
 	decltype(auto) To() const 
 	{ 
@@ -76,6 +82,7 @@ public:
 protected:
 	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
 	inline static constexpr Literal LiteralType{TypeIdentifier};
+	template<typename U> using IsT =  Is<U,LiteralType>;
 	MatrixElementBase(const ValueType& v): value{v} {  }
 private:
 	friend Type;
