@@ -57,7 +57,7 @@ private:
 	{
 		auto i = creators.find(id);
 		if(i == creators.end())
-			typename Base::IsT<Throwing>(Format(id))(false);
+			typename Base::IsT<Throwing>(Format(id, " not found in map!"))(false);
 		return (i->second); 
 	}
 	std::map< typename Base::IdentifierType, typename Base::CreatorType> creators;
