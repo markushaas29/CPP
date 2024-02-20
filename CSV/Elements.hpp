@@ -118,8 +118,10 @@ class Index: public IndexBase<T,Index>
 {
 	using Base = IndexBase<T,Index>;
 public:
+	using IndexType = T;
 	inline static std::string Identifier = T::Identifier + std::string("Index");
 	explicit Index(const std::string& s = Base::Identifier): Base(s){};
+	std::unique_ptr<IElement> CreateIndexType(const std::string& s) const  { return std::make_unique<IndexType>(s); }
 };
 
 template<>

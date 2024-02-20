@@ -1,4 +1,5 @@
 #include "TokenLiterals.hpp"
+#include "IndexConcept.hpp"
 #include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Common/ArrayHelper.hpp"
