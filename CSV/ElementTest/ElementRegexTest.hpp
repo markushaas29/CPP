@@ -194,6 +194,12 @@ public:
 		auto si = SumIndexToken();
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		
+		auto ri = RentIndexToken();
+		auto rq = (ri.Create("245"));
+		auto rqq = rq->To<Quantity<Sum>>();
+     	std::cout<<"SUM-----"<<*rq<<std::endl;
+		assert(rqq==Quantity<Sum>(245));
+		
 		auto ii = IBANIndexToken();
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		assert(IBANIndexToken::Identifier=="IBANIndexToken");

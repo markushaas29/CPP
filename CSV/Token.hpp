@@ -84,6 +84,9 @@ protected:
  	Token(const std::string& s = ""): TokenBase<D,T>{s} { };
 };
 
+//template<typename D, typename T>
+//struct Token<D,Index<T>>: public TokenBase<D,Index<T>> { inline static const std::string Identifier = D::Pattern + std::string("IndexToken"); };
+
 template<typename D>
 struct Token<D,Index<Entry>>: public TokenBase<D,Index<Entry>> { inline static const std::string Identifier = D::Pattern + std::string("IndexToken"); };
 
@@ -118,7 +121,10 @@ struct CleaningIndexToken: public Token<CleaningIndexToken, Index<Entry>>	{	inli
 struct SewageIndexToken: public Token<SewageIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Sewage"; };
 struct PropertyTaxIndexToken: public Token<PropertyTaxIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "PropertyTax"; };
 struct InsuranceIndexToken: public Token<InsuranceIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Insurance"; };
-struct RentIndexToken: public Token<RentIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Rent"; };
+struct RentIndexToken: public Token<RentIndexToken, Index<Quantity<Sum>>>	
+{	
+	inline static constexpr const char* Pattern = "Rent"; 
+	inline static constexpr const char* Identifier = "RentIndexToken"; };
 struct ExtraCostIndexToken: public Token<ExtraCostIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "ExtraCosts"; };
 struct HeatExtraCostIndexToken: public Token<HeatExtraCostIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "HeatExtraCosts"; };
 
