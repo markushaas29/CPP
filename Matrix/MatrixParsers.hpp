@@ -128,15 +128,10 @@ private:
         auto stringMatrix = MatrixReader(path + "//" + fileName).M<2>();
 
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-		Matcher indexTokenMatcher(std::move(stageIndexTokens));
-		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"ScalarToken"}});
-		Matcher elementTokenMatcher(std::move(elementIndexTokens));
+
+		std::cout<<"SIZE: "<<stageIndexTokens->size()<<std::endl;
 	
-		auto m = stringMatrix.Match(indexTokenMatcher).Rows(1,2,3);
-		auto sTs = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-		Matcher indexT(std::move(sTs));
-		std::cout<<stringMatrix.ParseByMatch(indexT)<<std::endl;
-		return m.Parse(elementTokenMatcher);
+		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)));
 	}
 };
 

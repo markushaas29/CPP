@@ -113,14 +113,17 @@ public:
 		std::vector<std::unique_ptr<IToken>> t;
 		for(auto i = 0; i < v.size(); ++i)
 			for(auto j = 0; j < tokens->size(); ++j)
+			{
 				if (tokens->at(j)->Match((*(v.at(i)))))
+				{
+				std::cout<<"J\t"<<j<<"\t"<<*(tokens->at(j))<<std::endl;
 					t.push_back(tokens->at(j)->Clone());
-
-		std::cout<<"TOKENS"<<t.size()<<std::endl;
+				}
+			}
 		size_t ti = 0;
 		for(auto i = t.size(); i < v.size() ; ++i, ++ti)
 		{
-			std::cout<<"ITEr "<<i<<"\t"<<ti;
+			std::cout<<"TI "<<*t.at(ti)<<std::endl;
 			result.push_back(t.at(ti)->Create(*v.at(i)));
 
 			if(ti == t.size()-1)

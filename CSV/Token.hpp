@@ -49,7 +49,17 @@ public:
  	TokenBase(const std::string& s = ""): exclude{s} { };
 	const std::string_view Data() const  {	return Derived::Pattern; };	
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
-	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
+	virtual std::unique_ptr<IElement> Create(const std::string& s) const  
+	{
+			//std::cout<<T::Identifier<<std::endl;
+		if constexpr (IndexConcept<T>)
+		{
+			std::cout<<"INDEX CONC"<<std::endl;
+			return T::CreateIndexToken(s);
+		}
+		else
+			return std::make_unique<Type>(s); 
+	};	
 	virtual const std::regex Pattern() const { return pattern; };	
 	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const  
 	{
@@ -85,8 +95,14 @@ protected:
  	Token(const std::string& s = ""): TokenBase<D,T>{s} { };
 };
 
-//template<typename D, typename T>
-//struct Token<D,Index<T>>: public TokenBase<D,Index<T>> { inline static const std::string Identifier = D::Pattern + std::string("IndexToken"); };
+template<typename D, typename T>
+struct Token<D,Index<T>>: public TokenBase<D,Index<T>> 
+{
+ virtual std::unique_ptr<IElement> Create(const std::string& s) const  
+   {
+           return std::make_unique<T>(s); 
+   };
+};
 
 template<typename D>
 struct Token<D,Index<Entry>>: public TokenBase<D,Index<Entry>> { inline static const std::string Identifier = D::Pattern + std::string("IndexToken"); };
@@ -126,7 +142,9 @@ struct RentIndexToken: public Token<RentIndexToken, Index<Quantity<Sum>>>
 {	
 	inline static constexpr const char* Pattern = "Rent"; 
 	inline static constexpr const char* Identifier = "RentIndexToken"; };
-struct ExtraCostIndexToken: public Token<ExtraCostIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "ExtraCosts"; };
-struct HeatExtraCostIndexToken: public Token<HeatExtraCostIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "HeatExtraCosts"; };
+struct ExtraCostIndexToken: public Token<ExtraCostIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "ExtraCosts"; 
+	inline static constexpr const char* Identifier = "ExtraCostsIndexToken"; };
+struct HeatExtraCostIndexToken: public Token<HeatExtraCostIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "HeatExtraCosts"; 
+	inline static constexpr const char* Identifier = "HeatExtraCostsIndexToken"; };
 
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};

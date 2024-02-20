@@ -10,10 +10,9 @@ class IElement;
 //	P::CreateIndexType(const std::string& s) const  { return std::make_unique<Type>(s); }
 //};
 
-template<typename T, typename S>
-concept Drawable = requires(T t, const S& s) 
+template<typename T>
+concept IndexConcept = requires(T t) 
 {
-        { t.CreateIndexType(s) };
 		T::Identifier;
 		T::IndexType;
 };
