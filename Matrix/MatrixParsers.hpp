@@ -129,10 +129,11 @@ private:
 
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
 		Matcher indexTokenMatcher(std::move(stageIndexTokens));
-		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+		auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"ScalarToken"}});
 		Matcher elementTokenMatcher(std::move(elementIndexTokens));
 	
-		return stringMatrix.Match(indexTokenMatcher).Parse(elementTokenMatcher);
+		auto m = stringMatrix.Match(indexTokenMatcher).Rows(1,2,3);
+		return m.Parse(elementTokenMatcher);
 	}
 };
 

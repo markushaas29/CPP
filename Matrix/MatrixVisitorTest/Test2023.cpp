@@ -101,8 +101,8 @@ class MatrixVisitorTest2023
 
 			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
 
-			auto rent = stRes[0].As<Entry>().To<Quantity<Sum>>();
-			assert(rent==Quantity<Sum>{458});
+			auto rent = stRes[0].As<Quantity<Sum>>();
+			assert(rent==Quantity<Sum>{525});
 		
 			auto resQ = res.To<Quantity<Sum>>();
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
