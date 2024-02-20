@@ -62,7 +62,7 @@ private:
 		
 		std::for_each(cV->begin(), cV->end(), [&](const auto& i)
 				{ 
-        			std::unique_ptr<BaseVisitor> civ = (*visitorFactory)("ConsumptionVolume","");
+        			auto civ = (*visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 					els.push_back(consV());	
@@ -71,7 +71,7 @@ private:
 		auto med = Init(els);
 		auto readings = med();
 
-        std::unique_ptr<BaseVisitor> accBV = std::make_unique<AccumulationVisitor<Quantity<Volume>>>();
+        auto accBV = (*visitorFactory)("AccumulationVolume","");
 		accBV = readings.Accept(std::move(accBV));
 
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();

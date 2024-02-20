@@ -57,7 +57,11 @@ private:
 	{
 		auto i = creators.find(id);
 		if(i == creators.end())
-			typename Base::IsT<Throwing>(Format(id, " not found in map!"))(false);
+		{
+			std::string types = "\nRegistered types in factory:\n\t";
+			std::for_each(creators.cbegin(), creators.cend(), [&types](const auto& i) { types = types + i.first + "\n\t"; });
+			typename Base::IsT<Throwing>(Format("\n",types,"\n",id, " not found in map!"))(false);
+		}
 		return (i->second); 
 	}
 	std::map< typename Base::IdentifierType, typename Base::CreatorType> creators;

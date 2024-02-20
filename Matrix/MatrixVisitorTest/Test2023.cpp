@@ -63,7 +63,7 @@ class MatrixVisitorTest2023
             auto typeFactory = std::make_shared<TF>(elementFactory);
 
 			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
-            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
  
             auto predicateVisitorFactory = std::make_shared<CompositeFactory<IPredicateVisitor, Factory<IElement>>>(elementFactory);
             predicateVisitorFactory->Register("EQ",[](std::unique_ptr<IElement> e) { return std::make_unique<EqualVisitor>(std::move(e)); });
