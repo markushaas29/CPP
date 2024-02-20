@@ -79,8 +79,8 @@ class MatrixVisitorTest2023
 			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
-			auto stages = Stages{tokenFactory,elementFactory,visitorFactory, path};
-			auto extrasC = ExtraCosts{tokenFactory,elementFactory,visitorFactory, path};
+			auto stages = Stages<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extrasC = ExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto rT = readingsT();
 			auto rM = readingsM();
 			auto rB = readingsB();

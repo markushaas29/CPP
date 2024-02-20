@@ -81,6 +81,7 @@ private:
 	}
 };
 
+template<typename S>
 class StageBase: public XBase
 {
 	using Base = XBase;
@@ -93,33 +94,35 @@ private:
 	virtual typename Base::MatrixType matrix() const = 0;
 };
 
-class Stages: public StageBase
+template<typename S>
+class Stages: public StageBase<S>
 {
-	using Base = StageBase;
+	using Base = StageBase<S>;
 public:
-	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): StageBase{fT,fE,fB, p} {};
+	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
 private:
-	virtual typename Base::MatrixType matrix() const { return (*parser)().Cols(8,9,10)[1];	}
+	virtual typename Base::MatrixType matrix() const { return (*Base::parser)().Cols(8,9,10)[1];	}
 };
 
-class ExtraCosts: public StageBase
+template<typename S>
+class ExtraCosts: public StageBase<S>
 {
-	using Base = StageBase;
+	using Base = StageBase<S>;
 public:
-	ExtraCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): StageBase{fT,fE,fB, p} {};
+	ExtraCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
 private:
 	virtual typename Base::MatrixType matrix() const
 	{
-        auto payment = (*parser)().Cols(8,9,10).To<Quantity<Sum>>();
+        auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
         std::vector<std::shared_ptr<IElement>> extras = 
-			{	std::make_shared<Quantity<Sum>>(payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()),
-				std::make_shared<Quantity<Sum>>(payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>())
+			{	std::make_shared<Quantity<Sum>>(payment[1][1].template To<Quantity<Sum>>()+payment[1][2].template To<Quantity<Sum>>()),
+				std::make_shared<Quantity<Sum>>(payment[2][1].template To<Quantity<Sum>>()+payment[2][2].template To<Quantity<Sum>>())
 			}; 
         std::vector<std::shared_ptr<IElement>> extrasR;
 
         std::for_each(extras.begin(), extras.end(),[&](auto& e) { extrasR.push_back(std::make_shared<Quantity<Sum>>(e->template To<Quantity<Sum>>() * Quantity<Scalar>{12}) ); });
 
-        return Matrix<Order,DescriptorType>(typename Base::DescriptorType({extrasR.size()}),ToDataType(extrasR));
+        return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({extrasR.size()}),ToDataType(extrasR));
 	}
 };
 
