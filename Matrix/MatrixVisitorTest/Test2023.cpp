@@ -96,9 +96,15 @@ class MatrixVisitorTest2023
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
-			auto resQ = res.To<Quantity<Sum>>();
 			
+			auto stRes = stages();
+
+			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
+
+			auto rent = stRes[0].As<Entry>().To<Quantity<Sum>>();
+			assert(rent==Quantity<Sum>{458});
+		
+			auto resQ = res.To<Quantity<Sum>>();
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
 			std::cout<<"\nBru---------------------\n:\n"<<Bru23<<std::endl;
 			auto Z23 = extras[1] + resQ[2].To<Quantity<Sum>>();

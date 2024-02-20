@@ -101,7 +101,7 @@ class Stages: public StageBase<S>
 public:
 	Stages(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
 private:
-	virtual typename Base::MatrixType matrix() const { return (*Base::parser)().Cols(8,9,10)[1];	}
+	virtual typename Base::MatrixType matrix() const { return (*Base::parser)().Cols(8,9,10)[S::Index];	}
 };
 
 template<typename S>
