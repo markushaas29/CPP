@@ -6,7 +6,7 @@
 #include "../Token.hpp"
 #include "../Matcher.hpp"
 #include "../../Common/DateTimes.hpp"
-#include "../../ObjectFactory/Factories.hpp"
+#include "../../ObjectFactory/Factory.hpp"
 
 class ElementRegexTest
 {      
