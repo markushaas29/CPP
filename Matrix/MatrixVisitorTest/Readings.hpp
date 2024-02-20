@@ -52,9 +52,6 @@ private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	typename Base::MatrixType exec() const
 	{
-		auto fbv = std::make_shared<Factory<BaseVisitor>>();
-        auto reg3 = Registration<Factory<BaseVisitor>,DifferenceVisitor<Quantity<Energy, KiloHour>>,DifferenceVisitor<Date>,ConsumptionVisitor<Quantity<Volume, Pure, double>>, AccumulationVisitor<Quantity<Volume>>>(&(*fbv));
-
 		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
 
@@ -181,7 +178,7 @@ private:
             }
         };
 
-		auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");//, mcHeating.Clone());
+		auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");
 
         std::vector<FactoryUnit<std::string, std::string>> fv{{"AccumulationSum"}};
         for(uint i = 0; i < allFactoryUnits.size(); ++i)
