@@ -106,6 +106,29 @@ public:
 				return true;
 		return false;
 	};	
+	
+	virtual std::vector<std::shared_ptr<IElement>> MatchingElements(const std::vector<std::shared_ptr<std::string>>& v) const  
+	{
+		std::vector<std::shared_ptr<IElement>> result;
+		std::vector<std::unique_ptr<IToken>> t;
+		for(auto i = 0; i < v.size(); ++i)
+			for(auto j = 0; j < tokens->size(); ++j)
+				if (tokens->at(j)->Match((*(v.at(i)))))
+					t.push_back(tokens->at(j)->Clone());
+
+		std::cout<<"TOKENS"<<t.size()<<std::endl;
+		size_t ti = 0;
+		for(auto i = t.size(); i < v.size() ; ++i, ++ti)
+		{
+			std::cout<<"ITEr "<<i<<"\t"<<ti;
+			result.push_back(t.at(ti)->Create(*v.at(i)));
+
+			if(ti == t.size()-1)
+				ti = 0;
+		}
+
+		return result;
+	};	
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IToken>>> tokens;
 	friend std::ostream& operator<<(std::ostream& out, const Matcher& m) 

@@ -133,6 +133,9 @@ private:
 		Matcher elementTokenMatcher(std::move(elementIndexTokens));
 	
 		auto m = stringMatrix.Match(indexTokenMatcher).Rows(1,2,3);
+		auto sTs = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
+		Matcher indexT(std::move(sTs));
+		std::cout<<stringMatrix.ParseByMatch(indexT)<<std::endl;
 		return m.Parse(elementTokenMatcher);
 	}
 };

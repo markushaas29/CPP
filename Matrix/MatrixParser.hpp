@@ -55,6 +55,28 @@ private:
 
 		return m->Cols(cols);
     }
+	
+	static decltype(auto) parseByMatch(const M* m, const Matcher& matcher) 
+    { 
+		std::cout<<"EL1"<<*m<<"\n"<<matcher<<std::endl;
+		auto cols = std::vector<size_t>();
+        size_t c{};
+		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i, ++c) 
+			if(matcher.Match(**i))
+				cols.push_back(c); 
+
+		auto mc = m->Cols(cols);
+		auto elTypes = matcher.MatchingElements(*mc.elements);
+//		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i) 
+//			if(matcher.Match(**i))
+//				cols.push_back(c); 
+//
+	
+		std::cout<<"EL2"<<elTypes.size()<<std::endl;
+
+		auto d = DescriptorType({3,11});
+		return Matrix<Order,DescriptorType>(d,elTypes);
+    }
 
 	template<typename U> using IsT =  Is<U,TypeId>;
 };
