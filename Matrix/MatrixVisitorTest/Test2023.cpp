@@ -103,13 +103,15 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
 
 			assert(stRes[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
-			assert(extraCostsBottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{2424});
-			assert(extraCostsMiddle()[0].As<Quantity<Sum>>()==Quantity<Sum>{2520});
+			auto ecb = extraCostsBottom()[0].As<Quantity<Sum>>();
+			auto ecm = extraCostsMiddle()[0].As<Quantity<Sum>>();
+			assert(ecb==Quantity<Sum>{2424});
+			assert(ecm==Quantity<Sum>{2520});
 
 			auto resQ = res.To<Quantity<Sum>>();
-			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
+			auto Bru23 = ecb + resQ[1].To<Quantity<Sum>>();
 			std::cout<<"\nBru---------------------\n:\n"<<Bru23<<std::endl;
-			auto Z23 = extras[1] + resQ[2].To<Quantity<Sum>>();
+			auto Z23 = ecm + resQ[2].To<Quantity<Sum>>();
 			std::cout<<"\nZei---------------------\n:\n"<<Z23<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms<<std::endl;

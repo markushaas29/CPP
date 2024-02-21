@@ -114,12 +114,7 @@ private:
 	virtual typename Base::MatrixType matrix() const
 	{
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
-        std::vector<std::shared_ptr<IElement>> extras = { std::make_shared<Quantity<Sum>>(payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>())	}; 
-
-        std::vector<std::shared_ptr<IElement>> extrasR;
-        std::for_each(extras.begin(), extras.end(),[&](auto& e) { extrasR.push_back(std::make_shared<Quantity<Sum>>(e->template To<Quantity<Sum>>() * Quantity<Scalar>{12}) ); });
-
-        return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({extrasR.size()}),ToDataType(extrasR));
+        return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>((payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>()) * Quantity<Scalar>{12}) });
 	}
 };
 
