@@ -88,11 +88,11 @@ class MatrixVisitorTest2023
 			auto rB = readingsB();
 
 			int c = mps.Cols()-1;
-	        mps = mps.Set(rT[0].As<Quantity<Scalar>>(),Bottom::Index,c);
-	        mps = mps.Set(rM[0].As<Quantity<Scalar>>(),Middle::Index,c);
-	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
+//	        mps = mps.Set(rT[0].As<Quantity<Scalar>>(),Bottom::Index,c);
+//	        mps = mps.Set(rM[0].As<Quantity<Scalar>>(),Middle::Index,c);
+//	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
+			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"\n-------------------account MPS---------------------\n:\n"<<mps<<std::endl;
-			mps[1][5].To<Quantity<Scalar>>();
 			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));
 			assert(mps[2][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.4354},0.01));
 			assert(mps[3][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.23411},0.01));

@@ -185,15 +185,16 @@ private:
 };
 //
 template<size_t N, typename Tup>
-void process(auto&& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
+auto process(auto& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
 {
     if constexpr (std::tuple_size<Tup>()==N)
-        return;
+        return stageM;
     else
     {
         using Type = std::tuple_element_t<N,Tup>;
 		auto readings = Readings<Type>{fT,fE,fB, p};
-		stageM.Set(readings[0].template As<Quantity<Scalar>>(),Type::Index,stageM.Cols()-1);
-        process<N+1,Tup>(stageM,fT,fE,fB,p);
+		stageM = stageM.Set(readings()[0].template As<Quantity<Scalar>>(),4-Type::Index,((int)stageM.Cols()-1));
+		std::cout<<"STAGE\n "<<stageM<<"\n"<<std::endl;
+        return process<N+1,Tup>(stageM,fT,fE,fB,p);
     }
 }
