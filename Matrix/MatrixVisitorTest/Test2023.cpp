@@ -74,6 +74,8 @@ class MatrixVisitorTest2023
 			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
 			std::cout<<"\n-------------------Stages()---------------------\n:\n"<<payment<<extras[0]<<std::endl;
 
+			using AllStages = std::tuple<Bottom, Middle, Top>;
+
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			auto readingsT = Readings<Top>{tokenFactory,elementFactory,visitorFactory, path};
 			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
