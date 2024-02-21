@@ -80,7 +80,8 @@ class MatrixVisitorTest2023
 			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
 			auto stages = Stages<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extrasC = ExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsBottom = ExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsMiddle = ExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto rT = readingsT();
 			auto rM = readingsM();
 			auto rB = readingsB();
@@ -102,8 +103,8 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
 
 			assert(stRes[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
-			assert(extrasC()[0].As<Quantity<Sum>>()==Quantity<Sum>{2424});
-			assert(extrasC()[1].As<Quantity<Sum>>()==Quantity<Sum>{2520});
+			assert(extraCostsBottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{2424});
+			assert(extraCostsMiddle()[0].As<Quantity<Sum>>()==Quantity<Sum>{2520});
 
 			auto resQ = res.To<Quantity<Sum>>();
 			auto Bru23 = extras[0] + resQ[1].To<Quantity<Sum>>();
@@ -113,8 +114,7 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms<<std::endl;
 
-			std::cout<<"\n-------------------EXTRAS MPS---------------------\n:\n"<<extrasC()<<std::endl;
-
+			std::cout<<"\n-------------------EXTRAS MPS---------------------\n:\n"<<extraCostsBottom()<<std::endl;
 
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
 			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating
