@@ -52,7 +52,7 @@ private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	typename Base::MatrixType exec() const
 	{
-		Builder<ICounter,Counter,TopHotDesc, TopColdDesc, MiddleHotDesc, MiddleColdDesc, BottomHotDesc, BottomColdDesc> b;
+		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
 
 		auto els = std::vector<std::shared_ptr<IElement>>{};
@@ -193,7 +193,7 @@ auto process(auto& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<F
     {
         using Type = std::tuple_element_t<N,Tup>;
 		auto readings = Readings<Type>{fT,fE,fB, p};
-		stageM = stageM.Set(readings()[0].template As<Quantity<Scalar>>(),4-Type::Index,((int)stageM.Cols()-1));
+		stageM = stageM.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageM.Cols()-1));
         return process<N+1,Tup>(stageM,fT,fE,fB,p);
     }
 }
