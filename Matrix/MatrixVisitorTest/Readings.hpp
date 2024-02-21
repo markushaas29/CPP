@@ -184,15 +184,16 @@ private:
 	}
 };
 //
-//template<size_t N, typename Tup>
-//void process(auto&& stageM)
-//{
-//    if constexpr (std::tuple_size<Tup>()==N)
-//        return;
-//    else
-//    {
-//        using Type = std::tuple_element_t<N,Tup>;
-//        //std::cout<<Type::Identifier<<std::endl;
-//        process<N+1>();
-//    }
-//}
+template<size_t N, typename Tup>
+void process(auto&& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
+{
+    if constexpr (std::tuple_size<Tup>()==N)
+        return;
+    else
+    {
+        using Type = std::tuple_element_t<N,Tup>;
+		auto readings = Readings<Type>{fT,fE,fB, p};
+		stageM.Set(readings[0].template As<Quantity<Scalar>>(),Type::Index,stageM.Cols()-1);
+        process<N+1,Tup>(stageM,fT,fE,fB,p);
+    }
+}
