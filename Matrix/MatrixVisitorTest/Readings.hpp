@@ -183,3 +183,16 @@ private:
 		return result->Elements();
 	}
 };
+//
+//template<size_t N, typename Tup>
+//void process(auto&& stageM)
+//{
+//    if constexpr (std::tuple_size<Tup>()==N)
+//        return;
+//    else
+//    {
+//        using Type = std::tuple_element_t<N,Tup>;
+//        //std::cout<<Type::Identifier<<std::endl;
+//        process<N+1>();
+//    }
+//}

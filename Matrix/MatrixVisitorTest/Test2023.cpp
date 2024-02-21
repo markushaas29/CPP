@@ -92,6 +92,10 @@ class MatrixVisitorTest2023
 	        mps = mps.Set(rM[0].As<Quantity<Scalar>>(),Middle::Index,c);
 	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
 			std::cout<<"\n-------------------account MPS---------------------\n:\n"<<mps<<std::endl;
+			mps[1][5].To<Quantity<Scalar>>();
+			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));
+			assert(mps[2][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.4354},0.01));
+			assert(mps[3][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.23411},0.01));
 
 			auto pay = account();
 			auto ms = pay.To<Quantity<Sum>>();
@@ -99,7 +103,7 @@ class MatrixVisitorTest2023
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
 
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<extra_Top()<<std::endl;
+			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<mps[1][5].To<Quantity<Scalar>>()<<std::endl;
 
 			assert(extra_Bottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
 			assert(extra_Bottom()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
