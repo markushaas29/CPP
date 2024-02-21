@@ -59,10 +59,8 @@ private:
 	static decltype(auto) parseByMatch(const M* m, const Matcher& matcher) 
     { 
 		auto cols = std::vector<size_t>();
-
-		std::cout<<"----------MATCHER:\n"<<matcher<<"\n--------------\n"<<std::endl;
-
         size_t c{};
+
 		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i, ++c) 
 			if(matcher.Match(**i))
 				cols.push_back(c); 

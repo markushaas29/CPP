@@ -51,7 +51,6 @@ public:
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  
 	{
-			//std::cout<<T::Identifier<<std::endl;
 		if constexpr (IndexConcept<T>)
 		{
 			std::cout<<"INDEX CONC"<<std::endl;
@@ -98,10 +97,7 @@ protected:
 template<typename D, typename T>
 struct Token<D,Index<T>>: public TokenBase<D,Index<T>> 
 {
- virtual std::unique_ptr<IElement> Create(const std::string& s) const  
-   {
-           return std::make_unique<T>(s); 
-   };
+ virtual std::unique_ptr<IElement> Create(const std::string& s) const  {  return std::make_unique<T>(s);    };
 };
 
 template<typename D>
@@ -112,6 +108,7 @@ struct IBANToken: public Token<IBANToken, IBAN>
 	IBANToken(const std::string& e = ""): Token<IBANToken, IBAN>(e) {}	
 	inline static constexpr const char* Pattern = "^DE\\d{20}$";
 };
+
 struct DateToken: public Token<DateToken, Date>				{	inline static constexpr const char* Pattern = "(0?[1-9]|[1-2][0-9]|3[0-1]).(0?[1-9]|1[0-2]).(\\d{4})";};
 struct EntryToken: public Token<EntryToken, Entry>			{	inline static constexpr const char* Pattern = "(\\d|\\s|\\w|[.,:/])+";};
 struct BICToken: public Token<BICToken, BIC>				{	inline static constexpr const char* Pattern = "([a-zA-Z]{4}[a-zA-Z]{2}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?)"; };
@@ -131,25 +128,39 @@ struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static co
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 
-struct WasteIndexToken: public Token<WasteIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Waste"; 
+struct WasteIndexToken: public Token<WasteIndexToken, Index<Quantity<Scalar>>>	
+{	
+	inline static constexpr const char* Pattern = "Waste"; 
 	inline static constexpr const char* Identifier = "WasteIndexToken"; 
 };
-struct HeatingIndexToken: public Token<HeatingIndexToken, Index<Quantity<Area>>>	{	inline static constexpr const char* Pattern = "Heating"; 
+struct HeatingIndexToken: public Token<HeatingIndexToken, Index<Quantity<Area>>>	
+{	
+	inline static constexpr const char* Pattern = "Heating"; 
 	inline static constexpr const char* Identifier = "HeatingIndexToken"; 
 };
-struct StageIndexToken: public Token<StageIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Stage"; 
+struct StageIndexToken: public Token<StageIndexToken, Index<Quantity<Scalar>>>	
+{	
+	inline static constexpr const char* Pattern = "Stage"; 
 	inline static constexpr const char* Identifier = "StageIndexToken"; 
 };
-struct CleaningIndexToken: public Token<CleaningIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Cleaning"; 
+struct CleaningIndexToken: public Token<CleaningIndexToken, Index<Quantity<Scalar>>>	
+{	
+	inline static constexpr const char* Pattern = "Cleaning"; 
 	inline static constexpr const char* Identifier = "CleaningIndexToken"; 
 };
-struct SewageIndexToken: public Token<SewageIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Sewage"; 
+struct SewageIndexToken: public Token<SewageIndexToken, Index<Quantity<Scalar>>>	
+{	
+	inline static constexpr const char* Pattern = "Sewage"; 
 	inline static constexpr const char* Identifier = "SewageIndexToken"; 
 };
-struct PropertyTaxIndexToken: public Token<PropertyTaxIndexToken, Index<Quantity<Area>>>	{	inline static constexpr const char* Pattern = "PropertyTax"; 
+struct PropertyTaxIndexToken: public Token<PropertyTaxIndexToken, Index<Quantity<Area>>>	
+{	
+	inline static constexpr const char* Pattern = "PropertyTax"; 
 	inline static constexpr const char* Identifier = "PropertyTaxIndexToken"; 
 };
-struct InsuranceIndexToken: public Token<InsuranceIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Insurance"; 
+struct InsuranceIndexToken: public Token<InsuranceIndexToken, Index<Quantity<Scalar>>>	
+{	
+	inline static constexpr const char* Pattern = "Insurance"; 
 	inline static constexpr const char* Identifier = "InsuranceIndexToken"; 
 };
 struct RentIndexToken: public Token<RentIndexToken, Index<Quantity<Sum>>>	
@@ -157,9 +168,15 @@ struct RentIndexToken: public Token<RentIndexToken, Index<Quantity<Sum>>>
 	inline static constexpr const char* Pattern = "Rent"; 
 	inline static constexpr const char* Identifier = "RentIndexToken"; 
 };
-struct ExtraCostIndexToken: public Token<ExtraCostIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "ExtraCosts"; 
-	inline static constexpr const char* Identifier = "ExtraCostsIndexToken"; };
-struct HeatExtraCostIndexToken: public Token<HeatExtraCostIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "HeatExtraCosts"; 
-	inline static constexpr const char* Identifier = "HeatExtraCostsIndexToken"; };
+struct ExtraCostIndexToken: public Token<ExtraCostIndexToken, Index<Quantity<Sum>>>	
+{	
+	inline static constexpr const char* Pattern = "ExtraCosts"; 
+	inline static constexpr const char* Identifier = "ExtraCostsIndexToken"; 
+};
+struct HeatExtraCostIndexToken: public Token<HeatExtraCostIndexToken, Index<Quantity<Sum>>>	
+{	
+	inline static constexpr const char* Pattern = "HeatExtraCosts"; 
+	inline static constexpr const char* Identifier = "HeatExtraCostsIndexToken"; 
+};
 
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};

@@ -126,11 +126,7 @@ private:
 	typename Base::MatrixType exec() const
 	{
         auto stringMatrix = MatrixReader(path + "//" + fileName).M<2>();
-
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-
-		std::cout<<"SIZE: "<<stageIndexTokens->size()<<std::endl;
-	
 		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)));
 	}
 };
