@@ -22,7 +22,6 @@ public:
 		std::for_each(t.cbegin(), t.cend(), [&](auto& p) { tokens->push_back(p->Clone()); });
 	};
 
-	//virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Type>(s); };	
 	virtual std::vector<std::unique_ptr<IElement>> Split(const std::string& s) const  
 	{
 		std::vector<std::unique_ptr<IElement>> result;

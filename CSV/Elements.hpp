@@ -121,7 +121,7 @@ public:
 	using IndexType = T;
 	inline static std::string Identifier = T::Identifier + std::string("Index");
 	explicit Index(const std::string& s = Base::Identifier): Base(s){ };
-	static std::unique_ptr<IElement> CreateIndexType(const std::string& s) { std::cout<<"I_T"<<std::endl;return std::make_unique<IndexType>(s); }
+	static std::unique_ptr<IElement> CreateIndexType(const std::string& s) { return std::make_unique<IndexType>(s); }
 };
 
 template<>
