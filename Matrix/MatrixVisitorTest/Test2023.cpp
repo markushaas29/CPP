@@ -112,9 +112,7 @@ class MatrixVisitorTest2023
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
 			std::cout<<"\n-------------------First---------------------\n:\n"<<ms<<std::endl;
 
-			auto em = extrasC()[0];
-			if(auto qs = em.As<Quantity<Sum>>())
-				std::cout<<"\n-------------------QS---------------------\n:\n"<<qs<<std::endl;
+			assert(extrasC()[0].As<Quantity<Sum>>()==Quantity<Sum>{2520}); // Waste
 
 			std::cout<<"\n-------------------EXTRAS MPS---------------------\n:\n"<<extrasC()<<std::endl;
 
