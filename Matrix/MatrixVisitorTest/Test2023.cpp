@@ -70,9 +70,6 @@ class MatrixVisitorTest2023
 			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 			auto stageQ = mS.Match(smatcher).Parse(matcher);
 			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
-			std::vector<Quantity<Sum>> extras = {{payment[1][1].To<Quantity<Sum>>()+payment[1][2].To<Quantity<Sum>>()}, {payment[2][1].To<Quantity<Sum>>()+payment[2][2].To<Quantity<Sum>>()}}; 
-			std::for_each(extras.begin(), extras.end(),[&](auto& e) { e = e * Quantity<Scalar>{12}; });
-			std::cout<<"\n-------------------Stages()---------------------\n:\n"<<payment<<extras[0]<<std::endl;
 
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
@@ -81,7 +78,9 @@ class MatrixVisitorTest2023
 			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
-			auto stages = Stages<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Bottom = Stages<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Middle = Stages<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Top = Stages<Top>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsBottom = ExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsMiddle = ExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto rT = readingsT();
@@ -99,12 +98,20 @@ class MatrixVisitorTest2023
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
+
+			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<extra_Top()<<std::endl;
+
+			assert(extra_Bottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
+			assert(extra_Bottom()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
+			assert(extra_Bottom()[2].As<Quantity<Sum>>()==Quantity<Sum>{67});
 			
-			auto stRes = stages();
-
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<stages()<<std::endl;
-
-			assert(stRes[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
+			assert(extra_Middle()[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
+			assert(extra_Middle()[1].As<Quantity<Sum>>()==Quantity<Sum>{0});
+			assert(extra_Middle()[2].As<Quantity<Sum>>()==Quantity<Sum>{210});
+			
+			assert(extra_Top()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
+			assert(extra_Top()[1].As<Quantity<Sum>>()==Quantity<Sum>{1});
+			assert(extra_Top()[2].As<Quantity<Sum>>()==Quantity<Sum>{1});
 			auto ecb = extraCostsBottom()[0].As<Quantity<Sum>>();
 			auto ecm = extraCostsMiddle()[0].As<Quantity<Sum>>();
 			assert(ecb==Quantity<Sum>{2424});
