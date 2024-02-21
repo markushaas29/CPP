@@ -74,23 +74,14 @@ class MatrixVisitorTest2023
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
-			auto readingsT = Readings<Top>{tokenFactory,elementFactory,visitorFactory, path};
-			auto readingsM = Readings<Middle>{tokenFactory,elementFactory,visitorFactory, path};
-			auto readingsB = Readings<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
+			
 			auto extra_Bottom = Stages<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extra_Middle = Stages<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extra_Top = Stages<Top>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsBottom = ExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsMiddle = ExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
-			auto rT = readingsT();
-			auto rM = readingsM();
-			auto rB = readingsB();
 
-			int c = mps.Cols()-1;
-//	        mps = mps.Set(rT[0].As<Quantity<Scalar>>(),Bottom::Index,c);
-//	        mps = mps.Set(rM[0].As<Quantity<Scalar>>(),Middle::Index,c);
-//	        mps = mps.Set(rB[0].As<Quantity<Scalar>>(),Top::Index,c);
 			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"\n-------------------account MPS---------------------\n:\n"<<mps<<std::endl;
 			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));

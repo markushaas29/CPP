@@ -194,7 +194,6 @@ auto process(auto& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<F
         using Type = std::tuple_element_t<N,Tup>;
 		auto readings = Readings<Type>{fT,fE,fB, p};
 		stageM = stageM.Set(readings()[0].template As<Quantity<Scalar>>(),4-Type::Index,((int)stageM.Cols()-1));
-		std::cout<<"STAGE\n "<<stageM<<"\n"<<std::endl;
         return process<N+1,Tup>(stageM,fT,fE,fB,p);
     }
 }
