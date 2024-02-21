@@ -120,14 +120,14 @@ public:
 					t.push_back(tokens->at(j)->Clone());
 				}
 			}
-		size_t ti = 0;
+		int ti = 0;
 		for(auto i = t.size(); i < v.size() ; ++i, ++ti)
 		{
-			std::cout<<"TI "<<*t.at(ti)<<std::endl;
+			std::cout<<*t.at(ti)<<"\tVAT "<<*v.at(i)<<"\t"<<*(t.at(ti)->Create(*v.at(i)))<<std::endl;
 			result.push_back(t.at(ti)->Create(*v.at(i)));
 
 			if(ti == t.size()-1)
-				ti = 0;
+				ti = -1;
 		}
 
 		return result;
