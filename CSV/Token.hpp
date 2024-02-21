@@ -51,12 +51,6 @@ public:
 	bool Match(const std::string& s) const  {	return exclude == "" ? std::regex_match(s,pattern) : std::regex_match(s,pattern) && !std::regex_match(s,std::regex(exclude)); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  
 	{
-		if constexpr (IndexConcept<T>)
-		{
-			std::cout<<"INDEX CONC"<<std::endl;
-			return T::CreateIndexToken(s);
-		}
-		else
 			return std::make_unique<Type>(s); 
 	};	
 	virtual const std::regex Pattern() const { return pattern; };	
