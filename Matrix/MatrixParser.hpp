@@ -70,6 +70,9 @@ private:
 
 		size_t cm =cols.size();
 		size_t rm = elTypes.size()/cols.size();
+
+		IsT<Throwing>(Format("Resulting matrix is jagged: cols/rows ",cm,"/",rm, "\t elements: ", elTypes.size()))(elTypes.size()%cols.size() == 0);
+
 		auto d = DescriptorType({rm,cm});
 		return Matrix<Order,DescriptorType>(d,elTypes);
     }
