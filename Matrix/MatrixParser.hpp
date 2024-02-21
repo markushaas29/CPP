@@ -68,7 +68,9 @@ private:
 		auto mc = m->Cols(cols);
 		auto elTypes = matcher.MatchingElements(*mc.elements);
 
-		auto d = DescriptorType({3,11});
+		size_t cm =cols.size();
+		size_t rm = elTypes.size()/cols.size();
+		auto d = DescriptorType({rm,cm});
 		return Matrix<Order,DescriptorType>(d,elTypes);
     }
 

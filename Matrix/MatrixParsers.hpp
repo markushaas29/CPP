@@ -95,7 +95,7 @@ private:
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
         Matcher elementTokenMatcher(std::move(elementIndexTokens));
         
-        return accountMatrix.Match(indexTokenMatcher).Parse(elementTokenMatcher);
+        return accountMatrix.ParseByMatch(indexTokenMatcher);
 	}
 };
 

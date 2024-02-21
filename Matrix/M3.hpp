@@ -50,6 +50,7 @@ public:
 
 	decltype(auto) Parse(const Matcher& m) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Parse(m)); }); }
 	decltype(auto) Match(const Matcher& m) const { return apply<T>([&](auto& mx, const auto& e) { mx.push_back(e.Match(m)); }); }
+	decltype(auto) ParseByMatch(const Matcher& m) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.ParseByMatch(m)); }); }
 	template<typename TO>
 	decltype(auto) To() const { return apply<TO>([&](auto& mx, const auto& e) { mx.push_back(e.template To<TO>()); }); }
 	template<typename V>
