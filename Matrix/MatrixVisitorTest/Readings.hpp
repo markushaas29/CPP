@@ -115,9 +115,17 @@ private:
 	{
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
         std::vector<std::shared_ptr<IElement>> extras = 
-			{	std::make_shared<Quantity<Sum>>(payment[1][1].template To<Quantity<Sum>>()+payment[1][2].template To<Quantity<Sum>>()),
-				std::make_shared<Quantity<Sum>>(payment[2][1].template To<Quantity<Sum>>()+payment[2][2].template To<Quantity<Sum>>())
+			{	
+				std::make_shared<Quantity<Sum>>(payment[0][1].template To<Quantity<Sum>>()+payment[0][2].template To<Quantity<Sum>>()),
+				std::make_shared<Quantity<Sum>>(payment[1][1].template To<Quantity<Sum>>()+payment[1][2].template To<Quantity<Sum>>())
 			}; 
+
+		std::cout<<"PAY: "<<payment<<std::endl;
+
+		for(auto& i : extras)
+		std::cout<<"PAY: "<<*i<<std::endl;
+
+
         std::vector<std::shared_ptr<IElement>> extrasR;
 
         std::for_each(extras.begin(), extras.end(),[&](auto& e) { extrasR.push_back(std::make_shared<Quantity<Sum>>(e->template To<Quantity<Sum>>() * Quantity<Scalar>{12}) ); });
