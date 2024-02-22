@@ -87,8 +87,9 @@ class TemplatizedAll_Test2023
 			assert(m.Equals(Quantity<Sum>{-158.42},0.01));
 
 			auto inv = std::make_unique<Invoice<Middle>>();
-			std::cout<<"INV "<<(*inv)()<<std::endl;
+			auto ibq = (*inv)();
 
+			assert(ibq.Equals(Quantity<Sum>{-93.51},0.01));
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
