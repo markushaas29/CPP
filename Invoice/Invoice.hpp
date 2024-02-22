@@ -28,7 +28,7 @@ class Invoice: public IInvoice<Quantity<Sum>>
 public:
 //	Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 private:
-	friend 	std::ostream& operator<<(std::ostream& out, const Invoice& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
+	friend 	std::ostream& operator<<(std::ostream& out, const Invoice& s)	{	return out<<"Result: "<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	virtual typename Base::QuantityType value() const { return result; }
 	typename Base::QuantityType result;
