@@ -81,10 +81,10 @@ class TemplatizedAll_Test2023
 			auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 
-			auto all = calcCosts<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
+			auto all = calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 
 			std::cout<<"ALL Res"<<all<<std::endl;
-			std::cout<<"ALL Res--->"<<all()[1]<<std::endl;
+			std::cout<<"ALL Res--->"<<all()<<std::endl;
 
 //			assert(all()[0].As<Quantity<Sum>>().Equals(Quantity<Sum>{-93.51},0.01));
 //			assert(all()[1].As<Quantity<Sum>>().Equals(Quantity<Sum>{-158.42},0.01));

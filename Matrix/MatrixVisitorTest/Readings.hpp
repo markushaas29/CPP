@@ -208,3 +208,14 @@ auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,s
 	auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	return stagesDiv * sumMatrix;                                                                                                       
 }
+
+template<size_t N, typename Tup>
+auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
+{
+	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
+	auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
+
+	auto extraCosts = YearlyExtraCosts<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
+
+	return costs;
+}
