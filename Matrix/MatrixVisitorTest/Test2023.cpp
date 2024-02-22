@@ -83,7 +83,6 @@ class MatrixVisitorTest2023
 			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 
 			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
-			std::cout<<"\n-------------------account MPS---------------------\n:\n"<<mps<<std::endl;
 			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));
 			assert(mps[2][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.4354},0.01));
 			assert(mps[3][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.23411},0.01));
@@ -95,9 +94,6 @@ class MatrixVisitorTest2023
 
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
-
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<extra_Bottom()<<std::endl;
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<extraCostsBottom()<<std::endl;
 
 			assert(extra_Bottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
 			assert(extra_Bottom()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
@@ -117,13 +113,7 @@ class MatrixVisitorTest2023
 
 			auto resQ = res.To<Quantity<Sum>>();
 			auto Bru23 = ecb + resQ[1].To<Quantity<Sum>>();
-			std::cout<<"\nBru---------------------\n:\n"<<Bru23<<std::endl;
 			auto Z23 = ecm + resQ[2].To<Quantity<Sum>>();
-			std::cout<<"\nZei---------------------\n:\n"<<Z23<<std::endl;
-			std::cout<<"\n-------------------First---------------------\n:\n"<<ms[0]<<std::endl;
-			std::cout<<"\n-------------------First---------------------\n:\n"<<ms<<std::endl;
-
-			std::cout<<"\n-------------------EXTRAS MPS---------------------\n:\n"<<extraCostsBottom()<<std::endl;
 
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
 			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating

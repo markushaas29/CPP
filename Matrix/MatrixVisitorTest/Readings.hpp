@@ -203,4 +203,11 @@ auto calcAll(auto stageM, std::shared_ptr<Factory<IToken>> tokenFactory,std::sha
 {
 	auto account = Account{tokenFactory,elementFactory,visitorFactory, path}; 
 	stageM = process<0,Tup>(stageM,tokenFactory,elementFactory,visitorFactory, path);
+	
+	auto ms = account().To<Quantity<Sum>>();  
+	auto mpsM = (stageM / stageM.ColSum());
+	auto res = mpsM * ms;                                                                                                       
+	                                                                                                                 
+	std::cout<<"\n-------------------Result() =---------------------\n:\n"<<res<<std::endl;
+	std::cout<<"\n-------------------Result() =---------------------\n:\n"<<res()<<std::endl;
 }
