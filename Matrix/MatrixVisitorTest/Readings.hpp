@@ -183,7 +183,7 @@ private:
 		return result->Elements();
 	}
 };
-//
+
 template<size_t N, typename Tup>
 auto process(auto& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
 {
@@ -196,4 +196,11 @@ auto process(auto& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<F
 		stageM = stageM.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageM.Cols()-1));
         return process<N+1,Tup>(stageM,fT,fE,fB,p);
     }
+}
+
+template<size_t N, typename Tup>
+auto calcAll(auto stageM, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
+{
+	auto account = Account{tokenFactory,elementFactory,visitorFactory, path}; 
+	stageM = process<0,Tup>(stageM,tokenFactory,elementFactory,visitorFactory, path);
 }

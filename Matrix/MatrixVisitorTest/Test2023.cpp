@@ -88,6 +88,8 @@ class MatrixVisitorTest2023
 			assert(mps[2][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.4354},0.01));
 			assert(mps[3][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.23411},0.01));
 
+			calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
+
 			auto pay = account();
 			auto ms = pay.To<Quantity<Sum>>();
 
