@@ -199,7 +199,7 @@ auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_
 }
 
 template<size_t N, typename Tup>
-auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
+auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
 {
 	auto account = Account{tokenFactory,elementFactory,visitorFactory, path}; 
 	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
