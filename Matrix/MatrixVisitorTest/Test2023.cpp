@@ -112,6 +112,7 @@ class MatrixVisitorTest2023
 			auto resQ = res.To<Quantity<Sum>>();
 			auto Bru23 = ecb + resQ[1].To<Quantity<Sum>>();
 			auto Z23 = ecm + resQ[2].To<Quantity<Sum>>();
+			std::cout<<"MS:\n"<<account<<std::endl;
 
 			std::cout<<"MS:\n"<<ms<<std::endl;
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
