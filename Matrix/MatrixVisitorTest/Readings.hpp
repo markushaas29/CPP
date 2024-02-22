@@ -18,6 +18,7 @@
 #include "../../Functional/Functional.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../Visitor/CollectorVisitor.hpp"
+#include "../../Invoice/InvoiceCalculatorBase.hpp"
 
 #pragma once
 
