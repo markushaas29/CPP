@@ -34,11 +34,12 @@ public:
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()() const { return exec(); };
-    auto Value() const { return QuantityType{0}; } //ecec(); };    
+    auto Value() const { return value(); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IInvoiceCalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
 	virtual MatrixType exec() const = 0;
+    virtual QuantityType value() const { return QuantityType{0}; };    
 };
 
 class InvoiceCalculatorBase: public IInvoiceCalculator
