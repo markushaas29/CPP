@@ -30,7 +30,6 @@ private:
 		else
 		{
 			using Type = std::tuple_element_t<N,Tup>;
-			std::cout<<Type::Identifier<<std::endl;
 			interface->Register(Type::Identifier,&Type::Make);
 			reg<N+1>();
 		}

@@ -3,7 +3,6 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
-#include "Readings.hpp"
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
@@ -23,6 +22,7 @@
 #include "../../Functional/Functional.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../Visitor/CollectorVisitor.hpp"
+#include "../../Invoice/Invoice.hpp"
 
 class MatrixVisitorTest2023
 {

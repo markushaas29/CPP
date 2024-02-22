@@ -2,6 +2,7 @@
 #include <tuple>
 #include <vector>
 #include "InvoiceCalculatorBase.hpp"
+#include "InvoiceCalculators.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"
@@ -63,12 +64,6 @@ private:
         using AllStages = std::tuple<Bottom, Middle, Top>;        
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
-        
-        auto extra_Bottom = ExtraCostItems<Bottom>{tokenFactory,elementFactory,visitorFactory, path};        
-        auto extra_Middle = ExtraCostItems<Middle>{tokenFactory,elementFactory,visitorFactory, path};        
-        auto extra_Top = ExtraCostItems<Top>{tokenFactory,elementFactory,visitorFactory, path};
-        auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};        
-        auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};        
                                                                                                        
         return YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path}();          
     };
@@ -117,12 +112,6 @@ private:
         using AllStages = std::tuple<Bottom, Middle, Top>;        
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
-        
-        auto extra_Bottom = ExtraCostItems<Bottom>{tokenFactory,elementFactory,visitorFactory, path};        
-        auto extra_Middle = ExtraCostItems<Middle>{tokenFactory,elementFactory,visitorFactory, path};        
-        auto extra_Top = ExtraCostItems<Top>{tokenFactory,elementFactory,visitorFactory, path};
-        auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};        
-        auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};        
                                                                                                        
         return calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);          
     };
