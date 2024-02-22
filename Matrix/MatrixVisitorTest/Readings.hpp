@@ -180,6 +180,8 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         auto result = (*all)(parsedAccountMatrix);
 
+		std::cout<<"RESULT: "<<*result<<std::endl;
+
 		return result->Elements();
 	}
 };
@@ -218,8 +220,5 @@ auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std
 	auto extraCosts = YearlyExtraCosts<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
 
 	auto e = extraCosts()[0];
-	//return costs()[0] + e;
-	//return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template To<Quantity<Sum>>();
-	//return extraCosts()[0].template As<Quantity<Sum>>() + costs()[0].template As<Quantity<Sum>>();
 	return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
 }
