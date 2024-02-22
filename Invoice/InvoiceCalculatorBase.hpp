@@ -34,7 +34,7 @@ public:
 	MatrixType operator()() const { return exec(); };
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IInvoiceCalculator& i) { return i.display(s); }
-	virtual std::ostream& display(std::ostream& s) const = 0;
+	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
 	virtual MatrixType exec() const = 0;
 };
 

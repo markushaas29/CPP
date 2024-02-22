@@ -22,33 +22,13 @@
 
 #pragma once
 
-class XBase
-{
-	inline static constexpr const char TypeIdentifier[] = "Matrix";
-    inline static constexpr Literal TypeId{TypeIdentifier};
-	template<typename U> using IsT =  Is<U,TypeId>;
-public:
-    inline static constexpr size_t Order = 1;
-	using ElementType = std::shared_ptr<IElement>;
-	using DescriptorType = MatrixDescriptor<1,ElementType>;
-	using MatrixType = Matrix<1, DescriptorType>;
-	MatrixType operator()() const { return exec(); };
-protected:
-	XBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): elementFactory{fE}, visitorFactory{fB} {};
-	std::shared_ptr<Factory<IElement>> elementFactory;
-	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
-private:
-	virtual MatrixType exec() const = 0;
-	friend std::ostream& operator<<(std::ostream& s, const XBase& m) { return s; }
-};
-
 template<typename S>
-class Readings: public XBase
+class Readings: public InvoiceCalculatorBase
 {
-	using Base = XBase;
+	using Base = InvoiceCalculatorBase;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fE,fB}, tokenFactory{fT} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, tokenFactory{fT} {};
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	typename Base::MatrixType exec() const
@@ -83,11 +63,11 @@ private:
 };
 
 template<typename S>
-class StageBase: public XBase
+class StageBase: public InvoiceCalculatorBase
 {
-	using Base = XBase;
+	using Base = InvoiceCalculatorBase;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
@@ -119,11 +99,11 @@ private:
 	}
 };
 
-class Account: public XBase
+class Account: public InvoiceCalculatorBase
 {
-	using Base = XBase;
+	using Base = InvoiceCalculatorBase;
 public:
-	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): XBase{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	typename Base::MatrixType exec() const
