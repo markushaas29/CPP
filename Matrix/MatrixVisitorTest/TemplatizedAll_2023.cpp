@@ -89,7 +89,7 @@ class TemplatizedAll_Test2023
 			auto ibq = (*inv)();
 			std::cout<<"END 2023"<<ibq<<std::endl;
 
-			//assert(ibq.Equals(Quantity<Sum>{-93.51},0.01));
+			assert(inv->Value().Equals(Quantity<Sum>{-93.51},0.01));
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
