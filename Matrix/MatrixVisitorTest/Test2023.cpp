@@ -76,11 +76,11 @@ class MatrixVisitorTest2023
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
 			
-			auto extra_Bottom = Stages<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extra_Middle = Stages<Middle>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extra_Top = Stages<Top>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extraCostsBottom = ExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extraCostsMiddle = ExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Bottom = ExtraCostItems<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Middle = ExtraCostItems<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Top = ExtraCostItems<Top>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 
 			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"\n-------------------account MPS---------------------\n:\n"<<mps<<std::endl;
@@ -94,7 +94,8 @@ class MatrixVisitorTest2023
 			auto mpsM = (mps / mps.ColSum());
 			auto res = mpsM * ms;
 
-			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<mps[1][5].To<Quantity<Scalar>>()<<std::endl;
+			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<extra_Bottom()<<std::endl;
+			std::cout<<"\n-------------------MPS Zei Result() =---------------------\n:\n"<<extraCostsBottom()<<std::endl;
 
 			assert(extra_Bottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
 			assert(extra_Bottom()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
