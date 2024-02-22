@@ -4,6 +4,7 @@
 #include <tuple> 
 #include <memory> 
 #include "Test2023.cpp"
+#include "TemplatizedAll_2023.cpp"
 #include "TestReading.cpp"
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
@@ -158,6 +159,8 @@ class MatrixVisitorTest
 //			sutRea.Run();
 			MatrixVisitorTest2023 sut2023;
 			sut2023.Run();
+			TemplatizedAll_Test2023 sutT2023;
+			sutT2023.Run();
 		   
 			return 0;
 		}

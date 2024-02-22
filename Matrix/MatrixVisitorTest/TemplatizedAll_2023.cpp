@@ -24,12 +24,12 @@
 #include "../../Common/DateTimes.hpp"
 #include "../../Visitor/CollectorVisitor.hpp"
 
-class MatrixVisitorTest2023
+class TemplatizedAll_Test2023
 {
 	public:
 		int Run()
 		{
-			std::cout<<"START MatrixVisitor 2023"<<std::endl;
+			std::cout<<"START TemplatizedAll_ 2023"<<std::endl;
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MS2 = Matrix<2,MDS2>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
@@ -86,6 +86,8 @@ class MatrixVisitorTest2023
 			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));
 			assert(mps[2][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.4354},0.01));
 			assert(mps[3][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.23411},0.01));
+
+			calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 
 			auto pay = account();
 			auto ms = pay.To<Quantity<Sum>>();

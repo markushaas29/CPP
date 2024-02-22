@@ -179,35 +179,32 @@ private:
         for(uint i = 0; i < allFactoryUnits.size(); ++i)
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         auto result = (*all)(parsedAccountMatrix);
-		auto ms = result->Elements().To<Quantity<Sum>>();
+
 		return result->Elements();
 	}
 };
 
 template<size_t N, typename Tup>
-auto process(auto& stageM, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
+auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
 {
     if constexpr (std::tuple_size<Tup>()==N)
-        return stageM;
+        return stageMatrix;
     else
     {
         using Type = std::tuple_element_t<N,Tup>;
 		auto readings = Readings<Type>{fT,fE,fB, p};
-		stageM = stageM.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageM.Cols()-1));
-        return process<N+1,Tup>(stageM,fT,fE,fB,p);
+		stageMatrix = stageMatrix.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
+        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
     }
 }
 
 template<size_t N, typename Tup>
-auto calcAll(auto stageM, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
+auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
 {
 	auto account = Account{tokenFactory,elementFactory,visitorFactory, path}; 
-	stageM = process<0,Tup>(stageM,tokenFactory,elementFactory,visitorFactory, path);
+	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	
-	auto ms = account().To<Quantity<Sum>>();  
-	auto mpsM = (stageM / stageM.ColSum());
-	auto res = mpsM * ms;                                                                                                       
-	                                                                                                                 
-	std::cout<<"\n-------------------Result() =---------------------\n:\n"<<res<<std::endl;
-	std::cout<<"\n-------------------Result() =---------------------\n:\n"<<res()<<std::endl;
+	auto sumMatrix = account().To<Quantity<Sum>>();  
+	auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
+	return stagesDiv * sumMatrix;                                                                                                       
 }
