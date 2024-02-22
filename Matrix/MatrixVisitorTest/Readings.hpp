@@ -161,8 +161,6 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         auto result = (*all)(parsedAccountMatrix);
 
-		std::cout<<"RESULT: "<<*result<<std::endl;
-
 		return result->Elements();
 	}
 };

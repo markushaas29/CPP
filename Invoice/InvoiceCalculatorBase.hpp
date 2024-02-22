@@ -28,10 +28,13 @@ class IInvoiceCalculator
 	template<typename U> using IsT =  Is<U,TypeId>;
 public:
     inline static constexpr size_t Order = 1;
+    using QuantityType = Quantity<Sum>;    
+    using FuncType = Acc<QuantityType>;    
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()() const { return exec(); };
+    auto Value() const { return QuantityType{0}; } //ecec(); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IInvoiceCalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
