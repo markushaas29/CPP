@@ -11,10 +11,6 @@
 #include "../MatrixFilter.hpp"
 #include "../MatrixComposition.hpp"
 #include "../M3.hpp"
-#include "../MatrixCategory.hpp"
-#include "../MatrixQuery.hpp"
-#include "../MatrixMultiCategory.hpp"
-#include "../MatrixStrategy.hpp"
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
@@ -82,13 +78,12 @@ class TemplatizedAll_Test2023
 			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 
 			auto b = calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
-
-			std::cout<<"ALL Res"<<b<<std::endl;
 			std::cout<<"ALL Res--->"<<b<<std::endl;
-
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 
-//			assert(all()[1].As<Quantity<Sum>>().Equals(Quantity<Sum>{-158.42},0.01));
+			auto m = calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
+			std::cout<<"ALL Res--->"<<m<<std::endl;
+			assert(m.Equals(Quantity<Sum>{-158.42},0.01));
 
 			std::cout<<"END 2023"<<std::endl;
 		   
