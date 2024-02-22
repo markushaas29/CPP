@@ -19,6 +19,7 @@
 #include "../../Functional/Functional.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../Visitor/CollectorVisitor.hpp"
+#include "../../Invoice/Invoice.hpp"
 
 class TemplatizedAll_Test2023
 {
