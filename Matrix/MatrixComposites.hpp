@@ -80,7 +80,6 @@ public:
 		std::for_each(composites->cbegin(), composites->cend(), [&](const auto& c)	
 				{
 					auto mc = (*c)(m);
-					std::cout<<"MC"<<*mc<<std::endl;
 					value = value + mc->Value();
 					result->push_back(std::move(mc));	
 				}); 
