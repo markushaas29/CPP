@@ -113,6 +113,7 @@ class MatrixVisitorTest2023
 			auto Bru23 = ecb + resQ[1].To<Quantity<Sum>>();
 			auto Z23 = ecm + resQ[2].To<Quantity<Sum>>();
 
+			std::cout<<"MS:\n"<<ms<<std::endl;
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
 			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating
 			assert(ms[2].To<Quantity<Sum>>()==Quantity<Sum>{-1951.57}); // Insurance
@@ -123,6 +124,7 @@ class MatrixVisitorTest2023
 			assert(res[2].To<Quantity<Sum>>().Equals(Quantity<Sum>{-2678.42},0.01));
 			assert(Bru23.Equals(Quantity<Sum>{-93.51},0.01));
 			assert(Z23.Equals(Quantity<Sum>{-158.42},0.01));
+			
 
 			std::cout<<"END 2023"<<std::endl;
 		   
