@@ -41,7 +41,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
 	virtual MatrixType exec() const = 0;
-	virtual QuantityType value() const { return QuantityType(acc());    };
+	virtual QuantityType value() const { return acc();    };
 	auto acc() const
     {
         auto m = exec();
