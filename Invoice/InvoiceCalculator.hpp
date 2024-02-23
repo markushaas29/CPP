@@ -79,7 +79,7 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
                                                                                                        
-        return YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory, path}();          
+		return typename Base::MatrixType(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>(value())});
     };
     virtual typename Base::QuantityType value() const
     {

@@ -34,17 +34,17 @@ public:
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
-	MatrixType operator()() const { return exec(); };
-	auto Accumulate(size_t b, size_t e) const { return acc()(b,e); };
-    auto Value() const { return value(); };    
+	MatrixType operator()() { return get(); };
+	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
+    auto Value() { return value(); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
-	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
-	virtual MatrixType exec() const = 0;
-	virtual QuantityType value() const { return acc();    };
-	auto acc() const
+	virtual std::ostream& display(std::ostream& s) const { return s; }//<<get(); };
+	virtual MatrixType get() = 0;
+	virtual QuantityType value()  { return acc();    };
+	auto acc() 
     {
-        auto m = exec();
+        auto m = get();
         auto acc = FuncType();
         for(auto i = 0; i < m.Rows(); ++i)
             acc.Push(m[i].template As<Quantity<Sum>>());
@@ -58,8 +58,19 @@ class CalculatorBase: public ICalculator<Q>
 	inline static constexpr const char TypeIdentifier[] = "CalculatorBase";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
+	using Base = ICalculator<Q>;
 protected:
 	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): elementFactory{fE}, visitorFactory{fB} {};
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
+private:
+	std::unique_ptr<typename Base::MatrixType> matrix;
+	virtual typename Base::MatrixType exec() const = 0;
+	virtual typename Base::MatrixType get() 
+	{
+		if(!matrix)
+			matrix = std::make_unique<typename Base::MatrixType>(this->exec());
+		std::cout<<*matrix<<std::endl;
+		return *matrix;
+	};
 };
