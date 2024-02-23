@@ -4,6 +4,7 @@
 #include "../Quantity/Quantity.hpp"
 #include "../To/To.hpp"
 #include "../Visitor/Visitor.hpp"
+#include "../TypeCounter/TypeCounter.hpp"
 #include <string.h>
 #include <map>
 #include <regex>
@@ -41,7 +42,7 @@ private:
 //--------------------------------Element------------------------------------------------
 
 template<typename D>
-class Element: public IElement
+class Element: public IElement, public TypeCounter<D>
 {
 	using Derived = D;
 public:
