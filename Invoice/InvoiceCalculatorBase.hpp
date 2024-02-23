@@ -39,7 +39,7 @@ public:
     auto Value() { return value(); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
-	virtual std::ostream& display(std::ostream& s) const { return s; }//<<get(); };
+	virtual std::ostream& display(std::ostream& s) const = 0;
 	virtual MatrixType get() = 0;
 	virtual QuantityType value()  { return acc();    };
 	auto acc() 
@@ -65,12 +65,12 @@ protected:
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
+	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
 	virtual typename Base::MatrixType exec() const = 0;
 	virtual typename Base::MatrixType get() 
 	{
 		if(!matrix)
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec());
-		std::cout<<*matrix<<std::endl;
 		return *matrix;
 	};
 };

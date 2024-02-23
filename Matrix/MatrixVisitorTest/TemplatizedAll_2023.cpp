@@ -96,6 +96,7 @@ class TemplatizedAll_Test2023
 
 			assert(inv->Value().Equals(Quantity<Sum>{-93.51},0.01));
 			std::cout<<"IBAN "<<TypeCounter<IBAN>::All()<<"\t copied:"<<TypeCounter<IBAN>::Copied()<<std::endl;
+			TypeCounts<Date,IBAN,BIC,Year>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
