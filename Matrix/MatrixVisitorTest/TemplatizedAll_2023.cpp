@@ -77,15 +77,15 @@ class TemplatizedAll_Test2023
 			auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 
-			auto b = calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
+			auto inv = std::make_unique<Invoice<Middle>>();
+			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"ALL Res--->"<<b<<std::endl;
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 
-			auto m = calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
+			auto m = inv->calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"ALL Res--->"<<m<<std::endl;
 			assert(m.Equals(Quantity<Sum>{-158.42},0.01));
 
-			auto inv = std::make_unique<Invoice<Middle>>();
 			auto ibq = (*inv)();
 			std::cout<<"END 2023"<<ibq<<std::endl;
 

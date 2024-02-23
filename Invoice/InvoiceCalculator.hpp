@@ -16,6 +16,17 @@ class Invoice: public IInvoiceCalculator
     using Base = IInvoiceCalculator;
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
+	template<size_t N, typename Tup>
+	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const 
+	{
+	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
+	    auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
+	
+	    auto extraCosts = YearlyExtraCosts<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
+	
+	    auto e = extraCosts()[0];
+	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
+	}
 private:
     friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
@@ -115,6 +126,32 @@ private:
                                                                                                        
         return calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);          
     };
+
+	template<size_t N, typename Tup>
+	auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p) const 
+	{
+	    if constexpr (std::tuple_size<Tup>()==N)
+	        return stageMatrix;
+	    else
+	    {
+	        using Type = std::tuple_element_t<N,Tup>;
+	        auto readings = Readings<Type>{fT,fE,fB, p};
+	        stageMatrix = stageMatrix.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
+	        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
+	    }
+	}
+	
+	template<size_t N, typename Tup>
+	auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const
+	{
+	    auto account = Account{tokenFactory,elementFactory,visitorFactory, path}; 
+	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
+	    
+	    auto sumMatrix = account().To<Quantity<Sum>>();  
+	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
+	    return stagesDiv * sumMatrix;                                                                                                       
+	}
+	
     typename Base::QuantityType result;
     std::string name;
 };
