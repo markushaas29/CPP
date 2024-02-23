@@ -108,11 +108,11 @@ private:
 	}
 };
 
-class Account: public InvoiceCalculatorBase
+class AccountCalculator: public InvoiceCalculatorBase
 {
 	using Base = InvoiceCalculatorBase;
 public:
-	Account(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	typename Base::MatrixType exec() const
@@ -191,7 +191,7 @@ auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_
 template<size_t N, typename Tup>
 auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
 {
-	auto account = Account{tokenFactory,elementFactory,visitorFactory, path}; 
+	auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, path}; 
 	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	
 	auto sumMatrix = account().To<Quantity<Sum>>();  
