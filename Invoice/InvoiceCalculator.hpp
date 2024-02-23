@@ -11,11 +11,13 @@
 #pragma once
 
 template<typename T>
-class Invoice: public ICalculator<Quantity<Sum>>
+class Invoice: public CalculatorBase<Quantity<Sum>>
 {
-    using Base = ICalculator<Quantity<Sum>>;
+	using Base = CalculatorBase<Quantity<Sum>>;
+    using Stage = T;
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
+    Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokenFactory{fT} {};
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const 
 	{
@@ -28,6 +30,7 @@ public:
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
 	}
 private:
+	std::shared_ptr<Factory<IToken>> tokenFactory;
     friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
     virtual typename Base::MatrixType exec() const

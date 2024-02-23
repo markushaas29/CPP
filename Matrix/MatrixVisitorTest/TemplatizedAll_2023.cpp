@@ -19,6 +19,7 @@
 #include "../../Common/DateTimes.hpp"
 #include "../../Visitor/CollectorVisitor.hpp"
 #include "../../Invoice/Invoice.hpp"
+#include "../../TypeCounter/TypeCounter.hpp"
 
 class TemplatizedAll_Test2023
 {
@@ -81,7 +82,7 @@ class TemplatizedAll_Test2023
 			std::cout<<"ItemsCalculator--->"<<extra_Bottom<<std::endl;
 			std::cout<<"Costs--->"<<extraCostsBottom<<std::endl;
 
-			auto inv = std::make_unique<Invoice<Middle>>();
+			auto inv = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory, path);
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"ALL Res--->"<<b<<std::endl;
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
@@ -94,6 +95,7 @@ class TemplatizedAll_Test2023
 			std::cout<<"END 2023"<<ibq<<std::endl;
 
 			assert(inv->Value().Equals(Quantity<Sum>{-93.51},0.01));
+			std::cout<<"IBAN "<<TypeCounter<IBAN>::All()<<"\t copied:"<<TypeCounter<IBAN>::Copied()<<std::endl;
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
