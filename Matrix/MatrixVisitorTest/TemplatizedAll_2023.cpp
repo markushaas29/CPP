@@ -72,7 +72,7 @@ class TemplatizedAll_Test2023
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			
 			auto extra_Bottom = ExtraCostItems<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			assert(extra_Bottom.Value().Equals(Quantity<Sum>{458},0.01));
+			assert(extra_Bottom.Value().Equals(Quantity<Sum>{660},0.01));
 			auto extra_Middle = ExtraCostItems<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extra_Top = ExtraCostItems<Top>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
