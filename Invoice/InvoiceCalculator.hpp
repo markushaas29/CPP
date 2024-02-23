@@ -22,7 +22,7 @@ public:
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
 	
-	    auto extraCosts = YearlyExtraCosts<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
+	    auto extraCosts = YearlyExtraCostsCalculator<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
 	
 	    auto e = extraCosts()[0];
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
@@ -76,7 +76,7 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
                                                                                                        
-        return YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path}();          
+        return YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory, path}();          
     };
     virtual typename Base::QuantityType value() const
     {

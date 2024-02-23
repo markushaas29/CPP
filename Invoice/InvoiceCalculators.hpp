@@ -85,21 +85,21 @@ private:
 };
 
 template<typename S>
-class ExtraCostItems: public StageBase<S>
+class ExtraCostItemsCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	ExtraCostItems(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
+	ExtraCostItemsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
 private:
 	virtual typename Base::MatrixType matrix() const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
 };
 
 template<typename S>
-class YearlyExtraCosts: public StageBase<S>
+class YearlyExtraCostsCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	YearlyExtraCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
+	YearlyExtraCostsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
 private:
 	virtual typename Base::MatrixType matrix() const
 	{
@@ -205,7 +205,7 @@ auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std
 	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
 
-	auto extraCosts = YearlyExtraCosts<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
+	auto extraCosts = YearlyExtraCostsCalculator<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
 
 	auto e = extraCosts()[0];
 	return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();

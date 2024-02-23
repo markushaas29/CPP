@@ -76,11 +76,11 @@ class MatrixVisitorTest2023
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			auto account = Account{tokenFactory,elementFactory,visitorFactory, path};
 			
-			auto extra_Bottom = ExtraCostItems<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extra_Middle = ExtraCostItems<Middle>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extra_Top = ExtraCostItems<Top>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Top = ExtraCostItemsCalculator<Top>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsBottom = YearlyExtraCostsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 
 			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));
