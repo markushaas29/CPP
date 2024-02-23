@@ -35,18 +35,20 @@ public:
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()() const { return exec(); };
+	auto Accumulate(size_t b, size_t e) const { return acc()(b,e); };
     auto Value() const { return value(); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
 	virtual MatrixType exec() const = 0;
-	virtual QuantityType value() const
+	virtual QuantityType value() const { return QuantityType(acc());    };
+	auto acc() const
     {
         auto m = exec();
         auto acc = FuncType();
         for(auto i = 0; i < m.Rows(); ++i)
             acc.Push(m[i].template As<Quantity<Sum>>());
-        return QuantityType(acc());
+        return acc;
     };
 };
 

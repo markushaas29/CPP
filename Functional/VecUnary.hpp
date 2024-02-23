@@ -1,6 +1,8 @@
 #include "FunctionalBase.hpp" 
 #include "Unary.hpp" 
 #include "Binary.hpp" 
+#include "../String/Literal.hpp" 
+#include "../Is/Is.hpp" 
 
 #pragma once
 
@@ -13,6 +15,9 @@ class VecUnary: public Functional<VecUnary<D,V>>
 	friend class Functional<Type>;
 	inline static constexpr const char* sign = Derived::sign; 
 	friend class D<V,VEC>;
+	inline static constexpr const char TypeIdentifier[] = "VecUnary";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+    template<typename U> using IsT =  Is<U,TypeId>;
 public:
 	using ValueType = V;
 	using VecType = std::vector<VEC>;
@@ -22,7 +27,11 @@ public:
 	decltype(auto) End() { return value.end(); }
 	decltype(auto) operator()(const auto& v) const { return cast().op(value,v); }
 	decltype(auto) operator()() const 	{	return cast().op(value); }
-	decltype(auto) operator()(size_t i, size_t j) const 	{	return cast().op(VecType(value.begin()+i, value.begin()+j)); }
+	decltype(auto) operator()(int i, int j) const 	
+	{
+		IsT<Throwing>(Format("Index begin: ",i," end ",j, " exceeds size: ", value.size()))(i >= 0 && j <= value.size());
+		return cast().op(VecType(value.begin()+i, value.begin()+j)); 
+	}
 	template<typename T>
 	operator T() const { return static_cast<T>((*this)()); }
 protected:

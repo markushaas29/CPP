@@ -96,10 +96,13 @@ class MatrixVisitorTest2023
 			assert(extra_Bottom()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
 			assert(extra_Bottom()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
 			assert(extra_Bottom()[2].As<Quantity<Sum>>()==Quantity<Sum>{67});
+			std::cout<<"MS sum:\n"<<extra_Bottom.Accumulate(1,3)*12<<std::endl;
+			assert(extra_Bottom.Accumulate(1,3)*12==Quantity<Sum>{2424});
 			
 			assert(extra_Middle()[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
 			assert(extra_Middle()[1].As<Quantity<Sum>>()==Quantity<Sum>{0});
 			assert(extra_Middle()[2].As<Quantity<Sum>>()==Quantity<Sum>{210});
+			assert(extra_Middle.Accumulate(1,3)*12==Quantity<Sum>{2520});
 			
 			assert(extra_Top()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
 			assert(extra_Top()[1].As<Quantity<Sum>>()==Quantity<Sum>{1});

@@ -179,6 +179,13 @@ class FunctionalTest
 			assert(acc1()==0);
 			assert(acc1.Size()==3);
 			assert(acc1(0,2)==-3);
+			is = false;
+			try{ acc1(0,5); } catch(...) { is = true; }
+			assert(is);
+			is = false;
+			try{ acc1(-1,1); } catch(...) { is = true; }
+			assert(is);
+			assert(acc1(0,3)==0);
 			
 			auto acc2 = Acc<int>();
 			acc2.Push(10);
