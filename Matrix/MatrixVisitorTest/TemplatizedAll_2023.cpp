@@ -72,10 +72,14 @@ class TemplatizedAll_Test2023
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			
 			auto extra_Bottom = ExtraCostItems<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			assert(extra_Bottom.Value().Equals(Quantity<Sum>{458},0.01));
 			auto extra_Middle = ExtraCostItems<Middle>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extra_Top = ExtraCostItems<Top>{tokenFactory,elementFactory,visitorFactory, path};
 			auto extraCostsBottom = YearlyExtraCosts<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			assert(extraCostsBottom.Value().Equals(Quantity<Sum>{2424},0.01));
 			auto extraCostsMiddle = YearlyExtraCosts<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			std::cout<<"Items--->"<<extra_Bottom<<std::endl;
+			std::cout<<"Costs--->"<<extraCostsBottom<<std::endl;
 
 			auto inv = std::make_unique<Invoice<Middle>>();
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
