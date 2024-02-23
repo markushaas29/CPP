@@ -6,8 +6,9 @@ class TypeCounter
 public:
     TypeCounter()
     {
-        objects_created++;
-        objects_alive++;
+        ++objects_created;
+        ++objects_alive;
+		//std::cout<<T::Identifier<<"\tCreated: "<<objects_created<<"\tAlive:\t"<<objects_alive<<std::endl;
     }
 
     TypeCounter(const TypeCounter&)
