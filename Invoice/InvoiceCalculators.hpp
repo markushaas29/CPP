@@ -31,6 +31,7 @@ public:
 	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, tokenFactory{fT} {};
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
+	virtual QuantityType value() const { return QuantityType{0}; };
 	typename Base::MatrixType exec() const
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;

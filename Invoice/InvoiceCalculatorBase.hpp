@@ -39,7 +39,14 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const IInvoiceCalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
 	virtual MatrixType exec() const = 0;
-    virtual QuantityType value() const { return QuantityType{0}; };    
+	virtual QuantityType value() const
+    {
+        auto m = exec();
+        auto acc = FuncType();
+        for(auto i = 0; i < m.Rows(); ++i)
+            acc.Push(m[i].template As<Quantity<Sum>>());
+        return QuantityType(acc());
+    };
 };
 
 class InvoiceCalculatorBase: public IInvoiceCalculator
