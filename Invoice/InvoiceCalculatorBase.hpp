@@ -21,14 +21,15 @@
 
 #pragma once
 
-class IInvoiceCalculator
+template<typename Q>
+class ICalculator
 {
-	inline static constexpr const char TypeIdentifier[] = "IInvoiceCalculator";
+	inline static constexpr const char TypeIdentifier[] = "ICalculator";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
 public:
     inline static constexpr size_t Order = 1;
-    using QuantityType = Quantity<Sum>;    
+    using QuantityType = Q;    
     using FuncType = Acc<QuantityType>;    
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
@@ -36,7 +37,7 @@ public:
 	MatrixType operator()() const { return exec(); };
     auto Value() const { return value(); };    
 private:
-	friend std::ostream& operator<<(std::ostream& s, const IInvoiceCalculator& i) { return i.display(s); }
+	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const { return s<<exec(); };
 	virtual MatrixType exec() const = 0;
 	virtual QuantityType value() const
@@ -49,13 +50,14 @@ private:
     };
 };
 
-class InvoiceCalculatorBase: public IInvoiceCalculator
+template<typename Q>
+class CalculatorBase: public ICalculator<Q>
 {
-	inline static constexpr const char TypeIdentifier[] = "InvoiceCalculatorBase";
+	inline static constexpr const char TypeIdentifier[] = "CalculatorBase";
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
 protected:
-	InvoiceCalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): elementFactory{fE}, visitorFactory{fB} {};
+	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): elementFactory{fE}, visitorFactory{fB} {};
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
 };

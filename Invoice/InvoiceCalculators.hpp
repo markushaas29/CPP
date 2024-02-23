@@ -23,12 +23,12 @@
 #pragma once
 
 template<typename S>
-class Readings: public InvoiceCalculatorBase
+class Readings: public CalculatorBase<Quantity<Volume>>
 {
-	using Base = InvoiceCalculatorBase;
+	using Base = CalculatorBase<Quantity<Volume>>;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, tokenFactory{fT} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase{fE,fB}, tokenFactory{fT} {};
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual QuantityType value() const { return QuantityType{0}; };
@@ -64,11 +64,11 @@ private:
 };
 
 template<typename S>
-class StageBase: public InvoiceCalculatorBase
+class StageBase: public CalculatorBase<Quantity<Sum>>
 {
-	using Base = InvoiceCalculatorBase;
+	using Base = CalculatorBase<Quantity<Sum>>;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase<Quantity<Sum>>{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
@@ -108,11 +108,11 @@ private:
 	}
 };
 
-class AccountCalculator: public InvoiceCalculatorBase
+class AccountCalculator: public CalculatorBase<Quantity<Sum>>
 {
-	using Base = InvoiceCalculatorBase;
+	using Base = CalculatorBase<Quantity<Sum>>;
 public:
-	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): InvoiceCalculatorBase{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase<Quantity<Sum>>{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	typename Base::MatrixType exec() const

@@ -11,9 +11,9 @@
 #pragma once
 
 template<typename T>
-class Invoice: public IInvoiceCalculator
+class Invoice: public ICalculator<Quantity<Sum>>
 {
-    using Base = IInvoiceCalculator;
+    using Base = ICalculator<Quantity<Sum>>;
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	template<size_t N, typename Tup>
