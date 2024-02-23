@@ -147,7 +147,8 @@ private:
 	    auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, path}; 
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    
-		std::cout<<"Accout:"<<account<<std::endl;
+		std::cout<<"Accout:"<<account.Value()<<std::endl;
+		assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
 
 	    auto sumMatrix = account().To<Quantity<Sum>>();  
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
