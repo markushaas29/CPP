@@ -73,14 +73,6 @@ protected:
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec() const	{	return matrix();	}
-	virtual typename Base::QuantityType value() const 
-	{
-		auto m = exec();
-		auto acc = typename Base::FuncType();
-		for(auto i = 0; i < m.Rows(); ++i)
-			acc.Push(m[i].template As<Quantity<Sum>>());
-		return typename Base::QuantityType(acc());
-	};
 	virtual typename Base::MatrixType matrix() const = 0;
 };
 
