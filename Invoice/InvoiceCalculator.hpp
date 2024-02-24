@@ -31,7 +31,6 @@ public:
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
 	}
 private:
-	std::ostringstream os;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
     friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
@@ -56,7 +55,6 @@ private:
         std::vector<MS2> accountFiles{m22S, m23S, m24S};        
         M3 accountMatrix(accountFiles);        
         
-        auto tokenFactory = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken>();
         auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
         Matcher smatcher(std::move(stageIndexTokens));        
         
@@ -68,7 +66,6 @@ private:
     
         auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);        
         
-        auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();        
         auto typeFactory = std::make_shared<TF>(elementFactory);        
         
         auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
@@ -82,7 +79,7 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
                                                                                                        
-        return calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);          
+        return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);          
     };
 
 	template<size_t N, typename Tup>

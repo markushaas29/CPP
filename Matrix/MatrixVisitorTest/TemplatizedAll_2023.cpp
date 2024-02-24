@@ -82,7 +82,7 @@ class TemplatizedAll_Test2023
 			std::cout<<"ItemsCalculator--->"<<extra_Bottom<<std::endl;
 			std::cout<<"Costs--->"<<extraCostsBottom<<std::endl;
 
-			auto inv = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory, path);
+			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory, path);
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"ALL Res--->"<<b<<std::endl;
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
@@ -91,10 +91,12 @@ class TemplatizedAll_Test2023
 			std::cout<<"ALL Res--->"<<m<<std::endl;
 			assert(m.Equals(Quantity<Sum>{-158.42},0.01));
 
-			auto ibq = (*inv)();
-			std::cout<<"END 2023"<<ibq<<std::endl;
 
 			assert(inv->Value().Equals(Quantity<Sum>{-93.51},0.01));
+			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory, path);
+			assert(invM->Value().Equals(Quantity<Sum>{-158.42},0.01));
+			auto ibq = (*invM)();
+			std::cout<<"END 2023"<<ibq<<std::endl;
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
