@@ -97,6 +97,10 @@ class TemplatizedAll_Test2023
 			assert(invM->Value().Equals(Quantity<Sum>{-158.42},0.01));
 			auto ibq = (*invM)();
 			std::cout<<"END 2023"<<ibq<<std::endl;
+			
+			auto invT = std::make_unique<Invoice<Top>>(tokenFactory,elementFactory,visitorFactory, path);
+			auto itq = (*invT)();
+			std::cout<<"END 2023"<<itq<<std::endl;
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   

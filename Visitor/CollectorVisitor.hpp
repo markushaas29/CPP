@@ -38,7 +38,8 @@ public:
 	size_t Size() { return func.Size(); }
 private:
 	template<typename U> using IsT =  Is<U,TypeId>;
-	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) { 	return s<<t.func;	}
+	friend std::ostream& operator<<(std::ostream& s, const CollectorVisitor& t) { 	return t.display(s);	}
+	virtual std::ostream& display(std::ostream& s) const { 	return s<<func;	};
 	FuncType func;
 };
 
@@ -91,5 +92,11 @@ public:
 	};
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:
+	virtual std::ostream& display(std::ostream& s) const 
+	{ 	
+		auto res = Base::func();
+		std::for_each(res.cbegin(),res.cend(), [&](const auto& i) { s<<i; });
+		return s;	
+	};
 	std::vector<Date> elements;
 };
