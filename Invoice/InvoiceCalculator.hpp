@@ -1,6 +1,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include <sstream>
 #include "InvoiceCalculatorBase.hpp"
 #include "InvoiceCalculators.hpp"
 #include "../Is/Is.hpp"
@@ -30,6 +31,7 @@ public:
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
 	}
 private:
+	std::ostringstream os;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
     friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
@@ -105,7 +107,9 @@ private:
 	    
 		std::cout<<"Accout:"<<account.Value()<<std::endl;
 		assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
-
+		std::ostringstream os;
+		os<<account;
+		std::cout<<"Accout string:"<<os.str()<<std::endl;
 	    auto sumMatrix = account().To<Quantity<Sum>>();  
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	    return stagesDiv * sumMatrix;                                                                                                       

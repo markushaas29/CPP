@@ -95,7 +95,7 @@ class TemplatizedAll_Test2023
 			std::cout<<"END 2023"<<ibq<<std::endl;
 
 			assert(inv->Value().Equals(Quantity<Sum>{-93.51},0.01));
-			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Qunatity<Volume>>::Exec<0>();
+			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
