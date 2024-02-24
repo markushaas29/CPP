@@ -66,11 +66,12 @@ protected:
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
-	virtual typename Base::MatrixType exec() const = 0;
+	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const = 0;
 	virtual typename Base::MatrixType get() 
 	{
+		auto f = std::make_shared<std::ofstream>("");
 		if(!matrix)
-			matrix = std::make_unique<typename Base::MatrixType>(this->exec());
+			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
 		return *matrix;
 	};
 };

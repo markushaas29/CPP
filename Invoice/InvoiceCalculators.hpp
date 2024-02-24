@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cassert> 
 #include <vector> 
 #include <memory> 
@@ -32,7 +33,7 @@ public:
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual QuantityType value() const { return QuantityType{0}; };
-	typename Base::MatrixType exec() const
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
@@ -44,6 +45,7 @@ private:
         			auto civ = (*visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
+					//std::cout<<"CONS"<<consV<<std::endl;
 					els.push_back(consV());	
 				});
 
@@ -72,7 +74,7 @@ protected:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::MatrixType exec() const	{	return matrix();	}
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const	{	return matrix();	}
 	virtual typename Base::MatrixType matrix() const = 0;
 };
 
@@ -108,7 +110,7 @@ public:
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
-	typename Base::MatrixType exec() const
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
@@ -163,7 +165,7 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-		std::cout<<"ELEMENTS"<<*result<<std::endl;
+		//std::cout<<"ELEMENTS"<<*result<<std::endl;
 
 		return result->Elements();
 	}
