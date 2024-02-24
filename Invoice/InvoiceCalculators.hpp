@@ -107,6 +107,7 @@ public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase<Quantity<Sum>>{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
+	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
 	typename Base::MatrixType exec() const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
@@ -160,7 +161,7 @@ private:
         std::vector<FactoryUnit<std::string, std::string>> fv{{"AccumulationSum"}};
         for(uint i = 0; i < allFactoryUnits.size(); ++i)
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
-        auto result = (*all)(parsedAccountMatrix);
+        std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
 		std::cout<<"ELEMENTS"<<*result<<std::endl;
 
