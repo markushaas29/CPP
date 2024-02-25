@@ -5,9 +5,9 @@
 
 #pragma once
 
-struct None 	{	inline static constexpr const char* Value = ""; };
-struct Hot		{	inline static constexpr const char* Value = "Hot";	};
-struct Cold		{	inline static constexpr const char* Value = "Cold"; };
+struct None 	{	inline static constexpr const char* Name = ""; };
+struct Hot		{	inline static constexpr const char* Name = "Hot";	};
+struct Cold		{	inline static constexpr const char* Name = "Cold"; };
 
 template<typename T>
 struct Entity
@@ -26,10 +26,10 @@ struct Stage
 	static inline constexpr int Index = I;
 };
 
-struct Top: public Stage<3>  	{	inline static constexpr const char* Value = "Top"; };
-struct Bottom: public Stage<1> 	{	inline static constexpr const char* Value = "Bottom"; };
-struct Middle: public Stage<2>  	{	inline static constexpr const char* Value = "Middle"; };
-struct House: public Stage<0>  	{	inline static constexpr const char* Value = "House"; };
+struct Top: public Stage<3>  	{	inline static constexpr const char* Name = "Top"; };
+struct Bottom: public Stage<1> 	{	inline static constexpr const char* Name = "Bottom"; };
+struct Middle: public Stage<2>  	{	inline static constexpr const char* Name = "Middle"; };
+struct House: public Stage<0>  	{	inline static constexpr const char* Name = "House"; };
 
 template<typename E, typename S,  size_t No = 0,typename D = None, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
 class CounterDescription: public DescriptorBase
@@ -40,8 +40,8 @@ public:
 	CounterDescription(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{createPath(p)} {}
 	inline static constexpr uint Number = No;
 	inline static constexpr const char* Entity = E::Name;
-	inline static constexpr const char* Stage = S::Value;
-	inline static std::string Identifier = std::string(Entity) + std::string(D::Value) + "_" + std::string(Stage) + "_" + std::to_string(No);
+	inline static constexpr const char* Stage = S::Name;
+	inline static std::string Identifier = std::string(Entity) + std::string(D::Name) + "_" + std::string(Stage) + "_" + std::to_string(No);
 	static std::unique_ptr<CounterDescription> Make(std::shared_ptr<Factory<IToken>> f,const std::string& s) { return std::make_unique<CounterDescription>(f,s);	}
 	virtual const std::string& Path() const { return path; };
 private:	
