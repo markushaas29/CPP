@@ -36,7 +36,7 @@ public:
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()(std::shared_ptr<std::ofstream> f = std::make_shared<std::ofstream>("")) { return get(f); };
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
-    auto Value() { return value(std::make_shared<std::ofstream>("")); };    
+    auto Value(std::shared_ptr<std::ofstream> f = std::make_shared<std::ofstream>("")) { return value(f); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
@@ -70,7 +70,6 @@ private:
 	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const = 0;
 	virtual typename Base::MatrixType get(std::shared_ptr<std::ofstream> f) 
 	{
-		*f<<"ABC"<<std::endl;
 		if(!matrix)
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
 		return *matrix;

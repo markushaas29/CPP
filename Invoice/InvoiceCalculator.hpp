@@ -18,7 +18,8 @@ class Invoice: public CalculatorBase<Quantity<Sum>,Invoice<T>>
     using Stage = T;
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
-    Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokenFactory{fT}, file{std::make_shared<std::ofstream>("I.txt")} {};
+    Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
+		Base{fE,fB}, tokenFactory{fT}, file{std::make_shared<std::ofstream>(std::string(T::Name)+".txt")} {};
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const 
 	{
@@ -92,7 +93,7 @@ private:
 	    {
 	        using Type = std::tuple_element_t<N,Tup>;
 	        auto readings = Readings<Type>{fT,fE,fB, p};
-	        stageMatrix = stageMatrix.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
+	        stageMatrix = stageMatrix.Set(readings(file)[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
 	        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
 	    }
 	}
@@ -103,9 +104,8 @@ private:
 	    auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, path}; 
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    
-		std::cout<<"Accout:"<<account.Value()<<std::endl;
 		assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
-	    auto sumMatrix = account().To<Quantity<Sum>>();  
+	    auto sumMatrix = account(file).To<Quantity<Sum>>();  
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	    return stagesDiv * sumMatrix;                                                                                                       
 	}
