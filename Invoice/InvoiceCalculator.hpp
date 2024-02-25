@@ -12,9 +12,9 @@
 #pragma once
 
 template<typename T>
-class Invoice: public CalculatorBase<Quantity<Sum>>
+class Invoice: public CalculatorBase<Quantity<Sum>,Invoice<T>>
 {
-	using Base = CalculatorBase<Quantity<Sum>>;
+	using Base = CalculatorBase<Quantity<Sum>,Invoice<T>>;
     using Stage = T;
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
@@ -66,7 +66,7 @@ private:
     
         auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);        
         
-        auto typeFactory = std::make_shared<TF>(elementFactory);        
+        auto typeFactory = std::make_shared<TF>(Base::elementFactory);        
         
         auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
         auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));        
@@ -79,7 +79,7 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
                                                                                                        
-        return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);          
+        return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,Base::elementFactory,visitorFactory, path);          
     };
 
 	template<size_t N, typename Tup>

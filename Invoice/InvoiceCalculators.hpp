@@ -24,15 +24,15 @@
 #pragma once
 
 template<typename S>
-class Readings: public CalculatorBase<Quantity<Volume>>
+class Readings: public CalculatorBase<Quantity<Volume>, Readings<S>>
 {
-	using Base = CalculatorBase<Quantity<Volume>>;
+	using Base = CalculatorBase<Quantity<Volume>, Readings<S>>;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase{fE,fB}, tokenFactory{fT} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokenFactory{fT} {};
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
-	virtual QuantityType value() const { return QuantityType{0}; };
+	virtual typename Base::QuantityType value() const { return typename Base::QuantityType{0}; };
 	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
@@ -42,7 +42,7 @@ private:
 		
 		std::for_each(cV->begin(), cV->end(), [&](const auto& i)
 				{ 
-        			auto civ = (*visitorFactory)("ConsumptionVolume","");
+        			auto civ = (*Base::visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 					//std::cout<<"CONS"<<consV<<std::endl;
@@ -52,25 +52,25 @@ private:
 		auto med = Init(els);
 		auto readings = med();
 
-        auto accBV = (*visitorFactory)("AccumulationVolume","");
+        auto accBV = (*Base::visitorFactory)("AccumulationVolume","");
 		accBV = readings.Accept(std::move(accBV));
 
 		auto accV = accBV->template As<AccumulationVisitor<Quantity<Volume>>>();
-		auto d = Quantity<Volume>((*accV((int)((S::Index-1)*2),(int)(S::Index*2))).To<Quantity<Volume>>());
+		auto d = Quantity<Volume>((*accV((int)((S::Index-1)*2),(int)(S::Index*2))).template To<Quantity<Volume>>());
 
-	 	auto sum = (*accV()).To<Quantity<Volume>>();
-        std::vector<typename Base::ElementType> resQ = { std::make_shared<Quantity<Scalar>>(d / (*accV()).To<Quantity<Volume>>()) };
+	 	auto sum = (*accV()).template To<Quantity<Volume>>();
+        std::vector<typename Base::ElementType> resQ = { std::make_shared<Quantity<Scalar>>(d / (*accV()).template To<Quantity<Volume>>()) };
 
-        return Matrix<Order,DescriptorType>(typename Base::DescriptorType({resQ.size()}),ToDataType(resQ));
+        return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({resQ.size()}),ToDataType(resQ));
 	}
 };
 
 template<typename S>
-class StageBase: public CalculatorBase<Quantity<Sum>>
+class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 {
-	using Base = CalculatorBase<Quantity<Sum>>;
+	using Base = CalculatorBase<Quantity<Sum>, StageBase<S>>;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase<Quantity<Sum>>{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
@@ -102,11 +102,11 @@ private:
 	}
 };
 
-class AccountCalculator: public CalculatorBase<Quantity<Sum>>
+class AccountCalculator: public CalculatorBase<Quantity<Sum>, AccountCalculator>
 {
-	using Base = CalculatorBase<Quantity<Sum>>;
+	using Base = CalculatorBase<Quantity<Sum>, AccountCalculator>;
 public:
-	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): CalculatorBase<Quantity<Sum>>{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;

@@ -52,7 +52,7 @@ private:
     };
 };
 
-template<typename Q>
+template<typename Q, typename D>
 class CalculatorBase: public ICalculator<Q>
 {
 	inline static constexpr const char TypeIdentifier[] = "CalculatorBase";
