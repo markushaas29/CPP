@@ -104,7 +104,7 @@ private:
 	    auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, path}; 
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    
-		assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
+		assert(account.Value(file).Equals(Quantity<Sum>{-7977.75},0.02));
 	    auto sumMatrix = account(file).To<Quantity<Sum>>();  
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	    return stagesDiv * sumMatrix;                                                                                                       

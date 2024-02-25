@@ -45,7 +45,7 @@ private:
         			auto civ = (*Base::visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-					*f<<consV<<std::endl;
+				//	*f<<consV<<std::endl;
 					els.push_back(consV());	
 				});
 
@@ -165,7 +165,8 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-		*f<<*result;
+		*f<<*result<<std::endl;
+		*f<<result->Elements()<<std::endl;
 
 		return result->Elements();
 	}
