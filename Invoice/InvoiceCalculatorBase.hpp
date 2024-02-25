@@ -70,7 +70,7 @@ private:
 	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const = 0;
 	virtual typename Base::MatrixType get(std::shared_ptr<std::ofstream> f) 
 	{
-		//if(!matrix)
+		if(!matrix)
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
 		return *matrix;
 	};
