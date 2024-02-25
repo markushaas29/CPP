@@ -69,7 +69,8 @@ private:
 	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const = 0;
 	virtual typename Base::MatrixType get() 
 	{
-		auto f = std::make_shared<std::ofstream>("");
+		auto f = std::make_shared<std::ofstream>("T.txt");
+		*f<<"ABC"<<std::endl;
 		if(!matrix)
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
 		return *matrix;

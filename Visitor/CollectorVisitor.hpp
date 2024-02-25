@@ -77,6 +77,7 @@ template<typename T>
 class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>, public Visitor<Date>
 {
 	using Base = CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>;
+	using DBase = Visitor<Date>;
 	using Ds = Quantity<Unit<0, 0, 0, 1>, DaysBase<1>, unsigned int>;
 public:
 	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
