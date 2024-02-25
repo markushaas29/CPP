@@ -34,17 +34,18 @@ public:
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
-	MatrixType operator()() { return get(); };
+	MatrixType operator()(std::shared_ptr<std::ofstream> f = std::make_shared<std::ofstream>("")) { return get(f); };
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
     auto Value() { return value(std::make_shared<std::ofstream>("")); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
-	virtual MatrixType get() = 0;
+	//virtual MatrixType get() = 0;
+	virtual MatrixType get(std::shared_ptr<std::ofstream> f) = 0;
 	virtual QuantityType value(std::shared_ptr<std::ofstream> f)  { return acc();    };
 	auto acc() 
     {
-        auto m = get();
+        auto m = get(std::make_shared<std::ofstream>(""));
         auto acc = FuncType();
         for(auto i = 0; i < m.Rows(); ++i)
             acc.Push(m[i].template As<Quantity<Sum>>());
@@ -67,9 +68,8 @@ private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
 	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const = 0;
-	virtual typename Base::MatrixType get() 
+	virtual typename Base::MatrixType get(std::shared_ptr<std::ofstream> f) 
 	{
-		auto f = std::make_shared<std::ofstream>("T.txt");
 		*f<<"ABC"<<std::endl;
 		if(!matrix)
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));

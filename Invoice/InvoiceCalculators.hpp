@@ -45,7 +45,7 @@ private:
         			auto civ = (*Base::visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-					//std::cout<<"CONS"<<consV<<std::endl;
+					std::cout<<"CONS"<<consV<<std::endl;
 					els.push_back(consV());	
 				});
 
