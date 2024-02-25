@@ -96,7 +96,8 @@ private:
 	virtual std::ostream& display(std::ostream& s) const 
 	{ 	
 		auto res = Base::func();
-		std::for_each(res.cbegin(),res.cend(), [&](const auto& i) { s<<i; });
+		for(auto i = 0; i < res.size(); ++i)
+			s<<res[i]<<" "<<res[i]()<<"\t from: "<<elements[i]<<"\t to:"<<elements[i+1]<<std::endl;
 		return s;	
 	};
 	std::vector<Date> elements;

@@ -33,7 +33,7 @@ public:
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual typename Base::QuantityType value() const { return typename Base::QuantityType{0}; };
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
@@ -74,7 +74,7 @@ protected:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const	{	return matrix();	}
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	{	return matrix();	}
 	virtual typename Base::MatrixType matrix() const = 0;
 };
 
@@ -110,7 +110,7 @@ public:
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;

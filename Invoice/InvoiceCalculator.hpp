@@ -34,8 +34,8 @@ private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
     friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
-    virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const  {	*f<<"EDC";return typename Base::MatrixType(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>(value())});    };
-    virtual typename Base::QuantityType value() const
+    virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const  {	*f<<"EDC";return typename Base::MatrixType(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>(value(f))});    };
+    virtual typename Base::QuantityType value(std::shared_ptr<std::ofstream>& f) const
     {
         using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;                                                                                       

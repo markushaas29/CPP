@@ -36,12 +36,12 @@ public:
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()() { return get(); };
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
-    auto Value() { return value(); };    
+    auto Value() { return value(std::make_shared<std::ofstream>("")); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
 	virtual MatrixType get() = 0;
-	virtual QuantityType value()  { return acc();    };
+	virtual QuantityType value(std::shared_ptr<std::ofstream> f)  { return acc();    };
 	auto acc() 
     {
         auto m = get();
@@ -66,7 +66,7 @@ protected:
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
-	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream>& f) const = 0;
+	virtual typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const = 0;
 	virtual typename Base::MatrixType get() 
 	{
 		auto f = std::make_shared<std::ofstream>("T.txt");
