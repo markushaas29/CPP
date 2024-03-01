@@ -72,18 +72,18 @@ class TemplatizedAll_Test2023
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			
-			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
 			assert(extra_Bottom.Value().Equals(Quantity<Sum>{660},0.01));
-			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extra_Top = ExtraCostItemsCalculator<Top>{tokenFactory,elementFactory,visitorFactory, path};
-			auto extraCostsBottom = YearlyExtraCostsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
+			auto extra_Top = ExtraCostItemsCalculator<Top>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
+			auto extraCostsBottom = YearlyExtraCostsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
 			assert(extraCostsBottom.Value().Equals(Quantity<Sum>{2424},0.01));
-			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory, path};
+			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
 			std::cout<<"ItemsCalculator--->"<<extra_Bottom<<std::endl;
 			std::cout<<"Costs--->"<<extraCostsBottom<<std::endl;
 
-			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory, path);
-			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
+			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,path);
 			std::cout<<"ALL Res--->"<<b<<std::endl;
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 
@@ -93,12 +93,12 @@ class TemplatizedAll_Test2023
 
 
 			assert(inv->Value().Equals(Quantity<Sum>{-93.51},0.01));
-			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory, path);
+			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			assert(invM->Value().Equals(Quantity<Sum>{-158.42},0.01));
 			auto ibq = (*invM)();
 			std::cout<<"END 2023"<<ibq<<std::endl;
 			
-			auto invT = std::make_unique<Invoice<Top>>(tokenFactory,elementFactory,visitorFactory, path);
+			auto invT = std::make_unique<Invoice<Top>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto itq = (*invT)();
 			std::cout<<"END 2023"<<itq<<std::endl;
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
