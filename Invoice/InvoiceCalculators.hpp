@@ -29,7 +29,7 @@ class Readings: public CalculatorBase<Quantity<Volume>, Readings<S>>
 	using Base = CalculatorBase<Quantity<Volume>, Readings<S>>;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokenFactory{fT} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, tokenFactory{fT} {};
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual typename Base::QuantityType value() const { return typename Base::QuantityType{0}; };
@@ -70,7 +70,7 @@ class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 {
 	using Base = CalculatorBase<Quantity<Sum>, StageBase<S>>;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, parser{std::make_unique<StageParser>(fT,p)} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, parser{std::make_unique<StageParser>(fT,p)} {};
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
@@ -83,7 +83,7 @@ class ExtraCostItemsCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	ExtraCostItemsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
+	ExtraCostItemsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
 };
@@ -93,7 +93,7 @@ class YearlyExtraCostsCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	YearlyExtraCostsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB, p} {};
+	YearlyExtraCostsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y,p} {};
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const
 	{
@@ -106,7 +106,7 @@ class AccountCalculator: public CalculatorBase<Quantity<Sum>, AccountCalculator>
 {
 	using Base = CalculatorBase<Quantity<Sum>, AccountCalculator>;
 public:
-	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, parser{std::make_unique<AccountParser>(fT,p)} {};
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
@@ -173,16 +173,16 @@ private:
 };
 
 template<size_t N, typename Tup>
-auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p)
+auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y, const std::string& p)
 {
     if constexpr (std::tuple_size<Tup>()==N)
         return stageMatrix;
     else
     {
         using Type = std::tuple_element_t<N,Tup>;
-		auto readings = Readings<Type>{fT,fE,fB, p};
+		auto readings = Readings<Type>{fT,fE,fB, y, p};
 		stageMatrix = stageMatrix.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
-        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
+        return process<N+1,Tup>(stageMatrix,fT,fE,fB,y,p);
     }
 }
 

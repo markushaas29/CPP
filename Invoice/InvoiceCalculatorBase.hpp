@@ -35,11 +35,13 @@ public:
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()(std::shared_ptr<std::ofstream> f = std::make_shared<std::ofstream>("")) { return get(f); };
+	auto Y() const { return y(); }
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
     auto Value(std::shared_ptr<std::ofstream> f = std::make_shared<std::ofstream>("")) { return value(f); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
+	virtual const Year& y() const = 0;
 	//virtual MatrixType get() = 0;
 	virtual MatrixType get(std::shared_ptr<std::ofstream> f) = 0;
 	virtual QuantityType value(std::shared_ptr<std::ofstream> f)  { return acc();    };
@@ -61,9 +63,10 @@ class CalculatorBase: public ICalculator<Q>
 	template<typename U> using IsT =  Is<U,TypeId>;
 	using Base = ICalculator<Q>;
 protected:
-	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): elementFactory{fE}, visitorFactory{fB} {};
+	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y): elementFactory{fE}, visitorFactory{fB}, year{y} {};
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
+	Year year;
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
@@ -74,4 +77,5 @@ private:
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
 		return *matrix;
 	};
+	virtual const Year& y() const { return year; }
 };
