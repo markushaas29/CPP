@@ -3,12 +3,12 @@
 
 #pragma once
 
-template<typename T>
+template<typename T, typename DT = std::string>
 class IDecorator
 {
 public:
 	using ValueType = T;
-	using DecoratedType = std::string;
+	using DecoratedType = DT;
 	using VecType = std::vector<DecoratedType>;
 	auto operator()(const auto& v) 
 	{ 

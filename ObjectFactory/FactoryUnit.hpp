@@ -47,12 +47,27 @@ private:
 };
 
 template<typename UnitType>
-class FactoryUnitContainer
+class IFactoryUnitContainer
+{
+public:
+	decltype(auto) Units() const { return values(); }
+	decltype(auto) Name() const { return iname(); } 
+private:
+//	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
+//	{ 
+//		s<<f.name<<std::endl;
+//		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
+//		return s;
+//	}
+	virtual std::string iname() const = 0;
+	virtual UnitType values() const = 0;
+};
+
+template<typename UnitType>
+class FactoryUnitContainer: public IFactoryUnitContainer<UnitType>
 {
 public:
 	FactoryUnitContainer(const std::string& n, const UnitType& u): name{n}, units{u} {}
-	decltype(auto) Units() const { return units; }
-	decltype(auto) Name() const { return name; } 
 private:
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 	{ 
@@ -60,6 +75,8 @@ private:
 		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
 		return s;
 	}
+	virtual std::string iname() const { return name; };
+	virtual UnitType values() const { return units; };
 	std::string name;
 	UnitType units;
 };
