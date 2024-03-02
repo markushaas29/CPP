@@ -14,6 +14,7 @@
 #include "ObjectFactory/Test.cpp"
 #include "Singleton/Test.cpp"
 #include "Counter/Test.cpp"
+#include "Decorator/Test.cpp"
 #include "Repository/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
@@ -54,6 +55,9 @@ int main()
 	
 	ExpressionTest ex;
 	ex.Run();
+	
+	DecoratorTest dec;
+	dec.Run();
 	
 	CounterTest c;
 	c.Run();

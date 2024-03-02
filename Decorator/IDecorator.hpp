@@ -10,15 +10,15 @@ public:
 	using ValueType = T;
 	using DecoratedType = std::string;
 	using VecType = std::vector<DecoratedType>;
-	decltype(auto) operator()(const VecType& v) const { return v.push_back(decorate()); }
+	auto operator()(auto& v) 
+	{ 
+		auto s = decorate();
+		v.push_back(s);
+		return v;
+	}
 private:
-	//friend std::ostream& operator<<(std::ostream& s, const Decorator& c) 
-	//{
-	//	s<<"{";
-	//	for(size_t i= 0;i < c.value.size(); ++i)
-	//		s<<c.value[i]<<(i < (c.value.size()-1) ? Derived::sign : "");
-	//	return s<<"}";  
-	//}
+	friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
+	virtual std::ostream& display(std::ostream& s) const = 0;
 	virtual DecoratedType decorate() const = 0;                                                                                                 
 };
 
@@ -33,7 +33,8 @@ public:
 	Decorator(const T& v): value{v} {}
 private:
 	T value;
-	virtual typename Base::DecoratedType decorate() const  { return value; };                                                                                                 
+	virtual typename Base::DecoratedType decorate() const  { return value.ToString(); };                                                                                                 
+	virtual std::ostream& display(std::ostream& s) const { return	s<<"{"<<T::Identifier<<", "<<value<<"}";	}
 };
 
 template<typename T>
