@@ -23,21 +23,22 @@ private:
 //	virtual DecoratedType decorate() const = 0;                                                                                                 
 };
 
-template<typename T>
-class Decorator: public IDecorator<T,FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>
+template<typename T, typename I>
+class Decorator: public IDecorator<T,I>
 {
-	using Base = IDecorator<T>;
+	using Base = IDecorator<T,I>;
 	inline static constexpr const char TypeIdentifier[] = "Decorator";
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	Decorator(const T& v): value{v} {}
+	Decorator(const T& v, const typename Base::DecoratedType& d): value{v}, item{d} {}
 private:
 	T value;
-	virtual typename Base::DecoratedType decorate() const  { return value.ToString(); };                                                                                                 
+	typename Base::DecoratedType item;
+	//virtual typename Base::DecoratedType decorate() const  { return value.ToString(); };                                                                                                 
 	virtual std::ostream& display(std::ostream& s) const { return	s<<"{"<<T::Identifier<<", "<<value<<"}";	}
 };
 
-template<typename T>
-Decorator(const T&) -> Decorator<T>;
+template<typename T, typename I>
+Decorator(const T&, const I&) -> Decorator<T,I>;
 

@@ -52,6 +52,7 @@ class IFactoryUnitContainer
 public:
 	decltype(auto) Units() const { return values(); }
 	decltype(auto) Name() const { return iname(); } 
+	decltype(auto) Size() const { return num(); } 
 private:
 //	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 //	{ 
@@ -61,6 +62,7 @@ private:
 //	}
 	virtual std::string iname() const = 0;
 	virtual UnitType values() const = 0;
+	virtual size_t num() const = 0;
 };
 
 template<typename UnitType>
@@ -77,6 +79,7 @@ private:
 	}
 	virtual std::string iname() const { return name; };
 	virtual UnitType values() const { return units; };
+	virtual size_t num() const { return 1; };
 	std::string name;
 	UnitType units;
 };
