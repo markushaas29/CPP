@@ -11,16 +11,11 @@ public:
 	using ValueType = T;
 	using DecoratedType = DT;
 	using VecType = std::vector<DecoratedType>;
-//	auto operator()(const auto& v) 
-//	{ 
-//		VecType result(v.begin(), v.end());
-//		result.push_back(decorate());
-//		return result;
-//	}
+	auto operator()() const { return decorate(); }
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
-//	virtual DecoratedType decorate() const = 0;                                                                                                 
+	virtual DecoratedType decorate() const = 0;                                                                                                 
 };
 
 template<typename T, typename I>
@@ -35,7 +30,12 @@ public:
 private:
 	T value;
 	typename Base::DecoratedType item;
-	//virtual typename Base::DecoratedType decorate() const  { return value.ToString(); };                                                                                                 
+	virtual typename Base::DecoratedType decorate() const  
+	{ 
+		auto result = item.Units();
+		result.push_back({"Test",{T::Identifier, value.ToString()}});
+		return {item.Name(),result}; 
+	};                                                                                                 
 	virtual std::ostream& display(std::ostream& s) const { return	s<<"{"<<T::Identifier<<", "<<value<<"}";	}
 };
 

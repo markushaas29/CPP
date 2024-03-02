@@ -19,15 +19,15 @@ class DecoratorTest
 			//{"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}}}
 			std::vector<std::string> v = { "Entry", "Abschlagsforderung"};
 
-			FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fu = {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}}};
+			FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fu = {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}}};
 			auto dy = Decorator(Year{2023},fu);
 			
 			std::cout<<dy<<std::endl;
-//			assert(v.size() == 2);
-//			v = dy(v);
-//			assert(v.size() ==3);
+			assert(fu.Units().size() == 1);
+			auto fud = dy();
+			assert(fud.Units().size() ==2);
 
-			std::cout<<fu<<std::endl;
+			std::cout<<fud<<std::endl;
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;
