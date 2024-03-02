@@ -10,11 +10,11 @@ public:
 	using ValueType = T;
 	using DecoratedType = std::string;
 	using VecType = std::vector<DecoratedType>;
-	auto operator()(auto& v) 
+	auto operator()(const auto& v) 
 	{ 
-		auto s = decorate();
-		v.push_back(s);
-		return v;
+		VecType result(v.begin(), v.end());
+		result.push_back(decorate());
+		return result;
 	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
