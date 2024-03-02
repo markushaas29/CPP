@@ -22,10 +22,12 @@ class DecoratorTest
 			auto dy = Decorator(Year{2023});
 			
 			std::cout<<dy<<std::endl;
-			assert(v.size() == 2);
-			v = dy(v);
-			assert(v.size() ==3);
+//			assert(v.size() == 2);
+//			v = dy(v);
+//			assert(v.size() ==3);
 
+			FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fu = {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", "2023"}}}};
+			std::cout<<fu<<std::endl;
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;

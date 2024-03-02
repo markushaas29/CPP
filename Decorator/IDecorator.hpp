@@ -1,3 +1,4 @@
+#include "../ObjectFactory/FactoryUnit.hpp" 
 #include "../String/Literal.hpp" 
 #include "../Is/Is.hpp" 
 
@@ -10,20 +11,20 @@ public:
 	using ValueType = T;
 	using DecoratedType = DT;
 	using VecType = std::vector<DecoratedType>;
-	auto operator()(const auto& v) 
-	{ 
-		VecType result(v.begin(), v.end());
-		result.push_back(decorate());
-		return result;
-	}
+//	auto operator()(const auto& v) 
+//	{ 
+//		VecType result(v.begin(), v.end());
+//		result.push_back(decorate());
+//		return result;
+//	}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
-	virtual DecoratedType decorate() const = 0;                                                                                                 
+//	virtual DecoratedType decorate() const = 0;                                                                                                 
 };
 
 template<typename T>
-class Decorator: public IDecorator<T>
+class Decorator: public IDecorator<T,FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>
 {
 	using Base = IDecorator<T>;
 	inline static constexpr const char TypeIdentifier[] = "Decorator";
@@ -39,3 +40,4 @@ private:
 
 template<typename T>
 Decorator(const T&) -> Decorator<T>;
+
