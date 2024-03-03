@@ -19,23 +19,36 @@ private:
 };
 
 template<typename T, typename I>
-class Decorator: public IDecorator<T,I>
+class DecoratorBase: public IDecorator<T,I>
 {
 	using Base = IDecorator<T,I>;
+	inline static constexpr const char TypeIdentifier[] = "DecoratorBase";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+    template<typename U> using IsT =  Is<U,TypeId>;
+public:
+	DecoratorBase(const typename Base::DecoratedType& d): DecoratorBase{std::make_unique<typename Base::DecoratedType>(d)} {}
+	DecoratorBase(std::unique_ptr<typename Base::DecoratedType> d): item{std::move(d)} {}
+protected:
+	std::unique_ptr<typename Base::DecoratedType> item;
+};
+
+template<typename T, typename I>
+class Decorator: public DecoratorBase<T,I>
+{
+	using Base = DecoratorBase<T,I>;
 	inline static constexpr const char TypeIdentifier[] = "Decorator";
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	Decorator(const T& v, const typename Base::DecoratedType& d): Decorator{v,std::make_unique<typename Base::DecoratedType>(d)} {}
-	Decorator(const T& v, std::unique_ptr<typename Base::DecoratedType> d): value{v}, item{std::move(d)} {}
+	Decorator(const T& v, const typename Base::DecoratedType& d): Base{std::make_unique<typename Base::DecoratedType>(d)} {}
+	Decorator(const T& v, std::unique_ptr<typename Base::DecoratedType> d): Base{std::move(d)} {}
 private:
 	T value;
-	std::unique_ptr<typename Base::DecoratedType> item;
 	virtual std::unique_ptr<typename Base::DecoratedType> decorate() const  
 	{ 
-		auto result = item->Units();
+		auto result = Base::item->Units();
 		result.push_back({"Test",{T::Identifier, value.ToString()}});
-		return std::make_unique<FactoryUnitContainer<typename Base::DecoratedType::UnitType>>(item->Name(),result); 
+		return std::make_unique<FactoryUnitContainer<typename Base::DecoratedType::UnitType>>(Base::item->Name(),result); 
 	};                                                                                                 
 	virtual std::ostream& display(std::ostream& s) const { return	s<<"{"<<T::Identifier<<", "<<value<<"}";	}
 };
