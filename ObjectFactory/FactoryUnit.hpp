@@ -46,10 +46,11 @@ private:
 	ArgumentType argument;
 };
 
-template<typename UnitType>
+template<typename UnitT>
 class IFactoryUnitContainer
 {
 public:
+	using UnitType = UnitT;
 	decltype(auto) Units() const { return values(); }
 	decltype(auto) Name() const { return iname(); } 
 	decltype(auto) Size() const { return num(); } 

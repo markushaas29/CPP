@@ -22,13 +22,14 @@ class DecoratorTest
 			FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fu = {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}}};
 			std::unique_ptr<IFactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> pfu = std::make_unique<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>(fu);
 			auto dy = Decorator(Year{2023},fu);
+			auto dyp = Decorator(Year{2023},std::move(pfu));
 			
 			std::cout<<dy<<std::endl;
 			assert(fu.Units().size() == 1);
 			auto fud = dy();
-			assert(fud.Units().size() ==2);
+			assert(fud->Units().size() ==2);
 
-			std::cout<<fud<<std::endl;
+			std::cout<<*fud<<std::endl;
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;

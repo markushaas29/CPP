@@ -15,7 +15,7 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
-	virtual DecoratedType decorate() const = 0;                                                                                                 
+	virtual std::unique_ptr<DecoratedType> decorate() const  = 0;
 };
 
 template<typename T, typename I>
@@ -31,11 +31,11 @@ public:
 private:
 	T value;
 	std::unique_ptr<typename Base::DecoratedType> item;
-	virtual typename Base::DecoratedType decorate() const  
+	virtual std::unique_ptr<typename Base::DecoratedType> decorate() const  
 	{ 
 		auto result = item->Units();
 		result.push_back({"Test",{T::Identifier, value.ToString()}});
-		return {item->Name(),result}; 
+		return std::make_unique<FactoryUnitContainer<typename Base::DecoratedType::UnitType>>(item->Name(),result); 
 	};                                                                                                 
 	virtual std::ostream& display(std::ostream& s) const { return	s<<"{"<<T::Identifier<<", "<<value<<"}";	}
 };
