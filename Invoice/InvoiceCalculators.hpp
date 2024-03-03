@@ -158,6 +158,11 @@ private:
             }
         };
 
+		auto fu = std::make_shared<std::ofstream>("/home/markus/Downloads/CSV_TestFiles_2/FactoryUnits.txt");
+		for(auto u : allFactoryUnits)
+			(*fu)<<u;
+		fu->close();
+
 		auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");
 
         std::vector<FactoryUnit<std::string, std::string>> fv{{"AccumulationSum"}};

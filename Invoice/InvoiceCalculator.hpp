@@ -19,7 +19,7 @@ class Invoice: public CalculatorBase<Quantity<Sum>,Invoice<T>>
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
     Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fE,fB,y}, tokenFactory{fT}, file{std::make_shared<std::ofstream>(std::string(T::Name)+".txt")} {};
+		Base{fE,fB,y}, tokenFactory{fT}, file{std::make_shared<std::ofstream>(std::string(T::Name)+ y.ToString() +".txt")} {};
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const 
 	{
