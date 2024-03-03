@@ -83,3 +83,7 @@ private:
 	std::string name;
 	UnitType units;
 };
+
+
+template<typename T>
+FactoryUnitContainer(const std::string&, const T&) -> FactoryUnitContainer<T>;
