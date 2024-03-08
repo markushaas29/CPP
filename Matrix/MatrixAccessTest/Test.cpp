@@ -211,6 +211,7 @@ class MatrixAccessTest
 			auto m2q = m2e.To<Quantity<Sum>>();
 			assert(m2q[0][0]==Quantity<Sum>(2.5));
 			assert(m2q[0][1]==Quantity<Sum>(3.5));
+			m2e.CSV();
 
 			auto m95 = m2e.Set(std::make_shared<Quantity<Sum>>(9.5),0,0);
 			assert(m2q[0][0]==Quantity<Sum>(2.5));
