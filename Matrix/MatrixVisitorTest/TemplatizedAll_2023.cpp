@@ -101,6 +101,7 @@ class TemplatizedAll_Test2023
 			auto invT = std::make_unique<Invoice<Top>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto itq = (*invT)();
 			std::cout<<"END 2023"<<itq<<std::endl;
+			std::cout<<"Stage"<<mS<<std::endl;
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
