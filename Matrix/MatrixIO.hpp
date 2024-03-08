@@ -13,25 +13,23 @@ public:
 	MatrixIO() {}
     virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s) { return s; }
     virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s, const M* m) 
-	{
-		(*this)(*s,m);
-		return s;
-	}
-    virtual std::ofstream& operator()(std::ofstream& s, const M* m)
 	{ 
 		if constexpr (M::Order==1)
 		{
 			for(auto i=0; i<m->Rows(); ++i)
 				if constexpr (PointerConcept<decltype(*(m->elements->at(i)))>)
-					s<<*(*(m->elements->at(i)))<<(i+1 == m->Rows()? "" : ", ");
+					*s<<*(*(m->elements->at(i)))<<(i+1 == m->Rows()? "" : ", ");
 				else
-					s<<*(m->elements->at(i))<<(i+1 == m->Rows()? "" : ", ");
+					*s<<*(m->elements->at(i))<<(i+1 == m->Rows()? "" : ", ");
 			return s;
 		}
 		else
 		{
 			for(auto i = 0; i != m->Rows(); ++i)
-				(*m)[i].file(s)<<std::endl;
+			{
+				s = (*m)[i].file(std::move(s));
+				*s<<std::endl;
+			}
 		}
 		return s;
 	};
