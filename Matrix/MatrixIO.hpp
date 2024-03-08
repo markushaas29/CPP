@@ -16,7 +16,6 @@ public:
 	{ 
 		if constexpr (M::Order==1)
 		{
-			*s<<"{";
 			for(auto i=0; i<m->Rows(); ++i)
 				if constexpr (PointerConcept<decltype(*(m->elements->at(i)))>)
 					*s<<*(*(m->elements->at(i)))<<(i+1 == m->Rows()? "" : ", ");
@@ -26,10 +25,8 @@ public:
 		}
 		else
 		{
-			*s<<"{\n";
 			for(auto i = 0; i != m->Rows(); ++i)
 				*s<<(*m)[i]<<std::endl;
-			*s<<"}";
 		}
 		return s;
 	};

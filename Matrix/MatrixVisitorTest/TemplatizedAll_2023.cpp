@@ -68,6 +68,8 @@ class TemplatizedAll_Test2023
 			auto stageQ = mS.Match(smatcher).Parse(matcher);
 			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
 
+			stageQ.CSV();
+
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
