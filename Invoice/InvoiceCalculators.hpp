@@ -79,6 +79,16 @@ private:
 };
 
 template<typename S>
+class ProportionCalculator: public StageBase<S>
+{
+	using Base = StageBase<S>;
+public:
+	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
+private:
+	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const { return (*Base::parser)()[S::Index-1];	}
+};
+
+template<typename S>
 class ExtraCostItemsCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;

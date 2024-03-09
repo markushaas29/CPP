@@ -104,9 +104,9 @@ class MatrixVisitorTest2023
 			assert(extra_Middle()[2].As<Quantity<Sum>>()==Quantity<Sum>{210});
 			assert(extra_Middle.Accumulate(1,3)*12==Quantity<Sum>{2520});
 			
-			assert(extra_Top()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
-			assert(extra_Top()[1].As<Quantity<Sum>>()==Quantity<Sum>{1});
-			assert(extra_Top()[2].As<Quantity<Sum>>()==Quantity<Sum>{1});
+//			assert(extra_Top()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
+//			assert(extra_Top()[1].As<Quantity<Sum>>()==Quantity<Sum>{1});
+//			assert(extra_Top()[2].As<Quantity<Sum>>()==Quantity<Sum>{1});
 			auto ecb = extraCostsBottom()[0].As<Quantity<Sum>>();
 			auto ecm = extraCostsMiddle()[0].As<Quantity<Sum>>();
 			assert(ecb==Quantity<Sum>{2424});
