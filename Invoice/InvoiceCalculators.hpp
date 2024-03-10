@@ -70,22 +70,15 @@ class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 {
 	using Base = CalculatorBase<Quantity<Sum>, StageBase<S>>;
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, parser{std::make_unique<StageParser>(fT,p)} {};
+	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
+		Base{fE,fB,y}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
+	const std::string path;
+	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	{	return matrix(f);	}
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const = 0;
-};
-
-template<typename S>
-class ProportionCalculator: public StageBase<S>
-{
-	using Base = StageBase<S>;
-public:
-	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
-private:
-	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const { return (*Base::parser)()[S::Index-1];	}
 };
 
 template<typename S>
@@ -200,6 +193,49 @@ auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_
         return process<N+1,Tup>(stageMatrix,fT,fE,fB,y,p);
     }
 }
+
+template<typename S>
+class ProportionCalculator: public StageBase<S>
+{
+	using Base = StageBase<S>;
+public:
+	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
+private:
+	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
+	{ 
+		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
+		using AllStages = std::tuple<Bottom, Middle, Top>;
+		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
+        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f).Rows(S::Index);
+		return (*Base::parser)()[S::Index-1];	
+	}
+	template<size_t N, typename Tup>
+    auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p, std::shared_ptr<std::ofstream> f) const 
+    {
+        if constexpr (std::tuple_size<Tup>()==N)
+            return stageMatrix;
+        else
+        {
+            using Type = std::tuple_element_t<N,Tup>;
+            auto readings = Readings<Type>{fT,fE,fB, Base::year,p};
+            stageMatrix = stageMatrix.Set(readings(f)[0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
+            return process<N+1,Tup>(stageMatrix,fT,fE,fB,p,f);
+        }
+    }
+    
+    template<size_t N, typename Tup>
+    auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, std::shared_ptr<std::ofstream> f) const
+    {
+        auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
+        stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
+        
+        //assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
+        auto sumMatrix = account(f).To<Quantity<Sum>>();  
+        auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
+        return stagesDiv * sumMatrix;                                                                                                       
+    }
+};
+
 
 template<size_t N, typename Tup>
 auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
