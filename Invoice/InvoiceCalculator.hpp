@@ -75,6 +75,7 @@ private:
     
         auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
         auto stageQ = mS.Match(smatcher).Parse(matcher);        
+		std::cout<<"Q"<<stageQ<<std::endl;
         auto payment = stageQ.Cols(8,9,10).template To<Quantity<Sum>>();
         
         using AllStages = std::tuple<Bottom, Middle, Top>;        
