@@ -169,4 +169,10 @@ struct HeatExtraCostIndexToken: public Token<HeatExtraCostIndexToken, Index<Quan
 	inline static constexpr const char* Identifier = "HeatExtraCostsIndexToken"; 
 };
 
+struct GarageRentIndexToken: public Token<GarageRentIndexToken, Index<Quantity<Sum>>>	
+{	
+	inline static constexpr const char* Pattern = "GarageRent"; 
+	inline static constexpr const char* Identifier = "GarageRentIndexToken"; 
+};
+
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
