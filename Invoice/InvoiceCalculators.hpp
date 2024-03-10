@@ -203,6 +203,7 @@ public:
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
 	{ 
+		std::cout<<"stage"<<(*Base::parser)()<<std::endl;
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
