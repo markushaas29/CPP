@@ -80,6 +80,9 @@ private:
         using AllStages = std::tuple<Bottom, Middle, Top>;        
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
+
+		auto prop = ProportionCalculator<Bottom>{tokenFactory,Base::elementFactory,Base::visitorFactory, Year{2023},path};
+		prop();
                                                                                                        
         return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,Base::elementFactory,visitorFactory, path);          
     };

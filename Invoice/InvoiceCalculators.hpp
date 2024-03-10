@@ -203,7 +203,7 @@ public:
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
 	{ 
-		std::cout<<"stage"<<(*Base::parser)()<<std::endl;
+		*f<<"stage"<<(*Base::parser)()<<std::endl;
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
@@ -230,12 +230,12 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		std::cout<<"stage"<<stageMatrix<<std::endl;
+		*f<<"stage"<<stageMatrix<<std::endl;
         
         auto sumMatrix = account(f).To<Quantity<Sum>>();  
         auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
-		std::cout<<"stage"<<stagesDiv<<std::endl;
-		std::cout<<"stage"<<stagesDiv()<<std::endl;
+		*f<<"stage"<<stagesDiv<<std::endl;
+		*f<<"stage"<<stagesDiv()<<std::endl;
         return stagesDiv * sumMatrix;                                                                                                       
     }
 };
