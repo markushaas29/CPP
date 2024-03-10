@@ -81,8 +81,7 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
 
-		auto prop = ProportionCalculator<Bottom>{tokenFactory,Base::elementFactory,Base::visitorFactory, Year{2023},path};
-		*f<<"TEST"<<std::endl;
+		auto prop = ProportionCalculator<Stage>{tokenFactory,Base::elementFactory,Base::visitorFactory, Year{2023},path};
 		prop(file);
                                                                                                        
         return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,Base::elementFactory,visitorFactory, path);          

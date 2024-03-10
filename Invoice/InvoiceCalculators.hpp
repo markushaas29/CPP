@@ -203,11 +203,11 @@ public:
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
 	{ 
-		*f<<"stage"<<(*Base::parser)()<<std::endl;
+		*f<<(*Base::parser)()[S::Index-1]<<std::endl;
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
-        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f).Rows(S::Index);
+        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f).Rows(S::Index-1);
 		return (*Base::parser)()[S::Index-1];	
 	}
 	template<size_t N, typename Tup>
@@ -230,36 +230,12 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		*f<<"stage"<<stageMatrix<<std::endl;
+		*f<<stageMatrix[S::Index-1]<<std::endl;
         
         auto sumMatrix = account(f).To<Quantity<Sum>>();  
         auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
-		*f<<"stage"<<stagesDiv<<std::endl;
-		*f<<"stage"<<stagesDiv()<<std::endl;
+		*f<<stagesDiv[S::Index-1]<<std::endl;
+		*f<<stagesDiv()[S::Index-1]<<std::endl;
         return stagesDiv * sumMatrix;                                                                                                       
     }
 };
-
-
-template<size_t N, typename Tup>
-auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
-{
-	auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, path}; 
-	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
-	
-	auto sumMatrix = account().To<Quantity<Sum>>();  
-	auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
-	return stagesDiv * sumMatrix;                                                                                                       
-}
-
-template<size_t N, typename Tup>
-auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
-{
-	stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
-	auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
-
-	auto extraCosts = YearlyExtraCostsCalculator<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, path};
-
-	auto e = extraCosts()[0];
-	return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
-}
