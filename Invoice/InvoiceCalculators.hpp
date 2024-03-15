@@ -224,8 +224,7 @@ private:
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result();
 		for(size_t i = 0; i < 6; ++i)
-			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i]<<"\t"<<res[i]<<std::endl;
-		*f<<"DIV"<<stagesDiv()[S::Index-1]<<std::endl;
+			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[S::Index-1][i]<<"\t"<<res[S::Index-1][i]<<std::endl;
         return stagesDiv * sumMatrix;                                                                                                       
     }
 };
