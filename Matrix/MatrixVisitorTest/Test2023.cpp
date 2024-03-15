@@ -26,6 +26,20 @@
 
 class MatrixVisitorTest2023
 {
+	template<size_t N, typename Tup>
+	auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y, const std::string& p)
+	{
+	    if constexpr (std::tuple_size<Tup>()==N)
+	        return stageMatrix;
+	    else
+	    {   
+	        using Type = std::tuple_element_t<N,Tup>;
+	        auto readings = Readings<Type>{fT,fE,fB, y, p};
+	        stageMatrix = stageMatrix.Set(readings()[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
+	        return process<N+1,Tup>(stageMatrix,fT,fE,fB,y,p);
+	    }
+	}
+
 	public:
 		int Run()
 		{
