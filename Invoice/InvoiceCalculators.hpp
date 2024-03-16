@@ -216,15 +216,16 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		*f<<"STAGE"<<stageMatrix[S::Index-1]<<std::endl;
+		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
         
         auto sumMatrix = account(f).To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
+		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result();
 		for(size_t i = 0; i < 6; ++i)
-			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[S::Index-1][i]<<"\t"<<res[S::Index-1][i]<<std::endl;
+			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
         return stagesDiv * sumMatrix;                                                                                                       
     }
 };
