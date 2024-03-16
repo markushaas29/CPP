@@ -123,6 +123,8 @@ private:
 	static decltype(auto) stringTo(const std::string& s)
 	{
 		std::string str(s);
+		std::size_t id = str.find_first_not_of("-+0123456789.,");
+		str = str.substr(0,id);
 		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
 		return To<ValueType>(str);
 	}

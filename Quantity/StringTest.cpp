@@ -18,8 +18,12 @@ int Run()
 	auto km1000_77 = Quantity<Length,Kilo>("1.000,77DM");
 	auto km1000_7789 = Quantity<Length,Kilo>("1.000,7789km²");
 	auto m1000_7789 = Quantity<Length,Kilo>("1.000,7789m²");
+	auto m2_100 = Quantity<Scalar>("100m^2");
 	auto Mm1000_7789 = Quantity<Length,Kilo>("-1.000,7789m²");
 	auto m177 = Quantity<Length,Kilo>("1,77m²");
+    std::cout<<"100m²: "<<m2_100<<std::endl;
+    assert(m2_100.Value()==100.0);
+    assert(km1_7.PureValue()==1700);
     std::cout<<"km1,7: "<<km1_7<<std::endl;
     std::cout<<"km1,7: "<<km177<<std::endl;
     std::cout<<"km1,7: "<<km1000_7789<<std::endl;
