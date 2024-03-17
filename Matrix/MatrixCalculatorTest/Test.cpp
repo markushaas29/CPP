@@ -205,7 +205,8 @@ class MatrixCalculatorTest
 			//assert((int)m2C[2]==22);
 			auto m2dC = m2d.ColSum();
 			assert((double)m2dC[0]==4.4);
-			assert((double)m2dC[2]==13.2);
+			std::cout<<"ColSum:\n "<<m2dC[2]<<"\n";
+			assert((double)m2dC[2]()==13.2);
 			auto m1C = m1.ColSum(); 
 			assert((int)m1C[0]==1);
 			assert((int)m1C[2]==3);

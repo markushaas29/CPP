@@ -123,6 +123,8 @@ private:
 		
 		auto parsedAccountMatrix = (*parser)();
 
+		//std::cout<<parsedAccountMatrix<<std::endl;
+
 		std::vector<FactoryUnitContainer<std::vector<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>>> allFactoryUnits = 
         {
             {"Waste",
@@ -137,6 +139,7 @@ private:
                     {"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2023"}}}},
                     {"Invoice",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2024"}}}},
                     {"Rechnung",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", "2024"}}}},
+                    //{"Maintenance",{{"EqualVisitor", { "IBAN", "DE73660623660009271112"}}, {"EqualVisitor", { "Year", "2022"}}}},
                 }
             },
             {"BuildingInsurance",{
@@ -174,7 +177,7 @@ private:
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
 		//*f<<*result<<std::endl;
-		//*f<<result->Elements()<<std::endl;
+		*f<<result->Elements()<<std::endl;
 
 		return result->Elements();
 	}

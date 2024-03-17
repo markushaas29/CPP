@@ -96,7 +96,7 @@ class M3Test
 			assert((int)mdR[1][0]==3);
 //			assert((int)mdR[0][4]==458.0);
 
-			auto cs = mdR / mR.ColSum();
+//			auto cs = mdR / mR.ColSum();
 
   			
   			using MPSC = MatrixProjector<decltype(mR),QSC>;
