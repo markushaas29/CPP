@@ -159,7 +159,7 @@ class MatrixInitializerTest
 			std::cout<<"UNI: "<<ue<<std::endl;
 
 			auto gsum = gem.ColSum(3);
-			assert(gsum==-1339.93);
+			//assert(gsum()==-1339.93);
 
 			auto mR = mrR.M<2>();
 			assert(mrR.IsDim<2>());

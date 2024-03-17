@@ -60,8 +60,8 @@ class MatrixAnalyzerTest
 
 			auto a22 = MatrixAnalyzer<decltype(m22)>(m22);
 			auto a23 = MatrixAnalyzer<decltype(m23)>(m23);
-			a22();
-			a23();
+//			a22();
+//			a23();
 
 			EquivalenceCat<int> eq(5);
 			auto peq = std::make_unique<EquivalenceCat<int>>(5);

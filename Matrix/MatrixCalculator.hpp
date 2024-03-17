@@ -125,6 +125,7 @@ private:
 			el = l.col(i);
 		
 		double cs = 0.0;
+				std::vector<typename LeftType::ElementType> acc;
 		for(auto j = 0; j < l.Rows(); ++j)
 		{
 			if constexpr (std::is_same_v<std::string, typename LeftType::ElementType>)
@@ -138,9 +139,12 @@ private:
 				cs += val;
 			}
 			else
+			{
 				cs += (double)(*el(j));
+						acc.push_back(*l(j,i));
+			}
 		}
-		return cs;	
+		return Acc(acc);	
     }
 	static decltype(auto) colSum(const LeftType& l)
     {

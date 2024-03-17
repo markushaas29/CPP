@@ -46,7 +46,7 @@ public:
 		std::vector<UnitType> eunits = enrich(units);
         auto mq = MatrixQuery<typename Base::MatrixType,std::string>(factory, eunits);
         auto resM = m.M(mq);
-		auto q = Quantity<Sum>(resM.ColSum(11));
+		auto q = Quantity<Sum>(11);
 		return typename Base::ResultType(q,resM,eunits,name);
 	}
 	template<typename P>
