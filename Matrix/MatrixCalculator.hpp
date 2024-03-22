@@ -146,7 +146,8 @@ private:
 		}
 		return Acc(acc);	
     }
-	static decltype(auto) colSum(const LeftType& l)
+	
+	static decltype(auto) colSum(const auto& l)
     {
 		if constexpr (LeftType::Order==1)
 			return l;
@@ -165,29 +166,25 @@ private:
 			return Matrix<1, decltype(d)>(d,av); 
     	}
     }
-	
-	static decltype(auto) str(const LeftType& l)
-    {
-		auto d = MatrixDescriptor<1, Acc<typename LeftType::ElementType>>(l.Cols());
-		auto el = std::vector<std::shared_ptr<double>>();
-		std::vector<Acc<typename LeftType::ElementType>> av;
-		for(auto i = 0; i < l.Cols(); ++i)
-		{
-			double cs = 0.0;
-			std::vector<typename LeftType::ElementType> acc;
-			for(auto j = 0; j < l.Rows(); ++j)
-				if constexpr (std::is_same_v<std::string, typename LeftType::ElementType>)
-					cs += To<double>(*l(j,i));
-				else
-				{
-					cs += (double)(*l(j,i));
-					acc.push_back(*l(j,i));
-				}
-		    el.push_back(std::make_shared<double>(cs));
-			av.push_back(Acc(acc));
-		}
 
-		return Matrix<1, decltype(d)>(d,av); 
+	static decltype(auto) colSum(const Matrix<Order, MatrixDescriptor<Order, std::string>>& l)
+    {
+		if constexpr (LeftType::Order==1)
+			return l;
+		if constexpr (LeftType::Order==2)
+    	{
+			auto d = MatrixDescriptor<1, Acc<double>>(l.Cols());
+			std::vector<Acc<double>> av;
+			for(auto i = 0; i < l.Cols(); ++i)
+			{
+				std::vector<double> acc;
+				for(auto j = 0; j < l.Rows(); ++j)
+					acc.push_back(To<double>(*l(j,i)));
+				av.push_back(Acc(acc));
+			}
+
+			return Matrix<1, decltype(d)>(d,av); 
+    	}
     }
 };
 

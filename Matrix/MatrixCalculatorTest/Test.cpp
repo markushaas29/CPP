@@ -25,7 +25,9 @@ class MatrixCalculatorTest
 			using M1PS = MatrixDescriptor<1,Parameter<int>>;
 			using M2PS = MatrixDescriptor<2,Parameter<int>>;
 			using MS1 = MatrixDescriptor<1,std::string>;
+			using MS2 = MatrixDescriptor<2,std::string>;
 			using M1S = Matrix<1,MS1>;
+			using M2S = Matrix<2,MS2>;
 			using M3D = Matrix<3,M3DS>;
 			using M2D = Matrix<2,M2DS>;
 			using M2P = Matrix<2,M2PS>;
@@ -78,6 +80,13 @@ class MatrixCalculatorTest
 				{4, 5, 6},
 				{7, 8, 9}
 			};
+			
+			M2S m33S
+			{
+				{"1", "2", "3"},
+				{"4", "5", "6"},
+				{"7", "8", "9"}
+			};
 		
 			M2 m44 
 			{
@@ -96,6 +105,8 @@ class MatrixCalculatorTest
 			
 			std::cout<<"Matrix M2 * M1\n"<<m33*m13<<"\n";
 			std::cout<<"Matrix M2 * M2\n"<<m33*m33<<"\n";
+			std::cout<<"Matrix M2S\n"<<m33S.ColSum()<<"\n";
+			std::cout<<"Matrix M2S\n"<<m33S.ColSum()()<<"\n";
 			assert((int)m2p[0][0]==4);
 			p4.Value() = 8;
 			assert((int)m2p[0][0]==8);
