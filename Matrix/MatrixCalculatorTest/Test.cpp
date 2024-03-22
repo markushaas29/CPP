@@ -56,6 +56,7 @@ class MatrixCalculatorTest
 			assert(m35Sm35[2][4].To<int>()==15);
 			
 			auto m35Mm35 = m1*m1;
+			std::cout<<"Matrix M1 * M1\n"<<m35Mm35<<"\n";
 			assert(m35Mm35[0][0].To<int>()==1);
 			assert(m35Mm35[2][4].To<int>()==15);
 			assert(m35Mm35[4][4].To<int>()==25);
@@ -93,6 +94,8 @@ class MatrixCalculatorTest
 				{p4, p4, p4, p4}
 			};
 			
+			std::cout<<"Matrix M2 * M1\n"<<m33*m13<<"\n";
+			std::cout<<"Matrix M2 * M2\n"<<m33*m33<<"\n";
 			assert((int)m2p[0][0]==4);
 			p4.Value() = 8;
 			assert((int)m2p[0][0]==8);
