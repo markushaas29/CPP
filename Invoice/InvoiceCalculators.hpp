@@ -177,7 +177,7 @@ private:
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
 		//*f<<*result<<std::endl;
-		*f<<result->Elements()<<std::endl;
+		*f<<"ELEMENTS: "<<result->Elements()<<std::endl;
 
 		return result->Elements();
 	}
