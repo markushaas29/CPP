@@ -118,12 +118,6 @@ private:
     }
 	static decltype(auto) colSum(const auto& l, int i)
     {
-		auto el = std::vector<typename LeftType::DataType>();
-		if constexpr (LeftType::Order==1)
-			el = l.col(i);
-		if constexpr (LeftType::Order==2)
-			el = l.col(i);
-		
 		std::vector<typename LeftType::ElementType> acc;
 		for(auto j = 0; j < l.Rows(); ++j)
 			acc.push_back(*l(j,i));
@@ -131,12 +125,6 @@ private:
     }
 	static decltype(auto) colSum(const Matrix<Order, MatrixDescriptor<Order, std::string>>& l, int i)
     {
-		auto el = std::vector<typename LeftType::DataType>();
-		if constexpr (LeftType::Order==1)
-			el = l.col(i);
-		if constexpr (LeftType::Order==2)
-			el = l.col(i);
-		
 		std::vector<double> acc;
 		for(auto j = 0; j < l.Rows(); ++j)
 			acc.push_back(To<double>(*l(j,i)));
