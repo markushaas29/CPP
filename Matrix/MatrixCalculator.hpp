@@ -235,7 +235,17 @@ class MatrixCalculator<Matrix<1,D1>, Matrix<2,D2>> : public MatrixCalculatorBase
 	using Base = MatrixCalculatorBase<MatrixCalculator,1,Matrix<1,D1>, Matrix<2,D2>>;
 private:
 	friend class Matrix<1,D1>;
-	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) {}
+	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) 
+	{
+		typename Base::template IsT<Throwing>("M1M2")(r.Cols()>=1);
+		typename Base::DotProductType::DescriptorType md({l.Rows()});
+
+		std::vector<std::shared_ptr<typename Base::DotProductType::ReturnType>> v(l.Rows());
+		for(int i = 0; i != l.Rows(); ++i)
+			v[i] = std::make_shared<typename Base::DotProductType::ReturnType>(Dot(l.col(0),r.col(i)));
+
+		return typename Base::DotProductType::ResultType(md,v);
+	}
 };
 
 template<typename D1, typename D2>
