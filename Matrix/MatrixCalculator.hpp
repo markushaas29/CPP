@@ -141,7 +141,6 @@ private:
 			std::vector<Acc<typename LeftType::ElementType>> av;
 			for(auto i = 0; i < l.Cols(); ++i)
 				av.push_back(l.ColSum(i));
-
 			return Matrix<1, decltype(d)>(d,av); 
     	}
     }
@@ -155,13 +154,7 @@ private:
 			auto d = MatrixDescriptor<1, Acc<double>>(l.Cols());
 			std::vector<Acc<double>> av;
 			for(auto i = 0; i < l.Cols(); ++i)
-			{
-				std::vector<double> acc;
-				for(auto j = 0; j < l.Rows(); ++j)
-					acc.push_back(To<double>(*l(j,i)));
-				av.push_back(Acc(acc));
-			}
-
+				av.push_back(l.ColSum(i));
 			return Matrix<1, decltype(d)>(d,av); 
     	}
     }
