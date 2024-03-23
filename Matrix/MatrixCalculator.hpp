@@ -230,6 +230,15 @@ private:
 };
 
 template<typename D1, typename D2>
+class MatrixCalculator<Matrix<1,D1>, Matrix<2,D2>> : public MatrixCalculatorBase<MatrixCalculator,1,Matrix<1,D1>, Matrix<2,D2>> 
+{
+	using Base = MatrixCalculatorBase<MatrixCalculator,1,Matrix<1,D1>, Matrix<2,D2>>;
+private:
+	friend class Matrix<1,D1>;
+	static decltype(auto) multiply(const Base::LeftType& l, const Base::RightType& r) {}
+};
+
+template<typename D1, typename D2>
 class MatrixCalculator<Matrix<1,D1>, Matrix<1,D2>>: public MatrixCalculatorBase<MatrixCalculator,2,Matrix<1,D1>, Matrix<1,D2>> 
 {
 	using Base = MatrixCalculatorBase<MatrixCalculator,2,Matrix<1,D1>, Matrix<1,D2>>;

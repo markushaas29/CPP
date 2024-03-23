@@ -105,6 +105,7 @@ class MatrixCalculatorTest
 			
 			std::cout<<"Matrix M2 * M1\n"<<m33*m13<<"\n";
 			std::cout<<"Matrix M2 * M2\n"<<m33*m33<<"\n";
+			m13*m33;
 			std::cout<<"Matrix M2S\n"<<m33S.ColSum()<<"\n";
 			std::cout<<"Matrix M2S\n"<<m33S.ColSum(1)<<"\n";
 			assert(m33S.ColSum(1)()==15);
