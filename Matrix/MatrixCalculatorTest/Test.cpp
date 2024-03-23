@@ -104,10 +104,12 @@ class MatrixCalculatorTest
 			};
 			
 			auto m33m13 = m33*m13;
+			assert(m33m13[0]()==14);
 			std::cout<<"Matrix M2 * M1\n"<<m33m13<<"\n";
 			std::cout<<"Matrix M2 * M2\n"<<m33*m33<<"\n";
 			auto m13m33 = m13*m33;
-			std::cout<<"Matrix M1 * M2\n"<<m13m33<<"\n";
+			assert(m13m33[0]()==24);
+			std::cout<<"Matrix M1 * M2\n"<<m13m33*m33m13<<"\n";
 			std::cout<<"Matrix M2S\n"<<m33S.ColSum()<<"\n";
 			std::cout<<"Matrix M2S\n"<<m33S.ColSum(1)<<"\n";
 			assert(m33S.ColSum(1)()==15);
