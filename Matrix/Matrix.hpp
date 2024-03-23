@@ -69,14 +69,14 @@ public:
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>
 	decltype(auto) Calc() { return MC<Type>::template calc<Op>(elements->cbegin(), elements->cend()); }
-	decltype(auto) ColSum(int i) { return MC<Type>::colSum(*this,i); }
-	decltype(auto) ColSum() { return MC<Type>::colSum(*this); }
-	decltype(auto) RowSum() { return MC<Type>::rowSum(*this); }
+	decltype(auto) ColSum(int i) const { return MC<Type>::colSum(*this,i); }
+	decltype(auto) ColSum() const { return MC<Type>::colSum(*this); }
+	decltype(auto) RowSum() const { return MC<Type>::rowSum(*this); }
   	decltype(auto) operator()()	{ return access->exec(this); }
-  	decltype(auto) operator+(const auto v)	{ return MC<Type>::apply(*this,ElementAdd<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  }
-  	decltype(auto) operator-(const auto v)	{ return MC<Type>::apply(*this,ElementSub<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  	}
-  	decltype(auto) operator*(const auto v)	{ return MC<Type>::apply(*this,ElementMul<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  	}
-  	decltype(auto) operator/(const auto v)	{ return MC<Type>::apply(*this,ElementDiv<ElementType,decltype(v)>{Constant<decltype(v)>(v)});   	}
+  	decltype(auto) operator+(const auto v)	const { return MC<Type>::apply(*this,ElementAdd<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  }
+  	decltype(auto) operator-(const auto v)	const { return MC<Type>::apply(*this,ElementSub<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  	}
+  	decltype(auto) operator*(const auto v)	const { return MC<Type>::apply(*this,ElementMul<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  	}
+  	decltype(auto) operator/(const auto v)	const { return MC<Type>::apply(*this,ElementDiv<ElementType,decltype(v)>{Constant<decltype(v)>(v)});   	}
   	template<size_t N2, typename D2>
   	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	template<size_t N2, typename D2>
