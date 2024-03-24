@@ -7,11 +7,10 @@
 
 int main()
 {
-	std::cout<<"START"<<std::endl;
+	MatrixCalculatorTest analyzer;
 
-    MatrixCalculatorTest calc;     
-    calc.Run();     
-	std::cout<<"END"<<std::endl;
-   
+	analyzer.Run();
+
 	return 0;
 }
+
