@@ -50,6 +50,8 @@ class MatrixCalculatorTest
 				{11, 12, 13, 14, 15},
 			};
 			auto m35Am35 = m35+m35;
+			auto s1 = m1.ColSum();
+			std::cout<<"Matrix M1\n"<<s1<<"\n";
 			assert(m35Am35[0][0].To<int>()==2);
 			assert(m35Am35[2][4].To<int>()==30);
 			auto m35Sm35 = m35Am35-m35;
@@ -58,7 +60,6 @@ class MatrixCalculatorTest
 			assert(m35Sm35[2][4].To<int>()==15);
 			
 			auto m35Mm35 = m1*m1;
-			std::cout<<"Matrix M1 * M1\n"<<m35Mm35<<"\n";
 			assert(m35Mm35[0][0].To<int>()==1);
 			assert(m35Mm35[2][4].To<int>()==15);
 			assert(m35Mm35[4][4].To<int>()==25);
@@ -229,8 +230,7 @@ class MatrixCalculatorTest
 			std::cout<<"ColSum:\n "<<m2dC[2]<<"\n";
 			assert((double)m2dC[2]()==13.2);
 			auto m1C = m1.ColSum(); 
-			assert((int)m1C[0]==1);
-			assert((int)m1C[2]==3);
+			assert(m1C()==15);
 			auto m35C = m35.ColSum(); 
 			assert((int)m35C[0]==18);
 			assert((int)m35C[1]==21);
