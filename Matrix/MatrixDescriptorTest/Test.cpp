@@ -30,9 +30,11 @@ class MatrixDescriptorTest
 		
 				MD1 md1(a1);
 				assert(md1.Rows()==2);
+				assert(md1.Cols()==1);
 		
 				MD2 md2{a2};
 				assert(md2.Cols()==3);
+				assert(md2.Rows()==2);
 				
 				MD2 ms254{{5,4}};
 				assert(ms254.Rows()==5);
