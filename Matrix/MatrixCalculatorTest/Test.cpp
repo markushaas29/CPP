@@ -37,6 +37,10 @@ class MatrixCalculatorTest
 			M1S m1s{
 				{std::string("31.10.1986"),std::string("29.09.1986"),std::string("27.03.1986")}	
 			};
+
+			M1S m1S{
+				{std::string("4"),std::string( "5"),std::string( "6")}
+			};
 			M1 m13{
 				{5,3,1}	
 			};
@@ -51,7 +55,8 @@ class MatrixCalculatorTest
 			};
 			auto m35Am35 = m35+m35;
 			auto s1 = m1.ColSum();
-			std::cout<<"Matrix M1\n"<<s1<<"\n";
+			assert(s1()==15);
+			//assert(m1S.ColSum()()==15);
 			assert(m35Am35[0][0].To<int>()==2);
 			assert(m35Am35[2][4].To<int>()==30);
 			auto m35Sm35 = m35Am35-m35;
