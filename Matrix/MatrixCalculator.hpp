@@ -95,22 +95,17 @@ private:
 	static decltype(auto) rowSum(const LeftType& l)
     {
 		if constexpr (LeftType::Order==1)
-		{
-			double res = 0.0;
-			for(auto i = 0; i < l.Rows(); ++i)
-				res += (double)l[i];
-			return MatrixElement<typename LeftType::ElementType>(typename LeftType::ElementType(res));
-		}
+			return l;
 		if constexpr (LeftType::Order==2)
     	{
-			auto d = MatrixDescriptor<1, typename LeftType::ElementType>(l.Rows());
-			auto el = std::vector<typename LeftType::DataType>();
+			auto d = MatrixDescriptor<1, Acc<typename LeftType::ElementType>>(l.Rows());
+			auto el = std::vector<Acc<typename LeftType::ElementType>>();
 			for(auto i = 0; i < l.Rows(); ++i)
 			{
-				double cs = 0.0;
+				std::vector<typename LeftType::ElementType> acc;
 				for(auto j = 0; j < l.Cols(); ++j)
-					cs += (double)(*l(i,j));
-			    el.push_back(std::make_shared<typename LeftType::ElementType>(cs));
+					acc.push_back(*l(i,j));
+			    el.push_back(Acc(acc));
 			}
 
 			return Matrix<1, decltype(d)>(d,el); 
@@ -134,7 +129,12 @@ private:
 	static decltype(auto) colSum(const auto& l)
     {
 		if constexpr (LeftType::Order==1)
-			return l;
+		{
+			std::vector<typename LeftType::ElementType> acc;
+			for(auto j = 0; j < l.Rows(); ++j)
+				acc.push_back(*l(j));
+			return Acc(acc);	
+		}
 		if constexpr (LeftType::Order==2)
     	{
 			auto d = MatrixDescriptor<1, Acc<typename LeftType::ElementType>>(l.Cols());
@@ -148,7 +148,12 @@ private:
 	static decltype(auto) colSum(const Matrix<Order, MatrixDescriptor<Order, std::string>>& l)
     {
 		if constexpr (LeftType::Order==1)
-			return l;
+		{
+			std::vector<double> acc;
+			for(auto j = 0; j < l.Rows(); ++j)
+				acc.push_back(To<double>(*l(j)));
+			return Acc(acc);	
+		}
 		if constexpr (LeftType::Order==2)
     	{
 			auto d = MatrixDescriptor<1, Acc<double>>(l.Cols());

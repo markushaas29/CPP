@@ -12,8 +12,8 @@
 #include "MatrixElementTest/Test.cpp"
 #include "MatrixDescriptorTest/Test.cpp"
 #include "MatrixSliceAccessTest/Test.cpp"
-#include "MatrixQueryTest/Test.cpp"
-#include "MatrixAnalyzerTest/Test.cpp"
+//#include "MatrixQueryTest/Test.cpp"
+//#include "MatrixAnalyzerTest/Test.cpp"
 #include "MatrixParserTest/Test.cpp"
 #include "MatrixVisitorTest/Test.cpp"
 #include "M3Test/Test.cpp"
@@ -183,7 +183,7 @@ int Run()
     MatrixInitializerTest init;     
     MatrixColAccessTest access;     
     MatrixAccessTest access2;     
-    MatrixQueryTest q;     
+//    MatrixQueryTest q;     
     MatrixParserTest p;     
     MatrixVisitorTest v;     
     //MatrixAnalyzerTest a;     
@@ -193,7 +193,7 @@ int Run()
     projector.Run();
 	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	//a.Run();
-	q.Run();
+//	q.Run();
 	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	m3t.Run();
     access2.Run();

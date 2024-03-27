@@ -247,10 +247,13 @@ class MatrixCalculatorTest
 			
 			auto m35R = m35.RowSum(); 
 			assert((int)m35R[0]==15);
+			assert(m35R[0]()==15);
 			assert((int)m35R[1]==40);
 			
 			auto m1R = m1.RowSum(); 
-			assert((int)m1R==15);
+			assert(m1.Rows()==5);
+			assert(m1R.Rows()==5);
+			assert((double)m1R[0]==1);
 			
 			auto m2dR = m2d.RowSum();
 			assert((double)m2dR[0]==11);
