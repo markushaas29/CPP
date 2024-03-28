@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cassert> 
 #include <vector> 
 #include <memory> 
@@ -226,9 +227,34 @@ private:
         auto stagesDiv = (stageMatrix / csum());
 		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
-		auto res = result();
+		auto res = result().template To<Quantity<Sum>>();
+		std::vector<std::vector<std::string>> v = {{"Proportion","All","Calculation","CalcResult","","Out","Payment"}};
+		for(size_t i = 0; i < 6; ++i)
+		{
+			std::vector<std::string> vr;
+			expand(stageMatrix[S::Index-1][i],vr);
+			expand(csum[i], vr);
+			expand(stagesDiv[S::Index-1][i],vr);
+			expand(stagesDiv[S::Index-1][i](),vr);
+			expand(sumMatrix[i],vr);
+			expand(result[i][i],vr);
+			expand(res[i][i],vr);
+			v.push_back(vr);
+		}
+
+		auto md = Init(v)();
+
+		std::cout<<"OUT"<<md<<std::endl;
+
 		for(size_t i = 0; i < 6; ++i)
 			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
         return stagesDiv * sumMatrix;                                                                                                       
     }
+
+	auto expand(const auto& val, auto& v) const
+	{
+		std::stringstream ss;
+		ss<<val;
+		v.push_back(ss.str());
+	}
 };
