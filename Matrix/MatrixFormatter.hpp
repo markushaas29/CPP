@@ -9,7 +9,7 @@ class MatrixFormatter
 {
 public:
 	MatrixFormatter(const M& m): matrix(m){}
-    virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s) { return s; }
+   // virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s) { return s; }
 //    virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s, const M* m) 
 //	{ 
 //		if constexpr (M::Order==1)
@@ -55,13 +55,25 @@ public:
 //	};
 private:
 	const M matrix;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.matrix; }
-    std::ostream& in(std::ostream& s)
-	{
-		for(auto i=0; i<M::Order; ++i)
-			s<<" ";
+	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return m(s); }
+    virtual std::ostream& operator()(std::ostream& s) const
+	{ 
+		if constexpr (M::Order==1)
+		{
+			s<<"{";
+			for(auto i=0; i<matrix.Rows(); ++i)
+				s<<"<"<<matrix[i]<<">";
+			return s<<" }";
+		}
+		else
+		{
+			s<<"{\n";
+//			for(auto i = 0; i != m->Rows(); ++i)
+				//in(s)<<(*m)[i]<<std::endl;
+			s<<"}";
+		}
 		return s;
-	}
+	};
 };
 
 template<typename M>
