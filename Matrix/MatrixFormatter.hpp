@@ -1,6 +1,8 @@
 #include <vector>
 #include <initializer_list>
 #include <memory>
+#include <sstream>
+#include "../Decorator/ElementDecorator.hpp"
 
 #pragma once
 
@@ -60,9 +62,14 @@ private:
 	{ 
 		if constexpr (M::Order==1)
 		{
+			auto b = Bold();
 			s<<"{";
 			for(auto i=0; i<matrix.Rows(); ++i)
-				s<<"<"<<matrix[i]<<">";
+			{
+				std::stringstream is;
+				is<<matrix[i];
+				s<<b(is.str());
+			}
 			return s<<" }";
 		}
 		else
