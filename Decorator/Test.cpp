@@ -31,6 +31,12 @@ class DecoratorTest
 			assert(fud->Units().size() ==2);
 
 			std::cout<<*fud<<std::endl;
+
+			auto b = Bold();
+			auto qm = QM{5};
+
+			std::cout<<"B"<<b(qm.Data())<<std::endl;
+
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;
