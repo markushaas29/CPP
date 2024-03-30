@@ -33,9 +33,10 @@ class DecoratorTest
 			std::cout<<*fud<<std::endl;
 
 			auto b = Bold();
+			auto r = Red();
 			auto qm = QM{5};
 
-			std::cout<<"B"<<b(qm.Data())<<std::endl;
+			std::cout<<"B"<<r(b(qm.Data()))<<std::endl;
 
 			std::cout<<"End Decorator"<<std::endl;
 
