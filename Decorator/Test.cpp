@@ -3,6 +3,7 @@
 #include <vector> 
 #include <memory> 
 #include "Decorator.hpp"
+#include "ElementDecorator.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Quantity/Quantity.hpp"
