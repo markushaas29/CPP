@@ -62,15 +62,15 @@ private:
 	{ 
 		if constexpr (M::Order==1)
 		{
-			auto b = Bold();
-			s<<"{";
+			auto b = Td();
+			std::string res;
 			for(auto i=0; i<matrix.Rows(); ++i)
 			{
 				std::stringstream is;
 				is<<matrix[i];
-				s<<b(is.str());
+				res+=b(is.str())+"\n";
 			}
-			return s<<" }";
+			return s<<Tr()(res);
 		}
 		else
 		{
