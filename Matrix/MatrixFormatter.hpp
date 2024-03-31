@@ -34,33 +34,16 @@ public:
 //		return s;
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
-//    virtual std::ostream& operator()(std::ostream& s, const M* m) 
-//	{ 
-//		if constexpr (M::Order==1)
-//		{
-//			s<<"{";
-//			for(auto i=0; i<m->Rows(); ++i)
-//				if constexpr (PointerConcept<decltype(*(m->elements->at(i)))>)
-//					s<<*(*(m->elements->at(i)))<<(i+1 == m->Rows()? "" : ", ");
-//				else
-//					s<<*(m->elements->at(i))<<(i+1 == m->Rows()? "" : ", ");
-//			return s<<" }";
-//		}
-//		else
-//		{
-//			s<<"{\n";
-//			for(auto i = 0; i != m->Rows(); ++i)
-//				in(s)<<(*m)[i]<<std::endl;
-//			s<<"}";
-//		}
-//		return s;
-//	};
+    virtual std::string operator()() 
+	{ 
+		return "<!doctype html>" + Html()(table());
+	};
 private:
 	const M matrix;
-	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return m(s); }
-    virtual std::ostream& operator()(std::ostream& s) const
+	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
+    virtual std::string table() const
 	{
-		return s<<rows(matrix);
+		return Table()(rows(matrix));
 	};
 	template<size_t O, typename D>
     std::string rows(const Matrix<O,D>& m) const

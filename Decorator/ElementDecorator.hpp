@@ -25,3 +25,4 @@ class Td: public HtmlDecorator{	virtual std::string decorate() const { return "t
 class Tr: public HtmlDecorator{	virtual std::string decorate() const { return "tr"; } };
 class Th: public HtmlDecorator{	virtual std::string decorate() const { return "th"; } };
 class Table: public HtmlDecorator{	virtual std::string decorate() const { return "table"; } };
+class Html: public HtmlDecorator{	virtual std::string decorate() const { return "html"; } };

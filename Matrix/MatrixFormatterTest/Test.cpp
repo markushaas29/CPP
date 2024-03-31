@@ -106,7 +106,10 @@ class MatrixFormatterTest
 	      	};
 	
 			auto mf1 = MatrixFormatter(m33);
-			std::cout<<"END Formatter"<<mf1<<std::endl;
+			std::ofstream out("/home/markus/Downloads/CSV_TestFiles_2/Mat.html");
+    		out << mf1();
+    		out.close();
+			std::cout<<"END Formatter"<<mf1()<<std::endl;
 		//   
 			return 0;
 		}
