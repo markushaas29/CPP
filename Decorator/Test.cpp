@@ -33,9 +33,10 @@ class DecoratorTest
 			std::cout<<*fud<<std::endl;
 
 			auto b = B();
-			auto qm = QM{5};
+			auto qm = QM{5.2};
 
 			std::cout<<"B"<<b(qm.Data())<<std::endl;
+			assert(b(qm.Data()) == "<b>5.2kg</b>");
 
 			std::cout<<"End Decorator"<<std::endl;
 
