@@ -59,27 +59,29 @@ private:
 	const M matrix;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return m(s); }
     virtual std::ostream& operator()(std::ostream& s) const
+	{
+		return s<<rows(matrix);
+	};
+	template<size_t O, typename D>
+    std::string rows(const Matrix<O,D>& m) const
 	{ 
-		if constexpr (M::Order==1)
+		if constexpr (O==1)
 		{
 			auto b = Td();
 			std::string res;
-			for(auto i=0; i<matrix.Rows(); ++i)
+			for(auto i=0; i<m.Rows(); ++i)
 			{
 				std::stringstream is;
-				is<<matrix[i];
+				is<<m[i];
 				res+=b(is.str())+"\n";
 			}
-			return s<<Tr()(res);
+			return Tr()(res);
 		}
 		else
 		{
-			s<<"{\n";
 //			for(auto i = 0; i != m->Rows(); ++i)
 				//in(s)<<(*m)[i]<<std::endl;
-			s<<"}";
 		}
-		return s;
 	};
 };
 
