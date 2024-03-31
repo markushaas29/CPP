@@ -105,7 +105,7 @@ class MatrixFormatterTest
 	              {1, 1, 0}
 	      	};
 	
-			auto mf1 = MatrixFormatter(m1);
+			auto mf1 = MatrixFormatter(m33);
 			std::cout<<"END Formatter"<<mf1<<std::endl;
 		//   
 			return 0;

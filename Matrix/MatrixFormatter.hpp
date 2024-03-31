@@ -79,8 +79,10 @@ private:
 		}
 		else
 		{
-//			for(auto i = 0; i != m->Rows(); ++i)
-				//in(s)<<(*m)[i]<<std::endl;
+			std::string res;
+			for(auto i = 0; i != m.Rows(); ++i)
+				res += rows(m[i]);
+			return res;
 		}
 	};
 };

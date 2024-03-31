@@ -21,5 +21,7 @@ class HtmlDecorator: public IElementDecorator
 };
 
 class B: public HtmlDecorator{	virtual std::string decorate() const { return "b"; } };
-
 class Td: public HtmlDecorator{	virtual std::string decorate() const { return "td"; } };
+class Tr: public HtmlDecorator{	virtual std::string decorate() const { return "tr"; } };
+class Th: public HtmlDecorator{	virtual std::string decorate() const { return "th"; } };
+class Table: public HtmlDecorator{	virtual std::string decorate() const { return "table"; } };
