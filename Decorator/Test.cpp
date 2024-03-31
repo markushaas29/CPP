@@ -37,6 +37,7 @@ class DecoratorTest
 
 			std::cout<<"B"<<b(qm.Data())<<std::endl;
 			assert(b(qm.Data()) == "<b>5.2kg</b>");
+			assert(Td()(qm.Data()) == "<td>5.2kg</td>");
 
 			std::cout<<"End Decorator"<<std::endl;
 
