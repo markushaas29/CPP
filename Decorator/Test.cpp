@@ -40,6 +40,12 @@ class DecoratorTest
 			assert(b(qm.Data()) == "<b>5.2kg</b>");
 			assert(Td()(qm.Data()) == "<td>5.2kg</td>");
 
+			auto el = HtmlElement("El");
+			std::cout<<"EL: "<<el<<std::endl;
+			auto elp = HtmlElement("El","p");
+			std::cout<<"EL: "<<el<<std::endl;
+			std::cout<<"EL: "<<elp<<std::endl;
+
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;

@@ -17,20 +17,18 @@ template<typename, bool> class PredicateVisitor;
 
 #pragma once
 
-//class IHtmlElement: public BaseVisitable<void>, public BoolVisitable<bool>
-//{
-//public:
-//	virtual void Accept(BaseVisitor& visitor) = 0;
-//	virtual bool Is(BaseVisitor& visitor) = 0;
-//	//virtual void Accept(BaseVisitor& visitor) const = 0;
+class IHtmlElement//: public BaseVisitable<void>, public BoolVisitable<bool>
+{
+public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
-//	virtual const std::string& Data() const  = 0;	
+	std::string Data() const  { return data(); };	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(Data()); }
-//private:
-//	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Data();}
+private:
+	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Data();}
+	virtual std::string data() const  = 0;	
 ////	virtual constexpr bool operator==(const IHtmlElement& e) const = 0;
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 ////	virtual constexpr const_iterator Begin() const = 0;
@@ -39,20 +37,17 @@ template<typename, bool> class PredicateVisitor;
 ////
 ////	constexpr bool operator==(const HtmlElement& e) const{ return Data() == e.Data(); };
 ////	constexpr std::strong_ordering operator<=>( const HtmlElement& e) const noexcept { return Data() <=> e.Data(); }
-//};
+};
 ////--------------------------------HtmlElement------------------------------------------------
 
-//class HtmlElement: public IHtmlElement, public TypeCounter<D>
-class HtmlElement
+class HtmlElement: public IHtmlElement
 {
-//	using Derived = D;
-//public:
+public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const std::string& c, const std::string& t = "", const std::string& s = ""): tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElement(T t): HtmlElement(std::to_string(t)) { };
 //
-//	const std::string& Data() const  {	return value; };	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  { return std::make_unique<Derived>(value); };	
 //	static std::unique_ptr<IHtmlElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
 //	explicit operator std::string() const  {	return value; };	
@@ -72,6 +67,9 @@ private:
 	std::string tag;
 	std::string style;
 	std::string content;
+	virtual std::string data() const  {	return begin() + content + end(); };	
+	std::string begin() const  {	return tag == "" ? tag : "<" + tag + ">"; };	
+	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
 
 

@@ -1,4 +1,5 @@
 #include <vector>
+
 #include <initializer_list>
 #include <memory>
 #include <sstream>
@@ -58,6 +59,7 @@ private:
 				std::stringstream is;
 				is<<m[i];
 				res+=td(b(is.str()))+"\n";
+				//res+=td(b("<p>"+is.str()+"</p>"))+"\n";
 			}
 			return Tr()(res);
 		}
