@@ -6,6 +6,7 @@
 #include "ElementDecorator.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/HtmlElement.hpp"
 #include "../Quantity/Quantity.hpp"
 
 class DecoratorTest
