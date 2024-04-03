@@ -58,8 +58,7 @@ private:
 			{
 				std::stringstream is;
 				is<<m[i];
-				res+=td(b(is.str()))+"\n";
-				//res+=td(b("<p>"+is.str()+"</p>"))+"\n";
+				res+=td(b("<body>"+is.str()+"</body>"))+"\n";
 			}
 			return Tr()(res);
 		}

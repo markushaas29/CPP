@@ -44,7 +44,7 @@ class HtmlElement: public IHtmlElement
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const std::string& c, const std::string& t = "", const std::string& s = ""): tag{t}, content{c}, style{s} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElement(T t): HtmlElement(std::to_string(t)) { };
 //
