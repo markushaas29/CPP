@@ -1,13 +1,14 @@
 #include "../ObjectFactory/FactoryUnit.hpp" 
 #include "../String/Literal.hpp" 
 #include "../Is/Is.hpp" 
+#include "../CSV/HtmlElement.hpp" 
 
 #pragma once
 
 class IElementDecorator
 {
 public:
-	auto operator()(const std::string& s) const { return "<" + decorate() + ">" + s +"</" + decorate() + ">"; }
+	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), decorate()); }
 private:
 	//friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
 	virtual std::string decorate() const  = 0;

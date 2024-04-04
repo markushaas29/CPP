@@ -63,11 +63,16 @@ public:
 //	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
 //	constexpr bool operator==(const IHtmlElement& e) const{ return Data() == e.Data(); };
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
+	const auto& Tag() const { return tag; }
+	const auto& Content() const { return content; }
+	const auto& Style() const { return style; }
+	const auto& Data() const { return dataS; }
 private:
 	std::string tag;
 	std::string style;
 	std::string content;
 	virtual std::string data() const  {	return begin() + content + end(); };	
+	std::string dataS = begin() + content + end();	
 	std::string begin() const  {	return tag == "" ? tag : "<" + tag + ">"; };	
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
