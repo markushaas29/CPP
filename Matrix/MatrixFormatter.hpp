@@ -37,14 +37,14 @@ public:
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
     virtual std::string operator()() 
 	{ 
-		return "<!doctype html>" + Html()(table());
+		return "<!doctype html>" + Html()(table()).Data();
 	};
 private:
 	const M matrix;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const
 	{
-		return Table()(rows(matrix));
+		return Table()(rows(matrix)).Data();
 	};
 	template<size_t O, typename D>
     std::string rows(const Matrix<O,D>& m) const
@@ -58,9 +58,9 @@ private:
 			{
 				std::stringstream is;
 				is<<m[i];
-				res+=td(b("<body>"+is.str()+"</body>"))+"\n";
+				res+=td(b("<body>"+is.str()+"</body>")).Data()+"\n";
 			}
-			return Tr()(res);
+			return Tr()(res).Data();
 		}
 		else
 		{
