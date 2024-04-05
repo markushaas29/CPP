@@ -23,3 +23,4 @@ F.txt I.txt Logging.txt out.txt T.txt
 I.txt
 Bottom2023.txt Middle2023.txt Top2023.txt
 Top2023.txt Middle2023.txt Bottom2023.txt
+../../Bottom2023.txt ../../Middle2023.txt ../../Top2023.txt
