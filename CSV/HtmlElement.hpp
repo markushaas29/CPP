@@ -71,9 +71,9 @@ private:
 	std::string tag;
 	std::string style;
 	std::string content;
-	virtual std::string data() const  {	return begin() + content + end(); };	
+	virtual std::string data() const  {	return begin()  + style + content + end(); };	
 	std::string dataS = begin() + content + end();	
-	std::string begin() const  {	return tag == "" ? tag : "<" + tag + ">"; };	
+	std::string begin() const  {	return tag == "" ? tag : "<" + tag  +(style.size() == 0 ? "" : " ") + style + ">"; };	
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
 
