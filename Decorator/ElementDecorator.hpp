@@ -14,9 +14,9 @@ private:
 	virtual std::string decorate() const  = 0;
 };
 
-class HtmlDecorator: public IElementDecorator
+class TagDecorator: public IElementDecorator
 {
-	inline static constexpr const char TypeIdentifier[] = "HtmlDecorator";
+	inline static constexpr const char TypeIdentifier[] = "TagDecorator";
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
@@ -32,9 +32,9 @@ public:
 	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), Decorate()); }
 };
 
-class B: public HtmlDecorator{	virtual std::string decorate() const { return "b"; } };
-class Td: public HtmlDecorator{	virtual std::string decorate() const { return "td"; } };
-class Tr: public HtmlDecorator{	virtual std::string decorate() const { return "tr"; } };
-class Th: public HtmlDecorator{	virtual std::string decorate() const { return "th"; } };
-class Table: public HtmlDecorator{	virtual std::string decorate() const { return "table"; } };
-class Html: public HtmlDecorator{	virtual std::string decorate() const { return "html"; } };
+class B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
+class Td: public TagDecorator{	virtual std::string decorate() const { return "td"; } };
+class Tr: public TagDecorator{	virtual std::string decorate() const { return "tr"; } };
+class Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
+class Table: public TagDecorator{	virtual std::string decorate() const { return "table"; } };
+class Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
