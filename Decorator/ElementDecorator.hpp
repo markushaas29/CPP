@@ -36,7 +36,7 @@ class StyleDecorator: public IElementDecorator
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), e.Tag(),Decorate()); }
+	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Content(), e.Tag(),Decorate()); }
 };
 
 class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
