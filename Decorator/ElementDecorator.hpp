@@ -23,18 +23,20 @@ public:
 	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), Decorate()); }
 };
 
-class StyleDecorator: public IElementDecorator
-{
-	inline static constexpr const char TypeIdentifier[] = "HtmlDecorator";
-    inline static constexpr Literal TypeId{TypeIdentifier};
-    template<typename U> using IsT =  Is<U,TypeId>;
-public:
-	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), Decorate()); }
-};
-
 class B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
 class Td: public TagDecorator{	virtual std::string decorate() const { return "td"; } };
 class Tr: public TagDecorator{	virtual std::string decorate() const { return "tr"; } };
 class Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
 class Table: public TagDecorator{	virtual std::string decorate() const { return "table"; } };
 class Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
+
+class StyleDecorator: public IElementDecorator
+{
+	inline static constexpr const char TypeIdentifier[] = "HtmlDecorator";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+    template<typename U> using IsT =  Is<U,TypeId>;
+public:
+	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), e.Tag(),Decorate()); }
+};
+
+class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
