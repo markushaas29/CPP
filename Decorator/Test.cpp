@@ -37,6 +37,7 @@ class DecoratorTest
 			auto qm = QM{5.2};
 
 			assert(b(qm.Data()).Data() == "<b>5.2kg</b>");
+			assert(b(qm).Data() == "<b>5.2kg</b>");
 			assert(Td()(qm.Data()).Data() == "<td>5.2kg</td>");
 
 			auto r = Red();

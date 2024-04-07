@@ -22,6 +22,7 @@ class TagDecorator: public IElementDecorator
 public:
 	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), Decorate()); }
 	auto operator()(const std::string& s) const { return HtmlElement(s, Decorate()); }
+	auto operator()(const auto& e) const { return HtmlElement(e.Data(), Decorate()); }
 };
 
 class B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
