@@ -35,17 +35,16 @@ public:
 //		return s;
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
-    virtual std::string operator()() 
-	{ 
-		return "<!doctype html>" + Html()(table()).Data();
+    virtual std::string operator()() {	return "<!doctype html>" + Html()(table()).Data();	};
+    virtual std::ofstream& operator()(std::ofstream& s) 
+	{	
+		s<<table();	
+		return s;	
 	};
 private:
 	const M matrix;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
-    virtual std::string table() const
-	{
-		return Table()(rows(matrix)).Data();
-	};
+    virtual std::string table() const 	{	return Table()(rows(matrix)).Data();	};
 	template<size_t O, typename D>
     std::string rows(const Matrix<O,D>& m) const
 	{ 
