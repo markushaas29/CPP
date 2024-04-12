@@ -10,6 +10,7 @@
 #include "../Matrix/MatrixComposition.hpp"
 #include "../Matrix/M3.hpp"
 #include "../Matrix/MatrixParsers.hpp"
+#include "../Matrix/MatrixFormatter.hpp"
 #include "../Builder/Builder.hpp"
 #include "../Counter/ICounter.hpp"
 #include "../ObjectFactory/Factory.hpp"
@@ -243,7 +244,9 @@ private:
 		}
 
 		auto md = Init(v)();
-
+		auto mf1 = MatrixFormatter(md);
+        auto out = mf1(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
+		mf1(out);
 		std::cout<<"OUT"<<md<<std::endl;
 
 		for(size_t i = 0; i < 6; ++i)
