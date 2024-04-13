@@ -179,7 +179,7 @@ private:
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
 		//*f<<*result<<std::endl;
-		*f<<"ELEMENTS: "<<result->Elements()<<std::endl;
+		//*f<<"ELEMENTS: "<<result->Elements()<<std::endl;
 
 		return result->Elements();
 	}
@@ -194,7 +194,7 @@ public:
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
 	{ 
-		*f<<"P"<<(*Base::parser)()[S::Index-1]<<std::endl;
+		//*f<<"P"<<(*Base::parser)()[S::Index-1]<<std::endl;
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
@@ -221,12 +221,10 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
-        
         auto sumMatrix = account(f).To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
-		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
+//		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
 		std::vector<std::vector<std::string>> v = {{"Proportion","All","Calculation","CalcResult","","Out","Payment"}};
@@ -246,11 +244,11 @@ private:
 		auto md = Init(v)();
 		auto mf1 = MatrixFormatter(md);
         auto out = mf1(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
-		mf1(out);
+		mf1(*f);
 		std::cout<<"OUT"<<md<<std::endl;
 
-		for(size_t i = 0; i < 6; ++i)
-			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
+//		for(size_t i = 0; i < 6; ++i)
+//			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
         return stagesDiv * sumMatrix;                                                                                                       
     }
 
