@@ -16,6 +16,7 @@ class DecoratorTest
 		{
 			std::cout<<"Start Decorator"<<std::endl;
 			using QM = Quantity<Mass>;
+			using QS = Quantity<Sum>;
 			using QV = Quantity<Volume>;
 			
 			//{"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}}}
@@ -56,7 +57,19 @@ class DecoratorTest
 			assert(ddy.Data() == "<b style=\"color:red;\">5.2kg</b>");
 			auto ddn = dd(false, html);
 			assert(ddn.Data() == "<b style=\"color:green;\">5.2kg</b>");
-			std::cout<<"EL: "<<ddy<<std::endl;
+			
+			auto qsp = QS{5};
+			auto qsn = QS{-5};
+			auto qsz = QS{0};
+			auto html0 = b(qsz.Data());
+			auto htmlp = b(qsp.Data());
+			auto htmln = b(qsn.Data());
+			auto dds = DecoratorDecider<Green, Red>();
+			auto ddsy = dds(qsp>qsz, htmlp);
+			std::cout<<"EL: "<<ddsy<<std::endl;
+			assert(ddsy.Data() == "<b style=\"color:green;\">5.€</b>");
+			auto ddsn = dds(qsn>qsz, htmln);
+			assert(ddsn.Data() == "<b style=\"color:red;\">-5.€</b>");
 
 			std::cout<<"End Decorator"<<std::endl;
 
