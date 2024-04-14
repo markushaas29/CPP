@@ -43,3 +43,19 @@ public:
 
 class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
 class Green: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:green;\""; } };
+
+
+template<typename Y, typename N, typename Ptr=StyleDecorator>
+class DecoratorDecider
+{
+	inline static constexpr const char TypeIdentifier[] = "HtmlDecorator";
+    inline static constexpr Literal TypeId{TypeIdentifier};
+    template<typename U> using IsT =  Is<U,TypeId>;
+public:
+	HtmlElement operator()(bool is, HtmlElement& e) const 
+	{
+		if(is)
+			return Y()(e); 
+		return N()(e); 
+	}
+};

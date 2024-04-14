@@ -49,7 +49,14 @@ class DecoratorTest
 			assert(el.Data() == "<body TEXT=\"RED\">El</body>");
 			auto elp = HtmlElement("El","p");
 			std::cout<<"EL: "<<el<<std::endl;
-			std::cout<<"EL: "<<elp<<std::endl;
+			
+			auto html = b(qm.Data());
+			auto dd = DecoratorDecider<Red, Green>();
+			auto ddy = dd(true, html);
+			assert(ddy.Data() == "<b style=\"color:red;\">5.2kg</b>");
+			auto ddn = dd(false, html);
+			assert(ddn.Data() == "<b style=\"color:green;\">5.2kg</b>");
+			std::cout<<"EL: "<<ddy<<std::endl;
 
 			std::cout<<"End Decorator"<<std::endl;
 
