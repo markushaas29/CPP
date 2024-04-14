@@ -42,3 +42,4 @@ public:
 };
 
 class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
+class Green: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:green;\""; } };
