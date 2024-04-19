@@ -104,7 +104,7 @@ private:
 	{
 		auto m = (*(Base::parser))();
 		auto mf1 = MatrixFormatter(m);
-        auto out = mf1(std::to_string(45)+".html","/home/markus/Downloads/CSV_TestFiles_2");
+        auto out = mf1(std::to_string(S::Index)+"_S.html","/home/markus/Downloads/CSV_TestFiles_2");
 		mf1(*f);
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
         return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>((payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>()) * Quantity<Scalar>{12}) });
