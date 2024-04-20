@@ -251,7 +251,6 @@ private:
 		auto md = Init(v)();
 		auto mf1 = MatrixFormatter(md);
 		mf1(out);
-		std::cout<<"OUT"<<md<<std::endl;
 
 //		for(size_t i = 0; i < 6; ++i)
 //			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
