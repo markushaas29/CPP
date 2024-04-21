@@ -4,6 +4,7 @@
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"    
+#include "../Matrix/MatrixFormatter.hpp"
 #include "../Functional/Functional.hpp"    
 
 #pragma once
@@ -19,6 +20,7 @@ public:
 	using MatrixType = MType;
 	virtual Q Value() const = 0;
 	virtual MType M() const = 0;
+	virtual std::ofstream& operator()(std::ofstream& s) const = 0;
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FuncVec() { return funcs(); }
@@ -38,6 +40,10 @@ public:
 	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return Q{result()}; }
 	virtual MType M() const { return item; };
+	virtual std::ofstream& operator()(std::ofstream& s) const 
+	{ 
+		return MatrixFormatter(item)(s);  
+	};
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
@@ -65,6 +71,11 @@ public:
 		auto m = Init(v);
 		return m(); 
 	};
+	virtual std::ofstream& operator()(std::ofstream& s) const 
+	{	
+		std::for_each(items->cbegin(), items->cend(), [&s](const auto& i) {	(*i)(s);	});
+		return s;	
+	}
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const CompositeResult& s)	
 	{	

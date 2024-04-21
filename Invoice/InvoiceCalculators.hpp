@@ -182,8 +182,8 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-		//*f<<*result<<std::endl;
-		//*f<<"ELEMENTS: "<<result->Elements()<<std::endl;
+		std::cout<<*result<<std::endl;
+		std::cout<<"ELEMENTS: "<<result->Elements()<<std::endl;
 
 		return result->Elements();
 	}
@@ -228,7 +228,7 @@ private:
 		auto mf = MatrixFormatter(stageMatrix);
         auto out = mf(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
 
-        auto sumMatrix = account(f).To<Quantity<Sum>>();  
+        auto sumMatrix = account(out).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 //		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
@@ -250,7 +250,7 @@ private:
 
 		auto md = Init(v)();
 		auto mf1 = MatrixFormatter(md);
-		mf1(out);
+		mf1(*out);
 
 //		for(size_t i = 0; i < 6; ++i)
 //			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
