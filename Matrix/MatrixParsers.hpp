@@ -36,9 +36,11 @@ public:
     inline static constexpr size_t Order = N;
 	using Base = IBaseMatrixParser;
 	using MatrixType = Matrix<N, MatrixDescriptor<N, Base::ElementType>>;
+	using StringMatrix = Matrix<N, MatrixDescriptor<N, std::string>>;
 	MatrixType operator()() const { return exec(); };
 private:
 	virtual MatrixType exec() const = 0;
+	virtual StringMatrix matrix() const = 0;
 };
 
 template<>
@@ -51,6 +53,7 @@ public:
 	MatrixType operator()() const { return exec(); };
 private:
 	virtual MatrixType exec() const = 0;
+	virtual M3<std::string> matrix() const = 0;
 };
 
 template<size_t N>
@@ -79,6 +82,17 @@ public:
 	AccountParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "SN_Name.csv";
+	M3<std::string> matrix() const
+	{
+		auto u23 = std::string{ path + "//U_2023.csv" };
+        auto u24 = std::string{ path + "//U_2024.csv" };
+        auto m23r = MatrixReader(u23);
+        auto m24r = MatrixReader(u24);
+        auto m23S = m23r.M<2>();
+        auto m24S = m24r.M<2>();
+        std::vector<decltype(m23S)> accountFiles{m23S, m24S};
+        return M3(accountFiles);
+	}
 	typename Base::MatrixType exec() const
 	{
 		auto u23 = std::string{ path + "//U_2023.csv" };
@@ -124,6 +138,10 @@ public:
 	StageParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "SN_Name.csv";
+	typename Base::StringMatrix matrix() const
+	{
+        return MatrixReader(path + "//" + fileName).M<2>();
+	}
 	typename Base::MatrixType exec() const
 	{
         auto stringMatrix = MatrixReader(path + "//" + fileName).M<2>();
