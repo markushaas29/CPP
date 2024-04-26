@@ -95,14 +95,7 @@ private:
 	}
 	typename Base::MatrixType exec() const
 	{
-		auto u23 = std::string{ path + "//U_2023.csv" };
-        auto u24 = std::string{ path + "//U_2024.csv" };
-        auto m23r = MatrixReader(u23);
-        auto m24r = MatrixReader(u24);
-        auto m23S = m23r.M<2>();
-        auto m24S = m24r.M<2>();
-        std::vector<decltype(m23S)> accountFiles{m23S, m24S};
-        M3 accountMatrix(accountFiles);
+        M3 accountMatrix = matrix();
         
         auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         Matcher indexTokenMatcher(std::move(csvIndexTokens));
@@ -122,9 +115,10 @@ class CounterParser: public IMatrixParserBase<2>
 public:
 	CounterParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
+	typename Base::StringMatrix matrix() const	{  return MatrixReader(path).template M<2>();	}
 	typename Base::MatrixType exec() const
 	{
-        auto stringMatrix = MatrixReader(path).template M<2>();
+        auto stringMatrix = matrix();
         auto elementTokens = (*tokenFactory)({{"DateToken"},{ Type::Unit::TokenName }});
         Matcher matcher(std::move(elementTokens));
         return stringMatrix.Parse(matcher);
@@ -138,13 +132,10 @@ public:
 	StageParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::StringMatrix matrix() const
-	{
-        return MatrixReader(path + "//" + fileName).M<2>();
-	}
+	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
 	typename Base::MatrixType exec() const
 	{
-        auto stringMatrix = MatrixReader(path + "//" + fileName).M<2>();
+        auto stringMatrix = matrix();
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
 		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)));
 	}
