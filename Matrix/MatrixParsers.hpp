@@ -38,6 +38,7 @@ public:
 	using MatrixType = Matrix<N, MatrixDescriptor<N, Base::ElementType>>;
 	using StringMatrix = Matrix<N, MatrixDescriptor<N, std::string>>;
 	MatrixType operator()() const { return exec(); };
+	StringMatrix M() const { return matrix(); };
 private:
 	virtual MatrixType exec() const = 0;
 	virtual StringMatrix matrix() const = 0;
@@ -51,6 +52,7 @@ public:
 	using Base = IBaseMatrixParser;
 	using MatrixType = M3<Base::ElementType, MatrixDescriptor<3, Base::ElementType>>;
 	MatrixType operator()() const { return exec(); };
+	M3<std::string> M() const { return matrix(); };
 private:
 	virtual MatrixType exec() const = 0;
 	virtual M3<std::string> matrix() const = 0;

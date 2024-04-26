@@ -71,6 +71,8 @@ template<typename S>
 class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 {
 	using Base = CalculatorBase<Quantity<Sum>, StageBase<S>>;
+public:
+	auto M() const { return parser->M(); }
 protected:
 	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
 		Base{fE,fB,y}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
@@ -253,6 +255,10 @@ private:
 		auto md = Init(v)();
 		auto mf1 = MatrixFormatter(md);
 		mf1(*out);
+
+		auto sM = this->M();
+		auto mfsM = MatrixFormatter(sM);
+		mfsM(*out);
 
 //		for(size_t i = 0; i < 6; ++i)
 //			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
