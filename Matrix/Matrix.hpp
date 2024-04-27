@@ -77,6 +77,7 @@ public:
   	decltype(auto) operator-(const auto v)	const { return MC<Type>::apply(*this,ElementSub<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  	}
   	decltype(auto) operator*(const auto v)	const { return MC<Type>::apply(*this,ElementMul<ElementType,decltype(v)>{Constant<decltype(v)>(v)});  	}
   	decltype(auto) operator/(const auto v)	const { return MC<Type>::apply(*this,ElementDiv<ElementType,decltype(v)>{Constant<decltype(v)>(v)});   	}
+  	decltype(auto) operator^(const auto v)	const { return 1;   	}
   	template<size_t N2, typename D2>
   	decltype(auto) operator+(const Matrix<N2,D2>& m)	{ return MC<Matrix<N2,D2>>::add(*this,m);  	}
   	template<size_t N2, typename D2>
