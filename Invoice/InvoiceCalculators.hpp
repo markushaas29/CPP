@@ -228,8 +228,8 @@ private:
     {
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
-		
-		auto mf = MatrixFormatter(stageMatrix);
+
+		auto mf = MatrixFormatter(stageMatrix[S::Index-1]);
         auto out = mf(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
 
         auto sumMatrix = account(out).template To<Quantity<Sum>>();  
@@ -252,10 +252,7 @@ private:
 			v.push_back(vr);
 		}
 
-		auto md = Init(v)();
-		auto mf1 = MatrixFormatter(md);
-		mf1(*out);
-
+		append(Init(v)(),out);
 		append(this->M(),out);
 
 //		for(size_t i = 0; i < 6; ++i)
