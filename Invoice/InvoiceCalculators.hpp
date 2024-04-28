@@ -105,7 +105,7 @@ private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const
 	{
 		auto m = (*(Base::parser))();
-		auto mf1 = MatrixFormatter(m);
+		auto mf1 = MatrixFormatter(m[S::Index-1]);
         auto out = mf1(std::to_string(S::Index)+"_S.html","/home/markus/Downloads/CSV_TestFiles_2");
 		mf1(*f);
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
