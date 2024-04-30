@@ -76,6 +76,33 @@ private:
 		auto d = DescriptorType({rm,cm});
 		return Matrix<Order,DescriptorType>(d,elTypes);
     }
+public:
+	static decltype(auto) MT(const M* m, const Matcher& matcher) 
+    { 
+		auto cols = std::vector<size_t>();
+        size_t c{};
+
+		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i, ++c) 
+			if(matcher.Match(**i))
+				cols.push_back(c); 
+
+		auto mc = m->Cols(cols);
+		std::vector<std::shared_ptr<IElement>> v;
+		for(auto i = 0; i < mc.Cols(); ++i)
+			v.push_back(std::make_shared<Entry>(*mc.elements->at(i)));
+
+		auto elTypes = matcher.MatchingElements(*mc.elements);
+		for(auto& i : elTypes)
+			v.push_back(i->Clone());
+
+		size_t cm =cols.size();
+		size_t rm = v.size()/cols.size();
+
+		IsT<Throwing>(Format("Resulting matrix is jagged: cols/rows ",cm,"/",rm, "\t elements: ", elTypes.size()))(elTypes.size()%cols.size() == 0);
+
+		auto d = DescriptorType({rm,cm});
+		return Matrix<Order,DescriptorType>(d,v);
+    }
 
 	template<typename U> using IsT =  Is<U,TypeId>;
 };

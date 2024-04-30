@@ -74,6 +74,7 @@ class MatrixParserTest
 			auto sp = StageParser(tokenFactory, "/home/markus/Downloads/CSV_TestFiles_2");
 
 			std::cout<<sp()<<std::endl;
+			std::cout<<sp.Match()<<std::endl;
 
 			std::cout<<"END"<<std::endl;
 		   
