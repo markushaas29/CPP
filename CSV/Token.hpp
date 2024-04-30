@@ -128,7 +128,7 @@ struct HeatingIndexToken: public Token<HeatingIndexToken, Index<Quantity<Area>>>
 	inline static constexpr const char* Pattern = "Heating"; 
 	inline static constexpr const char* Identifier = "HeatingIndexToken"; 
 };
-struct StageIndexToken: public Token<StageIndexToken, Index<Quantity<Scalar>>>	
+struct StageIndexToken: public Token<StageIndexToken, Index<Entry>>	
 {	
 	inline static constexpr const char* Pattern = "Stage"; 
 	inline static constexpr const char* Identifier = "StageIndexToken"; 
