@@ -132,8 +132,9 @@ class MatrixVisitorTest2023
 
 			
 			assert(ms[0].To<Quantity<Sum>>()==Quantity<Sum>{-296.31}); // Waste
+			std::cout<<"MS sum:\n"<<ms<<std::endl;
+			std::cout<<"MS sum:\n"<<ms[1].To<Quantity<Sum>>()<<std::endl;
 			assert(ms[1].To<Quantity<Sum>>()==Quantity<Sum>{-3326.63}); // Heating
-			std::cout<<"MS sum:\n"<<ms[2].To<Quantity<Sum>>()<<std::endl;
 			assert(ms[2].To<Quantity<Sum>>()==Quantity<Sum>{-1951.57}); // Insurance
 			assert(ms[3].To<Quantity<Sum>>()==Quantity<Sum>{-918.91}); // Cleaning
 			assert(ms[4].To<Quantity<Sum>>()==Quantity<Sum>{-423.00}); // Property
