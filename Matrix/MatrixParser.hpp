@@ -56,28 +56,7 @@ private:
 		return m->Cols(cols);
     }
 	
-	static decltype(auto) parseByMatch(const M* m, const Matcher& matcher) 
-    { 
-		auto cols = std::vector<size_t>();
-        size_t c{};
-
-		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i, ++c) 
-			if(matcher.Match(**i))
-				cols.push_back(c); 
-
-		auto mc = m->Cols(cols);
-		auto elTypes = matcher.MatchingElements(*mc.elements);
-
-		size_t cm =cols.size();
-		size_t rm = elTypes.size()/cols.size();
-
-		IsT<Throwing>(Format("Resulting matrix is jagged: cols/rows ",cm,"/",rm, "\t elements: ", elTypes.size()))(elTypes.size()%cols.size() == 0);
-
-		auto d = DescriptorType({rm,cm});
-		return Matrix<Order,DescriptorType>(d,elTypes);
-    }
-public:
-	static decltype(auto) MT(const M* m, const Matcher& matcher) 
+	static decltype(auto) parseByMatch(const M* m, const Matcher& matcher, bool headers = false) 
     { 
 		auto cols = std::vector<size_t>();
         size_t c{};
@@ -88,8 +67,9 @@ public:
 
 		auto mc = m->Cols(cols);
 		std::vector<std::shared_ptr<IElement>> v;
-		for(auto i = 0; i < mc.Cols(); ++i)
-			v.push_back(std::make_shared<Entry>(*mc.elements->at(i)));
+		if(headers)
+			for(auto i = 0; i < mc.Cols(); ++i)
+				v.push_back(std::make_shared<Entry>(*mc.elements->at(i)));
 
 		auto elTypes = matcher.MatchingElements(*mc.elements);
 		for(auto& i : elTypes)

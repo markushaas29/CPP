@@ -136,7 +136,7 @@ public:
 	{
         auto stringMatrix = matrix();
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
-		return stringMatrix.PM(Matcher(std::move(stageIndexTokens)));
+		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)), true);
 	}
 private:
 	const std::string fileName = "SN_Name.csv";

@@ -64,8 +64,7 @@ public:
     decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return MatrixAcceptor<Type>().accept(this,std::move(bp));   }
 	decltype(auto) Parse(const Matcher& m) const { return MatrixParser<Type>::parse(this, m); }
 	decltype(auto) Match(const Matcher& m) const { return MatrixParser<Type>::match(this, m); }
-	decltype(auto) ParseByMatch(const Matcher& m) const { return MatrixParser<Type>::parseByMatch(this, m); }
-	decltype(auto) PM(const Matcher& m) const { return MatrixParser<Type>::MT(this, m); }
+	decltype(auto) ParseByMatch(const Matcher& m, bool headers = false) const { return MatrixParser<Type>::parseByMatch(this, m, headers); }
 	template<typename F>
 	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>
