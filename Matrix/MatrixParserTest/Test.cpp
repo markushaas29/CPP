@@ -75,7 +75,8 @@ class MatrixParserTest
 
 			std::cout<<sp()<<std::endl;
 			std::cout<<sp.Match()<<std::endl;
-
+			assert(sp.Match().Rows()==4);
+			assert(sp().Rows()==3);
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
