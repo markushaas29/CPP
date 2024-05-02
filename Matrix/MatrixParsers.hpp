@@ -37,10 +37,10 @@ public:
 	using Base = IBaseMatrixParser;
 	using MatrixType = Matrix<N, MatrixDescriptor<N, Base::ElementType>>;
 	using StringMatrix = Matrix<N, MatrixDescriptor<N, std::string>>;
-	MatrixType operator()() const { return exec(); };
+	MatrixType operator()(bool h = false) const { return exec(h); };
 	StringMatrix M() const { return matrix(); };
 private:
-	virtual MatrixType exec() const = 0;
+	virtual MatrixType exec(bool h = false) const = 0;
 	virtual StringMatrix matrix() const = 0;
 };
 
@@ -51,10 +51,10 @@ public:
     inline static constexpr size_t Order = 3;
 	using Base = IBaseMatrixParser;
 	using MatrixType = M3<Base::ElementType, MatrixDescriptor<3, Base::ElementType>>;
-	MatrixType operator()() const { return exec(); };
+	MatrixType operator()(bool h = false) const { return exec(h); };
 	M3<std::string> M() const { return matrix(); };
 private:
-	virtual MatrixType exec() const = 0;
+	virtual MatrixType exec(bool h = false) const = 0;
 	virtual M3<std::string> matrix() const = 0;
 };
 
@@ -66,13 +66,13 @@ class IMatrixParserBase: public IMatrixParser<N>
 	template<typename U> using IsT =  Is<U,TypeId>;
 	using Base = IMatrixParser<N>;
 public:
-	typename Base::MatrixType operator()() const { return exec(); };
+	typename Base::MatrixType operator()(bool h = false) const { return exec(h); };
 protected:
 	IMatrixParserBase(std::shared_ptr<Factory<IToken>> fT, const std::string& p):tokenFactory{fT}, path{p} {};
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	const std::string path;
 private:
-	virtual typename Base::MatrixType exec() const = 0;
+	virtual typename Base::MatrixType exec(bool h = false) const = 0;
 	virtual std::ostream& display(std::ostream& os) const { return os;};
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixParserBase& m) { return s; }
 };
@@ -95,7 +95,7 @@ private:
         std::vector<decltype(m23S)> accountFiles{m23S, m24S};
         return M3(accountFiles);
 	}
-	typename Base::MatrixType exec() const
+	typename Base::MatrixType exec(bool h = false) const
 	{
         M3 accountMatrix = matrix();
         
@@ -118,7 +118,7 @@ public:
 	CounterParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path).template M<2>();	}
-	typename Base::MatrixType exec() const
+	typename Base::MatrixType exec(bool h = false) const
 	{
         auto stringMatrix = matrix();
         auto elementTokens = (*tokenFactory)({{"DateToken"},{ Type::Unit::TokenName }});
@@ -141,11 +141,11 @@ public:
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
-	typename Base::MatrixType exec() const
+	typename Base::MatrixType exec(bool h = false) const
 	{
         auto stringMatrix = matrix();
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
-		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)));
+		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
 	}
 };
 
