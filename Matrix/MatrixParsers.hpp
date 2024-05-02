@@ -132,12 +132,6 @@ class StageParser: public IMatrixParserBase<2>
 	using Base = IMatrixParserBase;
 public:
 	StageParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
-	auto Match() const
-	{
-        auto stringMatrix = matrix();
-		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
-		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)), true);
-	}
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
