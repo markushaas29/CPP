@@ -105,7 +105,7 @@ private:
         Matcher elementTokenMatcher(std::move(elementIndexTokens));
         
         //return accountMatrix.ParseByMatch(indexTokenMatcher);
-		return accountMatrix.Match(indexTokenMatcher).Parse(elementTokenMatcher);
+		return accountMatrix.Parse(indexTokenMatcher, elementTokenMatcher);
 	}
 };
 

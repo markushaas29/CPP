@@ -45,7 +45,7 @@ private:
 		}
     }
     
-	static decltype(auto) match(const M* m, const Matcher& matcher) 
+	static decltype(auto) parse(const M* m, const Matcher& matcher, const Matcher& matcher2) 
     { 
 		auto cols = std::vector<size_t>();
         size_t c{};
