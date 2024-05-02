@@ -27,6 +27,7 @@ private:
     
 	static decltype(auto) parse(const M* m, const Matcher& matcher) 
     { 
+		std::cout<<"parse(const M* m, const Matcher& matcher)"<<std::endl;
 		if constexpr (std::is_same_v<typename M::ElementType, std::string>)
 		{
 			auto el = std::vector<PointerType>();
@@ -47,6 +48,7 @@ private:
     
 	static decltype(auto) parse(const M* m, const Matcher& matcher, const Matcher& matcher2) 
     { 
+		std::cout<<"parse(const M* m, const Matcher& matcher, const Matcher& matcher2)"<<std::endl;
 		auto cols = std::vector<size_t>();
         size_t c{};
 		for(auto i = m->elements->cbegin(); i != m->elements->cend() && c < m->Cols(); ++i, ++c) 
