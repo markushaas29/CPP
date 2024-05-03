@@ -56,15 +56,15 @@ class TemplatizedAll_Test2023
             auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
             Matcher matcher(std::move(v));
 
-			auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);
-			
+			auto parsedAccountMatrix = accountMatrix.Parse(imatcher, matcher);
+
             auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
             auto typeFactory = std::make_shared<TF>(elementFactory);
 
 			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
 
-			auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
+			auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
 			auto stageQ = mS.Match(smatcher).Parse(matcher);
 			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
 
