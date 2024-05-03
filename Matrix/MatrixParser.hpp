@@ -55,7 +55,7 @@ private:
 			if(matcher.Match(**i))
 				cols.push_back(c); 
 
-		return m->Cols(cols);
+		return m->Cols(cols).Parse(matcher2);
     }
 	
 	static decltype(auto) parseByMatch(const M* m, const Matcher& matcher, bool headers = false) 
