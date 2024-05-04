@@ -88,7 +88,7 @@ class TemplatizedAll_Test2023
 
 			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,path);
-			std::cout<<"ALL Res--->"<<b<<std::endl;
+			std::cout<<"ALL Res--->"<<inv->Costs()<<std::endl;
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 
 			auto m = inv->calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);

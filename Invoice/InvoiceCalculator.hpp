@@ -19,7 +19,10 @@ class Invoice: public CalculatorBase<Quantity<Sum>,Invoice<T>>
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
     Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fE,fB,y}, tokenFactory{fT}, file{std::make_shared<std::ofstream>(std::string(T::Name)+ y.ToString() +".html")} {};
+		Base{fE,fB,y}, tokenFactory{fT}, file{std::make_shared<std::ofstream>(std::string(T::Name)+ y.ToString() +".html")} 
+	{
+		costs = AccountCalculator{tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, p}().To<Quantity<Sum>>();
+	};
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const 
 	{
@@ -31,6 +34,7 @@ public:
 	    auto e = extraCosts()[0];
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
 	}
+	const auto& Costs() { return costs; }
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::shared_ptr<std::ofstream> file;
@@ -110,11 +114,12 @@ private:
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    
 		//assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
-	    auto sumMatrix = account(file).To<Quantity<Sum>>();  
+	    auto sumMatrix = account(file).To<Quantity<Sum>>();
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	    return stagesDiv * sumMatrix;                                                                                                       
 	}
 	
     typename Base::QuantityType result;
-    std::string name;
+    Matrix<1, MatrixDescriptor<1, Quantity<Unit<1>>>> costs;
+	std::string name;
 };
