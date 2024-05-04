@@ -66,15 +66,15 @@ private:
         auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});        
         Matcher matcher(std::move(v));        
     
-        auto parsedAccountMatrix = accountMatrix.Match(imatcher).Parse(matcher);        
+        auto parsedAccountMatrix = accountMatrix.Parse(imatcher, matcher);        
         
         auto typeFactory = std::make_shared<TF>(Base::elementFactory);        
         
         auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
         auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));        
     
-        auto mps = mS.Match(smatcher).Parse(matcher).Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
-        auto stageQ = mS.Match(smatcher).Parse(matcher);        
+        auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
+        auto stageQ = mS.Parse(smatcher, matcher);        
 		std::cout<<"Q"<<stageQ<<std::endl;
 		//std::cout<<"Q"<<(stageQ[1][6].template To<Quantity<Scalar>>()) / (stageQ[2][6].template To<Quantity<Scalar>>())<<std::endl;
         auto payment = stageQ.Cols(8,9,10).template To<Quantity<Sum>>();

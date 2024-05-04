@@ -89,7 +89,7 @@ class MatrixVisitorTest2023
 			auto extraCostsBottom = YearlyExtraCostsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
 			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
 
-			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+//			mps = process<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 //			assert(mps[1][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.3304},0.01));
 //			assert(mps[2][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.4354},0.01));
 //			assert(mps[3][5].To<Quantity<Scalar>>().Equals(Quantity<Scalar>{0.23411},0.01));

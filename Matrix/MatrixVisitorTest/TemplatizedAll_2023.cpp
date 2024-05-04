@@ -65,7 +65,7 @@ class TemplatizedAll_Test2023
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
 
 			auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
-			auto stageQ = mS.Match(smatcher).Parse(matcher);
+			auto stageQ = mS.Parse(smatcher, matcher);
 			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
 
 			stageQ.CSV();

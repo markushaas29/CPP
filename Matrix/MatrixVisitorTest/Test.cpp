@@ -73,7 +73,7 @@ class MatrixVisitorTest
 			
             Matcher imatcher(std::move(vi));
 
-			auto mp3 = m22_23.Match(imatcher).Parse(matcher);
+			auto mp3 = m22_23.Parse(imatcher, matcher);
             //std::cout<<mp3<<std::endl;
 			
 			auto fmt=std::make_shared<Factory<IElement>>();
