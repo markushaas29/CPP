@@ -140,12 +140,8 @@ private:
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
-        auto stringMatrix = matrix();
-		auto stageIndexTokens1 = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
-		auto stageIndexTokens2 = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
-		stringMatrix.Parse(Matcher(std::move(stageIndexTokens1)),Matcher(std::move(stageIndexTokens2)));
 		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
-		return stringMatrix.ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
+		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
 	}
 };
 
