@@ -97,15 +97,10 @@ private:
 	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
-        M3 accountMatrix = matrix();
-        
         auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-        Matcher indexTokenMatcher(std::move(csvIndexTokens));
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-        Matcher elementTokenMatcher(std::move(elementIndexTokens));
         
-        //return accountMatrix.ParseByMatch(indexTokenMatcher);
-		return accountMatrix.Parse(indexTokenMatcher, elementTokenMatcher);
+		return matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
 	}
 };
 
@@ -120,13 +115,8 @@ private:
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path).template M<2>();	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
-        auto stringMatrix = matrix();
         auto elementTokens = (*tokenFactory)({{"DateToken"},{ Type::Unit::TokenName }});
-        Matcher matcher(std::move(elementTokens));
-
-        stringMatrix.Parse(matcher, matcher);
-
-        return stringMatrix.Parse(matcher);
+        return matrix().Parse(Matcher(std::move(elementTokens)));
 	}
 };
 
