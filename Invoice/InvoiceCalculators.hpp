@@ -184,10 +184,10 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-		(*result)(*f);
+//		(*result)(*f);
 
-		std::cout<<*result<<std::endl;
-		std::cout<<"ELEMENTS: "<<result->Elements()<<std::endl;
+//		std::cout<<*result<<std::endl;
+//		std::cout<<"ELEMENTS: "<<result->Elements()<<std::endl;
 
 		return result->Elements();
 	}
@@ -202,10 +202,6 @@ public:
 private:
 	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
 	{ 
-		//*f<<"P"<<(*Base::parser)()[S::Index-1]<<std::endl;
-		auto mf = MatrixFormatter((*Base::parser)(true)[S::Index-1]);
-        auto out = mf(std::to_string(S::Index)+"_A.html","/home/markus/Downloads/CSV_TestFiles_2");
-		append(this->M(),out);
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
@@ -232,13 +228,13 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		auto mf = MatrixFormatter(stageMatrix[S::Index-1]);
+		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index-1));
         auto out = mf(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
 
         auto sumMatrix = account(out).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
-//		*f<<"T\t"<<"Sum\t"<<"Calculation\t"<<"CalcRes\t"<<"\t"<<"\t"<<std::endl;
+
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
 		std::vector<std::vector<std::string>> v = {{"Proportion","All","Calculation","CalcResult","","Out","Payment"}};
