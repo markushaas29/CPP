@@ -34,6 +34,7 @@ public:
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts()[0].template As<Quantity<Sum>>();
 	}
 	auto Costs() { return (*account)().To<Quantity<Sum>>(); }
+	auto Prop() { return (*proportion)(); }
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::shared_ptr<std::ofstream> file;
