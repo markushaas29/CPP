@@ -92,6 +92,7 @@ class TemplatizedAll_Test2023
 			assert(inv->Costs()[1]==Quantity<Sum>{-3326.63});
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 			std::cout<<"Prop--->"<<inv->Prop()<<std::endl;
+			assert(inv->Prop()[3].As<Quantity<Area>>()==Quantity<Area>{100});
 
 			auto m = inv->calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"ALL Res--->"<<m<<std::endl;
