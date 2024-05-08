@@ -108,11 +108,10 @@ private:
 	template<size_t N, typename Tup>
 	auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) const
 	{
-	    auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    
 		//assert(account.Value().Equals(Quantity<Sum>{-7977.75},0.02));
-	    auto sumMatrix = account(file).To<Quantity<Sum>>();
+	    auto sumMatrix = (*account)(file).To<Quantity<Sum>>();
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	    return stagesDiv * sumMatrix;                                                                                                       
 	}
