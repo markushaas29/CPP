@@ -79,7 +79,6 @@ private:
     
         auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
         auto stageQ = mS.Parse(smatcher, matcher);        
-		std::cout<<"Q"<<stageQ<<std::endl;
 		//std::cout<<"Q"<<(stageQ[1][6].template To<Quantity<Scalar>>()) / (stageQ[2][6].template To<Quantity<Scalar>>())<<std::endl;
         auto payment = stageQ.Cols(8,9,10).template To<Quantity<Sum>>();
         
@@ -87,7 +86,8 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
 
-		(*proportion)(file);
+		auto pm = (*proportion)(file);
+		std::cout<<"PM: "<<pm<<std::endl;
                                                                                                        
         return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,Base::elementFactory,visitorFactory, path);          
     };

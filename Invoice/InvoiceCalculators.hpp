@@ -237,7 +237,7 @@ private:
 
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
-		std::vector<std::vector<std::string>> v = {{"Proportion","All","Calculation","CalcResult","","Out","Payment"}};
+		std::vector<std::vector<std::string>> v;
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::string> vr;
