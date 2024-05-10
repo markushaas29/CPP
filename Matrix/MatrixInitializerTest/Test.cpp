@@ -194,6 +194,11 @@ class MatrixInitializerTest
 			}
 			std::cout<<"A = "<<cA<<std::endl;
 			std::cout<<"A = "<<a<<std::endl;
+
+			MatrixBuilder mb;
+			auto mbm = mb.Add(1.3).Add('c').Add("abc")();
+			std::cout<<"Mbm "<<mbm<<std::endl;
+
 			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
 
 			return 0;

@@ -12,11 +12,12 @@ public:
         return Init(v)();                                                                                                       
     }
 
-	auto Add(const auto& val) 
+	auto& Add(const auto& val) 
 	{
 		std::stringstream ss;
 		ss<<val;
 		v.push_back(ss.str());
+		return *this;
 	}
 private:
 	std::vector<std::string> v;
