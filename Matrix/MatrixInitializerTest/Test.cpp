@@ -197,6 +197,9 @@ class MatrixInitializerTest
 
 			MatrixBuilder mb;
 			auto mbm = mb.Add(1.3).Add('c').Add("abc")();
+			assert(mbm.Rows()==3);
+			mbm = mb.Add(1.3).Add('c').Add("abc")();
+			assert(mbm.Rows()==6);
 			std::cout<<"Mbm "<<mbm<<std::endl;
 
 			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
