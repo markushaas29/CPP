@@ -7,6 +7,7 @@
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixInitializer.hpp"
+#include "../MatrixBuilder.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixFilters.hpp"
 #include "../../CSV/Elements.hpp"
