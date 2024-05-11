@@ -195,7 +195,7 @@ class MatrixInitializerTest
 			std::cout<<"A = "<<cA<<std::endl;
 			std::cout<<"A = "<<a<<std::endl;
 
-			MatrixBuilder mb;
+			MatrixBuilder<1> mb;
 			auto mbm = mb.Add(1.3).Add('c').Add("abc")();
 			assert(mbm.Rows()==3);
 			mbm = mb.Add(1.3).Add('c').Add("abc")();
