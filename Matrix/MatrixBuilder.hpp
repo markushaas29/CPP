@@ -11,6 +11,12 @@ template<typename T>
 class MatrixBuilderBase
 {
 public:
+    auto operator()() const  {  return Init(v)(); }
+	auto& AddRow() 
+	{ 
+		v.push_back(T()); 
+		return *this;
+	}
 protected:
 	std::vector<T> v;
 };
@@ -19,10 +25,6 @@ template<>
 class MatrixBuilder<1>: public MatrixBuilderBase<std::string>
 {
 public:
-    auto operator()() const
-    {
-        return Init(v)();                                                                                                       
-    }
 
 	auto& Add(const auto& val) 
 	{
@@ -37,11 +39,6 @@ template<>
 class MatrixBuilder<2>: public MatrixBuilderBase<std::vector<std::string>>
 {
 public:
-    auto operator()() const
-    {
-        return Init(v)();                                                                                                       
-    }
-
 	auto& Add(const auto& val) 
 	{
 		if(v.size()==0)

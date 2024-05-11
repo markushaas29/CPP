@@ -200,6 +200,8 @@ class MatrixInitializerTest
 			assert(mbm.Rows()==3);
 			mbm = mb.Add(1.3).Add('c').Add("abc")();
 			assert(mbm.Rows()==6);
+			mbm = mb.AddRow()();
+			assert(mbm.Rows()==7);
 			std::cout<<"Mbm "<<mbm<<std::endl;
 
 			MatrixBuilder<2> mb2;
