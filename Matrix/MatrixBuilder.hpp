@@ -6,8 +6,17 @@
 
 template<size_t N> class MatrixBuilder;
 
+
+template<typename T> 
+class MatrixBuilderBase
+{
+public:
+protected:
+	std::vector<T> v;
+};
+
 template<>
-class MatrixBuilder<1>
+class MatrixBuilder<1>: public MatrixBuilderBase<std::string>
 {
 public:
     auto operator()() const
@@ -22,12 +31,10 @@ public:
 		v.push_back(ss.str());
 		return *this;
 	}
-private:
-	std::vector<std::string> v;
 };
 
 template<>
-class MatrixBuilder<2>
+class MatrixBuilder<2>: public MatrixBuilderBase<std::vector<std::string>>
 {
 public:
     auto operator()() const
