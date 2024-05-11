@@ -19,13 +19,15 @@ public:
 	}
 protected:
 	std::vector<T> v;
+private:
+	friend std::ostream& operator<<(std::ostream& s, const MatrixBuilderBase& i) { return i.display(s); }
+    virtual std::ostream& display(std::ostream& s) const = 0;
 };
 
 template<>
 class MatrixBuilder<1>: public MatrixBuilderBase<std::string>
 {
 public:
-
 	auto& Add(const auto& val) 
 	{
 		std::stringstream ss;
@@ -33,6 +35,8 @@ public:
 		v.push_back(ss.str());
 		return *this;
 	}
+private:
+    virtual std::ostream& display(std::ostream& s) const { return s;};
 };
 
 template<>
@@ -48,4 +52,6 @@ public:
 		v.back().push_back(ss.str());
 		return *this;
 	}
+private:
+    virtual std::ostream& display(std::ostream& s) const { return s;};
 };
