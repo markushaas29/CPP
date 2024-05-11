@@ -44,10 +44,10 @@ public:
 
 	auto& Add(const auto& val) 
 	{
+		if(v.size()==0)
+			v.push_back(std::vector<std::string>());
 		std::stringstream ss;
 		v.back().push_back(ss.str());
 		return *this;
 	}
-private:
-	std::vector<std::vector<std::string>> v;
 };
