@@ -44,6 +44,7 @@ public:
 		if(v.size()==0)
 			v.push_back(std::vector<std::string>());
 		std::stringstream ss;
+		ss<<val;
 		v.back().push_back(ss.str());
 		return *this;
 	}
