@@ -138,36 +138,36 @@ private:
             {"Waste",
                 {
                 
-                    {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}} // Waste
+                    {"Deduction",{{"EqualVisitor", { IBAN::Identifier, "DE44600501010008017284"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}} // Waste
                 }
             }, 
             {"Heating",
                 {
-                    {"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
-                    {"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
-                    {"Invoice",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", Base::year.Next().ToString()}}}},
-                    {"Rechnung",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { "IBAN", "DE68600501010002057075"}}, {"EqualVisitor", { "Year", Base::year.Next().ToString()}}}},
-                    //{"Maintenance",{{"EqualVisitor", { "IBAN", "DE73660623660009271112"}}, {"EqualVisitor", { "Year", "2022"}}}},
+                    {"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { IBAN::Identifier, "DE56600501017402051588"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
+                    {"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { IBAN::Identifier, "DE68600501010002057075"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
+                    {"Invoice",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { IBAN::Identifier, "DE56600501017402051588"}}, {"EqualVisitor", { "Year", Base::year.Next().ToString()}}}},
+                    {"Rechnung",{{"EqualVisitor", { "Entry", "Rechnung"}}, {"EqualVisitor", { IBAN::Identifier, "DE68600501010002057075"}}, {"EqualVisitor", { "Year", Base::year.Next().ToString()}}}},
+                    //{"Maintenance",{{"EqualVisitor", { IBAN::Identifier, "DE73660623660009271112"}}, {"EqualVisitor", { "Year", "2022"}}}},
                 }
             },
             {"BuildingInsurance",{
-                    {"Invoice",{{"EqualVisitor", { "IBAN", "DE97500500000003200029"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}} // Insurance
+                    {"Invoice",{{"EqualVisitor", { IBAN::Identifier, "DE97500500000003200029"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}} // Insurance
                 }
             },
             {"Cleaning",{
-                    {"Alles Proper",{{"EqualVisitor", { "IBAN", "DE05100110012620778704"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
-                    {"Jansen",{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
-                    {"Jansen",{{"EqualVisitor", { "IBAN", "DE08548500101700257437"}}, {"EqualVisitor", { "Month", "1"}}}},
-                    {"Rastaetter",{{"EqualVisitor", { "IBAN", "DE79660623660000101303"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
+                    {"Alles Proper",{{"EqualVisitor", { IBAN::Identifier, "DE05100110012620778704"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
+                    {"Jansen",{{"EqualVisitor", { IBAN::Identifier, "DE08548500101700257437"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
+                    {"Jansen",{{"EqualVisitor", { IBAN::Identifier, "DE08548500101700257437"}}, {"EqualVisitor", { "Month", "1"}}}},
+                    {"Rastaetter",{{"EqualVisitor", { IBAN::Identifier, "DE79660623660000101303"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}}},
                 }
             },
             {"PropertyTax",{
-                    {"Deduction",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}}} //Grundsteuer
+                    {"Deduction",{{"EqualVisitor", { IBAN::Identifier, "DE12660623660000005703"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}, {"EqualVisitor", { "Entry", "501000000891/Grundsteuer"}}}} //Grundsteuer
                 }
             },
             {"Sewage",{
-                    {"Deduction",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}}}, //Abwasser
-                    {"Invoice",{{"EqualVisitor", { "IBAN", "DE12660623660000005703"}}, {"EqualVisitor", { "Year", Base::year.Next().ToString()}}, {"EqualVisitor", { "Entry", "Rechnung/Abwasser"}}}} //Abwasser
+                    {"Deduction",{{"EqualVisitor", { IBAN::Identifier, "DE12660623660000005703"}}, {"EqualVisitor", { "Year", Base::year.ToString()}}, {"EqualVisitor", { "Entry", "Abschlag/Abwasser"}}}}, //Abwasser
+                    {"Invoice",{{"EqualVisitor", { IBAN::Identifier, "DE12660623660000005703"}}, {"EqualVisitor", { "Year", Base::year.Next().ToString()}}, {"EqualVisitor", { "Entry", "Rechnung/Abwasser"}}}} //Abwasser
                 }
             }
         };
