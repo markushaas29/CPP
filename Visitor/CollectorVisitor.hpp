@@ -86,6 +86,7 @@ public:
 	{ 
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
 		auto res = Base::func();
+		std::sort (elements.begin(), elements.end());
 		for(size_t j = 0; j < elements.size(); ++j)
 			std::cout<<"EL "<<j<<": "<<elements[j]<<std::endl;
 		for(size_t j = 1; j < elements.size(); ++j)
