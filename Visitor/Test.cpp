@@ -168,14 +168,16 @@ int Run()
 	
 	std::unique_ptr<BaseVisitor> cv = std::make_unique<ConsumptionVisitor<Quantity<Sum>>>();
 	  M2E m2ce {
-	      {std::make_shared<Date>(2,5,2020), std::make_shared<Quantity<Sum>>(7.5)},
+	      {std::make_shared<Date>(2,5,2022), std::make_shared<Quantity<Sum>>(7.5)},
 	      {std::make_shared<Date>(4,6,2022), std::make_shared<Quantity<Sum>>(5.5)},
+	      {std::make_shared<Date>(4,9,2023), std::make_shared<Quantity<Sum>>(5.5)},
 	      {std::make_shared<Date>(3,5,2021), std::make_shared<Quantity<Sum>>(3.5)},
-	      {std::make_shared<Date>(4,8,2020), std::make_shared<Quantity<Sum>>(1.5)},
+	      {std::make_shared<Date>(3,7,2023), std::make_shared<Quantity<Sum>>(3.5)},
+	      {std::make_shared<Date>(4,8,2022), std::make_shared<Quantity<Sum>>(1.5)},
 	  };
 	cv = m2ce.Accept(std::move(cv));
 
-	std::cout<<"Consumption Visitor _>\n"<<((cv->template As<ConsumptionVisitor<Quantity<Sum>>>()))()<<std::endl;
+	std::cout<<"Consumption Visitor _>\n"<<*((cv->template As<ConsumptionVisitor<Quantity<Sum>>>()))()<<std::endl;
 
 	std::cout<<"END Visitor"<<std::endl;
    

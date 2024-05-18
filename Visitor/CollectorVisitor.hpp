@@ -86,9 +86,21 @@ public:
 	{ 
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
 		auto res = Base::func();
+		Year y{2023};
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l > r; });
+
 		for(size_t j = 0; j < elements.size(); ++j)
 			std::cout<<"EL "<<j<<": "<<elements[j]<<std::endl;
+		auto it = find(elements.begin(), elements.end(), y);
+		if(it!=elements.end())
+		{
+			std::vector<Date> preYear;
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&y](const auto& d) { return d == y.Prev(); });
+			//auto it2 = std::find_if(elements.begin(), elements.end(), [&y](const auto& v) { return v == y.Prev(); });
+			for(size_t j = 0; j < preYear.size(); ++j)
+				std::cout<<"Y "<<preYear[j]<<"\t"<<*it-preYear[j]<<std::endl;
+		}
+
 		for(size_t j = 1; j < elements.size(); ++j)
 			if((elements[0] - elements[j]) > Ds(320) && (elements[0] - elements[j]) < Ds(400))
 				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
