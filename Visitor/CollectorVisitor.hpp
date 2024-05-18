@@ -86,6 +86,8 @@ public:
 	{ 
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
 		auto res = Base::func();
+		for(size_t j = 0; j < elements.size(); ++j)
+			std::cout<<"EL "<<j<<": "<<elements[j]<<std::endl;
 		for(size_t j = 1; j < elements.size(); ++j)
 			if((elements[0] - elements[j]) > Ds(320) && (elements[0] - elements[j]) < Ds(400))
 				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
