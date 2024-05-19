@@ -84,14 +84,14 @@ class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,
 		T quantity;
 		Date date;
 		Data(const Date& d): date{d} {};
-		bool operator==(const Data& d) { return date==d.date; }
 	};
 public:
 	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(Data{t}); };
 	virtual typename Base::ReturnType Visit(T& t) 
 	{ 
-		std::cout<<"Base"<<std::endl;
-		Base::Visit(t); };
+		Base::Visit(t); 
+		elements.back().quantity = t;
+	};
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return nullptr; };
 	virtual std::shared_ptr<IElement> operator()() 
 	{ 
@@ -101,13 +101,12 @@ public:
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
 
 		for(size_t j = 0; j < elements.size(); ++j)
-			std::cout<<"EL "<<j<<": "<<elements[j].date<<std::endl;
+			std::cout<<"EL "<<j<<": "<<elements[j].date<<" "<<elements[j].quantity<<std::endl;
 		auto it = find_if(elements.begin(), elements.end(), [&y](const auto& l) { return l.date == y; });
 		if(it!=elements.end())
 		{
 			std::vector<Data> preYear;
 			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&y](const auto& d) { return d.date == y.Prev(); });
-			//auto it2 = std::find_if(elements.begin(), elements.end(), [&y](const auto& v) { return v == y.Prev(); });
 			for(size_t j = 0; j < preYear.size(); ++j)
 				std::cout<<"Y "<<preYear[j].date<<"\t"<<it->date-preYear[j].date<<std::endl;
 		}
