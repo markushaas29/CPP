@@ -81,6 +81,10 @@ class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,
 	using Ds = Quantity<Unit<0, 0, 0, 1>, DaysBase<1>, unsigned int>;
 public:
 	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
+	virtual typename Base::ReturnType Visit(T& t) 
+	{ 
+		std::cout<<"Base"<<std::endl;
+		Base::Visit(t); };
 	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) { return nullptr; };
 	virtual std::shared_ptr<IElement> operator()() 
 	{ 
