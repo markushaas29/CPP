@@ -112,9 +112,9 @@ public:
 				std::cout<<"Y "<<preYear[j].date<<"\t"<<it->date-preYear[j].date<<std::endl;
 		}
 
-//		for(size_t j = 1; j < elements.size(); ++j)
-//			if((elements[0] - elements[j]) > Ds(320) && (elements[0] - elements[j]) < Ds(400))
-//				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
+		for(size_t j = 1; j < elements.size(); ++j)
+			if((elements[0].date - elements[j].date) > Ds(320) && (elements[0].date - elements[j].date) < Ds(400))
+				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
 		return std::make_shared<T>(res[0]);
 	};
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
