@@ -178,8 +178,10 @@ int Run()
 	cv = m2ce.Accept(std::move(cv));
 
 	std::cout<<"Consumption Visitor _>\n"<<*((cv->template As<ConsumptionVisitor<Quantity<Sum>>>()))()<<std::endl;
+	auto diff = ((cv->template As<ConsumptionVisitor<Quantity<Sum>>>()))(Year{2023});
 
-	std::cout<<"END Visitor"<<std::endl;
+	assert(*diff==Quantity<Sum>(-4));
+	std::cout<<"END Visitor"<<*diff<<std::endl;
    
 	return 0;
 }
