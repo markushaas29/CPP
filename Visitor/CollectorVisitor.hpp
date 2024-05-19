@@ -83,9 +83,11 @@ class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,
 	{
 		T quantity;
 		Date date;
+		Data(const Date& d): date{d} {};
+		bool operator==(const Data& d) { return date==d.date; }
 	};
 public:
-	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(t); };
+	virtual Visitor<Date>::ReturnType Visit(Date& t) { elements.push_back(Data{t}); };
 	virtual typename Base::ReturnType Visit(T& t) 
 	{ 
 		std::cout<<"Base"<<std::endl;
@@ -96,23 +98,23 @@ public:
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
 		auto res = Base::func();
 		Year y{2023};
-		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l > r; });
+		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
 
 		for(size_t j = 0; j < elements.size(); ++j)
-			std::cout<<"EL "<<j<<": "<<elements[j]<<std::endl;
-		auto it = find(elements.begin(), elements.end(), y);
+			std::cout<<"EL "<<j<<": "<<elements[j].date<<std::endl;
+		auto it = find_if(elements.begin(), elements.end(), [&y](const auto& l) { return l.date == y; });
 		if(it!=elements.end())
 		{
-			std::vector<Date> preYear;
-			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&y](const auto& d) { return d == y.Prev(); });
+			std::vector<Data> preYear;
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&y](const auto& d) { return d.date == y.Prev(); });
 			//auto it2 = std::find_if(elements.begin(), elements.end(), [&y](const auto& v) { return v == y.Prev(); });
 			for(size_t j = 0; j < preYear.size(); ++j)
-				std::cout<<"Y "<<preYear[j]<<"\t"<<*it-preYear[j]<<std::endl;
+				std::cout<<"Y "<<preYear[j].date<<"\t"<<it->date-preYear[j].date<<std::endl;
 		}
 
-		for(size_t j = 1; j < elements.size(); ++j)
-			if((elements[0] - elements[j]) > Ds(320) && (elements[0] - elements[j]) < Ds(400))
-				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
+//		for(size_t j = 1; j < elements.size(); ++j)
+//			if((elements[0] - elements[j]) > Ds(320) && (elements[0] - elements[j]) < Ds(400))
+//				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
 		return std::make_shared<T>(res[0]);
 	};
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
@@ -121,8 +123,8 @@ private:
 	{ 	
 		auto res = Base::func();
 		for(auto i = 0; i < res.size(); ++i)
-			s<<res[i]<<" "<<res[i]()<<"\t from: "<<elements[i]<<"\t to:"<<elements[i+1]<<std::endl;
+			s<<res[i]<<" "<<res[i]()<<"\t from: "<<elements[i].date<<"\t to:"<<elements[i+1].date<<std::endl;
 		return s;	
 	};
-	std::vector<Date> elements;
+	std::vector<Data> elements;
 };
