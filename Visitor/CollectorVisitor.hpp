@@ -114,7 +114,7 @@ public:
 			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) { return d.date == y.Prev(); 	});
 	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
 
-			return std::make_shared<T>(std::to_string(it->quantity-itp->quantity));
+			return std::make_shared<T>(it->quantity-itp->quantity);
 		}
 
 		return nullptr;
