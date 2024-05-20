@@ -117,7 +117,7 @@ public:
 			return std::make_shared<T>(std::to_string(it->quantity-itp->quantity));
 		}
 
-		return std::make_shared<T>(res[0]);
+		return nullptr;
 	};
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:

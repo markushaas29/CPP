@@ -47,8 +47,6 @@ private:
         			auto civ = (*Base::visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-					assert(*(consV())==*(consV(Base::year)));
-				//	*f<<consV<<std::endl;
 					els.push_back(consV(Base::year));	
 				});
 
