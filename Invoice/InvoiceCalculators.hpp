@@ -49,7 +49,7 @@ private:
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 					assert(*(consV())==*(consV(Base::year)));
 				//	*f<<consV<<std::endl;
-					els.push_back(consV());	
+					els.push_back(consV(Base::year));	
 				});
 
 		auto med = Init(els);

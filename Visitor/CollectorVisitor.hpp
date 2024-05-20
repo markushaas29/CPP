@@ -105,16 +105,13 @@ public:
 	};
 	virtual std::shared_ptr<IElement> operator()(Year y, Quantity<Time,Days,uint> days = Quantity<Time,Days,uint>{365}) 
 	{ 
-		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
-		auto res = Base::func();
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
-
 		auto it = find_if(elements.begin(), elements.end(), [&y](const auto& l) { return l.date == y; });
+
 		if(it!=elements.end())
 		{
 			std::vector<Data> preYear;
 			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) { return d.date == y.Prev(); 	});
-	
 	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
 
 			return std::make_shared<T>(std::to_string(it->quantity-itp->quantity));
