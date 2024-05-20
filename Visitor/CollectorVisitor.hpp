@@ -98,23 +98,6 @@ public:
 	{ 
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
 		auto res = Base::func();
-		Year y{2023};
-		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
-
-		for(size_t j = 0; j < elements.size(); ++j)
-			std::cout<<"EL "<<j<<": "<<elements[j].date<<" "<<elements[j].quantity<<std::endl;
-		auto it = find_if(elements.begin(), elements.end(), [&y](const auto& l) { return l.date == y; });
-		if(it!=elements.end())
-		{
-			std::vector<Data> preYear;
-			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) 
-				{
-					d.days = it->date - d.date;
-					return d.date == y.Prev(); 
-				});
-			for(size_t j = 0; j < preYear.size(); ++j)
-				std::cout<<"Y "<<preYear[j].date<<"\t"<<it->date-preYear[j].date<<preYear[j].days<<std::endl;
-		}
 
 		for(size_t j = 1; j < elements.size(); ++j)
 			if((elements[0].date - elements[j].date) > Ds(320) && (elements[0].date - elements[j].date) < Ds(400))
@@ -127,8 +110,6 @@ public:
 		auto res = Base::func();
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
 
-		for(size_t j = 0; j < elements.size(); ++j)
-			std::cout<<"EL "<<j<<": "<<elements[j].date<<" "<<elements[j].quantity<<std::endl;
 		auto it = find_if(elements.begin(), elements.end(), [&y](const auto& l) { return l.date == y; });
 		if(it!=elements.end())
 		{
@@ -138,16 +119,27 @@ public:
 					d.days = it->date - d.date;
 					return d.date == y.Prev(); 
 				});
-			for(size_t j = 0; j < preYear.size(); ++j)
-				std::cout<<"Y "<<preYear[j].quantity<<"\t"<<it->quantity<<" "<<preYear[0].quantity-(it->quantity)<<std::endl;
-			return std::make_shared<T>(std::to_string(preYear[0].quantity-(it->quantity)));
+	
+	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
+
+			std::cout<<"YIT "<<it->date<<" "<<it->quantity-itp->quantity<<std::endl;
+			return std::make_shared<T>(std::to_string(it->quantity-itp->quantity));
 		}
-				std::cout<<"YT "<<std::endl;
 
 		return std::make_shared<T>(res[0]);
 	};
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:
+	auto closest(auto value, const auto& cont) const
+	{
+//	    //assert(!mV.empty());
+//	    auto it = std::min_element(mV.begin(), mV.end(), [value] (double a, double b) {
+//	        return std::abs(value - a) < std::abs(value - b);
+//	    });
+//	    //assert(it != mV.end());
+//	
+//	    return *it;
+	}
 	virtual std::ostream& display(std::ostream& s) const 
 	{ 	
 		auto res = Base::func();
