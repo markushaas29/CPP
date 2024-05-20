@@ -83,7 +83,6 @@ class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,
 	{
 		T quantity;
 		Date date;
-		Quantity<Time,Days,uint> days;
 		Data(const Date& d): date{d} {};
 	};
 public:
@@ -114,15 +113,10 @@ public:
 		if(it!=elements.end())
 		{
 			std::vector<Data> preYear;
-			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) 
-				{
-					d.days = it->date - d.date;
-					return d.date == y.Prev(); 
-				});
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) { return d.date == y.Prev(); 	});
 	
 	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
 
-			std::cout<<"YIT "<<it->date<<" "<<it->quantity-itp->quantity<<std::endl;
 			return std::make_shared<T>(std::to_string(it->quantity-itp->quantity));
 		}
 
