@@ -32,9 +32,12 @@ public:
 	}
 	decltype(auto) Id() const { return identifier; }
 private:
-	friend std::istream& operator<<(std::istream& s, const FactoryUnit& f) 
+	friend std::istream& operator>>(std::istream& s, const FactoryUnit& f) 
 	{ 
 		std::cout<<"IS"<<std::endl;
+        std::string str;
+        s>>str;
+		std::cout<<str<<std::endl;
 		return s;
 	}
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 

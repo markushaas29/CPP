@@ -12,7 +12,9 @@ class FactoryUnitTest
 int Run()
 {
 	std::cout<<"START FactoryUnit"<<std::endl;
-	FactoryUnit<> fu;
+	FactoryUnit fu;
+	std::istringstream is("123.4 km");
+	is>>fu;
 	std::cout<<"END factory"<<std::endl;
    
 	return 0;
