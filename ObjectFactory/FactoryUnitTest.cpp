@@ -12,6 +12,7 @@ class FactoryUnitTest
 int Run()
 {
 	std::cout<<"START FactoryUnit"<<std::endl;
+	FactoryUnit<> fu;
 	std::cout<<"END factory"<<std::endl;
    
 	return 0;

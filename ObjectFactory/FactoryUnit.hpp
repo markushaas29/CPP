@@ -22,7 +22,8 @@ template<typename IdentifierType=std::string, typename ArgumentType=std::string>
 class FactoryUnit
 {
 public:
-	FactoryUnit(const IdentifierType& id, const ArgumentType& arg = ArgumentType{}) : identifier{id}, argument{arg} {}
+	FactoryUnit() = default;
+	FactoryUnit(const IdentifierType& id, const ArgumentType& arg= ArgumentType{}) : identifier{id}, argument{arg} {}
 	decltype(auto) Arg() const { return argument; }
 	decltype(auto) Add(const auto& fu) 
 	{
@@ -31,6 +32,11 @@ public:
 	}
 	decltype(auto) Id() const { return identifier; }
 private:
+	friend std::istream& operator<<(std::istream& s, const FactoryUnit& f) 
+	{ 
+		std::cout<<"IS"<<std::endl;
+		return s;
+	}
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 
 	{ 
 		if constexpr (std::is_same_v<ArgumentType,std::vector<FactoryUnit<std::string, std::string>>>)
@@ -45,6 +51,9 @@ private:
 	IdentifierType identifier;
 	ArgumentType argument;
 };
+
+template<typename T, typename A>
+FactoryUnit(const T&, const A&) -> FactoryUnit<T,A>;
 
 template<typename UnitT>
 class IFactoryUnitContainer
