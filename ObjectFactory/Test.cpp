@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Factory.hpp"
+#include "FactoryUnitTest.cpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/IMatrixQuery.hpp"
 #include "../Matrix/MatrixQuery.hpp"
@@ -176,6 +177,8 @@ int Run()
 	//assert((*cb)("ABC"));
 	
 	std::cout<<fmt<<*idp<<std::endl;
+	FactoryUnitTest fu;
+	fu.Run();
 	std::cout<<"END factory"<<std::endl;
    
 	return 0;
