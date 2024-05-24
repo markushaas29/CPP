@@ -188,16 +188,19 @@ int Run()
 	      {std::make_shared<Date>(30,9,2023), std::make_shared<Quantity<Volume>>(4)},
 	      {std::make_shared<Date>(4,12,2022), std::make_shared<Quantity<Volume>>(2)},
 	      {std::make_shared<Date>(4,9,2023), std::make_shared<Quantity<Volume>>(3)},
+	      {std::make_shared<Date>(31,6,2023), std::make_shared<Quantity<Volume>>(2.5)},
 	      {std::make_shared<Date>(3,5,2022), std::make_shared<Quantity<Volume>>(1)},
 	      {std::make_shared<Date>(3,5,2021), std::make_shared<Quantity<Volume>>(0.5)},
 	  };
 	cvv = mv.Accept(std::move(cvv));
 
-	auto qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023});
-
-	assert(*qv==Quantity<Volume>(3));
-	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2022});
+	auto qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023},Quantity<Time,Days,uint>(480));
 	std::cout<<"Consumption Visitor _>\n"<<*qv<<std::endl;
+	assert(*qv==Quantity<Volume>(4));
+	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023});
+	assert(*qv==Quantity<Volume>(3));
+
+	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2022});
 	assert(*qv==Quantity<Volume>(1.5));
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
