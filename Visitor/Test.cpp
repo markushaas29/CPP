@@ -195,8 +195,10 @@ int Run()
 	cvv = mv.Accept(std::move(cvv));
 
 	auto qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023},Quantity<Time,Days,uint>(480));
-	std::cout<<"Consumption Visitor _>\n"<<*qv<<std::endl;
 	assert(*qv==Quantity<Volume>(4));
+	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023},Quantity<Time,Days,uint>(180));
+	std::cout<<"Consumption Visitor _>\n"<<*qv<<std::endl;
+	assert(*qv==Quantity<Volume>(2.5));
 	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023});
 	assert(*qv==Quantity<Volume>(3));
 
