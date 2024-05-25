@@ -32,12 +32,17 @@ public:
 	}
 	decltype(auto) Id() const { return identifier; }
 private:
-	friend std::istream& operator>>(std::istream& s, const FactoryUnit& f) 
+	friend std::istream& operator>>(std::istream& s, FactoryUnit& f) 
 	{ 
-		std::cout<<"IS"<<std::endl;
-        std::string str;
-        s>>str;
-		std::cout<<str<<std::endl;
+        std::string str, id, arg;
+		s>>id;
+		s>>arg;
+		f = FactoryUnit(id,arg);
+		while(s)
+		{
+        	s>>str;
+			std::cout<<str<<std::endl;
+		}
 		return s;
 	}
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 
@@ -48,7 +53,7 @@ private:
 			std::for_each(f.argument.cbegin(), f.argument.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
 		}
 		else
-			s<<f.identifier<<": "<<f.argument;
+			s<<f.identifier<<" "<<f.argument;
 		return s;
 	}
 	IdentifierType identifier;

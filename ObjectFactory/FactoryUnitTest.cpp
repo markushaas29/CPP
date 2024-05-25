@@ -13,8 +13,11 @@ int Run()
 {
 	std::cout<<"START FactoryUnit"<<std::endl;
 	FactoryUnit fu;
-	std::istringstream is("123.4 km");
+	std::istringstream is("1 2 3.4 km");
 	is>>fu;
+	assert(fu.Id()=="1");
+	assert(fu.Arg()=="2");
+	std::cout<<"factory "<<fu<<std::endl;
 	std::cout<<"END factory"<<std::endl;
    
 	return 0;
