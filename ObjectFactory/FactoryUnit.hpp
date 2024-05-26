@@ -91,8 +91,9 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 	{ 
-		s<<f.name<<std::endl;
+		s<<"{"<<f.name<<std::endl;
 		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
+		s<<"}";
 		return s;
 	}
 	virtual std::string iname() const { return name; };
