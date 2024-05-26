@@ -37,11 +37,14 @@ int Run()
                 }
             },
         };
-   FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fuc =
+   	FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fuc =
                     {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}}, {EqualVisitor::Identifier, { Year::Identifier, "2023"}}}};
    
-   FactoryUnit<std::string,FactoryUnit<std::string, std::string>> ffu = {EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}};
+  	FactoryUnit<std::string,FactoryUnit<std::string, std::string>> ffu = {EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}};
 	std::cout<<"fuc"<<fuc<<std::endl;
+    std::istringstream isc("{Deduction,{{EqualVisitor::Identifier, { IBAN::Identifier, DE44600501010008017284}}, {EqualVisitor::Identifier, { Year::Identifier, 2023}}}}");
+
+	isc>>fuc;
 	std::cout<<"fuc"<<ffu<<std::endl;
 	std::cout<<"END factory"<<std::endl;
 	return 0;

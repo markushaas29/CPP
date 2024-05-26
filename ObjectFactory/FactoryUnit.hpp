@@ -86,6 +86,16 @@ private:
 		s<<"}";
 		return s;
 	}
+	friend std::istream& operator>>(std::istream& s, FactoryUnitContainer& f) 
+	{ 
+        std::string str, id, arg;
+		while(s)
+		{
+        	s>>str;
+			std::cout<<str<<std::endl;
+		}
+		return s;
+	}
 	virtual std::string iname() const { return name; };
 	virtual UnitType values() const { return units; };
 	virtual size_t num() const { return 1; };
