@@ -18,7 +18,6 @@ int Run()
 	assert(fu.Id()=="1");
 	assert(fu.Arg()=="2");
 	std::cout<<"factory "<<fu<<std::endl;
-	std::cout<<"END factory"<<std::endl;
 
 	std::vector<FactoryUnitContainer<std::vector<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>>> allFactoryUnits = 
         {
@@ -38,7 +37,13 @@ int Run()
                 }
             },
         };
+   FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fuc =
+                    {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}}, {EqualVisitor::Identifier, { Year::Identifier, "2023"}}}};
    
+   FactoryUnit<std::string,FactoryUnit<std::string, std::string>> ffu = {EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}};
+	std::cout<<"fuc"<<fuc<<std::endl;
+	std::cout<<"fuc"<<ffu<<std::endl;
+	std::cout<<"END factory"<<std::endl;
 	return 0;
 }
 };

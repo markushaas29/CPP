@@ -45,17 +45,7 @@ private:
 		}
 		return s;
 	}
-	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 
-	{ 
-		if constexpr (std::is_same_v<ArgumentType,std::vector<FactoryUnit<std::string, std::string>>>)
-		{
-			s<<f.identifier<<std::endl;
-			std::for_each(f.argument.cbegin(), f.argument.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
-		}
-		else
-			s<<f.identifier<<" "<<f.argument;
-		return s;
-	}
+	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 	{	return	s<<f.identifier<<" "<<f.argument;	}
 	IdentifierType identifier;
 	ArgumentType argument;
 };
@@ -91,7 +81,7 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 	{ 
-		s<<"{"<<f.name<<std::endl;
+		s<<"{"<<f.name<<":"<<"\n";
 		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
 		s<<"}";
 		return s;
