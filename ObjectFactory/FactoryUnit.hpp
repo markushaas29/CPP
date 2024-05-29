@@ -34,15 +34,15 @@ public:
 private:
 	friend std::istream& operator>>(std::istream& s, FactoryUnit& f) 
 	{ 
-        std::string str, id, arg;
+        std::string b, id, arg;
+		s>>b;
+		if(b!="{")
+			return s;
 		s>>id;
 		s>>arg;
 		f = FactoryUnit(id,arg);
-		while(s)
-		{
-        	s>>str;
-			std::cout<<str<<std::endl;
-		}
+		s>>b;
+
 		return s;
 	}
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 	{	return	s<<"{ "<<f.identifier<<" "<<f.argument<<" }";	}
