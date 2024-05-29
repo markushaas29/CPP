@@ -45,7 +45,7 @@ private:
 		}
 		return s;
 	}
-	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 	{	return	s<<f.identifier<<" "<<f.argument;	}
+	friend std::ostream& operator<<(std::ostream& s, const FactoryUnit& f) 	{	return	s<<"{ "<<f.identifier<<" "<<f.argument<<" }";	}
 	IdentifierType identifier;
 	ArgumentType argument;
 };

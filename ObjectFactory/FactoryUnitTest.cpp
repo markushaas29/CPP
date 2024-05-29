@@ -42,7 +42,7 @@ int Run()
    
   	FactoryUnit<std::string,FactoryUnit<std::string, std::string>> ffu = {EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}};
 	std::cout<<"fuc"<<fuc<<std::endl;
-    std::istringstream isc("{Deduction,{{EqualVisitor::Identifier, { IBAN::Identifier, DE44600501010008017284}}, {EqualVisitor::Identifier, { Year::Identifier, 2023}}}}");
+    std::istringstream isc("{ Deduction, { { EqualVisitor, { IBAN, DE44600501010008017284 } } , { EqualVisitor , { Year , 2023 } } } }");
 
 	isc>>fuc;
 	std::cout<<"fuc"<<ffu<<std::endl;
