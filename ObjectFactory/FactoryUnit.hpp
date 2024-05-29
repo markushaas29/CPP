@@ -92,6 +92,12 @@ private:
 		while(s)
 		{
         	s>>str;
+			if(str=="{")
+			{
+				//s.putback(str[0]);
+				UnitType u;
+				//s>>u;
+			}
 			std::cout<<str<<std::endl;
 		}
 		return s;
