@@ -48,7 +48,7 @@ int Run()
    
   	FactoryUnit<std::string,FactoryUnit<std::string, std::string>> ffu = {EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}};
 	std::cout<<"fuc"<<fuc<<std::endl;
-    std::istringstream isc("{ Deduction, { { EqualVisitor { IBAN DE44600501010008017284 } } , { EqualVisitor { Year 2023 } } } }");
+    std::istringstream isc("[ Deduction, [ { EqualVisitor { IBAN DE44600501010008017284 } } , { EqualVisitor { Year 2023 } } ] ]");
     std::istringstream isfu("{ EqualVisitor { Year 2023 } }");
 
 	isfu>>ffu;
@@ -56,6 +56,9 @@ int Run()
 	assert(ffu.Arg().Id()=="Year");
 	assert(ffu.Arg().Arg()=="2023");
 	std::cout<<"fuc"<<ffu<<std::endl;
+	
+	isc>>fuc;
+	std::cout<<"fuc"<<fuc<<std::endl;
 	std::cout<<"END factory"<<std::endl;
 	return 0;
 }

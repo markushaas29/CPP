@@ -91,14 +91,20 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 	{ 
-		s<<"{"<<f.name<<" [ "<<"\n";
+		s<<"["<<f.name<<" [ "<<"\n";
 		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
-		s<<" ] }";
+		s<<" ] ]";
 		return s;
 	}
 	friend std::istream& operator>>(std::istream& s, FactoryUnitContainer& f) 
 	{ 
-        std::string str, id, arg;
+        std::string b, str, id, arg;
+		UnitType units;
+		s>>b;
+		if(b!="[")
+			return s;
+		s>>id;
+			std::cout<<"Id "<<id<<std::endl;
 		while(s)
 		{
         	s>>str;
@@ -106,11 +112,14 @@ private:
 			if(str=="{")
 			{
 				s.putback(str[0]);
-				UnitType u;
+				typename UnitType::value_type u;
 				s>>u;
 			std::cout<<"Unit "<<u<<std::endl;
+			units.push_back(u);
 			}
 		}
+		f.name = id;
+		f.units = units;
 		return s;
 	}
 	virtual std::string iname() const { return name; };
