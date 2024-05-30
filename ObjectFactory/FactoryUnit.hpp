@@ -18,6 +18,13 @@ public:
 	}
 };
 
+template<typename P>
+concept UnitConcept = requires(P p)
+{
+    p.Arg();
+    p.Id();
+};
+
 template<typename IdentifierType=std::string, typename ArgumentType=std::string>
 class FactoryUnit
 {
@@ -34,7 +41,10 @@ public:
 private:
 	friend std::istream& operator>>(std::istream& s, FactoryUnit& f) 
 	{ 
-        std::string b, id, arg;
+        std::string b;
+		IdentifierType id;
+		ArgumentType arg;
+
 		s>>b;
 		if(b!="{")
 			return s;
@@ -81,9 +91,9 @@ public:
 private:
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 	{ 
-		s<<"{"<<f.name<<":"<<"\n";
+		s<<"{"<<f.name<<" [ "<<"\n";
 		std::for_each(f.units.cbegin(), f.units.cend(), [&](const auto& a) {s<<"\t"<<a<<"\n"; });
-		s<<"}";
+		s<<" ] }";
 		return s;
 	}
 	friend std::istream& operator>>(std::istream& s, FactoryUnitContainer& f) 
@@ -92,13 +102,14 @@ private:
 		while(s)
 		{
         	s>>str;
+			std::cout<<"Unit "<<str<<std::endl;
 			if(str=="{")
 			{
-				//s.putback(str[0]);
+				s.putback(str[0]);
 				UnitType u;
-				//s>>u;
+				s>>u;
+			std::cout<<"Unit "<<u<<std::endl;
 			}
-			std::cout<<str<<std::endl;
 		}
 		return s;
 	}
