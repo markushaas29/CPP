@@ -45,7 +45,7 @@ protected:
 	friend class D<T,Q>;
 	using ResultType = typename Base::ResultType;
 	using ResultMatrixType = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>;
-	using UnitVectorType = FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>;
+	using UnitVectorType = FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>;
 public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};

@@ -79,7 +79,7 @@ private:
 //		return s;
 //	}
 	virtual std::string iname() const = 0;
-	virtual UnitType values() const = 0;
+	virtual std::vector<UnitType> values() const = 0;
 	virtual size_t num() const = 0;
 };
 
@@ -87,7 +87,7 @@ template<typename UnitType>
 class FactoryUnitContainer: public IFactoryUnitContainer<UnitType>
 {
 public:
-	FactoryUnitContainer(const std::string& n, const UnitType& u): name{n}, units{u} {}
+	FactoryUnitContainer(const std::string& n, const std::vector<UnitType>& u): name{n}, units{u} {}
 private:
 	friend std::ostream& operator<<(std::ostream& s, const FactoryUnitContainer& f) 
 	{ 
@@ -99,7 +99,7 @@ private:
 	friend std::istream& operator>>(std::istream& s, FactoryUnitContainer& f) 
 	{ 
         std::string b, str, id, arg;
-		UnitType units;
+		std::vector<UnitType> units;
 		s>>b;
 		if(b!="[")
 			return s;
@@ -112,7 +112,7 @@ private:
 			if(str=="{")
 			{
 				s.putback(str[0]);
-				typename UnitType::value_type u;
+				UnitType u;
 				s>>u;
 			std::cout<<"Unit "<<u<<std::endl;
 			units.push_back(u);
@@ -123,12 +123,12 @@ private:
 		return s;
 	}
 	virtual std::string iname() const { return name; };
-	virtual UnitType values() const { return units; };
+	virtual std::vector<UnitType> values() const { return units; };
 	virtual size_t num() const { return 1; };
 	std::string name;
-	UnitType units;
+	std::vector<UnitType> units;
 };
 
 
 template<typename T>
-FactoryUnitContainer(const std::string&, const T&) -> FactoryUnitContainer<T>;
+FactoryUnitContainer(const std::string&, const std::vector<T>&) -> FactoryUnitContainer<T>;

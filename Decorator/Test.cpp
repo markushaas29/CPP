@@ -22,8 +22,8 @@ class DecoratorTest
 			//{"Deduction",{{"EqualVisitor", { "Entry", "Abschlagsforderung"}}, {"EqualVisitor", { "Entry", "701006843905"}}, {"EqualVisitor", { "IBAN", "DE56600501017402051588"}}, {"EqualVisitor", { "Year", "2023"}}}}
 			std::vector<std::string> v = { "Entry", "Abschlagsforderung"};
 
-			FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> fu = {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}}};
-			std::unique_ptr<IFactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> pfu = std::make_unique<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>(fu);
+			FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>> fu = {"Deduction",{{"EqualVisitor", { "IBAN", "DE44600501010008017284"}}}};
+			std::unique_ptr<IFactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>> pfu = std::make_unique<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>(fu);
 			auto dy = Decorator(Year{2023},fu);
 			auto dyp = Decorator(Year{2023},std::move(pfu));
 			

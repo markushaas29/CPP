@@ -132,7 +132,7 @@ private:
 
 		//std::cout<<parsedAccountMatrix<<std::endl;
 
-		std::vector<FactoryUnitContainer<std::vector<FactoryUnitContainer<std::vector<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>>> allFactoryUnits = 
+		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
         {
             {"Waste",
                 {
