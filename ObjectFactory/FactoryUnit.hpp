@@ -98,28 +98,22 @@ private:
 	}
 	friend std::istream& operator>>(std::istream& s, FactoryUnitContainer& f) 
 	{ 
-        std::string b, str, id, arg;
-		std::vector<UnitType> units;
+        std::string b;
 		s>>b;
 		if(b!="[")
 			return s;
-		s>>id;
-			std::cout<<"Id "<<id<<std::endl;
+		s>>f.name;
 		while(s)
 		{
-        	s>>str;
-			std::cout<<"Unit "<<str<<std::endl;
-			if(str=="{")
+        	s>>b;
+			if(b=="{")
 			{
-				s.putback(str[0]);
+				s.putback(b[0]);
 				UnitType u;
 				s>>u;
-			std::cout<<"Unit "<<u<<std::endl;
-			units.push_back(u);
+				f.units.push_back(u);
 			}
 		}
-		f.name = id;
-		f.units = units;
 		return s;
 	}
 	virtual std::string iname() const { return name; };

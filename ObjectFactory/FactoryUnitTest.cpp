@@ -59,6 +59,12 @@ int Run()
 	
 	isc>>fuc;
 	std::cout<<"fuc"<<fuc<<std::endl;
+	assert(fuc.Units()[0].Id()=="EqualVisitor");
+	assert(fuc.Units()[1].Id()=="EqualVisitor");
+	assert(fuc.Units()[0].Arg().Id()=="IBAN");
+	assert(fuc.Units()[0].Arg().Arg()=="DE44600501010008017284");
+	assert(fuc.Units()[1].Arg().Arg()=="2023");
+	assert(fuc.Units()[1].Arg().Arg()=="2023");
 	std::cout<<"END factory"<<std::endl;
 	return 0;
 }
