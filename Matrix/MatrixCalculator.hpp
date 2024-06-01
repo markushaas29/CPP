@@ -61,6 +61,15 @@ private:
         auto el = Op(v)();
         return ResultType(DescriptorType{el.size()},el); 
     }
+    static decltype(auto) transform(const LeftType& m)
+    {
+		auto v = std::vector<typename LeftType::ElementType>(m.elements->size());
+		for(size_t i = 0; i < m.Rows(); ++i)
+			for(size_t j = 0; j < m.Cols(); ++j)
+				v[(j * m.Cols())+i] = *(m.elements->at((i * m.Rows())+j));
+		using ResultType = Matrix<LeftType::Order, DescriptorType>;
+        return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
+    }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, const F& f)
     {

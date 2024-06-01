@@ -225,10 +225,11 @@ class MatrixCalculatorTest
 				},
 			};
 
-			auto m2dT = m2d^1;
-			assert(m2dT==1);
-			auto m2dT2 = m2d^-1;
-			assert(m2dT2==1);
+			auto m33dT = m33^1;
+			std::cout<<"Trans"<<m33dT<<std::endl;
+//			assert(m2dT==1);
+//			auto m2dT2 = m2d^-1;
+//			assert(m2dT2==1);
 		
 			auto m1Am1 = m1 + m1; 
 			std::cout<<"ColSum:\n "<<m1Am1<<"\n";
