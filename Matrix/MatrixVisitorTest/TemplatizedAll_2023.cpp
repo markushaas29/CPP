@@ -130,7 +130,9 @@ class TemplatizedAll_Test2023
           	assert(invM24->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{210});
 
 
+			auto hall = std::make_unique<Hall<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			std::cout<<"Stage"<<mS<<std::endl;
+			std::cout<<"Hall"<<(*hall)()<<std::endl;
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
