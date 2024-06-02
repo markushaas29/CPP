@@ -135,6 +135,21 @@ private:
 	}
 };
 
+class HallParser: public IMatrixParserBase<2>
+{
+	using Base = IMatrixParserBase;
+public:
+	HallParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
+private:
+	const std::string fileName = "Hall.csv";
+	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
+	typename Base::MatrixType exec(bool h = false) const
+	{
+		auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"} });
+		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
+	}
+};
+
 //class Stages: public StageBase
 //{
 //	using Base = StageBase;

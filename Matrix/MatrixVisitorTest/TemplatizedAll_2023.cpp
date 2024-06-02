@@ -128,6 +128,7 @@ class TemplatizedAll_Test2023
 	        assert(invM24->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{0});
           	assert(invM24->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{210});
 
+
 			std::cout<<"Stage"<<mS<<std::endl;
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
