@@ -101,6 +101,8 @@ private:
 	    {
 	        using Type = std::tuple_element_t<N,Tup>;
 	        auto readings = Readings<Type>{fT,fE,fB, Base::year,p};
+	        auto hall = Hall<Type>{fT,fE,fB, Base::year,p};
+			std::cout<<"HALL:\n"<<hall()<<std::endl;
 	        stageMatrix = stageMatrix.Set(readings(file)[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
 	        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
 	    }

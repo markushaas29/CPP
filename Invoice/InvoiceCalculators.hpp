@@ -67,6 +67,24 @@ private:
 };
 
 template<typename S>
+class Hall: public CalculatorBase<Quantity<Sum>, Hall<S>>
+{
+	using Base = CalculatorBase<Quantity<Sum>, Hall<S>>;
+public:
+	auto M() const { return parser->M().Rows(0, 1); }
+	Hall(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
+		Base{fE,fB,y}, path{p}, tokenFactory{fT},parser{std::make_unique<HallParser>(tokenFactory,path)} {};
+	const std::string path;
+	std::shared_ptr<Factory<IToken>> tokenFactory;
+	std::unique_ptr<IMatrixParser<2>> parser;
+private:
+	const std::string fileName = "Hall.csv";
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	{	return (*parser)()[0];	}
+	
+	//virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const = 0;
+};
+
+template<typename S>
 class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 {
 	using Base = CalculatorBase<Quantity<Sum>, StageBase<S>>;
