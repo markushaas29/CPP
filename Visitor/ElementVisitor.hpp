@@ -27,14 +27,17 @@ template<typename L, typename R>
 class FuncVisitor: public VariadicVisitor<void, L,R>
 {
 	using ReturnType = void;
+	using Op = Div<Constant<L>,Constant<R>>;
 public:
-	virtual ReturnType Visit(L& l) { left = l; };
-	virtual ReturnType Visit(R& r) { right = r; };
+	decltype(auto) operator()() { return Op{left, right} / Constant<Quantity<Scalar>>{Quantity<Scalar>{12}}; }
+	virtual ReturnType Visit(L& l) { left = Constant{l}; };
+	virtual ReturnType Visit(R& r) { right = Constant{r}; };
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<FuncVisitor>(); };
 private:
-	L left;
-	R right;
-	friend std::ostream& operator<<(std::ostream& s, const FuncVisitor& t) 	{ return s<<"IBAN: "<<t.iban<<"Date: "<<t.date<<"Sum: "<<t.sum;	}
+	Constant<L> left = Constant{L{}};
+	Constant<R> right= Constant{R{}};
+	Op op = Op{Constant{L{}},Constant{R{}}};
+	friend std::ostream& operator<<(std::ostream& s, const FuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
 };
 
 template<typename... Types>

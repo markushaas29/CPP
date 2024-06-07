@@ -206,9 +206,16 @@ int Run()
 	assert(*qv==Quantity<Volume>(1.5));
 	  
 	M2E ma {
-	      {std::make_shared<Quantity<Area>>(31), std::make_shared<Quantity<Sum>>(5)},
+	      {std::make_shared<Quantity<Area>>(24), std::make_shared<Quantity<Sum>>(540)},
 	  };
-	std::cout<<"MA"<<ma<<std::endl;
+	
+	std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<Quantity<Sum>,Quantity<Area>>>();
+	fv = ma.Accept(std::move(fv));
+
+	auto fV = fv->template As<FuncVisitor<Quantity<Sum>,Quantity<Area>>>();
+	
+	std::cout<<"MA"<<fV()()<<std::endl;
+	assert(fV()().Value()==1.875);
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
 	return 0;
