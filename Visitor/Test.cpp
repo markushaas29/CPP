@@ -204,6 +204,11 @@ int Run()
 
 	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2022});
 	assert(*qv==Quantity<Volume>(1.5));
+	  
+	M2E ma {
+	      {std::make_shared<Quantity<Area>>(31), std::make_shared<Quantity<Sum>>(5)},
+	  };
+	std::cout<<"MA"<<ma<<std::endl;
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
 	return 0;

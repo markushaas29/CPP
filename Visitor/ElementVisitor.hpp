@@ -4,6 +4,7 @@
  #include "../Common/Date.hpp"
  #include "../Common/UniqueCast.hpp"
  #include "../Unit/Unit.hpp"
+ #include "../Functional/Functional.hpp"
  #include "../Quantity/Quantity.hpp"
  #include "../Quantity/QuantityRatio.hpp"
 
@@ -20,6 +21,20 @@ public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) {  };
 	virtual ReturnType Visit(Date& q) {  };
+};
+
+template<typename L, typename R>
+class FuncVisitor: public VariadicVisitor<void, L,R>
+{
+	using ReturnType = void;
+public:
+	virtual ReturnType Visit(L& l) { left = l; };
+	virtual ReturnType Visit(R& r) { right = r; };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<FuncVisitor>(); };
+private:
+	L left;
+	R right;
+	friend std::ostream& operator<<(std::ostream& s, const FuncVisitor& t) 	{ return s<<"IBAN: "<<t.iban<<"Date: "<<t.date<<"Sum: "<<t.sum;	}
 };
 
 template<typename... Types>
