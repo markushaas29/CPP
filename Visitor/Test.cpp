@@ -27,10 +27,10 @@ int Run()
 	ElementVisitor vd;
 	std::unique_ptr<IElement> dp = std::make_unique<Date>(29,9,1986);
 	std::unique_ptr<IElement> d20112022 = std::make_unique<Date>("20.11.2022");
-	std::unique_ptr<IElement> sp = std::make_unique<Quantity<Sum>>(29);
+	std::unique_ptr<IElement> sp = std::make_unique<QS>(29);
 	std::unique_ptr<IElement> ip = std::make_unique<IBAN>(std::string("DE82660501011021592702"));
 	std::unique_ptr<IElement> ep = std::make_unique<Entry>(std::string("A B C D"));
-	auto qs = Quantity<Sum>(29);
+	auto qs = QS(29);
 	IElement* ie = &qs;
 	dp->Accept(vd);
 	sp->Accept(vd);
@@ -46,14 +46,14 @@ int Run()
 	ev = EqualVisitor(std::make_unique<Entry>(std::string("E")));
 	assert(!ep->Is(ev));
 	
-	auto pv = EqualVisitor(std::make_unique<Quantity<Sum>>(29));
+	auto pv = EqualVisitor(std::make_unique<QS>(29));
 	assert(sp->Is(pv));
 	assert(sp->Is(pv));
-	auto pv228 = EqualVisitor(std::make_unique<Quantity<Sum>>(228));
+	auto pv228 = EqualVisitor(std::make_unique<QS>(228));
 	assert(!sp->Is(pv228));
-	auto qlv = LessVisitor(std::make_unique<Quantity<Sum>>(29));
+	auto qlv = LessVisitor(std::make_unique<QS>(29));
 	assert(!sp->Is(qlv));
-	auto qlv2 = LessVisitor(std::make_unique<Quantity<Sum>>(28));
+	auto qlv2 = LessVisitor(std::make_unique<QS>(28));
 	assert(!sp->Is(qlv2));
 
 	auto pv29_9 = EqualVisitor(std::make_unique<Date>(29,9,1986));
@@ -107,8 +107,8 @@ int Run()
 
     Matcher matcher(std::move(v));
     M2E m2e {
-        {std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
-        {std::make_shared<Quantity<Sum>>(4.5), std::make_shared<Quantity<Sum>>(3.5)},
+        {std::make_shared<QS>(2.5), std::make_shared<QS>(3.5)},
+        {std::make_shared<QS>(4.5), std::make_shared<QS>(3.5)},
     };
 	MS2 ms22{
              {std::string("1,00"),std::string("2,00"),std::string("2.2.1989"), std::string("DE82660501011021592702"), std::string("A B E")} ,
@@ -154,68 +154,77 @@ int Run()
 	assert(dp->Is(*eqvd));
 	assert(sp->Is(*lvq));
 
-	std::unique_ptr<BaseVisitor> av = std::make_unique<AccumulationVisitor<Quantity<Sum>>>();
+	std::unique_ptr<BaseVisitor> av = std::make_unique<AccumulationVisitor<QS>>();
 	av = m2e.Accept(std::move(av));
-	auto avc = (av->template As<AccumulationVisitor<Quantity<Sum>>>());
-	assert((avc.Result())==Quantity<Sum>(14.00));
+	auto avc = (av->template As<AccumulationVisitor<QS>>());
+	assert((avc.Result())==QS(14.00));
 	std::cout<<"Visitor"<<avc.Result()<<std::endl;
 
-	std::unique_ptr<BaseVisitor> dv = std::make_unique<DifferenceVisitor<Quantity<Sum>>>();
+	std::unique_ptr<BaseVisitor> dv = std::make_unique<DifferenceVisitor<QS>>();
 	dv = m2e.Accept(std::move(dv));
-	auto vc = (dv->template As<DifferenceVisitor<Quantity<Sum>>>());
-	assert((*vc())==Quantity<Sum>(-1.00));
+	auto vc = (dv->template As<DifferenceVisitor<QS>>());
+	assert((*vc())==QS(-1.00));
 	std::cout<<"Visitor"<<*vc()<<std::endl;
 	
-	std::unique_ptr<BaseVisitor> cv = std::make_unique<ConsumptionVisitor<Quantity<Sum>>>();
+	std::unique_ptr<BaseVisitor> cv = std::make_unique<ConsumptionVisitor<QS>>();
 	  M2E m2ce {
-	      {std::make_shared<Date>(31,12,2023), std::make_shared<Quantity<Sum>>(7.5)},
-	      {std::make_shared<Date>(30,9,2023), std::make_shared<Quantity<Sum>>(7.5)},
-	      {std::make_shared<Date>(4,12,2022), std::make_shared<Quantity<Sum>>(5.5)},
-	      {std::make_shared<Date>(4,9,2023), std::make_shared<Quantity<Sum>>(4.5)},
-	      {std::make_shared<Date>(3,5,2021), std::make_shared<Quantity<Sum>>(3.5)},
-	      {std::make_shared<Date>(3,7,2023), std::make_shared<Quantity<Sum>>(3.5)},
-	      {std::make_shared<Date>(4,8,2022), std::make_shared<Quantity<Sum>>(1.5)},
+	      {std::make_shared<Date>(31,12,2023), std::make_shared<QS>(7.5)},
+	      {std::make_shared<Date>(30,9,2023), std::make_shared<QS>(7.5)},
+	      {std::make_shared<Date>(4,12,2022), std::make_shared<QS>(5.5)},
+	      {std::make_shared<Date>(4,9,2023), std::make_shared<QS>(4.5)},
+	      {std::make_shared<Date>(3,5,2021), std::make_shared<QS>(3.5)},
+	      {std::make_shared<Date>(3,7,2023), std::make_shared<QS>(3.5)},
+	      {std::make_shared<Date>(4,8,2022), std::make_shared<QS>(1.5)},
 	  };
 	cv = m2ce.Accept(std::move(cv));
 
-	auto diff = ((cv->template As<ConsumptionVisitor<Quantity<Sum>>>()))(Year{2023});
+	auto diff = ((cv->template As<ConsumptionVisitor<QS>>()))(Year{2023});
 
-	assert(*diff==Quantity<Sum>(2));
+	assert(*diff==QS(2));
 	
-	std::unique_ptr<BaseVisitor> cvv = std::make_unique<ConsumptionVisitor<Quantity<Volume>>>();
+	std::unique_ptr<BaseVisitor> cvv = std::make_unique<ConsumptionVisitor<QV>>();
 	  M2E mv {
-	      {std::make_shared<Date>(31,12,2023), std::make_shared<Quantity<Volume>>(5)},
-	      {std::make_shared<Date>(30,9,2023), std::make_shared<Quantity<Volume>>(4)},
-	      {std::make_shared<Date>(4,12,2022), std::make_shared<Quantity<Volume>>(2)},
-	      {std::make_shared<Date>(4,9,2023), std::make_shared<Quantity<Volume>>(3)},
-	      {std::make_shared<Date>(31,6,2023), std::make_shared<Quantity<Volume>>(2.5)},
-	      {std::make_shared<Date>(3,5,2022), std::make_shared<Quantity<Volume>>(1)},
-	      {std::make_shared<Date>(3,5,2021), std::make_shared<Quantity<Volume>>(0.5)},
+	      {std::make_shared<Date>(31,12,2023), std::make_shared<QV>(5)},
+	      {std::make_shared<Date>(30,9,2023), std::make_shared<QV>(4)},
+	      {std::make_shared<Date>(4,12,2022), std::make_shared<QV>(2)},
+	      {std::make_shared<Date>(4,9,2023), std::make_shared<QV>(3)},
+	      {std::make_shared<Date>(31,6,2023), std::make_shared<QV>(2.5)},
+	      {std::make_shared<Date>(3,5,2022), std::make_shared<QV>(1)},
+	      {std::make_shared<Date>(3,5,2021), std::make_shared<QV>(0.5)},
 	  };
 	cvv = mv.Accept(std::move(cvv));
 
-	auto qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023},Quantity<Time,Days,uint>(480));
-	assert(*qv==Quantity<Volume>(4));
-	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023},Quantity<Time,Days,uint>(180));
+	auto qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2023},Quantity<Time,Days,uint>(480));
+	assert(*qv==QV(4));
+	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2023},Quantity<Time,Days,uint>(180));
 	std::cout<<"Consumption Visitor _>\n"<<*qv<<std::endl;
-	assert(*qv==Quantity<Volume>(2.5));
-	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2023});
-	assert(*qv==Quantity<Volume>(3));
+	assert(*qv==QV(2.5));
+	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2023});
+	assert(*qv==QV(3));
 
-	qv = ((cvv->template As<ConsumptionVisitor<Quantity<Volume>>>()))(Year{2022});
-	assert(*qv==Quantity<Volume>(1.5));
+	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
+	assert(*qv==QV(1.5));
 	  
 	M2E ma {
-	      {std::make_shared<Quantity<Area>>(24), std::make_shared<Quantity<Sum>>(45)},
+	      {std::make_shared<QA>(24), std::make_shared<QS>(45)},
+	      {std::make_shared<QA>(18), std::make_shared<QS>(50)},
+	      {std::make_shared<QA>(7*12), std::make_shared<QS>(200)},
 	  };
 	
-	std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<Quantity<Sum>,Quantity<Area>, Div>>();
-	fv = ma.Accept(std::move(fv));
-
-	auto fV = fv->template As<FuncVisitor<Quantity<Sum>,Quantity<Area>, Div>>();
+	std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,QA, Div>>();
 	
-	std::cout<<"MA"<<fV()<<std::endl;
+	fv = ma[0].Accept(std::move(fv));
+	auto fV = fv->template As<FuncVisitor<QS,QA, Div>>();
 	assert(fV().Value()==1.875);
+	
+	fv = ma[1].Accept(std::move(fv));
+	fV = fv->template As<FuncVisitor<QS,QA, Div>>();
+	//assert(fV().Value()==2.77778);
+	
+	fv = ma[2].Accept(std::move(fv));
+	fV = fv->template As<FuncVisitor<QS,QA, Div>>();
+	//assert(fV().Value()==2.38095);
+	
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
 	return 0;
