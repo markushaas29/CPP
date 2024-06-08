@@ -166,5 +166,15 @@ private:
 	}
 };
 
+using QA = Quantity<Area>;
+using QC = Quantity<Current>;
+using QE = Quantity<Energy>;
+using QL = Quantity<Length>;
+using QM = Quantity<Mass>;
+using QS = Quantity<Sum>;
+using QSC = Quantity<Scalar>;
+using QT = Quantity<Time>;
+using QTP = Quantity<Temperature>;
+using QV = Quantity<Volume>;
 
 #endif
