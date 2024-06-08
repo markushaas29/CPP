@@ -23,12 +23,12 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-template<typename L, typename R>
+template<typename L, typename R, template<typename, typename> class FT>
 class FuncVisitor: public VariadicVisitor<void, L,R>
 {
 	using ReturnType = void;
 	template<typename T> using C = Constant<T>;
-	using Op = Div<C<L>,C<R>>;
+	using Op = FT<C<L>,C<R>>;
 public:
 	decltype(auto) operator()() { return Op{left, right}(); }
 	decltype(auto) F() { return Op{left, right}(); }

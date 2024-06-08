@@ -209,10 +209,10 @@ int Run()
 	      {std::make_shared<Quantity<Area>>(24), std::make_shared<Quantity<Sum>>(45)},
 	  };
 	
-	std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<Quantity<Sum>,Quantity<Area>>>();
+	std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<Quantity<Sum>,Quantity<Area>, Div>>();
 	fv = ma.Accept(std::move(fv));
 
-	auto fV = fv->template As<FuncVisitor<Quantity<Sum>,Quantity<Area>>>();
+	auto fV = fv->template As<FuncVisitor<Quantity<Sum>,Quantity<Area>, Div>>();
 	
 	std::cout<<"MA"<<fV()<<std::endl;
 	assert(fV().Value()==1.875);
