@@ -29,14 +29,14 @@ class FuncVisitor: public VariadicVisitor<void, L,R>
 	using ReturnType = void;
 	using Op = Div<Constant<L>,Constant<R>>;
 public:
-	decltype(auto) operator()() { return Op{left, right} / Constant<Quantity<Scalar>>{Quantity<Scalar>{12}}; }
+	decltype(auto) operator()() { return Op{left, right}(); }
+	decltype(auto) F() { return Op{left, right}(); }
 	virtual ReturnType Visit(L& l) { left = Constant{l}; };
 	virtual ReturnType Visit(R& r) { right = Constant{r}; };
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<FuncVisitor>(); };
 private:
 	Constant<L> left = Constant{L{}};
 	Constant<R> right= Constant{R{}};
-	Op op = Op{Constant{L{}},Constant{R{}}};
 	friend std::ostream& operator<<(std::ostream& s, const FuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
 };
 
