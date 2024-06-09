@@ -79,7 +79,16 @@ public:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "Hall.csv";
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	{	return (*parser)()[0];	}
+	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	
+	{
+		auto m = (*parser)();
+		std::cout<<"HALL\n"<<m<<std::endl;
+		std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,QA, Div>>();
+    
+    	fv = m[0].Accept(std::move(fv));
+    	auto fV = fv->template As<FuncVisitor<QS,QA, Div>>();
+		std::cout<<"HALL\n"<<fV<<std::endl;
+		return (*parser)()[0];	}
 	
 	//virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const = 0;
 };
