@@ -182,13 +182,16 @@ using Scalar = Unit<>;
 using Volume = Unit<0,3>;
 using Energy = Unit<0,1,2,-3>;
 using Area = Unit<0,2>;
+using SumPerArea = Unit<1,-2>;
 
 template<> const char* Sum::Name = SumType<0>::Name;
 template<> const char* Energy::Name = "Work";
 template<> const char* Current::Name = CurrentType<0>::Name;
 template<> const char* Scalar::Name = "Scalar";
+template<> const char* Length::Name = "Length";
 template<> const char* Volume::Name = "Volume";
 template<> const char* Area::Name = "Area";
+template<> const char* SumPerArea::Name = "SumPerArea";
 
 template<> struct UnitSign<Energy> {	static constexpr const char* Get(){ return "Ws";} };
 // template<> struct UnitSign<Area> {	static std::string Get(){ return "m²";} };

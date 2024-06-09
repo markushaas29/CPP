@@ -113,6 +113,8 @@ struct QuantityToken: public Token<QuantityToken, Quantity<Scalar>>	{	inline sta
 
 struct DateIndexToken: public Token<DateIndexToken, Index<Date>>	{	inline static constexpr const char* Pattern = "Buchungstag";};
 struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inline static constexpr const char* Pattern = "Area";};
+struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
+struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
 struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
 struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
 struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
