@@ -33,7 +33,7 @@ public:
 };
 
 template<typename R, typename... T>
-class VariadicVisitor: public BaseVisitor, public Visitor<T,R>... 
+class VariadicVisitor: public virtual BaseVisitor, public Visitor<T,R>... 
 {
 public:
 	using ReturnType = R;

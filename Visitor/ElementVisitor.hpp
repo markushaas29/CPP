@@ -64,7 +64,7 @@ private:
 };
 
 template<typename L, typename B, template<typename, typename> class FT>
-class ComposedFuncVisitor: public VariadicVisitor<void, L>, public B
+class ComposedFuncVisitor: public virtual VariadicVisitor<void, L>, public virtual B
 {
 	using ReturnType = void;
 	template<typename T> using C = Constant<T>;
