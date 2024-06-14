@@ -226,9 +226,13 @@ int Run()
 	fV = fv->template As<FuncVisitor<QS,QA, Div>>();
 	//assert(fV().Value()==2.38095);
 	
-	std::unique_ptr<BaseVisitor> fl = std::make_unique<TFuncVisitor<QL, Mul>>();
+	std::unique_ptr<BaseVisitor> fl = std::make_unique<FuncVisitor<QL, QL, Mul>>();
 	fl = ma.Accept(std::move(fl));
-	auto fL = fl->template As<TFuncVisitor<QL, Mul>>();
+	auto fL = fl->template As<FuncVisitor<QL, QL,Mul>>();
+	std::cout<<"Consumption Visitor _>\n"<<fL<<std::endl;
+	assert(fL().Value()==49);
+	
+	//std::unique_ptr<BaseVisitor> fC = std::make_unique<ComposedFuncVisitor<QL, TFuncVisitor<QL,Mul>,Mul>>();
 	
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
