@@ -41,6 +41,41 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const FuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
 };
 
+template<typename L, template<typename, typename> class FT>
+class TFuncVisitor: public VariadicVisitor<void, L>
+{
+	using ReturnType = void;
+	template<typename T> using C = Constant<T>;
+	using Op = FT<C<L>,C<L>>;
+public:
+	decltype(auto) operator()() { return Op{left, right}(); }
+	decltype(auto) F() { return Op{left, right}(); }
+	virtual ReturnType Visit(L& l) 
+	{ leftSet ? (	left = C{l} ) : (right = C{l}); };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<TFuncVisitor>(); };
+private:
+	bool leftSet = false;
+	C<L> left = C{L{}};
+	C<L> right= C{L{}};
+	friend std::ostream& operator<<(std::ostream& s, const TFuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
+};
+
+template<typename L, typename B, template<typename, typename> class FT>
+class ComposedFuncVisitor: public VariadicVisitor<void, L>, public B
+{
+	using ReturnType = void;
+	template<typename T> using C = Constant<T>;
+//	using Op = FT<C<L>,C<R>>;
+public:
+//	decltype(auto) operator()() { return Op{left, right}(); }
+//	decltype(auto) F() { return Op{left, right}(); }
+	virtual ReturnType Visit(L& l) { left = C{l}; };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
+private:
+	C<L> left = C{L{}};
+//	friend std::ostream& operator<<(std::ostream& s, const ComposedFuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
+};
+
 template<typename... Types>
 class TransferVisitor: public VariadicVisitor<void, Types...>, public BoolVisitable<bool>
 {

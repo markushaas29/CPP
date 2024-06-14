@@ -209,6 +209,7 @@ int Run()
 	      {std::make_shared<QA>(24), std::make_shared<QS>(45)},
 	      {std::make_shared<QA>(18), std::make_shared<QS>(50)},
 	      {std::make_shared<QA>(7*12), std::make_shared<QS>(200)},
+	      {std::make_shared<QL>(7), std::make_shared<QL>(7)},
 	  };
 	
 	std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,QA, Div>>();
@@ -224,6 +225,10 @@ int Run()
 	fv = ma[2].Accept(std::move(fv));
 	fV = fv->template As<FuncVisitor<QS,QA, Div>>();
 	//assert(fV().Value()==2.38095);
+	
+	std::unique_ptr<BaseVisitor> fl = std::make_unique<TFuncVisitor<QL, Mul>>();
+	fl = ma.Accept(std::move(fl));
+	auto fL = fl->template As<TFuncVisitor<QL, Mul>>();
 	
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
