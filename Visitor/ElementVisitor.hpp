@@ -79,7 +79,7 @@ public:
 	//virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
 private:
 	C<L> left = C{L{}};
-//	friend std::ostream& operator<<(std::ostream& s, const ComposedFuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
+	//friend std::ostream& operator<<(std::ostream& s, const ComposedFuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
 };
 
 template<typename... Types>
