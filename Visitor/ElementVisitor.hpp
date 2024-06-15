@@ -24,7 +24,7 @@ public:
 };
 
 template<typename L, typename R, template<typename, typename> class FT>
-class FuncVisitor: public VariadicVisitor<void, L,R>
+class FuncVisitor: public virtual VariadicVisitor<void, L,R>
 {
 	using ReturnType = void;
 	template<typename T> using C = Constant<T>;
@@ -42,7 +42,7 @@ private:
 };
 
 template<typename L, template<typename, typename> class FT>
-class FuncVisitor<L,L,FT>: public VariadicVisitor<void, L>
+class FuncVisitor<L,L,FT>: public virtual VariadicVisitor<void, L>
 {
 	using ReturnType = void;
 	template<typename T> using C = Constant<T>;
