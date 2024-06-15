@@ -23,17 +23,15 @@ public:
 	virtual ReturnType Visit(Date& q) {  };
 };
 
-template<typename L, typename R, template<typename, typename> class FT,typename D>
-class FuncVisitorBase: public virtual VariadicVisitor<void, L,R>
+template<typename L, typename R, template<typename, typename> class FT>
+class FuncVisitorBase
 {
 public:
 	using ReturnType = void;
 	template<typename T> using C = Constant<T>;
 	using Op = FT<C<L>,C<R>>;
-	using Type = D;
 	decltype(auto) operator()() { return Op{left, right}(); }
 	decltype(auto) F() { return Op{left, right}(); }
-	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<D>(); };
 protected:
 	C<L> left = C{L{}};
 	C<R> right= C{R{}};
@@ -42,9 +40,9 @@ private:
 };
 
 template<typename L, typename R, template<typename, typename> class FT>
-class FuncVisitor: public virtual FuncVisitorBase<L,R,FT,FuncVisitor<L,R,FT>>
+class FuncVisitor: public FuncVisitorBase<L,R,FT>, public virtual VariadicVisitor<void, L,R>
 {
-	using Base = FuncVisitorBase<L,R,FT,FuncVisitor<L,R,FT>>;
+	using Base = FuncVisitorBase<L,R,FT>;
 	template<typename T> using C = Constant<T>;
 public:
 	virtual Base::ReturnType Visit(L& l) { Base::left = C{l}; };
