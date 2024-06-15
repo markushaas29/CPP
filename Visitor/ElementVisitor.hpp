@@ -51,26 +51,19 @@ public:
 };
 
 template<typename L, template<typename, typename> class FT>
-//class FuncVisitor<L,L,FT>: public virtual FuncVisitorBase<L,L,FT,FuncVisitor<L,L,FT>>
-class FuncVisitor<L,L,FT>: public virtual VariadicVisitor<void, L>
+class FuncVisitor<L,L,FT>: public FuncVisitorBase<L,L,FT>, public virtual VariadicVisitor<void, L>
 {
-	using ReturnType = void;
+	using Base = FuncVisitorBase<L,L,FT>;
 	template<typename T> using C = Constant<T>;
-	using Op = FT<C<L>,C<L>>;
 public:
-	decltype(auto) operator()() { return Op{left, right}(); }
-	decltype(auto) F() { return Op{left, right}(); }
-	virtual ReturnType Visit(L& l)	
+	virtual Base::ReturnType Visit(L& l)	
 	{ 
-		leftSet ? ( right = C{l} ) : ( left = C{l} ) ;
+		leftSet ? ( Base::right = C{l} ) : ( Base::left = C{l} ) ;
 		leftSet = true; 
 	};
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<FuncVisitor>(); };
 private:
 	bool leftSet = false;
-	C<L> left = C{L{}};
-	C<L> right= C{L{}};
-	friend std::ostream& operator<<(std::ostream& s, const FuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
 };
 
 template<typename L, typename B, template<typename, typename> class FT>
