@@ -31,7 +31,7 @@ public:
 	template<typename T> using C = Constant<T>;
 	using Op = FT<C<L>,C<R>>;
 	decltype(auto) operator()() { return Op{left, right}(); }
-	decltype(auto) F() { return Op{left, right}(); }
+	decltype(auto) F() { return Op{left, right}; }
 protected:
 	C<L> left = C{L{}};
 	C<R> right= C{R{}};
@@ -70,10 +70,12 @@ template<typename L, typename B, template<typename, typename> class FT>
 class ComposedFuncVisitor: public virtual VariadicVisitor<void, L>, public virtual B
 {
 	using ReturnType = void;
+	using Base = FuncVisitorBase<L,B,FT>;
 	template<typename T> using C = Constant<T>;
-//	using Op = FT<C<L>,C<R>>;
+	using Op = FT<C<L>,typename B::Op>;
 public:
-//	decltype(auto) operator()() { return Op{left, right}(); }
+	decltype(auto) operator()() { return Op{left, B::F()}(); }
+	decltype(auto) F() { return Op{left, B::F()}(); }
 //	decltype(auto) F() { return Op{left, right}(); }
 	virtual ReturnType Visit(L& l) { left = C{l}; };
 	//virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
