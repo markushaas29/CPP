@@ -74,13 +74,11 @@ class ComposedFuncVisitor: public virtual VariadicVisitor<void, L>, public virtu
 	template<typename T> using C = Constant<T>;
 	using Op = FT<C<L>,typename B::Op>;
 public:
-	decltype(auto) operator()() { return Op{left, B::F()}(); }
-	decltype(auto) F() { return Op{left, B::F()}(); }
-//	decltype(auto) F() { return Op{left, right}(); }
-	virtual ReturnType Visit(L& l) { left = C{l}; };
-	//virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
+	decltype(auto) operator()() { return Op{B::left, B::F()}(); }
+	decltype(auto) F() { return Op{B::left, B::F()}; }
+	virtual ReturnType Visit(L& l) { B::left = C{l}; };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
 private:
-	C<L> left = C{L{}};
 	//friend std::ostream& operator<<(std::ostream& s, const ComposedFuncVisitor& f) 	{ return s<<Op{f.left, f.right};	}
 };
 
