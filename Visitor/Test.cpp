@@ -233,9 +233,10 @@ int Run()
 	assert(fL().Value()==49);
 	
 	std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<QS, FuncVisitor<QL,QL,Mul>,Mul>>();
-	fc = ma[3].Accept(std::move(fc));
+	fc = ma.Accept(std::move(fc));
 	auto fC = fc->template As<ComposedFuncVisitor<QS, FuncVisitor<QL,QL,Mul>,Mul>>();
-	std::cout<<"Consumption Visitor _>\n"<<fC.F()<<std::endl;
+	assert(fC().Value()==49*200);
+	std::cout<<"Consumption Visitor _>\n"<<fC()<<std::endl;
 	
 	std::cout<<"END Visitor"<<*diff<<std::endl;
    
