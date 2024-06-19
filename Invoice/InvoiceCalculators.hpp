@@ -83,11 +83,18 @@ private:
 	{
 		auto m = (*parser)();
 		std::cout<<"HALL\n"<<m<<std::endl;
-		std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,QA, Div>>();
-    
-    	fv = m[0].Accept(std::move(fv));
-    	auto fV = fv->template As<FuncVisitor<QS,QA, Div>>();
-		std::cout<<"HALL\n"<<fV<<std::endl;
+		for(auto i = 0; i < m.Rows();++i)
+		{
+			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+		    fc = m[i].Accept(std::move(fc));
+	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+	
+	//		std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+	//    	fv = m[0].Accept(std::move(fv));
+	//    	auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+			
+			std::cout<<"HALL\n"<<fC.F()<<std::endl;
+		}
 		return (*parser)()[0];	}
 	
 	//virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const = 0;
