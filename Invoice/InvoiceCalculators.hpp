@@ -93,7 +93,7 @@ private:
 	//    	fv = m[0].Accept(std::move(fv));
 	//    	auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 			
-			std::cout<<"HALL\n"<<Mul{Constant{12},fC.F()}<<"="<<Mul{Constant{12},fC.F()}()<<std::endl;
+			std::cout<<"HALL\n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 		}
 		return (*parser)()[0];	}
 	
