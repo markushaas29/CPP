@@ -274,13 +274,7 @@ private:
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::string> vr;
-			expand(stageMatrix[S::Index-1][i],vr);
-			expand(csum[i], vr);
-			expand(stagesDiv[S::Index-1][i],vr);
-			expand(stagesDiv[S::Index-1][i](),vr);
-			expand(sumMatrix[i],vr);
-			expand(result[i][i],vr);
-			expand(res[i][i],vr);
+			expand(vr, stageMatrix[S::Index-1][i], csum[i], stagesDiv[S::Index-1][i], stagesDiv[S::Index-1][i](), sumMatrix[i], result[i][i], res[i][i]);
 			v.push_back(vr);
 		}
 
@@ -292,7 +286,17 @@ private:
         return stagesDiv * sumMatrix;                                                                                                       
     }
 
-	auto expand(const auto& val, auto& v) const
+	template<typename T, typename... R>
+	auto expand(std::vector<std::string>& v, const T& val, const R... r) const
+	{
+		std::stringstream ss;
+		ss<<val;
+		v.push_back(ss.str());
+		expand(v,r...);
+	}
+
+	template<typename T>
+	auto expand(std::vector<std::string>& v, const T& val) const
 	{
 		std::stringstream ss;
 		ss<<val;
