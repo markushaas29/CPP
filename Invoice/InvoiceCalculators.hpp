@@ -289,14 +289,14 @@ private:
 	template<typename T, typename... R>
 	auto expand(std::vector<std::string>& v, const T& val, const R... r) const
 	{
-		std::stringstream ss;
-		ss<<val;
-		v.push_back(ss.str());
+		sstream(v,val);
 		expand(v,r...);
 	}
 
 	template<typename T>
-	auto expand(std::vector<std::string>& v, const T& val) const
+	auto expand(std::vector<std::string>& v, const T& val) const {	sstream(v,val);	}
+	
+	auto sstream(std::vector<std::string>& v, const auto& val) const
 	{
 		std::stringstream ss;
 		ss<<val;
