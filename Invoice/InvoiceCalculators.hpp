@@ -89,6 +89,8 @@ private:
 		    fc = m[i].Accept(std::move(fc));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 	
+			auto mf = MatrixFormatter((*parser)(true).Rows(0,S::Index-1));
+        	auto out = mf(std::to_string(i)+"Hall.html","/home/markus/Downloads/CSV_TestFiles_2");
 	//		std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 	//    	fv = m[0].Accept(std::move(fv));
 	//    	auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
