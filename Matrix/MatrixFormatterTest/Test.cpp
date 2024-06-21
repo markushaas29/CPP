@@ -32,6 +32,7 @@ class MatrixFormatterTest
 			using M2D = Matrix<2,M2DS>;
 			using M2P = Matrix<2,M2PS>;
 			using M1D = Matrix<1,M1DS>;
+			using MIE = Matrix<1, MatrixDescriptor<1, std::shared_ptr<IElement>>>;
 			using QS = Quantity<Scalar,Pure,double>;
 		
 			M1S m1s{
@@ -40,6 +41,9 @@ class MatrixFormatterTest
 
 			M1S m1S{
 				{std::string("SumPerArea"),std::string( "5"),std::string( "Stage")}
+			};
+			MIE m1IE{
+				{std::make_shared<Name>("SumPerArea")}
 			};
 			M1 m13{
 				{5,3,1}	
@@ -113,6 +117,12 @@ class MatrixFormatterTest
 			
 			auto mfs = MatrixFormatter(m1S);
 			auto m1SA = mfs.As();
+			std::cout<<"m1SA\n"<<m1SA<<std::endl;
+			assert(m1SA[0]()=="Summe");
+			assert(m1SA[2]()=="Stock");
+			
+			auto mfie = MatrixFormatter(m1IE);
+			auto m1IEA = mfie.As();
 			std::cout<<"m1SA\n"<<m1SA<<std::endl;
 			assert(m1SA[0]()=="Summe");
 			assert(m1SA[2]()=="Stock");

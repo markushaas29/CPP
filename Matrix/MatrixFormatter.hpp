@@ -53,7 +53,13 @@ public:
     auto As()
     {
         auto v = std::vector<typename M::ElementType>();
-        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) { v.push_back(translate->contains(*i) ? (*translate)[*i] : *i); });
+        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) 
+				{ 
+					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+						v.push_back(*i); 
+					else
+						v.push_back(translate->contains(*i) ? (*translate)[*i] : *i); 
+				});
 		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
         return M(d,v);
     }
