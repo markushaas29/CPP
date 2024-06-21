@@ -1,17 +1,20 @@
 #include <vector>
-
 #include <initializer_list>
+#include <map>
 #include <memory>
 #include <sstream>
 #include "../Decorator/ElementDecorator.hpp"
 
 #pragma once
 
-template<typename M>
+struct German;
+
+template<typename M, typename L = German>
 class MatrixFormatter 
 {
+	using MapType  =std::map<std::string, std::string>;
 public:
-	MatrixFormatter(const M& m): matrix(m){}
+	MatrixFormatter(const M& m): matrix(m), translate{read()}{}
    // virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s) { return s; }
 //    virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s, const M* m) 
 //	{ 
@@ -47,8 +50,16 @@ public:
 		s<<table();	
 		return s;	
 	};
+    auto As()
+    {
+        auto v = std::vector<typename M::ElementType>();
+        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) { v.push_back(*i); });
+		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
+        return M(d,v);
+    }
 private:
 	const M matrix;
+	std::unique_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const 	{	return Table()(rows(matrix)).Data();	};
 	template<size_t O, typename D>
@@ -75,6 +86,11 @@ private:
 			return res;
 		}
 	};
+	static auto read()
+	{
+		auto m = std::make_unique<MapType>();
+		return m;
+	}
 };
 
 template<typename M>

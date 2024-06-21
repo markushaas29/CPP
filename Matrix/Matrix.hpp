@@ -117,6 +117,7 @@ private:
 	template<typename, typename> friend class MatrixQuery;
 	template<typename, typename, typename> friend class StrategyResult;
 	template<typename, typename> friend class M3;
+	template<typename, typename> friend class MatrixFormatter;
 
 	DescriptorType descriptor;
 	std::unique_ptr<MatrixAccess<Type>> access = std::make_unique<MatrixAccess<Type>>();
