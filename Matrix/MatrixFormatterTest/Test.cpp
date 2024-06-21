@@ -123,9 +123,8 @@ class MatrixFormatterTest
 			
 			auto mfie = MatrixFormatter(m1IE);
 			auto m1IEA = mfie.As();
-			std::cout<<"m1SA\n"<<m1SA<<std::endl;
-			assert(m1SA[0]()=="Summe");
-			assert(m1SA[2]()=="Stock");
+			std::cout<<"m1SA\n"<<m1IEA<<std::endl;
+			assert(m1IEA[0]()->Data()=="Summe");
 			std::cout<<"END Formatter"<<std::endl;
 		//   
 			return 0;

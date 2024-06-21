@@ -26,6 +26,7 @@ public:
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual const std::string& Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
+	virtual std::unique_ptr<IElement> Clone(const std::string& s) const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
 private:
@@ -53,6 +54,7 @@ public:
 
 	const std::string& Data() const  {	return value; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
+	virtual std::unique_ptr<IElement> Clone(const std::string& s) const  { return std::make_unique<Derived>(s); };	
 	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
