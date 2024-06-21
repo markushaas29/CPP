@@ -39,7 +39,7 @@ class MatrixFormatterTest
 			};
 
 			M1S m1S{
-				{std::string("SumPerArea"),std::string( "5"),std::string( "6")}
+				{std::string("SumPerArea"),std::string( "5"),std::string( "Stage")}
 			};
 			M1 m13{
 				{5,3,1}	
@@ -115,6 +115,7 @@ class MatrixFormatterTest
 			auto m1SA = mfs.As();
 			std::cout<<"m1SA\n"<<m1SA<<std::endl;
 			assert(m1SA[0]()=="Summe");
+			assert(m1SA[2]()=="Stock");
 			std::cout<<"END Formatter"<<std::endl;
 		//   
 			return 0;

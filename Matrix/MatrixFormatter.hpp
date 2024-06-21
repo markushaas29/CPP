@@ -90,6 +90,7 @@ private:
 	{
 		auto m = std::make_unique<MapType>();
 		(*m)["SumPerArea"] = "Summe";
+		(*m)["Stage"] = "Stock";
 		return m;
 	}
 };
