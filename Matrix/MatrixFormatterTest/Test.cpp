@@ -114,7 +114,7 @@ class MatrixFormatterTest
 			auto mfs = MatrixFormatter(m1S);
 			auto m1SA = mfs.As();
 			std::cout<<"m1SA\n"<<m1SA<<std::endl;
-			assert(m1SA[0]()=="SumPerArea");
+			assert(m1SA[0]()=="Summe");
 			std::cout<<"END Formatter"<<std::endl;
 		//   
 			return 0;

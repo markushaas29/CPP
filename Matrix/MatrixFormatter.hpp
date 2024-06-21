@@ -53,7 +53,7 @@ public:
     auto As()
     {
         auto v = std::vector<typename M::ElementType>();
-        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) { v.push_back(*i); });
+        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) { v.push_back(translate->contains(*i) ? (*translate)[*i] : *i); });
 		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
         return M(d,v);
     }
@@ -89,6 +89,7 @@ private:
 	static auto read()
 	{
 		auto m = std::make_unique<MapType>();
+		(*m)["SumPerArea"] = "Summe";
 		return m;
 	}
 };
