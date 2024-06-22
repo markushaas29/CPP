@@ -21,11 +21,20 @@ class CounterIO: public ICounterIO<T>
 {
 public:
 	using Type = T;
+	using DescriptorType = typename T::DescriptionType;
 	using DataModel = typename T::DataModel;
 	using Unit = typename T::Unit;
-	CounterIO(std::shared_ptr<Factory<IToken>> f, const std::string& p): parser{std::make_unique<CounterParser<Type>>(f,p)} {}
+	CounterIO(std::shared_ptr<Factory<IToken>> f, const DescriptorType& d): descriptor{d}, parser{std::make_unique<CounterParser<Type>>(f,descriptor.Filename())} {}
 private:	
+	DescriptorType descriptor;
     std::unique_ptr<IMatrixParser<2>> parser;   
-	virtual std::unique_ptr<DataModel> read() const {  return std::make_unique<DataModel>((*parser)()); }
+	virtual std::unique_ptr<DataModel> read() const 
+	{ 
+		std::cout<<"P "<<descriptor.Path()<<std::endl;
+		auto dm = std::make_unique<DataModel>((*parser)()); 
+		auto mf1 = MatrixFormatter(*dm);
+        auto out = mf1(std::to_string(Type::DescriptionType::Number)+"_S.html",descriptor.Path());
+		return dm;
+	}
 	virtual std::ostream& display(std::ostream& out) const { 	return out;	}
 };

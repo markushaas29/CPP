@@ -37,15 +37,17 @@ class CounterDescription: public DescriptorBase
 public:
 	using DataModel = DM;
 	using Unit = E::Unit;
-	CounterDescription(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{createPath(p)} {}
+	CounterDescription(std::shared_ptr<Factory<IToken>> f, const std::string& p): tokenFactory{f}, path{p},filename{createPath(p)} {}
 	inline static constexpr uint Number = No;
 	inline static constexpr const char* Entity = E::Name;
 	inline static constexpr const char* Stage = S::Name;
 	inline static std::string Identifier = std::string(Entity) + std::string(D::Name) + "_" + std::string(Stage) + "_" + std::to_string(No);
 	static std::unique_ptr<CounterDescription> Make(std::shared_ptr<Factory<IToken>> f,const std::string& s) { return std::make_unique<CounterDescription>(f,s);	}
 	virtual const std::string& Path() const { return path; };
+	virtual const std::string& Filename() const { return filename; };
 private:	
 	std::string path;
+	std::string filename;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	inline static constexpr const char* ending = ".csv";
 	inline static std::string createPath(const std::string& p) { return p + "/" + Identifier + std::string(ending) ;};

@@ -26,7 +26,7 @@ public:
 	using Unit = typename Desc::Unit;
 	using Type = Counter<Desc>;
 	Counter(std::string s, std::shared_ptr<Factory<IToken>> tf): Counter{DescriptionType::Make(tf,s),tf} {}
-	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): descriptor{std::move(d)}, io{std::make_unique<CounterIO<Type>>(tf,descriptor->Path())}, dataModel{io->read()}	{	}
+	Counter(std::unique_ptr<DescriptionType> d, std::shared_ptr<Factory<IToken>> tf): descriptor{std::move(d)}, io{std::make_unique<CounterIO<Type>>(tf,*descriptor)}, dataModel{io->read()}	{	}
 	template<typename T>
 	decltype(auto) To() const { return dataModel->template To<T>(); }
 	std::unique_ptr<BaseVisitor> Accept(std::unique_ptr<BaseVisitor> bp) const {  return dataModel->Accept(std::move(bp));   }
