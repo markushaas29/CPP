@@ -30,7 +30,6 @@ private:
     std::unique_ptr<IMatrixParser<2>> parser;   
 	virtual std::unique_ptr<DataModel> read() const 
 	{ 
-		std::cout<<"P "<<descriptor.Path()<<std::endl;
 		auto dm = std::make_unique<DataModel>((*parser)()); 
 		auto mf1 = MatrixFormatter(*dm);
         auto out = mf1(DescriptorType::Identifier +".html",descriptor.Path());
