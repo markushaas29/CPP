@@ -31,7 +31,17 @@ public:
 	using VariantType = std::variant<M1Type,M2Type>;
 	MatrixReader(const std::string& s):info{std::make_unique<FS::FileInfo>(fs::path{s})}, matrix{execute(s)} {}
 	template<size_t N>
-	decltype(auto) M() { return std::get<N-1>(matrix).Get(); }
+	decltype(auto) M() 
+	{ 
+		try
+    	{
+			std::get<N-1>(matrix);
+    	}
+    	catch (std::bad_variant_access const& ex)
+    	{
+			IsT<Throwing>(Format("Matrix not in variant ", ex.what()))(false);
+    	}
+		return std::get<N-1>(matrix).Get(); }
 	template<size_t N>
 	decltype(auto) IsDim() {	return N==order;	}
 	decltype(auto) Order() { return order; }
