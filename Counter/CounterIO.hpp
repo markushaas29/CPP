@@ -33,7 +33,7 @@ private:
 		std::cout<<"P "<<descriptor.Path()<<std::endl;
 		auto dm = std::make_unique<DataModel>((*parser)()); 
 		auto mf1 = MatrixFormatter(*dm);
-        auto out = mf1(std::to_string(Type::DescriptionType::Number)+"_S.html",descriptor.Path());
+        auto out = mf1(DescriptorType::Identifier +".html",descriptor.Path());
 		return dm;
 	}
 	virtual std::ostream& display(std::ostream& out) const { 	return out;	}
