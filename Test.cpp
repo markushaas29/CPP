@@ -16,6 +16,7 @@
 #include "Counter/Test.cpp"
 #include "Decorator/Test.cpp"
 #include "Repository/Test.cpp"
+#include "HTMLBuilder/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
 
@@ -58,6 +59,9 @@ int main()
 	
 	DecoratorTest dec;
 	dec.Run();
+	
+	HTMLBuilderTest html;
+	html.Run();
 	
 	CounterTest c;
 	c.Run();
