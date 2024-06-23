@@ -3,6 +3,7 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
+#include "HTMLBuilder.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixDescriptor.hpp"
 #include "../Matrix/MatrixFormatter.hpp"
@@ -109,11 +110,11 @@ class HTMLBuilderTest
 	              {1, 1, 0}
 	      	};
 	
-			auto mf1 = MatrixFormatter(m33);
+			auto mf1 = HTMLBuilder("HTML.html","/home/markus/Downloads/CSV_TestFiles_2");
 			std::ofstream out("/home/markus/Downloads/CSV_TestFiles_2/Mat.html");
-    		out << mf1();
+    		//out << mf1();
     		out.close();
-			std::cout<<"END Formatter"<<mf1()<<std::endl;
+			std::cout<<"HTML:\n"<<mf1()<<std::endl;
 			
 			auto mfs = MatrixFormatter(m1S);
 			auto m1SA = mfs.As();
