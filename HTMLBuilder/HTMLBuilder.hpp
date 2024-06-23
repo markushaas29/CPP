@@ -19,14 +19,18 @@ public:
 		*f<<"<!doctype html>";
 		*f<<"<html>";
 	}
-    virtual std::string operator()() 
+    auto operator()() 
 	{	
 		*f<<"</html>";	
-		return "";
+		f->close();
 	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	
 		return s;	
+	};
+    void operator()(const auto& a) 
+	{	
+		*f<<a;
 	};
     auto As()
     {

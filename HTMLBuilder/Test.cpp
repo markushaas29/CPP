@@ -8,6 +8,7 @@
 #include "../Matrix/MatrixDescriptor.hpp"
 #include "../Matrix/MatrixFormatter.hpp"
 #include "../CSV/Elements.hpp"
+#include "../Decorator/ElementDecorator.hpp"
 
 class HTMLBuilderTest
 {
@@ -114,7 +115,11 @@ class HTMLBuilderTest
 			std::ofstream out("/home/markus/Downloads/CSV_TestFiles_2/Mat.html");
     		//out << mf1();
     		out.close();
-			std::cout<<"HTML:\n"<<mf1()<<std::endl;
+			auto b = B();
+			auto qsz = QS{0};
+            auto html0 = b(qsz.Data());
+			mf1(html0);
+			std::cout<<"HTML:\n"<<mf1<<std::endl;
 			
 			auto mfs = MatrixFormatter(m1S);
 			auto m1SA = mfs.As();
