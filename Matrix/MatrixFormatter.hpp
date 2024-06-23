@@ -39,6 +39,7 @@ public:
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
     virtual std::string operator()() {	return "<!doctype html>" + Html()(table()).Data();	};
+    virtual std::string Rows() {	return table();	};
     virtual std::shared_ptr<std::ofstream> operator()(const std::string& n, const std::string& p = "") 
 	{	
 		auto out = std::make_shared<std::ofstream>(p + "/" + n);

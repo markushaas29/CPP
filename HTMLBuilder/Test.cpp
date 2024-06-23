@@ -111,6 +111,7 @@ class HTMLBuilderTest
 	              {1, 1, 0}
 	      	};
 	
+			auto mfs = MatrixFormatter(m1S);
 			auto mf1 = HTMLBuilder("HTML.html","/home/markus/Downloads/CSV_TestFiles_2");
 			std::ofstream out("/home/markus/Downloads/CSV_TestFiles_2/Mat.html");
     		//out << mf1();
@@ -119,9 +120,9 @@ class HTMLBuilderTest
 			auto qsz = QS{0};
             auto html0 = b(qsz.Data());
 			mf1(html0);
+			mf1(mfs.Rows());
 			std::cout<<"HTML:\n"<<mf1<<std::endl;
 			
-			auto mfs = MatrixFormatter(m1S);
 			auto m1SA = mfs.As();
 			std::cout<<"m1SA\n"<<m1SA<<std::endl;
 			assert(m1SA[0]()=="Summe");
