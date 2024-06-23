@@ -31,6 +31,7 @@ class Tr: public TagDecorator{	virtual std::string decorate() const { return "tr
 class Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
 class Table: public TagDecorator{	virtual std::string decorate() const { return "table"; } };
 class Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
+class head: public TagDecorator{	virtual std::string decorate() const { return "head"; } };
 
 class StyleDecorator: public IElementDecorator
 {
