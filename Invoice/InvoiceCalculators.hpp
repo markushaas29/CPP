@@ -268,9 +268,10 @@ private:
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
 		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index-1));
-        auto out = mf(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
         auto html = HTMLBuilder(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
+		html(mf.Rows());
 
+		auto out = html.Of();
         auto sumMatrix = account(out).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());

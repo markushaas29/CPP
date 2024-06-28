@@ -3,6 +3,7 @@
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixReader.hpp"
 #include "../Matrix/MatrixParsers.hpp"
+#include "../HTMLBuilder/HTMLBuilder.hpp"
 
 #pragma once
 
@@ -32,7 +33,7 @@ private:
 	{ 
 		auto dm = std::make_unique<DataModel>((*parser)()); 
 		auto mf1 = MatrixFormatter(*dm);
-        auto out = mf1(DescriptorType::Identifier +".html",descriptor.Path());
+        HTMLBuilder(DescriptorType::Identifier +".html",descriptor.Path())(mf1.Rows());
 		return dm;
 	}
 	virtual std::ostream& display(std::ostream& out) const { 	return out;	}
