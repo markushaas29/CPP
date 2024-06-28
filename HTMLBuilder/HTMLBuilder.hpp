@@ -14,7 +14,7 @@ class HTMLBuilder
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
-	HTMLBuilder(const std::string& n, const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
+	HTMLBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
 	{
 		*f<<"<!doctype html>";
 		*f<<"<html>";
@@ -24,8 +24,9 @@ public:
 		*f<<"</html>";	
 		f->close();
 	};
-    virtual std::ofstream& operator()(std::ofstream& s) 
-	{	
+    std::ofstream& operator()(std::ofstream& s, const auto& a) 
+	{
+		s<<a;
 		return s;	
 	};
     void operator()(const auto& a) 
