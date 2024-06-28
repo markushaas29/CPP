@@ -6,6 +6,7 @@
 #include "../CSV/Elements.hpp"    
 #include "../Matrix/MatrixFormatter.hpp"
 #include "../Functional/Functional.hpp"    
+#include "../HTMLBuilder/HTMLBuilder.hpp"    
 
 #pragma once
 
@@ -42,7 +43,8 @@ public:
 	virtual MType M() const { return item; };
 	virtual std::ofstream& operator()(std::ofstream& s) const 
 	{ 
-		return MatrixFormatter(item)(s);  
+		auto mf = MatrixFormatter(item);  
+		return HTMLBuilder()(s,mf.Rows());
 	};
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
