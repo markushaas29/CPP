@@ -267,7 +267,7 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index-1));
+		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index));
         auto html = HTMLBuilder(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
 		html(mf.Rows());
 
