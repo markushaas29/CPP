@@ -38,8 +38,7 @@ public:
 //		return s;
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
-    virtual std::string operator()() {	return "<!doctype html>" + Html()(table()).Data();	};
-    virtual std::string Rows() {	return table();	};
+    virtual std::string operator()() {	return table();	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	
 		s<<table();	

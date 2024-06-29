@@ -44,7 +44,7 @@ public:
 	virtual std::ofstream& operator()(std::ofstream& s) const 
 	{ 
 		auto mf = MatrixFormatter(item);  
-		return HTMLBuilder()(s,mf.Rows());
+		return HTMLBuilder()(s,mf());
 	};
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}

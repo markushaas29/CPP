@@ -93,7 +93,7 @@ private:
 			std::cout<<"M\n"<<m[i][0]<<std::endl;
 			auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
         	auto html = HTMLBuilder(m[i][0]()->Data()+"Hall.html","/home/markus/Downloads/CSV_TestFiles_2");
-			html(mf.Rows());
+			html(mf());
 	//		std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 	//    	fv = m[0].Accept(std::move(fv));
 	//    	auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
@@ -145,7 +145,7 @@ private:
 		auto m = (*(Base::parser))();
 		auto mf1 = MatrixFormatter(m[S::Index-1]);
         auto html = HTMLBuilder(std::to_string(S::Index)+"_S.html","/home/markus/Downloads/CSV_TestFiles_2");
-		html(mf1.Rows());
+		html(mf1());
 		mf1(*f);
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
         return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>((payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>()) * Quantity<Scalar>{12}) });
@@ -269,7 +269,7 @@ private:
 
 		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index));
         auto html = HTMLBuilder(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
-		html(mf.Rows());
+		html(mf());
 
 		auto out = html.Of();
         auto sumMatrix = account(out).template To<Quantity<Sum>>();  
@@ -314,6 +314,6 @@ private:
 	auto append(const auto& m, std::shared_ptr<std::ofstream> out) const
 	{
 		auto mf = MatrixFormatter(m);
-		HTMLBuilder<German>()(*out,mf.Rows());
+		HTMLBuilder<German>()(*out,mf());
 	}
 };
