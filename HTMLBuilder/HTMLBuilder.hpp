@@ -1,5 +1,4 @@
-#include <vector>
-#include <initializer_list>
+
 #include <map>
 #include <memory>
 #include <sstream>
@@ -31,7 +30,7 @@ public:
 	};
     void operator()(const auto& a) 
 	{	
-		*f<<a;
+		*f<<Section()(a).Data();
 	};
     auto As()
     {
