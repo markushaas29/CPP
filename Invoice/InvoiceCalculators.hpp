@@ -269,6 +269,7 @@ private:
 
 		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index));
         auto html = HTMLBuilder(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
+		html(Date::Today());
 		html(mf());
 
 		auto out = html.Of();
