@@ -42,12 +42,15 @@ class DecoratorTest
 			assert(Td()(qm.Data()).Data() == "<td>5.2kg</td>");
 
 			auto r = Red();
+			auto s = Section();
 			std::cout<<"R"<<r(qm.Data())<<std::endl;
+			std::cout<<"R"<<s(qm.Data())<<std::endl;
 			assert(r(qm.Data()).Data() == "<body style=\"color:red;\">5.2kg</body>");
 
 			auto el = HtmlElement("El","body","TEXT=\"RED\"");
 			std::cout<<"EL: "<<el<<std::endl;
 			assert(el.Data() == "<body TEXT=\"RED\">El</body>");
+			assert(s(qm.Data()).Data() == "<section>5.2kg</section>");
 			auto elp = HtmlElement("El","p");
 			std::cout<<"EL: "<<el<<std::endl;
 			
