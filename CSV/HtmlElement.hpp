@@ -4,6 +4,7 @@
 #include "../Quantity/Quantity.hpp"
 #include "../To/To.hpp"
 #include "../Visitor/Visitor.hpp"
+#include "../CSV/Element.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include <string.h>
 #include <map>
@@ -44,6 +45,7 @@ class HtmlElement: public IHtmlElement
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
+ 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElement(T t): HtmlElement(std::to_string(t)) { };

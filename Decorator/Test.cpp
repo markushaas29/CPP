@@ -50,7 +50,7 @@ class DecoratorTest
 			auto el = HtmlElement("El","body","TEXT=\"RED\"");
 			std::cout<<"EL: "<<el<<std::endl;
 			assert(el.Data() == "<body TEXT=\"RED\">El</body>");
-			assert(s(qm.Data()).Data() == "<section>5.2kg</section>");
+			assert(s(qm).Data() == "<section>5.2kg</section>");
 			auto elp = HtmlElement("El","p");
 			std::cout<<"EL: "<<el<<std::endl;
 			
