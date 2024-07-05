@@ -72,7 +72,7 @@ protected:
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
-	virtual typename Base::MatrixType exec(HTMLBuilder<German>& f) const = 0;
+	virtual typename Base::MatrixType exec(HTMLBuilder<German>& f) = 0;
 	virtual typename Base::MatrixType get(HTMLBuilder<German>& f) 
 	{
 		if(!matrix)

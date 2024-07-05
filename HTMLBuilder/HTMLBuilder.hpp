@@ -23,12 +23,12 @@ public:
 		*f<<"</html>";	
 		f->close();
 	};
-    std::ofstream& operator()(std::ofstream& s, const auto& a) 
+    std::ofstream& operator()(std::ofstream& s, const auto& a) const
 	{
 		s<<a;
 		return s;	
 	};
-    void operator()(const auto& a) 
+    void operator()(const auto& a) const
 	{	
 		*f<<Section()(a).Data();
 	};
