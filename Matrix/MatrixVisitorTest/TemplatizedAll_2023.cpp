@@ -88,6 +88,7 @@ class TemplatizedAll_Test2023
 			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,path);
 			assert(inv->Costs()[0]==Quantity<Sum>{-296.31});
+			std::cout<<"Prop--->"<<inv->Costs()<<std::endl;
 			assert(inv->Costs()[1]==Quantity<Sum>{-3326.63});
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 			std::cout<<"Prop--->"<<inv->Prop()<<std::endl;

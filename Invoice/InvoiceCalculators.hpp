@@ -187,6 +187,7 @@ private:
                     {"Invoice",{{EqualVisitor::Identifier, { Entry::Identifier, "Rechnung"}}, {EqualVisitor::Identifier, { IBAN::Identifier, "DE56600501017402051588"}}, {EqualVisitor::Identifier, { Year::Identifier, Base::year.Next().ToString()}}}},
                     {"Rechnung",{{EqualVisitor::Identifier, { Entry::Identifier, "Rechnung"}}, {EqualVisitor::Identifier, { IBAN::Identifier, "DE68600501010002057075"}}, {EqualVisitor::Identifier, { Year::Identifier, Base::year.Next().ToString()}}}},
                     //{"Maintenance",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE73660623660009271112"}}, {EqualVisitor::Identifier, { Year::Identifier, "2022"}}}},
+                    {"Maintenance",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE82660501011021592702"}}, {EqualVisitor::Identifier, { Year::Identifier, Base::year.ToString()}}}},
                 }
             },
             {"BuildingInsurance",{
