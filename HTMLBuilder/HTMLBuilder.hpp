@@ -44,7 +44,6 @@ HTMLBuilder(const std::string& n = "", const std::string& p = ""): name(n), path
 //		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
 //        return M(d,v);
     }
-	auto Of() { return std::make_unique<std::ofstream>(path + "/" + name); }
 private:
 	const std::string name;
 	const std::string path;

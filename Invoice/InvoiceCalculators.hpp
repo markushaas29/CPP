@@ -272,7 +272,6 @@ private:
 		html(Date::Today());
 		html(mf());
 
-		auto out = html.Of();
         auto sumMatrix = account(html).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
