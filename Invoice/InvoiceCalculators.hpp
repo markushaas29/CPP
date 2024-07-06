@@ -36,7 +36,7 @@ public:
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual typename Base::QuantityType value() const { return typename Base::QuantityType{0}; };
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const
+	typename Base::MatrixType exec(const HTMLBuilder<German>& f)
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
@@ -80,7 +80,7 @@ public:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "Hall.csv";
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	
+	typename Base::MatrixType exec(const HTMLBuilder<German>& f) 
 	{
 		auto m = (*parser)();
 		std::cout<<"HALL\n"<<m<<std::endl;
@@ -102,7 +102,7 @@ private:
 		}
 		return (*parser)()[0];	}
 	
-	//virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const = 0;
+	//virtual typename Base::MatrixType matrix(HTMLBuilder<German> f) const = 0;
 };
 
 template<typename S>
@@ -119,8 +119,8 @@ protected:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const	{	return matrix(f);	}
-	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const = 0;
+	typename Base::MatrixType exec(const HTMLBuilder<German>& f) {	return matrix(f);	}
+	virtual typename Base::MatrixType matrix(const HTMLBuilder<German>& f) const = 0;
 };
 
 template<typename S>
@@ -130,7 +130,7 @@ class ExtraCostItemsCalculator: public StageBase<S>
 public:
 	ExtraCostItemsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 private:
-	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
+	virtual typename Base::MatrixType matrix(const HTMLBuilder<German>& f) const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
 };
 
 template<typename S>
@@ -140,13 +140,13 @@ class YearlyExtraCostsCalculator: public StageBase<S>
 public:
 	YearlyExtraCostsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y,p} {};
 private:
-	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const
+	virtual typename Base::MatrixType matrix(const HTMLBuilder<German>& f) const
 	{
 		auto m = (*(Base::parser))();
 		auto mf1 = MatrixFormatter(m[S::Index-1]);
-        auto html = HTMLBuilder(std::to_string(S::Index)+"_S.html","/home/markus/Downloads/CSV_TestFiles_2");
+        auto html = HTMLBuilder<German>(std::to_string(S::Index)+"_S.html","/home/markus/Downloads/CSV_TestFiles_2");
 		html(mf1());
-		mf1(*f);
+		f(mf1());
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
         return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>((payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>()) * Quantity<Scalar>{12}) });
 	}
@@ -160,7 +160,7 @@ public:
 private:
 	std::unique_ptr<IMatrixParser<3>> parser;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
-	typename Base::MatrixType exec(std::shared_ptr<std::ofstream> f) const
+	typename Base::MatrixType exec(const HTMLBuilder<German>& f) 
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
@@ -240,7 +240,7 @@ class ProportionCalculator: public StageBase<S>
 public:
 	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 private:
-	virtual typename Base::MatrixType matrix(std::shared_ptr<std::ofstream> f) const 
+	virtual typename Base::MatrixType matrix(const HTMLBuilder<German>& f) const
 	{ 
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
@@ -249,7 +249,7 @@ private:
 		return (*Base::parser)()[S::Index-1];	
 	}
 	template<size_t N, typename Tup>
-    auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p, std::shared_ptr<std::ofstream> f) const 
+    auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p, const HTMLBuilder<German>& f) const 
     {
         if constexpr (std::tuple_size<Tup>()==N)
             return stageMatrix;
@@ -263,7 +263,7 @@ private:
     }
     
     template<size_t N, typename Tup>
-    auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, std::shared_ptr<std::ofstream> f) const
+    auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, const HTMLBuilder<German>& f) const
     {
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
@@ -273,8 +273,7 @@ private:
 		html(Date::Today());
 		html(mf());
 
-		auto out = html.Of();
-        auto sumMatrix = account(out).template To<Quantity<Sum>>();  
+        auto sumMatrix = account(html).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 
@@ -288,8 +287,8 @@ private:
 			v.push_back(vr);
 		}
 
-		append(Init(v)(),out);
-		append(this->M(),out);
+		append(Init(v)(),html);
+		append(this->M(),html);
 
 //		for(size_t i = 0; i < 6; ++i)
 //			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
@@ -313,9 +312,9 @@ private:
 		v.push_back(ss.str());
 	}
 	
-	auto append(const auto& m, std::shared_ptr<std::ofstream> out) const
+	auto append(const auto& m, const HTMLBuilder<German>& out) const
 	{
 		auto mf = MatrixFormatter(m);
-		HTMLBuilder<German>()(*out,mf());
+		out(mf());
 	}
 };
