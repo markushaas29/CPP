@@ -35,17 +35,17 @@ public:
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
-	MatrixType operator()(HTMLBuilder<German>& f) { return get(f); };
+	MatrixType operator()(const HTMLBuilder<German>& f) { return get(f); };
 	auto Y() const { return y(); }
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
-    auto Value(HTMLBuilder<German>& f) { return value(f); };    
+    auto Value(const HTMLBuilder<German>& f) { return value(f); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
 	virtual const Year& y() const = 0;
 	//virtual MatrixType get() = 0;
-	virtual MatrixType get(HTMLBuilder<German>& f) = 0;
-	virtual QuantityType value(HTMLBuilder<German>& f)  { return acc();    };
+	virtual MatrixType get(const HTMLBuilder<German>& f) = 0;
+	virtual QuantityType value(const HTMLBuilder<German>& f)  { return acc();    };
 	auto acc() 
     {
 		HTMLBuilder<German> b("");
@@ -72,8 +72,8 @@ protected:
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
-	virtual typename Base::MatrixType exec(HTMLBuilder<German>& f) = 0;
-	virtual typename Base::MatrixType get(HTMLBuilder<German>& f) 
+	virtual typename Base::MatrixType exec(const HTMLBuilder<German>& f) = 0;
+	virtual typename Base::MatrixType get(const HTMLBuilder<German>& f) 
 	{
 		if(!matrix)
 			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
