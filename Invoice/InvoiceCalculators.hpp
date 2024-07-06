@@ -315,6 +315,6 @@ private:
 	auto append(const auto& m, HTMLBuilder<German>& out) const
 	{
 		auto mf = MatrixFormatter(m);
-		//HTMLBuilder<German>()(*out,mf.Rows());
+		out(mf());
 	}
 };

@@ -1,4 +1,3 @@
-
 #include <map>
 #include <memory>
 #include <sstream>
@@ -13,7 +12,7 @@ class HTMLBuilder
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
-	HTMLBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_shared<std::ofstream>(path + "/" + name)}
+HTMLBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
 	{
 		*f<<"<!doctype html>";
 		*f<<"<html>";
@@ -45,11 +44,11 @@ public:
 //		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
 //        return M(d,v);
     }
-	auto Of() { return f; }
+	auto Of() { return std::make_unique<std::ofstream>(path + "/" + name); }
 private:
 	const std::string name;
 	const std::string path;
-	std::shared_ptr<std::ofstream> f;
+	std::unique_ptr<std::ofstream> f;
 	std::unique_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const HTMLBuilder& m) 
 	{ 
