@@ -8,11 +8,11 @@
 struct German;
 
 template<typename L = German>
-class HTMLBuilder 
+class HtmlBuilder 
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
-HTMLBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
+HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
 	{
 		*f<<"<!doctype html>";
 		*f<<"<html>";
@@ -49,7 +49,7 @@ private:
 	const std::string path;
 	std::unique_ptr<std::ofstream> f;
 	std::unique_ptr<MapType> translate;
-	friend std::ostream& operator<<(std::ostream& s, const HTMLBuilder& m) 
+	friend std::ostream& operator<<(std::ostream& s, const HtmlBuilder& m) 
 	{ 
 		std::stringstream ss;
 		ss<<m.f->rdbuf();
@@ -64,4 +64,4 @@ private:
 };
 
 template<typename M>
-HTMLBuilder(const M&) -> HTMLBuilder<M>;
+HtmlBuilder(const M&) -> HtmlBuilder<M>;

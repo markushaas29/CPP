@@ -75,7 +75,7 @@ class TemplatizedAll_Test2023
 			
 			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
 			auto pBottom = ProportionCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
-			HTMLBuilder<German> hb("");
+			HtmlBuilder<German> hb("");
 			std::cout<<"P--->"<<pBottom(hb)<<std::endl;
 			assert(extra_Bottom.Value(hb).Equals(Quantity<Sum>{660},0.01));
 			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};

@@ -113,7 +113,7 @@ class HTMLBuilderTest
 	
 			auto mfs = MatrixFormatter(m1S);
 			auto mf2d = MatrixFormatter(m2d);
-			auto mf1 = HTMLBuilder("HTML.html","/home/markus/Downloads/CSV_TestFiles_2");
+			auto mf1 = HtmlBuilder("HTML.html","/home/markus/Downloads/CSV_TestFiles_2");
 			std::ofstream out("/home/markus/Downloads/CSV_TestFiles_2/Mat.html");
     		//out << mf1();
     		out.close();
