@@ -43,8 +43,8 @@ public:
 	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Content(), e.Tag(),Decorate()); }
 };
 
-class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
-class Green: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:green;\""; } };
+//class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
+//class Green: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:green;\""; } };
 
 
 template<typename Y, typename N, typename Ptr=StyleDecorator>
