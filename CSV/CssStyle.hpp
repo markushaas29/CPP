@@ -40,6 +40,7 @@ private:
 	static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> create()
 	{
 		auto res = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+			std::cout<<"End TYPE "<<std::endl;
 		return exec<0>(res);
 	}
 	template<size_t N>
@@ -50,6 +51,7 @@ private:
         else
         {
             using Type = std::tuple_element_t<N,Tup>;
+			std::cout<<"TYPE "<<Type()<<std::endl;
             res->push_back(std::make_unique<Type>());
             return exec<N+1>(res);
         }
