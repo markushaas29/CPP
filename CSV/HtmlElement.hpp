@@ -47,7 +47,7 @@ class HtmlElement: public IHtmlElement
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css>()}, tag{t}, content{c}, style{s} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css<Style<Border,Red>>>()}, tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElement(T t): HtmlElement(std::to_string(t)) { };
 //
@@ -68,7 +68,7 @@ public:
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
 	const auto& Tag() const { return tag; }
 	const auto& Content() const { return content; }
-	const auto& Style() const { return style; }
+	const auto& Styl() const { return style; }
 	const auto& Data() const { return dataS; }
 private:
 	std::unique_ptr<ICss> css;

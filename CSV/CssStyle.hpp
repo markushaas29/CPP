@@ -1,18 +1,5 @@
-#include "../String/String_.hpp"
-#include "../Logger/Logger.hpp"
-#include "../Common/ArrayHelper.hpp"
-#include "../Quantity/Quantity.hpp"
-#include "../To/To.hpp"
-#include "../Visitor/Visitor.hpp"
-#include "../CSV/Element.hpp"
-#include "../TypeCounter/TypeCounter.hpp"
-#include <string.h>
-#include <map>
-#include <regex>
-#include <memory>
-#include <array>
-#include <chrono>
-#include <ctime>
+#include "Style.hpp"
+#include <vector>
 
 template<typename, bool> class PredicateVisitor;
 
@@ -41,11 +28,31 @@ private:
 };
 ////--------------------------------Css------------------------------------------------
 
+template<typename... T>
 class Css: public ICss
 {
+	 using Tup = std::tuple<T...>;
 public:
- 	Css(const std::string& c = "") { };
+ 	Css(const std::string& c = ""): styles{create()} { };
 private:
+	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
 	virtual std::string data() const  {	return ""; };	
+	static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> create()
+	{
+		auto res = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+		return exec<0>(res);
+	}
+	template<size_t N>
+    static auto exec(auto&& res)
+    {
+        if constexpr (std::tuple_size<Tup>()==N)
+            return std::move(res);
+        else
+        {
+            using Type = std::tuple_element_t<N,Tup>;
+            res->push_back(std::make_unique<Type>());
+            return exec<N+1>(res);
+        }
+    }
 };
 
