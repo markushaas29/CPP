@@ -18,33 +18,33 @@ template<typename, bool> class PredicateVisitor;
 
 #pragma once
 
-class ICssStyle//: public BaseVisitable<void>, public BoolVisitable<bool>
+class ICss//: public BaseVisitable<void>, public BoolVisitable<bool>
 {
 public:
-//	virtual bool operator==(const ICssStyle& e) const { return Data() == e.Data(); };
-////	virtual constexpr std::strong_ordering operator<=>( const ICssStyle& e) const noexcept = 0;
+//	virtual bool operator==(const ICss& e) const { return Data() == e.Data(); };
+////	virtual constexpr std::strong_ordering operator<=>( const ICss& e) const noexcept = 0;
 	std::string operator()() const  { return data(); };	
-//	virtual std::unique_ptr<ICssStyle> Clone() const  = 0;	
+//	virtual std::unique_ptr<ICss> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(Data()); }
 private:
-	friend std::ostream& operator<<(std::ostream& out, const ICssStyle& e) {	return out<<e.data();}
+	friend std::ostream& operator<<(std::ostream& out, const ICss& e) {	return out<<e.data();}
 	virtual std::string data() const  = 0;	
-////	virtual constexpr bool operator==(const ICssStyle& e) const = 0;
-////	virtual constexpr std::strong_ordering operator<=>( const ICssStyle& e) const noexcept = 0;
+////	virtual constexpr bool operator==(const ICss& e) const = 0;
+////	virtual constexpr std::strong_ordering operator<=>( const ICss& e) const noexcept = 0;
 ////	virtual constexpr const_iterator Begin() const = 0;
 ////	constexpr decltype(auto) End() { return data.begin() + size; }
 ////	constexpr decltype(auto) Size() { return size; }
 ////
-////	constexpr bool operator==(const CssStyle& e) const{ return Data() == e.Data(); };
-////	constexpr std::strong_ordering operator<=>( const CssStyle& e) const noexcept { return Data() <=> e.Data(); }
+////	constexpr bool operator==(const Css& e) const{ return Data() == e.Data(); };
+////	constexpr std::strong_ordering operator<=>( const Css& e) const noexcept { return Data() <=> e.Data(); }
 };
-////--------------------------------CssStyle------------------------------------------------
+////--------------------------------Css------------------------------------------------
 
-class CssStyle: public ICssStyle
+class Css: public ICss
 {
 public:
- 	CssStyle(const std::string& c = "") { };
+ 	Css(const std::string& c = "") { };
 private:
 	virtual std::string data() const  {	return ""; };	
 };
