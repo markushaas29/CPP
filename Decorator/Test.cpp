@@ -75,6 +75,9 @@ class DecoratorTest
 //			auto ddsn = dds(qsn>qsz, htmln);
 //			assert(ddsn.Data() == "<b style=\"color:red;\">-5.€</b>");
 
+			auto br = Style<Border,Red>();
+			assert(br.Element()=="Border");
+
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;
