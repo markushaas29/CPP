@@ -68,13 +68,13 @@ private:
 		if constexpr (O==1)
 		{
 			auto td = Td();
-			auto b = B();
+//			auto b = B();
 			std::string res;
 			for(auto i=0; i<m.Rows(); ++i)
 			{
 				std::stringstream is;
 				is<<m[i];
-				res+=td(b(is.str())).Data()+"\n";
+				res+=td(is.str()).Data()+"\n";
 			}
 			return Tr()(res).Data();
 		}
