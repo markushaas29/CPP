@@ -77,7 +77,7 @@ private:
 	std::string content;
 	virtual std::string data() const  {	return begin() + content + end(); };	
 	std::string dataS = begin() + content + end();	
-	std::string begin() const  {	return tag == "" ? tag : "<" + tag  +(style.size() == 0 ? "" : " ") + style + ">"; };	
+	std::string begin() const  {	return tag == "" ? tag : "<" + tag  + " style=\"color:red; font-size:30px;\"" + ">"; };	
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
 
