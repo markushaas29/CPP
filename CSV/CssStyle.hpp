@@ -36,7 +36,12 @@ public:
  	Css(const std::string& c = ""): styles{create()} { };
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
-	virtual std::string data() const  {	return ""; };	
+	virtual std::string data() const  
+	{	
+		std::string res = " style=\"";
+		std::for_each(styles->cbegin(), styles->cend(), [&](const auto& s) { res += (*s)(); });
+		return res;
+	};	
 	static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> create()
 	{
 		auto res = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
