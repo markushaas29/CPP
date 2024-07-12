@@ -90,7 +90,7 @@ private:
 		    fc = m[i].Accept(std::move(fc));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto m = (*parser)(true);
-			std::cout<<"M\n"<<m[i][0]<<std::endl;
+			std::cout<<"M Hall\n"<<m[i]<<std::endl;
 			auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
         	auto html = HtmlBuilder(m[i][0]()->Data()+"Hall.html","/home/markus/Downloads/CSV_TestFiles_2");
 			html(mf());
