@@ -116,6 +116,14 @@ struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inl
 struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
 struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
 struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
+
+struct StreetIndexToken: public Token<StreetIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "Street";};
+struct TownIndexToken: public Token<TownIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "Town";};
+struct StreetnumberIndexToken: public Token<StreetnumberIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Streetnumber";};
+struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Quantity<Scalar>>>	{	inline static constexpr const char* Pattern = "Postcode";};
+
+//struct _IndexToken: public Token<_IndexToken, Index<_>>	{	inline static constexpr const char* Pattern = "_";};
+
 struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
 struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
