@@ -153,6 +153,18 @@ decltype(auto) Build()
 	return f;
 }
 
+template<typename I, typename... T>
+class FactoryCreator                                                                                                                                                                                                   
+{
+public:
+	decltype(auto) operator()() 
+	{ 
+		auto f =std::make_shared<Factory<I>>();
+    	auto r = Registration<Factory<I>, T...>(&(*f));
+		return f;
+	}
+};
+
 template<class TList, template<class> class Unit = FactoryUnit, template<class> class CreatePolicy = CreateFactoryUnitNewPolicy>
 class AbstractFactory
 {

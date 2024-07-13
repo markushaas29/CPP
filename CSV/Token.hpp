@@ -190,15 +190,18 @@ struct TownIndexToken: public Token<TownIndexToken, Index<Name>>
 	inline static constexpr const char* Pattern = "Town";
 	inline static constexpr const char* Identifier = "TownIndexToken"; 
 };
-struct StreetnumberIndexToken: public Token<StreetnumberIndexToken, Index<Quantity<Scalar>>>	
+struct StreetnumberIndexToken: public Token<StreetnumberIndexToken, Index<Number<uint>>>	
 {
 	inline static constexpr const char* Pattern = "Streetnumber";
 	inline static constexpr const char* Identifier = "StreetnumberIndexToken"; 
 };
-struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Quantity<Scalar>>>	
+struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Number<uint>>>	
 {	
 	inline static constexpr const char* Pattern = "Postcode";
 	inline static constexpr const char* Identifier = "PostcodeIndexToken"; 
 };
 
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
+
+template<typename I, typename... T>  class FactoryCreator;
+using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken>;
