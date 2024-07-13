@@ -26,6 +26,22 @@ private:
 	inline static std::string check(const std::string& s) { return s; }
 };
 
+template<typename T = std::string>
+class Number: public Element<Number<T>>
+{
+    using Base = Element<Number<T>>;
+    friend class Element<Number<T>>;
+public:
+    using ValueType = T;
+    using Type = Number<T>;
+    inline static constexpr const char* Identifier = "Number";
+    Number(const std::string& k = Identifier): Base(k){};
+    template<typename TT, typename = typename std::enable_if<!std::is_same<TT, std::string>::value>::type>
+    Number(TT t): Base(std::to_string(t)){};
+private:
+    inline static std::string check(const std::string& s) { return s; }
+};
+
 class IBAN: public Element<IBAN>
 {
 	using Base = Element<IBAN>;
