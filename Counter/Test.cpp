@@ -18,7 +18,7 @@ class CounterTest
 		int Run()
 		{
 			std::cout<<"START COunterTest"<<std::endl;
-			auto tf = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken>();
+			auto tf = TokenFactoryCreator()();
 			auto wd = TopHotDesc{tf,"/home/markus/Downloads/CSV_TestFiles_2"};
 			std::cout<<"CABSter\n"<<wd<<std::endl;
 
