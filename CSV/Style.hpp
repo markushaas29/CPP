@@ -1,7 +1,8 @@
 #pragma once
 
-struct Red			{   inline static constexpr const char* Id = "Red"; };
-struct Border		{   inline static constexpr const char* Id = "Border"; };
+struct Red			{   inline static constexpr const char* Id = "red"; };
+struct Border		{   inline static constexpr const char* Id = "border"; };
+struct ColorTag		{   inline static constexpr const char* Id = "color"; };
 
 class IStyle//: public BaseVisitable<void>, public BoolVisitable<bool>
 {
