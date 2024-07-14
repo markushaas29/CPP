@@ -70,13 +70,16 @@ private:
 		using ResultType = Matrix<LeftType::Order, DescriptorType>;
         return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
 	}
-    static decltype(auto) transformDim(const LeftType& m, auto ND, auto... I)
+	template<size_t ND>
+    static decltype(auto) transformDim(const LeftType& m, auto... I)
     {
 		std::cout<<"TRANS: "<<ND<<std::endl;
 		auto v = std::vector<typename LeftType::ElementType>();
         for(auto i = 0; i < m.elements->size(); ++i) { v.push_back(*(m.elements->at(i))); };
-		using ResultType = Matrix<LeftType::Order, DescriptorType>;
-        return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
+		using DescriptorType = MatrixDescriptor<ND, typename LeftType::ElementType>;
+		using ResultType = Matrix<ND, DescriptorType>;
+		if constexpr (ND==2)
+        	return ResultType(DescriptorType({I...}),v); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, const F& f)
