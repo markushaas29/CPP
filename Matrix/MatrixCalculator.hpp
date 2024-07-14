@@ -73,13 +73,12 @@ private:
 	template<size_t ND>
     static decltype(auto) transformDim(const LeftType& m, auto... I)
     {
-		std::cout<<"TRANS: "<<ND<<std::endl;
 		auto v = std::vector<typename LeftType::ElementType>();
         for(auto i = 0; i < m.elements->size(); ++i) { v.push_back(*(m.elements->at(i))); };
 		using DescriptorType = MatrixDescriptor<ND, typename LeftType::ElementType>;
 		using ResultType = Matrix<ND, DescriptorType>;
 		if constexpr (ND==2)
-        	return ResultType(DescriptorType({I...}),v); 
+        	return ResultType(DescriptorType({(size_t)I...}),v); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, const F& f)
