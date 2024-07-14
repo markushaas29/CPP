@@ -47,7 +47,7 @@ class HtmlElement: public IHtmlElement
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css<Style<ColorTag,Red>,Style<Border,Red>>>()}, tag{t}, content{c}, style{s} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css<Style<ColorTag,Red>>>()}, tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElement(T t): HtmlElement(std::to_string(t)) { };
 //
