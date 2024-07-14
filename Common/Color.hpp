@@ -2,7 +2,7 @@
 
 #ifndef COLOUR_HPP
 #define COLOUR_HPP
-namespace Color {
+struct Color {
 	
 	template<uint Num>
 	struct Code
@@ -27,5 +27,5 @@ namespace Color {
 					return os << "\033[" << mod.code << "m";
 				}
 	};
-}
+};
 #endif

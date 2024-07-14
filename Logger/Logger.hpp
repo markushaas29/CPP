@@ -11,7 +11,7 @@
 #include <string_view>
 #include <source_location>
 #include "LogExpression.hpp"
-#include "Colour.hpp"
+#include "../Common/Color.hpp"
 #include "../Wrapper/Wrapper.hpp"
 
 #ifndef LOGGER_HPP
