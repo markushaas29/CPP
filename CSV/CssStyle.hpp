@@ -40,7 +40,7 @@ private:
 	{	
 		std::string res = " style=\"";
 		std::for_each(styles->cbegin(), styles->cend(), [&](const auto& s) { res += (*s)(); });
-		return res;
+		return res + "\"";
 	};	
 	static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> create()
 	{
