@@ -309,6 +309,10 @@ class MatrixCalculatorTest
 			std::cout<<mdd[0].Value()<<std::endl;
 
 			auto m1Div = mdd / md13;
+
+			auto m14 = m1.Rows(0,1,2,3);
+			std::cout<<m14.Transform(2,2,2)<<std::endl;
+
 //			assert((int)m1Div[0]()==16);
 //			assert((int)m1Div[1]()==93);
 			

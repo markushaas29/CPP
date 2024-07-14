@@ -69,6 +69,14 @@ private:
 				v[(j * m.Cols())+i] = *(m.elements->at((i * m.Rows())+j));
 		using ResultType = Matrix<LeftType::Order, DescriptorType>;
         return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
+	}
+    static decltype(auto) transformDim(const LeftType& m, auto ND, auto... I)
+    {
+		std::cout<<"TRANS: "<<ND<<std::endl;
+		auto v = std::vector<typename LeftType::ElementType>();
+        for(auto i = 0; i < m.elements->size(); ++i) { v.push_back(*(m.elements->at(i))); };
+		using ResultType = Matrix<LeftType::Order, DescriptorType>;
+        return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
     }
 	template<typename F>
     static decltype(auto) apply(const LeftType& m, const F& f)
