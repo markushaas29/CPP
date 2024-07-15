@@ -80,9 +80,14 @@ class DecoratorTest
 			std::cout<<br<<std::endl;
 			assert(br.Element()=="border");
 			assert(br()==" border:red;");
+			auto brC = br.Clone();
+			assert(brC->Element()=="border");
+			assert((*brC)()==" border:red;");
 
 			Css<Style<Border,Red>,Style<Border,Red>> css;
 			std::cout<<css<<std::endl;
+
+			auto r = Red();
 
 			std::cout<<"End Decorator"<<std::endl;
 

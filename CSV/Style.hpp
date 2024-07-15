@@ -9,6 +9,7 @@ class IStyle//: public BaseVisitable<void>, public BoolVisitable<bool>
 public:
 	virtual std::string Element() const  = 0;	
 	virtual std::string Value() const  = 0;	
+	virtual std::unique_ptr<IStyle> Clone() const  = 0;	
 	auto operator()() { return data(); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IStyle& e) {	return out<<e.data();}
@@ -23,6 +24,7 @@ public:
  	Style(): element{TEl::Id}, value{TVal::Id} { };
 	virtual std::string Element() const { return element; };	
 	virtual std::string Value() const  { return value; };	
+	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<Style>(); };	
 private:
 	std::string element;
 	std::string	value;
