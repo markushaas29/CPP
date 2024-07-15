@@ -31,9 +31,23 @@ private:
 template<typename... T>
 class Css: public ICss
 {
-	 using Tup = std::tuple<T...>;
+	using Tup = std::tuple<T...>;
+	template<typename...> friend class Css;
 public:
  	Css(const std::string& c = ""): styles{create()} { };
+	template<typename... T2>
+	auto operator()(const Css<T2...>& css)
+	{
+		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
+				{
+				 	if(std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } ) != styles->end())
+						std::cout<<*p<<std::endl;
+					else
+						std::cout<<"FALSE"<<std::endl;
+
+				});
+
+	}
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
 	virtual std::string data() const  
