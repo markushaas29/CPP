@@ -11,12 +11,6 @@ struct Color {
 		static  inline constexpr uint BG = Num + 10; 
 	};
 	
-	using Red = Code<31>;
-	using Green = Code<32>;
-	using Yellow = Code<93>;
-	using Blue = Code<34>;
-	using Default = Code<39>;
-	using White = Code<97>;
 			
 	template<typename T>
 	class Modifier {
@@ -28,4 +22,10 @@ struct Color {
 				}
 	};
 };
+struct Red: Color::Code<31>{ inline static constexpr const char* Id = "red"; };
+struct Green: Color::Code<32>{};
+struct Yellow: Color::Code<93>{};
+struct Blue: Color::Code<34>{};
+struct Default: Color::Code<39>{};
+struct White: Color::Code<97>{};
 #endif

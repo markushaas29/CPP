@@ -26,11 +26,11 @@ struct LogTypeBase
 	static std::ostream& Log(std::ostream& os)	{ return os<<mod<<Derived::Identifier;	};
 };
 
-struct Debug: LogTypeBase<Debug, Color::Default>{   static constexpr const char* Identifier ="[DEBUG]: "; };
-struct Info: LogTypeBase<Info, Color::Default>{    static constexpr const char* Identifier ="[Info]: "; };
-struct Success: LogTypeBase<Success, Color::Green>{    static constexpr const char* Identifier ="[Success]: "; };
-struct Warning: LogTypeBase<Warning, Color::Yellow>{    static constexpr const char* Identifier ="[Warning]: ";};
-struct Error: LogTypeBase<Error, Color::Red>{    static constexpr const char* Identifier ="[ERROR]: ";};
+struct Debug: LogTypeBase<Debug, Default>{   static constexpr const char* Identifier ="[DEBUG]: "; };
+struct Info: LogTypeBase<Info, Default>{    static constexpr const char* Identifier ="[Info]: "; };
+struct Success: LogTypeBase<Success, Green>{    static constexpr const char* Identifier ="[Success]: "; };
+struct Warning: LogTypeBase<Warning, Yellow>{    static constexpr const char* Identifier ="[Warning]: ";};
+struct Error: LogTypeBase<Error, Red>{    static constexpr const char* Identifier ="[ERROR]: ";};
 
 class Logger
 {   
@@ -53,7 +53,7 @@ class Logger
         virtual ~Logger(){ this->file.close();  };
         
         template<typename T>
-        static std::ostream& log(std::ostream& os,T t) { return os<<" "<<t<<Color::Modifier<Color::Default>()<<std::endl;   };
+        static std::ostream& log(std::ostream& os,T t) { return os<<" "<<t<<Color::Modifier<Default>()<<std::endl;   };
         
         template<typename T, typename ...Ts>
         static std::ostream& log(std::ostream& os,T t, Ts ...ts)
