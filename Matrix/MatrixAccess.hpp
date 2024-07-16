@@ -84,9 +84,12 @@ private:
 			return Matrix<Order-1, MDT>(MDT{e}, col);
 		}
 	}
-	decltype(auto) cols(const M* m, auto... i) const 
+	template<typename... I>
+	decltype(auto) cols(const M* m, I... i) const 
 	{
-		return colsByIndex(std::array<size_t,sizeof...(i)>{size_t(i)...}, m);
+		using Index = std::tuple_element_t<0, std::tuple<I...>>;
+		if constexpr (!std::is_same_v<Index,std::string>)
+			return colsByIndex(std::array<size_t,sizeof...(i)>{size_t(i)...}, m);
 	}
 	template<size_t N>
 	decltype(auto) colsByIndex(std::array<size_t,N> arr, const M* m) const 
