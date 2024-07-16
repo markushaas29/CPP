@@ -85,10 +85,13 @@ class DecoratorTest
 			assert((*brC)()==" border:red;");
 
 			Css<Style<Border,Red>,Style<Border,Red>> css;
-			Css<Style<Border,Red>,Style<Border,Red>> css2;
+			Css<Style<Border,Red>,Style<Border,Yellow>> css2;
 			std::cout<<css<<std::endl;
+			std::cout<<css2<<std::endl;
 
 			css(css2);
+			std::cout<<css<<std::endl;
+			std::cout<<css2<<std::endl;
 
 			std::cout<<"End Decorator"<<std::endl;
 

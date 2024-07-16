@@ -90,6 +90,17 @@ private:
 		using Index = std::tuple_element_t<0, std::tuple<I...>>;
 		if constexpr (!std::is_same_v<Index,std::string>)
 			return colsByIndex(std::array<size_t,sizeof...(i)>{size_t(i)...}, m);
+		else
+			return colsByKey(std::array<std::string,sizeof...(i)>{i...}, m);
+	}
+	template<size_t N>
+	decltype(auto) colsByKey(std::array<std::string,N> arr, const M* m) const 
+	{
+		std::cout<<"KEY:"<<arr[0]<<std::endl;
+		auto it = std::find_if(m->elements->cbegin(), m->elements->cend(), [&](const auto& i) { return arr[0] == (*i)->Data(); });
+		if(it != m->elements->cend() )
+			std::cout<<"KEY:"<<**it<<std::endl;
+		//std::cout<<"KEY:"<<arr[0]<<std::endl;
 	}
 	template<size_t N>
 	decltype(auto) colsByIndex(std::array<size_t,N> arr, const M* m) const 

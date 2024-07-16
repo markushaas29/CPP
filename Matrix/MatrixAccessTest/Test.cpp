@@ -239,6 +239,14 @@ class MatrixAccessTest
 			auto vi = std::vector<std::unique_ptr<IToken>>();
          	vi.push_back(std::make_unique<DateIndexToken>());
 			std::cout<<"COL"<<mr22.Cols(vi)<<std::endl;
+			
+			M2E mEntry {                
+				{std::make_shared<Entry>("A"), std::make_shared<Entry>("B")},
+				{std::make_shared<Quantity<Sum>>(2.5), std::make_shared<Quantity<Sum>>(3.5)},
+				{std::make_shared<Date>(29,9,1986), std::make_shared<Quantity<Sum>>(3.5)},
+			};	
+
+			mEntry.Cols(std::string("A"));
 
 			std::cout<<"COL"<<mr22()<<std::endl;
 
