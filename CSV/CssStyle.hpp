@@ -40,8 +40,9 @@ public:
 	{
 		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
 				{
-				 	if(std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() != p2->Element(); } ) != styles->end())
-						styles->push_back(p->Clone());
+				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
+				 	if(it != styles->end())
+						*it = (p->Clone());
 				});
 
 	}
