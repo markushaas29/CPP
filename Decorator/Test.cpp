@@ -93,6 +93,11 @@ class DecoratorTest
 			std::cout<<css<<std::endl;
 			std::cout<<css2<<std::endl;
 
+			auto qv = QV{5};
+			std::cout<<qv<<std::endl;
+			auto hqv = qv.Html();
+			std::cout<<*hqv<<std::endl;
+
 			std::cout<<"End Decorator"<<std::endl;
 
 			return 0;
