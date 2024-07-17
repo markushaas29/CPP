@@ -73,7 +73,10 @@ private:
 			for(auto i=0; i<m.Rows(); ++i)
 			{
 				std::stringstream is;
-				is<<m[i];
+				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+					is<<(*(*(m.elements->at(i)))->Html());
+				else
+					is<<m[i];
 				res+=td(is.str()).Data()+"\n";
 			}
 			return Tr()(res).Data();
