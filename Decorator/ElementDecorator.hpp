@@ -2,6 +2,7 @@
 #include "../String/Literal.hpp" 
 #include "../Is/Is.hpp" 
 #include "../CSV/HtmlElement.hpp" 
+#include "../CSV/Elements.hpp" 
 
 #pragma once
 
@@ -20,9 +21,9 @@ class TagDecorator: public IElementDecorator
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Data(), Decorate()); }
-	auto operator()(const std::string& s) const { return HtmlElement(s, Decorate()); }
-	auto operator()(const auto& e) const { return HtmlElement(e.Data(), Decorate()); }
+	auto operator()(const IHtmlElement& e) const { return HtmlElement<Entry>(e.Data(), Decorate()); }
+	auto operator()(const std::string& s) const { return HtmlElement<Entry>(s, Decorate()); }
+	auto operator()(const auto& e) const { return HtmlElement<Entry>(e.Data(), Decorate()); }
 };
 
 class B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
@@ -40,24 +41,24 @@ class StyleDecorator: public IElementDecorator
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	auto operator()(const HtmlElement& e) const { return HtmlElement(e.Content(), e.Tag(),Decorate()); }
+	auto operator()(const IHtmlElement& e) const { return HtmlElement<Entry>(e.Content(), e.Tag(),Decorate()); }
 };
 
 //class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };
 //class Green: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:green;\""; } };
 
 
-template<typename Y, typename N, typename Ptr=StyleDecorator>
-class DecoratorDecider
-{
-	inline static constexpr const char TypeIdentifier[] = "HtmlDecorator";
-    inline static constexpr Literal TypeId{TypeIdentifier};
-    template<typename U> using IsT =  Is<U,TypeId>;
-public:
-	HtmlElement operator()(bool is, HtmlElement& e) const 
-	{
-		if(is)
-			return Y()(e); 
-		return N()(e); 
-	}
-};
+//template<typename Y, typename N, typename Ptr=StyleDecorator>
+//class DecoratorDecider
+//{
+//	inline static constexpr const char TypeIdentifier[] = "HtmlDecorator";
+//    inline static constexpr Literal TypeId{TypeIdentifier};
+//    template<typename U> using IsT =  Is<U,TypeId>;
+//public:
+//	HtmlElement operator()(bool is, HtmlElement& e) const 
+//	{
+//		if(is)
+//			return Y()(e); 
+//		return N()(e); 
+//	}
+//};

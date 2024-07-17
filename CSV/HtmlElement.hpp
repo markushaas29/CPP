@@ -25,6 +25,8 @@ public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 	std::string Data() const  { return data(); };	
+	virtual const std::string& Content() const  = 0;	
+	virtual const std::string& Tag() const  = 0;	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(Data()); }
@@ -42,6 +44,7 @@ private:
 };
 ////--------------------------------HtmlElement------------------------------------------------
 
+template<typename E>
 class HtmlElement: public IHtmlElement
 {
 public:
@@ -66,8 +69,8 @@ public:
 //	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
 //	constexpr bool operator==(const IHtmlElement& e) const{ return Data() == e.Data(); };
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
-	const auto& Tag() const { return tag; }
-	const auto& Content() const { return content; }
+	const std::string& Tag() const { return tag; }
+	const std::string& Content() const { return content; }
 	const auto& Styl() const { return style; }
 	const auto& Data() const { return dataS; }
 private:
@@ -81,6 +84,8 @@ private:
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
 
+template<typename E>
+HtmlElement(const E&) -> HtmlElement<E>;
 
 template <typename T>
 concept HtmlElementConcept = requires(T val) {	val.Data(); };
