@@ -246,9 +246,9 @@ class MatrixAccessTest
 				{std::make_shared<Date>(29,9,1986), std::make_shared<Quantity<Sum>>(3.5)},
 			};	
 
-			mEntry.Cols(std::string("A"));
+			auto mA = mEntry.Cols(std::string("B"));
 
-			std::cout<<"COL"<<mr22()<<std::endl;
+			std::cout<<"COL"<<mA<<std::endl;
 
 			return 0;
 		}
