@@ -86,8 +86,10 @@ class DecoratorTest
 
 			Css<Style<Border,Red>,Style<Border,Red>> css;
 			Css<Style<Border,Red>,Style<Border,Yellow>> css2;
+			Css<Style<Border,Red>,Style<Border,Blue>> cssb;
 			std::cout<<css<<std::endl;
 			std::cout<<css2<<std::endl;
+			std::cout<<cssb<<std::endl;
 
 			css(css2);
 			std::cout<<css<<std::endl;
