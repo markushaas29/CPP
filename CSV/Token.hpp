@@ -180,6 +180,11 @@ struct GarageRentIndexToken: public Token<GarageRentIndexToken, Index<Quantity<S
 	inline static constexpr const char* Pattern = "GarageRent"; 
 	inline static constexpr const char* Identifier = "GarageRentIndexToken"; 
 };
+struct PrenameIndexToken: public Token<PrenameIndexToken, Index<Name>>	
+{	
+	inline static constexpr const char* Pattern = "Prename";
+	inline static constexpr const char* Identifier = "PrenameIndexToken"; 
+};
 struct StreetIndexToken: public Token<StreetIndexToken, Index<Name>>	
 {	
 	inline static constexpr const char* Pattern = "Street";
@@ -204,4 +209,4 @@ struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Number<uint>>>
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
 
 template<typename I, typename... T>  class FactoryCreator;
-using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken>;
+using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken>;
