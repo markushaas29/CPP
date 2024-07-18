@@ -50,7 +50,7 @@ class HtmlElementBase: public IHtmlElement
 protected:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElementBase(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElementBase(c.Data(),t,s) { };
- 	HtmlElementBase(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css<Style<ColorTag,Red>>>()}, tag{t}, content{c}, style{s} { };
+ 	HtmlElementBase(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //
@@ -91,7 +91,7 @@ class HtmlElement: public HtmlElementBase<E>
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): HtmlElementBase<E>{c,t,s} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E>{c,t,s, std::move(css)} { };
 };
 
 template<typename E>
