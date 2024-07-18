@@ -42,20 +42,20 @@ private:
 ////	constexpr bool operator==(const HtmlElement& e) const{ return Data() == e.Data(); };
 ////	constexpr std::strong_ordering operator<=>( const HtmlElement& e) const noexcept { return Data() <=> e.Data(); }
 };
-////--------------------------------HtmlElement------------------------------------------------
+////--------------------------------HtmlElementBase------------------------------------------------
 
 template<typename E>
-class HtmlElement: public IHtmlElement
+class HtmlElementBase: public IHtmlElement
 {
-public:
+protected:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css<Style<ColorTag,Red>>>()}, tag{t}, content{c}, style{s} { };
+ 	HtmlElementBase(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElementBase(c.Data(),t,s) { };
+ 	HtmlElementBase(const std::string& c, const std::string& t = "body", const std::string& s = ""): css{std::make_unique<Css<Style<ColorTag,Red>>>()}, tag{t}, content{c}, style{s} { };
 //// 	template<typename T>
-////	HtmlElement(T t): HtmlElement(std::to_string(t)) { };
+////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //
-//	virtual std::unique_ptr<IHtmlElement> Clone() const  { return std::make_unique<Derived>(value); };	
-//	static std::unique_ptr<IHtmlElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
+//	virtual std::unique_ptr<IHtmlElementBase> Clone() const  { return std::make_unique<Derived>(value); };	
+//	static std::unique_ptr<IHtmlElementBase> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
 //	explicit operator std::string() const  {	return value; };	
 //	constexpr decltype(auto) Size() { return size; }
 //
@@ -69,6 +69,7 @@ public:
 //	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
 //	constexpr bool operator==(const IHtmlElement& e) const{ return Data() == e.Data(); };
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
+public:
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
 	const auto& Styl() const { return style; }
@@ -82,6 +83,15 @@ private:
 	std::string dataS = begin() + content + end();	
 	std::string begin() const  {	return tag == "" ? tag : "<" + tag  + (*css)() + ">"; };	
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
+};
+
+template<typename E>
+class HtmlElement: public HtmlElementBase<E>
+{
+public:
+//	inline static const std::string Identifier = D::Identifier;
+ 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = ""): HtmlElementBase<E>{c,t,s} { };
 };
 
 template<typename E>
