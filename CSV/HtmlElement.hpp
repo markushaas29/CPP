@@ -94,6 +94,17 @@ public:
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E>{c,t,s, std::move(css)} { };
 };
 
+class Name;
+
+template<>
+class HtmlElement<Name>: public HtmlElementBase<Name>
+{
+public:
+//	inline static const std::string Identifier = D::Identifier;
+ 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<Name>{c,t,s, std::move(css)} { };
+};
+
 template<typename E>
 HtmlElement(const E&) -> HtmlElement<E>;
 
