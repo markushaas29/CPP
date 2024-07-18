@@ -102,7 +102,16 @@ class HtmlElement<Name>: public HtmlElementBase<Name>
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<Name>{c,t,s, std::move(css)} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name>{c,t,s, std::move(css)} { };
+};
+
+template<typename T>
+class HtmlElement<Quantity<T>>: public HtmlElementBase<Quantity<T>>
+{
+public:
+//	inline static const std::string Identifier = D::Identifier;
+ 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>>{c,t,s, std::move(css)} { };
 };
 
 template<typename E>

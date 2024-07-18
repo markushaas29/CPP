@@ -25,7 +25,7 @@ struct Color {
 struct Red: Color::Code<31>			{ inline static constexpr const char* Id = "red"; };
 struct Green: Color::Code<32>{};
 struct Yellow: Color::Code<93>		{ inline static constexpr const char* Id = "yellow"; };
-struct Blue: Color::Code<34>{};
+struct Blue: Color::Code<34>		{ inline static constexpr const char* Id = "blue"; };
 struct Default: Color::Code<39>{};
 struct White: Color::Code<97>{};
 #endif
