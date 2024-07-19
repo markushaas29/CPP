@@ -44,7 +44,7 @@ private:
 };
 ////--------------------------------HtmlElementBase------------------------------------------------
 
-template<typename E>
+template<typename E, typename T>
 class HtmlElementBase: public IHtmlElement
 {
 protected:
@@ -88,32 +88,32 @@ private:
 struct Td;
 
 template<typename E, typename T = Td>
-class HtmlElement: public HtmlElementBase<E>
+class HtmlElement: public HtmlElementBase<E,T>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E>{c,t,s, std::move(css)} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>{c,t,s, std::move(css)} { };
 };
 
 class Name;
 
 template<typename T>
-class HtmlElement<Name,T>: public HtmlElementBase<Name>
+class HtmlElement<Name,T>: public HtmlElementBase<Name,T>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name>{c,t,s, std::move(css)} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name,T>{c,t,s, std::move(css)} { };
 };
 
 template<typename T, typename T2>
-class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>>
+class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>,T2>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>>{c,t,s, std::move(css)} { };
+ 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>,T2>{c,t,s, std::move(css)} { };
 };
 
 template<typename E, typename T = Td>
