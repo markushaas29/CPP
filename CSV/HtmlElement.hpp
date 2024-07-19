@@ -85,7 +85,9 @@ private:
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
 
-template<typename E>
+struct Td;
+
+template<typename E, typename T = Td>
 class HtmlElement: public HtmlElementBase<E>
 {
 public:
@@ -96,8 +98,8 @@ public:
 
 class Name;
 
-template<>
-class HtmlElement<Name>: public HtmlElementBase<Name>
+template<typename T>
+class HtmlElement<Name,T>: public HtmlElementBase<Name>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
@@ -105,8 +107,8 @@ public:
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name>{c,t,s, std::move(css)} { };
 };
 
-template<typename T>
-class HtmlElement<Quantity<T>>: public HtmlElementBase<Quantity<T>>
+template<typename T, typename T2>
+class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
@@ -114,8 +116,8 @@ public:
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>>{c,t,s, std::move(css)} { };
 };
 
-template<typename E>
-HtmlElement(const E&) -> HtmlElement<E>;
+template<typename E, typename T = Td>
+HtmlElement(const E&) -> HtmlElement<E,T>;
 
 template <typename T>
 concept HtmlElementConcept = requires(T val) {	val.Data(); };
