@@ -27,8 +27,14 @@ public:
 };
 
 class B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
-class Td: public TagDecorator{	virtual std::string decorate() const { return "td"; } };
-class Tr: public TagDecorator{	virtual std::string decorate() const { return "tr"; } };
+class Td: public TagDecorator
+{	
+	inline static constexpr const char* Identifier= "td";
+	virtual std::string decorate() const { return "td"; } };
+class Tr: public TagDecorator
+{	
+	inline static constexpr const char* Identifier= "tr";
+	virtual std::string decorate() const { return "tr"; } };
 class Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
 class Section: public TagDecorator{	virtual std::string decorate() const { return "section"; } };
 class Table: public TagDecorator{	virtual std::string decorate() const { return "table"; } };
