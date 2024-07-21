@@ -26,20 +26,26 @@ public:
 	auto operator()(const auto& e) const { return HtmlElement<Entry>(e.Data(), Decorate()); }
 };
 
-class B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
-class Td: public TagDecorator
+struct B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
+struct Td: public TagDecorator
 {	
 	inline static constexpr const char* Identifier= "td";
 	virtual std::string decorate() const { return "td"; } };
-class Tr: public TagDecorator
+struct Tr: public TagDecorator
 {	
 	inline static constexpr const char* Identifier= "tr";
 	virtual std::string decorate() const { return "tr"; } };
-class Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
-class Section: public TagDecorator{	virtual std::string decorate() const { return "section"; } };
-class Table: public TagDecorator{	virtual std::string decorate() const { return "table"; } };
-class Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
-class head: public TagDecorator{	virtual std::string decorate() const { return "head"; } };
+struct Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
+struct Section: public TagDecorator
+{	
+	inline static constexpr const char* Identifier= "section";
+	virtual std::string decorate() const { return "section"; } };
+struct Table: public TagDecorator
+{	
+	inline static constexpr const char* Identifier= "table";
+	virtual std::string decorate() const { return "table"; } };
+struct Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
+struct head: public TagDecorator{	virtual std::string decorate() const { return "head"; } };
 
 class StyleDecorator: public IElementDecorator
 {

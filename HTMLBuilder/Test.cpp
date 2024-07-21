@@ -120,10 +120,10 @@ class HTMLBuilderTest
 			auto b = B();
 			auto qsz = QS{0};
             auto html0 = b(qsz.Data());
-			mf1(head()(qsz));
-			mf1(html0);
-			mf1(mfs());
-			mf1(mf2d());
+//			mf1(head()(qsz));
+//			mf1(html0);
+//			mf1(mfs());
+//			mf1(mf2d());
 			std::cout<<"HTML:\n"<<m2d.Rows()<<std::endl;
 			
 			auto m1SA = mfs.As();

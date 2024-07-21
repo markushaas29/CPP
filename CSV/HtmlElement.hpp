@@ -50,7 +50,7 @@ class HtmlElementBase: public IHtmlElement
 protected:
 //	inline static const std::string Identifier = D::Identifier;
  	HtmlElementBase(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElementBase(c.Data(),t,s) { };
- 	HtmlElementBase(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{t}, content{c}, style{s} { };
+ 	HtmlElementBase(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{T::Identifier}, content{c}, style{s} { };
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //

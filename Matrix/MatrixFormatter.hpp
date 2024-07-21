@@ -61,13 +61,12 @@ private:
 	const M matrix;
 	std::unique_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
-    virtual std::string table() const 	{	return Table()(rows(matrix)).Data();	};
+    virtual std::string table() const 	{	return HtmlElement<Entry,Table>(rows(matrix)).Data();	};
 	template<size_t O, typename D>
     std::string rows(const Matrix<O,D>& m) const
 	{ 
 		if constexpr (O==1)
 		{
-			auto td = Td();
 //			auto b = B();
 			std::string res;
 			for(auto i=0; i<m.Rows(); ++i)
@@ -76,10 +75,13 @@ private:
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 					is<<(*(*(m.elements->at(i)))->Html());
 				else
+				{
 					is<<m[i];
-				res+=td(is.str()).Data()+"\n";
+					is<<HtmlElement<Entry,Td>(is.str()).Data();
+				}
+				res+=is.str()+"\n";
 			}
-			return Tr()(res).Data();
+			return HtmlElement<Entry,Tr>(res).Data();
 		}
 		else
 		{

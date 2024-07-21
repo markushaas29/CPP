@@ -1,7 +1,8 @@
 #include <map>
 #include <memory>
 #include <sstream>
-#include "../Decorator/ElementDecorator.hpp"
+#include "../CSV/HtmlElement.hpp"
+#include "../CSV/Elements.hpp"
 
 #pragma once
 
@@ -29,7 +30,7 @@ HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path
 	};
     void operator()(const auto& a) const
 	{	
-		*f<<Section()(a).Data();
+		*f<< HtmlElement<Entry,Section>(a).Data();
 	};
     auto As()
     {
