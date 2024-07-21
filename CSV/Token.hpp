@@ -182,7 +182,7 @@ struct GarageRentIndexToken: public Token<GarageRentIndexToken, Index<Quantity<S
 };
 struct PrenameIndexToken: public Token<PrenameIndexToken, Index<Name>>	
 {	
-	inline static constexpr const char* Pattern = "Prename";
+	inline static constexpr const char* Pattern = "Pre";
 	inline static constexpr const char* Identifier = "PrenameIndexToken"; 
 };
 struct StreetIndexToken: public Token<StreetIndexToken, Index<Name>>	
