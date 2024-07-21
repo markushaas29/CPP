@@ -90,14 +90,14 @@ private:
 		    fc = m[i].Accept(std::move(fc));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto m = (*parser)(true);
-			//std::cout<<"M Hall\n"<<m[i].Rows(0,1,2,3).Transform<2>(2,2)<<std::endl;
-			std::cout<<"M Hall\n"<<m.Cols()<<"/"<<m.Rows()<<std::endl;
-//			auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
-//        	auto html = HtmlBuilder(m[i][0]()->Data()+"Hall.html","/home/markus/Downloads/CSV_TestFiles_2");
-//			html(mf());
-	//		std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
-	//    	fv = m[0].Accept(std::move(fv));
-	//    	auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+		  	auto mfPre = MatrixFormatter(m[i].Rows(0,1,2,3,4,5).Transform<2>(3,2));
+		  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
+    		auto html = HtmlBuilder(m[i][0]()->Data()+"Hall.html","/home/markus/Downloads/CSV_TestFiles_2");
+			html(mfPre());
+		  	html(mf());
+			std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+		    fv = m[0].Accept(std::move(fv));
+		    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 			std::cout<<"HALL\n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 		}
 		return (*parser)()[0];	}

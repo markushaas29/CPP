@@ -146,8 +146,6 @@ private:
 	typename Base::MatrixType exec(bool h = false) const
 	{
 		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"RentIndexToken"},{"AreaIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"} });
-		std::cout<<"MATRIX"<<matrix()<<*(stageIndexTokens->at(0))<<std::endl;
-		//std::cout<<"MATRIX"<<matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h)<<std::endl;
 		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
 	}
 };
