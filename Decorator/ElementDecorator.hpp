@@ -9,10 +9,9 @@
 class IElementDecorator
 {
 public:
-	auto Decorate() const  { return decorate(); };
+	auto Decorate() const  { return ""; };
 private:
 	//friend std::ostream& operator<<(std::ostream& s, const IDecorator& c) { return c.display(s); }
-	virtual std::string decorate() const  = 0;
 };
 
 class TagDecorator: public IElementDecorator
@@ -27,23 +26,11 @@ public:
 };
 
 struct B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
-struct Td: public TagDecorator
-{	
-	inline static constexpr const char* Identifier= "td";
-	virtual std::string decorate() const { return "td"; } };
-struct Tr: public TagDecorator
-{	
-	inline static constexpr const char* Identifier= "tr";
-	virtual std::string decorate() const { return "tr"; } };
+struct Td: public TagDecorator				{	inline static constexpr const char* Identifier= "td"; };
+struct Tr: public TagDecorator				{	inline static constexpr const char* Identifier= "tr"; };
 struct Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
-struct Section: public TagDecorator
-{	
-	inline static constexpr const char* Identifier= "section";
-	virtual std::string decorate() const { return "section"; } };
-struct Table: public TagDecorator
-{	
-	inline static constexpr const char* Identifier= "table";
-	virtual std::string decorate() const { return "table"; } };
+struct Section: public TagDecorator			{	inline static constexpr const char* Identifier= "section"; 	};
+struct Table: public TagDecorator			{	inline static constexpr const char* Identifier= "table"; 	};
 struct Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
 struct head: public TagDecorator{	virtual std::string decorate() const { return "head"; } };
 
