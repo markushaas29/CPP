@@ -49,7 +49,7 @@ class HtmlElementBase: public IHtmlElement
 {
 protected:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElementBase(const IElement& c): HtmlElementBase(c.Data()) { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Data()}, tag{T::Identifier} { std::cout<<"BASE:"<<c.Data()<<std::endl; };
  	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{T::Identifier}, content{c} { };
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
@@ -71,13 +71,14 @@ protected:
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
 public:
 	const std::string& Tag() const { return tag; }
-	const std::string& Content() const { return content; }
+	const std::string& Content() const { return content=="" ? element.Data() : content; }
 	const auto Data() const { return data(); }
 private:
+	E element;
 	std::unique_ptr<ICss> css;
 	std::string tag;
 	std::string content;
-	virtual std::string data() const  {	return begin() + content + end(); };	
+	virtual std::string data() const  {	return begin() + Content() + end(); };	
 	std::string begin() const  {	return tag == "" ? tag : "<" + tag  + (*css)() + ">"; };	
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
@@ -89,7 +90,7 @@ class HtmlElement: public HtmlElementBase<E,T>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
+ 	HtmlElement(const E& c): HtmlElementBase<E,T>(c) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>{c, std::move(css)} { };
 };
 
@@ -100,7 +101,7 @@ class HtmlElement<Name,T>: public HtmlElementBase<Name,T>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
+ 	HtmlElement(const Name& c): HtmlElementBase<Name,T>(c) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name,T>{c, std::move(css)} { };
 };
 
@@ -109,7 +110,7 @@ class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>,T2>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const IElement& c, const std::string& t = "body", const std::string& s = ""): HtmlElement(c.Data(),t,s) { };
+ 	HtmlElement(const Quantity<T>& c): HtmlElementBase<Quantity<T>,T2>(c) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>,T2>{c, std::move(css)} { };
 };
 

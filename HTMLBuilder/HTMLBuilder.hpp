@@ -28,9 +28,14 @@ HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path
 		s<<a;
 		return s;	
 	};
-    void operator()(const auto& a) const
+    void operator()(const std::string& a) const
 	{	
 		*f<< HtmlElement<Entry,Section>(a).Data();
+	};
+    void operator()(const auto& a) const
+	{
+		std::cout<<"OP"<<a<<std::endl;
+		*f<< HtmlElement<decltype(a),Section>(a).Data();
 	};
     auto As()
     {
