@@ -72,13 +72,12 @@ protected:
 public:
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
-	const auto& Data() const { return dataS; }
+	const auto Data() const { return data(); }
 private:
 	std::unique_ptr<ICss> css;
 	std::string tag;
 	std::string content;
 	virtual std::string data() const  {	return begin() + content + end(); };	
-	std::string dataS = begin() + content + end();	
 	std::string begin() const  {	return tag == "" ? tag : "<" + tag  + (*css)() + ">"; };	
 	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
 };
