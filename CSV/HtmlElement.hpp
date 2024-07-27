@@ -48,7 +48,7 @@ template<typename E, typename T>
 class HtmlElementBase: public IHtmlElement
 {
 protected:
-//	inline static const std::string Identifier = D::Identifier;
+	inline static const std::string Identifier = E::Identifier + "HtmlElement";
  	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Data()}, tag{T::Identifier} { };
  	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{T::Identifier}, content{c} { };
 //// 	template<typename T>

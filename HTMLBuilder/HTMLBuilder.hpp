@@ -24,32 +24,12 @@ HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path
 		f->close();
 	};
     std::ofstream& operator()(std::ofstream& s, const auto& a) const
-	{
+	{	
 		s<<a;
 		return s;	
 	};
-    void operator()(const std::string& a) const
-	{	
-		*f<< HtmlElement<Entry,Section>(a).Data();
-	};
-    void operator()(const auto& a) const
-	{
-		std::cout<<"OP"<<a<<std::endl;
-		*f<< HtmlElement<decltype(a),Section>(a).Data();
-	};
-    auto As()
-    {
-//        auto v = std::vector<typename M::ElementType>();
-//        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) 
-//				{ 
-//					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-//						v.push_back(translate->contains((**i).Data()) ? (**i).Clone(translate->at((**i).Data())) : *i); 
-//					else
-//						v.push_back(translate->contains(*i) ? (*translate)[*i] : *i); 
-//				});
-//		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
-//        return M(d,v);
-    }
+    void operator()(const std::string& a) const 	{	*f<< HtmlElement<Entry,Section>(a).Data();	};
+    void operator()(const auto& a) const	{	*f<< HtmlElement<decltype(a),Section>(a).Data();};
 private:
 	const std::string name;
 	const std::string path;
@@ -59,7 +39,8 @@ private:
 	{ 
 		std::stringstream ss;
 		ss<<m.f->rdbuf();
-		return s<<ss.str(); }
+		return s<<ss.str(); 
+	}
 	static auto read()
 	{
 		auto m = std::make_unique<MapType>();
