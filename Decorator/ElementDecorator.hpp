@@ -20,9 +20,6 @@ class TagDecorator: public IElementDecorator
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	auto operator()(const IHtmlElement& e) const { return HtmlElement<Entry>(e.Data(), Decorate()); }
-	auto operator()(const std::string& s) const { return HtmlElement<Entry>(s, Decorate()); }
-	auto operator()(const auto& e) const { return HtmlElement<Entry>(e.Data(), Decorate()); }
 };
 
 struct B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
@@ -40,7 +37,7 @@ class StyleDecorator: public IElementDecorator
     inline static constexpr Literal TypeId{TypeIdentifier};
     template<typename U> using IsT =  Is<U,TypeId>;
 public:
-	auto operator()(const IHtmlElement& e) const { return HtmlElement<Entry>(e.Content(), e.Tag(),Decorate()); }
+//	auto operator()(const IHtmlElement& e) const { return HtmlElement<Entry>(e.Content(), e.Tag(),Decorate()); }
 };
 
 //class Red: public StyleDecorator{	virtual std::string decorate() const { return "style=\"color:red;\""; } };

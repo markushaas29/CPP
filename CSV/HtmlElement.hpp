@@ -89,9 +89,7 @@ template<typename E, typename T = Td>
 class HtmlElement: public HtmlElementBase<E,T>
 {
 public:
-//	inline static const std::string Identifier = D::Identifier;
  	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>(c, std::move(css)) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>{c, std::move(css)} { };
 };
 
 class Name;
@@ -100,18 +98,14 @@ template<typename T>
 class HtmlElement<Name,T>: public HtmlElementBase<Name,T>
 {
 public:
-//	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name,T>(c, std::move(css)) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name,T>{c, std::move(css)} { };
+ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Name,T>(c, std::move(css)) { };
 };
 
 template<typename T, typename T2>
 class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>,T2>
 {
 public:
-//	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>,T2>(c, std::move(css)) { };
- 	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>,T2>{c, std::move(css)} { };
+ 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>()): HtmlElementBase<Quantity<T>,T2>(c, std::move(css)) { };
 };
 
 template<typename E, typename T = Td>

@@ -38,7 +38,6 @@ class DecoratorTest
 			auto b = B();
 			auto qm = QM{5.2};
 
-			std::cout<<"EL: "<<b(qm.Data()).Data()<<std::endl;
 //			assert(b(qm.Data()).Data() == "<b>5.2kg</b>");
 //			assert(b(qm).Data() == "<b>5.2kg</b>");
 //			assert(Td()(qm.Data()).Data() == "<td>5.2kg</td>");
