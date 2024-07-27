@@ -49,7 +49,7 @@ class HtmlElementBase: public IHtmlElement
 {
 protected:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Data()}, tag{T::Identifier} { std::cout<<"BASE:"<<c.Data()<<std::endl; };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Data()}, tag{T::Identifier} { };
  	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{T::Identifier}, content{c} { };
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
@@ -90,7 +90,7 @@ class HtmlElement: public HtmlElementBase<E,T>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const E& c): HtmlElementBase<E,T>(c) { };
+ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>(c, std::move(css)) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>{c, std::move(css)} { };
 };
 
@@ -101,7 +101,7 @@ class HtmlElement<Name,T>: public HtmlElementBase<Name,T>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const Name& c): HtmlElementBase<Name,T>(c) { };
+ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name,T>(c, std::move(css)) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Yellow>>>()): HtmlElementBase<Name,T>{c, std::move(css)} { };
 };
 
@@ -110,7 +110,7 @@ class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>,T2>
 {
 public:
 //	inline static const std::string Identifier = D::Identifier;
- 	HtmlElement(const Quantity<T>& c): HtmlElementBase<Quantity<T>,T2>(c) { };
+ 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>,T2>(c, std::move(css)) { };
  	HtmlElement(const std::string& c, const std::string& t = "body", const std::string& s = "", std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Quantity<T>,T2>{c, std::move(css)} { };
 };
 
