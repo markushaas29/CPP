@@ -288,7 +288,7 @@ private:
 			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
 			vpr.push_back(stagesDiv[S::Index-1][i].Get().Clone());
 			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
-			vpr.push_back(result[i][i].Get().template To<Quantity<Sum>>().Clone());
+			vpr.push_back(std::make_shared<Entry>(asString(result[i][i])));
 			vpr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
 			vp.push_back(vpr);
 		}
