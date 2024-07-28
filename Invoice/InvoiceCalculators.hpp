@@ -280,14 +280,27 @@ private:
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
 		std::vector<std::vector<std::string>> v;
+		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::string> vr;
+			std::vector<std::shared_ptr<IElement>> vpr;
+			vpr.push_back(std::make_shared<Entry>(asString(stageMatrix[S::Index-1][i])));
+			vpr.push_back(std::make_shared<decltype(csum[i].Get())>(csum[i].Get()));
+			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
+
+			//std::string = stagesDiv[S::Index-1][i]()
+			//vpr.push_back((stagesDiv[S::Index-1][i]()).Get().Clone());
+			vpr.push_back(sumMatrix[i].Get().Clone());
+			std::cout<<"SUM: "<<(sumMatrix[i].Get())<<std::endl;
+			vpr.push_back(res[i][i].Get().Clone());
+			std::cout<<*vpr[1]<<std::endl;
 			expand(vr, stageMatrix[S::Index-1][i], csum[i], stagesDiv[S::Index-1][i], stagesDiv[S::Index-1][i](), sumMatrix[i], result[i][i], res[i][i]);
 			v.push_back(vr);
+			vp.push_back(vpr);
 		}
 
-		append(Init(v)(),html);
+		append(Init(vp)(),html);
 		append(this->M(),html);
 
 //		for(size_t i = 0; i < 6; ++i)
@@ -304,6 +317,13 @@ private:
 
 	template<typename T>
 	auto expand(std::vector<std::string>& v, const T& val) const {	sstream(v,val);	}
+	
+	auto asString(const auto& val) const
+	{
+		std::stringstream ss;
+		ss<<val;
+		return ss.str();
+	}
 	
 	auto sstream(std::vector<std::string>& v, const auto& val) const
 	{
