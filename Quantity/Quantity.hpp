@@ -39,7 +39,7 @@ public:
 	constexpr decltype(auto) ToPure() const { return PureType(value);}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
-	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(""),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
+	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(q.Data()),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
 	constexpr bool Equals(const Quantity<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Value()-y.Value()) <= epsilon; }
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return value <=> y.value; }
