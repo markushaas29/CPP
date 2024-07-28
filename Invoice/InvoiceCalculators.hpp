@@ -286,14 +286,13 @@ private:
 			std::vector<std::string> vr;
 			std::vector<std::shared_ptr<IElement>> vpr;
 			vpr.push_back(std::make_shared<Entry>(asString(stageMatrix[S::Index-1][i])));
-			vpr.push_back(std::make_shared<decltype(csum[i].Get())>(csum[i].Get()));
+			vpr.push_back(csum[i].Get().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
+			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
+			vpr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
 
-			//std::string = stagesDiv[S::Index-1][i]()
 			//vpr.push_back((stagesDiv[S::Index-1][i]()).Get().Clone());
-			vpr.push_back(sumMatrix[i].Get().Clone());
 			std::cout<<"SUM: "<<(sumMatrix[i].Get())<<std::endl;
-			vpr.push_back(res[i][i].Get().Clone());
 			std::cout<<*vpr[1]<<std::endl;
 			expand(vr, stageMatrix[S::Index-1][i], csum[i], stagesDiv[S::Index-1][i], stagesDiv[S::Index-1][i](), sumMatrix[i], result[i][i], res[i][i]);
 			v.push_back(vr);
