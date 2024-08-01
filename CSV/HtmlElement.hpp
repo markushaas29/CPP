@@ -25,7 +25,7 @@ public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 	std::string Data() const  { return data(); };	
-	virtual const std::string& Content() const  = 0;	
+	virtual const std::string Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
@@ -71,7 +71,7 @@ protected:
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
 public:
 	const std::string& Tag() const { return tag; }
-	const std::string& Content() const { return content=="" ? element.Data() : content; }
+	const std::string Content() const { return content=="" ? element.Data() : content; }
 	const auto Data() const { return data(); }
 private:
 	E element;

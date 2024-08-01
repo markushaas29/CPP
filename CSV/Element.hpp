@@ -28,14 +28,15 @@ public:
 	virtual bool Is(BaseVisitor& visitor) = 0;
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
 	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
+	virtual const std::string Data() const  { return data(); };	
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
-	virtual const std::string& Data() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	virtual std::unique_ptr<IElement> Clone(const std::string& s) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Html() const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
 private:
+	virtual const std::string data() const  = 0;	
 	friend std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Data();}
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
@@ -58,7 +59,6 @@ public:
 // 	template<typename T>
 //	Element(T t): Element(std::to_string(t)) { };
 
-	const std::string& Data() const  {	return value; };	
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	virtual std::unique_ptr<IElement> Clone(const std::string& s) const  { return std::make_unique<Derived>(s); };	
 	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
@@ -77,6 +77,17 @@ public:
 	constexpr bool operator==(const IElement& e) const{ return Data() == e.Data(); };
 	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:
+	const std::string data() const  
+	{	
+  		if constexpr (std::is_same_v<Derived, Quantity<Sum>>)
+  		{
+      		std::ostringstream oss;
+      		oss << *(static_cast<const Derived*>(this));
+      		return oss.str();         
+  		}
+		else
+			return value; 
+	};	
 	std::string value;
 	std::size_t size;
 };

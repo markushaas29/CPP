@@ -4,6 +4,9 @@
 #include "StringTest.cpp"
 #include "ToQuantity.hpp"
 #include "../CSV/Element.hpp"
+#include "../CSV/HtmlElement.hpp"
+#include "../CSV/CssStyle.hpp"
+#include "../CSV/Style.hpp"
 
 class QTest
 {
