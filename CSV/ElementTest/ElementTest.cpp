@@ -4,6 +4,11 @@
 #include "ElementRegexTest.hpp"
 #include "../Element.hpp"
 #include "../Elements.hpp"
+#include "../HtmlElement.hpp"
+#include "../../Decorator/ElementDecorator.hpp"
+#include "../CssStyle.hpp"
+#include "../Style.hpp"
+#include "../../Common/Color.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../ObjectFactory/Factories.hpp"
 
