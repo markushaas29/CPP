@@ -50,7 +50,7 @@ public:
         std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) 
 				{ 
 					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-						v.push_back(translate->contains((**i).Data()) ? (**i).Clone(translate->at((**i).Data())) : *i); 
+						v.push_back(translate->contains((**i).Data()) ? (**i).Create(translate->at((**i).Data())) : *i); 
 					else
 						v.push_back(translate->contains(*i) ? (*translate)[*i] : *i); 
 				});

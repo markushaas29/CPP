@@ -28,15 +28,17 @@ public:
 	virtual bool Is(BaseVisitor& visitor) = 0;
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
 	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
-	virtual const std::string Data() const  { return data(); };	
+	const std::string& Data() const  { return data(); };	
+	const std::string Out() const  { return out(); };	
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
-	virtual std::unique_ptr<IElement> Clone(const std::string& s) const  = 0;	
+	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Html() const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
 private:
-	virtual const std::string data() const  = 0;	
+	virtual const std::string& data() const  = 0;	
+	virtual const std::string out() const  = 0;	
 	friend std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Data();}
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
@@ -60,7 +62,7 @@ public:
 //	Element(T t): Element(std::to_string(t)) { };
 
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
-	virtual std::unique_ptr<IElement> Clone(const std::string& s) const  { return std::make_unique<Derived>(s); };	
+	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Derived>(s); };	
 	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
 	virtual std::unique_ptr<IHtmlElement> Html() const  { return std::make_unique<HtmlElement<Derived,Td>>(Derived(value));	};	
 	explicit operator std::string() const  {	return value; };	
@@ -77,7 +79,8 @@ public:
 	constexpr bool operator==(const IElement& e) const{ return Data() == e.Data(); };
 	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:
-	const std::string data() const  
+	const std::string& data() const  {	return value;	};	
+	const std::string out() const  
 	{	
   		if constexpr (std::is_same_v<Derived, Quantity<Sum>>)
   		{
