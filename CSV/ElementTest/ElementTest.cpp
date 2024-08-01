@@ -65,6 +65,11 @@ int Run()
 	useA = Entry("DE6900000000084184");
 	assert(useE==useA);
 
+	auto html = HtmlElement<Entry,Td>(Entry("TEST"));
+	assert(html.Data()=="<td style=\" color:red;\">TEST</td>");
+
+	std::cout<<"P: "<<html<<std::endl;
+
     return 0;
 }
 };
