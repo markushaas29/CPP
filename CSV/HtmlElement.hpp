@@ -50,8 +50,9 @@ class HtmlElementBase: public IHtmlElement
 protected:
 	inline static const std::string Identifier = E::Identifier + "HtmlElement";
 	inline const static std::string tag = T::Identifier;
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Out()} { };
- 	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, content{c} { };
+	inline const static std::string end =  "</" + tag + ">";	
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
+ 	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())),css{std::move(css)}, content{c} { };
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //
@@ -75,12 +76,12 @@ public:
 	const std::string Content() const { return content=="" ? element.Out() : content; }
 	const auto Data() const { return data(); }
 private:
+	std::string begin;
 	E element;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string data() const  {	return begin() + Content() + end(); };	
-	std::string begin() const  {	return tag == "" ? tag : "<" + tag  + (*css)() + ">"; };	
-	std::string end() const  {	return tag == "" ? tag : "</" + tag + ">"; };	
+	virtual std::string data() const  {	return begin + Content() + end; };	
+	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
 struct Td;
