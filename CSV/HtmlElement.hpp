@@ -49,7 +49,7 @@ class HtmlElementBase: public IHtmlElement
 {
 protected:
 	inline static const std::string Identifier = E::Identifier + "HtmlElement";
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Data()}, tag{T::Identifier} { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)},element{c}, content{c.Out()}, tag{T::Identifier} { };
  	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): css{std::move(css)}, tag{T::Identifier}, content{c} { };
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
@@ -71,7 +71,7 @@ protected:
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
 public:
 	const std::string& Tag() const { return tag; }
-	const std::string Content() const { return content=="" ? element.Data() : content; }
+	const std::string Content() const { return content=="" ? element.Out() : content; }
 	const auto Data() const { return data(); }
 private:
 	E element;
