@@ -124,7 +124,7 @@ struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static co
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 
-struct WasteIndexToken: public Token<WasteIndexToken, Index<Quantity<Scalar>>>	
+struct WasteIndexToken: public Token<WasteIndexToken, Index<Quantity<Scalar, Pure, int>>>	
 {	
 	inline static constexpr const char* Pattern = "Waste"; 
 	inline static constexpr const char* Identifier = "WasteIndexToken"; 
@@ -139,12 +139,12 @@ struct StageIndexToken: public Token<StageIndexToken, Index<Entry>>
 	inline static constexpr const char* Pattern = "Stage"; 
 	inline static constexpr const char* Identifier = "StageIndexToken"; 
 };
-struct CleaningIndexToken: public Token<CleaningIndexToken, Index<Quantity<Scalar>>>	
+struct CleaningIndexToken: public Token<CleaningIndexToken, Index<Quantity<Scalar, Pure, int>>>	
 {	
 	inline static constexpr const char* Pattern = "Cleaning"; 
 	inline static constexpr const char* Identifier = "CleaningIndexToken"; 
 };
-struct SewageIndexToken: public Token<SewageIndexToken, Index<Quantity<Scalar>>>	
+struct SewageIndexToken: public Token<SewageIndexToken, Index<Quantity<Scalar, Pure, int>>>	
 {	
 	inline static constexpr const char* Pattern = "Sewage"; 
 	inline static constexpr const char* Identifier = "SewageIndexToken"; 
@@ -154,7 +154,7 @@ struct PropertyTaxIndexToken: public Token<PropertyTaxIndexToken, Index<Quantity
 	inline static constexpr const char* Pattern = "PropertyTax"; 
 	inline static constexpr const char* Identifier = "PropertyTaxIndexToken"; 
 };
-struct InsuranceIndexToken: public Token<InsuranceIndexToken, Index<Quantity<Scalar>>>	
+struct InsuranceIndexToken: public Token<InsuranceIndexToken, Index<Quantity<Scalar, Pure, int>>>	
 {	
 	inline static constexpr const char* Pattern = "Insurance"; 
 	inline static constexpr const char* Identifier = "InsuranceIndexToken"; 

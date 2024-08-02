@@ -76,8 +76,8 @@ public:
 	const std::string Content() const { return content=="" ? element.Out() : content; }
 	const auto Data() const { return data(); }
 private:
-	std::string begin;
 	E element;
+	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
 	virtual std::string data() const  {	return begin + Content() + end; };	
