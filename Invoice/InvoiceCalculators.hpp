@@ -283,7 +283,7 @@ private:
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
-			vpr.push_back(std::make_shared<Entry>(asString(stageMatrix[S::Index-1][i])));
+			vpr.push_back(std::make_shared<Quantity<Scalar,Pure,double>>(asString(stageMatrix[S::Index-1][i])));
 			vpr.push_back(csum[i].Get().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
 			vpr.push_back(stagesDiv[S::Index-1][i].Get().Clone());
