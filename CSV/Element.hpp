@@ -88,6 +88,16 @@ private:
       		oss << *(static_cast<const Derived*>(this));
       		return oss.str();         
   		}
+  		if constexpr (std::is_same_v<Derived, Quantity<Scalar,Pure,double>>)
+  		{
+      		std::ostringstream oss;
+      		auto d =*(static_cast<const Derived*>(this));
+//			if(d.Equals(Derived((int)d.Value())))
+//				std::cout<<"EQUAL"<<std::endl;
+			
+      		oss << *(static_cast<const Derived*>(this));
+      		return oss.str();         
+  		}
 		else
 			return value; 
 	};	
