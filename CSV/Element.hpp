@@ -82,7 +82,7 @@ private:
 	const std::string& data() const  {	return value;	};	
 	const std::string out() const  
 	{	
-  		if constexpr (std::is_same_v<Derived, Quantity<Sum>>)
+  		if constexpr (std::is_same_v<Derived, Quantity<Sum>> || std::is_same_v<Derived, Quantity<Area>>)
   		{
       		std::ostringstream oss;
       		oss << *(static_cast<const Derived*>(this));
