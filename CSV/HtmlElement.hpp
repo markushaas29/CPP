@@ -75,6 +75,12 @@ public:
 	const std::string& Tag() const { return tag; }
 	const std::string Content() const { return content=="" ? element.Out() : content; }
 	const auto Data() const { return data(); }
+protected:
+	void apply(std::unique_ptr<ICss> cs) 
+	{ 
+		css = std::move(cs);
+		begin = createBegin((*css)());
+	}
 private:
 	E element;
 	std::string begin;
@@ -106,7 +112,11 @@ template<typename T, typename T2>
 class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>,T2>
 {
 public:
- 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>()): HtmlElementBase<Quantity<T>,T2>(c, std::move(css)) { };
+ 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>()): HtmlElementBase<Quantity<T>,T2>(c, std::move(css)) 
+	{
+		if(c < Quantity<T>{0})
+			this->apply(std::make_unique<Css<Style<ColorTag,Red>>>());
+	};
 };
 
 template<typename E, typename T = Td>
