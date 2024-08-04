@@ -269,7 +269,7 @@ private:
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
 		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index));
-        auto html = HtmlBuilder(std::to_string(S::Index)+".html","/home/markus/Downloads/CSV_TestFiles_2");
+        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+(Base::year).ToString()+".html","/home/markus/Downloads/CSV_TestFiles_2");
 		html(Date::Today());
 		html(mf());
 
