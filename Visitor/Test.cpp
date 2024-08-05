@@ -15,8 +15,14 @@
 #include "../Matrix/MatrixDescriptor.hpp"
 #include "../Matrix/MatrixFilter.hpp"
 #include "../Common/DateTimes.hpp"
+#include "../Common/Color.hpp"
+#include "../Decorator/ElementDecorator.hpp"
 #include "../CSV/Elements.hpp"
 #include "../CSV/Matcher.hpp"
+#include "../CSV/Element.hpp"
+#include "../CSV/HtmlElement.hpp"
+#include "../CSV/CssStyle.hpp"
+#include "../CSV/Style.hpp"
 
 class VisitorTest{
 	public:

@@ -3,6 +3,7 @@
 #include "Quantity.hpp"
 #include "StringTest.cpp"
 #include "ToQuantity.hpp"
+#include "../Common/Color.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/HtmlElement.hpp"
 #include "../CSV/CssStyle.hpp"
