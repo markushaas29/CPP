@@ -210,6 +210,8 @@ int Run()
 	std::cout<<"Consumption Visitor _>\n"<<consV<<std::endl;
 	qv = consV();
 	assert(*qv==QV(1));
+	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{1999});
+	assert(*qv==QV(1));
 	std::cout<<"Consumption Visitor Q \n"<<*qv<<std::endl;
 
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});

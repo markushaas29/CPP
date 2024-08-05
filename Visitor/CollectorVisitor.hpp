@@ -99,7 +99,6 @@ public:
 		auto res = Base::func();
 
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
-		std::cout<<*this<<std::endl;
 		if(elements.begin()+1!=elements.end())
 			return std::make_shared<T>(elements[0].quantity-elements[1].quantity);
 		return std::make_shared<T>(elements[0].quantity);
@@ -118,7 +117,7 @@ public:
 			return std::make_shared<T>(it->quantity-itp->quantity);
 		}
 
-		return nullptr;
+		return (*this)();
 	};
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:
