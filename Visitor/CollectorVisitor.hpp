@@ -98,10 +98,11 @@ public:
 		typename Base::IsT<Throwing>(Format("No elements of: ",T::Identifier, "!"))(0 < Base::func.Size());
 		auto res = Base::func();
 
-		for(size_t j = 1; j < elements.size(); ++j)
-			if((elements[0].date - elements[j].date) > Ds(320) && (elements[0].date - elements[j].date) < Ds(400))
-				return std::make_shared<T>(res[j-1 >= 0 ? j-1 : 0]);
-		return std::make_shared<T>(res[0]);
+		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
+		std::cout<<*this<<std::endl;
+		if(elements.begin()+1!=elements.end())
+			return std::make_shared<T>(elements[0].quantity-elements[1].quantity);
+		return std::make_shared<T>(elements[0].quantity);
 	};
 	virtual std::shared_ptr<IElement> operator()(Year y, Quantity<Time,Days,uint> days = Quantity<Time,Days,uint>{365}) 
 	{ 

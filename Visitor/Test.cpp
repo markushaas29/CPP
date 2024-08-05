@@ -203,10 +203,14 @@ int Run()
 	auto qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2023},Quantity<Time,Days,uint>(480));
 	assert(*qv==QV(4));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2023},Quantity<Time,Days,uint>(180));
-	std::cout<<"Consumption Visitor _>\n"<<*qv<<std::endl;
 	assert(*qv==QV(2.5));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2023});
 	assert(*qv==QV(3));
+	auto consV = ((cvv->template As<ConsumptionVisitor<QV>>()));
+	std::cout<<"Consumption Visitor _>\n"<<consV<<std::endl;
+	qv = consV();
+	assert(*qv==QV(1));
+	std::cout<<"Consumption Visitor Q \n"<<*qv<<std::endl;
 
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
