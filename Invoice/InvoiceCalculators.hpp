@@ -246,6 +246,10 @@ private:
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
         auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f).Rows(S::Index-1);
+		std::cout<<"MATRIX N"<<costs()<<std::endl;
+//		std::vector<std::shared_ptr<IElement>> v = {std::make_shared<Quantity<Sum>>(costs[0]())};
+//		auto result = Init(v)();
+//		std::cout<<"MATRIX R"<<result<<std::endl;
 		return (*Base::parser)()[S::Index-1];	
 	}
 	template<size_t N, typename Tup>
@@ -295,10 +299,11 @@ private:
 
 		append(Init(vp)(),html);
 		append(this->M(),html);
+		append(result,html);
+		std::cout<<"Costs"<<result<<std::endl;
+		std::cout<<"Costs()"<<result()<<std::endl;
 
-//		for(size_t i = 0; i < 6; ++i)
-//			*f<<stageMatrix[S::Index-1][i]<<"\t"<<csum[i]<<"\t"<<stagesDiv[S::Index-1][i]<<"\t"<<stagesDiv[S::Index-1][i]()<<"\t"<<result[i][i]<<"\t"<<res[i][i]<<std::endl;
-        return stagesDiv * sumMatrix;                                                                                                       
+        return result;                                                                                                       
     }
 
 	template<typename T, typename... R>
