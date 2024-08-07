@@ -297,11 +297,15 @@ private:
 			vp.push_back(vpr);
 		}
 
-		append(Init(vp)(),html);
-		append(this->M(),html);
-		append(result,html);
-		std::cout<<"Costs"<<result<<std::endl;
-		std::cout<<"Costs()"<<result()<<std::endl;
+		auto resultElements = Init(vp)();
+		append(resultElements,html);
+		
+		auto resultCosts = resultElements.Col(6);
+		
+		auto sum = resultCosts.template To<Quantity<Sum>>().ColSum();
+		std::vector<std::vector<std::shared_ptr<IElement>>> costs = {{std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())}};
+		auto resultM = Init(costs)();
+		append(resultM,html);
 
         return result;                                                                                                       
     }
