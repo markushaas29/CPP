@@ -246,7 +246,6 @@ private:
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
         auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f).Rows(S::Index-1);
-		std::cout<<"MATRIX N"<<costs()<<std::endl;
 //		std::vector<std::shared_ptr<IElement>> v = {std::make_shared<Quantity<Sum>>(costs[0]())};
 //		auto result = Init(v)();
 //		std::cout<<"MATRIX R"<<result<<std::endl;
@@ -272,7 +271,8 @@ private:
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
-		auto mf = MatrixFormatter((*Base::parser)(true).Rows(0,S::Index));
+		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
+		auto mf = MatrixFormatter(stageQuantities);
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+(Base::year).ToString()+".html","/home/markus/Downloads/CSV_TestFiles_2");
 		html(Date::Today());
 		html(mf());
@@ -303,7 +303,14 @@ private:
 		auto resultCosts = resultElements.Col(6);
 		
 		auto sum = resultCosts.template To<Quantity<Sum>>().ColSum();
+		auto extraCosts = stageQuantities[1][10].template As<Quantity<Sum>>();
+		std::cout<<"\n\nExtra1 "<<extraCosts<<std::endl;
+		std::cout<<"\n\nExtra2 "<<stageQuantities[1][9]<<std::endl;
+		std::cout<<"\n\nExtra3 "<<stageQuantities[1][10]<<"\n"<<std::endl;
+  		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = {{std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())}};
+
+  		std::cout<<"YEAR "<<yearCosts<<std::endl;
 		auto resultM = Init(costs)();
 		append(resultM,html);
 
