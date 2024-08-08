@@ -308,14 +308,19 @@ private:
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		auto heatingPayment = yearCosts[0];
 		auto advancedPayment = yearCosts[1];
+
+		auto payment = yearCosts.ColSum();
+		auto resultSum = payment() + sum();
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
 		{
 			{std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
 			{std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
-			{std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()}
+			{std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()},
+			{std::make_shared<Entry>(asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
+			{std::make_shared<Entry>(asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
 
-  		std::cout<<"YEAR "<<yearCosts<<std::endl;
+  		std::cout<<"YEAR "<<payment<<std::endl;
 		auto resultM = Init(costs)();
 		append(resultM,html);
 
