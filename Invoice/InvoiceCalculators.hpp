@@ -300,11 +300,8 @@ private:
 		auto resultElements = Init(vp)();
 		append(resultElements,html);
 		
-		auto resultCosts = resultElements.Col(6);
-		
-		auto sum = resultCosts.template To<Quantity<Sum>>().ColSum();
+		auto sum = resultElements.Col(6).template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
-		std::cout<<"\n\nExtra1 "<<extraCosts<<std::endl;
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		auto heatingPayment = yearCosts[0];
 		auto advancedPayment = yearCosts[1];
@@ -320,7 +317,6 @@ private:
 			{std::make_shared<Entry>(asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
 
-  		std::cout<<"YEAR "<<payment<<std::endl;
 		auto resultM = Init(costs)();
 		append(resultM,html);
 
