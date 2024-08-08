@@ -303,12 +303,17 @@ private:
 		auto resultCosts = resultElements.Col(6);
 		
 		auto sum = resultCosts.template To<Quantity<Sum>>().ColSum();
-		auto extraCosts = stageQuantities[1][10].template As<Quantity<Sum>>();
+		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
 		std::cout<<"\n\nExtra1 "<<extraCosts<<std::endl;
-		std::cout<<"\n\nExtra2 "<<stageQuantities[1][9]<<std::endl;
-		std::cout<<"\n\nExtra3 "<<stageQuantities[1][10]<<"\n"<<std::endl;
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
-		std::vector<std::vector<std::shared_ptr<IElement>>> costs = {{std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())}};
+		auto heatingPayment = yearCosts[0];
+		auto advancedPayment = yearCosts[1];
+		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
+		{
+			{std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
+			{std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
+			{std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()}
+		};
 
   		std::cout<<"YEAR "<<yearCosts<<std::endl;
 		auto resultM = Init(costs)();
