@@ -310,7 +310,7 @@ private:
 		auto advancedPayment = yearCosts[1];
 
 		auto payment = yearCosts.ColSum();
-		auto resultSum = payment() + sum();
+		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
 		{
 			{std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
