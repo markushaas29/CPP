@@ -311,8 +311,8 @@ private:
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
 		{
 			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
-			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
-			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()},
+			{stageQuantities[0][9]()->Clone(),std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
+			{stageQuantities[0][10]()->Clone(),std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()},
 			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
 			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
