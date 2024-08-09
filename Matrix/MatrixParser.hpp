@@ -69,7 +69,7 @@ private:
 		std::vector<std::shared_ptr<IElement>> v;
 		if(headers)
 			for(auto i = 0; i < mc.Cols(); ++i)
-				v.push_back(std::make_shared<Entry>(*mc.elements->at(i)));
+				v.push_back(std::make_shared<Header>(*mc.elements->at(i)));
 
 		auto elTypes = matcher.MatchingElements(*mc.elements);
 		for(auto& i : elTypes)
