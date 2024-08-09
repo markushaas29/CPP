@@ -184,3 +184,14 @@ public:
 private:
 	inline static std::string check(const std::string& s) { return Identifier; }
 };
+
+class Header: public Element<Header>
+{
+	using Base = Element<Header>;
+	friend class Element<Header>;
+public:
+    inline static constexpr const char* Identifier = "Header";
+	Header(const std::string& c = Identifier): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return Identifier; }
+};
