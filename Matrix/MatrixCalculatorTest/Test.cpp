@@ -7,6 +7,11 @@
 #include "../MatrixDescriptor.hpp"
 #include "../MatrixOperations.hpp"
 #include "../../CSV/Elements.hpp"
+#include "../../Common/Color.hpp"
+#include "../../CSV/HtmlElement.hpp"
+#include "../../CSV/CssStyle.hpp"
+#include "../../CSV/Style.hpp"
+#include "../../Decorator/ElementDecorator.hpp"
 
 class MatrixCalculatorTest
 {
