@@ -66,7 +66,7 @@ int Run()
 	assert(useE==useA);
 
 	auto html = HtmlElement<Entry,Td>(Entry("TEST"));
-	assert(html.Data()=="<td style=\" color:red;\">TEST</td>");
+	assert(html.Data()=="<td style=\" color:black;\">TEST</td>");
 
 	auto htmlQP = HtmlElement<Quantity<Sum>,Td>(Quantity<Sum>{2});
 	assert(htmlQP.Data()=="<td style=\" color:green;\">2.00€</td>");

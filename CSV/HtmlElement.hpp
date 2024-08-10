@@ -96,7 +96,7 @@ template<typename E, typename T = Td>
 class HtmlElement: public HtmlElementBase<E,T>
 {
 public:
- 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElementBase<E,T>(c, std::move(css)) { };
+ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<E,T>(c, std::move(css)) { };
 };
 
 class Name;
