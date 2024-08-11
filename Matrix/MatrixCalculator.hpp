@@ -64,9 +64,9 @@ private:
     static decltype(auto) transform(const LeftType& m)
     {
 		auto v = std::vector<typename LeftType::ElementType>(m.elements->size());
-		for(size_t i = 0; i < m.Rows(); ++i)
-			for(size_t j = 0; j < m.Cols(); ++j)
-				v[(j * m.Cols())+i] = *(m.elements->at((i * m.Rows())+j));
+		for(size_t r = 0; r < m.Rows(); ++r)
+			for(size_t c = 0; c < m.Cols(); ++c)
+				v[(c * m.Cols())+r] = *(m.elements->at((r * m.Rows())+c));
 		using ResultType = Matrix<LeftType::Order, DescriptorType>;
         return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
 	}

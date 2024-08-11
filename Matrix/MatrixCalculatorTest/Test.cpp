@@ -237,6 +237,9 @@ class MatrixCalculatorTest
 			assert(m33T[2][0]()==m33[0][2]());
 			assert(m33T[1][1]()==m33[1][1]());
 			assert(m33T[0][1]()==m33[1][0]());
+			auto m35T = m35^1;
+			std::cout<<"Trans"<<m35<<std::endl;
+			std::cout<<"Trans"<<m35T<<std::endl;
 //			auto m2dT2 = m2d^-1;
 //			assert(m2dT2==1);
 		
