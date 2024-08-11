@@ -239,7 +239,7 @@ class MatrixCalculatorTest
 			std::cout<<"Trans"<<m35<<std::endl;
 			std::cout<<"Trans"<<m35T<<std::endl;
 			assert(m35T[2][0]()==m35[0][2]());
-			assert(m35T[0][4]()==m35[4][0]());
+			assert(m35[0][4]()==m35T[4][0]());
 			assert(m35T[1][2]()==m35[2][1]());
 //			auto m2dT2 = m2d^-1;
 //			assert(m2dT2==1);
