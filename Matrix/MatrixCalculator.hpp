@@ -63,12 +63,15 @@ private:
     }
     static decltype(auto) transform(const LeftType& m)
     {
-		auto v = std::vector<typename LeftType::ElementType>(m.elements->size());
-		for(size_t r = 0; r < m.Rows(); ++r)
-			for(size_t c = 0; c < m.Cols(); ++c)
-				v[(c * m.Cols())+r] = *(m.elements->at((r * m.Rows())+c));
-		using ResultType = Matrix<LeftType::Order, DescriptorType>;
-        return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
+		if constexpr (LeftType::Order==2)
+		{
+			auto v = std::vector<typename LeftType::ElementType>(m.elements->size());
+			for(size_t r = 0; r < m.Rows(); ++r)
+				for(size_t c = 0; c < m.Cols(); ++c)
+					v[(c * m.Rows())+r] = *(m.elements->at((r * m.Cols())+c));
+			using ResultType = Matrix<LeftType::Order, DescriptorType>;
+	        return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
+		}
 	}
 	template<size_t ND>
     static decltype(auto) transformDim(const LeftType& m, auto... I)
