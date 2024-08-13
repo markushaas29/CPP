@@ -54,7 +54,7 @@ protected:
 	inline const static std::string end =  "</" + tag + ">";	
  	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
  	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())),css{std::move(css)}, content{c} { };
-	HtmlElementBase(const HtmlElementBase& html): css(std::make_unique<Css<Style<ColorTag,Red>>>()), begin(""), element{html.element}, content{element.Out()} { }
+	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(""), element{html.element}, content{element.Out()} { }
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //
