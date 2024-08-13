@@ -25,6 +25,7 @@ public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 	std::string Data() const  { return data(); };	
+	std::string Out() const  { return data(); };	
 	virtual const std::string Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
@@ -53,6 +54,7 @@ protected:
 	inline const static std::string end =  "</" + tag + ">";	
  	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
  	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())),css{std::move(css)}, content{c} { };
+	HtmlElementBase(const HtmlElementBase& html): css(std::make_unique<Css<Style<ColorTag,Red>>>()), begin(""), element{html.element}, content{element.Out()} { }
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //

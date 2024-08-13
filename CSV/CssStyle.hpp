@@ -11,7 +11,7 @@ public:
 //	virtual bool operator==(const ICss& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const ICss& e) const noexcept = 0;
 	std::string operator()() const  { return data(); };	
-//	virtual std::unique_ptr<ICss> Clone() const  = 0;	
+	virtual std::unique_ptr<ICss> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(Data()); }
 private:
@@ -46,6 +46,7 @@ public:
 				});
 
 	}
+	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
 	virtual std::string data() const  

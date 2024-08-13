@@ -72,7 +72,10 @@ int Run()
 	assert(htmlQP.Data()=="<td style=\" color:green;\">2.00€</td>");
 	auto htmlQN = HtmlElement<Quantity<Sum>,Td>(Quantity<Sum>{-2});
 	assert(htmlQN.Data()=="<td style=\" color:red;\">-2.00€</td>");
-	std::cout<<"P: "<<htmlQN<<std::endl;
+
+	auto nhtml = HtmlElement<HtmlElement<Quantity<Sum>,Td>>(htmlQP);
+
+	std::cout<<"P: "<<nhtml<<std::endl;
 
     return 0;
 }
