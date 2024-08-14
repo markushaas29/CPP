@@ -33,7 +33,7 @@ public:
 //    T To() const { return ::To<T>(Data()); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Data();}
-	virtual std::string data() const  = 0;	
+	virtual std::string data(uint i=0) const  = 0;	
 ////	virtual constexpr bool operator==(const IHtmlElement& e) const = 0;
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 ////	virtual constexpr const_iterator Begin() const = 0;
@@ -53,8 +53,8 @@ protected:
 	inline const static std::string tag = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
  	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
- 	HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())),css{std::move(css)}, content{c} { };
-	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(""), element{html.element}, content{element.Out()} { }
+ 	//HtmlElementBase(const std::string& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())),css{std::move(css)}, content{c} { };
+	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(html.begin), element{html.element}, content{element.Out()} { }
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
 //
@@ -88,7 +88,11 @@ private:
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string data() const  {	return begin + Content() + end; };	
+	virtual std::string data(uint i=0) const  
+	{	
+		std::string intent;
+		intent.insert(0, i, '\t');	
+		return intent + begin + "\n" +intent + "\t" + Content() + "\n" + intent + end; };	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
