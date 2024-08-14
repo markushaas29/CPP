@@ -29,7 +29,11 @@ public:
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
 	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 	const std::string& Data() const  { return data(); };	
-	const std::string Out() const  { return out(); };	
+	const std::string Out(uint i = 0) const  
+	{ 
+		 std::string intent;
+		 intent.insert(0, i, '\t');
+		return intent + out(); };	
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	

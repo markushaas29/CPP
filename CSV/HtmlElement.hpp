@@ -25,7 +25,7 @@ public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 	std::string Data() const  { return data(); };	
-	std::string Out() const  { return data(); };	
+	std::string Out(uint i = 0) const  	{	return data(i); };	
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
@@ -91,7 +91,7 @@ private:
 	{	
 		std::string intent;
 		intent.insert(0, i, '\t');	
-		return intent + begin + "\n" +intent + "\t" + Content() + "\n" + intent + end; };	
+		return intent + begin + "\n" + element.Out(++i) + "\n" + intent + end; };	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
