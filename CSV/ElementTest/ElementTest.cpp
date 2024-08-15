@@ -11,11 +11,18 @@
 #include "../../Common/Color.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../ObjectFactory/Factories.hpp"
+#include "../../Matrix/MatrixHeaders.hpp"
+#include "../../Matrix/Matrix.hpp"
+#include "../../Matrix/MatrixDescriptor.hpp"
+#include "../../Matrix/MatrixFormatter.hpp"
+#include "../../Matrix/MatrixFormatter.hpp"
 
 class ElementTest{
 public:
 int Run()
-{       
+{     
+	using M2DS = MatrixDescriptor<2,double>;
+	using M2D = Matrix<2,M2DS>;
     std::cout<<"START"<<std::endl;
 	
 	auto s = std::string("123");
@@ -80,6 +87,17 @@ int Run()
 	std::cout<<"P: \n"<<nhtml<<std::endl;
 	assert(nhtml.Data()=="<td style=\" color:black;\">\n\t<td style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
+	M2D m33 =
+    {
+           {1., 2., 3.},
+           {4., 5., 6.},
+           {7., 8., 9.}
+     };
+
+	auto mf1 = MatrixFormatter(m33);
+	
+	auto htmlMF = HtmlElement<decltype(mf1),Td>(mf1);
+	assert(htmlQP.Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;
 }

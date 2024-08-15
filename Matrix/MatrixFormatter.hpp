@@ -39,6 +39,7 @@ public:
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
     virtual std::string operator()() {	return table();	};
+    const std::string Out(uint i = 0) const {	return table();	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	
 		s<<table();	
@@ -59,7 +60,7 @@ public:
     }
 private:
 	const M matrix;
-	std::unique_ptr<MapType> translate;
+	std::shared_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const 	{	return HtmlElement<Entry,Table>(rows(matrix)).Data();	};
 	template<size_t O, typename D>
@@ -93,7 +94,7 @@ private:
 	};
 	static auto read()
 	{
-		auto m = std::make_unique<MapType>();
+		auto m = std::make_shared<MapType>();
 		(*m)["SumPerArea"] = "Summe";
 		(*m)["Stage"] = "Stock";
 		return m;
