@@ -4,13 +4,14 @@
 #include <memory>
 #include <sstream>
 #include "../Decorator/ElementDecorator.hpp"
+#include "../CSV/IHtmlOut.hpp"
 
 #pragma once
 
 struct German;
 
 template<typename M, typename L = German>
-class MatrixFormatter 
+class MatrixFormatter: public IHtmlOut
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
@@ -39,7 +40,6 @@ public:
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
     virtual std::string operator()() {	return table();	};
-    const std::string Out(uint i = 0) const {	return table();	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	
 		s<<table();	
@@ -63,6 +63,7 @@ private:
 	std::shared_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const 	{	return HtmlElement<Entry,Table>(rows(matrix)).Data();	};
+	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
 	template<size_t O, typename D>
     std::string rows(const Matrix<O,D>& m) const
 	{ 
