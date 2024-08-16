@@ -5,6 +5,7 @@
 #include "../To/To.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "../CSV/Element.hpp"
+#include "../CSV/IHtmlOut.hpp"
 #include "../CSV/CssStyle.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include <string.h>

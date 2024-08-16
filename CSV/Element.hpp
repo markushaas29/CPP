@@ -5,6 +5,7 @@
 #include "../To/To.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
+#include "IHtmlOut.hpp"
 #include <string.h>
 #include <map>
 #include <regex>
@@ -21,7 +22,7 @@ struct Td;
 template<typename,typename> class HtmlElement;
 
 #pragma once
-class IElement: public BaseVisitable<void>, public BoolVisitable<bool>
+class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public IHtmlOut
 {
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
@@ -29,11 +30,6 @@ public:
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
 	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 	const std::string& Data() const  { return data(); };	
-	const std::string Out(uint i = 0) const  
-	{ 
-		 std::string intent;
-		 intent.insert(0, i, '\t');
-		return intent + out(); };	
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	
@@ -43,6 +39,7 @@ public:
 private:
 	virtual const std::string& data() const  = 0;	
 	virtual const std::string out() const  = 0;	
+	virtual std::string out(const std::string& intent, uint i = 0) const { return intent + out(); };
 	friend std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Data();}
 //	virtual constexpr bool operator==(const IElement& e) const = 0;
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
