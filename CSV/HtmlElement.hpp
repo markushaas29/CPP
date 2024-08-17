@@ -52,7 +52,7 @@ protected:
 	inline static const std::string Identifier = E::Identifier + "HtmlElement";
 	inline const static std::string tag = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()}, iout{c.Clone()} { };
 	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(html.begin), element{html.element}, content{element.Out()} { }
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
@@ -85,6 +85,7 @@ protected:
 	}
 private:
 	E element;
+	std::shared_ptr<IHtmlOut> iout;
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
