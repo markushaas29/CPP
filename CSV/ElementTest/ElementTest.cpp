@@ -79,7 +79,9 @@ int Run()
 	assert(htmlN.Data()=="<td style=\" color:blue;\">\n\tTEST\n</td>");
 
 	auto htmlQP = HtmlElement<Quantity<Sum>,Td>(Quantity<Sum>{2});
+	auto htmlQP2 = htmlQP.Clone();
 	assert(htmlQP.Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
+	assert(htmlQP2->Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 	auto htmlQN = HtmlElement<Quantity<Sum>,Td>(Quantity<Sum>{-2});
 	assert(htmlQN.Data()=="<td style=\" color:red;\">\n\t-2.00€\n</td>");
 

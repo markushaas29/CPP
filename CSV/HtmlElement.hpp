@@ -28,6 +28,7 @@ public:
 	std::string Data() const  { return Out(0); };	
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
+	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(out()); }
@@ -72,6 +73,7 @@ protected:
 //	constexpr bool operator==(const IHtmlElement& e) const{ return out() == e.out(); };
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return out() <=> e.out(); }
 public:
+	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<E,T>>(element, css->Clone()); };
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
 	const auto Data() const { return Out(0); }
