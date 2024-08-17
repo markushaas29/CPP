@@ -77,10 +77,7 @@ private:
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 					is<<(*(*(m.elements->at(i)))->Html());
 				else
-				{
-					is<<m[i];
 					is<<HtmlElement<Entry,Td>(is.str()).Data();
-				}
 				res+=is.str()+"\n";
 			}
 			return HtmlElement<Entry,Tr>(res).Data();
