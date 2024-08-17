@@ -20,29 +20,27 @@ template<typename, bool> class PredicateVisitor;
 
 #pragma once
 
-class IHtmlElement//: public BaseVisitable<void>, public BoolVisitable<bool>
+class IHtmlElement: public IHtmlOut
 {
 public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
-	std::string Data() const  { return data(); };	
-	std::string Out(uint i = 0) const  	{	return data(i); };	
+	std::string Data() const  { return Out(0); };	
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
-//    T To() const { return ::To<T>(Data()); }
+//    T To() const { return ::To<T>(out()); }
 private:
-	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Data();}
-	virtual std::string data(uint i=0) const  = 0;	
+	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Out(0);}
 ////	virtual constexpr bool operator==(const IHtmlElement& e) const = 0;
 ////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 ////	virtual constexpr const_iterator Begin() const = 0;
-////	constexpr decltype(auto) End() { return data.begin() + size; }
+////	constexpr decltype(auto) End() { return out.begin() + size; }
 ////	constexpr decltype(auto) Size() { return size; }
 ////
-////	constexpr bool operator==(const HtmlElement& e) const{ return Data() == e.Data(); };
-////	constexpr std::strong_ordering operator<=>( const HtmlElement& e) const noexcept { return Data() <=> e.Data(); }
+////	constexpr bool operator==(const HtmlElement& e) const{ return out() == e.out(); };
+////	constexpr std::strong_ordering operator<=>( const HtmlElement& e) const noexcept { return out() <=> e.out(); }
 };
 ////--------------------------------HtmlElementBase------------------------------------------------
 
@@ -71,12 +69,12 @@ protected:
 //		return AcceptImpl<D>(*c, visitor); 
 //	}
 //	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
-//	constexpr bool operator==(const IHtmlElement& e) const{ return Data() == e.Data(); };
-//	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return Data() <=> e.Data(); }
+//	constexpr bool operator==(const IHtmlElement& e) const{ return out() == e.out(); };
+//	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return out() <=> e.out(); }
 public:
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
-	const auto Data() const { return data(); }
+	const auto Data() const { return Out(0); }
 protected:
 	void apply(std::unique_ptr<ICss> cs) 
 	{ 
@@ -88,11 +86,7 @@ private:
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string data(uint i=0) const  
-	{	
-		std::string intent;
-		intent.insert(0, i, '\t');	
-		return intent + begin + "\n" + element.Out(++i) + "\n" + intent + end; };	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + element.Out(++i) + "\n" + intent + end; };	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
