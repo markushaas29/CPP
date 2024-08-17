@@ -22,14 +22,15 @@ class TagDecorator: public IElementDecorator
 public:
 };
 
-struct B: public TagDecorator{	virtual std::string decorate() const { return "b"; } };
+struct B: public TagDecorator				{	virtual std::string decorate() const { return "b"; } };
 struct Td: public TagDecorator				{	inline static constexpr const char* Identifier= "td"; };
 struct Tr: public TagDecorator				{	inline static constexpr const char* Identifier= "tr"; };
-struct Th: public TagDecorator{	virtual std::string decorate() const { return "th"; } };
+struct Th: public TagDecorator				{	virtual std::string decorate() const { return "th"; } };
 struct Section: public TagDecorator			{	inline static constexpr const char* Identifier= "section"; 	};
 struct Table: public TagDecorator			{	inline static constexpr const char* Identifier= "table"; 	};
-struct Html: public TagDecorator{	virtual std::string decorate() const { return "html"; } };
-struct head: public TagDecorator{	virtual std::string decorate() const { return "head"; } };
+struct DivTag: public TagDecorator				{	inline static constexpr const char* Identifier= "div"; 	};
+struct Html: public TagDecorator			{	virtual std::string decorate() const { return "html"; } };
+struct head: public TagDecorator			{	virtual std::string decorate() const { return "head"; } };
 
 class StyleDecorator: public IElementDecorator
 {
