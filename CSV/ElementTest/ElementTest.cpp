@@ -96,7 +96,7 @@ int Run()
 
 	auto mf1 = MatrixFormatter(m33);
 	
-	auto htmlMF = HtmlElement<decltype(mf1),Td>(mf1);
+	auto htmlMF = HtmlElement<decltype(mf1.html()),Td>(mf1.html());
 	std::cout<<"\n\nP2: \n"<<htmlMF<<std::endl;
 	assert(htmlQP.Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 

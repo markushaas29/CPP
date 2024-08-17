@@ -40,6 +40,7 @@ public:
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
     virtual std::string operator()() {	return table();	};
+    auto html() const 	{	return HtmlElement<Entry,Table>(rows(matrix));	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	
 		s<<table();	
@@ -69,7 +70,6 @@ private:
 	{ 
 		if constexpr (O==1)
 		{
-//			auto b = B();
 			std::string res;
 			for(auto i=0; i<m.Rows(); ++i)
 			{
