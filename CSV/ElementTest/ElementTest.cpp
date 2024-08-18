@@ -100,6 +100,11 @@ int Run()
 	
 	auto htmlMF = mf1.Html();
 	std::cout<<"\n\nP2: \n"<<*htmlMF<<std::endl;
+
+	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlOut>>>();
+	outs->push_back(mf1.Html());
+	outs->push_back(mf1.Html());
+	auto comp = HtmlElementComposition{std::move(outs)};
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;

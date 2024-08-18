@@ -45,6 +45,20 @@ private:
 };
 ////--------------------------------HtmlElementBase------------------------------------------------
 
+class HtmlElementComposition: public IHtmlOut
+{
+public:
+ 	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IHtmlOut>>> v): elements{std::move(v)} { };
+private:
+	virtual std::string out(const std::string& intent, uint i = 0) const  
+	{	
+		std::string result;
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i); });
+		return result;
+	};	
+	std::unique_ptr<std::vector<std::unique_ptr<IHtmlOut>>> elements;
+};
+
 template<typename E, typename T>
 class HtmlElementBase: public IHtmlElement
 {
