@@ -103,7 +103,7 @@ private:
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + element.Out(++i) + "\n" + intent + end; };	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + iout->Out(++i) + "\n" + intent + end; };	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
