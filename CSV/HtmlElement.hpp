@@ -46,11 +46,11 @@ private:
 };
 ////--------------------------------HtmlElementBase------------------------------------------------
 
-class HtmlElementComposition//: public IHtmlOut
+class HtmlElementComposition: public IHtmlOut
 {
 public:
  	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IHtmlOut>>> v): elements{std::move(v)} { };
-	//virtual std::unique_ptr<IHtmlOut> Model() const { return std::make_unique<HtmlElementComposition>(std::move(elements)); };
+	virtual std::unique_ptr<IHtmlOut> Model() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IHtmlOut>>>()); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	

@@ -104,7 +104,7 @@ int Run()
 	outs->push_back(mf1.Html());
 	outs->push_back(mf1.Html());
 	auto comp = HtmlElementComposition{std::move(outs)};
-//	std::cout<<"\n\nP2: \n"<<comp.Out(0)<<std::endl;
+	std::cout<<"\n\nP2: \n"<<comp.Out(0)<<std::endl;
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;
