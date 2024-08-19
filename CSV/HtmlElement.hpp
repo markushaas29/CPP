@@ -68,7 +68,7 @@ protected:
 	inline static const std::string Identifier = E::Identifier + "HtmlElement";
 	inline const static std::string tag = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()}, iout{c.Clone()} { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()}, model{c.Clone()} { };
 	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(html.begin), element{html.element}, content{element.Out()} { }
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
@@ -101,11 +101,11 @@ protected:
 	}
 private:
 	E element;
-	std::shared_ptr<IModel> iout;
+	std::shared_ptr<IModel> model;
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + iout->Out(++i) + "\n" + intent + end; };	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + model->Out(++i) + "\n" + intent + end; };	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
