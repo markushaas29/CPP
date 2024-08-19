@@ -100,7 +100,7 @@ int Run()
 	
 	auto htmlMF = mf1.Html();
 
-	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlOut>>>();
+	auto outs = std::make_unique<std::vector<std::unique_ptr<IModel>>>();
 	outs->push_back(mf1.Html());
 	outs->push_back(mf1.Html());
 	auto comp = HtmlElementComposition{std::move(outs)};

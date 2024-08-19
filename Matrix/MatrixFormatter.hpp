@@ -4,7 +4,7 @@
 #include <memory>
 #include <sstream>
 #include "../Decorator/ElementDecorator.hpp"
-#include "../CSV/IHtmlOut.hpp"
+#include "../CSV/IModel.hpp"
 #include "../CSV/IHtml.hpp"
 
 #pragma once
@@ -12,7 +12,7 @@
 struct German;
 
 template<typename M, typename L = German>
-class MatrixFormatter: public IHtmlOut, public IHtml
+class MatrixFormatter: public IModel, public IHtml
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
@@ -40,7 +40,7 @@ public:
 //		return s;
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
-	virtual std::unique_ptr<IHtmlOut> Model() const { return std::make_unique<MatrixFormatter<M,L>>(matrix); }
+	virtual std::unique_ptr<IModel> Model() const { return std::make_unique<MatrixFormatter<M,L>>(matrix); }
     virtual std::string operator()() {	return table();	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	

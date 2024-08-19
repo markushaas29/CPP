@@ -5,7 +5,7 @@
 #include "../To/To.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
-#include "IHtmlOut.hpp"
+#include "IModel.hpp"
 #include <string.h>
 #include <map>
 #include <regex>
@@ -22,7 +22,7 @@ struct Td;
 template<typename,typename> class HtmlElement;
 
 #pragma once
-class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public IHtmlOut
+class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public IModel
 {
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
@@ -32,7 +32,7 @@ public:
 	const std::string& Data() const  { return data(); };	
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
-	virtual std::unique_ptr<IHtmlOut> Model() const { return Clone(); };
+	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Html() const  = 0;	
 	template<typename T>

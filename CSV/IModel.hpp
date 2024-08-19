@@ -2,10 +2,10 @@
 
 #pragma once
 
-class IHtmlOut
+class IModel
 {
 public:
-	virtual std::unique_ptr<IHtmlOut> Model() const = 0;
+	virtual std::unique_ptr<IModel> Model() const = 0;
 	std::string Out(uint i = 0) const  	
 	{
 		std::string intent;

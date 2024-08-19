@@ -5,7 +5,7 @@
 #include "../To/To.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "../CSV/Element.hpp"
-#include "../CSV/IHtmlOut.hpp"
+#include "../CSV/IModel.hpp"
 #include "../CSV/CssStyle.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include <string.h>
@@ -20,7 +20,7 @@ template<typename, bool> class PredicateVisitor;
 
 #pragma once
 
-class IHtmlElement: public IHtmlOut
+class IHtmlElement: public IModel
 {
 public:
 //	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
@@ -29,7 +29,7 @@ public:
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
-	virtual std::unique_ptr<IHtmlOut> Model() const { return Clone(); };
+	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(out()); }
@@ -46,11 +46,11 @@ private:
 };
 ////--------------------------------HtmlElementBase------------------------------------------------
 
-class HtmlElementComposition: public IHtmlOut
+class HtmlElementComposition: public IModel
 {
 public:
- 	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IHtmlOut>>> v): elements{std::move(v)} { };
-	virtual std::unique_ptr<IHtmlOut> Model() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IHtmlOut>>>()); };
+ 	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IModel>>> v): elements{std::move(v)} { };
+	virtual std::unique_ptr<IModel> Model() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IModel>>>()); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	
@@ -58,7 +58,7 @@ private:
 		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i); });
 		return result;
 	};	
-	std::unique_ptr<std::vector<std::unique_ptr<IHtmlOut>>> elements;
+	std::unique_ptr<std::vector<std::unique_ptr<IModel>>> elements;
 };
 
 template<typename E, typename T>
@@ -101,7 +101,7 @@ protected:
 	}
 private:
 	E element;
-	std::shared_ptr<IHtmlOut> iout;
+	std::shared_ptr<IModel> iout;
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
