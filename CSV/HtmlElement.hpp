@@ -29,6 +29,7 @@ public:
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
+	virtual std::unique_ptr<IHtmlOut> Model() const { return Clone(); };
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(out()); }
@@ -45,10 +46,11 @@ private:
 };
 ////--------------------------------HtmlElementBase------------------------------------------------
 
-class HtmlElementComposition: public IHtmlOut
+class HtmlElementComposition//: public IHtmlOut
 {
 public:
  	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IHtmlOut>>> v): elements{std::move(v)} { };
+	//virtual std::unique_ptr<IHtmlOut> Model() const { return std::make_unique<HtmlElementComposition>(std::move(elements)); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	

@@ -40,6 +40,7 @@ public:
 //		return s;
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
+	virtual std::unique_ptr<IHtmlOut> Model() const { return std::make_unique<MatrixFormatter<M,L>>(matrix); }
     virtual std::string operator()() {	return table();	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	

@@ -32,6 +32,7 @@ public:
 	const std::string& Data() const  { return data(); };	
 //	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
+	virtual std::unique_ptr<IHtmlOut> Model() const { return Clone(); };
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Html() const  = 0;	
 	template<typename T>

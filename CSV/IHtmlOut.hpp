@@ -1,8 +1,11 @@
+#include <memory>
+
 #pragma once
 
 class IHtmlOut
 {
 public:
+	virtual std::unique_ptr<IHtmlOut> Model() const = 0;
 	std::string Out(uint i = 0) const  	
 	{
 		std::string intent;
