@@ -29,7 +29,6 @@ public:
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
-	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
 //	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(out()); }
@@ -44,13 +43,58 @@ private:
 ////	constexpr bool operator==(const HtmlElement& e) const{ return out() == e.out(); };
 ////	constexpr std::strong_ordering operator<=>( const HtmlElement& e) const noexcept { return out() <=> e.out(); }
 };
-////--------------------------------HtmlElementBase------------------------------------------------
+////--------------------------------HtmlBase------------------------------------------------
 
-class HtmlElementComposition: public IModel
+template<typename T>
+class HtmlBase: public IHtmlElement
+{
+protected:
+	inline const static std::string tag = T::Identifier;
+	inline const static std::string end =  "</" + tag + ">";	
+ 	HtmlBase(std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)}, content{this->Out()} { };
+	HtmlBase(const HtmlBase& html): css(html.css->Clone()), begin(html.begin), content{html.Out()} { }
+//// 	template<typename T>
+////	HtmlBase(T t): HtmlBase(std::to_string(t)) { };
+//
+//	virtual std::unique_ptr<IHtmlBase> Clone() const  { return std::make_unique<Derived>(value); };	
+//	static std::unique_ptr<IHtmlBase> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
+//	explicit operator std::string() const  {	return value; };	
+//	constexpr decltype(auto) Size() { return size; }
+//
+//	virtual void Accept(BaseVisitor& visitor) {	return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); }
+//	virtual void Accept(BaseVisitor& visitor) const 
+//	{
+//		auto c2 = dynamic_cast<const D*>(this);
+//		auto c = const_cast<D*>(c2);
+//		return AcceptImpl<D>(*c, visitor); 
+//	}
+//	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
+//	constexpr bool operator==(const IHtmlElement& e) const{ return out() == e.out(); };
+//	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return out() <=> e.out(); }
+public:
+	const std::string& Tag() const { return tag; }
+	const std::string& Content() const { return content; }
+	const auto Data() const { return Out(0); }
+protected:
+	void apply(std::unique_ptr<ICss> cs) 
+	{ 
+		css = std::move(cs);
+		begin = createBegin((*css)());
+	}
+private:
+	std::string begin;
+	std::unique_ptr<ICss> css;
+	std::string content;
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + this->Out(++i) + "\n" + intent + end; };	
+	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
+};
+
+template<typename T>
+class HtmlElementComposition: public HtmlBase<T>
 {
 public:
  	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IModel>>> v): elements{std::move(v)} { };
-	virtual std::unique_ptr<IModel> Model() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IModel>>>()); };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IModel>>>()); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	
@@ -68,7 +112,7 @@ protected:
 	inline static const std::string Identifier = E::Identifier + "HtmlElement";
 	inline const static std::string tag = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()}, model{c.Clone()} { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
 	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(html.begin), element{html.element}, content{element.Out()} { }
 //// 	template<typename T>
 ////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
@@ -101,11 +145,10 @@ protected:
 	}
 private:
 	E element;
-	std::shared_ptr<IModel> model;
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + model->Out(++i) + "\n" + intent + end; };	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + element.Out(++i) + "\n" + intent + end; };	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
@@ -116,13 +159,6 @@ class HtmlElement: public HtmlElementBase<E,T>
 {
 public:
  	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<E,T>(c, std::move(css)) { };
-};
-
-template<typename T>
-class HtmlElement<HtmlElementComposition,T>: public HtmlElementBase<HtmlElementComposition,T>
-{
-public:
- 	HtmlElement(const HtmlElementComposition& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<HtmlElementComposition,T>(c, std::move(css)) { };
 };
 
 class Name;

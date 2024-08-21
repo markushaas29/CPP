@@ -86,7 +86,7 @@ int Run()
 	assert(htmlQN.Data()=="<td style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<HtmlElement<Name,Td>>(htmlN);
-	std::cout<<"P: \n"<<nhtml<<std::endl;
+	std::cout<<"P2: \n"<<nhtml<<std::endl;
 	assert(nhtml.Data()=="<td style=\" color:black;\">\n\t<td style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
 	M2D m33 =
@@ -100,11 +100,11 @@ int Run()
 	
 	auto htmlMF = mf1.Html();
 
-	auto outs = std::make_unique<std::vector<std::unique_ptr<IModel>>>();
+	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 	outs->push_back(mf1.Html());
 	outs->push_back(mf1.Html());
-	auto comp = HtmlElementComposition{std::move(outs)};
-	std::cout<<"\n\nP2: \n"<<comp.Out(0)<<std::endl;
+	//auto comp = HtmlElementComposition<DivTag>{std::move(outs)};
+	//std::cout<<"\n\nP2: \n"<<comp.Out(0)<<std::endl;
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;

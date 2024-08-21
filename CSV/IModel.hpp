@@ -5,7 +5,6 @@
 class IModel
 {
 public:
-	virtual std::unique_ptr<IModel> Model() const = 0;
 	std::string Out(uint i = 0) const  	
 	{
 		std::string intent;
