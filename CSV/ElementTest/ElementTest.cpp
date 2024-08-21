@@ -72,20 +72,20 @@ int Run()
 	useA = Entry("DE6900000000084184");
 	assert(useE==useA);
 
-	auto html = HtmlElement<Entry,Td>(Entry("TEST"));
+	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
 	std::cout<<"P: \n"<<html<<std::endl;
 	assert(html.Data()=="<td style=\" color:black;\">\n\tTEST\n</td>");
-	auto htmlN = HtmlElement<Name,Td>(Name("TEST"));
+	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
 	assert(htmlN.Data()=="<td style=\" color:blue;\">\n\tTEST\n</td>");
 
-	auto htmlQP = HtmlElement<Quantity<Sum>,Td>(Quantity<Sum>{2});
+	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
 	auto htmlQP2 = htmlQP.Clone();
 	assert(htmlQP.Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 	assert(htmlQP2->Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
-	auto htmlQN = HtmlElement<Quantity<Sum>,Td>(Quantity<Sum>{-2});
+	auto htmlQN = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{-2});
 	assert(htmlQN.Data()=="<td style=\" color:red;\">\n\t-2.00€\n</td>");
 
-	auto nhtml = HtmlElement<HtmlElement<Name,Td>>(htmlN);
+	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
 	std::cout<<"P2: \n"<<nhtml<<std::endl;
 	assert(nhtml.Data()=="<td style=\" color:black;\">\n\t<td style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 

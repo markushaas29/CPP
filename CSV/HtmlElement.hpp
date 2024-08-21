@@ -105,7 +105,7 @@ private:
 	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> elements;
 };
 
-template<typename E, typename T>
+template<typename T, typename E>
 class HtmlElementBase: public IHtmlElement
 {
 protected:
@@ -133,7 +133,7 @@ protected:
 //	constexpr bool operator==(const IHtmlElement& e) const{ return out() == e.out(); };
 //	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return out() <=> e.out(); }
 public:
-	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<E,T>>(element, css->Clone()); };
+	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element, css->Clone()); };
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
 	const auto Data() const { return Out(0); }
@@ -154,44 +154,44 @@ private:
 
 struct Td;
 
-template<typename E, typename T = Td>
-class HtmlElement: public HtmlElementBase<E,T>
+template<typename T, typename E>
+class HtmlElement: public HtmlElementBase<T,E>
 {
 public:
- 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<E,T>(c, std::move(css)) { };
+ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<T,E>(c, std::move(css)) { };
 };
 
 class Name;
 
 template<typename T>
-class HtmlElement<Name,T>: public HtmlElementBase<Name,T>
+class HtmlElement<T,Name>: public HtmlElementBase<T,Name>
 {
 public:
- 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Name,T>(c, std::move(css)) { };
+ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Name>(c, std::move(css)) { };
 };
 
 class Header;
 
 template<typename T>
-class HtmlElement<Header,T>: public HtmlElementBase<Header,T>
+class HtmlElement<T,Header>: public HtmlElementBase<T,Header>
 {
 public:
- 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<Header,T>(c, std::move(css)) { };
+ 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Header>(c, std::move(css)) { };
 };
 
 template<typename T, typename T2>
-class HtmlElement<Quantity<T>, T2>: public HtmlElementBase<Quantity<T>,T2>
+class HtmlElement<T2,Quantity<T>>: public HtmlElementBase<T2,Quantity<T>>
 {
 public:
- 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>()): HtmlElementBase<Quantity<T>,T2>(c, std::move(css)) 
+ 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>()): HtmlElementBase<T2,Quantity<T>>(c, std::move(css)) 
 	{
 		if(c < Quantity<T>{0})
 			this->apply(std::make_unique<Css<Style<ColorTag,Red>>>());
 	};
 };
 
-template<typename E, typename T = Td>
-HtmlElement(const E&) -> HtmlElement<E,T>;
+template<typename T, typename E>
+HtmlElement(const E&) -> HtmlElement<T,E>;
 
 template <typename T>
 concept HtmlElementConcept = requires(T val) {	val.Data(); };

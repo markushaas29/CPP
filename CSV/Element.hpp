@@ -66,7 +66,7 @@ public:
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Derived>(s); };	
 	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
-	virtual std::unique_ptr<IHtmlElement> Html() const  { return std::make_unique<HtmlElement<Derived,Td>>(Derived(value));	};	
+	virtual std::unique_ptr<IHtmlElement> Html() const  { return std::make_unique<HtmlElement<Td,Derived>>(Derived(value));	};	
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 

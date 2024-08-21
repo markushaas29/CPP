@@ -96,7 +96,7 @@ class DecoratorTest
 
 			auto qv = QV{5};
 			std::cout<<qv<<std::endl;
-			auto hqv = HtmlElement<QV,Td>(qv);
+			auto hqv = HtmlElement<Td,QV>(qv);
 			std::cout<<hqv<<std::endl;
 
 			std::cout<<"End Decorator"<<std::endl;

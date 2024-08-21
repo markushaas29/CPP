@@ -64,9 +64,9 @@ private:
 	const M matrix;
 	std::shared_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
-    virtual std::string table() const 	{	return HtmlElement<Entry,Table>(rows(matrix)).Data();	};
+    virtual std::string table() const 	{	return HtmlElement<Table, Entry>(rows(matrix)).Data();	};
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
-    virtual std::unique_ptr<IHtmlElement> html() const 	{	return std::make_unique<HtmlElement<Entry,Table>>(rows(matrix));	};
+    virtual std::unique_ptr<IHtmlElement> html() const 	{	return std::make_unique<HtmlElement<Table,Entry>>(rows(matrix));	};
 	template<size_t O, typename D>
     std::string rows(const Matrix<O,D>& m) const
 	{ 
@@ -79,10 +79,10 @@ private:
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 					is<<(*(*(m.elements->at(i)))->Html());
 				else
-					is<<HtmlElement<Entry,Td>(is.str()).Data();
+					is<<HtmlElement<Td,Entry>(is.str()).Data();
 				res+=is.str()+"\n";
 			}
-			return HtmlElement<Entry,Tr>(res).Data();
+			return HtmlElement<Tr,Entry>(res).Data();
 		}
 		else
 		{

@@ -28,8 +28,8 @@ HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path
 		s<<a;
 		return s;	
 	};
-    void operator()(const std::string& a) const 	{	*f<< HtmlElement<Entry,Section>(a).Data();	};
-    void operator()(const auto& a) const	{	*f<< HtmlElement<decltype(a),Section>(a).Data();};
+    void operator()(const std::string& a) const 	{	*f<< HtmlElement<Section,Entry>(a).Data();	};
+    void operator()(const auto& a) const	{	*f<< HtmlElement<Section,decltype(a)>(a).Data();};
 private:
 	const std::string name;
 	const std::string path;
