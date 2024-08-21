@@ -23,25 +23,14 @@ template<typename, bool> class PredicateVisitor;
 class IHtmlElement: public IModel
 {
 public:
-//	virtual bool operator==(const IHtmlElement& e) const { return Data() == e.Data(); };
-////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
 	std::string Data() const  { return Out(0); };	
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
-//	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;	
 //	template<typename T>
 //    T To() const { return ::To<T>(out()); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Out(0);}
-////	virtual constexpr bool operator==(const IHtmlElement& e) const = 0;
-////	virtual constexpr std::strong_ordering operator<=>( const IHtmlElement& e) const noexcept = 0;
-////	virtual constexpr const_iterator Begin() const = 0;
-////	constexpr decltype(auto) End() { return out.begin() + size; }
-////	constexpr decltype(auto) Size() { return size; }
-////
-////	constexpr bool operator==(const HtmlElement& e) const{ return out() == e.out(); };
-////	constexpr std::strong_ordering operator<=>( const HtmlElement& e) const noexcept { return out() <=> e.out(); }
 };
 ////--------------------------------HtmlBase------------------------------------------------
 
@@ -53,24 +42,6 @@ protected:
 	inline const static std::string end =  "</" + tag + ">";	
  	HtmlBase(std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)}, content{""} { };
 	HtmlBase(const HtmlBase& html): css(html.css->Clone()), begin(html.begin), content{html.Out()} { }
-//// 	template<typename T>
-////	HtmlBase(T t): HtmlBase(std::to_string(t)) { };
-//
-//	virtual std::unique_ptr<IHtmlBase> Clone() const  { return std::make_unique<Derived>(value); };	
-//	static std::unique_ptr<IHtmlBase> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
-//	explicit operator std::string() const  {	return value; };	
-//	constexpr decltype(auto) Size() { return size; }
-//
-//	virtual void Accept(BaseVisitor& visitor) {	return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); }
-//	virtual void Accept(BaseVisitor& visitor) const 
-//	{
-//		auto c2 = dynamic_cast<const D*>(this);
-//		auto c = const_cast<D*>(c2);
-//		return AcceptImpl<D>(*c, visitor); 
-//	}
-//	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
-//	constexpr bool operator==(const IHtmlElement& e) const{ return out() == e.out(); };
-//	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return out() <=> e.out(); }
 public:
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
@@ -99,7 +70,7 @@ private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	
 		std::string result;
-		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i); });
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Content(); });
 		return result;
 	};	
 	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> elements;
@@ -114,24 +85,6 @@ protected:
 	inline const static std::string end =  "</" + tag + ">";	
  	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
 	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(html.begin), element{html.element}, content{element.Out()} { }
-//// 	template<typename T>
-////	HtmlElementBase(T t): HtmlElementBase(std::to_string(t)) { };
-//
-//	virtual std::unique_ptr<IHtmlElementBase> Clone() const  { return std::make_unique<Derived>(value); };	
-//	static std::unique_ptr<IHtmlElementBase> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
-//	explicit operator std::string() const  {	return value; };	
-//	constexpr decltype(auto) Size() { return size; }
-//
-//	virtual void Accept(BaseVisitor& visitor) {	return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); }
-//	virtual void Accept(BaseVisitor& visitor) const 
-//	{
-//		auto c2 = dynamic_cast<const D*>(this);
-//		auto c = const_cast<D*>(c2);
-//		return AcceptImpl<D>(*c, visitor); 
-//	}
-//	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
-//	constexpr bool operator==(const IHtmlElement& e) const{ return out() == e.out(); };
-//	constexpr std::strong_ordering operator<=>(const IHtmlElement& e) const noexcept { return out() <=> e.out(); }
 public:
 	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element, css->Clone()); };
 	const std::string& Tag() const { return tag; }
