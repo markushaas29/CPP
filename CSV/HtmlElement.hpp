@@ -90,11 +90,11 @@ private:
 };
 
 template<typename T>
-class HtmlElementComposition: public HtmlBase<T>
+class HtmlElements: public HtmlBase<T>
 {
 public:
- 	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v): elements{std::move(v)} { };
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()); };
+ 	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v): elements{std::move(v)} { };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	

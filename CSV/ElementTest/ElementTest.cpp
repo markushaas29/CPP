@@ -103,7 +103,7 @@ int Run()
 	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 	outs->push_back(mf1.Html());
 	outs->push_back(mf1.Html());
-	auto comp = HtmlElementComposition<DivTag>{std::move(outs)};
+	auto comp = HtmlElements<DivTag>{std::move(outs)};
 	//std::cout<<"\n\nP2: \n"<<comp.Out(0)<<std::endl;
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
