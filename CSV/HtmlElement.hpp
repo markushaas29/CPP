@@ -51,7 +51,7 @@ class HtmlBase: public IHtmlElement
 protected:
 	inline const static std::string tag = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlBase(std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)}, content{this->Out()} { };
+ 	HtmlBase(std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)}, content{""} { };
 	HtmlBase(const HtmlBase& html): css(html.css->Clone()), begin(html.begin), content{html.Out()} { }
 //// 	template<typename T>
 ////	HtmlBase(T t): HtmlBase(std::to_string(t)) { };
@@ -93,8 +93,8 @@ template<typename T>
 class HtmlElementComposition: public HtmlBase<T>
 {
 public:
- 	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IModel>>> v): elements{std::move(v)} { };
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IModel>>>()); };
+ 	HtmlElementComposition(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v): elements{std::move(v)} { };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElementComposition>(std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	
@@ -102,7 +102,7 @@ private:
 		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i); });
 		return result;
 	};	
-	std::unique_ptr<std::vector<std::unique_ptr<IModel>>> elements;
+	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> elements;
 };
 
 template<typename E, typename T>
