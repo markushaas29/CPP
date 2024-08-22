@@ -73,7 +73,7 @@ int Run()
 	assert(useE==useA);
 
 	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
-	std::cout<<"P: \n"<<html<<std::endl;
+	std::cout<<"P OUT: \n"<<html.Out()<<std::endl;
 	assert(html.Data()=="<td style=\" color:black;\">\n\tTEST\n</td>");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
 	assert(htmlN.Data()=="<td style=\" color:blue;\">\n\tTEST\n</td>");
