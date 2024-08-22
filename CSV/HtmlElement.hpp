@@ -69,8 +69,9 @@ public:
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  
 	{	
+		uint ind = ++i;	
 		std::string result;
-		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(++i); });
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(ind) + "\n"; });
 		return result;
 	};	
 	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> elements;
