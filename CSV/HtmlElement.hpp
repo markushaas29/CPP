@@ -56,7 +56,8 @@ private:
 	std::string begin;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + this->Out(++i) + "\n" + intent + end; };	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + showContent(intent, ++i) + "\n" + intent + end; };	
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
 	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
 };
 
@@ -65,17 +66,22 @@ class HtmlElements: public HtmlBase<T>
 {
 public:
  	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v): elements{std::move(v)} { };
-	HtmlElements(const HtmlElements& html): elements{std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()} { }
+	HtmlElements(const HtmlElements& html): elements{html.cloneElements()} { }
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()); };
 private:
-	virtual std::string out(const std::string& intent, uint i = 0) const  
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	
-		uint ind = ++i;	
 		std::string result;
-		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(ind) + "\n"; });
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i) + "\n"; });
 		return result;
 	};	
 	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> elements;
+	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> cloneElements() const
+	{	
+		auto result = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result->push_back(e->Clone()); });
+		return result;
+	};	
 };
 
 template<typename T, typename E>
