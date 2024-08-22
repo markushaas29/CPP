@@ -65,6 +65,7 @@ class HtmlElements: public HtmlBase<T>
 {
 public:
  	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v): elements{std::move(v)} { };
+	HtmlElements(const HtmlElements& html): elements{std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()} { }
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()); };
 private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  

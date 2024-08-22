@@ -105,6 +105,8 @@ int Run()
 	outs->push_back(htmlQP.Clone());
 	auto comp = HtmlElements<DivTag>{std::move(outs)};
 	std::cout<<"\n\nElements: \n"<<comp.Out(0)<<std::endl;
+	auto htmls = HtmlElement<Td,HtmlElements<DivTag>>(comp);
+	std::cout<<"\n\nElements: \n"<<htmls.Out(0)<<std::endl;
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;
