@@ -65,9 +65,10 @@ template<typename T>
 class HtmlElements: public HtmlBase<T>
 {
 public:
- 	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v): elements{std::move(v)} { };
+ 	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()): elements{std::move(v)} { };
 	HtmlElements(const HtmlElements& html): elements{html.cloneElements()} { }
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()); };
+	void Add(std::unique_ptr<IHtmlElement> html) { elements->push_back(std::move(html)); }
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(cloneElements()); };
 private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	

@@ -68,19 +68,28 @@ private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
     virtual std::unique_ptr<IHtmlElement> html() const 	{	return std::make_unique<HtmlElement<Table,Entry>>(rows(matrix));	};
 	template<size_t O, typename D>
-    std::string rows(const Matrix<O,D>& m) const
+    auto rows(const Matrix<O,D>& m) const
 	{ 
 		if constexpr (O==1)
 		{
 			std::string res;
+			auto tab = HtmlElements<Table>();
 			for(auto i=0; i<m.Rows(); ++i)
 			{
+				auto tr = HtmlElements<Tr>();
 				std::stringstream is;
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+				{
 					is<<(*(*(m.elements->at(i)))->Html());
+					tr.Add((*(m.elements->at(i)))->Html());
+				}
 				else
+				{
 					is<<HtmlElement<Td,Entry>(is.str()).Data();
+					tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
+				}
 				res+=is.str()+"\n";
+				tab.Add(tr.Clone());
 			}
 			return HtmlElement<Tr,Entry>(res).Data();
 		}
