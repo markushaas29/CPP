@@ -64,19 +64,19 @@ private:
 	const M matrix;
 	std::shared_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
-    virtual std::string table() const 	{	return HtmlElement<Table, Entry>(rows(matrix)).Data();	};
+    virtual std::string table() const 	{	return rows(matrix).Data();	};
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
-    virtual std::unique_ptr<IHtmlElement> html() const 	{	return std::make_unique<HtmlElement<Table,Entry>>(rows(matrix));	};
+    virtual std::unique_ptr<IHtmlElement> html() const 	{	return rows(matrix).Clone();	};
 	template<size_t O, typename D>
     auto rows(const Matrix<O,D>& m) const
 	{ 
+		auto tab = HtmlElements<Table>();
 		if constexpr (O==1)
 		{
 			std::string res;
-			auto tab = HtmlElements<Table>();
+			auto tr = HtmlElements<Tr>();
 			for(auto i=0; i<m.Rows(); ++i)
 			{
-				auto tr = HtmlElements<Tr>();
 				std::stringstream is;
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 				{
@@ -85,20 +85,25 @@ private:
 				}
 				else
 				{
-					is<<HtmlElement<Td,Entry>(is.str()).Data();
+					is<<(*(m.elements->at(i)));
 					tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
 				}
 				res+=is.str()+"\n";
-				tab.Add(tr.Clone());
+				//std::cout<<"Data:\n"<<tab.Data()<<std::endl;
 			}
-			return HtmlElement<Tr,Entry>(res).Data();
+			//return HtmlElement<Tr,Entry>(res).Data();
+			return tr;
 		}
 		else
 		{
 			std::string res;
 			for(auto i = 0; i != m.Rows(); ++i)
-				res += rows(m[i]);
-			return res;
+			{
+				auto res = rows(m[i]);
+				tab.Add(res.Clone());
+			}
+			std::cout<<"Data:\n"<<tab.Data()<<std::endl;
+			return tab;
 		}
 	};
 	static auto read()
