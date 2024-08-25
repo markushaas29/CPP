@@ -73,36 +73,24 @@ private:
 		auto tab = HtmlElements<Table>();
 		if constexpr (O==1)
 		{
-			std::string res;
 			auto tr = HtmlElements<Tr>();
 			for(auto i=0; i<m.Rows(); ++i)
 			{
 				std::stringstream is;
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-				{
-					is<<(*(*(m.elements->at(i)))->Html());
 					tr.Add((*(m.elements->at(i)))->Html());
-				}
 				else
 				{
 					is<<(*(m.elements->at(i)));
 					tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
 				}
-				res+=is.str()+"\n";
-				//std::cout<<"Data:\n"<<tab.Data()<<std::endl;
 			}
-			//return HtmlElement<Tr,Entry>(res).Data();
 			return tr;
 		}
 		else
 		{
-			std::string res;
 			for(auto i = 0; i != m.Rows(); ++i)
-			{
-				auto res = rows(m[i]);
-				tab.Add(res.Clone());
-			}
-			std::cout<<"Data:\n"<<tab.Data()<<std::endl;
+				tab.Add(rows(m[i]).Clone());
 			return tab;
 		}
 	};
