@@ -76,6 +76,8 @@ public:
 //					html(i->M());
 					auto mf1 = MatrixFormatter(i->M());
      
+					auto v = i->M().Clone();
+					std::cout<<"Size: "<<v.size()<<std::endl;
      				auto htmlMF = mf1.Html();
 					//std::cout<<*htmlMF<<std::endl;
 				});

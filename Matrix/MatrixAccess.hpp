@@ -35,6 +35,15 @@ private:
 
 		return M(m->descriptor,v); 
     }
+	decltype(auto) clone(const M* m) const
+    {
+		if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+		{
+			std::vector<typename M::DataType> v;
+			std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<typename M::ElementType>((*i)->Clone())); } );
+			return v; 
+		}
+    }
 	decltype(auto) exec(M* m)
     {
 		if constexpr(std::is_invocable_v<typename M::ValueType>)
