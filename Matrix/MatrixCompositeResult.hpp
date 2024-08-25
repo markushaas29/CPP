@@ -21,6 +21,7 @@ public:
 	using MatrixType = MType;
 	virtual Q Value() const = 0;
 	virtual MType M() const = 0;
+	virtual const std::string& Name() const = 0;
 	virtual std::ofstream& operator()(std::ofstream& s) const = 0;
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
@@ -41,6 +42,7 @@ public:
 	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return Q{result()}; }
 	virtual MType M() const { return item; };
+	virtual const std::string& Name() const { return name; };
 	virtual std::ofstream& operator()(std::ofstream& s) const 
 	{ 
 		auto mf = MatrixFormatter(item);  
@@ -65,7 +67,20 @@ public:
 	CompositeResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
 	CompositeResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{*q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
-	virtual MType M() const { return MType(); };
+	virtual const std::string& Name() const { return name; };
+	virtual MType M() const 
+	{ 
+		std::for_each(items->cbegin(), items->cend(), [](const auto& i) 
+				{
+//					auto html = HtmlBuilder(i->Name()+".html","/home/markus/Downloads/CSV_TestFiles_2");
+//					html(i->M());
+					auto mf1 = MatrixFormatter(i->M());
+     
+     				auto htmlMF = mf1.Html();
+					//std::cout<<*htmlMF<<std::endl;
+				});
+		return items->at(0)->M(); 
+	};
 	decltype(auto) Elements() const 
 	{
 		std::vector<std::shared_ptr<IElement>> v;

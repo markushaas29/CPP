@@ -226,7 +226,7 @@ private:
 
 //		(*result)(*f);
 
-		std::cout<<*result<<std::endl;
+		std::cout<<"Result: \n"<<result->M()<<std::endl;
 
 		return result->Elements();
 	}
