@@ -39,8 +39,8 @@ private:
     {
 		if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 		{
-			std::vector<typename M::DataType> v;
-			std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(std::make_shared<typename M::ElementType>((*i)->Clone())); } );
+			std::vector<typename M::ElementType> v;
+			std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back((*i)->Clone()); } );
 			return v; 
 		}
     }

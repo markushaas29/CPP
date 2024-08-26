@@ -76,11 +76,20 @@ public:
 //					html(i->M());
 					auto mf1 = MatrixFormatter(i->M());
      
-					auto v = i->M().Elements();
-					std::cout<<"Size: "<<v.size()<<std::endl;
+					auto m = i->M();
+					auto v = m.Elements();
+					if(v.size()!=0)
+					{
+					std::cout<<"Size: "<<m.Cols()<<"/"<<m.Rows()<<std::endl;
+					using DT = decltype(m)::DescriptorType;
+					using MT = decltype(m);
+					auto mN = MT(DT({m.Cols(), m.Rows()}), v);
+					v.push_back(std::make_shared<Entry>(i->Name()));
+					v.push_back(i->Value().Clone());
      				auto htmlMF = mf1.Html();
 					//std::cout<<*htmlMF<<std::endl;
-				});
+					}
+					});
 		return items->at(0)->M(); 
 	};
 	decltype(auto) Elements() const 
