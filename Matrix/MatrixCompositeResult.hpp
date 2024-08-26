@@ -99,7 +99,7 @@ public:
 		{
 		while(res.size()%5 != 0)
 			res.push_back(std::make_shared<Entry>("-"));
-		auto mres = MType(DT({cols,res.size()/ cols}), res);
+		auto mres = MType(DT({res.size()/ cols,cols}), res);
 					std::cout<<mres<<std::endl;
 					std::cout<<"-------------------------------------------"<<std::endl;
 		}
