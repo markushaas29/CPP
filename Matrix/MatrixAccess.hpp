@@ -35,7 +35,7 @@ private:
 
 		return M(m->descriptor,v); 
     }
-	decltype(auto) clone(const M* m) const
+	decltype(auto) elements(const M* m) const
     {
 		if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 		{

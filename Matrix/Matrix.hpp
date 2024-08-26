@@ -59,7 +59,7 @@ public:
 	decltype(auto) Slices(std::vector<size_t> rows, std::vector<size_t> cols) const { return access->slices(rows,cols, this); }
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
-	decltype(auto) Clone() const { return access->clone(this); }
+	decltype(auto) Elements() const { return access->elements(this); }
 	auto CSV() 	{ return (*io)(std::move(std::make_unique<std::ofstream>("Test.csv")),this); }
 
     decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return MatrixAcceptor<Type>().accept(this,std::move(bp));   }
