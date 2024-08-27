@@ -73,7 +73,7 @@ int Run()
 	assert(useE==useA);
 
 	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
-	std::cout<<"P OUT: \n"<<html.Out()<<std::endl;
+	std::cout<<"P OUT: \n"<<html.Data()<<std::endl;
 	assert(html.Data()=="<td style=\" color:black;\">\n\tTEST\n</td>");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
 	assert(htmlN.Data()=="<td style=\" color:blue;\">\n\tTEST\n</td>");
@@ -86,7 +86,7 @@ int Run()
 	assert(htmlQN.Data()=="<td style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
-	std::cout<<"P2: \n"<<nhtml<<std::endl;
+	std::cout<<"P2: \n"<<nhtml.Data()<<std::endl;
 	assert(nhtml.Data()=="<td style=\" color:black;\">\n\t<td style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
 	M2D m33 =

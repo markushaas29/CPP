@@ -64,9 +64,10 @@ private:
 template<typename T>
 class HtmlElements: public HtmlBase<T>
 {
+	using Base = HtmlBase<T>;
 public:
  	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()): elements{std::move(v)} { };
-	HtmlElements(const HtmlElements& html): elements{html.cloneElements()} { }
+	HtmlElements(const HtmlElements& html): Base{html}, elements{html.cloneElements()} { }
 	void Add(std::unique_ptr<IHtmlElement> html) { elements->push_back(std::move(html)); }
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(cloneElements()); };
 private:
@@ -86,32 +87,18 @@ private:
 };
 
 template<typename T, typename E>
-class HtmlElementBase: public IHtmlElement
+class HtmlElementBase: public HtmlBase<T>
 {
+	using Base = HtmlBase<T>;
 protected:
 	inline static const std::string Identifier = E::Identifier + "HtmlElement";
-	inline const static std::string tag = T::Identifier;
-	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): begin(createBegin((*css)())), css{std::move(css)},element{c}, content{c.Out()} { };
-	HtmlElementBase(const HtmlElementBase& html): css(html.css->Clone()), begin(html.begin), element{html.element}, content{element.Out()} { }
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): Base{std::move(css)}, element{c} { };
+	HtmlElementBase(const HtmlElementBase& html): Base{html}, element{html.element} { }
 public:
-	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element, css->Clone()); };
-	const std::string& Tag() const { return tag; }
-	const std::string& Content() const { return content; }
-	const auto Data() const { return Out(0); }
-protected:
-	void apply(std::unique_ptr<ICss> cs) 
-	{ 
-		css = std::move(cs);
-		begin = createBegin((*css)());
-	}
+	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
 	E element;
-	std::string begin;
-	std::unique_ptr<ICss> css;
-	std::string content;
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + element.Out(++i) + "\n" + intent + end; };	
-	static std::string createBegin(const std::string& s)  { return "<" + tag  + s + ">"; };	
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return element.Out(i);	};	
 };
 
 struct Td;
