@@ -74,35 +74,26 @@ public:
 		std::vector<std::shared_ptr<IElement>> res;
 		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) 
 				{
-//					auto html = HtmlBuilder(i->Name()+".html","/home/markus/Downloads/CSV_TestFiles_2");
-//					html(i->M());
 					auto mf1 = MatrixFormatter(i->M());
      
 					auto m = i->M();
 					auto v = m.Elements();
 					if(v.size()!=0)
 					{
-					//auto mN = MT(DT({m.Cols(), m.Rows()}), v);
-					v.push_back(std::make_shared<Entry>(i->Name()));
-					v.push_back(std::make_shared<Entry>("-"));
-					v.push_back(std::make_shared<Entry>("-"));
-					v.push_back(std::make_shared<Entry>("-"));
-					v.push_back(i->Value().Clone());
-					res.insert(res.end(),v.begin(), v.end());
-					auto mN = MType(DT({5,v.size()/ 5}), v);
-     				auto htmlMF = mf1.Html();
-					//std::cout<<*htmlMF<<std::endl;
+						v.push_back(std::make_shared<Entry>(i->Name()));
+						v.push_back(std::make_shared<Entry>("-"));
+						v.push_back(std::make_shared<Entry>("-"));
+						v.push_back(std::make_shared<Entry>("-"));
+						v.push_back(i->Value().Clone());
+						res.insert(res.end(),v.begin(), v.end());
 					}
 					});
 		size_t cols = 5;
 		if(res.size()!=0)
 		{
-		while(res.size()%5 != 0)
-			res.push_back(std::make_shared<Entry>("-"));
-		auto mres = MType(DT({res.size()/ cols,cols}), res);
-//					std::cout<<mres<<std::endl;
-//					std::cout<<"-------------------------------------------"<<std::endl;
-		return mres;
+			while(res.size()%5 != 0)
+				res.push_back(std::make_shared<Entry>("-"));
+				return MType(DT({res.size()/ cols,cols}), res);
 		}
 		return MType();
 	};
