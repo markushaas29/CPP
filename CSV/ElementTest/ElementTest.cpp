@@ -110,8 +110,12 @@ int Run()
 	auto outs2 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 	outs2->push_back(htmlQN.Clone());
 	outs2->push_back(htmlQP.Clone());
-	auto grid = HtmlElements<DivTag>{std::move(outs2),std::make_unique<Css<Style<Display,Grid>>>()};
+	auto grid = HtmlElements<DivTag>{std::move(outs2),std::make_unique<Css<Style<Display,Grid>>>(), "grid-container"};
 	std::cout<<"\n\nG: \n"<<grid.Out(0)<<std::endl;
+	std::istringstream f(grid.Out(0));
+    std::getline(f, line);
+	std::cout << line << std::endl;
+	assert(line=="<div class=\"grid-container\" style=\" display:grid;\">");
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;

@@ -59,7 +59,7 @@ private:
 	std::string content;
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + showContent(intent, ++i) + "\n" + intent + end; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
-	static std::string createBegin(const std::string& s, const std::string& n)  { return "<" + tag + (n != "" ? ("class=\"" + n + "\"") : "") + s + ">"; };	
+	static std::string createBegin(const std::string& s, const std::string& n)  { return "<" + tag + (n != "" ? (" class=\"" + n + "\"") : "") + s + ">"; };	
 };
 
 template<typename T>
