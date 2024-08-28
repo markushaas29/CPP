@@ -2,6 +2,8 @@
 
 struct Border		{   inline static constexpr const char* Id = "border"; };
 struct ColorTag		{   inline static constexpr const char* Id = "color"; };
+struct Display		{   inline static constexpr const char* Id = "display"; };
+struct Grid			{   inline static constexpr const char* Id = "grid"; };
 
 class IStyle//: public BaseVisitable<void>, public BoolVisitable<bool>
 {
