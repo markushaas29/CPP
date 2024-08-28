@@ -106,7 +106,12 @@ int Run()
 	auto comp = HtmlElements<DivTag>{std::move(outs)};
 	std::cout<<"\n\nElements: \n"<<comp.Out(0)<<std::endl;
 	auto htmls = HtmlElement<Td,HtmlElements<DivTag>>(comp);
-	std::cout<<"\n\nElements: \n"<<htmls.Out(0)<<std::endl;
+	
+	auto outs2 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+	outs2->push_back(htmlQN.Clone());
+	outs2->push_back(htmlQP.Clone());
+	auto grid = HtmlElements<DivTag>{std::move(outs2),std::make_unique<Css<Style<Display,Grid>>>()};
+	std::cout<<"\n\nG: \n"<<grid.Out(0)<<std::endl;
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
 
     return 0;
