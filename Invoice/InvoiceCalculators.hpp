@@ -275,7 +275,10 @@ private:
 		auto stageQT = stageQuantities^-1;
 		auto mf = MatrixFormatter(stageQT);
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+(Base::year).ToString()+".html","/home/markus/Downloads/CSV_TestFiles_2");
-		html(Date::Today());
+//		html(Date::Today());
+
+		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		outs->push_back(mf.Html());
 		html(mf());
 
         auto sumMatrix = account(html).template To<Quantity<Sum>>();  
@@ -299,6 +302,8 @@ private:
 		}
 
 		auto resultElements = Init(vp)();
+		auto mfE = MatrixFormatter(resultElements);
+		outs->push_back(mfE.Html());
 		append(resultElements,html);
 		
 		auto sum = resultElements.Col(6).template To<Quantity<Sum>>().ColSum();
@@ -320,6 +325,8 @@ private:
 
 		auto resultM = Init(costs)();
 		append(resultM,html);
+		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>>>(), "grid-container"};
+		html(grid);
 
         return result;                                                                                                       
     }
