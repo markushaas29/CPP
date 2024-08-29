@@ -224,10 +224,8 @@ private:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-//		(*result)(*f);
-
 		auto mf = MatrixFormatter(result->M());  
-        f(mf());
+   //     f(mf());
 
 		return result->Elements();
 	}
@@ -278,8 +276,9 @@ private:
 //		html(Date::Today());
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		outs->push_back(Date::Today().Html());
 		outs->push_back(mf.Html());
-		html(mf());
+		//html(mf());
 
         auto sumMatrix = account(html).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
@@ -304,7 +303,7 @@ private:
 		auto resultElements = Init(vp)();
 		auto mfE = MatrixFormatter(resultElements);
 		outs->push_back(mfE.Html());
-		append(resultElements,html);
+		//append(resultElements,html);
 		
 		auto sum = resultElements.Col(6).template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
@@ -324,7 +323,8 @@ private:
 		};
 
 		auto resultM = Init(costs)();
-		append(resultM,html);
+		outs->push_back(MatrixFormatter(resultM).Html());
+		//append(resultM,html);
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>>>(), "grid-container"};
 		html(grid);
 
