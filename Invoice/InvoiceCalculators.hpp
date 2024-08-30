@@ -277,7 +277,10 @@ private:
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		//outs->push_back(std::make_unique<HtmlElement<DivTag,Date>(Date::Today()));
+		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0");
+		div0->Add(Date::Today().Html());
 		outs->push_back(Date::Today().Html());
+		outs->push_back(std::move(div0));
 		auto outs1 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1");
 		div1->Add(mf.Html());
