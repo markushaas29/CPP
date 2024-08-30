@@ -276,8 +276,12 @@ private:
 //		html(Date::Today());
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		//outs->push_back(std::make_unique<HtmlElement<DivTag,Date>(Date::Today()));
 		outs->push_back(Date::Today().Html());
-		outs->push_back(mf.Html());
+		auto outs1 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1");
+		div1->Add(mf.Html());
+		outs->push_back(std::move(div1));
 		//html(mf());
 
         auto sumMatrix = account(html).template To<Quantity<Sum>>();  
@@ -302,7 +306,9 @@ private:
 
 		auto resultElements = Init(vp)();
 		auto mfE = MatrixFormatter(resultElements);
-		outs->push_back(mfE.Html());
+		auto div2 = std::make_unique<HtmlElements<DivTag>>();
+		div2->Add(mfE.Html());
+		outs->push_back(std::move(div2));
 		//append(resultElements,html);
 		
 		auto sum = resultElements.Col(6).template To<Quantity<Sum>>().ColSum();
@@ -323,7 +329,10 @@ private:
 		};
 
 		auto resultM = Init(costs)();
-		outs->push_back(MatrixFormatter(resultM).Html());
+		//outs->push_back(MatrixFormatter(resultM).Html());
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3");
+		div3->Add(MatrixFormatter(resultM).Html());
+		outs->push_back(std::move(div3));
 		//append(resultM,html);
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>>>(), "grid-container"};
 		html(grid);
