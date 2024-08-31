@@ -17,6 +17,7 @@
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/NumericStyle.hpp"
 #include "../CSV/Matcher.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Functional/Functional.hpp"
@@ -337,7 +338,7 @@ private:
 		div3->Add(MatrixFormatter(resultM).Html());
 		outs->push_back(std::move(div3));
 		//append(resultM,html);
-		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>>>(), "grid-container"};
+		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
 		html(grid);
 
         return result;                                                                                                       
