@@ -118,6 +118,10 @@ int Run()
 	std::cout << line << std::endl;
 	assert(line=="<div class=\"grid-container\" style=\" display:grid;\">");
 	//assert(htmlMF.Data().sta=="<td style=\" color:green;\">\n\t2.00€\n</td>");
+	
+	assert(Px<14>::Id=="14px");
+	auto css14 = Css<Style<Display,Px<14>>>();
+	std::cout<<"Elements: \n"<<css14<<std::endl;
 
     return 0;
 }
