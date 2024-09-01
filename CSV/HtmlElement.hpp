@@ -68,7 +68,7 @@ class HtmlElements: public HtmlBase<T>
 	using Base = HtmlBase<T>;
 public:
  	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(), std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>(), const std::string& n = ""): Base{std::move(css), n}, elements{std::move(v)} { };
- 	HtmlElements( const std::string& n , std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(), std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>()): HtmlElements{std::move(v),std::move(css),n}{};
+ 	HtmlElements( const std::string& n, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>() , std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()): HtmlElements{std::move(v),std::move(css),n}{};
 	HtmlElements(const HtmlElements& html): Base{html}, elements{html.cloneElements()} { }
 	void Add(std::unique_ptr<IHtmlElement> html) { elements->push_back(std::move(html)); }
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(cloneElements()); };

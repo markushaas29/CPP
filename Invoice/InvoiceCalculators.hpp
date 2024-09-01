@@ -278,12 +278,14 @@ private:
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		//outs->push_back(std::make_unique<HtmlElement<DivTag,Date>(Date::Today()));
-		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0");
+		auto div0_ = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<0>>>>());
+		div0_->Add(Date::Today().Html());
+		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>>>());
 		div0->Add(Date::Today().Html());
-		outs->push_back(Date::Today().Html());
+		outs->push_back(std::move(div0_));
 		outs->push_back(std::move(div0));
 		auto outs1 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1");
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>>>());
 		div1->Add(mf.Html());
 		outs->push_back(std::move(div1));
 		//html(mf());
@@ -334,11 +336,11 @@ private:
 
 		auto resultM = Init(costs)();
 		//outs->push_back(MatrixFormatter(resultM).Html());
-		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3");
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<3>>>>());
 		div3->Add(MatrixFormatter(resultM).Html());
 		outs->push_back(std::move(div3));
 		//append(resultM,html);
-		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
+		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
         return result;                                                                                                       

@@ -122,6 +122,9 @@ int Run()
 	assert(Px<14>::Id=="14px");
 	auto css14 = Css<Style<Padding,Px<14>>>();
 	std::cout<<"Elements: \n"<<css14<<std::endl;
+	
+	auto gridAreas = Css<Style<GridTemplateAreas,DinA4>>();
+	std::cout<<"Elements: \n"<<css14<<std::endl;
 
     return 0;
 }
