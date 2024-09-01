@@ -4,6 +4,8 @@ struct Border		{   inline static constexpr const char* Id = "border"; };
 struct ColorTag		{   inline static constexpr const char* Id = "color"; };
 struct Display		{   inline static constexpr const char* Id = "display"; };
 struct Grid			{   inline static constexpr const char* Id = "grid"; };
+struct GridArea			{   inline static constexpr const char* Id = "grid-area"; };
+struct GridTemplateArea			{   inline static constexpr const char* Id = "grid-template-areas"; };
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
 
 class IStyle//: public BaseVisitable<void>, public BoolVisitable<bool>
