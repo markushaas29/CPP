@@ -40,8 +40,8 @@ class HtmlBase: public IHtmlElement
 protected:
 	inline const static std::string tag = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlBase(std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>(), const std::string& n = ""): begin(createBegin((*css)(),n)), name{n},css{std::move(css)}, content{""} { };
-	HtmlBase(const HtmlBase& html): css(html.css->Clone()), begin(html.begin), content{html.Out()} { }
+ 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): begin(createBegin(css ? (*css)() : "",n)), name{n},css{std::move(css)}, content{""} { };
+	HtmlBase(const HtmlBase& html): css(html.css ? html.css->Clone() : nullptr), begin(html.begin), content{html.Out()} { }
 public:
 	const std::string& Tag() const { return tag; }
 	const std::string& Content() const { return content; }
@@ -50,7 +50,7 @@ protected:
 	void apply(std::unique_ptr<ICss> cs) 
 	{ 
 		css = std::move(cs);
-		begin = createBegin((*css)(), name);
+		begin = createBegin(css ? (*css)() : "", name);
 	}
 private:
 	std::string begin;
@@ -72,6 +72,32 @@ public:
 	HtmlElements(const HtmlElements& html): Base{html}, elements{html.cloneElements()} { }
 	void Add(std::unique_ptr<IHtmlElement> html) { elements->push_back(std::move(html)); }
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(cloneElements()); };
+private:
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  
+	{	
+		std::string result;
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i) + "\n"; });
+		return result;
+	};	
+	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> elements;
+	std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> cloneElements() const
+	{	
+		auto result = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result->push_back(e->Clone()); });
+		return result;
+	};	
+};
+
+class StyleElement: public HtmlBase<StyleElement>
+{
+	using Base = HtmlBase<StyleElement>;
+public:
+ 	StyleElement(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(), std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>(), const std::string& n = ""): Base{std::move(css), n}, elements{std::move(v)} { };
+ 	StyleElement( const std::string& n, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Red>>>() , std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()): StyleElement{std::move(v),std::move(css),n}{};
+	StyleElement(const StyleElement& html): Base{html}, elements{html.cloneElements()} { }
+	void Add(std::unique_ptr<IHtmlElement> html) { elements->push_back(std::move(html)); }
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return nullptr; };
+	inline const static std::string Identifier = "Style";
 private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	

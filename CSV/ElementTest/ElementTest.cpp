@@ -126,6 +126,12 @@ int Run()
 	auto gridAreas = Css<Style<GridTemplateAreas,DinA4>>();
 	std::cout<<"Elements: \n"<<css14<<std::endl;
 
-    return 0;
+	auto nullgrid = HtmlElements<DivTag>{std::move(outs2),nullptr, "grid-container"};
+	//std::cout<<"Elements: \n"<<nullgrid<<std::endl;
+	
+	auto style = StyleElement{};
+	std::cout<<"Style: \n"<<style<<std::endl;
+    
+	return 0;
 }
 };
