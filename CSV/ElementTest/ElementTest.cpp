@@ -127,10 +127,15 @@ int Run()
 	std::cout<<"Elements: \n"<<css14<<std::endl;
 
 	auto nullgrid = HtmlElements<DivTag>{std::move(outs2),nullptr, "grid-container"};
-	//std::cout<<"Elements: \n"<<nullgrid<<std::endl;
+	std::istringstream f2(nullgrid.Out(0));
+    std::getline(f2, line);
+	assert(line=="<div class=\"grid-container\">");
 	
 	auto style = StyleElement{};
 	std::cout<<"Style: \n"<<style<<std::endl;
+	
+	auto outs3 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+	outs3->push_back(htmlQN.Clone());
     
 	return 0;
 }
