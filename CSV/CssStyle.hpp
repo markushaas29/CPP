@@ -1,16 +1,18 @@
-#include "Style.hpp"
 #include <vector>
+#include "Style.hpp"
+#include "IModel.hpp"
 
 #pragma once
 
-class ICss
+class ICss: public IModel
 {
 public:
 	virtual std::string operator()() const  { return data(); };	
 	virtual std::unique_ptr<ICss> Clone() const  = 0;	
 private:
 	friend std::ostream& operator<<(std::ostream& out, const ICss& e) {	return out<<e.data();}
-	virtual std::string data() const  = 0;	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data() + "\n"; };
+	virtual std::string data(const std::string& intent = "", uint i = 0) const  = 0;	
 };
 ////--------------------------------Css------------------------------------------------
 
@@ -21,7 +23,7 @@ protected:
 	using Tup = std::tuple<T...>;
 	template<typename...> friend class Css;
 	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
-	virtual std::string data() const  
+	virtual std::string data(const std::string& intent = "", uint i = 0) const
 	{	
 		std::string res = " style=\"";
 		std::for_each(styles->cbegin(), styles->cend(), [&](const auto& s) { res += (*s)(); });
@@ -68,10 +70,10 @@ public:
  	ClassCss(const std::string& c): Base{}, name{c} { };
 private:
 	std::string name;
-	virtual std::string data() const  
+	virtual std::string data(const std::string& intent = "", uint i = 0) const
 	{	
 		std::string res = "." + name + " {\n";
-		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += (*s)(); });
+		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += s->Out(i); });
 		return res + "\n}";
 	};	
 };

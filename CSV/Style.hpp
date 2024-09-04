@@ -1,3 +1,5 @@
+#include "IModel.hpp"
+
 #pragma once
 
 struct Border		{   inline static constexpr const char* Id = "border"; };
@@ -8,7 +10,7 @@ struct GridArea			{   inline static constexpr const char* Id = "grid-area"; };
 struct GridTemplateAreas			{   inline static constexpr const char* Id = "grid-template-areas"; };
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
 
-class IStyle//: public BaseVisitable<void>, public BoolVisitable<bool>
+class IStyle: public IModel
 {
 public:
 	virtual std::string Element() const  = 0;	
@@ -17,6 +19,7 @@ public:
 	auto operator()() { return data(); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IStyle& e) {	return out<<e.data();}
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data(); }
 	virtual std::string data() const  = 0;	
 };
 ////--------------------------------Style------------------------------------------------
