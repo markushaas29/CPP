@@ -62,14 +62,14 @@ public:
 	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 };
 
-template<typename... T>
+template<typename N, typename... T>
 class ClassCss: public Css<T...>
 {
 	using Base = Css<T...>;
+	inline static const std::string name = N::Id;
 public:
- 	ClassCss(const std::string& c): Base{}, name{c} { };
+ 	ClassCss(): Base{} { };
 private:
-	std::string name;
 	virtual std::string data(const std::string& intent = "", uint i = 0) const
 	{	
 		std::string res = "." + name + " {\n";
