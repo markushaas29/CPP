@@ -135,6 +135,9 @@ int Run()
 	
 	auto outs3 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 	outs3->push_back(htmlQN.Clone());
+	
+	auto classCss = ClassCss<Style<Padding,Px<14>>>("class");
+	std::cout<<"Class: \n"<<classCss<<std::endl;
     
 	return 0;
 }

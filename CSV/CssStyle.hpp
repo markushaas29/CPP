@@ -79,5 +79,13 @@ class ClassCss: public Css<T...>
 {
 	using Base = Css<T...>;
 public:
- 	ClassCss(const std::string& c = ""): Base() { };
+ 	ClassCss(const std::string& c): Base{}, name{c} { };
+private:
+	std::string name;
+	virtual std::string data() const  
+	{	
+		std::string res = "." + name + " {\n";
+		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += (*s)(); });
+		return res + "\n}";
+	};	
 };
