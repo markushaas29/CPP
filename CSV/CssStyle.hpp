@@ -1,30 +1,16 @@
 #include "Style.hpp"
 #include <vector>
 
-template<typename, bool> class PredicateVisitor;
-
 #pragma once
 
-class ICss//: public BaseVisitable<void>, public BoolVisitable<bool>
+class ICss
 {
 public:
-//	virtual bool operator==(const ICss& e) const { return Data() == e.Data(); };
-////	virtual constexpr std::strong_ordering operator<=>( const ICss& e) const noexcept = 0;
-	std::string operator()() const  { return data(); };	
+	virtual std::string operator()() const  { return data(); };	
 	virtual std::unique_ptr<ICss> Clone() const  = 0;	
-//	template<typename T>
-//    T To() const { return ::To<T>(Data()); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const ICss& e) {	return out<<e.data();}
 	virtual std::string data() const  = 0;	
-////	virtual constexpr bool operator==(const ICss& e) const = 0;
-////	virtual constexpr std::strong_ordering operator<=>( const ICss& e) const noexcept = 0;
-////	virtual constexpr const_iterator Begin() const = 0;
-////	constexpr decltype(auto) End() { return data.begin() + size; }
-////	constexpr decltype(auto) Size() { return size; }
-////
-////	constexpr bool operator==(const Css& e) const{ return Data() == e.Data(); };
-////	constexpr std::strong_ordering operator<=>( const Css& e) const noexcept { return Data() <=> e.Data(); }
 };
 ////--------------------------------Css------------------------------------------------
 
@@ -60,17 +46,17 @@ protected:
     }
 public:
  	Css(const std::string& c = ""): styles{create()} { };
-	template<typename... T2>
-	auto operator()(const Css<T2...>& css)
-	{
-		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
-				{
-				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
-				 	if(it != styles->end())
-						*it = (p->Clone());
-				});
-
-	}
+//	template<typename... T2>
+//	auto operator()(const Css<T2...>& css)
+//	{
+//		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
+//				{
+//				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
+//				 	if(it != styles->end())
+//						*it = (p->Clone());
+//				});
+//
+//	}
 	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 };
 

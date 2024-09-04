@@ -90,9 +90,6 @@ class DecoratorTest
 			std::cout<<css2<<std::endl;
 			std::cout<<cssb<<std::endl;
 
-			css(css2);
-			std::cout<<css<<std::endl;
-			std::cout<<css2<<std::endl;
 
 			auto qv = QV{5};
 			std::cout<<qv<<std::endl;

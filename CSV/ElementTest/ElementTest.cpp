@@ -138,6 +138,7 @@ int Run()
 	
 	auto classCss = ClassCss<Style<Padding,Px<14>>>("class");
 	std::cout<<"Class: \n"<<classCss<<std::endl;
+	assert(classCss()==".class {\n padding:14px;\n}");
     
 	return 0;
 }
