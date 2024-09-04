@@ -31,23 +31,9 @@ private:
 template<typename... T>
 class Css: public ICss
 {
+protected:
 	using Tup = std::tuple<T...>;
 	template<typename...> friend class Css;
-public:
- 	Css(const std::string& c = ""): styles{create()} { };
-	template<typename... T2>
-	auto operator()(const Css<T2...>& css)
-	{
-		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
-				{
-				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
-				 	if(it != styles->end())
-						*it = (p->Clone());
-				});
-
-	}
-	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
-private:
 	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
 	virtual std::string data() const  
 	{	
@@ -72,5 +58,26 @@ private:
             return exec<N+1>(res);
         }
     }
+public:
+ 	Css(const std::string& c = ""): styles{create()} { };
+	template<typename... T2>
+	auto operator()(const Css<T2...>& css)
+	{
+		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
+				{
+				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
+				 	if(it != styles->end())
+						*it = (p->Clone());
+				});
+
+	}
+	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 };
 
+template<typename... T>
+class ClassCss: public Css<T...>
+{
+	using Base = Css<T...>;
+public:
+ 	ClassCss(const std::string& c = ""): Base() { };
+};
