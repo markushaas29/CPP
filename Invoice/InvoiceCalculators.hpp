@@ -284,7 +284,6 @@ private:
 		auto div0_ = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<0>>>>());
 		div0_->Add(Date::Today().Html());
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>>>());
-		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0_));
 
 		outs->push_back(std::move(div0));
