@@ -77,9 +77,9 @@ class ClassCss: public Css<T...>//, virtual public IClassCss,
 	inline static const std::string name = N::Id;
 public:
  	ClassCss(): Base{} { };
+	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<ClassCss<N,T...>>(); };	
 private:
 	virtual const std::string className() const { return name; };	
-	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<ClassCss<N,T...>>(); };	
 	virtual std::string data(const std::string& intent = "", uint i = 0) const
 	{	
 		std::string res = "." + name + " {\n";
