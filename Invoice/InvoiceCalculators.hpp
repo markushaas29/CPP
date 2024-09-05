@@ -281,13 +281,10 @@ private:
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 		outs->push_back(std::move(classCss));
 		//outs->push_back(std::make_unique<HtmlElement<DivTag,Date>(Date::Today()));
-		auto div0_ = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<0>>>>());
-		div0_->Add(Date::Today().Html());
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>>>());
-		outs->push_back(std::move(div0_));
-
+		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0));
-		auto outs1 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>>>());
 		div1->Add(mf.Html());
 		outs->push_back(std::move(div1));
