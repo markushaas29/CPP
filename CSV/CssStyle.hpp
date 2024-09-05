@@ -14,6 +14,14 @@ private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data() + "\n"; };
 	virtual std::string data(const std::string& intent = "", uint i = 0) const  = 0;	
 };
+
+class IClassCss: public ICss
+{
+public:
+	auto Name() const  { return className(); };	
+private:
+	virtual const std::string className() const  = 0;	
+};
 ////--------------------------------Css------------------------------------------------
 
 template<typename... T>
@@ -63,13 +71,15 @@ public:
 };
 
 template<typename N, typename... T>
-class ClassCss: public Css<T...>
+class ClassCss: public Css<T...>//, virtual public IClassCss,
 {
 	using Base = Css<T...>;
 	inline static const std::string name = N::Id;
 public:
  	ClassCss(): Base{} { };
 private:
+	virtual const std::string className() const { return name; };	
+	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<ClassCss<N,T...>>(); };	
 	virtual std::string data(const std::string& intent = "", uint i = 0) const
 	{	
 		std::string res = "." + name + " {\n";
