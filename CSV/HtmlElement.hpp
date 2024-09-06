@@ -57,7 +57,7 @@ private:
 	std::string name;
 	std::unique_ptr<ICss> css;
 	std::string content;
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + "\n" + showContent(intent, ++i) + "\n" + intent + end; };	
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + showContent(intent, ++i) + intent + end; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
 	static std::string createBegin(const std::string& s, const std::string& n)  { return "<" + tag + (n != "" ? (" class=\"" + n + "\"") : "") + s + ">"; };	
 };
@@ -75,7 +75,7 @@ public:
 private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	
-		std::string result;
+		std::string result = "\n";
 		if(elements)
 			std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i) + "\n"; });
 		return result;
@@ -102,7 +102,7 @@ public:
 private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	
-		std::string result;
+		std::string result = "\n";
 		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i) + "\n"; });
 		return result;
 	};	
@@ -127,7 +127,7 @@ public:
 	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
 	E element;
-	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return element.Out(i);	};	
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return "\n" + element.Out(i) + "\n";	};	
 };
 
 struct Td;
