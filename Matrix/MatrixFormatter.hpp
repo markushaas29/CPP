@@ -3,7 +3,7 @@
 #include <map>
 #include <memory>
 #include <sstream>
-#include "../Decorator/ElementDecorator.hpp"
+#include "../CSV/Styles.hpp"
 #include "../CSV/IModel.hpp"
 #include "../CSV/IHtml.hpp"
 

@@ -6,7 +6,7 @@
 #include "../Elements.hpp"
 #include "../HtmlElement.hpp"
 #include "../NumericStyle.hpp"
-#include "../../Decorator/ElementDecorator.hpp"
+#include "../Styles.hpp"
 #include "../CssStyle.hpp"
 #include "../Style.hpp"
 #include "../../Common/Color.hpp"

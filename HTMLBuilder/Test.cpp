@@ -8,7 +8,7 @@
 #include "../Matrix/MatrixDescriptor.hpp"
 #include "../Matrix/MatrixFormatter.hpp"
 #include "../CSV/Elements.hpp"
-#include "../Decorator/ElementDecorator.hpp"
+#include "../CSV/Styles.hpp"
 
 class HTMLBuilderTest
 {

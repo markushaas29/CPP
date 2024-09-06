@@ -16,7 +16,7 @@
 #include "../Matrix/MatrixFilter.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Common/Color.hpp"
-#include "../Decorator/ElementDecorator.hpp"
+#include "../CSV/Styles.hpp"
 #include "../CSV/Elements.hpp"
 #include "../CSV/Matcher.hpp"
 #include "../CSV/Element.hpp"

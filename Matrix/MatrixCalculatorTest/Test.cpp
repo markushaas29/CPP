@@ -11,7 +11,7 @@
 #include "../../CSV/HtmlElement.hpp"
 #include "../../CSV/CssStyle.hpp"
 #include "../../CSV/Style.hpp"
-#include "../../Decorator/ElementDecorator.hpp"
+#include "../../CSV/Styles.hpp"
 
 class MatrixCalculatorTest
 {

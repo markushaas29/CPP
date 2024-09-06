@@ -5,7 +5,7 @@
 #include <memory> 
 #include "Test.cpp"
 #include "../CSV/HtmlElement.hpp"
-#include "../Decorator/ElementDecorator.hpp"
+#include "../CSV/Styles.hpp"
 #include "../CSV/CssStyle.hpp"   
 #include "../CSV/Style.hpp"
 #include "../Common/Color.hpp"
