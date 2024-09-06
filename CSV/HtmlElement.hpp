@@ -103,7 +103,7 @@ private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	
 		std::string result = "\n";
-		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i) + "\n"; });
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result += e->Out(i); });
 		return result;
 	};	
 	std::unique_ptr<std::vector<std::unique_ptr<ICss>>> elements;

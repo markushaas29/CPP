@@ -137,10 +137,11 @@ int Run()
 	std::cout<<"border: \n"<<classCss<<std::endl;
 	assert(classCss()==".border {\n padding:14px;\n}");
 	styleVec->push_back(classCss.Clone());
+	styleVec->push_back(classCss.Clone());
 	
 	auto style = StyleElement{std::move(styleVec)};
 	std::cout<<"Style: \n"<<style.Out(0)<<std::endl;
-	//assert(style.Out(0)=="<Style>\n\t\t.border {\n padding:14px;\n}\n\n\n</Style>");
+	//assert(style.Out(0)=="<Style>\n\t\t.border {\n padding:14px;\n}\n\n</Style>");
     
 	return 0;
 }
