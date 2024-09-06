@@ -11,7 +11,7 @@ public:
 	virtual std::unique_ptr<ICss> Clone() const  = 0;	
 private:
 	friend std::ostream& operator<<(std::ostream& out, const ICss& e) {	return out<<e.data();}
-	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data() + "\n"; };
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data(intent, i) + "\n"; };
 	virtual std::string data(const std::string& intent = "", uint i = 0) const  = 0;	
 };
 
@@ -81,9 +81,9 @@ public:
 private:
 	virtual const std::string className() const { return name; };	
 	virtual std::string data(const std::string& intent = "", uint i = 0) const
-	{	
+	{
 		std::string res = "." + name + " {\n";
-		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += s->Out(i); });
-		return res + "\n}";
+		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += s->Out(++i); });
+		return res + "\n" +  intent+ "}";
 	};	
 };
