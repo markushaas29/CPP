@@ -143,9 +143,11 @@ int Run()
 	std::cout<<"Style: \n"<<style.Out(0)<<std::endl;
 	//assert(style.Out(0)=="<Style>\n\t.border {\n\t\tpadding:14px;\n\t}\n</Style>");
     
-	std::cout<<"Style: \n"<<RGB<255,255,233>()<<std::endl;
 	auto rgb = RGB<255,255,233>();
 	assert(rgb()=="rgba(255, 255, 233, 1.000000)");
+	auto srgb = Style<Padding,RGB<255,255,233>>();
+	//assert(srgb()=="rgba(255, 255, 233, 1.000000)");
+	std::cout<<"Style: \n"<<srgb<<std::endl;
 	
 	return 0;
 }
