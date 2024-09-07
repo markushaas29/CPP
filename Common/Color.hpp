@@ -32,6 +32,20 @@ struct Magenta: Color::Code<35>		{ inline static constexpr const char* Id = "mag
 struct Default: Color::Code<39>{};
 struct White: Color::Code<97>		{inline static constexpr const char* Id = "white";};
 
+template<uint r, uint g, uint b, double s = 1.0>
+class RGB
+{
+public:
+	inline static constexpr size_t R = r;
+	inline static constexpr size_t G = g;
+	inline static constexpr size_t B = b;
+	inline static constexpr double S = s;
+	inline static std::string Id = "rgba(" + std::to_string(R) + ", " + std::to_string(G)+ ", " +std::to_string(B)+ ", " +std::to_string(S) + ")";
+	const std::string& operator()() { return Id; }
+private:
+	friend std::ostream& operator<<(std::ostream& os, const RGB& rgb) { return os<<RGB::Id; }
+};
+
 //Color 	Foreground Code 	Background Code
 //Black 	30 	40
 //Red 	31 	41
