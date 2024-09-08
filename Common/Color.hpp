@@ -32,8 +32,18 @@ struct Magenta: Color::Code<35>		{ inline static constexpr const char* Id = "mag
 struct Default: Color::Code<39>{};
 struct White: Color::Code<97>		{inline static constexpr const char* Id = "white";};
 
+
+template<typename D>
+class ColorBase
+{
+public:
+	const std::string& operator()() { return D::Id; }
+private:
+	friend std::ostream& operator<<(std::ostream& os, const ColorBase& rgb) { return os<<D::Id; }
+};
+
 template<uint r, uint g, uint b>
-class RGB
+class RGB: public ColorBase<RGB<r,g,b>>
 {
 protected:	
 	inline static std::string values = std::to_string(r) + ", " + std::to_string(g)+ ", " + std::to_string(b) ;
@@ -42,9 +52,6 @@ public:
 	inline static constexpr size_t G = g;
 	inline static constexpr size_t B = b;
 	inline static std::string Id = "rgb(" + values + ")";
-	const std::string& operator()() { return Id; }
-private:
-	friend std::ostream& operator<<(std::ostream& os, const RGB& rgb) { return os<<RGB::Id; }
 };
 
 template<uint r, uint g, uint b, double s = 1.0>
