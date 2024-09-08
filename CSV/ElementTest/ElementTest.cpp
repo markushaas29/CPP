@@ -145,8 +145,8 @@ int Run()
     
 	auto rgb = RGB<255,255,233>();
 	assert(rgb()=="rgba(255, 255, 233, 1.000000)");
-	auto srgb = Style<Padding,RGB<255,255,233>>();
-	//assert(srgb()=="rgba(255, 255, 233, 1.000000)");
+	auto srgb = Style<BackgroundColor,RGB<255,255,233>>();
+	assert(srgb()=="rgba(255, 255, 233, 1.000000)");
 	std::cout<<"Style: \n"<<srgb<<std::endl;
 	
 	return 0;

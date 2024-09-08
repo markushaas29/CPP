@@ -4,6 +4,7 @@
 
 struct Border		{   inline static constexpr const char* Id = "border"; };
 struct ColorTag		{   inline static constexpr const char* Id = "color"; };
+struct BackgroundColor		{   inline static constexpr const char* Id = "background-color"; };
 struct Display		{   inline static constexpr const char* Id = "display"; };
 struct Grid			{   inline static constexpr const char* Id = "grid"; };
 struct GridArea			{   inline static constexpr const char* Id = "grid-area"; };
