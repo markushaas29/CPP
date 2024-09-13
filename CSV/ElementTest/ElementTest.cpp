@@ -149,6 +149,8 @@ int Run()
 	assert(rgba()=="rgba(255, 25, 233, 1.000000)");
 	auto srgb = Style<BackgroundColor,RGB<255,255,233>>();
 	std::cout<<"Style: \n"<<srgb()<<std::endl;
+
+	auto es = Px<1>::exec<1,2,3>("");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;
