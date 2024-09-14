@@ -27,18 +27,18 @@ public:
 };
 
 template<template<int> class D, int ...>  
-struct Nums;
+struct NumericStyleExpander;
 
 template<template<int> class D, int I>
-struct Nums<D,I>: public NumericStyle<I,D>
+struct NumericStyleExpander<D,I>: public NumericStyle<I,D>
 {  
-	inline static const std::string value = NumericStyle<I,D>::Id; 
+	inline static const std::string Id = NumericStyle<I,D>::Id; 
 };
 
 template<template<int> class D, int I, int ... Tail> 	
-struct Nums<D,I, Tail ...>: public NumericStyle<I,D> 
+struct NumericStyleExpander<D,I, Tail ...>: public NumericStyle<I,D> 
 {  
-	inline static const std::string value = NumericStyle<I,D>::Id + " " + Nums<D,Tail ...>::value; 
+	inline static const std::string Id = NumericStyle<I,D>::Id + " " + NumericStyleExpander<D,Tail ...>::Id; 
 };
 
 template<int N>
