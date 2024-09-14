@@ -26,11 +26,11 @@ public:
 	inline static const std::string Id = std::to_string(N) + D<N>::Name;
 };
 
-template<int ...>  				struct Nums;
+template<template<int> class D, int ...>  				struct Nums;
 
-template<int I>              		struct Nums<I> {  inline static const std::string value = std::to_string(I); };
+template<template<int> class D, int I>              		struct Nums<D,I> {  inline static const std::string value = std::to_string(I); };
 
-template<int i, int ... tail> 	struct Nums<i, tail ...> {  inline static const std::string value = std::to_string(i) + Nums<tail ...>::value; };
+template<template<int> class D, int i, int ... tail> 	struct Nums<D,i, tail ...> {  inline static const std::string value = std::to_string(i) + Nums<D,tail ...>::value; };
 
 template<int N>
 struct Px: public NumericStyle<N, Px>				{	inline static std::string Name = "px";  };
