@@ -32,11 +32,11 @@ struct NumericStyleExpander<D,I, Tail ...>: public NumericStyle<I,D>
 	inline static const std::string Id = NumericStyle<I,D>::Id + " " + NumericStyleExpander<D,Tail ...>::Id; 
 };
 
-template<int N>
-struct Px: public NumericStyle<N, Px>				{	inline static std::string Name = "px";  };
+template<int... N>
+struct Px: public NumericStyleExpander<Px, N...>				{	inline static std::string Name = "px";  };
 
-template<int N>
-struct AreaNum: public NumericStyle<N, AreaNum>				{	inline static std::string Name = "";  };
+template<int... N>
+struct AreaNum: public NumericStyleExpander<AreaNum, N...>				{	inline static std::string Name = "";  };
 
 struct DinA4				{	inline static const std::string Id = "\'0\' \'0\' \'0\' \'0\' \'1\' \n \'0\' \'2\' \'2\' \'2\' \'0\' \n \'0\' \'3\' \'3\' \'3\' \'0\'  \n \'0\' \'4\' \'4\' \'4\' \'0\'";  };
 //struct Px: public NumericStyle<N,"Px">				{	virtual std::string decorate() const { return "b"; } };

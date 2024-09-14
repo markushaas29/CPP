@@ -150,8 +150,19 @@ int Run()
 	auto srgb = Style<BackgroundColor,RGB<255,255,233>>();
 	std::cout<<"Style: \n"<<srgb()<<std::endl;
 
-	auto es = NumericStyleExpander<Px,1,2,3>::Id;
+	auto es = Px<1,2,3>::Id;
 	std::cout<<"Nums: \n"<<es<<std::endl;
+	es = Px<14,13>::Id;
+	assert(es=="14px 13px");
+	es = Px<14,13,10,12>::Id;
+	assert(es=="14px 13px 10px 12px");
+
+	es = AreaNum<112>::Id;
+	assert(es=="112");
+	es = AreaNum<14,13>::Id;
+	assert(es=="14 13");
+	es = AreaNum<14,13,10,12>::Id;
+	assert(es=="14 13 10 12");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;
