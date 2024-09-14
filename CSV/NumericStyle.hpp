@@ -14,15 +14,6 @@ class NumericStyle
 	static constexpr int Num = N;
 	friend std::ostream& operator<<(std::ostream& s, const NumericStyle& i) { return s<<NumericStyle::Id;  }
 public:
-//	template<auto I0, auto... I>
-//    static auto expand(std::string res)
-//    {
-//		return expand<I...>(res);
-//    }
-//    static auto expand(std::string res)
-//    {
-//		return res;
-//    }
 	inline static const std::string Id = std::to_string(N) + D<N>::Name;
 };
 
