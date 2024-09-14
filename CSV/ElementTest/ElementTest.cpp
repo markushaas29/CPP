@@ -150,7 +150,8 @@ int Run()
 	auto srgb = Style<BackgroundColor,RGB<255,255,233>>();
 	std::cout<<"Style: \n"<<srgb()<<std::endl;
 
-	auto es = Px<1>::exec<1,2,3>("");
+	auto es = Nums<1,2,3>::value;
+	std::cout<<"Nums: \n"<<es<<std::endl;
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

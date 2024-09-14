@@ -4,11 +4,6 @@
 #pragma once
  
 
-template<int ...>  				struct Nums;
-
-template<>              		struct Nums<> {  inline static const std::string value = std::to_string(1); };
-
-template<int i, int ... tail> 	struct Nums<i, tail ...> {  inline static const std::string value = std::to_string(i) + Nums<tail ...>::value; };
 
 template<int N, template<int> class D>//, Literal L>
 class NumericStyle
@@ -19,11 +14,6 @@ class NumericStyle
 	static constexpr int Num = N;
 	friend std::ostream& operator<<(std::ostream& s, const NumericStyle& i) { return s<<NumericStyle::Id;  }
 public:
-	template<auto... I>
-    static auto exec(std::string&& res)
-    {
-		return Nums<I...>::value;
-    }
 //	template<auto I0, auto... I>
 //    static auto expand(std::string res)
 //    {
@@ -35,6 +25,12 @@ public:
 //    }
 	inline static const std::string Id = std::to_string(N) + D<N>::Name;
 };
+
+template<int ...>  				struct Nums;
+
+template<int I>              		struct Nums<I> {  inline static const std::string value = std::to_string(I); };
+
+template<int i, int ... tail> 	struct Nums<i, tail ...> {  inline static const std::string value = std::to_string(i) + Nums<tail ...>::value; };
 
 template<int N>
 struct Px: public NumericStyle<N, Px>				{	inline static std::string Name = "px";  };
