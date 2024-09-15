@@ -66,7 +66,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const 	{	return rows(matrix).Data();	};
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
-    virtual std::unique_ptr<IHtmlElement> html() const 	{	return rows(matrix).Clone();	};
+    virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const 	{	return rows(matrix).Clone();	};
 	template<size_t O, typename D>
     auto rows(const Matrix<O,D>& m) const
 	{ 
