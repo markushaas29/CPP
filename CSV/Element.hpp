@@ -6,6 +6,7 @@
 #include "../Visitor/Visitor.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include "IModel.hpp"
+#include "IHtml.hpp"
 #include <string.h>
 #include <map>
 #include <regex>
@@ -15,15 +16,12 @@
 #include <ctime>
 
 template<typename, bool> class PredicateVisitor;
-class IHtmlElement;
-
 struct Td;
-struct ICss;
 
 template<typename,typename> class HtmlElement;
 
 #pragma once
-class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public IModel
+class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public IModel, public IHtml
 {
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
@@ -35,7 +33,6 @@ public:
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	
-	virtual std::unique_ptr<IHtmlElement> Html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const  = 0;	
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
 private:
@@ -67,7 +64,6 @@ public:
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Derived>(s); };	
 	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
-	virtual std::unique_ptr<IHtmlElement> Html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const  { return std::make_unique<HtmlElement<Td,Derived>>(Derived(value));	};	
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
@@ -82,6 +78,7 @@ public:
 	constexpr bool operator==(const IElement& e) const{ return Data() == e.Data(); };
 	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:
+	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const  { return std::make_unique<HtmlElement<Td,Derived>>(Derived(value));	};	
 	const std::string& data() const  {	return value;	};	
 	const std::string out() const  
 	{	

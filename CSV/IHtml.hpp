@@ -1,6 +1,7 @@
 #pragma once
 
 class IHtmlElement;
+class ICss;
 
 class IHtml
 {
