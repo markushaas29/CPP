@@ -71,6 +71,9 @@ private:
     auto rows(const Matrix<O,D>& m, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
 	{ 
 		auto tab = HtmlElements<Table>();
+		if(v != nullptr)
+			tab.Add(std::move(v));
+		
 		if constexpr (O==1)
 		{
 			auto tr = HtmlElements<Tr>();

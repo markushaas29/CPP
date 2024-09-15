@@ -99,7 +99,10 @@ int Run()
 
 	auto mf1 = MatrixFormatter(m33);
 	
-	auto htmlMF = mf1.Html();
+	auto cap = HtmlElement<Caption, Header>(Header("H"));
+	//assert(cap.Out()=="");
+	auto htmlMF = mf1.Html(cap.Clone());
+	std::cout<<"MAT:\n" <<*htmlMF << std::endl;
 
 	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 	outs->push_back(htmlQN.Clone());
