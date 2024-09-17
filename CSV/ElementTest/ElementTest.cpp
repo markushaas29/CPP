@@ -166,6 +166,12 @@ int Run()
 	assert(es=="14 13");
 	es = AreaNum<14,13,10,12>::Id;
 	assert(es=="14 13 10 12");
+
+	auto hex1 = Hex<"ff6347">::Id;
+	assert(hex1=="#ff6347");
+	hex1 = Hex<"ff6348">::Id;
+	std::cout<<"Style: \n"<<Hex<"ff6347">::Id<<std::endl;
+	assert(hex1=="#ff6348");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

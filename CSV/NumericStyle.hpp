@@ -32,6 +32,19 @@ struct NumericStyleExpander<D,I, Tail ...>: public NumericStyle<I,D>
 	inline static const std::string Id = NumericStyle<I,D>::Id + " " + NumericStyleExpander<D,Tail ...>::Id; 
 };
 
+template<Literal L>
+class Hex				
+{	
+	inline static Literal l = L;  
+	static constexpr decltype(auto) check() 
+	{ 
+		//static_assert(L::Size==6);
+		return l.Ptr(); 
+	};
+public:
+	inline static std::string Id = "#" + std::string(check());
+};
+
 template<int... N>
 struct Px: public NumericStyleExpander<Px, N...>				{	inline static std::string Name = "px";  };
 

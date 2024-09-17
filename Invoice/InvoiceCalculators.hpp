@@ -314,7 +314,6 @@ private:
 		auto mfE = MatrixFormatter(resultElements);
 		auto div2 = std::make_unique<HtmlElements<DivTag>>();
 		div2->Add(mfE.Html());
-		outs->push_back(std::move(div2));
 		//append(resultElements,html);
 		
 		auto sum = resultElements.Col(6).template To<Quantity<Sum>>().ColSum();
@@ -339,6 +338,7 @@ private:
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<3>>>>());
 		div3->Add(MatrixFormatter(resultM).Html());
 		outs->push_back(std::move(div3));
+		outs->push_back(std::move(div2));
 		//append(resultM,html);
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
