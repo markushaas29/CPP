@@ -285,7 +285,7 @@ private:
 		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0));
 
-		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<BackgroundColor,Hex<"ff6347">>>>());
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<BackgroundColor,Hex<"ff6347">>>>());
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
 		//html(mf());
@@ -312,7 +312,7 @@ private:
 
 		auto resultElements = Init(vp)();
 		auto mfE = MatrixFormatter(resultElements);
-		auto div2 = std::make_unique<HtmlElements<DivTag>>();
+		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<BackgroundColor,Hex<"6347ff">>>>());
 		div2->Add(mfE.Html());
 		//append(resultElements,html);
 		
@@ -335,7 +335,7 @@ private:
 
 		auto resultM = Init(costs)();
 		//outs->push_back(MatrixFormatter(resultM).Html());
-		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<2>>>>());
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<4>>>>());
 		div3->Add(MatrixFormatter(resultM).Html());
 		outs->push_back(std::move(div3));
 		outs->push_back(std::move(div2));
