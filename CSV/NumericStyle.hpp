@@ -38,7 +38,7 @@ class Hex
 	inline static Literal l = L;  
 	static constexpr decltype(auto) check() 
 	{ 
-		//static_assert(L::Size==6);
+		static_assert(decltype(l)::Size==7);
 		return l.Ptr(); 
 	};
 public:

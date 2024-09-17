@@ -172,6 +172,8 @@ int Run()
 	hex1 = Hex<"ff6348">::Id;
 	std::cout<<"Style: \n"<<Hex<"ff6347">::Id<<std::endl;
 	assert(hex1=="#ff6348");
+//	hex1 = Hex<"ff63348">::Id;
+//	hex1 = Hex<"ff648">::Id;
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;
