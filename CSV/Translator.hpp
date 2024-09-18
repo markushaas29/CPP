@@ -9,8 +9,14 @@
 
 class Translator
 {   
-        std::string fileName;
-        Translator()
+        inline static const std::string fileName;
+		std::unique_ptr<std::vector<std::vector<std::string>>> translates;
+		static auto read()
+		{
+			auto result = std::make_unique<std::vector<std::vector<std::string>>>();
+			return result;
+		}
+        Translator(): translates{read()}
         {
 			std::cout<<"Translator"<<std::endl;
  //           if(!this->file.good())
