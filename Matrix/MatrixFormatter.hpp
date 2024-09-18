@@ -16,7 +16,7 @@ class MatrixFormatter: public IModel, public IHtml
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
-	MatrixFormatter(const M& m): matrix(m), translate{read()}{}
+	MatrixFormatter(const M& m): matrix(m) {}
    // virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s) { return s; }
 //    virtual std::unique_ptr<std::ofstream> operator()(std::unique_ptr<std::ofstream> s, const M* m) 
 //	{ 
@@ -47,22 +47,8 @@ public:
 		s<<table();	
 		return s;	
 	};
-    auto As()
-    {
-        auto v = std::vector<typename M::ElementType>();
-        std::for_each(matrix.elements->begin(),matrix.elements->end(), [&](auto i) 
-				{ 
-					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-						v.push_back(translate->contains((**i).Data()) ? (**i).Create(translate->at((**i).Data())) : *i); 
-					else
-						v.push_back(translate->contains(*i) ? (*translate)[*i] : *i); 
-				});
-		auto d = typename M::DescriptorType(matrix.descriptor.Extents(), matrix.descriptor.Strides());
-        return M(d,v);
-    }
 private:
 	const M matrix;
-	std::shared_ptr<MapType> translate;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const 	{	return rows(matrix).Data();	};
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
@@ -97,13 +83,6 @@ private:
 			return tab;
 		}
 	};
-	static auto read()
-	{
-		auto m = std::make_shared<MapType>();
-		(*m)["SumPerArea"] = "Summe";
-		(*m)["Stage"] = "Stock";
-		return m;
-	}
 };
 
 template<typename M>
