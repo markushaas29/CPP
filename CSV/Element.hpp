@@ -7,6 +7,7 @@
 #include "../TypeCounter/TypeCounter.hpp"
 #include "IModel.hpp"
 #include "IHtml.hpp"
+#include "Translator.hpp"
 #include <string.h>
 #include <map>
 #include <regex>
@@ -57,7 +58,7 @@ class Element: public IElement, public TypeCounter<D>
 	using Derived = D;
 public:
 	inline static const std::string Identifier = D::Identifier;
- 	Element(const std::string& s): value{Derived::check(s)}, size{s.size()} { };
+ 	Element(const std::string& s): value{Translator::Instance()(Derived::check(s))}, size{s.size()} { };
 // 	template<typename T>
 //	Element(T t): Element(std::to_string(t)) { };
 
