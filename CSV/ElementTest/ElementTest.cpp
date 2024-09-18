@@ -174,6 +174,12 @@ int Run()
 	assert(hex1=="#ff6348");
 //	hex1 = Hex<"ff63348">::Id;
 //	hex1 = Hex<"ff648">::Id;
+	
+	auto ed1 = Entry{"HeatExtraCosts"};
+	assert(ed1==std::string("Heiznebenkosten"));
+	auto ed2 = Entry{"additional heating costs"};
+	assert(ed2==std::string("Heiznebenkosten"));
+	std::cout<<ed1<<std::endl;
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

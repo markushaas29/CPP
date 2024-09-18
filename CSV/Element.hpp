@@ -30,7 +30,9 @@ public:
 	//virtual void Accept(BaseVisitor& visitor) const = 0;
 	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 	const std::string& Data() const  { return data(); };	
-//	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
+	//virtual constexpr operator==(const IElement& e) const noexcept = 0;
+	bool operator==(const std::string& e) const noexcept { return e == data(); };
+	bool operator==(const char* e) const noexcept { return std::string(e) == data(); };
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
 	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	

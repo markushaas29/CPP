@@ -9,11 +9,14 @@
 
 class Translator
 {   
-        inline static const std::string fileName;
+        const std::string fileName;
+		int id = 1;
 		std::unique_ptr<std::vector<std::vector<std::string>>> translates;
 		static auto read()
 		{
 			auto result = std::make_unique<std::vector<std::vector<std::string>>>();
+			result->push_back({"additional heating costs", "Heiznebenkosten", "HeatExtraCosts"});
+			result->push_back({"extra costs", "Nebenkosten", "ExtraCosts"});
 			return result;
 		}
         Translator(): translates{read()}
@@ -28,6 +31,12 @@ class Translator
     public: 
 		const std::string& operator()(const std::string& s)
 		{
+			for(size_t i = 0;i < translates->size(); ++i)
+			{
+				auto line = translates->at(i);
+				if(auto t = std::find(line.begin(), line.end(), s) != line.end() && id != -1)
+					return line.at(id);
+			}
 			return s;
 		}
         static Translator& Instance()
