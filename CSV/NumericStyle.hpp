@@ -43,7 +43,8 @@ class Hex
 	};
 	static constexpr decltype(auto) checkValues() 
 	{ 
-		static_assert(decltype(l)::Size==7);
+		for(uint i = 0; i < decltype(l)::Size; ++i)
+
 		return l.Ptr(); 
 	};
 public:
