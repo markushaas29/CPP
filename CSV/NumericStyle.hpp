@@ -35,18 +35,19 @@ struct NumericStyleExpander<D,I, Tail ...>: public NumericStyle<I,D>
 template<Literal L>
 class Hex				
 {	
-	inline static Literal l = L;  
+	inline static constexpr Literal l = L;  
 	static constexpr decltype(auto) check() 
 	{ 
 		static_assert(decltype(l)::Size==7);
+		//static_assert(checkValues());
 		return l.Ptr(); 
 	};
 	static constexpr decltype(auto) checkValues() 
 	{ 
-		for(uint i = 0; i < decltype(l)::Size; ++i)
-			if(l.Value[i] < 'A' || l.Value[i] > 'F')
-
-		return l.Ptr(); 
+		for(uint i = 0; i < decltype(l)::Size-1; ++i)
+			if(l.Value[i] < 'A' || l.Value[i] > 'F' || l.Value[i] < '0' || l.Value[i] > '9' )
+				return false;
+		return true; 
 	};
 public:
 	inline static std::string Id = "#" + std::string(check());

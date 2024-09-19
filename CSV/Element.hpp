@@ -27,15 +27,11 @@ class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public I
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
 	virtual bool Is(BaseVisitor& visitor) = 0;
-	//virtual void Accept(BaseVisitor& visitor) const = 0;
-	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 	const std::string& Data() const  { return data(); };	
-	//virtual constexpr operator==(const IElement& e) const noexcept = 0;
-	bool operator==(const std::string& e) const noexcept { return e == data(); };
-	bool operator==(const char* e) const noexcept { return std::string(e) == data(); };
 	virtual std::unique_ptr<IElement> Clone() const  = 0;	
-	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  = 0;	
+	virtual std::unique_ptr<IModel> Model() const { return Clone(); };
+	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
 private:
@@ -43,14 +39,6 @@ private:
 	virtual const std::string out() const  = 0;	
 	virtual std::string out(const std::string& intent, uint i = 0) const { return intent + out(); };
 	friend std::ostream& operator<<(std::ostream& out, const IElement& e) {	return out<<e.Data();}
-//	virtual constexpr bool operator==(const IElement& e) const = 0;
-//	virtual constexpr std::strong_ordering operator<=>( const IElement& e) const noexcept = 0;
-//	virtual constexpr const_iterator Begin() const = 0;
-//	constexpr decltype(auto) End() { return data.begin() + size; }
-//	constexpr decltype(auto) Size() { return size; }
-//
-//	constexpr bool operator==(const Element& e) const{ return Data() == e.Data(); };
-//	constexpr std::strong_ordering operator<=>( const Element& e) const noexcept { return Data() <=> e.Data(); }
 };
 //--------------------------------Element------------------------------------------------
 
@@ -61,8 +49,6 @@ class Element: public IElement, public TypeCounter<D>
 public:
 	inline static const std::string Identifier = D::Identifier;
  	Element(const std::string& s): value{Translator::Instance()(Derived::check(s))}, size{s.size()} { };
-// 	template<typename T>
-//	Element(T t): Element(std::to_string(t)) { };
 
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Derived>(s); };	
@@ -79,6 +65,7 @@ public:
 	}
 	virtual bool Is(BaseVisitor& visitor) { return AcceptPredicate<D>(*dynamic_cast<D*>(this), visitor); };
 	constexpr bool operator==(const IElement& e) const{ return Data() == e.Data(); };
+	constexpr bool operator==(const std::string& e) const noexcept { return e == data(); };
 	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:
 	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const  { return std::make_unique<HtmlElement<Td,Derived>>(Derived(value));	};	
@@ -95,9 +82,6 @@ private:
   		{
       		std::ostringstream oss;
       		auto d =*(static_cast<const Derived*>(this));
-//			if(d.Equals(Derived((int)d.Value())))
-//				std::cout<<"EQUAL"<<std::endl;
-			
       		oss << *(static_cast<const Derived*>(this));
       		return oss.str();         
   		}

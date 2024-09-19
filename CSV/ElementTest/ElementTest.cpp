@@ -180,6 +180,7 @@ int Run()
 	auto ed2 = Entry{"additional heating costs"};
 	assert(ed2==std::string("Heiznebenkosten"));
 	std::cout<<Translator::Instance()<<std::endl;
+	Name{"HeatExtraCosts"}=="ABC";
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;
