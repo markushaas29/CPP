@@ -179,7 +179,7 @@ int Run()
 	assert(ed1==std::string("Heiznebenkosten"));
 	auto ed2 = Entry{"additional heating costs"};
 	assert(ed2==std::string("Heiznebenkosten"));
-	std::cout<<ed1<<std::endl;
+	std::cout<<Translator::Instance()<<std::endl;
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

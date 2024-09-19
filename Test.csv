@@ -1,4 +1,4 @@
-Stage, Name, Waste, Heating, Insurance, Cleaning, PropertyTax, Sewage, Rent, Heiznebenkosten, Nebenkosten
+Stage, Name, Waste, Heating, Insurance, Cleaning, PropertyTax, Sewage, Rent, Heiznebenkosten, ExtraCosts
 Bottom, Brustat, 2, 100, 1, 1, 101, 1, 458, 135, 67
 Middle, Zeiher/Zieger, 3, 100, 1, 1, 101, 1, 525, 0, 210
 Top, Haas, 1, 70, 2, 3, 58, 1, 1, 1000, 350

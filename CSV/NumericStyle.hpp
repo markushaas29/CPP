@@ -44,6 +44,7 @@ class Hex
 	static constexpr decltype(auto) checkValues() 
 	{ 
 		for(uint i = 0; i < decltype(l)::Size; ++i)
+			if(l.Value[i] < 'A' || l.Value[i] > 'F')
 
 		return l.Ptr(); 
 	};

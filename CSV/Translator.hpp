@@ -23,6 +23,11 @@ class Line
 		bool operator==(const std::string& s) const {	return std::find(words.begin(), words.end(), s) != words.end();	}
 		const auto& operator[](size_t i) const {	return words.at(i);	}
 	private:
+		friend std::ostream& operator<<(std::ostream& out, const Line& e) 
+		{
+			std::for_each(e.words.begin(), e.words.end(), [&](const auto& s) { out<<s<<"\t\t"; });
+			return out<<"\n";
+		}
 		std::vector<std::string> words;
 };
 
@@ -47,6 +52,11 @@ class Translator
         Translator(const Translator&) = delete;
         void operator=(const Translator&) = delete;
         virtual ~Translator(){  };
+		friend std::ostream& operator<<(std::ostream& out, const Translator& e) 
+		{
+			std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<s<<"\n"; });
+			return out;
+		}
     public: 
 		const std::string& operator()(const std::string& s)
 		{
