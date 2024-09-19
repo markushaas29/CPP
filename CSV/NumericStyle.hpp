@@ -41,6 +41,11 @@ class Hex
 		static_assert(decltype(l)::Size==7);
 		return l.Ptr(); 
 	};
+	static constexpr decltype(auto) checkValues() 
+	{ 
+		static_assert(decltype(l)::Size==7);
+		return l.Ptr(); 
+	};
 public:
 	inline static std::string Id = "#" + std::string(check());
 };

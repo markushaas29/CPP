@@ -7,6 +7,30 @@
 
 //struct Debug: LogTypeBase<Debug, Default>{   static constexpr const char* Identifier ="[DEBUG]: "; };
 
+class Line
+{   
+		static auto read()
+		{
+			auto result = std::make_unique<std::vector<std::string>>();
+			result->push_back("additional heating costs");
+			result->push_back("Heiznebenkosten");
+			result->push_back("HeatExtraCosts");
+			return result;
+		}
+	public: 
+        Line(): words{read()}
+        {
+			std::cout<<"Line"<<std::endl;
+ //           if(!this->file.good())
+ //                throw std::ios_base::failure(this->logFileName);
+        }
+		bool operator==(const std::string& s) const {	return std::find(words->begin(), words->end(), s) != words->end();	}
+	private:
+        const std::string fileName;
+		int id = 1;
+		std::unique_ptr<std::vector<std::string>> words;
+        virtual ~Line(){  };
+};
 class Translator
 {   
         const std::string fileName;
