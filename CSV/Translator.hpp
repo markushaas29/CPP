@@ -2,20 +2,12 @@
 #include <fstream>
 #include <vector>
 #include "../Common/Color.hpp"
+#include "../Common/IClone.hpp"
 #include "../String/String_.hpp"
 
 #pragma once
 
 struct German		{   static constexpr const char* Identifier ="German"; };
-
-template<typename T>
-class IClone
-{   
-	public:
-		auto Clone() const  { return clone(); };
-	private:
-		virtual std::unique_ptr<T> clone() const  = 0;
-};
 
 class ITranslate: public IClone<ITranslate>
 {   
