@@ -19,19 +19,24 @@ class IClone
 
 class ITranslate: public IClone<ITranslate>
 {   
-	public: 
+	public:
+		const auto& operator()() const {	return get();	}
+		bool operator==(const std::string& s) const {	return s == get();	}
+	private:
+		friend std::ostream& operator<<(std::ostream& out, const ITranslate& e) 	{	return out<<e.get();	}
+		virtual const std::string& get() const = 0;
 };
 
 template<typename L>
-class Translate
+class Translate: ITranslate
 {   
-	public: 
+	public:
+		using Language = L::Identifier;
         Translate(const std::string& s): word{s} {   }
         virtual ~Translate(){  };
-		bool operator==(const std::string& s) const {	return s == word;	}
-		const auto& operator[](size_t i) const {	return word;	}
 	private:
-		friend std::ostream& operator<<(std::ostream& out, const Translate& e) 	{	return out<<e.word;	}
+		std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate<L>>(word); };
+		const auto& get() const { return word; };
 		std::string word;
 };
 
