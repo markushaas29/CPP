@@ -39,13 +39,13 @@ class Hex
 	static constexpr decltype(auto) check() 
 	{ 
 		static_assert(decltype(l)::Size==7);
-		//static_assert(checkValues());
+		static_assert(checkValues());
 		return l.Ptr(); 
 	};
 	static constexpr decltype(auto) checkValues() 
 	{ 
 		for(uint i = 0; i < decltype(l)::Size-1; ++i)
-			if(l.Value[i] < 'A' || l.Value[i] > 'F' || l.Value[i] < '0' || l.Value[i] > '9' )
+			if(!((l.Value[i] >= 'a' && l.Value[i] <= 'f' ) ||(l.Value[i] >= 'A' && l.Value[i] <= 'F' ) || (l.Value[i] >= '0' && l.Value[i] <= '9')))
 				return false;
 		return true; 
 	};
