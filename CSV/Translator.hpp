@@ -4,6 +4,7 @@
 #include "../Common/Color.hpp"
 #include "../Common/IClone.hpp"
 #include "../String/String_.hpp"
+#include "../ObjectFactory/Factory.hpp"
 
 #pragma once
 
@@ -67,6 +68,8 @@ class Translator
         const std::string fileName;
 		int id = 1;
 		std::unique_ptr<std::vector<std::unique_ptr<Line>>> translates;
+		Factory<ITranslate> factory;
+		
 		static auto read()
 		{
 			auto result = std::make_unique<std::vector<std::unique_ptr<Line>>>();
