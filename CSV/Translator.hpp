@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "../Common/Color.hpp"
+#include "../String/String_.hpp"
 
 #pragma once
 
@@ -9,8 +10,9 @@
 
 class Line
 {   
-		static auto read()
+		static auto read(const std::string& s)
 		{
+			auto split = String_::Split(s,';');
 			auto result = std::vector<std::string>();
 			result.push_back("additional heating costs");
 			result.push_back("Heiznebenkosten");
@@ -18,7 +20,7 @@ class Line
 			return result;
 		}
 	public: 
-        Line(): words{read()} {   }
+        Line(const std::string& s): words{read(s)} {   }
         virtual ~Line(){  };
 		bool operator==(const std::string& s) const {	return std::find(words.begin(), words.end(), s) != words.end();	}
 		const auto& operator[](size_t i) const {	return words.at(i);	}
@@ -39,8 +41,8 @@ class Translator
 		static auto read()
 		{
 			auto result = std::make_unique<std::vector<Line>>();
-			result->push_back(Line());
-			result->push_back(Line());
+			result->push_back(Line("additional heating costs;Heiznebenkosten;HeatExtraCosts"));
+			result->push_back(Line("extra costs;Nebenkosten;ExtraCosts"));
 			return result;
 		}
         Translator(): translates{read()}
