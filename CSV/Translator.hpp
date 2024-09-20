@@ -13,6 +13,7 @@ class ITranslate: public IClone<ITranslate>
 {   
 	public:
 		const auto& operator()() const {	return get();	}
+		const auto& Get() const {	return get();	}
 		bool operator==(const std::string& s) const {	return s == get();	}
 	private:
 		friend std::ostream& operator<<(std::ostream& out, const ITranslate& e) 	{	return out<<e.get();	}
@@ -20,15 +21,15 @@ class ITranslate: public IClone<ITranslate>
 };
 
 template<typename L>
-class Translate: ITranslate
+class Translate: public ITranslate
 {   
 	public:
-		using Language = L::Identifier;
+		inline static const std::string Language = L::Identifier;
         Translate(const std::string& s): word{s} {   }
         virtual ~Translate(){  };
 	private:
-		std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate<L>>(word); };
-		const auto& get() const { return word; };
+		std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate>(word); };
+		const std::string& get() const { return word; };
 		std::string word;
 };
 
@@ -37,34 +38,34 @@ class Line
 		static auto read(const std::string& s)
 		{
 			auto split = String_::Split(s,';');
-			auto result = std::vector<std::string>();
-			std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result.push_back(t); });
+			auto result = std::make_unique<std::vector<std::unique_ptr<ITranslate>>>();
+			std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result->push_back(std::make_unique<Translate<German>>(t)); });
 			return result;
 		}
 	public: 
-        Line(const std::string& s): words{read(s)} {   }
+        Line(const std::string& s): translates{read(s)} {   }
         virtual ~Line(){  };
-		bool operator==(const std::string& s) const {	return std::find(words.begin(), words.end(), s) != words.end();	}
-		const auto& operator[](size_t i) const {	return words.at(i);	}
+		bool operator==(const std::string& s) const {	return std::find_if(translates->begin(), translates->end(), [&s](const auto& w) { return w->Get() == s; }) != translates->end();	}
+		const auto& operator[](size_t i) const {	return translates->at(i)->Get();	}
 	private:
 		friend std::ostream& operator<<(std::ostream& out, const Line& e) 
 		{
-			std::for_each(e.words.begin(), e.words.end(), [&](const auto& s) { out<<s<<"\t\t"; });
+			std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<*s<<"\t\t"; });
 			return out<<"\n";
 		}
-		std::vector<std::string> words;
+		std::unique_ptr<std::vector<std::unique_ptr<ITranslate>>> translates;
 };
 
 class Translator
 {   
         const std::string fileName;
 		int id = 1;
-		std::unique_ptr<std::vector<Line>> translates;
+		std::unique_ptr<std::vector<std::unique_ptr<Line>>> translates;
 		static auto read()
 		{
-			auto result = std::make_unique<std::vector<Line>>();
-			result->push_back(Line("additional heating costs;Heiznebenkosten;HeatExtraCosts"));
-			result->push_back(Line("extra costs;Nebenkosten;ExtraCosts"));
+			auto result = std::make_unique<std::vector<std::unique_ptr<Line>>>();
+			result->push_back(std::make_unique<Line>("additional heating costs;Heiznebenkosten;HeatExtraCosts"));
+			result->push_back(std::make_unique<Line>("extra costs;Nebenkosten;ExtraCosts"));
 			return result;
 		}
         Translator(): translates{read()}
@@ -78,7 +79,7 @@ class Translator
         virtual ~Translator(){  };
 		friend std::ostream& operator<<(std::ostream& out, const Translator& e) 
 		{
-			std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<s<<"\n"; });
+			std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<*s<<"\n"; });
 			return out;
 		}
     public: 
@@ -86,8 +87,8 @@ class Translator
 		{
 			for(size_t i = 0;i < translates->size(); ++i)
 			{
-				if(translates->at(i)==s && id != -1)
-					return translates->at(i)[id];
+				if(*(translates->at(i))==s && id != -1)
+					return (*translates->at(i))[id];
 			}
 			return s;
 		}
