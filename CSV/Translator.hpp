@@ -20,6 +20,8 @@ class ITranslate: public IClone<ITranslate>
 		virtual const std::string& get() const = 0;
 };
 
+struct Translator;
+
 template<typename L>
 class Translate: public ITranslate
 {   
@@ -28,8 +30,10 @@ class Translate: public ITranslate
         Translate(const std::string& s): word{s} {   }
         virtual ~Translate(){  };
 	private:
+		friend class Translator;
 		std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate>(word); };
 		const std::string& get() const { return word; };
+		//static void do() { }
 		std::string word;
 };
 
@@ -58,6 +62,8 @@ class Line
 
 class Translator
 {   
+		friend class Line;
+		template<typename> friend class Translate;
         const std::string fileName;
 		int id = 1;
 		std::unique_ptr<std::vector<std::unique_ptr<Line>>> translates;
