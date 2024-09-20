@@ -8,28 +8,33 @@
 
 struct German		{   static constexpr const char* Identifier ="German"; };
 
-class Line
+template<typename T>
+class IClone
 {   
-		static auto read(const std::string& s)
-		{
-			auto split = String_::Split(s,';');
-			auto result = std::vector<std::string>();
-			std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result.push_back(t); });
-			return result;
-		}
-	public: 
-        Line(const std::string& s): words{read(s)} {   }
-        virtual ~Line(){  };
-		bool operator==(const std::string& s) const {	return std::find(words.begin(), words.end(), s) != words.end();	}
-		const auto& operator[](size_t i) const {	return words.at(i);	}
+	public:
+		auto Clone() const  { return clone(); };
 	private:
-		friend std::ostream& operator<<(std::ostream& out, const Line& e) 
-		{
-			std::for_each(e.words.begin(), e.words.end(), [&](const auto& s) { out<<s<<"\t\t"; });
-			return out<<"\n";
-		}
-		std::vector<std::string> words;
+		virtual std::unique_ptr<T> clone() const  = 0;
 };
+
+class ITranslate: public IClone<ITranslate>
+{   
+	public: 
+};
+
+template<typename L>
+class Translate
+{   
+	public: 
+        Translate(const std::string& s): word{s} {   }
+        virtual ~Translate(){  };
+		bool operator==(const std::string& s) const {	return s == word;	}
+		const auto& operator[](size_t i) const {	return word;	}
+	private:
+		friend std::ostream& operator<<(std::ostream& out, const Translate& e) 	{	return out<<e.word;	}
+		std::string word;
+};
+
 class Line
 {   
 		static auto read(const std::string& s)
