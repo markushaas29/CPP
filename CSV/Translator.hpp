@@ -31,7 +31,7 @@ class Translate: public ITranslate
         Translate(const std::string& s): word{s} {   }
         virtual ~Translate(){  };
 		template<typename T>
-        static inline void instance() { std::cout<<"REG"<<std::endl;;T::Instance().factory; }
+        static inline void instance() { T::instance().factory; }
 	private:
 		friend class Translator;
 		std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate>(word); };
@@ -87,10 +87,14 @@ class Translator
         Translator(const Translator&) = delete;
         void operator=(const Translator&) = delete;
         virtual ~Translator(){  };
+        static Translator& instance()
+        {
+            static Translator translator;
+            return translator;
+        };
 		friend std::ostream& operator<<(std::ostream& out, const Translator& e) 
 		{
 			std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<*s<<"\n"; });
-			Translate<German>::instance<Translator>();
 			return out;
 		}
     public: 
@@ -105,7 +109,8 @@ class Translator
 		}
         static Translator& Instance()
         {
-            static Translator translator;
+            auto& translator = instance();
+			Translate<German>::instance<Translator>();
             return translator;
         };
 };
