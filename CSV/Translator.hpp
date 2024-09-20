@@ -6,7 +6,7 @@
 
 #pragma once
 
-//struct Debug: LogTypeBase<Debug, Default>{   static constexpr const char* Identifier ="[DEBUG]: "; };
+struct German		{   static constexpr const char* Identifier ="German"; };
 
 class Line
 {   
@@ -14,9 +14,29 @@ class Line
 		{
 			auto split = String_::Split(s,';');
 			auto result = std::vector<std::string>();
-			result.push_back("additional heating costs");
-			result.push_back("Heiznebenkosten");
-			result.push_back("HeatExtraCosts");
+			std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result.push_back(t); });
+			return result;
+		}
+	public: 
+        Line(const std::string& s): words{read(s)} {   }
+        virtual ~Line(){  };
+		bool operator==(const std::string& s) const {	return std::find(words.begin(), words.end(), s) != words.end();	}
+		const auto& operator[](size_t i) const {	return words.at(i);	}
+	private:
+		friend std::ostream& operator<<(std::ostream& out, const Line& e) 
+		{
+			std::for_each(e.words.begin(), e.words.end(), [&](const auto& s) { out<<s<<"\t\t"; });
+			return out<<"\n";
+		}
+		std::vector<std::string> words;
+};
+class Line
+{   
+		static auto read(const std::string& s)
+		{
+			auto split = String_::Split(s,';');
+			auto result = std::vector<std::string>();
+			std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result.push_back(t); });
 			return result;
 		}
 	public: 
