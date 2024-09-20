@@ -30,10 +30,10 @@ class Translate: public ITranslate
 		inline static const std::string Language = L::Identifier;
         Translate(const std::string& s): word{s} {   }
         virtual ~Translate(){  };
-		template<typename T>
-        static inline void instance() { T::instance().factory; }
 	private:
 		friend class Translator;
+		template<typename T>
+        static inline void instance() { T::instance().factory; }
 		std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate>(word); };
 		const std::string& get() const { return word; };
 		std::string word;
