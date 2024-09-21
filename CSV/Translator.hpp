@@ -58,7 +58,7 @@ class Translator
 			        else
 			        {
 			            using Type = std::tuple_element_t<N,Languages>;
-						//auto m = Translator::factory[Type::Identifier];
+						auto m = Translator::factory[Type::Identifier];
 			            return exec<N+1>(res);
 			        }
 			    }
@@ -86,28 +86,28 @@ class Translator
 		
 		static auto read()
 		{
+			exec<0>(factory);
 			auto result = std::make_unique<std::vector<std::unique_ptr<Line>>>();
 			result->push_back(std::make_unique<Line>("additional heating costs;Heiznebenkosten;HeatExtraCosts"));
 			result->push_back(std::make_unique<Line>("extra costs;Nebenkosten;ExtraCosts"));
 			return result;
 		}
 		template<size_t N>
-	    static auto exec(auto& res)
+	    static void exec(Factory<ITranslate>& res)
 	    {
 	        if constexpr (std::tuple_size<Languages>()==N)
-	            return res;
+	            return;
 	        else
 	        {
 	            using Type = std::tuple_element_t<N,Languages>;
 				res.Register(Type::Identifier,[](const std::string& s) { return std::make_unique<Translate<Type>>(s); });
-	            return exec<N+1>(res);
+	            exec<N+1>(res);
 	        }
 	    }
 		
         Translator(): translates{read()}
         {
 			std::cout<<"Translator"<<std::endl;
-			exec<0>(factory);
  //           if(!this->file.good())
  //                throw std::ios_base::failure(this->logFileName);
         }
