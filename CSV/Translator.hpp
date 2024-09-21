@@ -22,9 +22,6 @@ class ITranslate: public IClone<ITranslate>
 		virtual const std::string& get() const = 0;
 };
 
-struct Translator;
-
-
 class Translator
 {   
 		friend class Line;
@@ -53,20 +50,23 @@ class Translator
 					std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result->push_back(std::make_unique<Translate<German>>(t)); });
 					return result;
 				}
-		//		template<size_t N>
-		//	    static auto exec(auto& res)
-		//	    {
-		//	        if constexpr (std::tuple_size<Languages>()==N)
-		//	            return res;
-		//	        else
-		//	        {
-		//	            using Type = std::tuple_element_t<N,Languages>;
-		//				res.Register(Type::Identifier,[](const std::string& s) { return std::make_unique<Translate<Type>>(s); });
-		//	            return exec<N+1>(res);
-		//	        }
-		//	    }
+				template<size_t N>
+			    static auto exec(auto&& res)
+			    {
+			        if constexpr (std::tuple_size<Languages>()==N)
+			            return std::move(res);
+			        else
+			        {
+			            using Type = std::tuple_element_t<N,Languages>;
+						//auto m = Translator::factory[Type::Identifier];
+			            return exec<N+1>(res);
+			        }
+			    }
 			public: 
-		        Line(const std::string& s): translates{read(s)} {   }
+		        Line(const std::string& s): translates{read(s)} 
+				{
+					translates = exec<0>(translates);
+				}
 		        virtual ~Line(){  };
 				bool operator==(const std::string& s) const {	return std::find_if(translates->begin(), translates->end(), [&s](const auto& w) { return w->Get() == s; }) != translates->end();	}
 				const auto& operator[](size_t i) const {	return translates->at(i)->Get();	}
@@ -78,10 +78,11 @@ class Translator
 				}
 				std::unique_ptr<std::vector<std::unique_ptr<ITranslate>>> translates;
 		};
+
         const std::string fileName;
 		int id = 1;
 		std::unique_ptr<std::vector<std::unique_ptr<Line>>> translates;
-		Factory<ITranslate> factory;
+		inline static Factory<ITranslate> factory;
 		
 		static auto read()
 		{
@@ -113,11 +114,6 @@ class Translator
         Translator(const Translator&) = delete;
         void operator=(const Translator&) = delete;
         virtual ~Translator(){  };
-        static Translator& instance()
-        {
-            static Translator translator;
-            return translator;
-        };
 		friend std::ostream& operator<<(std::ostream& out, const Translator& e) 
 		{
 			std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<*s<<"\n"; });
@@ -135,7 +131,7 @@ class Translator
 		}
         static Translator& Instance()
         {
-            auto& translator = instance();
+            static Translator translator;
             return translator;
         };
 };
