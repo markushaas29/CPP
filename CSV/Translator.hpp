@@ -46,18 +46,18 @@ class Line
 			std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result->push_back(std::make_unique<Translate<German>>(t)); });
 			return result;
 		}
-		template<size_t N>
-	    static auto exec(auto& res)
-	    {
-	        if constexpr (std::tuple_size<Languages>()==N)
-	            return res;
-	        else
-	        {
-	            using Type = std::tuple_element_t<N,Languages>;
-				res.Register(Type::Identifier,[](const std::string& s) { return std::make_unique<Translate<Type>>(s); });
-	            return exec<N+1>(res);
-	        }
-	    }
+//		template<size_t N>
+//	    static auto exec(auto& res)
+//	    {
+//	        if constexpr (std::tuple_size<Languages>()==N)
+//	            return res;
+//	        else
+//	        {
+//	            using Type = std::tuple_element_t<N,Languages>;
+//				res.Register(Type::Identifier,[](const std::string& s) { return std::make_unique<Translate<Type>>(s); });
+//	            return exec<N+1>(res);
+//	        }
+//	    }
 	public: 
         Line(const std::string& s): translates{read(s)} {   }
         virtual ~Line(){  };
