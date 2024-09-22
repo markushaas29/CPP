@@ -10,6 +10,7 @@
 
 struct English		{   static constexpr const char* Identifier ="English"; };
 struct German		{   static constexpr const char* Identifier ="German"; };
+struct TokenId		{   static constexpr const char* Identifier ="TokenId"; };
 
 class ITranslate: public IClone<ITranslate>
 {   
@@ -25,7 +26,7 @@ class ITranslate: public IClone<ITranslate>
 class Translator
 {   
 		friend class Line;
-		using Languages = std::tuple<English,German>;
+		using Languages = std::tuple<English,German,TokenId>;
 		template<typename> friend class Translate;
 
 		template<typename L>
@@ -43,31 +44,28 @@ class Translator
 		
 		class Line
 		{   
-				static auto read(const std::string& s)
-				{
-					auto split = String_::Split(s,';');
-					auto result = std::make_unique<std::vector<std::unique_ptr<ITranslate>>>();
-					std::for_each(split.cbegin(), split.cend(), [&](const auto& t) { result->push_back(std::make_unique<Translate<German>>(t)); });
-					return result;
-				}
 				template<size_t N>
-			    static auto exec(auto&& res)
+			    static auto build(auto&& res, const auto s)
 			    {
 			        if constexpr (std::tuple_size<Languages>()==N)
 			            return std::move(res);
 			        else
 			        {
 			            using Type = std::tuple_element_t<N,Languages>;
-						auto m = Translator::factory[Type::Identifier];
-			            return exec<N+1>(res);
+						res->push_back(Translator::factory[Type::Identifier](s[N]));
+			            return build<N+1>(res,s);
 			        }
 			    }
-			public: 
-		        Line(const std::string& s): translates{read(s)} 
+				static auto read(const std::string& s)
 				{
-					translates = exec<0>(translates);
+					auto split = String_::Split(s,';');
+                   	auto result = build<0>(std::make_unique<std::vector<std::unique_ptr<ITranslate>>>(), split);
+					return result;
 				}
+			public: 
+		        Line(const std::string& s): translates{read(s)} {	}
 		        virtual ~Line(){  };
+				size_t Size() { return translates->size(); }
 				bool operator==(const std::string& s) const {	return std::find_if(translates->begin(), translates->end(), [&s](const auto& w) { return w->Get() == s; }) != translates->end();	}
 				const auto& operator[](size_t i) const {	return translates->at(i)->Get();	}
 			private:
