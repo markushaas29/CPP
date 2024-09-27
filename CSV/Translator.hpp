@@ -4,6 +4,7 @@
 #include "../Common/Color.hpp"
 #include "../Common/IClone.hpp"
 #include "../String/String_.hpp"
+#include "../File/Node.hpp"
 #include "../ObjectFactory/Factory.hpp"
 
 #pragma once
@@ -85,9 +86,10 @@ class Translator
 		static auto read()
 		{
 			exec<0>(factory);
+			auto lines = FS::ReadLines("/home/markus/Downloads/CSV_TestFiles_2/Translates.txt");
 			auto result = std::make_unique<std::vector<std::unique_ptr<Line>>>();
-			result->push_back(std::make_unique<Line>("additional heating costs;Heiznebenkosten;HeatExtraCosts"));
-			result->push_back(std::make_unique<Line>("extra costs;Nebenkosten;ExtraCosts"));
+			for(auto l : lines)
+				result->push_back(std::make_unique<Line>(l));
 			return result;
 		}
 
