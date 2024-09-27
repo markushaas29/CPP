@@ -92,21 +92,6 @@ class Translator
 				result->push_back(std::make_unique<Line>(l));
 			return result;
 		}
-
-		static std::vector<std::string> ReadLines(const std::string& path)
-	    {
-	        std::string line;
-	        auto result = std::vector<std::string>();
-	
-	        std::ifstream ifs (path);
-	        if (ifs.is_open())
-	        {
-	            while ( getline (ifs,line) ){   result.push_back(line);     }
-	            ifs.close();
-	        }
-	
-	        return result;
-		}
     
 		template<size_t N>
 	    static void exec(Factory<ITranslate>& res)
