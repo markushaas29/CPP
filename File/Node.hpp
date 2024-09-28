@@ -20,12 +20,18 @@ namespace fs = std::filesystem;
 
 namespace FS
 {
+	inline static constexpr const char TypeIdentifier[] = "FS";
+	inline static constexpr Literal TypeId{TypeIdentifier};
+	template<typename U> using IsT =  Is<U,TypeId>;
+	
 	static std::vector<std::string> ReadLines(const std::string& path)
 	{
 		std::string line;
 		auto result = std::vector<std::string>();			
-		
+	
+
 		std::ifstream ifs (path);
+		IsT<Throwing>(Format("File: ",path, " not found!"))(ifs.is_open());
 		if (ifs.is_open())
 		{
 			while ( getline (ifs,line) ){	result.push_back(line);		}
