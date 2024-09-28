@@ -226,7 +226,9 @@ private:
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
 		auto mf = MatrixFormatter(result->M());  
-   //     f(mf());
+		auto hb = HtmlBuilder<German>("Account_"+ Base::year.ToString() +".html", "/home/markus/Downloads/CSV_TestFiles_2");
+        hb(mf());
+		hb();
 
 		return result->Elements();
 	}
