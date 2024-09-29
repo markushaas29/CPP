@@ -21,7 +21,8 @@ public:
     Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
 		Base{fE,fB,y}, tokenFactory{fT}, file{HtmlBuilder<German>(std::string(T::Name)+ y.ToString() +".html")}, 
 		account{std::make_unique<AccountCalculator>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, p)},
-		proportion{std::make_unique<ProportionCalculator<Stage>>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year,p)} { }
+		proportion{std::make_unique<ProportionCalculator<Stage>>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year,p)},
+		path{p}{ }
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) 
 	{
@@ -38,9 +39,10 @@ public:
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	HtmlBuilder<German> file;
+	std::string path;
     friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
-    virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f)  {	return typename Base::MatrixType(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>(value(f))});    };
+    virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y)  {	return typename Base::MatrixType(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>(value(f))});    };
     virtual typename Base::QuantityType value(const HtmlBuilder<German>& f) 
     {
         using MDS2 = MatrixDescriptor<2,std::string>;

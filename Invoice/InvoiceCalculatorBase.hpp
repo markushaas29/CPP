@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert> 
 #include <vector> 
+#include <map> 
 #include <memory> 
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixReader.hpp"
@@ -36,6 +37,7 @@ public:
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()(const HtmlBuilder<German>& f) { return get(f); };
+	MatrixType operator()(const HtmlBuilder<German>& f, const Year& y) { return get(f,y); };
 	auto Y() const { return y(); }
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
     auto Value(const HtmlBuilder<German>& f) { return value(f); };    
@@ -45,6 +47,7 @@ private:
 	virtual const Year& y() const = 0;
 	//virtual MatrixType get() = 0;
 	virtual MatrixType get(const HtmlBuilder<German>& f) = 0;
+	virtual MatrixType get(const HtmlBuilder<German>& f, const Year& y) = 0;
 	virtual QuantityType value(const HtmlBuilder<German>& f)  { return acc();    };
 	auto acc() 
     {
@@ -65,19 +68,26 @@ class CalculatorBase: public ICalculator<Q>
 	template<typename U> using IsT =  Is<U,TypeId>;
 	using Base = ICalculator<Q>;
 protected:
-	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y): elementFactory{fE}, visitorFactory{fB}, year{y} {};
+	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y): cache{std::make_unique<std::map<Year,typename Base::MatrixType>>()}, elementFactory{fE}, visitorFactory{fB}, year{y} {};
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
 	Year year;
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
+	std::unique_ptr<std::map<Year,typename Base::MatrixType>> cache;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
-	virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f) = 0;
+	virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) = 0;
 	virtual typename Base::MatrixType get(const HtmlBuilder<German>& f) 
 	{
 		if(!matrix)
-			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f));
+			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f,Year{1900}));
 		return *matrix;
+	};
+	virtual typename Base::MatrixType get(const HtmlBuilder<German>& f, const Year& y) 
+	{
+		if(!cache->contains(y))
+			(*cache)[y] = this->exec(f,y);
+		return (*cache)[y];
 	};
 	virtual const Year& y() const { return year; }
 };
