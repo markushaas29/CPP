@@ -31,14 +31,15 @@ class AccountCalculator: public CalculatorBase<Quantity<Sum>, AccountCalculator>
 {
 	using Base = CalculatorBase<Quantity<Sum>, AccountCalculator>;
 public:
-	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, parser{std::make_unique<AccountParser>(fT,p)} {};
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, tokens{fT}, path{p} {};
 	static auto& Instance(auto... t)
     {
         static auto i = AccountCalculator(t...);
         return i;
     };
 private:
-	std::unique_ptr<IMatrixParser<3>> parser;
+	std::string path;
+	std::shared_ptr<Factory<IToken>> tokens;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
 	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) 
 	{
@@ -48,7 +49,7 @@ private:
 		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 		auto typeFactory = std::make_shared<TF>(elementFactory);
 		
-		auto parsedAccountMatrix = (*parser)();
+		auto parsedAccountMatrix = AccountParser::Instance(tokens,path)();
 
 		//std::cout<<parsedAccountMatrix<<std::endl;
 
