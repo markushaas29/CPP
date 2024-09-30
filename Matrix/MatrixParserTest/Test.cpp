@@ -77,9 +77,7 @@ class MatrixParserTest
 			assert(sp(true).Rows()==4);
 			assert(sp().Rows()==3);
 			
-			auto ap = AccountParser(tokenFactory, "/home/markus/Downloads/CSV_TestFiles_2");
-			assert(ap().Cols()==5);
-			std::cout<<ap()<<std::endl;
+			assert(AccountParser::Instance(tokenFactory, "/home/markus/Downloads/CSV_TestFiles_2")().Cols()==5);
 			
 			std::cout<<"END"<<std::endl;
 		   

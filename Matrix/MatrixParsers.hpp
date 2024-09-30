@@ -81,13 +81,13 @@ class AccountParser: public IMatrixParserBase<3>
 {
 	using Base = IMatrixParserBase;
 public:
-	AccountParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 	static auto& Instance(auto... t)
     {
         static auto i = AccountParser(t...);
         return i;
     };
 private:
+	AccountParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 	const std::string fileName = "SN_Name.csv";
 	M3<std::string> matrix() const
 	{
