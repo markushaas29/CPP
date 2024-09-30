@@ -91,16 +91,14 @@ private:
 	const std::string fileName = "SN_Name.csv";
 	M3<std::string> matrix() const
 	{
-		auto u22 = std::string{ path + "//U_2022.csv" };
-		auto u23 = std::string{ path + "//U_2023.csv" };
-        auto u24 = std::string{ path + "//U_2024.csv" };
-        auto m22r = MatrixReader(u22);
-        auto m23r = MatrixReader(u23);
-        auto m24r = MatrixReader(u24);
-        auto m22S = m22r.M<2>();
-        auto m23S = m23r.M<2>();
-        auto m24S = m24r.M<2>();
-        std::vector<decltype(m23S)> accountFiles{m23S, m24S};
+        std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv"};
+        std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
+		for(auto s : paths)
+		{
+        	auto r = MatrixReader(path + s);
+			accountFiles.push_back(r.M<2>());
+		}
+
         return M3(accountFiles);
 	}
 	typename Base::MatrixType exec(bool h = false) const
