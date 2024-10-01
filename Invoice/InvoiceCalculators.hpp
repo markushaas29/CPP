@@ -121,8 +121,8 @@ protected:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) {	return matrix(f);	}
-	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f) const = 0;
+	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) {	return matrix(f,y);	}
+	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const = 0;
 };
 
 template<typename S>
@@ -132,7 +132,7 @@ class ExtraCostItemsCalculator: public StageBase<S>
 public:
 	ExtraCostItemsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 private:
-	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f) const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
+	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
 };
 
 template<typename S>
@@ -142,7 +142,7 @@ class YearlyExtraCostsCalculator: public StageBase<S>
 public:
 	YearlyExtraCostsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y,p} {};
 private:
-	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f) const
+	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
 	{
 		auto m = (*(Base::parser))();
 		auto mf1 = MatrixFormatter(m[S::Index-1]);
@@ -161,12 +161,12 @@ class ProportionCalculator: public StageBase<S>
 public:
 	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 private:
-	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f) const
-	{ 
+	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
+	{
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
-        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f).Rows(S::Index-1);
+        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y).Rows(S::Index-1);
 //		std::vector<std::shared_ptr<IElement>> v = {std::make_shared<Quantity<Sum>>(costs[0]())};
 //		auto result = Init(v)();
 //		std::cout<<"MATRIX R"<<result<<std::endl;
@@ -187,7 +187,7 @@ private:
     }
     
     template<size_t N, typename Tup>
-    auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, const HtmlBuilder<German>& f) const
+    auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, const HtmlBuilder<German>& f, const Year& y) const
     {
         auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
@@ -212,7 +212,7 @@ private:
 		outs->push_back(std::move(div1));
 		//html(mf());
 
-        auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(html, Base::year).template To<Quantity<Sum>>();  
+        auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(html, y).template To<Quantity<Sum>>();  
         //auto sumMatrix = account(html).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());

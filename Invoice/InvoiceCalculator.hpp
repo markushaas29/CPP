@@ -35,7 +35,7 @@ public:
 	    auto e = extraCosts(file)[0];
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts(file)[0].template As<Quantity<Sum>>();
 	}
-	auto Costs() { auto b = HtmlBuilder<German>("");return (*account)(b).To<Quantity<Sum>>(); }
+	auto Costs() { auto b = HtmlBuilder<German>("");return AccountCalculator::Instance(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, path)(b, Base::year).template To<Quantity<Sum>>(); }
 	auto Prop() { return (*proportion)(file); }
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
@@ -76,7 +76,7 @@ private:
         
         const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
 
-		auto pm = (*proportion)(file);
+		auto pm = (*proportion)(file,Base::year);
 		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 
 		std::cout << "Calculation Time "<<Stage::Index<<" :"<< std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
@@ -102,7 +102,7 @@ private:
 	auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
 	{
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
-	    auto sumMatrix = (*account)(file).To<Quantity<Sum>>();
+	    auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(file, Base::year).template To<Quantity<Sum>>();
 	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 	    return stagesDiv * sumMatrix;                                                                                                       
 	}
