@@ -35,7 +35,7 @@ public:
 	    auto e = extraCosts(file)[0];
 	    return costs()[0].template To<Quantity<Sum>>() + extraCosts(file)[0].template As<Quantity<Sum>>();
 	}
-	auto Costs() { auto b = HtmlBuilder<German>("");return AccountCalculator::Instance(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, path)(b, Base::year).template To<Quantity<Sum>>(); }
+	auto Costs(HtmlBuilder<German> b = HtmlBuilder<German>("")) { return AccountCalculator::Instance(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, path)(b, Base::year).template To<Quantity<Sum>>(); }
 	auto Prop() { return (*proportion)(file); }
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;

@@ -40,7 +40,7 @@ public:
 	MatrixType operator()(const HtmlBuilder<German>& f, const Year& y) { return get(f,y); };
 	auto Y() const { return y(); }
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
-    auto Value(const HtmlBuilder<German>& f) { return value(f); };    
+    auto Value(const HtmlBuilder<German>& f = HtmlBuilder<German>("") ) { return value(f); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
