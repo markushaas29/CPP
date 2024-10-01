@@ -107,7 +107,7 @@ class TemplatizedAll_Test2024
 //
 //			assert(inv->Value(hb).Equals(Quantity<Sum>{-93.51},0.01));
 			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
-//			assert(invM->Value(hb).Equals(Quantity<Sum>{-158.42},0.01));
+			assert(invM->Value(hb).Equals(Quantity<Sum>{509.42},0.01));
 //			assert(invM->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{525});
 //	        assert(invM->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{0});
 //          	assert(invM->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{210});
