@@ -27,6 +27,7 @@ class TemplatizedAll_Test2023
 		int Run()
 		{
 			std::cout<<"START TemplatizedAll_ 2023"<<std::endl;
+			auto b1 = std::chrono::steady_clock::now();
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MS2 = Matrix<2,MDS2>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
@@ -72,6 +73,9 @@ class TemplatizedAll_Test2023
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
+			std::chrono::steady_clock::time_point e1 = std::chrono::steady_clock::now();
+
+			std::cout << "Calculation Time Init :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
 			
 			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
 			auto pBottom = ProportionCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
@@ -104,6 +108,9 @@ class TemplatizedAll_Test2023
           	assert(inv->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{67});
 //          	std::cout<<"MS sum:\n"<<inv->Prop().Accumulate(1,3)*12<<std::endl;
 //          	assert(inv->Prop().Accumulate(1,3)*12==Quantity<Sum>{2424});
+			
+			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
+			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
 			assert(inv->Value(hb).Equals(Quantity<Sum>{-93.51},0.01));
 			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
