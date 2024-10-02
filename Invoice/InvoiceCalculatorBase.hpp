@@ -81,7 +81,7 @@ private:
 	virtual typename Base::MatrixType get(const HtmlBuilder<German>& f) 
 	{
 		if(!matrix)
-			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f,Year{1900}));
+			matrix = std::make_unique<typename Base::MatrixType>(this->exec(f,year));
 		return *matrix;
 	};
 	virtual typename Base::MatrixType get(const HtmlBuilder<German>& f, const Year& y) 

@@ -146,8 +146,6 @@ private:
 	{
 		auto m = (*(Base::parser))();
 		auto mf1 = MatrixFormatter(m[S::Index-1]);
-        auto html = HtmlBuilder<German>(std::to_string(S::Index)+"_S.html","/home/markus/Downloads/CSV_TestFiles_2");
-		html(mf1());
 		f(mf1());
         auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
         return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>((payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>()) * Quantity<Scalar>{12}) });
@@ -161,16 +159,18 @@ class ProportionCalculator: public StageBase<S>
 public:
 	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 	//auto Proportions() { return}
+	auto Costs() { return matrix(HtmlBuilder<German>(""), Base::year); }
 private:
 	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
 	{
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
-        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y).Rows(S::Index-1);
+        auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y);
 //		std::vector<std::shared_ptr<IElement>> v = {std::make_shared<Quantity<Sum>>(costs[0]())};
 //		auto result = Init(v)();
-		return (*Base::parser)()[S::Index-1];	
+		//return (*Base::parser)()[S::Index-1];
+		return costs;	
 	}
 	template<size_t N, typename Tup>
     auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p, const HtmlBuilder<German>& f) const 
@@ -220,6 +220,8 @@ private:
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
 		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
+		std::vector<std::shared_ptr<IElement>> vprr;
+
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
@@ -230,6 +232,7 @@ private:
 			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(result[i][i])));
 			vpr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
+			vprr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
 			vp.push_back(vpr);
 		}
 
@@ -266,7 +269,8 @@ private:
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
-        return result;                                                                                                       
+		//std::cout<<"ELEMENTS"<<Init(vprr)()<<std::endl;
+        return Init(vprr)();                                                                                                       
     }
 
 	template<typename T, typename... R>
