@@ -269,7 +269,6 @@ private:
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
-		//std::cout<<"ELEMENTS"<<Init(vprr)()<<std::endl;
         return Init(vprr)();                                                                                                       
     }
 
