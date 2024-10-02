@@ -79,7 +79,7 @@ class TemplatizedAll_Test2023
 			
 			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
 			auto pBottom = ProportionCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
-			HtmlBuilder<German> hb("");
+			HtmlBuilder<German> hb(path);
 			std::cout<<"P--->"<<pBottom(hb)<<std::endl;
 			assert(extra_Bottom.Value(hb).Equals(Quantity<Sum>{660},0.01));
 			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
@@ -98,6 +98,7 @@ class TemplatizedAll_Test2023
 			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
 			std::cout<<"Prop--->"<<inv->Prop()<<std::endl;
 			assert(inv->Prop()[3].As<Quantity<Area>>()==Quantity<Area>{100});
+			(*inv)(hb);
 
 			auto m = inv->calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
 			std::cout<<"ALL Res--->"<<m<<std::endl;
@@ -129,6 +130,9 @@ class TemplatizedAll_Test2023
 			std::cout<<"END 2023"<<itq<<std::endl;
 
 			auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
+			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
+			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			propM23(bM,Year{2023});
 			std::cout<<"M23"<<invM->Costs()<<std::endl;
 			std::cout<<"M24"<<invM24->Costs()<<std::endl;
 			//assert(invM24->Value().Equals(Quantity<Sum>{-158.42},0.01));

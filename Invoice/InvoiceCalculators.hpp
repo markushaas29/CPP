@@ -160,6 +160,7 @@ class ProportionCalculator: public StageBase<S>
 	using Base = StageBase<S>;
 public:
 	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
+	//auto Proportions() { return}
 private:
 	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
 	{
@@ -169,7 +170,6 @@ private:
         auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y).Rows(S::Index-1);
 //		std::vector<std::shared_ptr<IElement>> v = {std::make_shared<Quantity<Sum>>(costs[0]())};
 //		auto result = Init(v)();
-//		std::cout<<"MATRIX R"<<result<<std::endl;
 		return (*Base::parser)()[S::Index-1];	
 	}
 	template<size_t N, typename Tup>
