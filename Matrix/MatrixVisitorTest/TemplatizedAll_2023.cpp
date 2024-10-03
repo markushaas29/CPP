@@ -89,8 +89,25 @@ class TemplatizedAll_Test2023
 			assert(extraCostsBottom.Value(hb).Equals(Quantity<Sum>{2424},0.01));
 			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
 			std::cout<<"ItemsCalculator--->"<<extra_Bottom<<std::endl;
-			std::cout<<"Costs--->"<<extraCostsBottom<<std::endl;
 
+			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
+			auto propB23 = ProportionCalculator<Bottom>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			auto bMS = propB23(bM,Year{2023}).To<Quantity<Sum>>();
+			auto propB = propB23.AdvanceItems()[1];
+			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
+			assert(propB23.Result().Equals(Quantity<Sum>{-93.51},0.01));
+			std::cout<<"Costs--->"<<propB()[0]<<std::endl;
+			assert(propB()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
+	        assert(propB()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
+          	assert(propB()[2].As<Quantity<Sum>>()==Quantity<Sum>{67});
+			assert(bMS[0]().Equals(Quantity<Sum>{-98.77},0.01));
+			assert(bMS[1]().Equals(Quantity<Sum>{-1232.09},0.01));
+			assert(bMS[2]().Equals(Quantity<Sum>{-487.89},0.01));
+			assert(bMS[3]().Equals(Quantity<Sum>{-183.78},0.01));
+			assert(bMS[4]().Equals(Quantity<Sum>{-164.32},0.01));
+			assert(bMS[5]().Equals(Quantity<Sum>{-350.66},0.01));
+			assert(propB23.Value().Equals(Quantity<Sum>{-2517.51},0.01));
+			
 			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,path);
 			assert(inv->Costs()[0]==Quantity<Sum>{-296.31});
@@ -131,7 +148,6 @@ class TemplatizedAll_Test2023
 			auto itq = (*invT)(hb);
 
 			//auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
-			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto mMS = propM23(bM,Year{2023}).To<Quantity<Sum>>();
 			auto propM = propM23.AdvanceItems()[1];
