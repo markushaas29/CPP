@@ -78,17 +78,6 @@ class TemplatizedAll_Test2023
 
 			std::cout << "Calculation Time Init :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
 			
-			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
-			auto pBottom = ProportionCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2023},path};
-			HtmlBuilder<German> hb(path);
-			std::cout<<"P--->"<<pBottom(hb)<<std::endl;
-			assert(extra_Bottom.Value(hb).Equals(Quantity<Sum>{660},0.01));
-			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
-			auto extra_Top = ExtraCostItemsCalculator<Top>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
-			auto extraCostsBottom = YearlyExtraCostsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
-			assert(extraCostsBottom.Value(hb).Equals(Quantity<Sum>{2424},0.01));
-			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2023},path};
-			std::cout<<"ItemsCalculator--->"<<extra_Bottom<<std::endl;
 
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			auto propB23 = ProportionCalculator<Bottom>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
@@ -108,46 +97,10 @@ class TemplatizedAll_Test2023
 			assert(bMS[5]().Equals(Quantity<Sum>{-350.66},0.01));
 			assert(propB23.Value().Equals(Quantity<Sum>{-2517.51},0.01));
 			
-			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
-			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,path);
-			assert(inv->Costs()[0]==Quantity<Sum>{-296.31});
-			std::cout<<"Prop--->"<<inv->Costs()<<std::endl;
-			assert(inv->Costs()[1]==Quantity<Sum>{-3326.63});
-			assert(b.Equals(Quantity<Sum>{-93.51},0.01));
-			std::cout<<"Prop--->"<<inv->Prop()<<std::endl;
-			//assert(inv->Prop()[3].As<Quantity<Area>>()==Quantity<Area>{100});
-			(*inv)(hb);
-
-			auto m = inv->calcAll<1,AllStages>(mps,tokenFactory,elementFactory,visitorFactory, path);
-			std::cout<<"ALL Res--->"<<m<<std::endl;
-			assert(m.Equals(Quantity<Sum>{-158.42},0.01));
-
-//			assert(inv->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{458});
-//	        assert(inv->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{135});
-//          	assert(inv->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{67});
-//          	std::cout<<"MS sum:\n"<<inv->Prop().Accumulate(1,3)*12<<std::endl;
-//          	assert(inv->Prop().Accumulate(1,3)*12==Quantity<Sum>{2424});
 			
 			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
 			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
-			assert(inv->Value(hb).Equals(Quantity<Sum>{-93.51},0.01));
-			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
-			assert(invM->Value(hb).Equals(Quantity<Sum>{-158.42},0.01));
-//			assert(invM->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{525});
-//	        assert(invM->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{0});
-//          	assert(invM->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{210});
-			auto ibq = (*invM)(hb);
-			
-			auto invT = std::make_unique<Invoice<Top>>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
-			std::cout<<"END 2023"<<invT->Prop()<<std::endl;
-			//assert(invT->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{1});
-	        //assert(invT->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{1000});
-			auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
-          	//assert(invT->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{350});
-			auto itq = (*invT)(hb);
-
-			//auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto mMS = propM23(bM,Year{2023}).To<Quantity<Sum>>();
 			auto propM = propM23.AdvanceItems()[1];
@@ -164,6 +117,24 @@ class TemplatizedAll_Test2023
 			assert(mMS[5]().Equals(Quantity<Sum>{-462.19},0.01));
 			assert(propM23.Value().Equals(Quantity<Sum>{-2678.42},0.01));
 
+			auto propT23 = ProportionCalculator<Top>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			auto mTS = propT23(bM,Year{2023}).To<Quantity<Sum>>();
+			auto propT = propT23.AdvanceItems()[1];
+			std::cout<<"END 2023 "<<propT23.AdvancePayment()<<std::endl;
+			assert(propT23.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
+			assert(propT23.Result().Equals(Quantity<Sum>{13418.19},0.01));
+			assert(propT()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
+	        assert(propT()[1].As<Quantity<Sum>>()==Quantity<Sum>{1000});
+          	assert(propT()[2].As<Quantity<Sum>>()==Quantity<Sum>{350});
+			assert(mTS[0]().Equals(Quantity<Sum>{-49.38},0.01));
+			assert(mTS[1]().Equals(Quantity<Sum>{-862.46},0.01));
+			assert(mTS[2]().Equals(Quantity<Sum>{-975.78},0.01));
+			assert(mTS[3]().Equals(Quantity<Sum>{-551.35},0.01));
+			assert(mTS[4]().Equals(Quantity<Sum>{-94.36},0.01));
+			assert(mTS[5]().Equals(Quantity<Sum>{-248.47},0.01));
+			assert(propT23.Value().Equals(Quantity<Sum>{-2781.81},0.01));
+
+			HtmlBuilder<German> hb(path);
 
 			auto hall = std::make_unique<Hall<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			std::cout<<"Stage"<<mS<<std::endl;
