@@ -129,15 +129,14 @@ class TemplatizedAll_Test2023
 			auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
           	//assert(invT->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{350});
 			auto itq = (*invT)(hb);
-			std::cout<<"END 2023"<<itq<<std::endl;
 
 			//auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto mMS = propM23(bM,Year{2023}).To<Quantity<Sum>>();
-			//auto mMS = propM23.Costs();
 			auto propM = propM23.AdvanceItems()[1];
-			std::cout<<"M23----------"<<propM<<std::endl;
+			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
+			assert(propM23.Result().Equals(Quantity<Sum>{-158.42},0.01));
 			assert(propM()[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
 	        assert(propM()[1].As<Quantity<Sum>>()==Quantity<Sum>{0});
           	assert(propM()[2].As<Quantity<Sum>>()==Quantity<Sum>{210});
@@ -148,11 +147,6 @@ class TemplatizedAll_Test2023
 			assert(mMS[4]().Equals(Quantity<Sum>{-164.32},0.01));
 			assert(mMS[5]().Equals(Quantity<Sum>{-462.19},0.01));
 			assert(propM23.Value().Equals(Quantity<Sum>{-2678.42},0.01));
-			std::cout<<"M24"<<invM24->Costs()<<std::endl;
-			//assert(invM24->Value().Equals(Quantity<Sum>{-158.42},0.01));
-//			assert(invM24->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{525});
-//	        assert(invM24->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{0});
-//          	assert(invM24->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{210});
 
 
 			auto hall = std::make_unique<Hall<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
