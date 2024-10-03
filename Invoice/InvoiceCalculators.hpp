@@ -103,8 +103,6 @@ private:
 			std::cout<<"HALL\n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 		}
 		return (*parser)()[0];	}
-	
-	//virtual typename Base::MatrixType matrix(HtmlBuilder<German> f) const = 0;
 };
 
 template<typename S>
@@ -145,9 +143,6 @@ private:
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
         auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y);
-//		std::vector<std::shared_ptr<IElement>> v = {std::make_shared<Quantity<Sum>>(costs[0]())};
-//		auto result = Init(v)();
-		//return (*Base::parser)()[S::Index-1];
 		return costs;	
 	}
 	template<size_t N, typename Tup>
@@ -180,7 +175,6 @@ private:
 		auto classCss = std::make_unique<StyleElement>();
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 		outs->push_back(std::move(classCss));
-		//outs->push_back(std::make_unique<HtmlElement<DivTag,Date>(Date::Today()));
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<BackgroundColor,RGB<255,1,1>>>>());
 		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0));
@@ -188,10 +182,8 @@ private:
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
-		//html(mf());
 
         auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(html, y).template To<Quantity<Sum>>();  
-        //auto sumMatrix = account(html).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 
@@ -216,7 +208,6 @@ private:
 		auto mfE = MatrixFormatter(resultElements);
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div2->Add(mfE.Html());
-		//append(resultElements,html);
 		
 		auto sum = resultElements.Col(6).template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
@@ -236,12 +227,10 @@ private:
 		};
 
 		auto resultM = Init(costs)();
-		//outs->push_back(MatrixFormatter(resultM).Html());
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<4>>>>());
 		div3->Add(MatrixFormatter(resultM).Html());
 		outs->push_back(std::move(div3));
 		outs->push_back(std::move(div2));
-		//append(resultM,html);
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
