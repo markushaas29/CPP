@@ -13,6 +13,7 @@
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../CSV/Elements.hpp"
+#include "../../CSV/Element.hpp"
 #include "../../CSV/Matcher.hpp"
 #include "../../Quantity/Quantity.hpp"
 #include "../../Functional/Functional.hpp"
@@ -133,9 +134,17 @@ class TemplatizedAll_Test2023
 			//auto invM24 = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
-			auto mMS = propM23(bM,Year{2023});
+			auto mMS = propM23(bM,Year{2023}).To<Quantity<Sum>>();
 			//auto mMS = propM23.Costs();
 			std::cout<<"M23----------"<<mMS<<std::endl;
+			std::cout<<"M23----------"<<propM23.Value()<<std::endl;
+			assert(mMS[0]().Equals(Quantity<Sum>{-148.16},0.01));
+			assert(mMS[1]().Equals(Quantity<Sum>{-1232.09},0.01));
+			assert(mMS[2]().Equals(Quantity<Sum>{-487.89},0.01));
+			assert(mMS[3]().Equals(Quantity<Sum>{-183.78},0.01));
+			assert(mMS[4]().Equals(Quantity<Sum>{-164.32},0.01));
+			assert(mMS[5]().Equals(Quantity<Sum>{-462.19},0.01));
+			assert(propM23.Value().Equals(Quantity<Sum>{-2678.42},0.01));
 			std::cout<<"M24"<<invM24->Costs()<<std::endl;
 			//assert(invM24->Value().Equals(Quantity<Sum>{-158.42},0.01));
 //			assert(invM24->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{525});

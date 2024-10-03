@@ -159,7 +159,7 @@ class ProportionCalculator: public StageBase<S>
 public:
 	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
 	//auto Proportions() { return}
-	auto Costs() { return matrix(HtmlBuilder<German>(""), Base::year); }
+	auto Properties() { return matrix(HtmlBuilder<German>(""), Base::year); }
 private:
 	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
 	{
