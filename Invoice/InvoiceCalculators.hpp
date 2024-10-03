@@ -220,7 +220,6 @@ private:
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
 		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
-		std::vector<std::shared_ptr<IElement>> vprr;
 
 		for(size_t i = 0; i < 6; ++i)
 		{
@@ -232,7 +231,6 @@ private:
 			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(result[i][i])));
 			vpr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
-			vprr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
 			vp.push_back(vpr);
 		}
 
@@ -269,7 +267,7 @@ private:
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
-        return Init(vprr)();                                                                                                       
+        return resultElements.Col(6);
     }
 
 	template<typename T, typename... R>
