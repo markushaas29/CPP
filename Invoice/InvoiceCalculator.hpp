@@ -30,10 +30,7 @@ public:
 	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
 	    auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
 	
-	    auto extraCosts = YearlyExtraCostsCalculator<std::tuple_element_t<N,Tup>>{tokenFactory,elementFactory,visitorFactory, Base::year,path};
-	
-	    auto e = extraCosts(file)[0];
-	    return costs()[0].template To<Quantity<Sum>>() + extraCosts(file)[0].template As<Quantity<Sum>>();
+	    return costs()[0].template To<Quantity<Sum>>();
 	}
 	auto Costs(HtmlBuilder<German> b = HtmlBuilder<German>("")) { return AccountCalculator::Instance(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, path)(b, Base::year).template To<Quantity<Sum>>(); }
 	auto Prop() { return (*proportion)(file); }

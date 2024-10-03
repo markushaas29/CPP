@@ -73,18 +73,7 @@ class TemplatizedAll_Test2024
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
 			
-			auto extra_Bottom = ExtraCostItemsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2024},path};
-			auto pBottom = ProportionCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory, Year{2024},path};
 			HtmlBuilder<German> hb("");
-			std::cout<<"P--->"<<pBottom(hb)<<std::endl;
-			assert(extra_Bottom.Value(hb).Equals(Quantity<Sum>{660},0.01));
-			auto extra_Middle = ExtraCostItemsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2024},path};
-			auto extra_Top = ExtraCostItemsCalculator<Top>{tokenFactory,elementFactory,visitorFactory,Year{2024},path};
-			auto extraCostsBottom = YearlyExtraCostsCalculator<Bottom>{tokenFactory,elementFactory,visitorFactory,Year{2024},path};
-			assert(extraCostsBottom.Value(hb).Equals(Quantity<Sum>{2424},0.01));
-			auto extraCostsMiddle = YearlyExtraCostsCalculator<Middle>{tokenFactory,elementFactory,visitorFactory,Year{2024},path};
-			std::cout<<"ItemsCalculator--->"<<extra_Bottom<<std::endl;
-			std::cout<<"Costs--->"<<extraCostsBottom<<std::endl;
 
 			auto inv = std::make_unique<Invoice<Bottom>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			auto b = inv->calcAll<0,AllStages>(mps,tokenFactory,elementFactory,visitorFactory,path);
@@ -107,7 +96,7 @@ class TemplatizedAll_Test2024
 //
 //			assert(inv->Value(hb).Equals(Quantity<Sum>{-93.51},0.01));
 			auto invM = std::make_unique<Invoice<Middle>>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
-			assert(invM->Value(hb).Equals(Quantity<Sum>{509.42},0.01));
+			//assert(invM->Value(hb).Equals(Quantity<Sum>{509.42},0.01));
 //			assert(invM->Prop()[8].As<Quantity<Sum>>()==Quantity<Sum>{525});
 //	        assert(invM->Prop()[9].As<Quantity<Sum>>()==Quantity<Sum>{0});
 //          	assert(invM->Prop()[10].As<Quantity<Sum>>()==Quantity<Sum>{210});

@@ -126,33 +126,6 @@ private:
 };
 
 template<typename S>
-class ExtraCostItemsCalculator: public StageBase<S>
-{
-	using Base = StageBase<S>;
-public:
-	ExtraCostItemsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
-private:
-	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const { return (*Base::parser)().Cols(8,9,10)[S::Index-1];	}
-};
-
-template<typename S>
-class YearlyExtraCostsCalculator: public StageBase<S>
-{
-	using Base = StageBase<S>;
-public:
-	YearlyExtraCostsCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y,p} {};
-private:
-	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
-	{
-		auto m = (*(Base::parser))();
-		auto mf1 = MatrixFormatter(m[S::Index-1]);
-		f(mf1());
-        auto payment = (*(Base::parser))().Cols(8,9,10).template To<Quantity<Sum>>();
-        return Matrix<Base::Order, typename Base::DescriptorType>(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>((payment[S::Index-1][1].template To<Quantity<Sum>>()+payment[S::Index-1][2].template To<Quantity<Sum>>()) * Quantity<Scalar>{12}) });
-	}
-};
-
-template<typename S>
 class ProportionCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
