@@ -136,8 +136,7 @@ class TemplatizedAll_Test2023
 			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto mMS = propM23(bM,Year{2023}).To<Quantity<Sum>>();
 			//auto mMS = propM23.Costs();
-			std::cout<<"M23----------"<<mMS<<std::endl;
-			std::cout<<"M23----------"<<propM23.Value()<<std::endl;
+			std::cout<<"M23----------"<<propM23.Properties()<<std::endl;
 			assert(mMS[0]().Equals(Quantity<Sum>{-148.16},0.01));
 			assert(mMS[1]().Equals(Quantity<Sum>{-1232.09},0.01));
 			assert(mMS[2]().Equals(Quantity<Sum>{-487.89},0.01));

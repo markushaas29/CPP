@@ -157,10 +157,11 @@ class ProportionCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p} {};
+	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fT,fE,fB, y, p}, properties((*Base::parser)()[S::Index-1]) {};
 	//auto Proportions() { return}
-	auto Properties() { return matrix(HtmlBuilder<German>(""), Base::year); }
+	auto Properties() { return properties; }
 private:
+	typename Base::MatrixType properties;
 	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
 	{
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
