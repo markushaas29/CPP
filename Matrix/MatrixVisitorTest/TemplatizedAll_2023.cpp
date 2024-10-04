@@ -85,7 +85,6 @@ class TemplatizedAll_Test2023
 			auto propB = propB23.AdvanceItems()[1];
 			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
 			assert(propB23.Result().Equals(Quantity<Sum>{-93.51},0.01));
-			std::cout<<"Costs--->"<<propB()[0]<<std::endl;
 			assert(propB()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
 	        assert(propB()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
           	assert(propB()[2].As<Quantity<Sum>>()==Quantity<Sum>{67});
@@ -97,6 +96,16 @@ class TemplatizedAll_Test2023
 			assert(bMS[5]().Equals(Quantity<Sum>{-350.66},0.01));
 			assert(propB23.Value().Equals(Quantity<Sum>{-2517.51},0.01));
 			
+			auto propB24 = ProportionCalculator<Bottom>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
+			bMS = propB23(bM,Year{2024}).To<Quantity<Sum>>();
+			std::cout<<"Costs--->"<<bMS<<std::endl;
+			assert(bMS[0]().Equals(Quantity<Sum>{-55.80},0.01));
+			assert(bMS[1]().Equals(Quantity<Sum>{-713.97},0.01));
+			assert(bMS[2]().Equals(Quantity<Sum>{-526.72},0.01));
+			assert(bMS[3]().Equals(Quantity<Sum>{-401.00},0.01));
+			assert(bMS[4]().Equals(Quantity<Sum>{-82.16},0.01));
+			assert(bMS[5]().Equals(Quantity<Sum>{-153.97},0.01));
+			assert(propB24.Value().Equals(Quantity<Sum>{-1933.62},0.01));
 			
 			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
 			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
