@@ -34,7 +34,7 @@ class Readings: public CalculatorBase<Quantity<Volume>, Readings<S>>
 	using Base = CalculatorBase<Quantity<Volume>, Readings<S>>;
 	using Stage = S;
 public:
-	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, tokenFactory{fT} {};
+	Readings(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokenFactory{fT} {};
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual typename Base::QuantityType value() const { return typename Base::QuantityType{0}; };
@@ -50,7 +50,7 @@ private:
         			auto civ = (*Base::visitorFactory)("ConsumptionVolume","");
 					civ = i->Accept(std::move(civ));
 					auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-					els.push_back(consV(Base::year));	
+					els.push_back(consV(y));	
 				});
 
 		auto med = Init(els);
@@ -75,8 +75,8 @@ class Hall: public CalculatorBase<Quantity<Sum>, Hall<S>>
 	using Base = CalculatorBase<Quantity<Sum>, Hall<S>>;
 public:
 	auto M() const { return parser->M().Rows(0, 1); }
-	Hall(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fE,fB,y}, path{p}, tokenFactory{fT},parser{std::make_unique<HallParser>(tokenFactory,path)} {};
+	Hall(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
+		Base{fE,fB}, path{p}, tokenFactory{fT},parser{std::make_unique<HallParser>(tokenFactory,path)} {};
 	const std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;
@@ -112,8 +112,8 @@ class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 public:
 	auto M() const { return parser->M().Rows(0, S::Index); }
 protected:
-	StageBase(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fE,fB,y}, account{acc}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
+	StageBase(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
+		Base{fE,fB}, account{acc}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
 	const std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;
@@ -129,12 +129,12 @@ class ProportionCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	ProportionCalculator(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{acc, fT,fE,fB, y, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][9].template As<Quantity<Sum>>()+properties[1][10].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
+	ProportionCalculator(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
+		Base{acc, fT,fE,fB, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][9].template As<Quantity<Sum>>()+properties[1][10].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
 	auto AdvancePayment() { return advancePayment; }
 	auto Properties() { return properties; }
 	auto AdvanceItems() { return properties.Cols(8,9,10); }
-	auto Result() { return this->Value() + advancePayment; }
+	auto Result(const Year& y) { return this->Value(y) + advancePayment; }
 private:
 	Matrix<2, MatrixDescriptor<2,typename Base::ElementType>> properties;
 	Quantity<Sum> advancePayment;
@@ -142,33 +142,33 @@ private:
 	{
 		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
-		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f);
+		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y);
         auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y);
 		return costs;	
 	}
 	template<size_t N, typename Tup>
-    auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p, const HtmlBuilder<German>& f) const 
+    auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p, const HtmlBuilder<German>& f, const Year& y) const 
     {
         if constexpr (std::tuple_size<Tup>()==N)
             return stageMatrix;
         else
         {
             using Type = std::tuple_element_t<N,Tup>;
-            auto readings = Readings<Type>{fT,fE,fB, Base::year,p};
-            stageMatrix = stageMatrix.Set(readings(f)[0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
-            return process<N+1,Tup>(stageMatrix,fT,fE,fB,p,f);
+            auto readings = Readings<Type>{fT,fE,fB, p};
+            stageMatrix = stageMatrix.Set(readings(f,y)[0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
+            return process<N+1,Tup>(stageMatrix,fT,fE,fB,p,f,y);
         }
     }
     
     template<size_t N, typename Tup>
     auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, const HtmlBuilder<German>& f, const Year& y) const
     {
-        stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
+        stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f, y);
 
 		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
 		auto stageQT = stageQuantities^-1;
 		auto mf = MatrixFormatter(stageQT);
-        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+(Base::year).ToString()+".html","/home/markus/Downloads/CSV_TestFiles_2");
+        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Downloads/CSV_TestFiles_2");
 //		html(Date::Today());
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();

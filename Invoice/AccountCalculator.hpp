@@ -31,12 +31,7 @@ class AccountCalculator: public CalculatorBase<Quantity<Sum>, AccountCalculator>
 {
 	using Base = CalculatorBase<Quantity<Sum>, AccountCalculator>;
 public:
-	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): Base{fE,fB,y}, tokens{fT}, path{p} {};
-	static auto& Instance(auto... t)
-    {
-        static auto i = AccountCalculator(t...);
-        return i;
-    };
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokens{fT}, path{p} {};
 private:
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokens;
