@@ -71,18 +71,18 @@ class TemplatizedAll_Test2023
 
 			stageQ.CSV();
 
-			//AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(html, y).template To<Quantity<Sum>>();
 
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
+			auto account = std::make_shared<AccountCalculator>(tokenFactory,elementFactory,visitorFactory, Year{1900}, path);
 			std::chrono::steady_clock::time_point e1 = std::chrono::steady_clock::now();
 
 			std::cout << "Calculation Time Init :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
 			
 
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
-			auto propB23 = ProportionCalculator<Bottom>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			auto propB23 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto bMS = propB23(bM,Year{2023}).To<Quantity<Sum>>();
 			auto propB = propB23.AdvanceItems()[1];
 			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
@@ -98,7 +98,7 @@ class TemplatizedAll_Test2023
 			assert(bMS[5]().Equals(Quantity<Sum>{-350.66},0.01));
 			assert(propB23.Value().Equals(Quantity<Sum>{-2517.51},0.01));
 			
-			auto propB24 = ProportionCalculator<Bottom>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
+			auto propB24 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			bMS = propB23(bM,Year{2024}).To<Quantity<Sum>>();
 			std::cout<<"Costs--->"<<bMS<<std::endl;
 			assert(bMS[0]().Equals(Quantity<Sum>{-55.80},0.01));
@@ -112,7 +112,7 @@ class TemplatizedAll_Test2023
 			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
 			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
-			auto propM23 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			auto propM23 = ProportionCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto mMS = propM23(bM,Year{2023}).To<Quantity<Sum>>();
 			auto propM = propM23.AdvanceItems()[1];
 			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
@@ -128,7 +128,7 @@ class TemplatizedAll_Test2023
 			assert(mMS[5]().Equals(Quantity<Sum>{-462.19},0.01));
 			assert(propM23.Value().Equals(Quantity<Sum>{-2678.42},0.01));
 			
-			auto propM24 = ProportionCalculator<Middle>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
+			auto propM24 = ProportionCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			mMS = propM23(bM,Year{2024}).To<Quantity<Sum>>();
 			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
 			assert(propM24.Result().Equals(Quantity<Sum>{509.52},0.01));
@@ -140,7 +140,7 @@ class TemplatizedAll_Test2023
 			assert(mMS[5]().Equals(Quantity<Sum>{-202.94},0.01));
 			assert(propM24.Value().Equals(Quantity<Sum>{-2010.48},0.01));
 
-			auto propT23 = ProportionCalculator<Top>(tokenFactory,elementFactory,visitorFactory,Year{2023},path);
+			auto propT23 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,Year{2023},path);
 			auto mTS = propT23(bM,Year{2023}).To<Quantity<Sum>>();
 			auto propT = propT23.AdvanceItems()[1];
 			assert(propT23.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
@@ -156,7 +156,7 @@ class TemplatizedAll_Test2023
 			assert(mTS[5]().Equals(Quantity<Sum>{-248.47},0.01));
 			assert(propT23.Value().Equals(Quantity<Sum>{-2781.81},0.01));
 			
-			auto propT24 = ProportionCalculator<Top>(tokenFactory,elementFactory,visitorFactory,Year{2024},path);
+			auto propT24 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,Year{2024},path);
 			mTS = propT24(bM,Year{2024}).To<Quantity<Sum>>();
 			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
 			assert(propT24.Result().Equals(Quantity<Sum>{13259.34},0.01));

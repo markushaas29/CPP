@@ -112,11 +112,12 @@ class StageBase: public CalculatorBase<Quantity<Sum>, StageBase<S>>
 public:
 	auto M() const { return parser->M().Rows(0, S::Index); }
 protected:
-	StageBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fE,fB,y}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
+	StageBase(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
+		Base{fE,fB,y}, account{acc}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
 	const std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;
+	std::shared_ptr<ICalculator<Quantity<Sum>>> account;
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) {	return matrix(f,y);	}
@@ -128,8 +129,8 @@ class ProportionCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	ProportionCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fT,fE,fB, y, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][9].template As<Quantity<Sum>>()+properties[1][10].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
+	ProportionCalculator(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
+		Base{acc, fT,fE,fB, y, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][9].template As<Quantity<Sum>>()+properties[1][10].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
 	auto AdvancePayment() { return advancePayment; }
 	auto Properties() { return properties; }
 	auto AdvanceItems() { return properties.Cols(8,9,10); }
@@ -162,7 +163,6 @@ private:
     template<size_t N, typename Tup>
     auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, const HtmlBuilder<German>& f, const Year& y) const
     {
-        auto account = AccountCalculator{tokenFactory,elementFactory,visitorFactory, Base::year, path}; 
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f);
 
 		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
@@ -183,7 +183,7 @@ private:
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
 
-        auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(html, y).template To<Quantity<Sum>>();  
+        auto sumMatrix = (*Base::account)(html, y).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 

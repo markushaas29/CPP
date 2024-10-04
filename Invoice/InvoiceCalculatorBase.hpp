@@ -75,7 +75,6 @@ protected:
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	std::unique_ptr<std::map<Year,typename Base::MatrixType>> cache;
-	std::shared_ptr<ICalculator<Q>> account;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
 	virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) = 0;
 	virtual typename Base::MatrixType get(const HtmlBuilder<German>& f) 
