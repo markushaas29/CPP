@@ -236,34 +236,11 @@ private:
 
         return resultElements.Col(6);
     }
-
-	template<typename T, typename... R>
-	auto expand(std::vector<std::string>& v, const T& val, const R... r) const
-	{
-		sstream(v,val);
-		expand(v,r...);
-	}
-
-	template<typename T>
-	auto expand(std::vector<std::string>& v, const T& val) const {	sstream(v,val);	}
 	
 	auto asString(const auto& val) const
 	{
 		std::stringstream ss;
 		ss<<val;
 		return ss.str();
-	}
-	
-	auto sstream(std::vector<std::string>& v, const auto& val) const
-	{
-		std::stringstream ss;
-		ss<<val;
-		v.push_back(ss.str());
-	}
-	
-	auto append(const auto& m, const HtmlBuilder<German>& out) const
-	{
-		auto mf = MatrixFormatter(m);
-		out(mf());
 	}
 };
