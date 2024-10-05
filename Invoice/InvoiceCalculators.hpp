@@ -38,7 +38,7 @@ public:
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	virtual typename Base::QuantityType value() const { return typename Base::QuantityType{0}; };
-	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y)
+	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f)
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
 		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
@@ -82,7 +82,7 @@ public:
 	std::unique_ptr<IMatrixParser<2>> parser;
 private:
 	const std::string fileName = "Hall.csv";
-	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) 
+	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{
 		auto m = (*parser)();
 		std::cout<<"HALL\n"<<m<<std::endl;
@@ -120,7 +120,7 @@ protected:
 	std::shared_ptr<ICalculator<Quantity<Sum>>> account;
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) {	return matrix(f,y);	}
+	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) {	return matrix(f,y);	}
 	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const = 0;
 };
 

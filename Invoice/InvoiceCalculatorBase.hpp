@@ -36,18 +36,18 @@ public:
 	using ElementType = std::shared_ptr<IElement>;
 	using DescriptorType = MatrixDescriptor<1,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
-	MatrixType operator()(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("")) { return get(f,y); };
+	MatrixType operator()(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("")) { return get(y,f); };
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
     auto Value(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("") ) { return value(y,f); };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
-	virtual MatrixType get(const HtmlBuilder<German>& f, const Year& y) = 0;
+	virtual MatrixType get(const Year& y, const HtmlBuilder<German>& f) = 0;
 	virtual QuantityType value(const Year& y, const HtmlBuilder<German>& f)  { return acc(y);    };
 	auto acc(const Year& y) 
     {
 		HtmlBuilder<German> b("");
-        auto m = get(b,y);
+        auto m = get(y,b);
         auto acc = FuncType();
         for(auto i = 0; i < m.Rows(); ++i)
             acc.Push(m[i].template As<Quantity<Sum>>());
@@ -70,11 +70,11 @@ private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	std::unique_ptr<std::map<Year,typename Base::MatrixType>> cache;
 	virtual std::ostream& display(std::ostream& s) const { return s<<*matrix; }
-	virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y) = 0;
-	virtual typename Base::MatrixType get(const HtmlBuilder<German>& f, const Year& y) 
+	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) = 0;
+	virtual typename Base::MatrixType get(const Year& y, const HtmlBuilder<German>& f) 
 	{
 		if(!cache->contains(y))
-			(*cache)[y] = this->exec(f,y);
+			(*cache)[y] = this->exec(y,f);
 		return (*cache)[y];
 	};
 };
