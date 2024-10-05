@@ -155,7 +155,7 @@ private:
         {
             using Type = std::tuple_element_t<N,Tup>;
             auto readings = Readings<Type>{fT,fE,fB, p};
-            stageMatrix = stageMatrix.Set(readings(f,y)[0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
+            stageMatrix = stageMatrix.Set(readings(y,f)[0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
             return process<N+1,Tup>(stageMatrix,fT,fE,fB,p,f,y);
         }
     }
@@ -183,7 +183,7 @@ private:
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
 
-        auto sumMatrix = (*Base::account)(html, y).template To<Quantity<Sum>>();  
+        auto sumMatrix = (*Base::account)(y, html).template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 
