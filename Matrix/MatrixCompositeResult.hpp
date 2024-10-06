@@ -19,6 +19,7 @@ public:
 	using QuantityType = Q;
 	using FuncType = Acc<Q>;
 	using MatrixType = MType;
+	using MatrixOne =  Matrix<1, MatrixDescriptor<1,std::shared_ptr<IElement>>>;
 	virtual Q Value() const = 0;
 	virtual MType M() const = 0;
 	auto Names() const { return names(); };
@@ -29,7 +30,7 @@ public:
 	decltype(auto) FuncVec() { return funcs(); }
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
-	virtual MatrixType names() const = 0;
+	virtual MatrixOne names() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
 	virtual std::ostream& display(std::ostream& out)	const = 0;
@@ -55,9 +56,9 @@ private:
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
 	virtual std::vector<typename Base::FuncType> funcs() const { return {result};};
-	virtual typename Base::MatrixType names() const 
+	virtual typename Base::MatrixOne names() const 
 	{
-		std::vector<std::vector<std::shared_ptr<IElement>>> res = {{ std::make_shared<Header>(name) }};
+		std::vector<std::shared_ptr<IElement>> res = { std::make_shared<Header>(name) };
 		return Init(res)();
 	};
 	typename Base::QuantityType value;
@@ -139,10 +140,10 @@ private:
 				});
 		return v; 
 	};
-	virtual typename Base::MatrixType names() const 
+	virtual typename Base::MatrixOne names() const 
 	{
-		std::vector<std::vector<std::shared_ptr<IElement>>> res;
-		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) {	res.push_back({std::make_shared<Header>(i->Name())});		});
+		std::vector<std::shared_ptr<IElement>> res;
+		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) {	res.push_back(std::make_shared<Header>(i->Name()));		});
 		return Init(res)();
 	};
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
