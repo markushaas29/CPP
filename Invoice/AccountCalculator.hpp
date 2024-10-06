@@ -105,6 +105,8 @@ private:
         hb(mf());
 		hb();
 
+		std::cout<<result->Names()<<std::endl;
+
 		return result->Elements();
 	}
 
