@@ -10,6 +10,7 @@ struct Grid			{   inline static constexpr const char* Id = "grid"; };
 struct GridArea			{   inline static constexpr const char* Id = "grid-area"; };
 struct GridTemplateAreas			{   inline static constexpr const char* Id = "grid-template-areas"; };
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
+struct Margin		{   inline static constexpr const char* Id = "margin"; };
 
 class IStyle: public IModel
 {
