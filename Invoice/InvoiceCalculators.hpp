@@ -65,7 +65,7 @@ private:
 	 	auto sum = (*accV()).template To<Quantity<Volume>>();
         std::vector<typename Base::ElementType> resQ = { std::make_shared<Quantity<Scalar>>(d / (*accV()).template To<Quantity<Volume>>()) };
 
-        return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({resQ.size()}),ToDataType(resQ));
+        return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,resQ.size()}),ToDataType(resQ));
 	}
 };
 
@@ -102,7 +102,7 @@ private:
 		    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 			std::cout<<"HALL\n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 		}
-		return (*parser)()[0];	}
+		return (*parser)();	}
 };
 
 template<typename S>
@@ -155,7 +155,7 @@ private:
         {
             using Type = std::tuple_element_t<N,Tup>;
             auto readings = Readings<Type>{fT,fE,fB, p};
-            stageMatrix = stageMatrix.Set(readings(y,f)[0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
+            stageMatrix = stageMatrix.Set(readings(y,f)[0][0].template As<Quantity<Scalar>>(),Type::Index-1,((int)stageMatrix.Cols()-1));
             return process<N+1,Tup>(stageMatrix,fT,fE,fB,p,f,y);
         }
     }
@@ -183,7 +183,7 @@ private:
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
 
-        auto sumMatrix = (*Base::account)(y, html).template To<Quantity<Sum>>();  
+        auto sumMatrix = (*Base::account)(y, html)[0].template To<Quantity<Sum>>();  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 
@@ -235,7 +235,7 @@ private:
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
-        return resultElements.Col(7);
+        return resultElements;
     }
 	
 	auto asString(const auto& val) const

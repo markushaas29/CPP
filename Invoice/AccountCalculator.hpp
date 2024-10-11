@@ -107,7 +107,12 @@ private:
 
 		std::cout<<result->Names()<<std::endl;
 
-		return result->Elements();
+		std::vector<std::shared_ptr<IElement>> res;
+		for(auto i = 0; i < result->Elements().Size(); ++i)
+			res.push_back(result->Elements()[0]());
+
+		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({1,result->Elements().Size()}), res);
+		//return result->Elements();
 	}
 
 };

@@ -30,11 +30,11 @@ class ICalculator
     inline static constexpr Literal TypeId{TypeIdentifier};
 	template<typename U> using IsT =  Is<U,TypeId>;
 public:
-    inline static constexpr size_t Order = 1;
+    inline static constexpr size_t Order = 2;
     using QuantityType = Q;    
     using FuncType = Acc<QuantityType>;    
 	using ElementType = std::shared_ptr<IElement>;
-	using DescriptorType = MatrixDescriptor<1,ElementType>;
+	using DescriptorType = MatrixDescriptor<Order,ElementType>;
 	using MatrixType = Matrix<Order, DescriptorType>;
 	MatrixType operator()(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("")) { return get(y,f); };
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
@@ -50,7 +50,7 @@ private:
         auto m = get(y,b);
         auto acc = FuncType();
         for(auto i = 0; i < m.Rows(); ++i)
-            acc.Push(m[i].template As<Quantity<Sum>>());
+            acc.Push(m[0][i].template As<Quantity<Sum>>());
         return acc;
     };
 };
