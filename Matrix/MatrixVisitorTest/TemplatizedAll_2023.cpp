@@ -65,13 +65,9 @@ class TemplatizedAll_Test2023
 			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
 
-//			auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
-//			auto stageQ = mS.Parse(smatcher, matcher);
-//			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
-//
-//			stageQ.CSV();
-//
-
+			auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
+			auto stageQ = mS.Parse(smatcher, matcher);
+			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
 			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
@@ -83,8 +79,8 @@ class TemplatizedAll_Test2023
 
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			auto propB23 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
-//			auto bMS = propB23(Year{2023}, bM).To<Quantity<Sum>>();
-//			auto propB = propB23.AdvanceItems()[1];
+			auto bMS = propB23(Year{2023}, bM).To<Quantity<Sum>>();
+			auto propB = propB23.AdvanceItems()[1];
 //			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
 //			assert(propB23.Result(Year{2023}).Equals(Quantity<Sum>{-93.51},0.01));
 //			assert(propB()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
