@@ -49,7 +49,7 @@ private:
 		HtmlBuilder<German> b("");
         auto m = get(y,b);
         auto acc = FuncType();
-        for(auto i = 0; i < m.Rows(); ++i)
+        for(auto i = 0; i < m[0].Rows(); ++i)
             acc.Push(m[0][i].template As<Quantity<Sum>>());
         return acc;
     };

@@ -105,13 +105,11 @@ private:
         hb(mf());
 		hb();
 
-		std::cout<<result->Names()<<std::endl;
 
-		std::vector<std::shared_ptr<IElement>> res;
-		for(auto i = 0; i < result->Elements().Size(); ++i)
-			res.push_back(result->Elements()[0]());
+		auto m = result->Elements().Elements();
+		std::cout<<"Acc\n"<<result->Elements()<<std::endl;
 
-		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({1,result->Elements().Size()}), res);
+		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({1,m.size()}), m);
 		//return result->Elements();
 	}
 
