@@ -83,8 +83,8 @@ class TemplatizedAll_Test2023
 			std::cout<<"Hall"<<(*hall)(Year(2023),bM)<<std::endl;
 			
 			auto propB23 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
-			auto bMS = propB23(Year{2022}, bM).To<Quantity<Sum>>();
-			bMS = propB23(Year{2023}, bM).To<Quantity<Sum>>();
+			auto bV = propB23.Values(Year{2022}, bM).To<Quantity<Sum>>();
+			auto bMS = propB23(Year{2023}, bM).To<Quantity<Sum>>();
 			auto propB = propB23.AdvanceItems()[1];
 			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
 			assert(propB23.Result(Year{2023}).Equals(Quantity<Sum>{-93.51},0.01));
@@ -102,20 +102,26 @@ class TemplatizedAll_Test2023
 			auto propB24 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			bMS = propB23(Year{2024}, bM).To<Quantity<Sum>>();
 			std::cout<<"Costs--->"<<bMS<<std::endl;
-			assert(bMS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
-			assert(bMS[0][1]().Equals(Quantity<Sum>{-713.97},0.01));
+			assert(bMS[0][0]().Equals(Quantity<Sum>{-111.60},0.01));
+			assert(bMS[0][1]().Equals(Quantity<Sum>{-1080.64},0.01));
 			assert(bMS[0][2]().Equals(Quantity<Sum>{-526.72},0.01));
-			assert(bMS[0][3]().Equals(Quantity<Sum>{-401.00},0.01));
-			assert(bMS[0][4]().Equals(Quantity<Sum>{-82.16},0.01));
-			assert(bMS[0][5]().Equals(Quantity<Sum>{-153.97},0.01));
-			assert(propB24.Value(Year{2024}).Equals(Quantity<Sum>{-1933.62},0.01));
+			assert(bMS[0][3]().Equals(Quantity<Sum>{-558.53},0.01));
+			assert(bMS[0][4]().Equals(Quantity<Sum>{-123.24},0.01));
+			assert(bMS[0][5]().Equals(Quantity<Sum>{-307.93},0.01));
+			assert(propB24.Value(Year{2024}).Equals(Quantity<Sum>{-2708.66},0.01));
 			
 			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
 			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
 			auto propM23 = ProportionCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
-			auto mMS = propM23(Year{2022}, bM).To<Quantity<Sum>>();
-			mMS = propM23(Year{2023}, bM).To<Quantity<Sum>>();
+			auto mV = propM23.Values(Year{2022}, bM);
+			assert(mV[0]().Equals(Quantity<Sum>{-161.00},0.01));
+			assert(mV[1]().Equals(Quantity<Sum>{-758.60},0.01));
+			assert(mV[2]().Equals(Quantity<Sum>{-417.83},0.01));
+			assert(mV[3]().Equals(Quantity<Sum>{-90.00},0.01));
+			assert(mV[4]().Equals(Quantity<Sum>{-164.32},0.01));
+			assert(mV[5]().Equals(Quantity<Sum>{-352.51},0.01));
+			auto mMS = propM23(Year{2023}, bM).To<Quantity<Sum>>();
 			auto propM = propM23.AdvanceItems()[1];
 			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
 			assert(propM23.Result(Year{2023}).Equals(Quantity<Sum>{-158.42},0.01));
@@ -133,14 +139,14 @@ class TemplatizedAll_Test2023
 			auto propM24 = ProportionCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
 			mMS = propM23(Year{2024}, bM).To<Quantity<Sum>>();
 			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
-			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{509.52},0.01));
-			assert(mMS[0][0]().Equals(Quantity<Sum>{-83.70},0.01));
-			assert(mMS[0][1]().Equals(Quantity<Sum>{-713.97},0.01));
+			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-342.40},0.01));
+			assert(mMS[0][0]().Equals(Quantity<Sum>{-167.40},0.01));
+			assert(mMS[0][1]().Equals(Quantity<Sum>{-1080.64},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-526.72},0.01));
-			assert(mMS[0][3]().Equals(Quantity<Sum>{-401.00},0.01));
-			assert(mMS[0][4]().Equals(Quantity<Sum>{-82.16},0.01));
-			assert(mMS[0][5]().Equals(Quantity<Sum>{-202.94},0.01));
-			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-2010.48},0.01));
+			assert(mMS[0][3]().Equals(Quantity<Sum>{-558.53},0.01));
+			assert(mMS[0][4]().Equals(Quantity<Sum>{-123.24},0.01));
+			assert(mMS[0][5]().Equals(Quantity<Sum>{-405.87},0.01));
+			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-2862.40},0.01));
 
 			auto propT23 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto mTS = propT23(Year{2022}, bM).To<Quantity<Sum>>();
@@ -162,14 +168,14 @@ class TemplatizedAll_Test2023
 			auto propT24 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			mTS = propT24(Year{2024}, bM).To<Quantity<Sum>>();
 			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
-			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{13259.34},0.01));
-			assert(mTS[0][0]().Equals(Quantity<Sum>{-27.90},0.01));
-			assert(mTS[0][1]().Equals(Quantity<Sum>{-499.78},0.01));
+			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{12369.76},0.01));
+			assert(mTS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
+			assert(mTS[0][1]().Equals(Quantity<Sum>{-756.45},0.01));
 			assert(mTS[0][2]().Equals(Quantity<Sum>{-1053.43},0.01));
-			assert(mTS[0][3]().Equals(Quantity<Sum>{-1203.27},0.01));
-			assert(mTS[0][4]().Equals(Quantity<Sum>{-47.18},0.01));
-			assert(mTS[0][5]().Equals(Quantity<Sum>{-109.10},0.01));
-			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-2940.66},0.01));
+			assert(mTS[0][3]().Equals(Quantity<Sum>{-1675.59},0.01));
+			assert(mTS[0][4]().Equals(Quantity<Sum>{-70.77},0.01));
+			assert(mTS[0][5]().Equals(Quantity<Sum>{-218.20},0.01));
+			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-3830.24},0.01));
 
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;

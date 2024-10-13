@@ -39,6 +39,8 @@ public:
 	MatrixType operator()(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("")) { return get(y,f); };
 	auto Accumulate(size_t b, size_t e) { return acc()(b,e); };
     auto Value(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("") ) { return value(y,f); };    
+    auto Values(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("") ) { return get(y,f)[0].template To<Quantity<Sum>>(); };    
+    auto Names(const Year& y, const HtmlBuilder<German>& f = HtmlBuilder<German>("") ) { return get(y,f)[0]; };    
 private:
 	friend std::ostream& operator<<(std::ostream& s, const ICalculator& i) { return i.display(s); }
 	virtual std::ostream& display(std::ostream& s) const = 0;
