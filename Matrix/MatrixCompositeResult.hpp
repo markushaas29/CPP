@@ -82,8 +82,6 @@ public:
 		std::vector<std::shared_ptr<IElement>> res;
 		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) 
 				{
-					auto mf1 = MatrixFormatter(i->M());
-     
 					auto m = i->M();
 					auto v = m.Elements();
 					if(v.size()!=0)
