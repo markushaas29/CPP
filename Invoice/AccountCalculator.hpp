@@ -110,7 +110,5 @@ private:
 		elements.insert(std::end(elements), std::begin(names), std::end(names));
 
 		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({2,names.size()}), elements);
-		//return result->Elements();
 	}
-
 };

@@ -84,11 +84,15 @@ private:
 	const std::string fileName = "Hall.csv";
 	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{
-		auto m = (*parser)();
+		auto m = (*parser)(true);
+		auto names = m.Col(0);
 		std::cout<<"HALL\n"<<m<<std::endl;
 		for(auto i = 1; i < m.Rows();++i)
 		{
 			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+				//std::cout<<"!!!!!!!!!!!!!"<<names[0]()->Data()<<std::endl;
+			if(names[1]()->Data() == m[i][0]()->Data())
+				std::cout<<"!!!!!!!!!!!!!"<<*names[0]()<<std::endl;
 		    fc = m[i].Accept(std::move(fc));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto m = (*parser)(true);
