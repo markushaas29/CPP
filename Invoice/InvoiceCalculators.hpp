@@ -183,7 +183,9 @@ private:
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
 
-        auto sumMatrix = (*Base::account)(y, html)[0].template To<Quantity<Sum>>();  
+        auto accountM = (*Base::account)(y, html);  
+        auto sumMatrix = accountM[0].template To<Quantity<Sum>>();  
+        auto names = accountM[1];  
         auto csum = stageMatrix.ColSum()();
         auto stagesDiv = (stageMatrix / csum());
 
@@ -194,7 +196,7 @@ private:
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
-			vpr.push_back(std::make_shared<Header>("EDC"));
+			vpr.push_back(std::make_shared<Header>(names[i]()->Data()));
 			vpr.push_back(std::make_shared<Quantity<Scalar,Pure,double>>(asString(stageMatrix[S::Index-1][i])));
 			vpr.push_back(csum[i].Get().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));

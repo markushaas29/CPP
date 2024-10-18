@@ -105,11 +105,11 @@ private:
         hb(mf());
 		hb();
 
+		auto names = result->Names().Elements();
+		auto elements = result->Elements().Elements();
+		elements.insert(std::end(elements), std::begin(names), std::end(names));
 
-		auto m = result->Elements().Elements();
-		std::cout<<"Acc\n"<<result->Elements()<<std::endl;
-
-		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({1,m.size()}), m);
+		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({2,names.size()}), elements);
 		//return result->Elements();
 	}
 
