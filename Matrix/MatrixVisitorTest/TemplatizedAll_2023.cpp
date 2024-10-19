@@ -84,6 +84,14 @@ class TemplatizedAll_Test2023
 			
 			auto propB23 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto bV = propB23.Values(Year{2022}, bM).To<Quantity<Sum>>();
+			std::cout<<"Hall"<<bV<<std::endl;
+			assert(bV[0]().Equals(Quantity<Sum>{-107.33},0.01));
+			assert(bV[1]().Equals(Quantity<Sum>{-758.60},0.01));
+			assert(bV[2]().Equals(Quantity<Sum>{-417.83},0.01));
+			assert(bV[3]().Equals(Quantity<Sum>{-90.00},0.01));
+			assert(bV[4]().Equals(Quantity<Sum>{-164.32},0.01));
+			assert(bV[5]().Equals(Quantity<Sum>{-288.47},0.01));
+			
 			auto bMS = propB23(Year{2023}, bM).To<Quantity<Sum>>();
 			auto propB = propB23.AdvanceItems()[1];
 			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
@@ -121,6 +129,7 @@ class TemplatizedAll_Test2023
 			assert(mV[3]().Equals(Quantity<Sum>{-90.00},0.01));
 			assert(mV[4]().Equals(Quantity<Sum>{-164.32},0.01));
 			assert(mV[5]().Equals(Quantity<Sum>{-352.51},0.01));
+			
 			auto mMS = propM23(Year{2023}, bM).To<Quantity<Sum>>();
 			auto propM = propM23.AdvanceItems()[1];
 			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
@@ -149,8 +158,15 @@ class TemplatizedAll_Test2023
 			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-2862.40},0.01));
 
 			auto propT23 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
-			auto mTS = propT23(Year{2022}, bM).To<Quantity<Sum>>();
-			mTS = propT23(Year{2023}, bM).To<Quantity<Sum>>();
+			auto mT22 = propT23.Values(Year{2022}, bM).To<Quantity<Sum>>();
+			assert(mT22[0]().Equals(Quantity<Sum>{-53.67},0.01));
+			assert(mT22[1]().Equals(Quantity<Sum>{-531.02},0.01));
+			assert(mT22[2]().Equals(Quantity<Sum>{-835.65},0.01));
+			assert(mT22[3]().Equals(Quantity<Sum>{-270.22},0.01));
+			assert(mT22[4]().Equals(Quantity<Sum>{-94.36},0.01));
+			assert(mT22[5]().Equals(Quantity<Sum>{-292.31},0.01));
+
+			auto mTS = propT23(Year{2023}, bM).To<Quantity<Sum>>();
 			auto propT = propT23.AdvanceItems()[1];
 			assert(propT23.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
 			assert(propT23.Result(Year{2023}).Equals(Quantity<Sum>{13418.19},0.01));

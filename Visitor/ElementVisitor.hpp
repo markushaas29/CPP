@@ -99,14 +99,18 @@ public:
 //		else if constexpr (std::is_same_v<T,Date>)
 //			return date;
 	}
-	//virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { elements.push_back(q.Clone()); };
+	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { elements.push_back(q.Clone()); };
 	virtual ReturnType Visit(Date& d) { elements.push_back(d.Clone());  };
-//	virtual ReturnType Visit(IBAN& i) { iban = i; };
-//	virtual ReturnType Visit(Entry& i) { entry = i; };
+	virtual ReturnType Visit(IBAN& i) { elements.push_back(i.Clone()); };
+	virtual ReturnType Visit(Entry& i) { elements.push_back(i.Clone()); };
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementCollector>(); };
 private:
-	PtrType elements;
-	friend std::ostream& operator<<(std::ostream& s, const ElementCollector& t) 	{ return s;	}
+	std::vector<std::unique_ptr<IElement>> elements;
+	friend std::ostream& operator<<(std::ostream& s, const ElementCollector& t) 	
+	{ 
+		std::for_each(t.elements.cbegin(), t.elements.cend(), [&s](const auto& e) { s<<*e;});
+		return s;	
+	}
 };
 
 template<typename... Types>
