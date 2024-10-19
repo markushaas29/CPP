@@ -90,15 +90,15 @@ private:
 		for(auto i = 1; i < m.Rows();++i)
 		{
 			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Date, IBAN, Entry, Quantity<Sum>>>();
+			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
 				//std::cout<<"!!!!!!!!!!!!!"<<names[0]()->Data()<<std::endl;
 			if(names[1]()->Data() == m[i][0]()->Data())
 				std::cout<<"!!!!!!!!!!!!!"<<*names[0]()<<std::endl;
 		    fc = m[i].Accept(std::move(fc));
 		    ec = m[i].Accept(std::move(ec));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-//			auto eC = ec->template As<ElementCollector<Date, IBAN, Entry, Quantity<Sum>>>();
-//			std::cout<<"!!!!!!!!!!!!!"<<eC<<std::endl;
+			auto eC = ec->template As<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
+			std::cout<<"Vis"<<eC<<std::endl;
 			auto m = (*parser)(true);
 		  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
 		  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));

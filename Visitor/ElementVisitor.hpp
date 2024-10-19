@@ -12,6 +12,7 @@
 class Date;
 class IBAN;
 class IElement;
+class Name;
 template<typename,typename, typename> class Quantity;
 
 class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
@@ -88,7 +89,6 @@ class ElementCollector: public VariadicVisitor<void, Types...>
 	using ReturnType = void;
 public:
 	ElementCollector(){}
-	using PtrType = std::vector<std::unique_ptr<IElement>>;
 	template<typename T>
 	auto To() const
 	{
@@ -102,10 +102,11 @@ public:
 	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { elements.push_back(q.Clone()); };
 	virtual ReturnType Visit(Date& d) { elements.push_back(d.Clone());  };
 	virtual ReturnType Visit(IBAN& i) { elements.push_back(i.Clone()); };
+	virtual ReturnType Visit(Name& i) { elements.push_back(i.Clone()); };
 	virtual ReturnType Visit(Entry& i) { elements.push_back(i.Clone()); };
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementCollector>(); };
 private:
-	std::vector<std::unique_ptr<IElement>> elements;
+	std::vector<std::shared_ptr<IElement>> elements;
 	friend std::ostream& operator<<(std::ostream& s, const ElementCollector& t) 	
 	{ 
 		std::for_each(t.elements.cbegin(), t.elements.cend(), [&s](const auto& e) { s<<*e;});
