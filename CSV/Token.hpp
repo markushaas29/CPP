@@ -124,6 +124,8 @@ struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static co
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
 struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
 
+// Fallss Type doppelt vergeben mussd oppelt angegeben werden DA SONST ERROR!!!!:
+
 struct WasteIndexToken: public Token<WasteIndexToken, Index<Quantity<Scalar, Pure, int>>>	
 {	
 	inline static constexpr const char* Pattern = "Waste"; 
@@ -206,7 +208,13 @@ struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Number<uint>>>
 	inline static constexpr const char* Identifier = "PostcodeIndexToken"; 
 };
 
+struct WidthIndexToken: public Token<WidthIndexToken, Index<Quantity<Length>>>	
+{	
+	inline static constexpr const char* Pattern = "Width";
+	inline static constexpr const char* Identifier = "WidthIndexToken"; 
+};
+
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
 
 template<typename I, typename... T>  class FactoryCreator;
-using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken>;
+using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken, WidthIndexToken>;

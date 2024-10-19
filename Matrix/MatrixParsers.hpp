@@ -151,7 +151,7 @@ private:
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
-		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"RentIndexToken"},{"AreaIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"} });
+		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"RentIndexToken"},{"AreaIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
 		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
 	}
 };
