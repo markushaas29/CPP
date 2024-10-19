@@ -83,6 +83,33 @@ private:
 };
 
 template<typename... Types>
+class ElementCollector: public VariadicVisitor<void, Types...>
+{
+	using ReturnType = void;
+public:
+	ElementCollector(){}
+	using PtrType = std::vector<std::unique_ptr<IElement>>;
+	template<typename T>
+	auto To() const
+	{
+//		if constexpr (std::is_same_v<T,Quantity<Sum,Pure,double>>)
+//			return sum;
+//		else if constexpr (std::is_same_v<T,IBAN>)
+//			return iban;
+//		else if constexpr (std::is_same_v<T,Date>)
+//			return date;
+	}
+	//virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { elements.push_back(q.Clone()); };
+	virtual ReturnType Visit(Date& d) { elements.push_back(d.Clone());  };
+//	virtual ReturnType Visit(IBAN& i) { iban = i; };
+//	virtual ReturnType Visit(Entry& i) { entry = i; };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementCollector>(); };
+private:
+	PtrType elements;
+	friend std::ostream& operator<<(std::ostream& s, const ElementCollector& t) 	{ return s;	}
+};
+
+template<typename... Types>
 class TransferVisitor: public VariadicVisitor<void, Types...>, public BoolVisitable<bool>
 {
 	using ReturnType = void;
