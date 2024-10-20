@@ -81,6 +81,11 @@ class ElementVisitor: public VariadicVisitor<void,T>
 public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
 	virtual ReturnType Visit(T& t) { elements.push_back(t.Clone()); };
+	ElementVisitor() = default;
+	ElementVisitor(ElementVisitor& e)
+	{
+		std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});
+	}
 protected:
 	auto&& get(auto&& res) 	
 	{ 
@@ -98,7 +103,11 @@ class ElementCollector: public ElementVisitor<Types>...
 	using Tup = std::tuple<Types...>;
 public:
 	ElementCollector(){}
-	decltype(auto) operator()() { return get(); }
+	ElementCollector(ElementCollector& e)
+	{
+		std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});
+	}
+	auto operator()() { elements = get(); }
 	template<typename T>
 	auto To() const
 	{
