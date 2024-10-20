@@ -75,22 +75,30 @@ private:
 };
 
 template<typename T>
-class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
+class ElementVisitor: public VariadicVisitor<void,T>
 {
 	using ReturnType = void;
 public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
-	virtual ReturnType Visit(T& t) {  };
+	virtual ReturnType Visit(T& t) { elements.push_back(t.Clone()); };
+protected:
+	auto&& get(auto&& res) 	
+	{ 
+		std::for_each(elements.cbegin(), elements.cend(), [&res](const auto& e) { res.push_back(e->Clone());});
+		return res;	
+	}
 private:
 	std::vector<std::shared_ptr<IElement>> elements;
 };
 
 template<typename... Types>
-class ElementCollector: public VariadicVisitor<void, Types...>
+class ElementCollector: public ElementVisitor<Types>...
 {
 	using ReturnType = void;
+	using Tup = std::tuple<Types...>;
 public:
 	ElementCollector(){}
+	decltype(auto) operator()() { return get(); }
 	template<typename T>
 	auto To() const
 	{
@@ -101,14 +109,28 @@ public:
 //		else if constexpr (std::is_same_v<T,Date>)
 //			return date;
 	}
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) { elements.push_back(q.Clone()); };
-	virtual ReturnType Visit(Date& d) { elements.push_back(d.Clone());  };
-	virtual ReturnType Visit(IBAN& i) { elements.push_back(i.Clone()); };
-	virtual ReturnType Visit(Name& i) { elements.push_back(i.Clone()); };
-	virtual ReturnType Visit(Entry& i) { elements.push_back(i.Clone()); };
-	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementCollector>(); };
 private:
 	std::vector<std::shared_ptr<IElement>> elements;
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementCollector>(); };
+	auto get() 	
+	{ 
+		std::vector<std::shared_ptr<IElement>> r;
+		return exec<0>(r);	
+	}
+	template<size_t N>
+	auto exec(auto&& res)
+	{
+		if constexpr (std::tuple_size<Tup>()==N)
+			return std::move(res);
+		else
+		{
+			using Type = std::tuple_element_t<N,Tup>;
+			res = ElementVisitor<Type>::get(res);
+			return exec<N+1>(res);
+		}
+	}
+	
+	
 	friend std::ostream& operator<<(std::ostream& s, const ElementCollector& t) 	
 	{ 
 		std::for_each(t.elements.cbegin(), t.elements.cend(), [&s](const auto& e) { s<<*e;});
