@@ -15,15 +15,6 @@ class IElement;
 class Name;
 template<typename,typename, typename> class Quantity;
 
-class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
-{
-	using ReturnType = void;
-public:
-	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
-	virtual ReturnType Visit(Quantity<Sum,Pure,double>& q) {  };
-	virtual ReturnType Visit(Date& q) {  };
-};
-
 template<typename L, typename R, template<typename, typename> class FT>
 class FuncVisitorBase
 {
@@ -81,6 +72,17 @@ public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
 private:
 	//friend std::ostream& operator<<(std::ostream& s, const ComposedFuncVisitor& f) 	{ return s<<Op{ComposedFuncVisitor.left, B::F()};	}
+};
+
+template<typename T>
+class ElementVisitor: public BaseVisitor, public Visitor<Quantity<Sum,Pure,double>>, public Visitor<Date>
+{
+	using ReturnType = void;
+public:
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
+	virtual ReturnType Visit(T& t) {  };
+private:
+	std::vector<std::shared_ptr<IElement>> elements;
 };
 
 template<typename... Types>

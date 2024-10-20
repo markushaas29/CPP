@@ -30,20 +30,19 @@ int Run()
 {
 	std::cout<<"START Visitor"<<std::endl;
 
-	ElementVisitor vd;
+//	ElementVisitor vd;
 	std::unique_ptr<IElement> dp = std::make_unique<Date>(29,9,1986);
 	std::unique_ptr<IElement> d20112022 = std::make_unique<Date>("20.11.2022");
 	std::unique_ptr<IElement> sp = std::make_unique<QS>(29);
 	std::unique_ptr<IElement> ip = std::make_unique<IBAN>(std::string("DE82660501011021592702"));
 	std::unique_ptr<IElement> ep = std::make_unique<Entry>(std::string("A B C D"));
-	auto qs = QS(29);
-	IElement* ie = &qs;
-	dp->Accept(vd);
-	sp->Accept(vd);
-	ie->Accept(vd);
+//	auto qs = QS(29);
+//	IElement* ie = &qs;
+//	dp->Accept(vd);
+//	sp->Accept(vd);
+//	ie->Accept(vd);
 
 	const auto cd = Date(1,1,2020);
-	cd.Accept(vd);
 
 	auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
 	assert(ep->Is(ev));
