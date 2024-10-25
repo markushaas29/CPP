@@ -86,15 +86,17 @@ private:
 	{
 		auto m = (*parser)(true);
 		auto names = m.Col(0);
+		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
 		std::cout<<"HALL\n"<<m<<std::endl;
 		for(auto i = 1; i < m.Rows();++i)
 		{
 			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
-				//std::cout<<"!!!!!!!!!!!!!"<<names[0]()->Data()<<std::endl;
 			if(names[1]()->Data() == m[i][0]()->Data())
-				std::cout<<"!!!!!!!!!!!!!"<<*names[0]()<<std::endl;
-		    fc = m[i].Accept(std::move(fc));
+			{
+				elements.push_back(m[i].Elements());
+			}
+			fc = m[i].Accept(std::move(fc));
 		    ec = m[i].Accept(std::move(ec));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto eC = ec->template As<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
@@ -110,6 +112,19 @@ private:
 		    fv = m[0].Accept(std::move(fv));
 		    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 			std::cout<<"HALL\n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
+		}
+		if(elements.size()>0)
+		{
+			auto me = Init(elements)();
+			std::cout<<"ME"<<me<<std::endl;
+
+			for(auto i = 0; i < me.Rows();++i)
+			{
+				std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+				fc = me[i].Accept(std::move(fc));
+	    		auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+				std::cout<<"ME => \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
+			}
 		}
 		return (*parser)();	}
 };
@@ -134,11 +149,11 @@ private:
 };
 
 template<typename S>
-class ProportionCalculator: public StageBase<S>
+class ExtraCostsCalculator: public StageBase<S>
 {
 	using Base = StageBase<S>;
 public:
-	ProportionCalculator(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
+	ExtraCostsCalculator(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
 		Base{acc, fT,fE,fB, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][9].template As<Quantity<Sum>>()+properties[1][10].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
 	auto AdvancePayment() { return advancePayment; }
 	auto Properties() { return properties; }

@@ -82,7 +82,7 @@ class TemplatizedAll_Test2023
 			auto hall = std::make_unique<Hall<Middle>>(tokenFactory,elementFactory,visitorFactory,path);
 			std::cout<<"Hall"<<(*hall)(Year(2023),bM)<<std::endl;
 			
-			auto propB23 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propB23 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto bV = propB23.Values(Year{2022}, bM).To<Quantity<Sum>>();
 			std::cout<<"Hall"<<bV<<std::endl;
 			assert(bV[0]().Equals(Quantity<Sum>{-107.33},0.01));
@@ -107,7 +107,7 @@ class TemplatizedAll_Test2023
 			assert(bMS[0][5]().Equals(Quantity<Sum>{-350.66},0.01));
 			assert(propB23.Value(Year{2023}).Equals(Quantity<Sum>{-2517.51},0.01));
 			
-			auto propB24 = ProportionCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propB24 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			bMS = propB23(Year{2024}, bM).To<Quantity<Sum>>();
 			std::cout<<"Costs--->"<<bMS<<std::endl;
 			assert(bMS[0][0]().Equals(Quantity<Sum>{-111.60},0.01));
@@ -121,7 +121,7 @@ class TemplatizedAll_Test2023
 			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
 			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
-			auto propM23 = ProportionCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propM23 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto mV = propM23.Values(Year{2022}, bM);
 			assert(mV[0]().Equals(Quantity<Sum>{-161.00},0.01));
 			assert(mV[1]().Equals(Quantity<Sum>{-758.60},0.01));
@@ -145,7 +145,7 @@ class TemplatizedAll_Test2023
 			assert(mMS[0][5]().Equals(Quantity<Sum>{-462.19},0.01));
 			assert(propM23.Value(Year{2023}).Equals(Quantity<Sum>{-2678.42},0.01));
 			
-			auto propM24 = ProportionCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propM24 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
 			mMS = propM23(Year{2024}, bM).To<Quantity<Sum>>();
 			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
 			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-342.40},0.01));
@@ -157,7 +157,7 @@ class TemplatizedAll_Test2023
 			assert(mMS[0][5]().Equals(Quantity<Sum>{-405.87},0.01));
 			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-2862.40},0.01));
 
-			auto propT23 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propT23 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto mT22 = propT23.Values(Year{2022}, bM).To<Quantity<Sum>>();
 			assert(mT22[0]().Equals(Quantity<Sum>{-53.67},0.01));
 			assert(mT22[1]().Equals(Quantity<Sum>{-531.02},0.01));
@@ -181,7 +181,7 @@ class TemplatizedAll_Test2023
 			assert(mTS[0][5]().Equals(Quantity<Sum>{-248.47},0.01));
 			assert(propT23.Value(Year{2023}).Equals(Quantity<Sum>{-2781.81},0.01));
 			
-			auto propT24 = ProportionCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propT24 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			mTS = propT24(Year{2024}, bM).To<Quantity<Sum>>();
 			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
 			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{12369.76},0.01));

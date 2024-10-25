@@ -22,7 +22,7 @@ public:
     Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
 		Base{fE,fB,y}, tokenFactory{fT}, file{HtmlBuilder<German>(std::string(T::Name)+ y.ToString() +".html")}, 
 		account{std::make_unique<AccountCalculator>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, p)},
-		proportion{std::make_unique<ProportionCalculator<Stage>>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year,p)},
+		proportion{std::make_unique<ExtraCostsCalculator<Stage>>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year,p)},
 		path{p}{ }
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) 
@@ -104,7 +104,7 @@ private:
 //	}
 //	
 	std::unique_ptr<AccountCalculator> account;
-	std::unique_ptr<ProportionCalculator<Stage>> proportion;
+	std::unique_ptr<ExtraCostsCalculator<Stage>> proportion;
     typename Base::QuantityType result;
 	std::string name;
 };
