@@ -200,8 +200,14 @@ private:
 
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
-		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
 
+		std::vector<std::string> headers = {"Name","Proportion","Whole","Calculation","Result","Sum","Calculation","Result",};
+		std::vector<std::shared_ptr<IElement>> first;
+		for(size_t i = 0; i < 8; ++i)
+			first.push_back(std::make_shared<Header>(headers[i]));
+
+		std::vector<std::vector<std::shared_ptr<IElement>>> vph = { first };
+		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
@@ -216,8 +222,9 @@ private:
 			vp.push_back(vpr);
 		}
 
+		vph.insert(vph.end(), vp.begin(), vp.end());
 		auto resultElements = Init(vp)();
-		auto mfE = MatrixFormatter(resultElements);
+		auto mfE = MatrixFormatter(Init(vph)());
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div2->Add(mfE.Html());
 		
