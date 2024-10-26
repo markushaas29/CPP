@@ -137,7 +137,7 @@ public:
 	auto M() const { return parser->M().Rows(0, S::Index); }
 protected:
 	StageBase(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
-		Base{fE,fB}, account{acc}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
+		Base{fE,fB}, account{acc}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} { };
 	const std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;
@@ -154,17 +154,17 @@ class ExtraCostsCalculator: public StageBase<S>
 	using Base = StageBase<S>;
 public:
 	ExtraCostsCalculator(std::shared_ptr<ICalculator<Quantity<Sum>>> acc, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
-		Base{acc, fT,fE,fB, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][9].template As<Quantity<Sum>>()+properties[1][10].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
+		Base{acc, fT,fE,fB, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][14].template As<Quantity<Sum>>()+properties[1][15].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
 	auto AdvancePayment() { return advancePayment; }
 	auto Properties() { return properties; }
-	auto AdvanceItems() { return properties.Cols(8,9,10); }
+	auto AdvanceItems() { return properties.Cols(13,14,15); }
 	auto Result(const Year& y) { return this->Value(y) + advancePayment; }
 private:
 	Matrix<2, MatrixDescriptor<2,typename Base::ElementType>> properties;
 	Quantity<Sum> advancePayment;
 	virtual typename Base::MatrixType matrix(const HtmlBuilder<German>& f, const Year& y) const
 	{
-		auto stageMatrix = (*Base::parser)().Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
+		auto stageMatrix = (*Base::parser)().Cols(7,8,9,10,11,12).template To<Quantity<Scalar>>();
 		using AllStages = std::tuple<Bottom, Middle, Top>;
 		stageMatrix = process<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y);
         auto costs = calcCosts<0,AllStages>(stageMatrix,Base::tokenFactory,Base::elementFactory,Base::visitorFactory, Base::path,f,y);

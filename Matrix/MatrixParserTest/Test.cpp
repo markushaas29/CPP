@@ -60,24 +60,6 @@ class MatrixParserTest
 			};
 
 			auto mq = ms22.Parse(matcher);			
-			std::cout<<"Quanti"<<mq<<std::endl;
-
-			auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
-			auto tokenFactory = Build<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken>();
-//            auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-//            Matcher smatcher(std::move(stageIndexTokens));
-//            auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-//            Matcher imatcher(std::move(csvIndexTokens));
-//            auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-//            Matcher matcher(std::move(v));
-//
-			auto sp = StageParser(tokenFactory, "/home/markus/Downloads/CSV_TestFiles_2");
-
-			std::cout<<sp()<<std::endl;
-			assert(sp(true).Rows()==4);
-			assert(sp().Rows()==3);
-			
-			assert(AccountParser::Instance(tokenFactory, "/home/markus/Downloads/CSV_TestFiles_2")().Cols()==5);
 			
 			std::cout<<"END"<<std::endl;
 		   
