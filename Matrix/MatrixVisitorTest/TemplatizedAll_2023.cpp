@@ -9,6 +9,7 @@
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
 #include "../MatrixComposition.hpp"
+#include "../MatrixElement.hpp"
 #include "../M3.hpp"
 #include "../../ObjectFactory/Factory.hpp"
 #include "../../Common/DateTimes.hpp"
@@ -33,14 +34,12 @@ class TemplatizedAll_Test2023
 		    using MS2 = Matrix<2,MDS2>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 			using EVF = Factory<BaseVisitor>;
-			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
-			auto u23 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2023.csv" };
-			auto u24 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2024.csv" };
-			auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
+			auto u22 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2022.csv" };
+			auto u23 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2023.csv" };
+			auto u24 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2024.csv" };
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
 			auto m24r = MatrixReader(u24);
-			auto mS = MatrixReader(sNew).M<2>();
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
 			auto m24S = m24r.M<2>();
@@ -65,12 +64,9 @@ class TemplatizedAll_Test2023
 			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
 
-			auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).To<Quantity<Scalar>>();
-			auto stageQ = mS.Parse(smatcher, matcher);
-			auto payment = stageQ.Cols(8,9,10).To<Quantity<Sum>>();
 			using AllStages = std::tuple<Bottom, Middle, Top>;
 
-			const std::string path = "/home/markus/Downloads/CSV_TestFiles_2"; 
+			const std::string path = "/home/markus/Dokumente/cpp/CSV_Files"; 
 			auto account = std::make_shared<AccountCalculator>(tokenFactory,elementFactory,visitorFactory, path);
 			std::chrono::steady_clock::time_point e1 = std::chrono::steady_clock::now();
 

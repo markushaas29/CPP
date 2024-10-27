@@ -8,8 +8,6 @@
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../Quantity/Quantity.hpp"
-#include "../CSV/Elements.hpp"    
-#include "../Common/DateTimes.hpp"
 #include "../Common/TupleHelper.hpp"
 
 #pragma once

@@ -17,6 +17,7 @@
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/Element.hpp"
 #include "../CSV/NumericStyle.hpp"
 #include "../CSV/Matcher.hpp"
 #include "../Quantity/Quantity.hpp"
