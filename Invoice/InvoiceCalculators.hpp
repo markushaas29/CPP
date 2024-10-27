@@ -23,6 +23,7 @@
 #include "../Functional/Functional.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Visitor/CollectorVisitor.hpp"
+#include "../Visitor/PredicateVisitor.hpp"
 #include "../Invoice/InvoiceCalculatorBase.hpp"
 #include "../Invoice/AccountCalculator.hpp"
 
@@ -76,7 +77,7 @@ class Hall: public CalculatorBase<Quantity<Sum>, Hall<S>>
 public:
 	auto M() const { return parser->M().Rows(0, 1); }
 	Hall(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
-		Base{fE,fB}, path{p}, tokenFactory{fT},parser{std::make_unique<HallParser>(tokenFactory,path)} {};
+		Base{fE,fB}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
 	const std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;
