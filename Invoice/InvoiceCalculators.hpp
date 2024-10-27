@@ -43,7 +43,7 @@ private:
 	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f)
 	{
 		Builder<ICounter,Counter, BottomHotDesc, BottomColdDesc, MiddleHotDesc, MiddleColdDesc,TopHotDesc, TopColdDesc> b;
-		auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tokenFactory);
+		auto cV = b("/home/markus/Dokumente/cpp/CSV_Files", tokenFactory);
 
 		auto els = std::vector<std::shared_ptr<IElement>>{};
 		
@@ -103,17 +103,16 @@ private:
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto eC = ec->template As<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
 			eC();
-			std::cout<<"Vis"<<eC<<std::endl;
 			auto m = (*parser)(true);
 		  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
 		  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
-    		auto html = HtmlBuilder(m[i][0]()->Data()+"Hall.html","/home/markus/Downloads/CSV_TestFiles_2");
+    		auto html = HtmlBuilder(m[i][1]()->Data()+"Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
 			html(mfPre());
 		  	html(mf());
 			std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 		    fv = m[0].Accept(std::move(fv));
 		    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
-			std::cout<<"HALL\n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
+			std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 		}
 		if(elements.size()>0)
 		{
@@ -194,7 +193,7 @@ private:
 		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
 		auto stageQT = stageQuantities^-1;
 		auto mf = MatrixFormatter(stageQT);
-        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Downloads/CSV_TestFiles_2");
+        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 //		html(Date::Today());
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
