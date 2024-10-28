@@ -23,8 +23,8 @@
 #include "../Quantity/Quantity.hpp"
 #include "../Functional/Functional.hpp"
 #include "../Common/DateTimes.hpp"
-#include "../Visitor/CollectorVisitor.hpp"
-#include "../Visitor/PredicateVisitor.hpp"
+#include "../Visitor/ElementVisitor.hpp"
+#include "../Visitor/FuncVisitor.hpp"
 #include "../Invoice/InvoiceCalculatorBase.hpp"
 #include "../Invoice/AccountCalculator.hpp"
 

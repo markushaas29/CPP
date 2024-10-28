@@ -5,6 +5,7 @@
 #include <memory> 
 #include "Visitor.hpp"
 #include "ElementVisitor.hpp"
+#include "FuncVisitor.hpp"
 #include "PredicateVisitor.hpp"
 #include "CollectorVisitor.hpp"
 #include "../CSV/Elements.hpp"
