@@ -242,7 +242,8 @@ private:
 		auto resultElements = Init(vp)();
 		auto mfE = MatrixFormatter(Init(vph)());
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(mfE.Html());
+		appendHeaders(headers, vp);
+		div2->Add(appendHeaders(headers, vp).Html());
 		
 		auto sum = resultElements.Col(7).template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
@@ -272,6 +273,18 @@ private:
         auto v =resultElements.Col(7).Elements();
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
     }
+	
+	auto appendHeaders(const auto& headers, const auto& vp) const
+	{
+		std::vector<std::shared_ptr<IElement>> first;
+		for(size_t i = 0; i < 8; ++i)
+			first.push_back(std::make_shared<Header>(headers[i]));
+
+		std::vector<std::vector<std::shared_ptr<IElement>>> vph = { first };
+
+		vph.insert(vph.end(), vp.begin(), vp.end());
+		return MatrixFormatter(Init(vph)());
+	}
 	
 	auto asString(const auto& val) const
 	{
