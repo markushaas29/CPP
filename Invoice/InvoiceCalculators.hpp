@@ -237,7 +237,7 @@ private:
 		div2->Add(appendHeaders({"Name","Proportion","Whole","Calculation","Result","Sum","Calculation","Result"}, vp).Html());
 		
 		auto sum = resultElements.Col(7).template To<Quantity<Sum>>().ColSum();
-		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
+		auto extraCosts = stageQuantities[1].Rows(14,15).template To<Quantity<Sum>>();
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		auto heatingPayment = yearCosts[0];
 		auto advancedPayment = yearCosts[1];
@@ -246,16 +246,15 @@ private:
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
 		{
-			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
-			{stageQuantities[0][9]()->Clone(),std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
-			{stageQuantities[0][10]()->Clone(),std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()},
-			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
-			{std::make_shared<Header>("ABC"),std::make_shared<Entry>(asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
+			{std::make_shared<Header>("Costs"),std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
+			{stageQuantities[0][14]()->Clone(),std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
+			{stageQuantities[0][15]()->Clone(),std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()},
+			{std::make_shared<Header>("Advance"),std::make_shared<Entry>(asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
+			{std::make_shared<Header>("Result"),std::make_shared<Entry>(asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
 
-		auto resultM = Init(costs)();
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<4>>,Style<Margin,Px<50>>>>());
-		div3->Add(MatrixFormatter(resultM).Html());
+		div3->Add(appendHeaders({"Name","Calculation","Result"}, costs).Html());
 		outs->push_back(std::move(div3));
 		outs->push_back(std::move(div2));
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
@@ -268,7 +267,7 @@ private:
 	auto appendHeaders(const std::vector<std::string>& headers, const auto& vp) const
 	{
 		std::vector<std::shared_ptr<IElement>> first;
-		for(size_t i = 0; i < 8; ++i)
+		for(size_t i = 0; i < headers.size(); ++i)
 			first.push_back(std::make_shared<Header>(headers[i]));
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> vph = { first };
