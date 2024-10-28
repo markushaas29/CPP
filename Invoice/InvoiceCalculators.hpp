@@ -217,12 +217,6 @@ private:
 		auto result = stagesDiv[S::Index-1] * sumMatrix;
 		auto res = result().template To<Quantity<Sum>>();
 
-		std::vector<std::string> headers = {"Name","Proportion","Whole","Calculation","Result","Sum","Calculation","Result",};
-		std::vector<std::shared_ptr<IElement>> first;
-		for(size_t i = 0; i < 8; ++i)
-			first.push_back(std::make_shared<Header>(headers[i]));
-
-		std::vector<std::vector<std::shared_ptr<IElement>>> vph = { first };
 		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
 		for(size_t i = 0; i < 6; ++i)
 		{
@@ -238,12 +232,9 @@ private:
 			vp.push_back(vpr);
 		}
 
-		vph.insert(vph.end(), vp.begin(), vp.end());
 		auto resultElements = Init(vp)();
-		auto mfE = MatrixFormatter(Init(vph)());
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		appendHeaders(headers, vp);
-		div2->Add(appendHeaders(headers, vp).Html());
+		div2->Add(appendHeaders({"Name","Proportion","Whole","Calculation","Result","Sum","Calculation","Result"}, vp).Html());
 		
 		auto sum = resultElements.Col(7).template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(9,10).template To<Quantity<Sum>>();
@@ -274,7 +265,7 @@ private:
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
     }
 	
-	auto appendHeaders(const auto& headers, const auto& vp) const
+	auto appendHeaders(const std::vector<std::string>& headers, const auto& vp) const
 	{
 		std::vector<std::shared_ptr<IElement>> first;
 		for(size_t i = 0; i < 8; ++i)
