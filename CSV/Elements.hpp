@@ -45,7 +45,7 @@ private:
 struct StreetNumber: public Number<uint>		
 {    
     StreetNumber(const std::string& k = Identifier): Number<uint>(k){};
-	inline static constexpr const char* Identifier = "StreetNumber"; 
+	inline static constexpr const char* Identifier = "Streetnumber"; 
 };
 
 struct Postcode: public Number<uint>		

@@ -115,8 +115,13 @@ struct DateIndexToken: public Token<DateIndexToken, Index<Date>>	{	inline static
 struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inline static constexpr const char* Pattern = "Area";};
 struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
 struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
-struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
 
+struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(\\w)*[Nn]ame(\\w)*";};
+struct PrenameIndexToken: public Token<PrenameIndexToken, Index<Prename>>					{	inline static constexpr const char* Pattern = "Pre"; };
+struct StreetIndexToken: public Token<StreetIndexToken, Index<Street>>						{	inline static constexpr const char* Pattern = "Street"; };
+struct TownIndexToken: public Token<TownIndexToken, Index<Town>>							{	inline static constexpr const char* Pattern = "Town";	};
+struct StreetnumberIndexToken: public Token<StreetnumberIndexToken, Index<StreetNumber>> 	{	inline static constexpr const char* Pattern = "Streetnumber"; };
+struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Postcode>>				{	inline static constexpr const char* Pattern = "Postcode";	};
 //struct _IndexToken: public Token<_IndexToken, Index<_>>	{	inline static constexpr const char* Pattern = "_";};
 
 struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
@@ -181,31 +186,6 @@ struct GarageRentIndexToken: public Token<GarageRentIndexToken, Index<Quantity<S
 {	
 	inline static constexpr const char* Pattern = "GarageRent"; 
 	inline static constexpr const char* Identifier = "GarageRentIndexToken"; 
-};
-struct PrenameIndexToken: public Token<PrenameIndexToken, Index<Name>>	
-{	
-	inline static constexpr const char* Pattern = "Pre";
-	inline static constexpr const char* Identifier = "PrenameIndexToken"; 
-};
-struct StreetIndexToken: public Token<StreetIndexToken, Index<Name>>	
-{	
-	inline static constexpr const char* Pattern = "Street";
-	inline static constexpr const char* Identifier = "StreetIndexToken"; 
-};
-struct TownIndexToken: public Token<TownIndexToken, Index<Name>>	
-{	
-	inline static constexpr const char* Pattern = "Town";
-	inline static constexpr const char* Identifier = "TownIndexToken"; 
-};
-struct StreetnumberIndexToken: public Token<StreetnumberIndexToken, Index<Number<uint>>>	
-{
-	inline static constexpr const char* Pattern = "Streetnumber";
-	inline static constexpr const char* Identifier = "StreetnumberIndexToken"; 
-};
-struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Number<uint>>>	
-{	
-	inline static constexpr const char* Pattern = "Postcode";
-	inline static constexpr const char* Identifier = "PostcodeIndexToken"; 
 };
 
 struct WidthIndexToken: public Token<WidthIndexToken, Index<Quantity<Length>>>	
