@@ -250,7 +250,18 @@ int Run()
 	assert(fC().Value()==49*200);
 	std::cout<<"Consumption Visitor _>\n"<<fC()<<std::endl;
 	
-	std::cout<<"END Visitor"<<*diff<<std::endl;
+	M2E address {
+	      {std::make_shared<QA>(24), std::make_shared<Prename>("A")},
+	      {std::make_shared<Street>("C"), std::make_shared<StreetNumber>("B")},
+	      {std::make_shared<Postcode>("E"), std::make_shared<Town>("F")},
+	  };
+	
+	std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
+	ec = address.Accept(std::move(ec));
+
+	auto EC = ec->template As<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
+	EC();
+	std::cout<<"END Visitor"<<EC<<std::endl;
    
 	return 0;
 }
