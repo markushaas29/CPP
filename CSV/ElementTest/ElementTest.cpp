@@ -184,6 +184,8 @@ int Run()
 	assert(ed2==std::string("Heiznebenkosten"));
 	std::cout<<Translator::Instance()<<std::endl;
 	Name{"HeatExtraCosts"}=="ABC";
+	auto sn = StreetNumber{"14"};
+	assert(sn==std::string("14"));
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

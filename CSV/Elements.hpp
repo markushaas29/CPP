@@ -42,6 +42,12 @@ private:
     inline static std::string check(const std::string& s) { return s; }
 };
 
+struct StreetNumber: public Number<uint>		
+{    
+    StreetNumber(const std::string& k = Identifier): Number<uint>(k){};
+	inline static constexpr const char* Identifier = "StreetNumber"; 
+};
+
 class IBAN: public Element<IBAN>
 {
 	using Base = Element<IBAN>;
