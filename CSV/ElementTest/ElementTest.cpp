@@ -186,6 +186,15 @@ int Run()
 	Name{"HeatExtraCosts"}=="ABC";
 	auto sn = StreetNumber{"14"};
 	assert(sn==std::string("14"));
+	auto pc = Postcode{"76706"};
+	assert(pc==std::string("76706"));
+
+	auto st = Street{"Heinrich-Heine"};
+	assert(st==std::string("Heinrich-Heine"));
+	auto tw = Town{"Heinrichstadt"};
+	assert(tw==std::string("Heinrichstadt"));
+	auto pr = Prename{"Heinrich"};
+	assert(pr==std::string("Heinrich"));
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

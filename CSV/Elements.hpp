@@ -48,6 +48,12 @@ struct StreetNumber: public Number<uint>
 	inline static constexpr const char* Identifier = "StreetNumber"; 
 };
 
+struct Postcode: public Number<uint>		
+{    
+    Postcode(const std::string& k = Identifier): Number<uint>(k){};
+	inline static constexpr const char* Identifier = "Postcode"; 
+};
+
 class IBAN: public Element<IBAN>
 {
 	using Base = Element<IBAN>;
@@ -164,6 +170,24 @@ public:
 	Name(const std::string& c = Identifier): Base(c){ };
 private:
 	inline static std::string check(const std::string& s) { return s; }
+};
+
+struct Prename: public Name		
+{    
+    Prename(const std::string& k = Identifier): Name(k){};
+	inline static constexpr const char* Identifier = "Prename"; 
+};
+
+struct Town: public Name		
+{    
+    Town(const std::string& k = Identifier): Name(k){};
+	inline static constexpr const char* Identifier = "Town"; 
+};
+
+struct Street: public Name		
+{    
+    Street(const std::string& k = Identifier): Name(k){};
+	inline static constexpr const char* Identifier = "Street"; 
 };
 
 template<typename T>//, typename U, typename TVal = double>
