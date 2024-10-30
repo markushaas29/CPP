@@ -49,10 +49,9 @@ class ElementCollector: public ElementVisitor<Types>...
 	using Tup = std::tuple<Types...>;
 public:
 	ElementCollector(){}
-	ElementCollector(ElementCollector& e)
-	{
-		std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});
-	}
+	ElementCollector(ElementCollector& e)	{	std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});	}
+	auto Elements() { return elements; }
+	auto Size() { return elements.size(); }
 	auto operator()() { elements = get(); }
 	template<typename T>
 	auto To() const

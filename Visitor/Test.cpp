@@ -259,9 +259,11 @@ int Run()
 	std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
 	ec = address.Accept(std::move(ec));
 
-	auto EC = ec->template As<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
-	EC();
-	std::cout<<"END Visitor"<<EC<<std::endl;
+	auto EC = ec->template Cast<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
+	(*EC)();
+	assert(EC->Elements().size()==5);
+	assert(EC->Size()==5);
+	std::cout<<"END Visitor"<<*EC<<std::endl;
    
 	return 0;
 }
