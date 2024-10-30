@@ -89,11 +89,10 @@ private:
 		auto m = (*parser)(true);
 		auto names = m.Col(0);
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
-		std::cout<<"HALL\n"<<m<<std::endl;
 		for(auto i = 1; i < m.Rows();++i)
 		{
 			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
+			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 			if(names[1]()->Data() == m[i][0]()->Data())
 			{
 				elements.push_back(m[i].Elements());
@@ -101,13 +100,17 @@ private:
 			fc = m[i].Accept(std::move(fc));
 		    ec = m[i].Accept(std::move(ec));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-			auto eC = ec->template As<ElementCollector<Date, IBAN, Entry, Quantity<Sum>, Name>>();
-			eC();
+			auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+			(*eC)();
+			std::cout<<"HALL\n"<<*eC<<std::endl;
+			auto address = Init(eC->Elements())().Transform<2>(3,2);
+			std::cout<<"HALL\n"<<address<<std::endl;
 			auto m = (*parser)(true);
 		  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
 		  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
     		auto html = HtmlBuilder(m[i][1]()->Data()+"Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
 			html(mfPre());
+			html(MatrixFormatter(address)());
 		  	html(mf());
 			std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 		    fv = m[0].Accept(std::move(fv));
