@@ -9,10 +9,12 @@ class BaseVisitor
 {
 public:
 	template<typename T>
-	T As() 
+	T As()	{ return *(Cast<T>());	}		
+	template<typename T>
+	T* Cast() 
 	{
 		if(auto p = dynamic_cast<T*>(this))
-			return *p;
+			return p;
 		IsT<Throwing>(Format("INVALID AS CAST!"))(false);
         throw;
 	}		
