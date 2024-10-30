@@ -4,7 +4,6 @@
 #include <sstream>
 #include <chrono>
 #include "InvoiceCalculatorBase.hpp"
-#include "InvoiceCalculators.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"
@@ -13,16 +12,15 @@
 #pragma once
 
 template<typename T>
-class Invoice: public CalculatorBase<Quantity<Sum>,Invoice<T>>
+class Invoice//: public CalculatorBase<Quantity<Sum>,Invoice<T>>
 {
 	using Base = CalculatorBase<Quantity<Sum>,Invoice<T>>;
     using Stage = T;
 public:
 //  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
-    Invoice(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
-		Base{fE,fB,y}, tokenFactory{fT}, file{HtmlBuilder<German>(std::string(T::Name)+ y.ToString() +".html")}, 
-		account{std::make_unique<AccountCalculator>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year, p)},
-		proportion{std::make_unique<ExtraCostsCalculator<Stage>>(tokenFactory,Base::elementFactory,Base::visitorFactory, Base::year,p)},
+    Invoice(const Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>& a,std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
+		address(a),
+		//Base{fE,fB,y}, tokenFactory{fT}, file{HtmlBuilder<German>(std::string(T::Name)+ y.ToString() +".html")}, 
 		path{p}{ }
 	template<size_t N, typename Tup>
 	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) 
@@ -32,14 +30,18 @@ public:
 	
 	    return costs()[0].template To<Quantity<Sum>>();
 	}
-	auto Prop() { return (*proportion)(file); }
 private:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
+	Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> address;
 	HtmlBuilder<German> file;
 	std::string path;
-    friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.result;   }
+    friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
-   // virtual typename Base::MatrixType exec(const HtmlBuilder<German>& f, const Year& y)  {	return typename Base::MatrixType(typename Base::DescriptorType({1}),{std::make_shared<Quantity<Sum>>(value(f))});    };
+    auto exec(const HtmlBuilder<German>& f, const Year& y)  
+	{
+		 return Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({1,1}),{ std::make_shared<Quantity<Scalar>>(2) });
+	}
+	//{	return typename Base::MatrixType(typename Base::DescriptorType({1,1}), {std::make_shared<Quantity<Sum>>(9)} ); };
 //    virtual typename Base::QuantityType value(const HtmlBuilder<German>& f) 
 //    {
 //		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -103,8 +105,6 @@ private:
 //	    return stagesDiv * sumMatrix;                                                                                                       
 //	}
 //	
-	std::unique_ptr<AccountCalculator> account;
-	std::unique_ptr<ExtraCostsCalculator<Stage>> proportion;
     typename Base::QuantityType result;
 	std::string name;
 };

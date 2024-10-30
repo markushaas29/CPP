@@ -264,6 +264,11 @@ int Run()
 	assert(EC->Elements().size()==5);
 	assert(EC->Size()==5);
 	std::cout<<"END Visitor"<<*EC<<std::endl;
+	
+
+	auto pre = std::make_shared<Prename>("A");
+	std::unique_ptr<BaseVisitor> evp = std::make_unique<ElementVisitor<Prename>>();
+	pre->Accept(*evp);
    
 	return 0;
 }

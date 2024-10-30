@@ -16,7 +16,7 @@ class Name;
 template<typename,typename, typename> class Quantity;
 
 template<typename T>
-class ElementVisitor: public VariadicVisitor<void,T>
+class ElementVisitor: public VariadicVisitor<void,T>, public BoolVisitable<bool>
 {
 	using ReturnType = void;
 public:
@@ -25,6 +25,8 @@ public:
 	ElementVisitor() = default;
 	ElementVisitor(ElementVisitor& e)	{	std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});	}
 protected:
+	virtual bool Is(BaseVisitor& visitor) { return dynamic_cast<Visitor<T,ReturnType>*>(&visitor);  };
+	
 	auto&& get(auto&& res) 	
 	{ 
 		std::for_each(elements.cbegin(), elements.cend(), [&res](const auto& e) { res.push_back(e->Clone());});

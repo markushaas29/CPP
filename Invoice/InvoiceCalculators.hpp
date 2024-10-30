@@ -27,6 +27,7 @@
 #include "../Visitor/FuncVisitor.hpp"
 #include "../Invoice/InvoiceCalculatorBase.hpp"
 #include "../Invoice/AccountCalculator.hpp"
+#include "../Invoice/InvoiceCalculator.hpp"
 
 #pragma once
 
@@ -102,9 +103,11 @@ private:
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 			(*eC)();
-			std::cout<<"HALL\n"<<*eC<<std::endl;
-			auto address = Init(eC->Elements())().Transform<2>(3,2);
-			std::cout<<"HALL\n"<<address<<std::endl;
+			auto address = Init(eC->Elements())().template Transform<2>(3,2);
+
+			auto inv = Invoice<S>(address, tokenFactory,Base::elementFactory,Base::visitorFactory,Year{2024},path);
+			std::cout<<"HALL\n"<<inv<<std::endl;
+
 			auto m = (*parser)(true);
 		  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
 		  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
