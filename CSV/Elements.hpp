@@ -42,16 +42,26 @@ private:
     inline static std::string check(const std::string& s) { return s; }
 };
 
-struct StreetNumber: public Number<uint>		
+class StreetNumber: public Element<StreetNumber>		
 {    
-    StreetNumber(const std::string& k = Identifier): Number<uint>(k){};
+	using Base = Element<StreetNumber>;
+	friend class Element<StreetNumber>;
+public:
+    StreetNumber(const std::string& k = Identifier): Element<StreetNumber>(k){};
 	inline static constexpr const char* Identifier = "Streetnumber"; 
+private:
+    inline static std::string check(const std::string& s) { return s; }
 };
 
-struct Postcode: public Number<uint>		
+class Postcode: public Element<Postcode>		
 {    
-    Postcode(const std::string& k = Identifier): Number<uint>(k){};
+	using Base = Element<Postcode>;
+	friend class Element<Postcode>;
+public:
+    Postcode(const std::string& k = Identifier): Element<Postcode>(k){};
 	inline static constexpr const char* Identifier = "Postcode"; 
+private:
+    inline static std::string check(const std::string& s) { return s; }
 };
 
 class IBAN: public Element<IBAN>
@@ -172,22 +182,37 @@ private:
 	inline static std::string check(const std::string& s) { return s; }
 };
 
-struct Prename: public Name		
+class Prename: public Element<Prename>		
 {    
-    Prename(const std::string& k = Identifier): Name(k){};
+	using Base = Element<Prename>;
+	friend class Element<Prename>;
+public:
+    Prename(const std::string& k = Identifier): Base(k){};
 	inline static constexpr const char* Identifier = "Prename"; 
+private:
+	inline static std::string check(const std::string& s) { return s; }
 };
 
-struct Town: public Name		
+class Town: public Element<Town>		
 {    
-    Town(const std::string& k = Identifier): Name(k){};
+	using Base = Element<Town>;
+	friend class Element<Town>;
+public:
+    Town(const std::string& k = Identifier): Base(k){};
 	inline static constexpr const char* Identifier = "Town"; 
+private:
+	inline static std::string check(const std::string& s) { return s; }
 };
 
-struct Street: public Name		
+class Street: public Element<Street>		
 {    
-    Street(const std::string& k = Identifier): Name(k){};
+	using Base = Element<Street>;
+	friend class Element<Street>;
+public:
+    Street(const std::string& k = Identifier): Base(k){};
 	inline static constexpr const char* Identifier = "Street"; 
+private:
+    inline static std::string check(const std::string& s) { return s; }
 };
 
 template<typename T>//, typename U, typename TVal = double>
