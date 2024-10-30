@@ -23,10 +23,7 @@ public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ElementVisitor>(); };
 	virtual ReturnType Visit(T& t) { elements.push_back(t.Clone()); };
 	ElementVisitor() = default;
-	ElementVisitor(ElementVisitor& e)
-	{
-		std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});
-	}
+	ElementVisitor(ElementVisitor& e)	{	std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});	}
 protected:
 	auto&& get(auto&& res) 	
 	{ 
