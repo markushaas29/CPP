@@ -105,7 +105,7 @@ private:
 			auto address = Init(eC->Elements())().template Transform<2>(3,2);
 
 			auto inv = Form<S>(address,Year{2024},path);
-			std::cout<<"HALL\n"<<inv<<std::endl;
+			inv.exec();
 
 			auto m = (*parser)(true);
 		  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));

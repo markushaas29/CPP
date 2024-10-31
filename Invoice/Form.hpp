@@ -7,6 +7,9 @@
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/Styles.hpp"
+#include "../CSV/Style.hpp"
+#include "../CSV/NumericStyle.hpp"
 #include "../Functional/Functional.hpp"
 
 #pragma once
@@ -20,6 +23,32 @@ public:
 		address(a),
 		builder{HtmlBuilder<German>(std::string()+ y.ToString() +".html")}, 
 		path{p}{ }
+    auto exec()//const HtmlBuilder<German>& f, const Year& y)  
+	{
+        auto html = HtmlBuilder("Invoice_.html","/home/markus/Downloads/CSV_TestFiles_2");
+
+		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		auto classCss = std::make_unique<StyleElement>();
+		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+		outs->push_back(std::move(classCss));
+		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<BackgroundColor,RGB<255,1,1>>>>());
+		div0->Add(Date::Today().Html());
+		outs->push_back(std::move(div0));
+
+		auto mf = MatrixFormatter(address);
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
+		outs->push_back(std::move(div1));
+
+		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		div2->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
+		
+		outs->push_back(std::move(div2));
+		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
+		html(grid);
+
+		std::cout<<html<<std::endl;
+	}
 private:
 	Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> address;
     Quantity<Sum> sum;
@@ -28,72 +57,4 @@ private:
 	HtmlBuilder<German> builder;
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
-    auto exec(const HtmlBuilder<German>& f, const Year& y)  
-	{
-		 return Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({1,1}),{ std::make_shared<Quantity<Scalar>>(2) });
-	}
-	//{	return typename Base::MatrixType(typename Base::DescriptorType({1,1}), {std::make_shared<Quantity<Sum>>(9)} ); };
-//    virtual typename Base::QuantityType value(const HtmlBuilder<German>& f) 
-//    {
-//		std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-//        using MDS2 = MatrixDescriptor<2,std::string>;
-//        using MS2 = Matrix<2,MDS2>;                                                                                       
-//        using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
-//        using EVF = Factory<BaseVisitor>;                                                     
-//        auto sNew = std::string{ "/home/markus/Downloads/CSV_Testbuilders_2/SN_Name.csv" };
-//        auto mS = MatrixReader(sNew).template M<2>();
-//        
-//        auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"},{"GarageRentIndexToken"} });
-//        Matcher smatcher(std::move(stageIndexTokens));        
-//        
-//        auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});        
-//        Matcher imatcher(std::move(csvIndexTokens));        
-//    
-//        auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});        
-//        Matcher matcher(std::move(v));        
-//        
-//        auto typeFactory = std::make_shared<TF>(Base::elementFactory);        
-//        
-//        auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
-//        auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));        
-//    
-//        auto mps = mS.Parse(smatcher, matcher).Cols(2,3,4,5,6,7).template To<Quantity<Scalar>>();
-//        auto stageQ = mS.Parse(smatcher, matcher);        
-//        auto payment = stageQ.Cols(8,9,10).template To<Quantity<Sum>>();
-//        
-//        using AllStages = std::tuple<Bottom, Middle, Top>;        
-//        
-//        const std::string path = "/home/markus/Downloads/CSV_Testbuilders_2";        
-//
-//		auto pm = (*proportion)(builder,Base::year);
-//		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
-//
-//		std::cout << "Calculation Time "<<Stage::Index<<" :"<< std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
-//                                                                                                       
-//        return calcAll<Stage::Index-1,AllStages>(mps,tokenFactory,Base::elementFactory,visitorFactory, path);          
-//    };
-//
-//	template<size_t N, typename Tup>
-//	auto process(auto& stageMatrix, std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p) 
-//	{
-//	    if constexpr (std::tuple_size<Tup>()==N)
-//	        return stageMatrix;
-//	    else
-//	    {
-//	        using Type = std::tuple_element_t<N,Tup>;
-//	        auto readings = Readings<Type>{fT,fE,fB, Base::year,p};
-//	        stageMatrix = stageMatrix.Set(readings(builder)[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
-//	        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
-//	    }
-//	}
-//	
-//	template<size_t N, typename Tup>
-//	auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
-//	{
-//	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
-//	    auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(builder, Base::year).template To<Quantity<Sum>>();
-//	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
-//	    return stagesDiv * sumMatrix;                                                                                                       
-//	}
-//	
 };

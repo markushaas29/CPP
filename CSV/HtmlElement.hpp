@@ -148,6 +148,13 @@ public:
  	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Name>(c, std::move(css)) { };
 };
 
+template<typename T>
+class HtmlElement<T,Prename>: public HtmlElementBase<T,Prename>
+{
+public:
+ 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Prename>(c, std::move(css)) { };
+};
+
 class Header;
 
 template<typename T>
