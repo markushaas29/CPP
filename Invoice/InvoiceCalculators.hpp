@@ -27,7 +27,7 @@
 #include "../Visitor/FuncVisitor.hpp"
 #include "../Invoice/InvoiceCalculatorBase.hpp"
 #include "../Invoice/AccountCalculator.hpp"
-#include "../Invoice/InvoiceCalculator.hpp"
+#include "../Invoice/Form.hpp"
 
 #pragma once
 
@@ -102,7 +102,6 @@ private:
 		    ec = m[i].Accept(std::move(ec));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-			(*eC)();
 			auto address = Init(eC->Elements())().template Transform<2>(3,2);
 
 			auto inv = Invoice<S>(address, tokenFactory,Base::elementFactory,Base::visitorFactory,Year{2024},path);
