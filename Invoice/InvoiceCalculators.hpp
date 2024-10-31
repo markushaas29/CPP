@@ -88,9 +88,18 @@ private:
 	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{
 		auto m = (*parser)(true);
-		auto names = m.Col(0);
+		auto nV = m.Col(2).Rows({4,8}).Elements();
+		std::vector<std::string> name;
+//		auto names = std::unique(nV.cbegin(), nV.cend(), [](const auto& n1, const auto& n2) { return *n1!=*n2; });
+		for(auto n : nV)
+			if(std::find_if(name.begin(), name.end(), [&n](const auto& i) { return n->Data() == i; }) == name.end())
+				name.push_back(n->Data());
+		std::cout<<"NAMES\n"<<name.size()<<std::endl;
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
-		for(auto i = 1; i < m.Rows();++i)
+
+		auto names = m.Col(2).Rows({4,8});
+
+		for(auto i = 4; i < m.Rows();++i)
 		{
 			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
