@@ -49,9 +49,8 @@ class ElementCollector: public ElementVisitor<Types>...
 public:
 	ElementCollector(){}
 	ElementCollector(ElementCollector& e)	{	std::for_each(e.elements.cbegin(), e.elements.cend(), [&](const auto& i) { elements.push_back(i->Clone());});	}
-	auto Elements() { return elements; }
+	auto Elements() { return elements = get(); }
 	auto Size() { return elements.size(); }
-	auto operator()() { elements = get(); }
 	template<typename T>
 	auto To() const
 	{
