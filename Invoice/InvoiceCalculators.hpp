@@ -104,7 +104,7 @@ private:
 			auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 			auto address = Init(eC->Elements())().template Transform<2>(3,2);
 
-			auto inv = Invoice<S>(address, tokenFactory,Base::elementFactory,Base::visitorFactory,Year{2024},path);
+			auto inv = Form<S>(address,Year{2024},path);
 			std::cout<<"HALL\n"<<inv<<std::endl;
 
 			auto m = (*parser)(true);

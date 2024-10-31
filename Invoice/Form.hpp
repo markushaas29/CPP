@@ -12,30 +12,21 @@
 #pragma once
 
 template<typename T>
-class Invoice//: public CalculatorBase<Quantity<Sum>,Invoice<T>>
+class Form
 {
-	using Base = CalculatorBase<Quantity<Sum>,Invoice<T>>;
     using Stage = T;
 public:
-//  Invoice(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
-    Invoice(const Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>& a,std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const Year& y,const std::string& p): 
+    Form(const Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>& a, const Year& y,const std::string& p): 
 		address(a),
-		//Base{fE,fB,y}, tokenFactory{fT}, file{HtmlBuilder<German>(std::string(T::Name)+ y.ToString() +".html")}, 
+		builder{HtmlBuilder<German>(std::string()+ y.ToString() +".html")}, 
 		path{p}{ }
-	template<size_t N, typename Tup>
-	auto calcAll(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path) 
-	{
-	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
-	    auto costs = calcCosts<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path).Rows(N+1);
-	
-	    return costs()[0].template To<Quantity<Sum>>();
-	}
 private:
-	std::shared_ptr<Factory<IToken>> tokenFactory;
 	Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> address;
-	HtmlBuilder<German> file;
+    Quantity<Sum> sum;
+	std::string name;
 	std::string path;
-    friend  std::ostream& operator<<(std::ostream& out, const Invoice& s)   {   return out<<"Result: "<<s.address;   }
+	HtmlBuilder<German> builder;
+    friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
     auto exec(const HtmlBuilder<German>& f, const Year& y)  
 	{
@@ -49,7 +40,7 @@ private:
 //        using MS2 = Matrix<2,MDS2>;                                                                                       
 //        using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 //        using EVF = Factory<BaseVisitor>;                                                     
-//        auto sNew = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/SN_Name.csv" };
+//        auto sNew = std::string{ "/home/markus/Downloads/CSV_Testbuilders_2/SN_Name.csv" };
 //        auto mS = MatrixReader(sNew).template M<2>();
 //        
 //        auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"},{"GarageRentIndexToken"} });
@@ -72,9 +63,9 @@ private:
 //        
 //        using AllStages = std::tuple<Bottom, Middle, Top>;        
 //        
-//        const std::string path = "/home/markus/Downloads/CSV_TestFiles_2";        
+//        const std::string path = "/home/markus/Downloads/CSV_Testbuilders_2";        
 //
-//		auto pm = (*proportion)(file,Base::year);
+//		auto pm = (*proportion)(builder,Base::year);
 //		std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
 //
 //		std::cout << "Calculation Time "<<Stage::Index<<" :"<< std::chrono::duration_cast<std::chrono::milliseconds> (end - begin).count() << "[ms]" << std::endl;
@@ -91,7 +82,7 @@ private:
 //	    {
 //	        using Type = std::tuple_element_t<N,Tup>;
 //	        auto readings = Readings<Type>{fT,fE,fB, Base::year,p};
-//	        stageMatrix = stageMatrix.Set(readings(file)[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
+//	        stageMatrix = stageMatrix.Set(readings(builder)[0].template As<Quantity<Scalar>>(),Type::Index,((int)stageMatrix.Cols()-1));
 //	        return process<N+1,Tup>(stageMatrix,fT,fE,fB,p);
 //	    }
 //	}
@@ -100,11 +91,9 @@ private:
 //	auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path)
 //	{
 //	    stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path);
-//	    auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(file, Base::year).template To<Quantity<Sum>>();
+//	    auto sumMatrix = AccountCalculator::Instance(tokenFactory,elementFactory,visitorFactory, Base::year, path)(builder, Base::year).template To<Quantity<Sum>>();
 //	    auto stagesDiv = (stageMatrix / stageMatrix.ColSum());
 //	    return stagesDiv * sumMatrix;                                                                                                       
 //	}
 //	
-    typename Base::QuantityType result;
-	std::string name;
 };
