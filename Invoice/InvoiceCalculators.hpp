@@ -88,18 +88,13 @@ private:
 	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{
 		auto m = (*parser)(true);
-		auto nV = m.Col(2).Rows({4,8}).Elements();
+		auto names = m.Col(2).Rows({4,8}).Elements();
 		std::vector<std::string> name;
-		//auto ite = std::unique(nV.cbegin(), nV.cend(), [](const auto& n1, const auto& n2) { return *n1!=*n2; });
-		for(auto n : nV)
+
+		for(auto n : names)
 			if(std::find_if(name.begin(), name.end(), [&n](const auto& i) { return n->Data() == i; }) == name.end())
 				name.push_back(n->Data());
-		std::cout<<"NAMES\n"<<name.size()<<std::endl;
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
-
-		auto names = m.Col(2).Rows({4,8});
-		
-		//std::for_each(nV.cbegin(), ite, [](const auto& i) { std::cout<<"N "<<*i<<std::endl; });
 		
 		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
 				{
@@ -141,10 +136,6 @@ private:
 		{
 			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-			if(names[1]()->Data() == m[i][0]()->Data())
-			{
-				elements.push_back(m[i].Elements());
-			}
 			fc = m[i].Accept(std::move(fc));
 		    ec = m[i].Accept(std::move(ec));
 	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
