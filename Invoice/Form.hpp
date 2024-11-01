@@ -21,8 +21,10 @@ class Form
     using Stage = T;
 public:
     Form(const Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>& a, const Year& y,const std::string& p): 
+		address{MatrixFormatter(a).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption")))},
 		date{Date::Today().Html()},
-		address(a),
+		sum{Quantity<Sum>{321}.Html()},
+		content{Entry{"Content"}.Html()},
 		builder{HtmlBuilder<German>(std::string()+ y.ToString() +".html")}, 
 		path{p}{ }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
@@ -36,28 +38,24 @@ public:
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
 		div0->Add(std::move(date));
 
-		auto mf = MatrixFormatter(address);
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
+		div1->Add(std::move(address));
+		div1->Add(std::move(content));
+		div1->Add(std::move(sum));
 		outs->push_back(std::move(div1));
 		outs->push_back(std::move(div0));
 
-		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
-		
-		outs->push_back(std::move(div2));
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
 		std::cout<<html<<std::endl;
 	}
 private:
-	Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> address;
-    Quantity<Sum> sum;
-	std::string name;
 	std::string path;
-	std::unique_ptr<IHtmlElement> n;
+	std::unique_ptr<IHtmlElement> address;
 	std::unique_ptr<IHtmlElement> date;
+	std::unique_ptr<IHtmlElement> sum;
+	std::unique_ptr<IHtmlElement> content;
 	HtmlBuilder<German> builder;
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
