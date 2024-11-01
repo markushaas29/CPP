@@ -21,6 +21,7 @@ class Form
     using Stage = T;
 public:
     Form(const Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>& a, const Year& y,const std::string& p): 
+		date{Date::Today().Html()},
 		address(a),
 		builder{HtmlBuilder<German>(std::string()+ y.ToString() +".html")}, 
 		path{p}{ }
@@ -33,13 +34,13 @@ public:
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 		outs->push_back(std::move(classCss));
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
-		div0->Add(Date::Today().Html());
-		outs->push_back(std::move(div0));
+		div0->Add(std::move(date));
 
 		auto mf = MatrixFormatter(address);
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
+		outs->push_back(std::move(div0));
 
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div2->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
@@ -55,6 +56,8 @@ private:
     Quantity<Sum> sum;
 	std::string name;
 	std::string path;
+	std::unique_ptr<IHtmlElement> n;
+	std::unique_ptr<IHtmlElement> date;
 	HtmlBuilder<German> builder;
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
