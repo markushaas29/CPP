@@ -11,6 +11,7 @@ struct GridArea			{   inline static constexpr const char* Id = "grid-area"; };
 struct GridTemplateAreas			{   inline static constexpr const char* Id = "grid-template-areas"; };
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
 struct Margin		{   inline static constexpr const char* Id = "margin"; };
+struct TextAlign		{   inline static constexpr const char* Id = "text-align"; };
 
 class IStyle: public IModel
 {
