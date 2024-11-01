@@ -90,7 +90,7 @@ private:
 		auto m = (*parser)(true);
 		auto nV = m.Col(2).Rows({4,8}).Elements();
 		std::vector<std::string> name;
-//		auto names = std::unique(nV.cbegin(), nV.cend(), [](const auto& n1, const auto& n2) { return *n1!=*n2; });
+		//auto ite = std::unique(nV.cbegin(), nV.cend(), [](const auto& n1, const auto& n2) { return *n1!=*n2; });
 		for(auto n : nV)
 			if(std::find_if(name.begin(), name.end(), [&n](const auto& i) { return n->Data() == i; }) == name.end())
 				name.push_back(n->Data());
@@ -98,6 +98,44 @@ private:
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
 
 		auto names = m.Col(2).Rows({4,8});
+		
+		//std::for_each(nV.cbegin(), ite, [](const auto& i) { std::cout<<"N "<<*i<<std::endl; });
+		
+		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
+				{
+					auto q = Quantity<Sum>{0};
+					for(auto i = 4; i < m.Rows();++i)
+					{
+						std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+						std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+						if(m[i][2]()->Data()==n)
+						{
+							elements.push_back(m[i].Elements());
+							fc = m[i].Accept(std::move(fc));
+		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+							std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
+							q = q + Mul{Constant{QSC{12}},fC.F()}();
+						}
+					    ec = m[i].Accept(std::move(ec));
+						auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+						auto address = Init(eC->Elements())().template Transform<2>(3,2);
+
+						auto inv = Form<S>(address,Year{2024},path);
+						inv.exec();
+
+						auto m = (*parser)(true);
+					  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
+					  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
+    					auto html = HtmlBuilder(m[i][1]()->Data()+"Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
+						html(mfPre());
+						html(MatrixFormatter(address)());
+					  	html(mf());
+						std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+					    fv = m[0].Accept(std::move(fv));
+					    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+					}
+					std::cout<<"Rent: \n"<<q<<std::endl;
+				});
 
 		for(auto i = 4; i < m.Rows();++i)
 		{
