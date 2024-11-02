@@ -241,7 +241,7 @@ private:
 		auto address = Init(eC->Elements())().template Transform<2>(3,2);
 		
 		auto stageQT = stageQuantities^-1;
-		auto mf = MatrixFormatter(stageQT);
+		auto mf = MatrixFormatter(stageQT.Rows({7,16}));
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 //		html(Date::Today());
 
