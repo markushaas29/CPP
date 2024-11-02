@@ -99,6 +99,7 @@ private:
 		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
 				{
 					auto q = Quantity<Sum>{0};
+    				auto html = HtmlBuilder(n+"_Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
 					for(auto i = 4; i < m.Rows();++i)
 					{
 						std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
@@ -106,11 +107,12 @@ private:
 						if(m[i][2]()->Data()==n)
 						{
 							elements.push_back(m[i].Elements());
+							auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
+							html(mfPre());
 							fc = m[i].Accept(std::move(fc));
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 							std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
-						}
 					    ec = m[i].Accept(std::move(ec));
 						auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 						auto address = Init(eC->Elements())().template Transform<2>(3,2);
@@ -118,45 +120,16 @@ private:
 						auto inv = Form<S>(address,Year{2024},path);
 						inv.exec();
 
-						auto m = (*parser)(true);
-					  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
-					  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
-    					auto html = HtmlBuilder(m[i][1]()->Data()+"Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
-						html(mfPre());
+					  	auto mf = MatrixFormatter(m.Rows(0,i-1));
 						html(MatrixFormatter(address)());
 					  	html(mf());
 						std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 					    fv = m[0].Accept(std::move(fv));
 					    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
+						}
 					}
 					std::cout<<"Rent: \n"<<q<<std::endl;
 				});
-
-		for(auto i = 4; i < m.Rows();++i)
-		{
-			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-			std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-			fc = m[i].Accept(std::move(fc));
-		    ec = m[i].Accept(std::move(ec));
-	    	auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-			auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-			auto address = Init(eC->Elements())().template Transform<2>(3,2);
-
-			auto inv = Form<S>(address,Year{2024},path);
-			inv.exec();
-
-			auto m = (*parser)(true);
-		  	auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
-		  	auto mf = MatrixFormatter(m.Rows(0,S::Index-1));
-    		auto html = HtmlBuilder(m[i][1]()->Data()+"Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
-			html(mfPre());
-			html(MatrixFormatter(address)());
-		  	html(mf());
-			std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
-		    fv = m[0].Accept(std::move(fv));
-		    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
-			std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
-		}
 		if(elements.size()>0)
 		{
 			auto me = Init(elements)();
@@ -243,7 +216,6 @@ private:
 		auto stageQT = stageQuantities^-1;
 		auto mf = MatrixFormatter(stageQT.Rows({7,16}));
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
-//		html(Date::Today());
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto classCss = std::make_unique<StyleElement>();
@@ -252,10 +224,13 @@ private:
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
 		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0));
+		
+		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
+		divA->Add(MatrixFormatter(address).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Address"))));
+		outs->push_back(std::move(divA));
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(MatrixFormatter(address).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Address"))));
-		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
+		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Proportions and Payment"))));
 		outs->push_back(std::move(div1));
 
         auto accountM = (*Base::account)(y, html);  
@@ -284,11 +259,12 @@ private:
 			vp.push_back(vpr);
 		}
 
-		auto resultElements = Init(vp)();
+		auto resultMatrix = Init(vp)();
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(appendHeaders({"Name","Divider","Proportion","Whole","Calculation","Result","Sum","Calculation","Result"}, vp).Html());
-		
-		auto sum = resultElements.Col(8).template To<Quantity<Sum>>().ColSum();
+		div2->Add(appendHeaders({"Name","Divider","Proportion","Whole","Calculation","Result","Costs","Calculation","Result"}, vp).Html());
+	
+		auto sumCol = resultMatrix.Col(8);
+		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(14,15).template To<Quantity<Sum>>();
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		auto heatingPayment = yearCosts[0];
@@ -312,7 +288,7 @@ private:
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
-        auto v =resultElements.Col(8).Elements();
+        auto v = sumCol.Elements();
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
     }
 	
