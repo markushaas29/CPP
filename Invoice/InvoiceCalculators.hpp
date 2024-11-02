@@ -110,6 +110,8 @@ private:
 							auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
 							html(mfPre());
 							fc = m[i].Accept(std::move(fc));
+
+					std::cout<<"M: \n"<<m[i]<<std::endl;
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 							std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
@@ -121,28 +123,13 @@ private:
 						inv.exec();
 
 					  	auto mf = MatrixFormatter(m.Rows(0,i-1));
+					std::cout<<"M: \n"<<m.Rows(0,i-1)<<std::endl;
 						html(MatrixFormatter(address)());
 					  	html(mf());
-						std::unique_ptr<BaseVisitor> fv = std::make_unique<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
-					    fv = m[0].Accept(std::move(fv));
-					    auto fV = fv->template As<FuncVisitor<QS,Quantity<SumPerArea>, Mul>>();
 						}
 					}
 					std::cout<<"Rent: \n"<<q<<std::endl;
 				});
-		if(elements.size()>0)
-		{
-			auto me = Init(elements)();
-			std::cout<<"ME"<<me<<std::endl;
-
-			for(auto i = 0; i < me.Rows();++i)
-			{
-				std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-				fc = me[i].Accept(std::move(fc));
-	    		auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-				std::cout<<"ME => \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
-			}
-		}
 		return (*parser)();	}
 };
 
