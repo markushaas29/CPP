@@ -108,24 +108,30 @@ private:
 						{
 							elements.push_back(m[i].Elements());
 							auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
-							html(mfPre());
 							fc = m[i].Accept(std::move(fc));
 
-					std::cout<<"M: \n"<<m[i]<<std::endl;
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 							std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
 					    baseVisitor = m[i].Accept(std::move(baseVisitor));
-						auto eC = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-						auto address = Init(eC->Elements())().template Transform<2>(3,2);
+						auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+						auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
 
 						auto inv = Form<S>(address,Year{2024},path);
 						inv.exec();
 
 					  	auto mf = MatrixFormatter(m.Rows(0,i-1));
-					std::cout<<"M: \n"<<m.Rows(0,i-1)<<std::endl;
 						html(MatrixFormatter(address)());
-					  	html(mf());
+						auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+						auto classCss = std::make_unique<StyleElement>();
+						classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+						outs->push_back(std::move(classCss));
+						auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
+						div0->Add(Mul{Constant{QSC{12}},fC.F()}().Html());
+						outs->push_back(std::move(div0));
+						auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
+						html(grid);
+					  	//html(mf());
 						}
 					}
 					std::cout<<"Rent: \n"<<q<<std::endl;
@@ -197,8 +203,8 @@ private:
 		
 		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 	    baseVisitor = stageQuantities[1].Accept(std::move(baseVisitor));
-		auto eC = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-		auto address = Init(eC->Elements())().template Transform<2>(3,2);
+		auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+		auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
 		
 		auto stageQT = stageQuantities^-1;
 		auto mf = MatrixFormatter(stageQT.Rows({7,16}));
