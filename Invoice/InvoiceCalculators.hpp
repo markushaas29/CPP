@@ -268,10 +268,12 @@ private:
 		auto res = result().template To<Quantity<Sum>>();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
+		std::vector<std::string> dividers = {"Persons","Area","Proportion","Propportion","Area","Counter"};
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
 			vpr.push_back(std::make_shared<Header>(names[i]()->Data()));
+			vpr.push_back(std::make_shared<Entry>(dividers[i]));
 			vpr.push_back(std::make_shared<Quantity<Scalar,Pure,double>>(asString(stageMatrix[S::Index-1][i])));
 			vpr.push_back(csum[i].Get().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
@@ -284,9 +286,9 @@ private:
 
 		auto resultElements = Init(vp)();
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(appendHeaders({"Name","Proportion","Whole","Calculation","Result","Sum","Calculation","Result"}, vp).Html());
+		div2->Add(appendHeaders({"Name","Divider","Proportion","Whole","Calculation","Result","Sum","Calculation","Result"}, vp).Html());
 		
-		auto sum = resultElements.Col(7).template To<Quantity<Sum>>().ColSum();
+		auto sum = resultElements.Col(8).template To<Quantity<Sum>>().ColSum();
 		auto extraCosts = stageQuantities[1].Rows(14,15).template To<Quantity<Sum>>();
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		auto heatingPayment = yearCosts[0];
@@ -310,7 +312,7 @@ private:
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 		html(grid);
 
-        auto v =resultElements.Col(7).Elements();
+        auto v =resultElements.Col(8).Elements();
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
     }
 	
