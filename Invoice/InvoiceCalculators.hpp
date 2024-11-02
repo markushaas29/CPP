@@ -103,7 +103,7 @@ private:
 					for(auto i = 4; i < m.Rows();++i)
 					{
 						std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-						std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+						std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 						if(m[i][2]()->Data()==n)
 						{
 							elements.push_back(m[i].Elements());
@@ -115,8 +115,8 @@ private:
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 							std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
-					    ec = m[i].Accept(std::move(ec));
-						auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+					    baseVisitor = m[i].Accept(std::move(baseVisitor));
+						auto eC = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 						auto address = Init(eC->Elements())().template Transform<2>(3,2);
 
 						auto inv = Form<S>(address,Year{2024},path);
@@ -195,9 +195,9 @@ private:
 
 		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
 		
-		std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-	    ec = stageQuantities[1].Accept(std::move(ec));
-		auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+	    baseVisitor = stageQuantities[1].Accept(std::move(baseVisitor));
+		auto eC = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 		auto address = Init(eC->Elements())().template Transform<2>(3,2);
 		
 		auto stageQT = stageQuantities^-1;
