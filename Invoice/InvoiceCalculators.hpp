@@ -234,6 +234,12 @@ private:
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f, y);
 
 		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
+		
+		std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+	    ec = stageQuantities[1].Accept(std::move(ec));
+		auto eC = ec->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+		auto address = Init(eC->Elements())().template Transform<2>(3,2);
+		
 		auto stageQT = stageQuantities^-1;
 		auto mf = MatrixFormatter(stageQT);
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
@@ -248,6 +254,7 @@ private:
 		outs->push_back(std::move(div0));
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		div1->Add(MatrixFormatter(address).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Address"))));
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption"))));
 		outs->push_back(std::move(div1));
 
