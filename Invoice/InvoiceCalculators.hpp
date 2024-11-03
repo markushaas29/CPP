@@ -128,6 +128,7 @@ private:
 						outs->push_back(std::move(classCss));
 						auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
 						div0->Add(Mul{Constant{QSC{12}},fC.F()}().Html());
+						std::cout<<"Sum: \n"<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
 						//div0->Add(q.Html());
 						outs->push_back(std::move(div0));
 						auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
@@ -135,7 +136,6 @@ private:
 						}
 						html(MatrixFormatter(address)());
 						html(MatrixFormatter(Init(elements)())());
-						html();
 					}
 					std::cout<<"Sum: \n"<<q<<std::endl;
 				});
