@@ -128,14 +128,16 @@ private:
 						outs->push_back(std::move(classCss));
 						auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
 						div0->Add(Mul{Constant{QSC{12}},fC.F()}().Html());
+						//div0->Add(q.Html());
 						outs->push_back(std::move(div0));
 						auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 						html(grid);
 						}
 						html(MatrixFormatter(address)());
 						html(MatrixFormatter(Init(elements)())());
+						html();
 					}
-					std::cout<<"Rent: \n"<<q<<std::endl;
+					std::cout<<"Sum: \n"<<q<<std::endl;
 				});
 		return (*parser)();	}
 };
@@ -230,7 +232,7 @@ private:
 		outs->push_back(std::move(div0));
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Proportions and Payment"))));
+		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payment"))));
 		outs->push_back(std::move(div1));
 
         auto accountM = (*Base::account)(y, html);  
