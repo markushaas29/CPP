@@ -90,12 +90,13 @@ private:
 		auto m = (*parser)(true);
 		auto names = m.Col(2).Rows({4,8}).Elements();
 		std::vector<std::string> name;
+		typename Base::MatrixType address;
 
 		for(auto n : names)
 			if(std::find_if(name.begin(), name.end(), [&n](const auto& i) { return n->Data() == i; }) == name.end())
 				name.push_back(n->Data());
-		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
 		
+		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
 		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
 				{
 					auto q = Quantity<Sum>{0};
@@ -115,13 +116,12 @@ private:
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
 					    baseVisitor = m[i].Accept(std::move(baseVisitor));
 						auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-						auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
+						address = Init(addressElements->Elements())().template Transform<2>(3,2);
 
 						auto inv = Form<S>(address,Year{2024},path);
 						inv.exec();
 
 					  	auto mf = MatrixFormatter(m.Rows(0,i-1));
-						html(MatrixFormatter(address)());
 						auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 						auto classCss = std::make_unique<StyleElement>();
 						classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
@@ -131,8 +131,9 @@ private:
 						outs->push_back(std::move(div0));
 						auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
 						html(grid);
-					  	//html(mf());
 						}
+						html(MatrixFormatter(address)());
+						html(MatrixFormatter(Init(elements)())());
 					}
 					std::cout<<"Rent: \n"<<q<<std::endl;
 				});
@@ -201,16 +202,26 @@ private:
 
 		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
 		
+		
 		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 	    baseVisitor = stageQuantities[1].Accept(std::move(baseVisitor));
 		auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 		auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
 		
+		std::unique_ptr<BaseVisitor> baseVisitor2 = std::make_unique<ElementCollector<Quantity<Sum>>>();
+	    baseVisitor2 = stageQuantities[1].Accept(std::move(baseVisitor2));
+		auto sumElements = baseVisitor2->template Cast<ElementCollector<Quantity<Sum>>>();
+		auto rents = Init(sumElements->Elements())();
+		
 		auto stageQT = stageQuantities^-1;
-		auto mf = MatrixFormatter(stageQT.Rows({7,16}));
+		auto mf = MatrixFormatter(stageQT.Rows({13,16}));
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
+		divA->Add(MatrixFormatter(address).Html());
+		outs->push_back(std::move(divA));
+
 		auto classCss = std::make_unique<StyleElement>();
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 		outs->push_back(std::move(classCss));
@@ -218,10 +229,6 @@ private:
 		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0));
 		
-		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
-		divA->Add(MatrixFormatter(address).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Address"))));
-		outs->push_back(std::move(divA));
-
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Proportions and Payment"))));
 		outs->push_back(std::move(div1));
@@ -241,12 +248,12 @@ private:
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
 			vpr.push_back(std::make_shared<Header>(names[i]()->Data()));
+			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
 			vpr.push_back(std::make_shared<Entry>(dividers[i]));
 			vpr.push_back(std::make_shared<Quantity<Scalar,Pure,double>>(asString(stageMatrix[S::Index-1][i])));
 			vpr.push_back(csum[i].Get().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
 			vpr.push_back(stagesDiv[S::Index-1][i].Get().Clone());
-			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
 			vpr.push_back(std::make_shared<Entry>(asString(result[i][i])));
 			vpr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
 			vp.push_back(vpr);
@@ -254,7 +261,7 @@ private:
 
 		auto resultMatrix = Init(vp)();
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(appendHeaders({"Name","Divider","Proportion","Whole","Calculation","Result","Costs","Calculation","Result"}, vp).Html());
+		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html());
 	
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
