@@ -1,0 +1,2 @@
+additional heating costs;Heiznebenkosten;HeatExtraCosts
+extra costs;Nebenkosten;ExtraCosts
