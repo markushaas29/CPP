@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
+#include <cctype>
 #include "../Common/Color.hpp"
 #include "../Common/IClone.hpp"
 #include "../String/String_.hpp"
@@ -18,10 +20,14 @@ class ITranslate: public IClone<ITranslate>
 	public:
 		const auto& operator()() const {	return get();	}
 		const auto& Get() const {	return get();	}
+		const auto Begin() const {	return b();	}
+		const auto End() const {	return e();	}
 		bool operator==(const std::string& s) const {	return s == get();	}
 	private:
 		friend std::ostream& operator<<(std::ostream& out, const ITranslate& e) 	{	return out<<e.get();	}
 		virtual const std::string& get() const = 0;
+		virtual std::string::const_iterator b() const = 0;
+		virtual std::string::const_iterator e() const = 0;
 };
 
 class Translator
@@ -40,6 +46,8 @@ class Translator
 			private:
 				std::unique_ptr<ITranslate> clone() const  { return std::make_unique<Translate>(word); };
 				const std::string& get() const { return word; };
+				std::string::const_iterator b() const { return word.begin(); };
+				std::string::const_iterator e() const { return word.end(); };
 				std::string word;
 		};
 		
@@ -67,9 +75,10 @@ class Translator
 		        Line(const std::string& s): translates{read(s)} {	}
 		        virtual ~Line(){  };
 				size_t Size() { return translates->size(); }
-				bool operator==(const std::string& s) const {	return std::find_if(translates->begin(), translates->end(), [&s](const auto& w) { return w->Get() == s; }) != translates->end();	}
+				bool operator==(const std::string& s) const {	return std::find_if(translates->begin(), translates->end(), [&s](const auto& w) { return std::equal(s.begin(), s.end(), w->Begin(), w->End(), ichar_equals); }) != translates->end();	}
 				const auto& operator[](size_t i) const {	return translates->at(i)->Get();	}
 			private:
+				static bool ichar_equals(char a, char b){    return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));}
 				friend std::ostream& operator<<(std::ostream& out, const Line& e) 
 				{
 					std::for_each(e.translates->begin(), e.translates->end(), [&](const auto& s) { out<<*s<<"\t\t"; });

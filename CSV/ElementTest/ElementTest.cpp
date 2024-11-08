@@ -180,6 +180,8 @@ int Run()
 	
 	auto ed1 = Entry{"HeatExtraCosts"};
 	assert(ed1==std::string("Heiznebenkosten"));
+	ed1 = Entry{"heatextracosts"};
+	assert(ed1==std::string("Heiznebenkosten"));
 	auto ed2 = Entry{"additional heating costs"};
 	assert(ed2==std::string("Heiznebenkosten"));
 	std::cout<<Translator::Instance()<<std::endl;
