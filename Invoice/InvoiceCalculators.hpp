@@ -132,10 +132,11 @@ private:
 						//div0->Add(q.Html());
 						outs->push_back(std::move(div0));
 						auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
+						
 						html(grid);
-						}
 						html(MatrixFormatter(address)());
 						html(MatrixFormatter(Init(elements)())());
+						}
 					}
 					std::cout<<"Sum: \n"<<q<<std::endl;
 				});
