@@ -95,7 +95,7 @@ class Translator
 		static auto read()
 		{
 			exec<0>(factory);
-			auto lines = FS::ReadLines("/home/markus/Downloads/CSV_TestFiles_2/Translates.txt");
+			auto lines = FS::ReadLines("/home/markus/Dokumente/cpp/CSV_Files/Translates.txt");
 			auto result = std::make_unique<std::vector<std::unique_ptr<Line>>>();
 			for(auto l : lines)
 				result->push_back(std::make_unique<Line>(l));
