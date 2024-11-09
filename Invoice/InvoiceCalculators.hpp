@@ -99,12 +99,13 @@ private:
 		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
 				{
 					auto q = Quantity<Sum>{0};
-		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
+					std::vector<std::vector<std::shared_ptr<IElement>>> elements;
     				auto html = HtmlBuilder(n+"_Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
 					for(auto i = 4; i < m.Rows();++i)
 					{
 						std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 						std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+						std::unique_ptr<BaseVisitor> slwVis = std::make_unique<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>();
 						if(m[i][2]()->Data()==n)
 						{
 							elements.push_back(m[i].Elements());
@@ -118,6 +119,9 @@ private:
 							auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 							address = Init(addressElements->Elements())().template Transform<2>(3,2);
 	
+						    slwVis = m[i].Accept(std::move(slwVis));
+							auto quantities = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
+							std::cout<<"Sum: \n"<<Init(quantities)()<<std::endl;
 							auto inv = Form<S>(address,Year{2024},path);
 							inv.exec();
 	
@@ -134,9 +138,9 @@ private:
 							html(grid);
 						}
 					}
-						html(MatrixFormatter(address)());
-							html(MatrixFormatter(Init(elements)())());
-					std::cout<<"Sum: \n"<<q<<std::endl;
+				
+					html(MatrixFormatter(address)());
+					html(MatrixFormatter(Init(elements)())());
 				});
 		return (*parser)();	}
 };
