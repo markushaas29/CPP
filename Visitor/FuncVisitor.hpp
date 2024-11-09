@@ -28,7 +28,7 @@ protected:
 	C<L> left = C{L{}};
 	C<R> right= C{R{}};
 private:
-	friend std::ostream& operator<<(std::ostream& s, const FuncVisitorBase& f) 	{ return s<<Op{f.left, f.right};	}
+	virtual std::ostream& display(std::ostream& s) const{ return s<<Op{left, right};	}
 };
 
 template<typename L, typename R, template<typename, typename> class FT>

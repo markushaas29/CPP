@@ -21,6 +21,8 @@ public:
 	virtual ~BaseVisitor(){}
 	virtual std::unique_ptr<BaseVisitor> Copy() = 0;
 private:
+	friend std::ostream& operator<<(std::ostream& s, const BaseVisitor& i) { return i.display(s); }
+	virtual std::ostream& display(std::ostream& s) const { return s; };
 	inline static constexpr const char TypeId[] = "BaseVisitor";
     inline static constexpr Literal LiteralType{TypeId};
     template<typename U> using IsT =  Is<U,LiteralType>;
