@@ -96,10 +96,10 @@ private:
 			if(std::find_if(name.begin(), name.end(), [&n](const auto& i) { return n->Data() == i; }) == name.end())
 				name.push_back(n->Data());
 		
-		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
 		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
 				{
 					auto q = Quantity<Sum>{0};
+		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
     				auto html = HtmlBuilder(n+"_Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
 					for(auto i = 4; i < m.Rows();++i)
 					{
