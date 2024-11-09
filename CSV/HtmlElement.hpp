@@ -133,34 +133,22 @@ private:
 struct Td;
 
 template<typename T, typename E>
-struct HtmlElement: public HtmlElementBase<T,E>
-{
- 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<T,E>(c, std::move(css)) { };
-};
+struct HtmlElement: public HtmlElementBase<T,E>{ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<T,E>(c, std::move(css)) { }; };
 
 class Name;
 
 template<typename T>
-struct HtmlElement<T,Name>: public HtmlElementBase<T,Name>
-{
- 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Name>(c, std::move(css)) { };
-};
+struct HtmlElement<T,Name>: public HtmlElementBase<T,Name>{ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Name>(c, std::move(css)) { }; };
 
 class Prename;
 
 template<typename T>
-struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename>
-{
- 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Prename>(c, std::move(css)) { };
-};
+struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename> { 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Prename>(c, std::move(css)) { }; };
 
 class Header;
 
 template<typename T>
-struct HtmlElement<T,Header>: public HtmlElementBase<T,Header>
-{
- 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Header>(c, std::move(css)) { };
-};
+struct HtmlElement<T,Header>: public HtmlElementBase<T,Header> { 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Header>(c, std::move(css)) { }; };
 
 template<typename T, typename T2>
 struct HtmlElement<T2,Quantity<T>>: public HtmlElementBase<T2,Quantity<T>>
