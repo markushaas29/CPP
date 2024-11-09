@@ -68,6 +68,14 @@ protected:
 	CalculatorBase(std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB): cache{std::make_unique<std::map<Year,typename Base::MatrixType>>()}, elementFactory{fE}, visitorFactory{fB} {};
 	std::shared_ptr<Factory<IElement>> elementFactory;
 	std::shared_ptr<Factory<BaseVisitor>> visitorFactory;
+
+	
+	auto asString(const auto& val) const
+	{
+		std::stringstream ss;
+		ss<<val;
+		return ss.str();
+	}
 private:
 	std::unique_ptr<typename Base::MatrixType> matrix;
 	std::unique_ptr<std::map<Year,typename Base::MatrixType>> cache;

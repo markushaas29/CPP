@@ -108,7 +108,7 @@ private:
 						std::unique_ptr<BaseVisitor> slwVis = std::make_unique<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>();
 						if(m[i][2]()->Data()==n)
 						{
-							elements.push_back(m[i].Elements());
+							//elements.push_back(m[i].Elements());
 							auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
 							fc = m[i].Accept(std::move(fc));
 
@@ -120,8 +120,12 @@ private:
 							address = Init(addressElements->Elements())().template Transform<2>(3,2);
 	
 						    slwVis = m[i].Accept(std::move(slwVis));
-							auto quantities = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
-							std::cout<<"Sum: \n"<<Init(quantities)()<<std::endl;
+							auto properties = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
+							properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
+							properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
+							properties.push_back(q.Clone());
+							std::cout<<"Sum: \n"<<Init(properties)()<<std::endl;
+							elements.push_back(properties);
 							auto inv = Form<S>(address,Year{2024},path);
 							inv.exec();
 	
@@ -205,20 +209,20 @@ private:
     {
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f, y);
 
-		auto stageQuantities = (*Base::parser)(true).Rows(0,S::Index);
+		auto stageproperties = (*Base::parser)(true).Rows(0,S::Index);
 		
 		
 		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-	    baseVisitor = stageQuantities[1].Accept(std::move(baseVisitor));
+	    baseVisitor = stageproperties[1].Accept(std::move(baseVisitor));
 		auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 		auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
 		
 		std::unique_ptr<BaseVisitor> baseVisitor2 = std::make_unique<ElementCollector<Quantity<Sum>>>();
-	    baseVisitor2 = stageQuantities[1].Accept(std::move(baseVisitor2));
+	    baseVisitor2 = stageproperties[1].Accept(std::move(baseVisitor2));
 		auto sumElements = baseVisitor2->template Cast<ElementCollector<Quantity<Sum>>>();
 		auto rents = Init(sumElements->Elements())();
 		
-		auto stageQT = stageQuantities^-1;
+		auto stageQT = stageproperties^-1;
 		auto mf = MatrixFormatter(stageQT.Rows({13,16}));
         auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
@@ -255,11 +259,11 @@ private:
 			vpr.push_back(std::make_shared<Header>(names[i]()->Data()));
 			vpr.push_back(sumMatrix[i].Get().template To<Quantity<Sum>>().Clone());
 			vpr.push_back(std::make_shared<Entry>(dividers[i]));
-			vpr.push_back(std::make_shared<Quantity<Scalar,Pure,double>>(asString(stageMatrix[S::Index-1][i])));
+			vpr.push_back(std::make_shared<Quantity<Scalar,Pure,double>>(this->asString(stageMatrix[S::Index-1][i])));
 			vpr.push_back(csum[i].Get().Clone());
-			vpr.push_back(std::make_shared<Entry>(asString(stagesDiv[S::Index-1][i])));
+			vpr.push_back(std::make_shared<Entry>(this->asString(stagesDiv[S::Index-1][i])));
 			vpr.push_back(stagesDiv[S::Index-1][i].Get().Clone());
-			vpr.push_back(std::make_shared<Entry>(asString(result[i][i])));
+			vpr.push_back(std::make_shared<Entry>(this->asString(result[i][i])));
 			vpr.push_back(res[i][i].Get().template To<Quantity<Sum>>().Clone());
 			vp.push_back(vpr);
 		}
@@ -270,7 +274,7 @@ private:
 	
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
-		auto extraCosts = stageQuantities[1].Rows(14,15).template To<Quantity<Sum>>();
+		auto extraCosts = stageproperties[1].Rows(14,15).template To<Quantity<Sum>>();
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
 		auto heatingPayment = yearCosts[0];
 		auto advancedPayment = yearCosts[1];
@@ -279,11 +283,11 @@ private:
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
 		{
-			{std::make_shared<Header>("Costs"),std::make_shared<Entry>(asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
-			{stageQuantities[0][14]()->Clone(),std::make_shared<Entry>(asString(heatingPayment)), heatingPayment().Clone()},
-			{stageQuantities[0][15]()->Clone(),std::make_shared<Entry>(asString(advancedPayment)), advancedPayment().Clone()},
-			{std::make_shared<Header>("Advance"),std::make_shared<Entry>(asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
-			{std::make_shared<Header>("Result"),std::make_shared<Entry>(asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
+			{std::make_shared<Header>("Costs"),std::make_shared<Entry>(this->asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
+			{stageproperties[0][14]()->Clone(),std::make_shared<Entry>(this->asString(heatingPayment)), heatingPayment().Clone()},
+			{stageproperties[0][15]()->Clone(),std::make_shared<Entry>(this->asString(advancedPayment)), advancedPayment().Clone()},
+			{std::make_shared<Header>("Advance"),std::make_shared<Entry>(this->asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
+			{std::make_shared<Header>("Result"),std::make_shared<Entry>(this->asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3",std::make_unique<Css<Style<GridArea,AreaNum<4>>,Style<Margin,Px<50>>>>());
@@ -307,12 +311,5 @@ private:
 
 		vph.insert(vph.end(), vp.begin(), vp.end());
 		return MatrixFormatter(Init(vph)());
-	}
-	
-	auto asString(const auto& val) const
-	{
-		std::stringstream ss;
-		ss<<val;
-		return ss.str();
 	}
 };
