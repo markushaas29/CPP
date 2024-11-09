@@ -23,7 +23,7 @@ public:
 	template<typename T> using C = Constant<T>;
 	using Op = FT<C<L>,C<R>>;
 	decltype(auto) operator()() { return Op{left, right}(); }
-	decltype(auto) F() { return Op{left, right}; }
+	decltype(auto) F() const { return Op{left, right}; }
 protected:
 	C<L> left = C{L{}};
 	C<R> right= C{R{}};
@@ -66,10 +66,10 @@ class ComposedFuncVisitor: public virtual FuncVisitorBase<L,L,FT>, public virtua
 	template<typename T> using C = Constant<T>;
 	using Op = FT<C<L>,typename B::Op>;
 public:
-	decltype(auto) operator()() { return Op{Base::left, B::F()}(); }
-	decltype(auto) F() { return Op{Base::left, B::F()}; }
+	decltype(auto) operator()() const { return Op{Base::left, B::F()}(); }
+	decltype(auto) F() const { return Op{Base::left, B::F()}; }
 	virtual ReturnType Visit(L& l) 	{ Base::left = C{l}; };
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<ComposedFuncVisitor>(); };
 private:
-	//friend std::ostream& operator<<(std::ostream& s, const ComposedFuncVisitor& f) 	{ return s<<Op{ComposedFuncVisitor.left, B::F()};	}
+	virtual std::ostream& display(std::ostream& s) const{ return s<<F();	}
 };

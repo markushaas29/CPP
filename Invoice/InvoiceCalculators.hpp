@@ -113,7 +113,7 @@ private:
 							fc = m[i].Accept(std::move(fc));
 
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-							std::cout<<"Rent: \n"<<Mul{Constant{QSC{12}},fC.F()}<<"="<<Mul{Constant{QSC{12}},fC.F()}()<<std::endl;
+							std::cout<<"Rent: \n"<<fC<<std::endl;
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
 						    baseVisitor = m[i].Accept(std::move(baseVisitor));
 							auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
@@ -122,9 +122,7 @@ private:
 						    slwVis = m[i].Accept(std::move(slwVis));
 							auto properties = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
 							properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
-							properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
 							properties.push_back(q.Clone());
-							std::cout<<"Sum: \n"<<Init(properties)()<<std::endl;
 							elements.push_back(properties);
 							auto inv = Form<S>(address,Year{2024},path);
 							inv.exec();
