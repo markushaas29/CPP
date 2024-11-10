@@ -38,16 +38,6 @@ private:
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
 	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{
-		using MDS2 = MatrixDescriptor<2,std::string>;
-        using MS2 = Matrix<2,MDS2>;
-		
-		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
-		auto typeFactory = std::make_shared<TF>(elementFactory);
-		
-		auto parsedAccountMatrix = AccountParser::Instance(tokens,path)();
-
-		//std::cout<<parsedAccountMatrix<<std::endl;
-
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
         {
             {"Waste",
@@ -87,6 +77,18 @@ private:
                 }
             }
         };
+		
+		return exec(y,f,allFactoryUnits);
+	}
+	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits) 
+	{
+		using MDS2 = MatrixDescriptor<2,std::string>;
+        using MS2 = Matrix<2,MDS2>;
+		
+		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
+		auto typeFactory = std::make_shared<TF>(elementFactory);
+		
+		auto parsedAccountMatrix = AccountParser::Instance(tokens,path)();
 
 		auto fu = std::make_shared<std::ofstream>("/home/markus/Downloads/CSV_TestFiles_2/FactoryUnits.txt");
 		for(auto u : allFactoryUnits)
