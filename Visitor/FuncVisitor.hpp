@@ -40,6 +40,8 @@ public:
 	virtual Base::ReturnType Visit(L& l) { Base::left = C{l}; };
 	virtual Base::ReturnType Visit(R& r) { Base::right = C{r}; };
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<FuncVisitor>(); };
+	virtual std::ostream& display(std::ostream& s) const{ return s<<123456;	}
+	//virtual std::ostream& display(std::ostream& s) const{ return s<<FT<C<L>,C<R>>(Base::left, Base::right);	}
 };
 
 template<typename L, template<typename, typename> class FT>
@@ -56,6 +58,7 @@ public:
 	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<FuncVisitor>(); };
 private:
 	bool leftSet = false;
+	virtual std::ostream& display(std::ostream& s) const{ return s<<FT<C<L>,C<L>>(Base::left, Base::right);	}
 };
 
 template<typename L, typename B, template<typename, typename> class FT>

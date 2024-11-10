@@ -113,16 +113,21 @@ private:
 							fc = m[i].Accept(std::move(fc));
 
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-							std::cout<<"Rent: \n"<<fC<<std::endl;
+							std::unique_ptr<BaseVisitor> fa = std::make_unique<FuncVisitor<QL,QL,Mul>>();
 							q = q + Mul{Constant{QSC{12}},fC.F()}();
 						    baseVisitor = m[i].Accept(std::move(baseVisitor));
+							fa = m[i].Accept(std::move(fa));
 							auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 							address = Init(addressElements->Elements())().template Transform<2>(3,2);
-	
+							
 						    slwVis = m[i].Accept(std::move(slwVis));
 							auto properties = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
 							properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
 							properties.push_back(q.Clone());
+	
+							auto fA = fa->template Cast<FuncVisitor<QL,QL,Mul>>();
+							properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
+							properties.push_back((*fA)().Clone());
 							elements.push_back(properties);
 							auto inv = Form<S>(MatrixFormatter(address).Html(),path);
 							inv.exec();
