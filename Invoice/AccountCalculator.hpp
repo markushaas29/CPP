@@ -24,6 +24,7 @@
 #include "../Common/DateTimes.hpp"
 #include "../Visitor/CollectorVisitor.hpp"
 #include "../Invoice/InvoiceCalculatorBase.hpp"
+#include "../Query/Query.hpp"
 
 #pragma once
 
