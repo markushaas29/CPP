@@ -20,8 +20,8 @@ class Form
 {
     using Stage = T;
 public:
-    Form(const Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>>& a, const Year& y,const std::string& p): 
-		address{MatrixFormatter(a).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Caption")))},
+    Form(std::unique_ptr<IHtmlElement> a, const Year& y,const std::string& p): 
+		address{std::move(a)},
 		date{Date::Today().Html()},
 		sum{Quantity<Sum>{321}.Html()},
 		content{Entry{"Content"}.Html()},
