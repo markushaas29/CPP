@@ -20,12 +20,12 @@ class Form
 {
     using Stage = T;
 public:
-    Form(std::unique_ptr<IHtmlElement> a, const Year& y,const std::string& p): 
+    Form(std::unique_ptr<IHtmlElement> a, const std::string& p): 
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		sum{Quantity<Sum>{321}.Html()},
 		content{Entry{"Content"}.Html()},
-		builder{HtmlBuilder<German>(std::string()+ y.ToString() +".html")}, 
+		builder{HtmlBuilder<German>("Form.html")}, 
 		path{p}{ }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{
