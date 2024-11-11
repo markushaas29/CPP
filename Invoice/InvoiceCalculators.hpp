@@ -90,6 +90,7 @@ private:
 		auto m = (*parser)(true);
 		auto names = m.Col(2).Rows({4,8}).Elements();
 		std::vector<std::string> name;
+		std::vector<std::shared_ptr<IElement>> sums;
 		typename Base::MatrixType address;
 
 		for(auto n : names)
@@ -114,7 +115,10 @@ private:
 
 		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
 							std::unique_ptr<BaseVisitor> fa = std::make_unique<FuncVisitor<QL,QL,Mul>>();
-							q = q + Mul{Constant{QSC{12}},fC.F()}();
+							auto sum = Mul{Constant{QSC{12}},fC.F()}();
+							q = q + sum;
+							//sums.push_back({std::make_unique<Name>(n),sum.Clone(), q.Clone()});
+							sums.push_back(sum.Clone());
 						    baseVisitor = m[i].Accept(std::move(baseVisitor));
 							fa = m[i].Accept(std::move(fa));
 							auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
@@ -149,7 +153,8 @@ private:
 					html(MatrixFormatter(address)());
 					html(MatrixFormatter(Init(elements)())());
 				});
-		return (*parser)();	}
+		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
+		return Init(s)();	}
 };
 
 template<typename S>
