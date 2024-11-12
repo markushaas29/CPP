@@ -30,7 +30,7 @@ struct Section: public TagDecorator			{	inline static constexpr const char* Iden
 struct Table: public TagDecorator			{	inline static constexpr const char* Identifier= "table"; 	};
 struct DivTag: public TagDecorator				{	inline static constexpr const char* Identifier= "div"; 	};
 struct Html: public TagDecorator			{	virtual std::string decorate() const { return "html"; } };
-struct head: public TagDecorator			{	virtual std::string decorate() const { return "head"; } };
+struct Head: public TagDecorator			{	inline static constexpr const char* Identifier = "head"; };
 
 class StyleDecorator: public IElementDecorator
 {

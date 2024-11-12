@@ -146,11 +146,11 @@ int Run()
 	//assert(style.Out(0)=="<Style>\n\t.border {\n\t\tpadding:14px;\n\t}\n</Style>");
 	
 	auto link = LinkElement{};
-	assert(link.Out(0)=="<Link>rel=\"stylesheet\" href=\"style.css\" media=\"all\"</Link>");
+	assert(link.Out(0)=="<Link rel=\"stylesheet\" href=\"style.css\" media=\"all\"></Link>");
 	auto linka = LinkElement{"abc"};
 	std::cout<<"Style: \n"<<linka.Out(0)<<std::endl;
-	assert(linka.Out(0)=="<Link>rel=\"stylesheet\" href=\"abc.css\" media=\"all\"</Link>");
-	assert(linka.Clone()->Out(0)=="<Link>rel=\"stylesheet\" href=\"abc.css\" media=\"all\"</Link>");
+	assert(linka.Out(0)=="<Link rel=\"stylesheet\" href=\"abc.css\" media=\"all\"></Link>");
+	assert(linka.Clone()->Out(0)=="<Link rel=\"stylesheet\" href=\"abc.css\" media=\"all\"></Link>");
     
 	auto rgb = RGB<255,255,233>();
 	assert(rgb()=="rgb(255, 255, 233)");

@@ -125,6 +125,7 @@ public:
 	inline const static std::string Identifier = "Link";
 private:
 	std::string filename;
+	virtual std::string out(const std::string& intent, uint i = 0) const  { return intent + "<Link rel=\"stylesheet\" href=\"" + filename + ".css\" media=\"all\"></Link>"; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "rel=\"stylesheet\" href=\"" + filename + ".css\" media=\"all\"";	};	
 };
 

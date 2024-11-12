@@ -31,6 +31,11 @@ public:
 	{
         auto html = HtmlBuilder("Invoice_.html","/home/markus/Downloads/CSV_TestFiles_2");
 
+		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
+		heads->push_back(std::make_unique<LinkElement>());
+		auto head = HtmlElements<Head>{ std::move(heads) };
+		html(head);
+
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto classCss = std::make_unique<StyleElement>();
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
