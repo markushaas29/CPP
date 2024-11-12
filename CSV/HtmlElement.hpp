@@ -97,7 +97,7 @@ public:
  	StyleElement( const std::string& n, std::unique_ptr<ICss> css = nullptr , std::unique_ptr<std::vector<std::unique_ptr<ICss>>> v = std::make_unique<std::vector<std::unique_ptr<ICss>>>()): StyleElement{std::move(v),std::move(css),n}{};
 	StyleElement(const StyleElement& html): Base{html}, elements{html.cloneElements()} { }
 	void Add(std::unique_ptr<ICss> html) { elements->push_back(std::move(html)); }
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return nullptr; };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<StyleElement>(cloneElements()); }
 	inline const static std::string Identifier = "Style";
 private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
