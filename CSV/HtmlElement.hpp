@@ -119,13 +119,13 @@ class LinkElement: public HtmlBase<LinkElement>
 {
 	using Base = HtmlBase<LinkElement>;
 public:
- 	LinkElement(const std::string& n = "style"): Base{nullptr, ""}, filename{} { };
+ 	LinkElement(const std::string& n = "style"): Base{nullptr, ""}, filename{n} { };
 	LinkElement(const LinkElement& html): Base{html} { }
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<LinkElement>(filename); };
 	inline const static std::string Identifier = "Link";
 private:
 	std::string filename;
-	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "rel=\"stylesheet\" href=\"style.css\" media=\"all\"";	};	
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "rel=\"stylesheet\" href=\"" + filename + ".css\" media=\"all\"";	};	
 };
 
 template<typename T, typename E>
