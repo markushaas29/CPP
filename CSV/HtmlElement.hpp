@@ -119,16 +119,13 @@ class LinkElement: public HtmlBase<LinkElement>
 {
 	using Base = HtmlBase<LinkElement>;
 public:
- 	LinkElement(std::unique_ptr<std::vector<std::unique_ptr<ICss>>> v = std::make_unique<std::vector<std::unique_ptr<ICss>>>(), std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): Base{std::move(css), n} { };
- 	LinkElement( const std::string& n, std::unique_ptr<ICss> css = nullptr , std::unique_ptr<std::vector<std::unique_ptr<ICss>>> v = std::make_unique<std::vector<std::unique_ptr<ICss>>>()): LinkElement{std::move(v),std::move(css),n}{};
+ 	LinkElement(const std::string& n = "style"): Base{nullptr, ""}, filename{} { };
 	LinkElement(const LinkElement& html): Base{html} { }
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return nullptr; };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<LinkElement>(filename); };
 	inline const static std::string Identifier = "Link";
 private:
-	virtual std::string showContent(const std::string& intent, uint i = 0) const  
-	{	
-		return "rel=\"stylesheet\" href=\"style.css\" media=\"all\"";
-	};	
+	std::string filename;
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "rel=\"stylesheet\" href=\"style.css\" media=\"all\"";	};	
 };
 
 template<typename T, typename E>

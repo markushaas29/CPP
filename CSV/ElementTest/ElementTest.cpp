@@ -147,6 +147,7 @@ int Run()
 	
 	auto link = LinkElement{};
 	std::cout<<"Style: \n"<<link.Out(0)<<std::endl;
+	assert(link.Out(0)=="<Link>rel=\"stylesheet\" href=\"style.css\" media=\"all\"</Link>");
     
 	auto rgb = RGB<255,255,233>();
 	assert(rgb()=="rgb(255, 255, 233)");
