@@ -143,8 +143,10 @@ int Run()
 	//styleVec->push_back(classCss.Clone());
 	
 	auto style = StyleElement{std::move(styleVec)};
-	std::cout<<"Style: \n"<<style.Out(0)<<std::endl;
 	//assert(style.Out(0)=="<Style>\n\t.border {\n\t\tpadding:14px;\n\t}\n</Style>");
+	
+	auto link = LinkElement{};
+	std::cout<<"Style: \n"<<link.Out(0)<<std::endl;
     
 	auto rgb = RGB<255,255,233>();
 	assert(rgb()=="rgb(255, 255, 233)");
