@@ -97,62 +97,59 @@ private:
 			if(std::find_if(name.begin(), name.end(), [&n](const auto& i) { return n->Data() == i; }) == name.end())
 				name.push_back(n->Data());
 		
-		std::for_each(name.cbegin(), name.cend(), [&](const auto& n) 
-				{
-					auto q = Quantity<Sum>{0};
-					std::vector<std::vector<std::shared_ptr<IElement>>> elements;
-    				auto html = HtmlBuilder(n+"_Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
-					for(auto i = 4; i < m.Rows();++i)
-					{
-						std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-						std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-						std::unique_ptr<BaseVisitor> slwVis = std::make_unique<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>();
-						if(m[i][2]()->Data()==n)
-						{
-							//elements.push_back(m[i].Elements());
-							auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
-							fc = m[i].Accept(std::move(fc));
+		auto q = Quantity<Sum>{0};
+		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
+		auto html = HtmlBuilder(std::string(S::Name)+"_Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
+		for(auto i = 4; i < m.Rows();++i)
+		{
+			std::unique_ptr<BaseVisitor> fc = std::make_unique<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+			std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+			std::unique_ptr<BaseVisitor> slwVis = std::make_unique<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>();
+			if(m[i][2]()->Data()==S::Name)
+			{
+				//elements.push_back(m[i].Elements());
+				auto mfPre = MatrixFormatter(m.Cols(std::string("Pre"),std::string("Name"),std::string("Street"),std::string("Streetnumber"),std::string("Town"),std::string("Postcode"))[i].Transform<2>(3,2));
+				fc = m[i].Accept(std::move(fc));
 
-		    				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
-							std::unique_ptr<BaseVisitor> fa = std::make_unique<FuncVisitor<QL,QL,Mul>>();
-							auto sum = Mul{Constant{QSC{12}},fC.F()}();
-							q = q + sum;
-							//sums.push_back({std::make_unique<Name>(n),sum.Clone(), q.Clone()});
-							sums.push_back(sum.Clone());
-						    baseVisitor = m[i].Accept(std::move(baseVisitor));
-							fa = m[i].Accept(std::move(fa));
-							auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
-							address = Init(addressElements->Elements())().template Transform<2>(3,2);
-							
-						    slwVis = m[i].Accept(std::move(slwVis));
-							auto properties = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
-							properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
-							properties.push_back(q.Clone());
-	
-							auto fA = fa->template Cast<FuncVisitor<QL,QL,Mul>>();
-							properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
-							properties.push_back((*fA)().Clone());
-							elements.push_back(properties);
-							auto inv = Form<S>(MatrixFormatter(address).Html(),path);
-							inv.exec();
-	
-							auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-							auto classCss = std::make_unique<StyleElement>();
-							classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
-							outs->push_back(std::move(classCss));
-
-							auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
-							div0->Add(Mul{Constant{QSC{12}},fC.F()}().Html());
-							outs->push_back(std::move(div0));
-							auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
-							
-							html(grid);
-						}
-					}
+				auto fC = fc->template As<ComposedFuncVisitor<Quantity<SumPerArea>, FuncVisitor<QL,QL,Mul>,Mul>>();
+				std::unique_ptr<BaseVisitor> fa = std::make_unique<FuncVisitor<QL,QL,Mul>>();
+				auto sum = Mul{Constant{QSC{12}},fC.F()}();
+				q = q + sum;
+				//sums.push_back({std::make_unique<Name>(n),sum.Clone(), q.Clone()});
+				sums.push_back(sum.Clone());
+			    baseVisitor = m[i].Accept(std::move(baseVisitor));
+				fa = m[i].Accept(std::move(fa));
+				auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
+				address = Init(addressElements->Elements())().template Transform<2>(3,2);
 				
-					html(MatrixFormatter(address)());
-					html(MatrixFormatter(Init(elements)())());
-				});
+			    slwVis = m[i].Accept(std::move(slwVis));
+				auto properties = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
+				properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
+				properties.push_back(q.Clone());
+
+				auto fA = fa->template Cast<FuncVisitor<QL,QL,Mul>>();
+				properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
+				properties.push_back((*fA)().Clone());
+				elements.push_back(properties);
+				auto inv = Form<S>(MatrixFormatter(address).Html(),path);
+				inv.exec();
+
+				auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+				auto classCss = std::make_unique<StyleElement>();
+				classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+				outs->push_back(std::move(classCss));
+
+				auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
+				div0->Add(Mul{Constant{QSC{12}},fC.F()}().Html());
+				outs->push_back(std::move(div0));
+				auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
+				
+				html(grid);
+			}
+		}
+	
+		html(MatrixFormatter(address)());
+		html(MatrixFormatter(Init(elements)())());
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
 		return Init(s)();	}
 };

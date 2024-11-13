@@ -1,10 +1,12 @@
 HTML
-	Link HTML Tag
+	Ducrhnummerireren class/id
+	Id einfügen
 	GridZusammenbau
 Form Klasse
 	Aufbau mit Html
 Account
 Hallenmiete
+	Types
 	Endsumme
 Header in HtmlTabelle
 	Untermethoden clacCosts vor Aufruf Builder

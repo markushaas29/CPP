@@ -75,7 +75,7 @@ class TemplatizedAll_Test2023
 
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			
-			auto hall = std::make_unique<Hall<Middle>>(tokenFactory,elementFactory,visitorFactory,path);
+			auto hall = std::make_unique<Hall<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM = (*hall)(Year(2023),bM);
 			std::cout<<"Hall"<<hallM<<std::endl;
 			std::cout<<"H "<<hall->Value(Year(2023),bM)<<std::endl;

@@ -31,6 +31,10 @@ struct Bottom: public Stage<1> 	{	inline static constexpr const char* Name = "Bo
 struct Middle: public Stage<2>  	{	inline static constexpr const char* Name = "Middle"; };
 struct House: public Stage<0>  	{	inline static constexpr const char* Name = "House"; };
 
+struct HallOne: public Stage<4>  	{	inline static constexpr const char* Name = "Weil"; };
+struct HallTwo: public Stage<5>  	{	inline static constexpr const char* Name = "Ballreich"; };
+struct HallThree: public Stage<5>  	{	inline static constexpr const char* Name = "Haas"; };
+
 template<typename E, typename S,  size_t No = 0,typename D = None, typename DM = Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>
 class CounterDescription: public DescriptorBase
 {
