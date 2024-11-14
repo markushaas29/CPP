@@ -68,11 +68,15 @@ private:
 				std::stringstream is;
 				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 					tr.Add((*(m.elements->at(i)))->Html());
-				else
-				{
-					is<<(*(m.elements->at(i)));
-					tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
-				}
+				else 
+					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
+						tr.Add((*(m.elements->at(i)))->Clone());
+					else
+					{ 
+						std::cout<<"ELSE"<<std::endl;
+						is<<(*(m.elements->at(i)));
+						tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
+					}
 			}
 			return tr;
 		}

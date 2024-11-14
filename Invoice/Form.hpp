@@ -44,7 +44,11 @@ public:
 		div0->Add(std::move(date));
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(std::move(address));
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> htmls = { {address->Clone()},  {address->Clone()}};
+		auto mas = Init(std::move(htmls))();
+		
+		div1->Add(address->Clone());
+		div1->Add(MatrixFormatter(mas).Html());
 		div1->Add(std::move(content));
 		div1->Add(std::move(sum));
 		outs->push_back(std::move(div1));
