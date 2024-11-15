@@ -41,11 +41,11 @@ public:
 		auto classCss = std::make_unique<StyleElement>();
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 		outs->push_back(std::move(classCss));
-		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
+		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<TextAlign, Right>>>());
 		std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
 		div0->Add(MatrixFormatter(Init(headlines)()).Html());
 
-		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		std::vector<std::shared_ptr<IHtmlElement>> adresses = { address->Clone(), sender->Clone()};
 		
 		div1->Add(address->Clone());
