@@ -21,12 +21,13 @@ class Form
     using Stage = T;
 public:
     Form(std::unique_ptr<IHtmlElement> a, const std::string& p): 
+		path{p},
+		sender{createSender()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		sum{Quantity<Sum>{321}.Html()},
 		content{Entry{"Content"}.Html()},
-		builder{HtmlBuilder<German>("Form.html")}, 
-		path{p}{ }
+		builder{HtmlBuilder<German>("Form.html")} { }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{
         auto html = HtmlBuilder("Invoice_.html","/home/markus/Dokumente/cpp/CSV_Files");
@@ -44,7 +45,7 @@ public:
 		div0->Add(std::move(date));
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		std::vector<std::shared_ptr<IHtmlElement>> htmls = { address->Clone(), address->Clone()};
+		std::vector<std::shared_ptr<IHtmlElement>> htmls = { address->Clone(), sender->Clone()};
 		auto mas = Init(std::move(htmls))();
 		
 		div1->Add(address->Clone());
@@ -61,12 +62,22 @@ public:
 	}
 private:
 	std::string path;
-	std::unique_ptr<IHtmlElement> address;
 	std::unique_ptr<IHtmlElement> sender;
+	std::unique_ptr<IHtmlElement> address;
 	std::unique_ptr<IHtmlElement> date;
 	std::unique_ptr<IHtmlElement> sum;
 	std::unique_ptr<IHtmlElement> content;
 	HtmlBuilder<German> builder;
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	static auto createSender()
+	{
+		std::vector<std::vector<std::shared_ptr<IElement>>> a ={
+			{ std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas")},
+			{ std::make_shared<Street>("Ruchenstrasse"), std::make_shared<StreetNumber>("14")},
+			{ std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")},
+		};
+
+		return MatrixFormatter(Init(a)()).Html();
+	}
 };
