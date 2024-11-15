@@ -29,7 +29,7 @@ public:
 		path{p}{ }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{
-        auto html = HtmlBuilder("Invoice_.html","/home/markus/Downloads/CSV_TestFiles_2");
+        auto html = HtmlBuilder("Invoice_.html","/home/markus/Dokumente/cpp/CSV_Files");
 
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
 		heads->push_back(std::make_unique<LinkElement>());
@@ -44,7 +44,7 @@ public:
 		div0->Add(std::move(date));
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> htmls = { {address->Clone()},  {address->Clone()}};
+		std::vector<std::shared_ptr<IHtmlElement>> htmls = { address->Clone(), address->Clone()};
 		auto mas = Init(std::move(htmls))();
 		
 		div1->Add(address->Clone());
@@ -62,6 +62,7 @@ public:
 private:
 	std::string path;
 	std::unique_ptr<IHtmlElement> address;
+	std::unique_ptr<IHtmlElement> sender;
 	std::unique_ptr<IHtmlElement> date;
 	std::unique_ptr<IHtmlElement> sum;
 	std::unique_ptr<IHtmlElement> content;
