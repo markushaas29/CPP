@@ -42,14 +42,14 @@ public:
 		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 		outs->push_back(std::move(classCss));
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
-		div0->Add(std::move(date));
+		std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
+		div0->Add(MatrixFormatter(Init(headlines)()).Html());
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		std::vector<std::shared_ptr<IHtmlElement>> htmls = { address->Clone(), sender->Clone()};
-		auto mas = Init(std::move(htmls))();
+		std::vector<std::shared_ptr<IHtmlElement>> adresses = { address->Clone(), sender->Clone()};
 		
 		div1->Add(address->Clone());
-		div1->Add(MatrixFormatter(mas).Html());
+		div1->Add(MatrixFormatter(Init(std::move(adresses))()).Html());
 		div1->Add(std::move(content));
 		div1->Add(std::move(sum));
 		outs->push_back(std::move(div1));
@@ -61,6 +61,7 @@ public:
 		std::cout<<html<<std::endl;
 	}
 private:
+	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
 	std::string path;
 	std::unique_ptr<IHtmlElement> sender;
 	std::unique_ptr<IHtmlElement> address;

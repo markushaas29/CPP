@@ -237,7 +237,7 @@ public:
     inline static constexpr const char* Identifier = "Empty";
 	Empty(const std::string& c = Identifier): Base(c){ };
 private:
-	inline static std::string check(const std::string& s) { return Identifier; }
+	inline static std::string check(const std::string& s) { return s; }
 };
 
 class Header: public Element<Header>
