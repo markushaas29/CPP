@@ -73,7 +73,6 @@ private:
 						tr.Add((*(m.elements->at(i)))->Clone());
 					else
 					{ 
-						std::cout<<"ELSE"<<std::endl;
 						is<<(*(m.elements->at(i)));
 						tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
 					}

@@ -4,12 +4,14 @@
 
 struct Border		{   inline static constexpr const char* Id = "border"; };
 struct ColorTag		{   inline static constexpr const char* Id = "color"; };
+struct ColSpan		{   inline static constexpr const char* Id = "colspan"; };
 struct BackgroundColor		{   inline static constexpr const char* Id = "background-color"; };
 struct Display		{   inline static constexpr const char* Id = "display"; };
 struct Grid			{   inline static constexpr const char* Id = "grid"; };
 struct GridArea			{   inline static constexpr const char* Id = "grid-area"; };
 struct GridTemplateAreas			{   inline static constexpr const char* Id = "grid-template-areas"; };
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
+struct RowSpan		{   inline static constexpr const char* Id = "rowspan"; };
 struct Margin		{   inline static constexpr const char* Id = "margin"; };
 struct TextAlign		{   inline static constexpr const char* Id = "text-align"; };
 

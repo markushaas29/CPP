@@ -3,12 +3,8 @@ HTML
 	Id einfügen
 	GridZusammenbau
 Form Klasse
-	Grid Template area entfernen
 	Colspan
 	Matrix mit 4 Spalten
-	Eigene Adress Matrix
-	HeadMatrix
-	Number<>
 Account
 Hallenmiete
 Header in HtmlTabelle

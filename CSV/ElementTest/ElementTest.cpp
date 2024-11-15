@@ -87,7 +87,6 @@ int Run()
 	assert(htmlQN.Data()=="<td style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
-	std::cout<<"P2: \n"<<nhtml.Data()<<std::endl;
 	assert(nhtml.Data()=="<td style=\" color:black;\">\n\t<td style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
 	M2D m33 =
@@ -102,13 +101,11 @@ int Run()
 	auto cap = HtmlElement<Caption, Header>(Header("H"));
 	//assert(cap.Out()=="");
 	auto htmlMF = mf1.Html(cap.Clone());
-	std::cout<<"MAT:\n" <<*htmlMF << std::endl;
 
 	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 	outs->push_back(htmlQN.Clone());
 	outs->push_back(htmlQP.Clone());
 	auto comp = HtmlElements<DivTag>{std::move(outs)};
-	std::cout<<"\n\nElements: \n"<<comp.Out(0)<<std::endl;
 	auto htmls = HtmlElement<Td,HtmlElements<DivTag>>(comp);
 	
 	auto outs2 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
@@ -123,10 +120,10 @@ int Run()
 	
 	assert(Px<14>::Id=="14px");
 	auto css14 = Css<Style<Padding,Px<14>>>();
-	std::cout<<"Elements: \n"<<css14<<std::endl;
 	
-	auto gridAreas = Css<Style<GridTemplateAreas,DinA4>>();
-	std::cout<<"Elements: \n"<<css14<<std::endl;
+	auto span = Css<Style<ColSpan,StyleNumber<4>>>();
+	std::cout<<"Elements: \n"<<span<<std::endl;
+	assert(span()==" style=\" colspan:4;\"");
 
 	auto nullgrid = HtmlElements<DivTag>{std::move(outs2),nullptr, "grid-container"};
 	std::istringstream f2(nullgrid.Out(0));
@@ -137,7 +134,6 @@ int Run()
 	auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
 	
 	auto classCss = ClassCss<Border,Style<Padding,Px<14>>>();
-	std::cout<<"border: \n"<<classCss<<std::endl;
 	assert(classCss()==".border {\n\t padding:14px;\n}");
 	styleVec->push_back(classCss.Clone());
 	//styleVec->push_back(classCss.Clone());
@@ -148,7 +144,6 @@ int Run()
 	auto link = LinkElement{};
 	assert(link.Out(0)=="<Link rel=\"stylesheet\" href=\"style.css\" media=\"all\"></Link>");
 	auto linka = LinkElement{"abc"};
-	std::cout<<"Style: \n"<<linka.Out(0)<<std::endl;
 	assert(linka.Out(0)=="<Link rel=\"stylesheet\" href=\"abc.css\" media=\"all\"></Link>");
 	assert(linka.Clone()->Out(0)=="<Link rel=\"stylesheet\" href=\"abc.css\" media=\"all\"></Link>");
     
