@@ -55,7 +55,7 @@ public:
 		outs->push_back(std::move(div1));
 		outs->push_back(std::move(div0));
 
-		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>, Style<GridTemplateAreas,DinA4>>>(), "grid-container"};
+		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
 		html(grid);
 
 		std::cout<<html<<std::endl;
