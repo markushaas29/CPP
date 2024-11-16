@@ -198,6 +198,11 @@ int Run()
 	assert(tw==std::string("Heinrichstadt"));
 	auto pr = Prename{"Heinrich"};
 	assert(pr==std::string("Heinrich"));
+	
+	
+	auto namePtr = std::make_unique<HtmlElement<Td,Name>>(Name("ABC"));
+	auto ihtml = HtmlElement<Td, IHtmlElement>(std::move(namePtr));
+	std::cout << ihtml << std::endl;
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;
