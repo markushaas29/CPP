@@ -70,7 +70,7 @@ private:
 					tr.Add((*(m.elements->at(i)))->Html());
 				else 
 					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
-						tr.Add((*(m.elements->at(i)))->Clone());
+						tr.Add(std::make_unique<HtmlElement<Td, IHtmlElement>>((*(m.elements->at(i)))->Clone()));
 					else
 					{ 
 						is<<(*(m.elements->at(i)));

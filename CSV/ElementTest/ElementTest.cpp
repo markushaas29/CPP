@@ -202,8 +202,8 @@ int Run()
 	
 	auto namePtr = std::make_unique<HtmlElement<Td,Name>>(Name("ABC"));
 	auto ihtml = HtmlElement<Td, IHtmlElement>(std::move(namePtr));
-	auto ihtml2 = HtmlElement<Td, IHtmlElement>(mf1.Html());
-	std::cout<<ihtml2<<std::endl;
+	ihtml = HtmlElement<Td, IHtmlElement>(mf1.Html());
+	std::cout<<ihtml<<std::endl;
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;
