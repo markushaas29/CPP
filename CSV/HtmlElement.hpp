@@ -165,10 +165,7 @@ private:
 		return "\n" + element->Out(i) + "\n"; ;
 	};	
 	std::unique_ptr<IHtmlElement> element;
-	std::unique_ptr<IHtmlElement> cloneElement() const
-	{	
-		return element->Clone();
-	};	
+	std::unique_ptr<IHtmlElement> cloneElement() const	{	return element->Clone();};	
 };
 
 class Name;
