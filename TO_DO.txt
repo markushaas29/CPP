@@ -1,8 +1,12 @@
 HTML
+	Mit ICSS style neusetzen
 	Ducrhnummerireren class/id
 	Id einfügen
 	GridZusammenbau
 Form Klasse#
+Formatter
+	Als Html mit und td Entry
+	tr.Add((std::make_unique<HtmlElement<Td, Entry>>(Entry(*(m.elements->at(i)))->Out(0)))) ?? oder Td ableiten von HtmlBase wie StyleElements
 Account
 Hallenmiete
 Header in HtmlTabelle

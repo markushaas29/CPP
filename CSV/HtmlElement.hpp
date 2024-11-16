@@ -129,6 +129,7 @@ private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "rel=\"stylesheet\" href=\"" + filename + ".css\" media=\"all\"";	};	
 };
 
+
 template<typename T, typename E>
 class HtmlElementBase: public HtmlBase<T>
 {
@@ -148,6 +149,27 @@ struct Td;
 
 template<typename T, typename E>
 struct HtmlElement: public HtmlElementBase<T,E>{ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<T,E>(c, std::move(css)) { }; };
+
+template<typename T>
+class HtmlElement<T, IHtmlElement>: public HtmlBase<T>
+{
+	using Base = HtmlBase<T>;
+public:
+ 	HtmlElement(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): Base{std::move(css), n}, element{std::move(v)} { };
+ 	HtmlElement( const std::string& n, std::unique_ptr<ICss> css = nullptr, std::unique_ptr<IHtmlElement> v = nullptr): HtmlElement{std::move(v),std::move(css),n}{};
+	HtmlElement(const HtmlElement& html): Base{html}, element{html.cloneElement()} { }
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement>(cloneElement()); };
+private:
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  
+	{	
+		return "\n" + element->Out(i) + "\n"; ;
+	};	
+	std::unique_ptr<IHtmlElement> element;
+	std::unique_ptr<IHtmlElement> cloneElement() const
+	{	
+		return element->Clone();
+	};	
+};
 
 class Name;
 
