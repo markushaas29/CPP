@@ -46,7 +46,7 @@ public:
 		div0->Add(MatrixFormatter(Init(headlines)()).Html());
 
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		std::vector<std::shared_ptr<IHtmlElement>> adresses = { address->Clone(), sender->Clone()};
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
 		
 		div1->Add(address->Clone());
 		div1->Add(MatrixFormatter(Init(std::move(adresses))()).Html());
