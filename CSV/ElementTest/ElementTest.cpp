@@ -203,7 +203,12 @@ int Run()
 	auto namePtr = std::make_unique<HtmlElement<Td,Name>>(Name("ABC"));
 	auto ihtml = HtmlElement<Td, IHtmlElement>(std::move(namePtr));
 	ihtml = HtmlElement<Td, IHtmlElement>(mf1.Html());
-	std::cout<<ihtml<<std::endl;
+	auto pSpan = std::make_unique<Css<Style<ColSpan,StyleNumber<4>>>>();
+	auto modHtml = ihtml.Html(std::move(pSpan));
+	std::istringstream f3(modHtml->Out(0));
+    std::getline(f3, line);
+	std::cout<<line<<std::endl;
+	assert(line=="<td style=\" colspan:4;\">");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 	
 	return 0;

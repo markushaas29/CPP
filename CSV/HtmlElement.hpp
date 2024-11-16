@@ -31,8 +31,6 @@ public:
 //    T To() const { return ::To<T>(out()); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Out(0);}
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const { return Clone(); }
-	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return Clone(); };
 };
 ////--------------------------------HtmlBase------------------------------------------------
 
@@ -61,6 +59,8 @@ private:
 	std::string content;
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + showContent(intent, ++i) + intent + end; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const { return Clone(); }
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return Clone(); };
 	static std::string createBegin(const std::string& s, const std::string& n)  { return "<" + tag + (n != "" ? (" class=\"" + n + "\"") : "") + s + ">"; };	
 };
 
@@ -143,6 +143,7 @@ protected:
 public:
 	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return std::make_unique<HtmlElement<T,E>>(element, std::move(css)); };
 	E element;
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return "\n" + element.Out(i) + "\n";	};	
 };
@@ -168,6 +169,7 @@ public:
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement>(cloneElement()); };
 private:
 	std::unique_ptr<IHtmlElement> element;
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return std::make_unique<HtmlElement<T,IHtmlElement>>(element->Clone(), std::move(css)); };
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "\n" + element->Out(i) + "\n"; };	
 	std::unique_ptr<IHtmlElement> cloneElement() const	{	return element ? element->Clone() : nullptr;};	
 };
