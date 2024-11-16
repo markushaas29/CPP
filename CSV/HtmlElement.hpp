@@ -20,7 +20,7 @@ template<typename, bool> class PredicateVisitor;
 
 #pragma once
 
-class IHtmlElement: public IModel
+class IHtmlElement: public IModel, public IHtml
 {
 public:
 	std::string Data() const  { return Out(0); };	
@@ -31,6 +31,8 @@ public:
 //    T To() const { return ::To<T>(out()); }
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Out(0);}
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const { return Clone(); }
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return Clone(); };
 };
 ////--------------------------------HtmlBase------------------------------------------------
 
