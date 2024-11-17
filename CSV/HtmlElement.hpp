@@ -39,6 +39,7 @@ class HtmlBase: public IHtmlElement
 {
 protected:
 	inline const static std::string tag = T::Identifier;
+	inline static const std::string Identifier = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
  	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): begin(createBegin(css ? (*css)() : "",n)), name{n},css{std::move(css)}, content{""} { };
 	HtmlBase(const HtmlBase& html): css(html.css ? html.css->Clone() : nullptr), begin(html.begin), content{html.Out()} { }
@@ -69,6 +70,7 @@ class HtmlElements: public HtmlBase<T>
 {
 	using Base = HtmlBase<T>;
 public:
+	inline static const std::string Identifier = "HtmlElements";
  	HtmlElements(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(), std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): Base{std::move(css), n}, elements{std::move(v)} { };
  	HtmlElements( const std::string& n, std::unique_ptr<ICss> css = nullptr, std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()): HtmlElements{std::move(v),std::move(css),n}{};
 	HtmlElements(const HtmlElements& html): Base{html}, elements{html.cloneElements()} { }
@@ -137,10 +139,11 @@ class HtmlElementBase: public HtmlBase<T>
 {
 	using Base = HtmlBase<T>;
 protected:
-	inline static const std::string Identifier = E::Identifier + "HtmlElement";
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): Base{std::move(css),n}, element{c} { };
+	//inline static const std::string Identifier = std::string(E::Identifier) + "HtmlElement";
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = Identifier): Base{std::move(css),n}, element{c} { };
 	HtmlElementBase(const HtmlElementBase& html): Base{html}, element{html.element} { }
 public:
+	inline static const std::string Identifier = "HtmlElement";
 	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return std::make_unique<HtmlElement<T,E>>(element, std::move(css)); };
