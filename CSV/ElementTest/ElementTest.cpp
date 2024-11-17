@@ -74,20 +74,20 @@ int Run()
 	assert(useE==useA);
 
 	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
-	std::cout<<"P OUT: \n"<<html.Data()<<std::endl;
-	assert(html.Data()=="<td style=\" color:black;\">\n\tTEST\n</td>");
+	assert(html.Data()=="<td class=\"td_HtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
-	assert(htmlN.Data()=="<td style=\" color:blue;\">\n\tTEST\n</td>");
+	assert(htmlN.Data()=="<td class=\"td_HtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
 
 	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
 	auto htmlQP2 = htmlQP.Clone();
-	assert(htmlQP.Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
-	assert(htmlQP2->Data()=="<td style=\" color:green;\">\n\t2.00€\n</td>");
+	assert(htmlQP.Data()=="<td class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
+	assert(htmlQP2->Data()=="<td class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
 	auto htmlQN = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{-2});
-	assert(htmlQN.Data()=="<td style=\" color:red;\">\n\t-2.00€\n</td>");
+	assert(htmlQN.Data()=="<td class=\"td_HtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
-	assert(nhtml.Data()=="<td style=\" color:black;\">\n\t<td style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
+	std::cout<<"P OUT: \n"<<nhtml.Data()<<std::endl;
+	assert(nhtml.Data()=="<td class=\"td_HtmlElement\" style=\" color:black;\">\n\t<td class=\"td_HtmlElement\" style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
 	M2D m33 =
     {
@@ -152,7 +152,6 @@ int Run()
 	auto rgba = RGBA<255,25,233>();
 	assert(rgba()=="rgba(255, 25, 233, 1.000000)");
 	auto srgb = Style<BackgroundColor,RGB<255,255,233>>();
-	std::cout<<"Style: \n"<<srgb()<<std::endl;
 
 	auto es = Px<1,2,3>::Id;
 	std::cout<<"Nums: \n"<<es<<std::endl;

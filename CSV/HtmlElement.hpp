@@ -140,10 +140,9 @@ class HtmlElementBase: public HtmlBase<T>
 	using Base = HtmlBase<T>;
 protected:
 	//inline static const std::string Identifier = std::string(E::Identifier) + "HtmlElement";
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = Identifier): Base{std::move(css),n}, element{c} { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = Base::Identifier + "_HtmlElement"): Base{std::move(css),n}, element{c} { };
 	HtmlElementBase(const HtmlElementBase& html): Base{html}, element{html.element} { }
 public:
-	inline static const std::string Identifier = "HtmlElement";
 	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return std::make_unique<HtmlElement<T,E>>(element, std::move(css)); };
