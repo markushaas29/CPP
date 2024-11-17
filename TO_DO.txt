@@ -1,9 +1,7 @@
 HTML
-	Ducrhnummerireren class/id
 	Id einfügen
 	GridZusammenbau
 Form Klasse
-	Datum nach verschieben
 Formatter
 Account
 	Assert
