@@ -41,7 +41,7 @@ protected:
 	inline const static std::string tag = T::Identifier;
 	inline static const std::string Identifier = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): begin(createBegin(css ? (*css)() : "",n)), name{n},css{std::move(css)}, content{""} { };
+ 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): begin(createBegin(css ? (*css)() : "",n)), name{n}, id{n},css{std::move(css)}, content{""} { };
 	HtmlBase(const HtmlBase& html): css(html.css ? html.css->Clone() : nullptr), begin(html.begin), content{html.Out()} { }
 public:
 	const std::string& Tag() const { return tag; }
@@ -56,13 +56,14 @@ protected:
 private:
 	std::string begin;
 	std::string name;
+	std::string id;
 	std::unique_ptr<ICss> css;
 	std::string content;
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + showContent(intent, ++i) + intent + end; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const { return Clone(); }
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return Clone(); };
-	static std::string createBegin(const std::string& s, const std::string& n)  { return "<" + tag + (n != "" ? (" class=\"" + n + "\"") : "") + s + ">"; };	
+	static std::string createBegin(const std::string& s, const std::string& n)  { return "<" + tag + (n != "" ? (" id=\"" + n + "\"" + " class=\"" + n + "\"") : "") + s + ">"; };	
 };
 
 template<typename T>

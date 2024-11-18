@@ -74,20 +74,20 @@ int Run()
 	assert(useE==useA);
 
 	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
-	assert(html.Data()=="<td class=\"td_HtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
+	std::cout<<"P OUT: \n"<<html.Data()<<std::endl;
+	assert(html.Data()=="<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
-	assert(htmlN.Data()=="<td class=\"td_HtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
+	assert(htmlN.Data()=="<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
 
 	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
 	auto htmlQP2 = htmlQP.Clone();
-	assert(htmlQP.Data()=="<td class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
-	assert(htmlQP2->Data()=="<td class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
+	assert(htmlQP.Data()=="<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
+	assert(htmlQP2->Data()=="<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
 	auto htmlQN = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{-2});
-	assert(htmlQN.Data()=="<td class=\"td_HtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
+	assert(htmlQN.Data()=="<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
-	std::cout<<"P OUT: \n"<<nhtml.Data()<<std::endl;
-	assert(nhtml.Data()=="<td class=\"td_HtmlElement\" style=\" color:black;\">\n\t<td class=\"td_HtmlElement\" style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
+	assert(nhtml.Data()=="<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:black;\">\n\t<td id=\"td_HtmlElement\" class=\"td_HtmlElement\" style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
 	M2D m33 =
     {
@@ -116,7 +116,7 @@ int Run()
 	std::istringstream f(grid.Out(0));
     std::getline(f, line);
 	std::cout << line << std::endl;
-	assert(line=="<div class=\"grid-container\" style=\" display:grid;\">");
+	assert(line=="<div id=\"grid-container\" class=\"grid-container\" style=\" display:grid;\">");
 	
 	assert(Px<14>::Id=="14px");
 	auto css14 = Css<Style<Padding,Px<14>>>();
@@ -128,7 +128,7 @@ int Run()
 	auto nullgrid = HtmlElements<DivTag>{std::move(outs2),nullptr, "grid-container"};
 	std::istringstream f2(nullgrid.Out(0));
     std::getline(f2, line);
-	assert(line=="<div class=\"grid-container\">");
+	assert(line=="<div id=\"grid-container\" class=\"grid-container\">");
 	
 	
 	auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
