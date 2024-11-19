@@ -41,7 +41,7 @@ protected:
 	inline const static std::string tag = T::Identifier;
 	inline static const std::string Identifier = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): begin(createBegin(css ? (*css)() : "",n)), name{n}, id{n},css{std::move(css)}, content{""} { };
+ 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = "", const std::string& ci = ""): begin(createBegin(css ? (*css)() : "",n)), name{n}, id{ci},css{std::move(css)}, content{""} { };
 	HtmlBase(const HtmlBase& html): css(html.css ? html.css->Clone() : nullptr), begin(html.begin), content{html.Out()} { }
 public:
 	const std::string& Tag() const { return tag; }
@@ -140,7 +140,7 @@ class HtmlElementBase: public HtmlBase<T>
 {
 	using Base = HtmlBase<T>;
 protected:
-	//inline static const std::string Identifier = std::string(E::Identifier) + "HtmlElement";
+	inline static const std::string Identifier = std::string(E::Identifier) + "HtmlElement";
  	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = Base::Identifier + "_HtmlElement"): Base{std::move(css),n}, element{c} { };
 	HtmlElementBase(const HtmlElementBase& html): Base{html}, element{html.element} { }
 public:
