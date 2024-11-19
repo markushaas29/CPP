@@ -75,6 +75,8 @@ int Run()
 
 	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
 	assert(html.Data()=="<td id=\"td_Entry\" class=\"td_HtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
+	assert(html.Id()=="td_Entry");
+	assert(html.Name()=="td_HtmlElement");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
 	assert(htmlN.Data()=="<td id=\"td_Name\" class=\"td_HtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
 

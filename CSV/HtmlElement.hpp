@@ -24,12 +24,16 @@ class IHtmlElement: public IModel, public IHtml
 {
 public:
 	std::string Data() const  { return Out(0); };	
+	const auto& Id() const  { return classId(); };	
+	const auto& Name() const { return className(); };	
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
 //	template<typename T>
 //    T To() const { return ::To<T>(out()); }
 private:
+	virtual const std::string& classId() const  = 0;	
+	virtual const std::string& className() const  = 0;	
 	friend std::ostream& operator<<(std::ostream& out, const IHtmlElement& e) {	return out<<e.Out(0);}
 };
 ////--------------------------------HtmlBase------------------------------------------------
@@ -59,6 +63,8 @@ private:
 	std::string id;
 	std::unique_ptr<ICss> css;
 	std::string content;
+	virtual const std::string& classId() const  { return id; };	
+	virtual const std::string& className() const  { return name; };	
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + showContent(intent, ++i) + intent + end; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const { return Clone(); }
