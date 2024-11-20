@@ -32,10 +32,11 @@ public:
 	{
         auto html = HtmlBuilder("Invoice_.html","/home/markus/Dokumente/cpp/CSV_Files");
 
+		auto elements = std::vector<std::unique_ptr<IHtmlElement>>(); 
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
 		heads->push_back(std::make_unique<LinkElement>());
-		auto head = HtmlElements<Head>{ std::move(heads) };
-		html(head);
+		std::vector<std::shared_ptr<IHtmlElement>> headElements= { std::make_unique<HtmlElements<Head>>(std::move(heads)) }; 
+		elements.push_back((MatrixFormatter(Init(headElements)()).Html()));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto classCss = std::make_unique<StyleElement>();
