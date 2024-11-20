@@ -32,34 +32,33 @@ public:
 	{
         auto html = HtmlBuilder("Invoice_.html","/home/markus/Dokumente/cpp/CSV_Files");
 
-		auto elements = std::vector<std::unique_ptr<IHtmlElement>>(); 
+		auto elements = std::vector<std::shared_ptr<IHtmlElement>>(); 
+
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
 		heads->push_back(std::make_unique<LinkElement>());
 		std::vector<std::shared_ptr<IHtmlElement>> headElements= { std::make_unique<HtmlElements<Head>>(std::move(heads)) }; 
 		elements.push_back((MatrixFormatter(Init(headElements)()).Html()));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		auto classCss = std::make_unique<StyleElement>();
-		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
-		outs->push_back(std::move(classCss));
-		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0",std::make_unique<Css<Style<TextAlign, Right>>>());
+//		auto classCss = std::make_unique<StyleElement>();
+//		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+//		outs->push_back(std::move(classCss));
 		std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
-		div0->Add(MatrixFormatter(Init(headlines)()).Html());
+		elements.push_back(MatrixFormatter(Init(headlines)()).Html());
 
-		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
+		elements.push_back(MatrixFormatter(Init(std::move(adresses))()).Html());
 		
-		div1->Add(address->Clone());
-		div1->Add(MatrixFormatter(Init(std::move(adresses))()).Html());
-		div1->Add(std::move(content));
-		div1->Add(std::move(sum));
-		outs->push_back(std::move(div1));
-		outs->push_back(std::move(div0));
+		std::vector<std::shared_ptr<IHtmlElement>> contentLines = { std::move(content)};
+		elements.push_back(MatrixFormatter(Init(std::move(contentLines))()).Html());
+		
+		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
+		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
+		
+		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 
-		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
+		auto grid = HtmlElements<Table>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
 		html(grid);
-
-		std::cout<<html<<std::endl;
 	}
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
