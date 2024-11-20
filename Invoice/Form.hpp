@@ -49,6 +49,10 @@ public:
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
 		elements.push_back(MatrixFormatter(Init(std::move(adresses))()).Html());
 		
+		auto outR = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		outR->push_back(content->Clone());
+		outs->push_back(std::make_unique<HtmlElements<Tr>>( std::move(outR) ));
+
 		std::vector<std::shared_ptr<IHtmlElement>> contentLines = { std::move(content)};
 		elements.push_back(MatrixFormatter(Init(std::move(contentLines))()).Html());
 		
