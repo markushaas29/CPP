@@ -49,9 +49,7 @@ public:
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
 		elements.push_back(MatrixFormatter(Init(std::move(adresses))()).Html());
 		
-		auto outR = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		outR->push_back(content->Clone());
-		outs->push_back(std::make_unique<HtmlElements<Tr>>( std::move(outR) ));
+		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		std::vector<std::shared_ptr<IHtmlElement>> contentLines = { std::move(content)};
 		elements.push_back(MatrixFormatter(Init(std::move(contentLines))()).Html());
@@ -81,8 +79,17 @@ private:
 			{ std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas")},
 			{ std::make_shared<Street>("Ruchenstrasse"), std::make_shared<StreetNumber>("14")},
 			{ std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")},
+			{ std::make_shared<Entry>("Telephone"), std::make_shared<Entry>("07255/725393")},
+			{ std::make_shared<Entry>("Handy"), std::make_shared<Entry>("017684733560")},
 		};
 
 		return MatrixFormatter(Init(a)()).Html();
+	}
+	
+	static auto row(std::unique_ptr<IHtmlElement> html)
+	{
+		auto vec = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		vec->push_back(html->Clone());
+		return vec;
 	}
 };
