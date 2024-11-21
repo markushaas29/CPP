@@ -56,8 +56,7 @@ public:
 		
 		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 
-		auto grid = HtmlElements<Table>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
-		html(grid);
+		html(*table(std::move(outs)));
 	}
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
