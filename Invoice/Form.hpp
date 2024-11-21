@@ -43,16 +43,16 @@ public:
 //		auto classCss = std::make_unique<StyleElement>();
 //		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 //		outs->push_back(std::move(classCss));
-		std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
-		elements.push_back(MatrixFormatter(Init(headlines)()).Html());
-
-		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
-		elements.push_back(MatrixFormatter(Init(std::move(adresses))()).Html());
+//		std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
+//		elements.push_back(MatrixFormatter(Init(headlines)()).Html());
+//
+//		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
+//		elements.push_back(MatrixFormatter(Init(std::move(adresses))()).Html());
 		
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
-		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
-		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
+//		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
+//		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
 		
 		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 
