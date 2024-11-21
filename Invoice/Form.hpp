@@ -51,9 +51,6 @@ public:
 		
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
-		std::vector<std::shared_ptr<IHtmlElement>> contentLines = { std::move(content)};
-		elements.push_back(MatrixFormatter(Init(std::move(contentLines))()).Html());
-		
 		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
 		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
 		
@@ -91,5 +88,10 @@ private:
 		auto vec = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		vec->push_back(html->Clone());
 		return vec;
+	}
+	
+	static auto table(std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> html)
+	{
+		return std::make_unique<HtmlElements<Table>>(std::move(html));
 	}
 };
