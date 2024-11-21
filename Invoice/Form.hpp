@@ -56,7 +56,12 @@ public:
 		
 		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 
-		html(*table(std::move(outs)));
+		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
+		auto bodys = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		//bodys->push_back(std::move(div));
+		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div));
+		//auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div));
+		html.Ptr(std::move(body));
 	}
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
