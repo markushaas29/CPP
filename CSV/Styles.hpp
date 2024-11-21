@@ -24,3 +24,4 @@ struct DivTag: public TagDecorator				{	inline static constexpr const char* Iden
 struct Html: public TagDecorator			{	virtual std::string decorate() const { return "html"; } };
 struct Caption: public TagDecorator			{	inline static constexpr const char* Identifier= "caption";  };
 struct Head: public TagDecorator			{	inline static constexpr const char* Identifier= "head"; };
+struct Body: public TagDecorator			{	inline static constexpr const char* Identifier= "body"; };
