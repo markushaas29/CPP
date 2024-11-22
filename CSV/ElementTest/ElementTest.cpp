@@ -212,13 +212,19 @@ int Run()
 	assert(line=="<td style=\" colspan:4;\">");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 
+	auto date = Date::Today().Clone();
+	std::vector<std::shared_ptr<IElement>> headEls = { date->Clone()};
+	auto m = Init(headEls)();
+	auto mh = MatrixFormatter(m).Html();
+	std::cout<<*mh<<std::endl;
+	
 	auto empty = std::make_shared<Empty>("");
-	auto date = Date::Today().Html();
-	std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
+	std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Html()->Clone()};
 
-	auto m = Init(headlines)();
-	std::cout<<m<<std::endl;
-	MatrixFormatter(m).Html();
+	auto m2 = Init(headlines)();
+	mh = MatrixFormatter(m2).Html();
+	std::cout<<*mh<<std::endl;
+
 	return 0;
 }
 };
