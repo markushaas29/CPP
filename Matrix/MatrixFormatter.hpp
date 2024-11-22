@@ -78,7 +78,14 @@ private:
 						tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
 					}
 			}
-			return tr;
+			
+			if constexpr (M::Order==1)
+			{
+				tab.Add(tr.Clone());
+				return tab;
+			}
+			else	
+				return tr;
 		}
 		else
 		{

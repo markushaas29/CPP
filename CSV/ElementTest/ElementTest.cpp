@@ -213,17 +213,33 @@ int Run()
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 
 	auto date = Date::Today().Clone();
-	std::vector<std::shared_ptr<IElement>> headEls = { date->Clone()};
+	std::vector<std::vector<std::shared_ptr<IElement>>> headEls = {{ date->Clone()},{ date->Clone()}};
 	auto m = Init(headEls)();
 	auto mh = MatrixFormatter(m).Html();
-	std::cout<<*mh<<std::endl;
+	
+	std::stringstream ssC(mh->Out(0));
+	std::string sC;
+    int cnt=0;
+    while(ssC>>sC)
+		if (std::string::npos != sC.find("table"))
+          cnt++;
+
+	assert(cnt==2);
 	
 	auto empty = std::make_shared<Empty>("");
 	std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Html()->Clone()};
 
 	auto m2 = Init(headlines)();
 	mh = MatrixFormatter(m2).Html();
-	std::cout<<*mh<<std::endl;
+	
+	std::stringstream ssC2(mh->Out(0));
+    cnt=0;
+	sC = "";
+    while(ssC2>>sC)
+		if (std::string::npos != sC.find("table"))
+          cnt++;
+
+	assert(cnt==2);
 
 	return 0;
 }
