@@ -17,6 +17,7 @@
 #include "../../Matrix/MatrixDescriptor.hpp"
 #include "../../Matrix/MatrixFormatter.hpp"
 #include "../../Matrix/MatrixFormatter.hpp"
+#include "../../Matrix/MatrixInitializer.hpp"
 
 class ElementTest{
 public:
@@ -208,10 +209,16 @@ int Run()
 	auto modHtml = ihtml.Html(std::move(pSpan));
 	std::istringstream f3(modHtml->Out(0));
     std::getline(f3, line);
-	std::cout<<line<<std::endl;
 	assert(line=="<td style=\" colspan:4;\">");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
-	
+
+	auto empty = std::make_shared<Empty>("");
+	auto date = Date::Today().Html();
+	std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
+
+	auto m = Init(headlines)();
+	std::cout<<m<<std::endl;
+	MatrixFormatter(m).Html();
 	return 0;
 }
 };
