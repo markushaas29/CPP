@@ -54,8 +54,8 @@ private:
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
     virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const 	{	return rows(matrix,std::move(v),std::move(css)).Clone();	};
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const {	return rows(matrix,nullptr,std::move(css)).Clone();	};
-	template<size_t O, typename D>
-    auto row(const Matrix<O,D>& m, HtmlElements<Table>& tab,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
+	template<typename D>
+    auto row(const Matrix<1,D>& m, HtmlElements<Table>& tab,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
 	{ 
 		auto tr = HtmlElements<Tr>();
 		for(auto i=0; i<m.Rows(); ++i)
