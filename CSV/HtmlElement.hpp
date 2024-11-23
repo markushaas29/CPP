@@ -67,8 +67,8 @@ private:
 	virtual const std::string& className() const  { return name; };	
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + begin + showContent(intent, ++i) + intent + end; };	
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const { return Clone(); }
-	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return Clone(); };
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return Clone(); }
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return Clone(); };
 	static std::string createBegin(const std::string& s, const std::string& n, const std::string& id)  { return "<" + tag + (id != "" ? (" id=\"" + id + "\"") : "") + (n != "" ? (" class=\"" + n + "\"") : "") + s + ">"; };	
 };
 
@@ -153,7 +153,7 @@ public:
 	inline static const std::string ClassId = Base::Identifier + "_" + std::remove_reference<E>::type::Identifier;
 	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
-	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return std::make_unique<HtmlElement<T,E>>(element, std::move(css)); };
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return std::make_unique<HtmlElement<T,E>>(element, std::move(css),n,id); };
 	E element;
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return "\n" + element.Out(i) + "\n";	};	
 };
@@ -161,14 +161,14 @@ private:
 struct Td;
 
 template<typename T, typename E>
-struct HtmlElement: public HtmlElementBase<T,E>{ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>()): HtmlElementBase<T,E>(c, std::move(css)) { }; };
+struct HtmlElement: public HtmlElementBase<T,E>{ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>(), const std::string& n="", const std::string& id=""): HtmlElementBase<T,E>(c, std::move(css)) { }; };
 
 template<typename T>
 class HtmlElement<T, IHtmlElement>: public HtmlBase<T>
 {
 	using Base = HtmlBase<T>;
 public:
- 	HtmlElement(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n = ""): Base{std::move(css), n}, element{std::move(v)} { };
+ 	HtmlElement(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id=""): Base{std::move(css), n}, element{std::move(v)} { };
  	HtmlElement( const std::string& n, std::unique_ptr<ICss> css = nullptr, std::unique_ptr<IHtmlElement> v = nullptr): HtmlElement{std::move(v),std::move(css),n}{};
 	HtmlElement(const HtmlElement& html): Base{html}, element{html.cloneElement()} { }
 	HtmlElement& operator=(const HtmlElement& e) 
@@ -179,7 +179,7 @@ public:
 	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement>(cloneElement()); };
 private:
 	std::unique_ptr<IHtmlElement> element;
-	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const { return std::make_unique<HtmlElement<T,IHtmlElement>>(element->Clone(), std::move(css)); };
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return std::make_unique<HtmlElement<T,IHtmlElement>>(element->Clone(), std::move(css),n,id); };
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  {	return "\n" + element->Out(i) + "\n"; };	
 	std::unique_ptr<IHtmlElement> cloneElement() const	{	return element ? element->Clone() : nullptr;};	
 };
@@ -187,22 +187,22 @@ private:
 class Name;
 
 template<typename T>
-struct HtmlElement<T,Name>: public HtmlElementBase<T,Name>{ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Name>(c, std::move(css)) { }; };
+struct HtmlElement<T,Name>: public HtmlElementBase<T,Name>{ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(), const std::string& n="", const std::string& id=""): HtmlElementBase<T,Name>(c, std::move(css)) { }; };
 
 class Prename;
 
 template<typename T>
-struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename> { 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Prename>(c, std::move(css)) { }; };
+struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename> { 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(), const std::string& n="", const std::string& id=""): HtmlElementBase<T,Prename>(c, std::move(css)) { }; };
 
 class Header;
 
 template<typename T>
-struct HtmlElement<T,Header>: public HtmlElementBase<T,Header> { 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>()): HtmlElementBase<T,Header>(c, std::move(css)) { }; };
+struct HtmlElement<T,Header>: public HtmlElementBase<T,Header> { 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(), const std::string& n="", const std::string& id=""): HtmlElementBase<T,Header>(c, std::move(css)) { }; };
 
 template<typename T, typename T2>
 struct HtmlElement<T2,Quantity<T>>: public HtmlElementBase<T2,Quantity<T>>
 {
- 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>()): HtmlElementBase<T2,Quantity<T>>(c, std::move(css)) 
+ 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>(), const std::string& n="", const std::string& id=""): HtmlElementBase<T2,Quantity<T>>(c, std::move(css)) 
 	{
 		if(c < Quantity<T>{0})
 			this->apply(std::make_unique<Css<Style<ColorTag,Red>>>());

@@ -68,8 +68,8 @@ public:
 	constexpr bool operator==(const std::string& e) const noexcept { return e == data(); };
 	constexpr std::strong_ordering operator<=>(const IElement& e) const noexcept { return Data() <=> e.Data(); }
 private:
-	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const  { return std::make_unique<HtmlElement<Td,Derived>>(Derived(value));	};	
-	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const {	return html(nullptr, std::move(css));	};
+	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  { return std::make_unique<HtmlElement<Td,Derived>>(Derived(value));	};	
+	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, std::move(css));	};
 	const std::string& data() const  {	return value;	};	
 	const std::string out() const  
 	{	

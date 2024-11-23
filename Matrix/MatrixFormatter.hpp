@@ -52,8 +52,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table() const 	{	return rows(matrix).Data();	};
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
-    virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const 	{	return rows(matrix,std::move(v),std::move(css)).Clone();	};
-	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const {	return rows(matrix,nullptr,std::move(css)).Clone();	};
+    virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="" ) const 	{	return rows(matrix,std::move(v),std::move(css)).Clone();	};
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return rows(matrix,nullptr,std::move(css)).Clone();	};
 	template<typename D>
     auto row(const Matrix<1,D>& m, HtmlElements<Table>& tab,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
 	{ 
