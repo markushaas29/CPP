@@ -55,6 +55,33 @@ private:
     virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const 	{	return rows(matrix,std::move(v),std::move(css)).Clone();	};
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr) const {	return rows(matrix,nullptr,std::move(css)).Clone();	};
 	template<size_t O, typename D>
+    auto row(const Matrix<O,D>& m, HtmlElements<Table>& tab,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
+	{ 
+		auto tr = HtmlElements<Tr>();
+		for(auto i=0; i<m.Rows(); ++i)
+		{
+			std::stringstream is;
+			if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+				tr.Add((*(m.elements->at(i)))->Html());
+			else 
+				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
+					tr.Add(std::make_unique<HtmlElement<Td, IHtmlElement>>((*(m.elements->at(i)))->Clone()));
+				else
+				{ 
+					is<<(*(m.elements->at(i)));
+					tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
+				}
+		}
+		
+		if constexpr (M::Order==1)
+		{
+			tab.Add(tr.Clone());
+			return tab;
+		}
+		else	
+			return tr;
+	};
+	template<size_t O, typename D>
     auto rows(const Matrix<O,D>& m, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
 	{ 
 		auto tab = HtmlElements<Table>();
@@ -62,31 +89,7 @@ private:
 			tab.Add(std::move(v));
 		
 		if constexpr (O==1)
-		{
-			auto tr = HtmlElements<Tr>();
-			for(auto i=0; i<m.Rows(); ++i)
-			{
-				std::stringstream is;
-				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-					tr.Add((*(m.elements->at(i)))->Html());
-				else 
-					if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
-						tr.Add(std::make_unique<HtmlElement<Td, IHtmlElement>>((*(m.elements->at(i)))->Clone()));
-					else
-					{ 
-						is<<(*(m.elements->at(i)));
-						tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
-					}
-			}
-			
-			if constexpr (M::Order==1)
-			{
-				tab.Add(tr.Clone());
-				return tab;
-			}
-			else	
-				return tr;
-		}
+			return row(m, tab);
 		else
 		{
 			for(auto i = 0; i != m.Rows(); ++i)
