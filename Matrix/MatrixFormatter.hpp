@@ -63,14 +63,13 @@ private:
 			std::stringstream is;
 			if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 				tr.Add((*(m.elements->at(i)))->Html());
-			else 
-				if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
-					tr.Add(std::make_unique<HtmlElement<Td, IHtmlElement>>((*(m.elements->at(i)))->Clone()));
-				else
-				{ 
-					is<<(*(m.elements->at(i)));
-					tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
-				}
+			else if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
+				tr.Add(std::make_unique<HtmlElement<Td, IHtmlElement>>((*(m.elements->at(i)))->Clone()));
+			else
+			{ 
+				is<<(*(m.elements->at(i)));
+				tr.Add(HtmlElement<Td,Entry>(is.str()).Clone());
+			}
 		}
 		
 		if constexpr (M::Order==1)
