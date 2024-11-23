@@ -207,10 +207,8 @@ int Run()
 	ihtml = HtmlElement<Td, IHtmlElement>(mf1.Html());
 	auto pSpan = std::make_unique<Css<Style<ColSpan,StyleNumber<4>>>>();
 	auto modHtml = ihtml.Html(std::move(pSpan));
-	std::cout<<"LINE "<<modHtml->Out(0)<<std::endl;
 	std::istringstream f3(modHtml->Out(0));
     std::getline(f3, line);
-	std::cout<<"LINE "<<line<<std::endl;
 	assert(line=="<td style=\" colspan:4;\">");
 	//assert(srgb()=="background-color:rgb(255, 255, 233)");
 
