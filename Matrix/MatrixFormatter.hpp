@@ -52,8 +52,8 @@ private:
 	friend std::ostream& operator<<(std::ostream& s, const MatrixFormatter& m) { return s<<m.table(); }
     virtual std::string table(std::unique_ptr<IHtmlElement> c = nullptr) const 	{	return rows(matrix, std::move(c)).Data();	};
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return table(); };
-    virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="" ) const 	{	return rows(matrix,nullptr,std::move(v),std::move(css)).Clone();	};
-	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return rows(matrix,nullptr,nullptr,std::move(css)).Clone();	};
+    virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="" ) const 	{	return rows(matrix,std::move(v),std::move(css)).Clone();	};
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return rows(matrix,nullptr,std::move(css)).Clone();	};
 	template<typename D>
     auto row(const Matrix<1,D>& m, HtmlElements<Table>& tab,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
 	{ 
@@ -81,13 +81,11 @@ private:
 			return tr;
 	};
 	template<size_t O, typename D>
-    auto rows(const Matrix<O,D>& m,std::unique_ptr<IHtmlElement> c = nullptr, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
+    auto rows(const Matrix<O,D>& m,std::unique_ptr<IHtmlElement> c = nullptr, std::unique_ptr<ICss> css = nullptr) const
 	{ 
 		auto tab = HtmlElements<Table>();
 		if(c != nullptr)
-			tab.Add(std::make_unique<HtmlElement<Caption, Header>>(Header("TEST")));
-		if(v != nullptr)
-			tab.Add(std::move(v));
+			tab.Add(std::move(c));
 		
 		if constexpr (O==1)
 			return row(m, tab);
