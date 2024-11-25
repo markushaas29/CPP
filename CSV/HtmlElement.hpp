@@ -69,8 +69,8 @@ private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return Clone(); }
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return Clone(); };
-	static std::string createBegin(const std::string& s, const std::string& n, const std::string& id)  {	return "<" + tag + (id != "" ? (" id=\"" + id + "\"") : "") + (n != "" ? (" class=\"" + n + "\"") : "") + s + ">"; };	};
 	static std::string nothingIfEmpty(const std::string& s, const std::string& n)  {	return s != "" ? (" "+ n + "=\"" + s + "\"") : ""; }
+	static std::string createBegin(const std::string& s, const std::string& n, const std::string& id)  {	return "<" + tag + nothingIfEmpty(id, "id") + nothingIfEmpty(n,"class") + s + ">"; };	};
 
 template<typename T>
 class HtmlElements: public HtmlBase<T>
