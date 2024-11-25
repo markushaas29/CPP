@@ -75,19 +75,19 @@ int Run()
 	assert(useE==useA);
 
 	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
-	assert(html.Data()=="<td id=\"td_Entry\" class=\"td_HtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
+	assert(html.Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
 	assert(html.Id()=="td_Entry");
-	assert(html.Name()=="td_HtmlElement");
+	assert(html.Name()=="EntryHtmlElement");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
-	assert(htmlN.Data()=="<td id=\"td_Name\" class=\"td_HtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
+	assert(htmlN.Data()=="<td id=\"td_Name\" class=\"NameHtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
 
 	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
 	auto htmlQP2 = htmlQP.Clone();
-	std::cout<<"P OUT: \n"<<htmlQP.Data()<<std::endl;
-	assert(htmlQP.Data()=="<td id=\"td_Sum\" class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
-	assert(htmlQP2->Data()=="<td id=\"td_Sum\" class=\"td_HtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
+	assert(htmlQP.Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
+	std::cout<<"P OUT: \n"<<htmlQP2->Data()<<std::endl;
+	assert(htmlQP2->Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
 	auto htmlQN = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{-2});
-	assert(htmlQN.Data()=="<td id=\"td_Sum\" class=\"td_HtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
+	assert(htmlQN.Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
 	std::cout<<"P OUT: \n"<<nhtml.Data()<<std::endl;
