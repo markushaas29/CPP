@@ -244,7 +244,7 @@ private:
 		outs->push_back(std::move(div0));
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payment"))));
+		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments"))));
 		outs->push_back(std::move(div1));
 
         auto accountM = (*Base::account)(y, html);  
@@ -275,7 +275,7 @@ private:
 
 		auto resultMatrix = Init(vp)();
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html());
+		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments"))));
 	
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
@@ -296,7 +296,7 @@ private:
 		};
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<GridArea,AreaNum<4>>,Style<Margin,Px<50>>>>());
-		div3->Add(appendHeaders({"Name","Calculation","Result"}, costs).Html());
+		div3->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments"))));
 		outs->push_back(std::move(div3));
 		outs->push_back(std::move(div2));
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};

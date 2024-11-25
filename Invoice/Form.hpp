@@ -36,10 +36,14 @@ public:
 
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
 		heads->push_back(std::make_unique<LinkElement>());
+		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
+		auto classCss = ClassCss<Border,Style<Padding,Px<14>>>();
+		styleVec->push_back(classCss.Clone());
+		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		std::vector<std::shared_ptr<IHtmlElement>> headElements= { std::make_unique<HtmlElements<Head>>(std::move(heads)) }; 
 		elements.push_back((MatrixFormatter(Init(headElements)()).Html()));
 
-		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 //		auto classCss = std::make_unique<StyleElement>();
 //		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
 //		outs->push_back(std::move(classCss));

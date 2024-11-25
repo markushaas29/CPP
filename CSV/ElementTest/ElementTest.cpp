@@ -131,7 +131,6 @@ int Run()
 	auto nullgrid = HtmlElements<DivTag>{std::move(outs2),nullptr, "grid-container"};
 	std::istringstream f2(nullgrid.Out(0));
     std::getline(f2, line);
-	std::cout<<"LINE" << line << std::endl;
 	assert(line=="<div class=\"grid-container\">");
 	
 	auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
@@ -142,6 +141,7 @@ int Run()
 	//styleVec->push_back(classCss.Clone());
 	
 	auto style = StyleElement{std::move(styleVec)};
+	std::cout<<"StyleElement\n" << style.Data() << std::endl;
 	//assert(style.Out(0)=="<Style>\n\t.border {\n\t\tpadding:14px;\n\t}\n</Style>");
 	
 	auto link = LinkElement{};
