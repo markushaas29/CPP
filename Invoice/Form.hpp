@@ -38,7 +38,7 @@ public:
 		heads->push_back(std::make_unique<LinkElement>());
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-		auto classCss = ClassCss<Border,Style<Padding,Px<14>>>();
+		auto classCss = ClassCss<Style<Width,Px<1800>>>("mainBody");
 		styleVec->push_back(classCss.Clone());
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
@@ -60,7 +60,7 @@ public:
 		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 
 		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
-		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div));
+		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div), nullptr,"mainBody");
 		html.Add(std::move(body));
 	}
 private:

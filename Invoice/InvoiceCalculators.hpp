@@ -136,7 +136,7 @@ private:
 
 				auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 				auto classCss = std::make_unique<StyleElement>();
-				classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+				classCss->Add(std::make_unique<ClassCss<Style<Padding,Px<14>>>>("border"));
 				outs->push_back(std::move(classCss));
 
 				auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
@@ -237,7 +237,7 @@ private:
 		outs->push_back(std::move(divA));
 
 		auto classCss = std::make_unique<StyleElement>();
-		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+		classCss->Add(std::make_unique<ClassCss<Style<Padding,Px<14>>>>("border"));
 		outs->push_back(std::move(classCss));
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
 		div0->Add(Date::Today().Html());

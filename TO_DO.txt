@@ -1,9 +1,6 @@
 HTML
 	GridZusammenbau
 Biulder
-	ptr -> Add
-	Schließen in Dstr
-	html-Tag einrücken
 Tranlator
 	Fehlerbehandlung bei zu wenig werten
 CSS
@@ -11,7 +8,6 @@ CSS
 	Name in ClassCss Ctr
 	ClassCss verwenden und testen
 Form Klasse
-	Head oben einbauen
 	Anordnene Adreeese
 	tds entfernen
 	Namen/Id und Headers einfügen

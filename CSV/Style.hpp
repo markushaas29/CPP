@@ -14,6 +14,7 @@ struct Padding		{   inline static constexpr const char* Id = "padding"; };
 struct RowSpan		{   inline static constexpr const char* Id = "rowspan"; };
 struct Margin		{   inline static constexpr const char* Id = "margin"; };
 struct TextAlign		{   inline static constexpr const char* Id = "text-align"; };
+struct Width		{   inline static constexpr const char* Id = "width"; };
 
 class IStyle: public IModel
 {

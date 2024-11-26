@@ -2,6 +2,8 @@
 #include <regex>
 #include <cassert>
 #include "ElementRegexTest.hpp"
+#include "HtmlElementTest.hpp"
+#include "StyleTest.hpp"
 #include "../Element.hpp"
 #include "../Elements.hpp"
 #include "../HtmlElement.hpp"
@@ -66,6 +68,13 @@ int Run()
 	ElementRegexTest er;
 	assert(er.Run());
 
+	auto st = Street{"Heinrich-Heine"};
+	assert(st==std::string("Heinrich-Heine"));
+	auto tw = Town{"Heinrichstadt"};
+	assert(tw==std::string("Heinrichstadt"));
+	auto pr = Prename{"Heinrich"};
+	assert(pr==std::string("Heinrich"));
+
 	auto useE = Entry(se);
 	auto useA = Entry("Abschlagsforderung");
 	assert(useE==useA);
@@ -74,177 +83,16 @@ int Run()
 	useA = Entry("DE6900000000084184");
 	assert(useE==useA);
 
-	auto html = HtmlElement<Td, Entry>(Entry("TEST"));
-	assert(html.Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
-	assert(html.Id()=="td_Entry");
-	assert(html.Name()=="EntryHtmlElement");
-	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
-	assert(htmlN.Data()=="<td id=\"td_Name\" class=\"NameHtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
-
-	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
-	auto htmlQP2 = htmlQP.Clone();
-	assert(htmlQP.Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
-	std::cout<<"P OUT: \n"<<htmlQP2->Data()<<std::endl;
-	assert(htmlQP2->Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
-	auto htmlQN = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{-2});
-	assert(htmlQN.Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
-
-	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
-	std::cout<<"P OUT: \n"<<nhtml.Data()<<std::endl;
-	//assert(nhtml.Data()=="<td id=\"td_NameHtmlElement\" class=\"td_HtmlElement\" style=\" color:black;\">\n\t<td id=\"td_NameHtmlElement\" class=\"td_HtmlElement\" style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
-
-	M2D m33 =
-    {
-           {1., 2., 3.},
-           {4., 5., 6.},
-           {7., 8., 9.}
-     };
-
-	auto mf1 = MatrixFormatter(m33);
-	
-	auto cap = HtmlElement<Caption, Header>(Header("H"));
-	//assert(cap.Out()=="");
-	auto htmlMF = mf1.Html(cap.Clone());
-
-	auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-	outs->push_back(htmlQN.Clone());
-	outs->push_back(htmlQP.Clone());
-	auto comp = HtmlElements<DivTag>{std::move(outs)};
-	auto htmls = HtmlElement<Td,HtmlElements<DivTag>>(comp);
-	
-	auto outs2 = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-	outs2->push_back(htmlQN.Clone());
-	outs2->push_back(htmlQP.Clone());
-	auto grid = HtmlElements<DivTag>{std::move(outs2),std::make_unique<Css<Style<Display,Grid>>>(), "grid-container"};
-	std::cout<<"\n\nG: \n"<<grid.Out(0)<<std::endl;
-	std::istringstream f(grid.Out(0));
-    std::getline(f, line);
-	//assert(line=="<div class=\"grid-container\" style=\" display:grid;\">");
-	
-	assert(Px<14>::Id=="14px");
-	auto css14 = Css<Style<Padding,Px<14>>>();
-	
-	auto span = Css<Style<ColSpan,StyleNumber<4>>>();
-	std::cout<<"Elements: \n"<<span<<std::endl;
-	assert(span()==" style=\" colspan:4;\"");
-
-	auto nullgrid = HtmlElements<DivTag>{std::move(outs2),nullptr, "grid-container"};
-	std::istringstream f2(nullgrid.Out(0));
-    std::getline(f2, line);
-	assert(line=="<div class=\"grid-container\">");
-	
-	auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-	
-	auto classCss = ClassCss<Border,Style<Padding,Px<14>>>();
-	assert(classCss()==".border {\n\t padding:14px;\n}");
-	styleVec->push_back(classCss.Clone());
-	//styleVec->push_back(classCss.Clone());
-	
-	auto style = StyleElement{std::move(styleVec)};
-	std::cout<<"StyleElement\n" << style.Data() << std::endl;
-	//assert(style.Out(0)=="<Style>\n\t.border {\n\t\tpadding:14px;\n\t}\n</Style>");
-	
-	auto link = LinkElement{};
-	assert(link.Out(0)=="<Link rel=\"stylesheet\" href=\"style.css\" media=\"all\"></Link>");
-	auto linka = LinkElement{"abc"};
-	assert(linka.Out(0)=="<Link rel=\"stylesheet\" href=\"abc.css\" media=\"all\"></Link>");
-	assert(linka.Clone()->Out(0)=="<Link rel=\"stylesheet\" href=\"abc.css\" media=\"all\"></Link>");
-    
-	auto rgb = RGB<255,255,233>();
-	assert(rgb()=="rgb(255, 255, 233)");
-	auto rgba = RGBA<255,25,233>();
-	assert(rgba()=="rgba(255, 25, 233, 1.000000)");
-	auto srgb = Style<BackgroundColor,RGB<255,255,233>>();
-
-	auto es = Px<1,2,3>::Id;
-	std::cout<<"Nums: \n"<<es<<std::endl;
-	es = Px<14,13>::Id;
-	assert(es=="14px 13px");
-	es = Px<14,13,10,12>::Id;
-	assert(es=="14px 13px 10px 12px");
-
-	es = AreaNum<112>::Id;
-	assert(es=="112");
-	es = AreaNum<14,13>::Id;
-	assert(es=="14 13");
-	es = AreaNum<14,13,10,12>::Id;
-	assert(es=="14 13 10 12");
-
-	auto hex1 = Hex<"ff6347">::Id;
-	assert(hex1=="#ff6347");
-	hex1 = Hex<"ff6348">::Id;
-	std::cout<<"Style: \n"<<Hex<"ff6347">::Id<<std::endl;
-	assert(hex1=="#ff6348");
-	hex1 = Hex<"FF6348">::Id;
-	assert(hex1=="#FF6348");
-//  hex1 = Hex<"FG6348">::Id;
-//	hex1 = Hex<"ff63348">::Id;
-//	hex1 = Hex<"ff648">::Id;
-	
 	auto ed1 = Entry{"HeatExtraCosts"};
 	assert(ed1==std::string("Heiznebenkosten"));
 	ed1 = Entry{"heatextracosts"};
 	assert(ed1==std::string("Heiznebenkosten"));
 	auto ed2 = Entry{"additional heating costs"};
 	assert(ed2==std::string("Heiznebenkosten"));
-	std::cout<<Translator::Instance()<<std::endl;
-	Name{"HeatExtraCosts"}=="ABC";
-	auto sn = StreetNumber{"14"};
-	assert(sn==std::string("14"));
-	auto pc = Postcode{"76706"};
-	assert(pc==std::string("76706"));
 
-	auto st = Street{"Heinrich-Heine"};
-	assert(st==std::string("Heinrich-Heine"));
-	auto tw = Town{"Heinrichstadt"};
-	assert(tw==std::string("Heinrichstadt"));
-	auto pr = Prename{"Heinrich"};
-	assert(pr==std::string("Heinrich"));
-	
-	
-	auto namePtr = std::make_unique<HtmlElement<Td,Name>>(Name("ABC"));
-	auto ihtml = HtmlElement<Td, IHtmlElement>(std::move(namePtr));
-	ihtml = HtmlElement<Td, IHtmlElement>(mf1.Html());
-	auto pSpan = std::make_unique<Css<Style<ColSpan,StyleNumber<4>>>>();
-	auto modHtml = ihtml.Html(std::move(pSpan));
-	std::istringstream f3(modHtml->Out(0));
-    std::getline(f3, line);
-	assert(line=="<td style=\" colspan:4;\">");
-	//assert(srgb()=="background-color:rgb(255, 255, 233)");
+	HtmlElementTest().Run();
+	StyleTest().Run();
 
-	auto date = Date::Today().Clone();
-	std::vector<std::vector<std::shared_ptr<IElement>>> headEls = {{ date->Clone()},{ date->Clone()}};
-	auto m = Init(headEls)();
-	auto mh = MatrixFormatter(m).Html();
-	
-	std::stringstream ssC(mh->Out(0));
-	std::string sC;
-    int cnt=0;
-    while(ssC>>sC)
-		if (std::string::npos != sC.find("table"))
-          cnt++;
-
-	assert(cnt==2);
-	
-	auto empty = std::make_shared<Empty>("");
-	std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Html()->Clone()};
-
-	auto m2 = Init(headlines)();
-	mh = MatrixFormatter(m2).Html();
-	
-	std::stringstream ssC2(mh->Out(0));
-    cnt=0;
-	sC = "";
-    while(ssC2>>sC)
-		if (std::string::npos != sC.find("table"))
-          cnt++;
-
-	assert(cnt==2);
-
-	auto htmlEabc = HtmlElement<Td, Entry>(Entry("TEST"));
-	assert(htmlEabc.Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
-	assert(htmlEabc.Id()=="td_Entry");
-	assert(htmlEabc.Name()=="EntryHtmlElement");
 	return 0;
 }
 };
