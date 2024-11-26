@@ -30,7 +30,7 @@ HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path
 	};
     void operator()(const std::string& a) const 	{	*f<< HtmlElement<Section,Entry>(a).Data();	};
     void operator()(const auto& a) const	{	*f<< HtmlElement<Section,decltype(a)>(a).Data();};
-    void Ptr(std::unique_ptr<IHtmlElement> a) const	{	*f<<a->Data();};
+    void Add(std::unique_ptr<IHtmlElement> a) const	{	*f<<a->Data();};
 private:
 	const std::string name;
 	const std::string path;

@@ -62,7 +62,7 @@ public:
 
 		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
 		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div));
-		html.Ptr(std::move(body));
+		html.Add(std::move(body));
 	}
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
