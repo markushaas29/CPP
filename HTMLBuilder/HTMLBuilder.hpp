@@ -15,13 +15,13 @@ class HtmlBuilder
 public:
 	HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
 	{
-		*f<<"<!doctype html>";
-		*f<<"<html>";
+		*f<<"<!doctype html>\n";
+		*f<<"<html>\n";
 	}
 	~HtmlBuilder()	{ (*this)();}
     auto operator()() 
 	{	
-		*f<<"</html>";	
+		*f<<"\n</html>";	
 		f->close();
 	};
     std::ofstream& operator()(std::ofstream& s, const auto& a) const
@@ -31,7 +31,7 @@ public:
 	};
     void operator()(const std::string& a) const 	{	*f<< HtmlElement<Section,Entry>(a).Data();	};
     void operator()(const auto& a) const	{	*f<< HtmlElement<Section,decltype(a)>(a).Data();};
-    void Add(std::unique_ptr<IHtmlElement> a) const	{	*f<<a->Data();};
+    void Add(std::unique_ptr<IHtmlElement> a) const	{	*f<<"\n"<<a->Data();};
 private:
 	const std::string name;
 	const std::string path;
