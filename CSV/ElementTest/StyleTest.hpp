@@ -38,9 +38,14 @@ int Run()
 	auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
 	
 	auto classCss = ClassCss<Style<Padding,Px<14>>>("border");
-	assert(classCss()==".border {\n\t padding:14px;\n}");
+	assert(classCss()==".border {\n\t padding:14px;\n\n}");
 	assert(classCss.Name()=="border");
 	styleVec->push_back(classCss.Clone());
+	
+	auto classCss2 = ClassCss<Style<Width,Px<14>>, Style<Padding,Px<14>>>("border2");
+	//assert(classCss2()==".border2 {\n\t width:14px;\n}");
+	assert(classCss2.Name()=="border2");
+	styleVec->push_back(classCss2.Clone());
 	//styleVec->push_back(classCss.Clone());
 	
 	auto style = StyleElement{std::move(styleVec)};
