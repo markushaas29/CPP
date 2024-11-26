@@ -13,11 +13,12 @@ class HtmlBuilder
 {
 	using MapType  =std::map<std::string, std::string>;
 public:
-HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
+	HtmlBuilder(const std::string& n = "", const std::string& p = ""): name(n), path{p}, translate{read()}, f{std::make_unique<std::ofstream>(path + "/" + name)}
 	{
 		*f<<"<!doctype html>";
 		*f<<"<html>";
 	}
+	~HtmlBuilder()	{ (*this)();}
     auto operator()() 
 	{	
 		*f<<"</html>";	
