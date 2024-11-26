@@ -41,8 +41,7 @@ public:
 		auto classCss = ClassCss<Border,Style<Padding,Px<14>>>();
 		styleVec->push_back(classCss.Clone());
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
-		std::vector<std::shared_ptr<IHtmlElement>> headElements= { std::make_unique<HtmlElements<Head>>(std::move(heads)) }; 
-		elements.push_back((MatrixFormatter(Init(headElements)()).Html()));
+		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
 //		auto classCss = std::make_unique<StyleElement>();
 //		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
