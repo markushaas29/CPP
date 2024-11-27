@@ -37,20 +37,21 @@ public:
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
 		heads->push_back(std::make_unique<LinkElement>());
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+
 		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-		auto classCss = ClassCss<Style<Width,Px<1800>>>("mainBody");
-		styleVec->push_back(classCss.Clone());
+		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<50>>>>("adressBox"));
+		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
-//		auto classCss = std::make_unique<StyleElement>();
-//		classCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
-//		outs->push_back(std::move(classCss));
+//		auto mainCss = std::make_unique<StyleElement>();
+//		mainCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
+//		outs->push_back(std::move(mainCss));
 		std::vector<std::shared_ptr<IHtmlElement>> headlines = { empty->Html(), empty->Html(), empty->Html(), date->Clone()};
 		elements.push_back(MatrixFormatter(Init(headlines)()).Html());
 
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
-		elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(MatrixFormatter(Init(std::move(adresses))()).Html()));
+		elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(MatrixFormatter(Init(std::move(adresses))()).Html(), nullptr, "addressBox"));
 		
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 

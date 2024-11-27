@@ -83,7 +83,8 @@ private:
 	virtual std::string data(const std::string& intent = "", uint i = 0) const
 	{
 		std::string res = "." + name + " {\n";
-		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += s->Out(++i) + "\n"; });
+		uint ctr = ++i;
+		std::for_each(Base::styles->cbegin(), Base::styles->cend(), [&](const auto& s) { res += s->Out(ctr) + "\n"; });
 		return res + "\n" +  intent+ "}";
 	};	
 };

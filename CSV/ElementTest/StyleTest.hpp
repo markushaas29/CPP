@@ -42,7 +42,7 @@ int Run()
 	assert(classCss.Name()=="border");
 	styleVec->push_back(classCss.Clone());
 	
-	auto classCss2 = ClassCss<Style<Width,Px<14>>, Style<Padding,Px<14>>>("border2");
+	auto classCss2 = ClassCss<Style<Width,Px<14>>, Style<Padding,Px<14>>, Style<Margin,Px<14>>, Style<TextAlign, Px<>>>("border2");
 	//assert(classCss2()==".border2 {\n\t width:14px;\n}");
 	assert(classCss2.Name()=="border2");
 	styleVec->push_back(classCss2.Clone());

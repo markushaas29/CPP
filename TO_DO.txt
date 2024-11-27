@@ -2,11 +2,17 @@ HTML
 	GridZusammenbau
 Biulder
 Tranlator
-	Fehlerbehandlung bei zu wenig werten
+	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
+	Bhandlung bei Split
 CSS
-	Neuer Test in ElementTest
-	Name in ClassCss Ctr
-	ClassCss verwenden und testen
+	Einrückungkorrigiren bei 3
+padding: 30px;
+				border: 1px solid #eee;
+				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+				font-size: 16px;
+				line-height: 24px;
+				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+				color: #555;
 Form Klasse
 	Anordnene Adreeese
 	tds entfernen
