@@ -3,19 +3,7 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	textalogn und werte
 Form Klasse
-
-				width: 100%;
-				line-height: inherit;
-				text-align: left;
-				vertical-align: top;
-				padding-bottom: 20px;
-				background: #eee;
-				border-bottom: 1px solid #ddd;
-				font-weight: bold;
-				font-weight: bold;
-	Datum aus Matrix und in extra_row
 	Tabelle der Adreeese manuell zusammenbauen
 	tds entfernen
 	Namen/Id und Headers einfügen

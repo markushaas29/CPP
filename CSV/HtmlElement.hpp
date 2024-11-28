@@ -7,6 +7,7 @@
 #include "../CSV/Element.hpp"
 #include "../CSV/IModel.hpp"
 #include "../CSV/CssStyle.hpp"
+#include "../CSV/StyleValues.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include <string.h>
 #include <map>
