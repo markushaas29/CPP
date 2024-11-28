@@ -44,16 +44,11 @@ public:
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
-//		auto mainCss = std::make_unique<StyleElement>();
-//		mainCss->Add(std::make_unique<ClassCss<Border,Style<Padding,Px<14>>>>());
-//		outs->push_back(std::move(mainCss));
 		std::vector<std::shared_ptr<IHtmlElement>> headlines = { date->Clone()};
 		elements.push_back(std::make_unique<HtmlElements<Tr>>( row(date->Clone()) ));
-		
-		auto addressLine = std::make_unique<HtmlElements<Tr>>( row(std::move(address)) );
-		addressLine->Add(std::move(sender));
-		auto addressTable = std::make_unique<HtmlElement<Table,IHtmlElement>>(std::move(addressLine));
-		elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(std::move(addressTable), nullptr, "addressLine"));
+
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
+        elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(MatrixFormatter(Init(std::move(adresses))()).Html(), nullptr, "addressLine"));
 		
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
