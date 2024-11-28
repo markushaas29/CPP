@@ -1,6 +1,5 @@
 #pragma once
 
-
 struct Border		{   inline static constexpr const char* Id = "border"; };
 struct BoxShadow		{   inline static constexpr const char* Id = "box-shadow"; };
 struct ColorTag		{   inline static constexpr const char* Id = "color"; };

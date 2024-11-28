@@ -3,6 +3,7 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
+	bold...
 Form Klasse
 	Tabelle der Adreeese manuell zusammenbauen
 	tds entfernen

@@ -58,11 +58,11 @@ protected:
 		css = std::move(cs);
 		begin = createBegin(css ? (*css)() : "", name, id);
 	}
-private:
 	std::string begin;
 	std::string name;
 	std::string id;
 	std::unique_ptr<ICss> css;
+private:
 	std::string content;
 	virtual const std::string& classId() const  { return id; };	
 	virtual const std::string& className() const  { return name; };	
@@ -179,7 +179,7 @@ public:
 		element = e.element->Clone(); 
 		return *this;
 	}
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement>(cloneElement()); };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement>(cloneElement(), nullptr, Base::name, Base::id); };
 private:
 	std::unique_ptr<IHtmlElement> element;
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return std::make_unique<HtmlElement<T,IHtmlElement>>(element->Clone(), std::move(css),n,id); };
