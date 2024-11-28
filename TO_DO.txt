@@ -1,24 +1,24 @@
-HTML
-	GridZusammenbau
-Biulder
+Bulder
 Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	Einrückungkorrigiren bei 3
-padding: 30px;
-				border: 1px solid #eee;
-				box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-				font-size: 16px;
-				line-height: 24px;
-				font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
-				color: #555;
+	textalogn und werte
 Form Klasse
-	Anordnene Adreeese
+
+				width: 100%;
+				line-height: inherit;
+				text-align: left;
+				vertical-align: top;
+				padding-bottom: 20px;
+				background: #eee;
+				border-bottom: 1px solid #ddd;
+				font-weight: bold;
+				font-weight: bold;
+	Datum aus Matrix und in extra_row
+	Tabelle der Adreeese manuell zusammenbauen
 	tds entfernen
 	Namen/Id und Headers einfügen
-Formatter
-	v- entfernen?!
 Account
 	Assert
 Hallenmiete
