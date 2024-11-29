@@ -72,7 +72,7 @@
 				</tr>
 				<tr>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						GarageRent
+						Garagenmiete
 					</td>
 					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
 						40.00€
@@ -83,19 +83,25 @@
 		<div class="Div3" style=" grid-area:4; margin:50px;">
 			<table>
 				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
-					Zahlungen
+					Jahresabrechnung
 				</caption>
 				<tr>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Miete
+						Kosten
 					</td>
-					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
-						525.00€
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{-167.40€+-1318.42€+-526.72€+-611.00€+-164.32€+-405.87€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-3193.72€
 					</td>
 				</tr>
 				<tr>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
 						Heiznebenkosten
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{0.00€ * 12}
 					</td>
 					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
 						0.00€
@@ -105,16 +111,33 @@
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
 						Nebenkosten
 					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{210.00€ * 12}
+					</td>
 					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
-						210.00€
+						2520.00€
 					</td>
 				</tr>
 				<tr>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						GarageRent
+						Advance
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{0.00€ * 12}+{210.00€ * 12}}
 					</td>
 					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
-						40.00€
+						2520.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Resultat
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{-3193.72€ + 2520.00€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-673.72€
 					</td>
 				</tr>
 			</table>
@@ -129,28 +152,28 @@
 						Name
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Costs
+						Kosten
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Divider
+						Teiler
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Proportion
+						Anteil
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Whole
+						Gesamt
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Calculation
+						Berechnung
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Result
+						Resultat
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Calculation
+						Berechnung
 					</td>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Result
+						Resultat
 					</td>
 				</tr>
 				<tr>
@@ -219,7 +242,7 @@
 						-2106.86€
 					</td>
 					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
-						Proportion
+						Anteil
 					</td>
 					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:green;">
 						1

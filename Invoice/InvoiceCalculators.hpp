@@ -295,8 +295,10 @@ private:
 			{std::make_shared<Header>("Result"),std::make_shared<Entry>(this->asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
 
+		auto mCostsForm = MatrixFormatter(Init(costs)());
+
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<GridArea,AreaNum<4>>,Style<Margin,Px<50>>>>());
-		div3->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments"))));
+		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatement"))));
 		outs->push_back(std::move(div3));
 		outs->push_back(std::move(div2));
 		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};

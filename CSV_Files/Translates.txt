@@ -9,3 +9,11 @@ payments;Zahlungen;-
 cleaning;Reinigung;-
 property tax;Grundsteuer;propertyTax
 building insuance;Gebäudeversicherung;buildingInsurance
+garage rent;Garagenmiete;garagerent
+costs;Kosten;-
+divider;Teiler;-
+proportion;Anteil;-
+whole;Gesamt;-
+calculation;Berechnung;-
+result;Resultat;-
+annual statement;Jahresabrechnung;annualStatement
