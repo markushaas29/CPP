@@ -39,23 +39,22 @@ public:
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 
 		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<50>>>>("adressLine"));
+		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<100>>>>("addressLine"));
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
-		std::vector<std::shared_ptr<IHtmlElement>> headlines = { date->Clone()};
-		elements.push_back(std::make_unique<HtmlElements<Tr>>( row(date->Clone()) ));
-
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
         elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(MatrixFormatter(Init(std::move(adresses))()).Html(), nullptr, "addressLine"));
-		
-		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
+		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLin")) };
+		elements.push_back(MatrixFormatter(Init(std::move(dateLine))()).Html());
+		
 		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
 		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
 		
 		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
+		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
 		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div), nullptr,"mainBody");
