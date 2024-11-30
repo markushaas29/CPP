@@ -47,7 +47,7 @@ public:
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> adresses = { {address->Clone(), sender->Clone()} };
         elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(MatrixFormatter(Init(std::move(adresses))()).Html(), nullptr, "addressLine"));
 
-		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLin")) };
+		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
 		elements.push_back(MatrixFormatter(Init(std::move(dateLine))()).Html());
 		
 		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};

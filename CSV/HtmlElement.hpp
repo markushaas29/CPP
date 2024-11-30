@@ -205,14 +205,16 @@ template<typename T>
 struct HtmlElement<T,Header>: public HtmlElementBase<T,Header> { 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(), 
 		const std::string& n=HtmlElementBase<T,Header>::Identifier, const std::string& id=HtmlElementBase<T,Header>::ClassId): HtmlElementBase<T,Header>(c, std::move(css),n,id) { }; };
 
-template<typename T, typename T2>
-struct HtmlElement<T2,Quantity<T>>: public HtmlElementBase<T2,Quantity<T>>
+template<typename T>
+struct HtmlElement<T,Quantity<Sum>>: public HtmlElementBase<T,Quantity<Sum>>
 {
- 	HtmlElement(const Quantity<T>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Green>>>(), const std::string& n =HtmlElementBase<T2,Quantity<T>>::Identifier, 
-			const std::string& id=HtmlElementBase<T2,Quantity<T>>::ClassId): HtmlElementBase<T2,Quantity<T>>(c, std::move(css)) 
+ 	HtmlElement(const Quantity<Sum>& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>(), const std::string& n =HtmlElementBase<T,Quantity<Sum>>::Identifier, 
+			const std::string& id=HtmlElementBase<T,Quantity<Sum>>::ClassId): HtmlElementBase<T,Quantity<Sum>>(c, std::move(css)) 
 	{
-		if(c < Quantity<T>{0})
+		if(c < Quantity<Sum>{0})
 			this->apply(std::make_unique<Css<Style<ColorTag,Red>>>());
+		if(c > Quantity<Sum>{0})
+			this->apply(std::make_unique<Css<Style<ColorTag,Green>>>());
 	};
 };
 
