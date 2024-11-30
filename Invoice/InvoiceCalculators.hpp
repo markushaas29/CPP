@@ -213,9 +213,18 @@ private:
     auto calcCosts(auto stageMatrix, std::shared_ptr<Factory<IToken>> tokenFactory,std::shared_ptr<Factory<IElement>> elementFactory,std::shared_ptr<Factory<BaseVisitor>> visitorFactory, const std::string& path, const HtmlBuilder<German>& f, const Year& y) const
     {
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f, y);
+        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
 		auto stageproperties = (*Base::parser)(true).Rows(0,S::Index);
-		
+	
+		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
+        heads->push_back(std::make_unique<LinkElement>());
+                                                                       
+//        auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
+//        styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<100>>>>("addressLine"));
+//        styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
+//        heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
+        html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
 		
 		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 	    baseVisitor = stageproperties[1].Accept(std::move(baseVisitor));
@@ -229,7 +238,6 @@ private:
 		
 		auto stageQT = stageproperties^-1;
 		auto mf = MatrixFormatter(stageQT.Rows({13,16}));
-        auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
@@ -257,7 +265,7 @@ private:
 		auto res = result().template To<Quantity<Sum>>();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> vp;
-		std::vector<std::string> dividers = {"Persons","Area","Proportion","Propportion","Area","Counter"};
+		std::vector<std::string> dividers = {"Persons","Area","Proportion","Proportion","Area","Counter"};
 		for(size_t i = 0; i < 6; ++i)
 		{
 			std::vector<std::shared_ptr<IElement>> vpr;
@@ -301,8 +309,10 @@ private:
 		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatement"))));
 		outs->push_back(std::move(div3));
 		outs->push_back(std::move(div2));
-		auto grid = HtmlElements<DivTag>{std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container"};
-		html(grid);
+		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container");
+		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid), nullptr,"mainBody");
+		html.Add(std::move(body));
+		//html(grid);
 
         auto v = sumCol.Elements();
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
