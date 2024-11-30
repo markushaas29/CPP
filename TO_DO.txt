@@ -5,8 +5,6 @@ Tranlator
 CSS
 	bold...
 Form Klasse
-	address!!!!
-	vertical-align: siper sub....
 	tds entfernen
 	Namen/Id und Headers einfügen
 Account
@@ -19,4 +17,5 @@ Header in HtmlTabelle
 	als Vector von HTML Elementen
 Query
 	mit Factory und Factory Units aus Accountauslagern
-	
+CSV
+	Klammern entrfernen
