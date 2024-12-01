@@ -3,9 +3,8 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	bold...
 Jahresabrechnung
-	Endbetrag absetzen und Translate
+	Endbetrag bold und Translate
 Form Klasse
 	tds entfernen
 	Namen/Id und Headers einfügen
@@ -15,3 +14,12 @@ Hallenmiete
 Query
 	mit Factory und Factory Units aus Accountauslagern
 
+15,9
+34,8
+30,1
+1,4
+30
+27,8
+27,1
+
+137
