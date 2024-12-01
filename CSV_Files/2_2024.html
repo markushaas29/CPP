@@ -6,7 +6,7 @@
 </head>
 <body class="mainBody">
 	<div class="grid-container" style=" display:grid; padding:50px;">
-		<div class="Div0" style=" grid-area:1; margin:50px; background-color:#ffffff; text-align:left;">
+		<div class="Div0" style=" margin:50px; background-color:#ffffff; text-align:left;">
 			<table>
 				<tr>
 					<td id="td_Prename" class="PrenameHtmlElement" style=" color:blue;">
@@ -40,12 +40,12 @@
 
 			}
 		</Style>
-		<div class="Div0" style=" grid-area:1; text-align:right;">
+		<div class="Div0" style=" text-align:right;">
 			<td id="td_Date" class="DateHtmlElement" style=" color:black;">
 				1.12.2024
 			</td>
 		</div>
-		<div class="Div1" style=" grid-area:2; margin:50px; background-color:#f9f9f9;">
+		<div class="Div1" style=" margin:50px; background-color:#f9f9f9;">
 			<table>
 				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
 					Zahlungen
@@ -84,22 +84,11 @@
 				</tr>
 			</table>
 		</div>
-		<div class="Div3" style=" grid-area:4; margin:50px;">
+		<div class="Div5" style=" margin:50px;">
 			<table>
 				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
-					Jahresabrechnung
+					annualStatementSum
 				</caption>
-				<tr>
-					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Kosten
-					</td>
-					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
-						{-167.40€+-1318.42€+-526.72€+-611.00€+-164.32€+-430.29€}
-					</td>
-					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
-						-3218.14€
-					</td>
-				</tr>
 				<tr>
 					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
 						Heiznebenkosten
@@ -133,20 +122,9 @@
 						2520.00€
 					</td>
 				</tr>
-				<tr>
-					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
-						Resultat
-					</td>
-					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
-						{-3218.14€ + 2520.00€}
-					</td>
-					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
-						-698.14€
-					</td>
-				</tr>
 			</table>
 		</div>
-		<div class="Div1" style=" grid-area:3; margin:50px; background-color:#f9f9f9;">
+		<div class="Div1" style=" margin:50px; background-color:#f9f9f9;">
 			<table>
 				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
 					Zahlungen
@@ -352,6 +330,42 @@
 					</td>
 					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
 						-430.29€
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="Div4" style=" margin:50px;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					summedAnnualStatement
+				</caption>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Kosten
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{-167.40€+-1318.42€+-526.72€+-611.00€+-164.32€+-430.29€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-3218.14€
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="Div3" style=" margin:50px;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					Endsumme
+				</caption>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Endsumme
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{-3218.14€ + 2520.00€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-698.14€
 					</td>
 				</tr>
 			</table>

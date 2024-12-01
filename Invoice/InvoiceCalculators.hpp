@@ -240,20 +240,38 @@ private:
 		auto mf = MatrixFormatter(stageQT.Rows({13,16}));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
+		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
 		divA->Add(MatrixFormatter(address).Html());
 		outs->push_back(std::move(divA));
 
 		auto classCss = std::make_unique<StyleElement>();
 		classCss->Add(std::make_unique<ClassCss<Style<Padding,Px<14>>>>("border"));
 		outs->push_back(std::move(classCss));
-		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<GridArea,AreaNum<1>>,Style<TextAlign, Right>>>());
+		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<TextAlign, Right>>>());
 		div0->Add(Date::Today().Html());
 		outs->push_back(std::move(div0));
 		
-		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<GridArea,AreaNum<2>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments"))));
 		outs->push_back(std::move(div1));
+
+		auto extraCosts = stageproperties[1].Rows(14,15).template To<Quantity<Sum>>();
+  		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
+		auto heatingPayment = yearCosts[0];
+		auto advancedPayment = yearCosts[1];
+
+		auto payment = yearCosts.ColSum();
+		std::vector<std::vector<std::shared_ptr<IElement>>> annualAdvancePayment = 
+		{
+			{stageproperties[0][14]()->Clone(),std::make_shared<Entry>(this->asString(heatingPayment)), heatingPayment().Clone()},
+			{stageproperties[0][15]()->Clone(),std::make_shared<Entry>(this->asString(advancedPayment)), advancedPayment().Clone()},
+			{std::make_shared<Header>("Advance"),std::make_shared<Entry>(this->asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
+		};
+
+		auto annualAdvancePaymentForm = MatrixFormatter(Init(annualAdvancePayment)());
+		auto div5 = std::make_unique<HtmlElements<DivTag>>("Div5","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		div5->Add(annualAdvancePaymentForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatementSum"))));
+		outs->push_back(std::move(div5));
 
         auto accountM = (*Base::account)(y, html);  
         auto sumMatrix = accountM[0].template To<Quantity<Sum>>();  
@@ -282,33 +300,30 @@ private:
 		}
 
 		auto resultMatrix = Init(vp)();
-		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<GridArea,AreaNum<3>>,Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments"))));
-	
+		
+		auto sumX = resultMatrix.Col(8).template To<Quantity<Sum>>().ColSum();
+		std::vector<std::vector<std::shared_ptr<IElement>>> addedCosts = {{std::make_shared<Header>("Costs"),std::make_shared<Entry>(this->asString(sumX)), std::make_shared<Quantity<Sum>>(sumX())}	};
+		auto mAddedCosts = MatrixFormatter(Init(addedCosts)());
+		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		div4->Add(mAddedCosts.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("summedAnnualStatement"))));
+
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
-		auto extraCosts = stageproperties[1].Rows(14,15).template To<Quantity<Sum>>();
-  		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
-		auto heatingPayment = yearCosts[0];
-		auto advancedPayment = yearCosts[1];
-
-		auto payment = yearCosts.ColSum();
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
 		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
 		{
-			{std::make_shared<Header>("Costs"),std::make_shared<Entry>(this->asString(sum)), std::make_shared<Quantity<Sum>>(sum())},
-			{stageproperties[0][14]()->Clone(),std::make_shared<Entry>(this->asString(heatingPayment)), heatingPayment().Clone()},
-			{stageproperties[0][15]()->Clone(),std::make_shared<Entry>(this->asString(advancedPayment)), advancedPayment().Clone()},
-			{std::make_shared<Header>("Advance"),std::make_shared<Entry>(this->asString(payment)), std::make_shared<Quantity<Sum>>(payment())},
-			{std::make_shared<Header>("Result"),std::make_shared<Entry>(this->asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
+			{std::make_shared<Header>("total"),std::make_shared<Entry>(this->asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
 
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
-		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<GridArea,AreaNum<4>>,Style<Margin,Px<50>>>>());
-		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatement"))));
-		outs->push_back(std::move(div3));
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("total"))));
 		outs->push_back(std::move(div2));
+		outs->push_back(std::move(div4));
+		outs->push_back(std::move(div3));
 		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container");
 		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid), nullptr,"mainBody");
 		html.Add(std::move(body));
