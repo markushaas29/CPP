@@ -5,6 +5,7 @@ Tranlator
 CSS
 Jahresabrechnung
 	Endbetrag bold und Translate
+	Name sowie ohne stylesheet
 Form Klasse
 	tds entfernen
 	Namen/Id und Headers einfügen
