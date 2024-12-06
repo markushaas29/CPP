@@ -17,4 +17,5 @@ whole;Gesamt;-
 calculation;Berechnung;-
 result;Resultat;-
 annual statement;Jahresabrechnung;annualStatement
+summed annual statement;Summierte Jahresabrechnung;summedAnnualStatement
 total;Endsumme;-
