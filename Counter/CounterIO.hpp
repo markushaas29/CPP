@@ -33,26 +33,31 @@ private:
 	{ 
 		auto dm = std::make_unique<DataModel>((*parser)()); 
 		auto elements = dm->Elements();
-		std::vector<std::shared_ptr<IElement>> newElements;
+		std::vector<std::vector<std::shared_ptr<IElement>>> newElements;
 		
 		size_t rows = elements.size() / 2;
 		for(int i = 0; i <= rows; i = i + 2)
 		{
+			std::vector<std::shared_ptr<IElement>> nElements;
 			auto nR = elements[i+1];
-			newElements.push_back(elements[i]);
-			newElements.push_back(elements[i+1]);
+			nElements.push_back(elements[i]);
+			nElements.push_back(elements[i+1]);
 			auto oR = elements[i+3];
-			auto diff = std::make_shared<Quantity<Unit>>((nR->template To<Quantity<Unit>>() - oR->template To<Quantity<Unit>>()));
-			newElements.push_back(std::make_shared<Quantity<Unit>>((nR->template To<Quantity<Unit>>() - oR->template To<Quantity<Unit>>())));
-			std::cout<<"DataModel "<<*oR<<"\t"<<*nR<<"\t"<<*diff<<std::endl;
+			nElements.push_back(std::make_shared<Quantity<Unit>>((nR->template To<Quantity<Unit>>() - oR->template To<Quantity<Unit>>())));
+
+			newElements.push_back(nElements);
 		}
-		newElements.insert(newElements.end(), elements.end()-2, elements.end());
-		newElements.insert(newElements.end(), elements.end()-1, elements.end());
-		for(int i = 0; i < newElements.size(); ++i)
-		{
-			std::cout<<"D "<<*newElements[i]<<std::endl;
-		}
-		auto mf1 = MatrixFormatter(*dm);
+		std::vector<std::shared_ptr<IElement>> nElements2;
+		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
+		nElements2.insert(nElements2.end(), elements.end()-3, elements.end()-2);
+		newElements.push_back(nElements2);
+		std::vector<std::shared_ptr<IElement>> nElements;
+		nElements.insert(nElements.end(), elements.end()-2, elements.end());
+		nElements.insert(nElements.end(), elements.end()-1, elements.end());
+		newElements.push_back(nElements);
+		auto modell = Init(newElements)();
+		std::cout<<"DataModel "<<modell<<std::endl;
+		auto mf1 = MatrixFormatter(modell);
         HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path())(mf1());
 		return dm;
 	}
