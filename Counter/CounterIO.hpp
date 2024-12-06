@@ -35,6 +35,11 @@ private:
 		auto elements = dm->Elements();
 		std::vector<std::vector<std::shared_ptr<IElement>>> newElements;
 		
+		std::unique_ptr<BaseVisitor> cvv = std::make_unique<ConsumptionVisitor<Quantity<Unit>>>();
+		cvv = dm->Accept(std::move(cvv));
+		auto cv = cvv->template As<ConsumptionVisitor<Quantity<Unit>>>();
+		std::cout<<cv<<std::endl;
+
 		size_t rows = elements.size() / 2;
 		for(int i = 0; i <= rows; i = i + 2)
 		{
@@ -56,8 +61,8 @@ private:
 		nElements.insert(nElements.end(), elements.end()-1, elements.end());
 		newElements.push_back(nElements);
 		auto modell = Init(newElements)();
-		std::cout<<"DataModel "<<modell<<std::endl;
-		auto mf1 = MatrixFormatter(modell);
+		//std::cout<<"DataModel "<<modell<<std::endl;
+		auto mf1 = MatrixFormatter(*dm);
         HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path())(mf1());
 		return dm;
 	}

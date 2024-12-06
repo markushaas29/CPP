@@ -135,7 +135,7 @@ private:
 	{ 	
 		auto res = Base::func();
 		for(auto i = 0; i < res.size(); ++i)
-			s<<res[i]<<" "<<res[i]()<<"\t from: "<<elements[i].date<<"\t to:"<<elements[i+1].date<<std::endl;
+			s<<res[i]<<" "<<res[i]()<<"\t from: "<<elements[i+1].date<<"\t to:"<<elements[i].date<<std::endl;
 		return s;	
 	};
 	std::vector<Data> elements;
