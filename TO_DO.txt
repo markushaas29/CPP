@@ -17,4 +17,4 @@ Query
 ConsumptionVisitor
 
 Quantity dm^3
-	liter?
+	liter?I

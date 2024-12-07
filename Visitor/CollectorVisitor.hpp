@@ -127,17 +127,17 @@ public:
 
 		return (*this)();
 	};
-	auto T2()
+	auto Times()
 	{
 		std::vector<Date> dates;
 		std::for_each(elements.cbegin(), elements.cend(),[&](const auto& i) { dates.push_back(i.date); });
 		return Diff(dates);
 	}
 	auto FuncValues(){	return Base::func.Values();	}
-	auto Times()
+	auto Spans()
 	{
 		std::vector<Ds> result;
-		auto diffs = T2()();
+		auto diffs = Times()();
 		std::for_each(diffs.cbegin(), diffs.cend(),[&](const auto& i) { result.push_back(i()); });
 		return result;
 	}
@@ -152,7 +152,7 @@ public:
 	auto Averages()
 	{
 		auto values = Values();
-		auto times = Times();
+		auto times = Spans();
 		std::vector<decltype(values[0]/times[0])> result;
 		for(size_t i = 0; i < values.size(); ++i)
 			result.push_back(values[i]-times[i]);

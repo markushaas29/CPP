@@ -38,7 +38,14 @@ private:
 		std::unique_ptr<BaseVisitor> cvv = std::make_unique<ConsumptionVisitor<Quantity<Unit>>>();
 		cvv = dm->Accept(std::move(cvv));
 		auto cv = cvv->template As<ConsumptionVisitor<Quantity<Unit>>>();
-		std::cout<<cv<<std::endl;
+		auto values = cv.Values();
+		auto diffs = cv.Diffs();
+		auto spans = cv.Spans();
+		auto times = cv.Times()();
+		auto avs = cv.Averages();
+		//std::cout<<cv<<std::endl;
+		for(int i = 0; i <= values.size(); i = i + 2)
+			std::cout<<diffs[i]<<"\t"<<values[i]<<"\t"<<spans[i]<<"\t"<<times[i]<<"\t"<<avs[i]<<"\t"<<std::endl;
 
 		size_t rows = elements.size() / 2;
 		for(int i = 0; i <= rows; i = i + 2)
