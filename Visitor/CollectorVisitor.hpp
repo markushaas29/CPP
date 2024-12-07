@@ -133,7 +133,7 @@ public:
 		std::for_each(elements.cbegin(), elements.cend(),[&](const auto& i) { dates.push_back(i.date); });
 		return Diff(dates);
 	}
-	std::vector<Ds> Times()
+	auto Times()
 	{
 		std::vector<Ds> result;
 		auto diffs = T2()();
