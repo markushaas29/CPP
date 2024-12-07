@@ -127,6 +127,12 @@ public:
 
 		return (*this)();
 	};
+	auto T2()
+	{
+		std::vector<Date> dates;
+		std::for_each(elements.cbegin(), elements.cend(),[&](const auto& i) { dates.push_back(i.date); });
+		return Diff(dates);
+	}
 	std::vector<Ds> Times()
 	{
 		std::vector<Ds> result;

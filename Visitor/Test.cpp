@@ -223,6 +223,11 @@ int Run()
 	for(auto d : avs)
 		std::cout<<"Consumption Visitor Q \n"<<d<<std::endl;
 	//assert((vs[1]==QV{2}));
+	auto ts = consumpt.T2();
+	//for(auto d : avs)
+		std::cout<<"Consumption Visitor Q \n"<<ts()[0]()<<std::endl;
+	assert((ts()[0]()==Quantity<Time,Days,uint>{92}));
+	assert((ts()[5]()==Quantity<Time,Days,uint>{365}));
 
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
