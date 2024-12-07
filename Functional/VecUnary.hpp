@@ -25,6 +25,7 @@ public:
 	decltype(auto) Size() { return value.size(); }
 	decltype(auto) Begin() { return value.begin(); }
 	decltype(auto) End() { return value.end(); }
+	decltype(auto) Values() { return value; }
 	decltype(auto) operator()(const auto& v) const { return cast().op(value,v); }
 	decltype(auto) operator()() const 	{	return cast().op(value); }
 	decltype(auto) operator()(int i, int j) const 	

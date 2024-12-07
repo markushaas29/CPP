@@ -15,13 +15,6 @@ Hallenmiete
 Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
-	1.CollectorVisitor<ConsumptionVisitor<Date>,Diff<Date>,Date>, falls nicht möglich manuell speichern
-	6Dates
-	2Days
-	3Values
-	5Diffs
-	4Average
+
 Quantity dm^3
 	liter?
-VecUnary
-	Values?

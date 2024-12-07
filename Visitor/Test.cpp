@@ -225,7 +225,7 @@ int Run()
 	//assert((vs[1]==QV{2}));
 	auto ts = consumpt.T2();
 	//for(auto d : avs)
-		std::cout<<"Consumption Visitor Q \n"<<ts()[0]()<<std::endl;
+		std::cout<<"Consumption Visitor F \n"<<consumpt.FuncValues()[0]<<std::endl;
 	assert((ts()[0]()==Quantity<Time,Days,uint>{92}));
 	assert((ts()[5]()==Quantity<Time,Days,uint>{365}));
 

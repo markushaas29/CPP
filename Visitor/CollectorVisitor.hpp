@@ -133,6 +133,7 @@ public:
 		std::for_each(elements.cbegin(), elements.cend(),[&](const auto& i) { dates.push_back(i.date); });
 		return Diff(dates);
 	}
+	auto FuncValues(){	return Base::func.Values();	}
 	auto Times()
 	{
 		std::vector<Ds> result;
