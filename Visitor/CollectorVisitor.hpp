@@ -26,7 +26,7 @@ public:
 };
 
 template<typename D, typename F, typename T, typename R=T>
-class CollectorVisitor: public BaseVisitor, public Visitor<T>, public ICollectorVisitor
+class CollectorVisitor: virtual public BaseVisitor, virtual public Visitor<T>, virtual public ICollectorVisitor
 {
 	using Base = Visitor<T>;
 	using Derived = D;
@@ -81,6 +81,7 @@ public:
 };
 
 template<typename T>
+//class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>, public CollectorVisitor<ConsumptionVisitor<Date>,Diff<Date>,Date>
 class ConsumptionVisitor: public CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>, public Visitor<Date>
 {
 	using Base = CollectorVisitor<ConsumptionVisitor<T>,Diff<T>,T>;
