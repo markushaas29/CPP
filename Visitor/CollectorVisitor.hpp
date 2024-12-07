@@ -141,6 +141,15 @@ public:
 			result.push_back(elements[i-1].quantity-elements[i].quantity);
 		return result;
 	}
+	auto Averages()
+	{
+		auto values = Values();
+		auto times = Times();
+		std::vector<decltype(values[0]/times[0])> result;
+		for(size_t i = 0; i < values.size(); ++i)
+			result.push_back(values[i]-times[i]);
+		return result;
+	}
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:
 	auto closest(auto value, const auto& cont) const

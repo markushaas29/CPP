@@ -217,10 +217,12 @@ int Run()
 	assert((ds[0]==Quantity<Time,Days,uint>{92}));
 	assert((ds[5]==Quantity<Time,Days,uint>{365}));
 	auto vs = consumpt.Values();
-	for(auto d : vs)
-		std::cout<<"Consumption Visitor Q \n"<<d<<std::endl;
 	assert((vs[0]==QV{1}));
 	assert((vs[1]==QV{2}));
+	auto avs = consumpt.Averages();
+	for(auto d : avs)
+		std::cout<<"Consumption Visitor Q \n"<<d<<std::endl;
+	//assert((vs[1]==QV{2}));
 
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
