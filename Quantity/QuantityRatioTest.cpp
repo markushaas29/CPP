@@ -127,6 +127,15 @@ int Run()
     std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
     std::cout<<kwh<<" kwh "<<kwh.PureValue()<<std::endl;
 	assert(kwh.PureValue()==3600);
+
+    std::cout<<"KM: \n\t"<<h1<<"\n\t"<<h1.In<Days>()<<"\n"<<std::endl;
+    std::cout<<"KM: \n\t"<<h1<<"\n\t"<<h1.Transform<>()<<"\n"<<std::endl;
+	assert(km24.In<Pure>()==24000);
+	assert(m1000.In<Kilo>()==1);
+	assert(m1000.In<Mega>()==0.001);
+	assert(h1.In<Minutes>()==60);
+	//assert(h1.In<Days>().Equals(0.0416667));
+	//assert(h1.In<S>()==0.0416667);
     
     std::cout<<"QR END"<<std::endl;
 

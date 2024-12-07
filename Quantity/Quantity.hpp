@@ -41,6 +41,12 @@ public:
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
 	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(q.Data()),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
+	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
+	auto Transform() { return transform(*this);	}
+	
+	template<typename SiPrefix = QR>
+	auto In(){ return Quantity<U,SiPrefix,T1>(PureValue() / SiPrefix::Factor);	}
+	
 	constexpr bool Equals(const Quantity<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Value()-y.Value()) <= epsilon; }
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return value <=> y.value; }
 	constexpr bool operator==(const Quantity<U,QR,T1>& y) const {		return value == y.value; }

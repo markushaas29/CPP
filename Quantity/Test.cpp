@@ -220,8 +220,8 @@ int Run()
     assert(km2.Value()==2);
 	auto st = StringTest();
 	st.Run();
-	//~ auto dhm = d3 + h1 + m1;
-    //~ std::cout<<"dhm: "<<dhm<<dhm.PureValue()<<std::endl;
+
+	
     //~ assert(dhm.PureValue()==(86400+3600+60));
 	//~ dhm = dhm - m1;
     //~ assert(dhm.PureValue()==(86400+3600));
