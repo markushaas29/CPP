@@ -44,8 +44,8 @@ private:
 		auto times = cv.Times()();
 		auto avs = cv.Averages();
 		//std::cout<<cv<<std::endl;
-		for(int i = 0; i <= values.size(); i = i + 2)
-			std::cout<<diffs[i]<<"\t"<<values[i]<<"\t"<<spans[i]<<"\t"<<times[i]<<"\t"<<avs[i]<<"\t"<<std::endl;
+		//for(int i = 0; i <= values.size(); ++i)
+		//	std::cout<<diffs[i]<<"\t"<<values[i]<<"\t"<<spans[i]<<"\t"<<times[i]<<"\t"<<avs[i]<<"\t"<<std::endl;
 
 		size_t rows = elements.size() / 2;
 		for(int i = 0; i <= rows; i = i + 2)
