@@ -127,6 +127,13 @@ public:
 
 		return (*this)();
 	};
+	std::vector<Ds> Times()
+	{
+		std::vector<Ds> result;
+		for(size_t i = 1; i < elements.size(); ++i)
+			result.push_back(elements[i-1].date-elements[i].date);
+		return result;
+	}
 	inline static std::string Identifier = std::string("Consumption") + T::Identifier;
 private:
 	auto closest(auto value, const auto& cont) const

@@ -212,7 +212,12 @@ int Run()
 	assert(*qv==QV(1));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{1999});
 	assert(*qv==QV(1));
-	std::cout<<"Consumption Visitor Q \n"<<*qv<<std::endl;
+	auto consumpt = cvv->template As<ConsumptionVisitor<QV>>();
+	auto ds = consumpt.Times();
+	for(auto d : ds)
+		std::cout<<"Consumption Visitor Q \n"<<d<<std::endl;
+	assert((ds[0]==Quantity<Time,Days,uint>{92}));
+	assert((ds[5]==Quantity<Time,Days,uint>{365}));
 
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
