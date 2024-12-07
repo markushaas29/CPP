@@ -6,6 +6,7 @@
 #include "Quantity/ToQuantity.hpp"
 #include "Common/DateTimesTest.cpp"
 #include "Quantity/Test.cpp"
+#include "Quantity/QuantityRatioTest.cpp"
 #include "Matrix/Test.cpp"
 #include "String/Test.cpp"
 #include "Visitor/Test.cpp"
@@ -35,6 +36,9 @@ int main()
 	
 	QTest qt;
 	qt.Run();
+	
+	QRTest qrt;
+	qrt.Run();
 	
 	MatrixTest mt;
 	mt.Run();

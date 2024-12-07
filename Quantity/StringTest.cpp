@@ -5,6 +5,8 @@
 #include "../CSV/Element.hpp"
 #include "../To/To.hpp"
 
+#pragma once
+
 class StringTest
 {
 	public:

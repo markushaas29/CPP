@@ -3,6 +3,7 @@
 #include "Quantity.hpp"
 #include "StringTest.cpp"
 #include "ToQuantity.hpp"
+#include "StringTest.cpp"
 #include "../Common/Color.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/HtmlElement.hpp"
@@ -17,6 +18,7 @@ int Run()
 
     std::cout<<"START QTEST"<<std::endl;
 
+	StringTest().Run();
 	
 	//~ Quantity<Mass> q5 = Quantity<Mass>(3);
 	//~ Quantity<Mass> q7 = Quantity<Mass>(13);
