@@ -18,8 +18,15 @@ class IBAN;
 class IElement;
 template<typename,typename, typename> class Quantity;
 
+class ICollectorVisitor
+{
+public:
+	virtual std::shared_ptr<IElement> operator()() = 0;
+	virtual std::shared_ptr<IElement> operator()(size_t i, size_t j) = 0;
+};
+
 template<typename D, typename F, typename T, typename R=T>
-class CollectorVisitor: public BaseVisitor, public Visitor<T>
+class CollectorVisitor: public BaseVisitor, public Visitor<T>, public ICollectorVisitor
 {
 	using Base = Visitor<T>;
 	using Derived = D;

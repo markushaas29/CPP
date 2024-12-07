@@ -4,7 +4,7 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	Endbetrag bold und Translate
+	Endbetrag bold und Translate -> matrix manuell aufbauen
 	Name sowie ohne stylesheet
 Form Klasse
 	tds entfernen
@@ -14,13 +14,14 @@ Account
 Hallenmiete
 Query
 	mit Factory und Factory Units aus Accountauslagern
-
-15,9
-34,8
-30,1
-1,4
-30
-27,8
-27,1
-
-137
+ConsumptionVisitor
+	1.CollectorVisitor<ConsumptionVisitor<Date>,Diff<Date>,Date>, falls nicht möglich manuell speichern
+	6Dates
+	2Days
+	3Values
+	5Diffs
+	4Average
+Quantity dm^3
+	liter?
+VecUnary
+	Values?
