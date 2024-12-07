@@ -134,11 +134,12 @@ public:
 			result.push_back(elements[i-1].date-elements[i].date);
 		return result;
 	}
-	std::vector<T> Values()
+	auto Diffs() { return Base::func(); }
+	auto Values()
 	{
+		auto fs = Base::func();
 		std::vector<T> result;
-		for(size_t i = 1; i < elements.size(); ++i)
-			result.push_back(elements[i-1].quantity-elements[i].quantity);
+		std::for_each(fs.cbegin(), fs.cend(),[&](const auto& i) { result.push_back(i()); });
 		return result;
 	}
 	auto Averages()
