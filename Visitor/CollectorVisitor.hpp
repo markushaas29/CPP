@@ -136,8 +136,8 @@ public:
 	std::vector<Ds> Times()
 	{
 		std::vector<Ds> result;
-		for(size_t i = 1; i < elements.size(); ++i)
-			result.push_back(elements[i-1].date-elements[i].date);
+		auto diffs = T2()();
+		std::for_each(diffs.cbegin(), diffs.cend(),[&](const auto& i) { result.push_back(i()); });
 		return result;
 	}
 	auto Diffs() { return Base::func(); }
