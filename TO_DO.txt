@@ -15,6 +15,10 @@ Hallenmiete
 Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
-
+Counter
+	Elemente in Matrix einfügen
+	Prüfen size ungleich
 Quantity dm^3
 	liter?I
+	value statt PureValue
+	Output mit constexpr if????

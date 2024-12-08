@@ -43,12 +43,9 @@ private:
 		auto spans = cv.Spans();
 		auto times = cv.Times()();
 		auto avs = cv.Averages();
-		//std::cout<<cv<<std::endl;
-		if(values.size()==diffs.size()==spans.size()==times.size()==avs.size())
-			for(int i = 0; i <= values.size(); ++i)
-				std::cout<<diffs[i]<<"\t"<<values[i]<<"\t"<<spans[i]<<"\t"<<times[i]<<"\t"<<avs[i]<<"\t"<<std::endl;
 
 		size_t rows = elements.size() / 2;
+		int j = 0;
 		for(int i = 0; i <= rows; i = i + 2)
 		{
 			std::vector<std::shared_ptr<IElement>> nElements;
@@ -56,7 +53,9 @@ private:
 			nElements.push_back(elements[i]);
 			nElements.push_back(elements[i+1]);
 			auto oR = elements[i+3];
-			nElements.push_back(std::make_shared<Quantity<Unit>>((nR->template To<Quantity<Unit>>() - oR->template To<Quantity<Unit>>())));
+			nElements.push_back(values[j++].Clone());
+			//nElements.push_back(spans[j++].Clone());
+			//nElements.push_back(avs[j++].Clone());
 
 			newElements.push_back(nElements);
 		}
@@ -69,8 +68,8 @@ private:
 		nElements.insert(nElements.end(), elements.end()-1, elements.end());
 		newElements.push_back(nElements);
 		auto modell = Init(newElements)();
-		//std::cout<<"DataModel "<<modell<<std::endl;
-		auto mf1 = MatrixFormatter(*dm);
+		std::cout<<"DataModel "<<modell<<std::endl;
+		auto mf1 = MatrixFormatter(modell);
         HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path())(mf1());
 		return dm;
 	}
