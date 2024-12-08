@@ -45,7 +45,7 @@ public:
 	auto Transform() { return transform(*this);	}
 	
 	template<typename SiPrefix = QR>
-	auto In(){ return Quantity<U,SiPrefix,T1>(PureValue() / SiPrefix::Factor);	}
+	auto In(){ return Quantity<U,SiPrefix,T1>(value / SiPrefix::Factor);	}
 	
 	constexpr bool Equals(const Quantity<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Value()-y.Value()) <= epsilon; }
 	constexpr decltype(auto) operator<=>(const Quantity<U,QR,T1>& y) const { return value <=> y.value; }

@@ -128,7 +128,7 @@ int Run()
     std::cout<<kwh<<" kwh "<<kwh.PureValue()<<std::endl;
 	assert(kwh.PureValue()==3600);
 
-    std::cout<<"KM: \n\t"<<h1<<"\n\t"<<h1.In<Days>()<<"\n"<<std::endl;
+    std::cout<<"KM: \n\t"<<mPerD<<"\n\t"<<mPerD.In<Hours>()<<"\n"<<std::endl;
     std::cout<<"KM: \n\t"<<h1<<"\n\t"<<h1.Transform<>()<<"\n"<<std::endl;
 	assert(km24.In<Pure>()==24000);
 	assert(m1000.In<Kilo>()==1);
