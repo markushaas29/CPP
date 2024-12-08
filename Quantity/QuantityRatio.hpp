@@ -29,10 +29,12 @@ struct QuantityRatioBase
 	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
 	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
 	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
-	static inline const std::string Sign;
+	static inline const std::string Sign = Derived<Ex>::Sign;
 	static inline const std::string Name;
 	static constexpr double Factor = ((double)Num / Denom);	
 	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
+	
+	static auto Out() { return Sign; };
 	
 	template<int Fac>
 	struct PowBy

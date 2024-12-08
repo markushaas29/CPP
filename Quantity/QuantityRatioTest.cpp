@@ -17,34 +17,40 @@ int Run()
     assert(K::Num==1000);
     assert(K::Denom==1);
     assert(K::Exponent==1);
+    assert(K::Out()=="k");
     
 	using K2 = Kilo::PowBy<2>::Type;
     std::cout<<"L: "<<K2::Num<<" / "<<K2::Denom<<std::endl;
     assert(K2::Num==1000000);
     assert(K2::Denom==1);
     assert(K2::Exponent==2);
+    assert(K2::Out()=="k");
 
 	using M = Milli;
     std::cout<<"M: "<<M::Num<<" / "<<M::Denom<<std::endl;
     assert(M::BaseNum==1);
     assert(M::BaseDenom==1000);
     assert(M::Exponent==1);
+    assert(M::Out()=="m");
 	
 	using M2 = Milli::PowBy<2>::Type;
     std::cout<<"M2: "<<M2::Num<<" / "<<M2::Denom<<std::endl;
     assert(M2::BaseNum==1);
     assert(M2::BaseDenom==1000);
     assert(M2::Exponent==2);
+    assert(M2::Out()=="m");
 	
     std::cout<<"Pure: "<<Pure::Num<<" / "<<Pure::Denom<<std::endl;
     assert(Pure::BaseNum==1);
     assert(Pure::BaseDenom==1);
     assert(Pure::Exponent==1);
+    assert(Pure::Out()=="");
 	
     std::cout<<"Minutes: "<<Minutes::Num<<" / "<<Minutes::Denom<<std::endl;
     assert(Minutes::BaseNum==60);
     assert(Minutes::BaseDenom==1);
     assert(Minutes::Exponent==1);
+    assert(Minutes::Out()=="min");
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
     assert(isSame);
