@@ -134,6 +134,7 @@ int Run()
 	assert(m1000.In<Kilo>()==1);
 	assert(m1000.In<Mega>()==0.001);
 	assert(h1.In<Minutes>()==60);
+    std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<d1.Transform<>()<<"\n"<<std::endl;
 	//assert(h1.In<Days>().Equals(0.0416667));
 	//assert(h1.In<S>()==0.0416667);
     

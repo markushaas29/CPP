@@ -17,6 +17,7 @@ Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
 Counter
+	Differenz, Avg letzte Zeilen
 Quantity dm^3
 	liter?I
 	Output mit constexpr if????
