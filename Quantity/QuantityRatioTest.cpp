@@ -52,8 +52,11 @@ int Run()
     assert(Minutes::Exponent==1);
     assert(Minutes::Out()=="min");
 
-    std::cout<<"K/h: "<<QRDiv<K,Hours>::Out()<<std::endl;
+    std::cout<<"K/h: "<<QRDiv<K,Hours>::Factor<<std::endl;
+    std::cout<<"K/h: "<<K::Factor<<std::endl;
+    std::cout<<"K/h: "<<Hours::Factor<<std::endl;
     assert((QRDiv<K,Hours>::Out()=="kh^-1"));
+    assert((QRDiv<K,Hours>::Factor==(1/3.6)));
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
     assert(isSame);

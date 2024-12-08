@@ -136,7 +136,7 @@ struct QRDiv
 //	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
 //	static inline const std::string Sign = Derived<Ex>::Sign;
 //	static inline const std::string Name;
-//	static constexpr double Factor = ((double)Num / Denom);	
+	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
 	static auto Out() { return L::Out() + R::Out() + "^-1"; };
