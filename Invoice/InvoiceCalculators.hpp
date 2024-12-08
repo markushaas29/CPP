@@ -316,8 +316,13 @@ private:
 		{
 			{std::make_shared<Header>("total"),std::make_shared<Entry>(this->asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
 		};
+		
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> hcosts = 
+		{
+			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(), QS{resultSum}.Html()}
+		};
 
-		auto mCostsForm = MatrixFormatter(Init(costs)());
+		auto mCostsForm = MatrixFormatter(Init(hcosts)());
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
 		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("total"))));

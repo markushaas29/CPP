@@ -7,6 +7,7 @@ Jahresabrechnung
 	Endbetrag bold und Translate -> matrix manuell aufbauen
 	Name sowie ohne stylesheet
 Form Klasse
+	TOHTML Funktion um HTML Element zu erstellen
 	tds entfernen
 	Namen/Id und Headers einfügen
 Account
@@ -16,9 +17,6 @@ Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
 Counter
-	Elemente in Matrix einfügen
-	Prüfen size ungleich
 Quantity dm^3
 	liter?I
-	value statt PureValue
 	Output mit constexpr if????

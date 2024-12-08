@@ -59,16 +59,17 @@ private:
 
 			newElements.push_back(nElements);
 		}
-//		std::vector<std::shared_ptr<IElement>> nElements2;
-//		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
-//		nElements2.insert(nElements2.end(), elements.end()-3, elements.end()-2);
-//		newElements.push_back(nElements2);
-//		std::vector<std::shared_ptr<IElement>> nElements;
-//		nElements.insert(nElements.end(), elements.end()-2, elements.end());
-//		nElements.insert(nElements.end(), elements.end()-1, elements.end());
-//		newElements.push_back(nElements);
+		std::vector<std::shared_ptr<IElement>> nElements2;
+		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
+		nElements2.insert(nElements2.end(), elements.end()-3, elements.end()-2);
+		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
+		newElements.push_back(nElements2);
+		std::vector<std::shared_ptr<IElement>> nElements;
+		nElements.insert(nElements.end(), elements.end()-2, elements.end());
+		nElements.insert(nElements.end(), elements.end()-1, elements.end());
+		nElements.insert(nElements.end(), elements.end()-2, elements.end());
+		newElements.push_back(nElements);
 		auto modell = Init(newElements)();
-		std::cout<<"DataModel "<<modell<<std::endl;
 		auto mf1 = MatrixFormatter(modell);
         HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path())(mf1());
 		return dm;
