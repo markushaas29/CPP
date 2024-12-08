@@ -44,23 +44,9 @@ struct QuantityRatioBase
 	};
 };
 
-//~ template<uint N, uint D, int U>
-//~ struct QuantityRatio: public QuantityRatioBase<1000,1,N>
-//~ {
-	//~ using Base = QuantityRatioBase<1000,1,N>;
-	//~ template<int E> using Creator = QuantityRatio<E,U>;
-//~ };
-
-//~ template<int N>
-//~ struct QuantityRatio<N,Unit<0,0,0,1,0,0,0,0>>: public QuantityRatioBase<60,1,N>
-//~ {
-	//~ using Base = QuantityRatioBase<60,1,N>;
-//~ };
-
 template<int Ex>
 struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase> 
 {	
-	//~ template<int E> using Creator = Minutes<E>;
 	inline static constexpr const char* Sign = "min"; 
 	inline static constexpr const char* Name = "Minuttes"; 
 };
