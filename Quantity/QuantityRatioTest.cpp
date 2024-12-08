@@ -141,11 +141,12 @@ int Run()
 	assert(kwh.PureValue()==3600);
 
     std::cout<<"KM: \n\t"<<mPerD<<"\n\t"<<mPerD.In<Hours>()<<"\n"<<std::endl;
-    std::cout<<"KM: \n\t"<<h1<<"\nkm\t"<<km24/h1<<"\n"<<std::endl;
+    std::cout<<"KM: \n\t"<<h1<<"\nkm\t"<<(km24/h1).Data()<<"\n"<<std::endl;
 	assert(km24.In<Pure>()==24000);
 	assert(m1000.In<Kilo>()==1);
 	assert(m1000.In<Mega>()==0.001);
 	assert(h1.In<Minutes>()==60);
+	assert((km24/h1).Data()=="0.006667kms^-1");
     std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<(Quantity<Scalar>{1}/h1.Transform<>()).In<Hours>()<<"\n"<<std::endl;
 	//assert(h1.In<Days>().Equals(0.0416667));
 	//assert(h1.In<S>()==0.0416667);
