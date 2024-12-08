@@ -5,8 +5,6 @@
 
 #pragma once
 
-//~ template<int a,int b,int c,int d,int e,int f,int g,int h> class Unit;
-
 template<typename U, typename QR,typename T1> class Quantity;
 
 template<class Type>
@@ -123,6 +121,33 @@ using KiloHour = KiloHourBase<1>;
 using Mega = MegaBase<1>;
 using Pure = PureBase<1>;
 using Deka = DekaBase<1>;
+
+template<typename L, typename R>
+struct QRDiv
+{
+//	template<int T> using RatioType = Derived<T>;
+//	
+//	static constexpr int Exponent = Ex;
+//	static constexpr uint BaseNum = N;
+//	static constexpr uint BaseDenom = D;
+//	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
+//	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
+//	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
+//	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
+//	static inline const std::string Sign = Derived<Ex>::Sign;
+//	static inline const std::string Name;
+//	static constexpr double Factor = ((double)Num / Denom);	
+//	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
+//	
+	static auto Out() { return L::Out() + R::Out() + "^-1"; };
+//	
+//	template<int Fac>
+//	struct PowBy
+//	{
+//		static constexpr int Factor = Fac;
+//		using Type = Derived<Fac>;
+//	};
+};
 
 template <template <int> class, template<int> class> 
 struct IsSameTemplate : std::false_type{};
