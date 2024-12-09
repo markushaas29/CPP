@@ -14,10 +14,11 @@ struct QuantityRatio
 	static decltype(auto) Cast(const Quantity<U,QR,T1> q){ return Quantity<U,Type,T1>{q.PureValue() * Type::Factor};}
 };
 
-template<uint N, uint D, int Ex, template<int> class Derived>
+template<uint N, uint D, int Ex, template<int> class Derived, typename U = Scalar>
 struct QuantityRatioBase
 {
 	using Type = Derived<Ex>;
+	using Unit = U;
 	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int Exponent = Ex;
@@ -32,7 +33,7 @@ struct QuantityRatioBase
 	static constexpr double Factor = ((double)Num / Denom);	
 	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 	
-	static auto Out() { return Sign; };
+	static auto Out() { return Sign + Unit::Sign(); };
 	
 	template<int Fac>
 	struct PowBy
@@ -43,21 +44,21 @@ struct QuantityRatioBase
 };
 
 template<int Ex>
-struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase> 
+struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase,Unit<0,0,0,-Ex>> 
 {	
 	inline static constexpr const char* Sign = "min"; 
 	inline static constexpr const char* Name = "Minuttes"; 
 };
 
 template<int Ex>
-struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase> 
+struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase,Unit<0,0,0,-Ex>> 
 {	
 	inline static constexpr const char* Sign = "h"; 
 	inline static constexpr const char* Name = "Hours"; 
 };
 
 template<int Ex>
-struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase> 
+struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,-Ex>> 
 {	
 	inline static constexpr const char* Sign = "d"; 
 	inline static constexpr const char* Name = "Days"; 
@@ -126,7 +127,8 @@ template<typename L, typename R>
 struct QRDiv
 {
 //	template<int T> using RatioType = Derived<T>;
-//	
+	//typename Unit = L::Unit;
+	using Unit = Transform<typename L::Unit, typename R::Unit, DividePolicy>::Type;
 //	static constexpr int Exponent = Ex;
 //	static constexpr uint BaseNum = N;
 //	static constexpr uint BaseDenom = D;
@@ -139,7 +141,13 @@ struct QRDiv
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	static auto Out() { return L::Out() + R::Out() + "^-1"; };
+	static auto Out() { 
+
+		std::cout<<"L: "<<L::Out()<<std::endl;
+		std::cout<<"R: "<<R::Out()<<std::endl;
+		std::cout<<"LR: "<<Unit::Sign<<std::endl;
+
+		return L::Out() + R::Out() + "^-1"; };
 //	
 //	template<int Fac>
 //	struct PowBy

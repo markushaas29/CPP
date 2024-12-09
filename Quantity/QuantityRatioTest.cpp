@@ -46,16 +46,19 @@ int Run()
     assert(Pure::Exponent==1);
     assert(Pure::Out()=="");
 	
-    std::cout<<"Minutes: "<<Minutes::Num<<" / "<<Minutes::Denom<<std::endl;
+    std::cout<<"Minutes: "<<Minutes::Num<<" / "<<Minutes::Out()<<std::endl;
     assert(Minutes::BaseNum==60);
     assert(Minutes::BaseDenom==1);
     assert(Minutes::Exponent==1);
-    assert(Minutes::Out()=="min");
+    assert(Minutes::Out()=="mins^-1");
+    assert(Hours::Out()=="hs^-1");
 
-    std::cout<<"K/h: "<<QRDiv<K,Hours>::Factor<<std::endl;
-    std::cout<<"K/h: "<<K::Factor<<std::endl;
-    std::cout<<"K/h: "<<Hours::Factor<<std::endl;
-    assert((QRDiv<K,Hours>::Out()=="kh^-1"));
+    std::cout<<"min/H: "<<QRDiv<Minutes,Hours>::Out<<std::endl;
+    std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
+    std::cout<<"K/h: "<<Hours::Out()<<std::endl;
+	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
+    assert(same);
+    assert((QRDiv<Minutes,Hours>::Out()=="kh^-1s"));
     assert((QRDiv<K,Hours>::Factor==(1/3.6)));
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
