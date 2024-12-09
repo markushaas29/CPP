@@ -141,15 +141,35 @@ struct QRDiv
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	static std::string Out() { 
+	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + "^-1"+ Unit::Sign(); 	};
+//	
+//	template<int Fac>
+//	struct PowBy
+//	{
+//		static constexpr int Factor = Fac;
+//		using Type = Derived<Fac>;
+//	};
+};
 
-		std::cout<<"L: "<<L::Sign<<std::endl;
-		std::cout<<"R: "<<R::Sign<<std::endl;
-		std::cout<<"LR: "<<Unit::Sign<<std::endl;
-
-		return std::string(L::Sign) +  std::string(R::Sign) + "^-1"; 
-		//return L::Out() + R::Out() + "^-1"; 
-	};
+template<typename L, typename R>
+struct QRMul
+{
+//	template<int T> using RatioType = Derived<T>;
+	//typename Unit = L::Unit;
+	using Unit = Transform<typename L::Unit, typename R::Unit, MultiplyPolicy>::Type;
+//	static constexpr int Exponent = Ex;
+//	static constexpr uint BaseNum = N;
+//	static constexpr uint BaseDenom = D;
+//	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
+//	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
+//	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
+//	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
+//	static inline const std::string Sign = Derived<Ex>::Sign;
+//	static inline const std::string Name;
+	static constexpr double Factor = ((double)L::Factor * R::Factor);	
+//	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
+//	
+	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + Unit::Sign(); 	};
 //	
 //	template<int Fac>
 //	struct PowBy

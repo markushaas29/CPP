@@ -59,7 +59,12 @@ int Run()
     assert(same);
     std::cout<<"min/H: "<<QRDiv<Minutes,Hours>::Out()<<std::endl;
     assert((QRDiv<Minutes,Hours>::Out()=="minh^-1"));
-    assert((QRDiv<K,Hours>::Factor==(1/3.6)));
+
+	same = std::is_same_v<Unit<0,0,0,-2>,QRMul<Minutes,Hours>::Unit>;
+    assert(same);
+    std::cout<<"min/H: "<<QRMul<Minutes,Hours>::Out()<<std::endl;
+    assert((QRMul<Minutes,Hours>::Out()=="minhs^-2"));
+    //assert((QRMul<K,Hours>::Factor==(1/3.6)));
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
     assert(isSame);
