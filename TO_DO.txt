@@ -7,7 +7,7 @@ Jahresabrechnung
 	Endbetrag bold und Translate -> matrix manuell aufbauen
 	Name sowie ohne stylesheet
 Form Klasse
-	TOHTML Funktion um HTML Element zu erstellen
+	TOHTML in HtmlElement.hpp Funktion um HTML Element zu erstellen
 	tds entfernen
 	Namen/Id und Headers einfügen
 Account
@@ -21,3 +21,5 @@ Counter
 Quantity dm^3
 	liter?I
 	Output mit constexpr if????
+	Factor in Quantity testen
+	QRMul

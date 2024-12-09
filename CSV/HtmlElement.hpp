@@ -21,6 +21,8 @@ template<typename, bool> class PredicateVisitor;
 
 #pragma once
 
+template<typename T, typename E> struct HtmlElement; 
+
 class IHtmlElement: public IModel, public IHtml
 {
 public:
@@ -30,8 +32,8 @@ public:
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
-//	template<typename T>
-//    T To() const { return ::To<T>(out()); }
+	template<typename E, typename T>
+	static std::unique_ptr<IHtmlElement> By(const T& element) { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
 	virtual const std::string& classId() const  = 0;	
 	virtual const std::string& className() const  = 0;	
