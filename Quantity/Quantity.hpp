@@ -154,6 +154,8 @@ private:
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
 		using QR_ = typename QR::PowBy<ex>::Type;
+
+		std::cout<<"Factor\n"<<QR_::Factor<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<std::endl;
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 		{

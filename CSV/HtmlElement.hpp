@@ -32,8 +32,6 @@ public:
 	virtual const std::string& Content() const  = 0;	
 	virtual const std::string& Tag() const  = 0;	
 	virtual std::unique_ptr<IHtmlElement> Clone() const  = 0;
-	template<typename E, typename T>
-	static std::unique_ptr<IHtmlElement> By(const T& element) { return std::make_unique<HtmlElement<T,E>>(element); };
 private:
 	virtual const std::string& classId() const  = 0;	
 	virtual const std::string& className() const  = 0;	
@@ -219,6 +217,9 @@ struct HtmlElement<T,Quantity<Sum>>: public HtmlElementBase<T,Quantity<Sum>>
 			this->apply(std::make_unique<Css<Style<ColorTag,Green>>>());
 	};
 };
+
+template<typename E, typename T>
+static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
 
 template<typename T, typename E>
 HtmlElement(const E&) -> HtmlElement<T,E>;
