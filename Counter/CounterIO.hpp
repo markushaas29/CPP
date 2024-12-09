@@ -62,7 +62,9 @@ private:
 		std::vector<std::shared_ptr<IElement>> nElements2;
 		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
 		nElements2.insert(nElements2.end(), elements.end()-3, elements.end()-2);
-		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
+		nElements2.push_back((*(spans.end()-1)).Clone());
+		nElements2.push_back((*(avs.end()-1)).Clone());
+		//nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
 		newElements.push_back(nElements2);
 		std::vector<std::shared_ptr<IElement>> nElements;
 		nElements.insert(nElements.end(), elements.end()-2, elements.end());
