@@ -141,13 +141,15 @@ struct QRDiv
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	static auto Out() { 
+	static std::string Out() { 
 
-		std::cout<<"L: "<<L::Out()<<std::endl;
-		std::cout<<"R: "<<R::Out()<<std::endl;
+		std::cout<<"L: "<<L::Sign<<std::endl;
+		std::cout<<"R: "<<R::Sign<<std::endl;
 		std::cout<<"LR: "<<Unit::Sign<<std::endl;
 
-		return L::Out() + R::Out() + "^-1"; };
+		return std::string(L::Sign) +  std::string(R::Sign) + "^-1"; 
+		//return L::Out() + R::Out() + "^-1"; 
+	};
 //	
 //	template<int Fac>
 //	struct PowBy

@@ -53,12 +53,12 @@ int Run()
     assert(Minutes::Out()=="mins^-1");
     assert(Hours::Out()=="hs^-1");
 
-    std::cout<<"min/H: "<<QRDiv<Minutes,Hours>::Out<<std::endl;
     std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
     assert(same);
-    assert((QRDiv<Minutes,Hours>::Out()=="kh^-1s"));
+    std::cout<<"min/H: "<<QRDiv<Minutes,Hours>::Out()<<std::endl;
+    assert((QRDiv<Minutes,Hours>::Out()=="minh^-1"));
     assert((QRDiv<K,Hours>::Factor==(1/3.6)));
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
