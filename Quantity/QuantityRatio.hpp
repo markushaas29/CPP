@@ -123,12 +123,12 @@ using Mega = MegaBase<1>;
 using Pure = PureBase<1>;
 using Deka = DekaBase<1>;
 
-template<typename L, typename R>
-struct QRDiv
+template<typename L, typename R, template<typename,typename> class D, template<typename,typename> class P>
+struct QRBase
 {
 //	template<int T> using RatioType = Derived<T>;
 	//typename Unit = L::Unit;
-	using Unit = Transform<typename L::Unit, typename R::Unit, DividePolicy>::Type;
+	using Unit = Transform<typename L::Unit, typename R::Unit, P>::Type;
 //	static constexpr int Exponent = Ex;
 //	static constexpr uint BaseNum = N;
 //	static constexpr uint BaseDenom = D;
@@ -152,31 +152,19 @@ struct QRDiv
 };
 
 template<typename L, typename R>
-struct QRMul
+struct QRDiv: public QRBase<L,R, QRDiv, DividePolicy>
 {
-//	template<int T> using RatioType = Derived<T>;
-	//typename Unit = L::Unit;
-	using Unit = Transform<typename L::Unit, typename R::Unit, MultiplyPolicy>::Type;
-//	static constexpr int Exponent = Ex;
-//	static constexpr uint BaseNum = N;
-//	static constexpr uint BaseDenom = D;
-//	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
-//	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
-//	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
-//	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
-//	static inline const std::string Sign = Derived<Ex>::Sign;
-//	static inline const std::string Name;
+	using Base = QRBase<L,R, QRDiv, DividePolicy>;
+	static constexpr double Factor = ((double)L::Factor / R::Factor);	
+	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + "^-1"+ Base::Unit::Sign(); 	};
+};
+
+template<typename L, typename R>
+struct QRMul: public QRBase<L,R, QRMul, MultiplyPolicy>
+{
+	using Base = QRBase<L,R, QRDiv, MultiplyPolicy>;
 	static constexpr double Factor = ((double)L::Factor * R::Factor);	
-//	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
-//	
-	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + Unit::Sign(); 	};
-//	
-//	template<int Fac>
-//	struct PowBy
-//	{
-//		static constexpr int Factor = Fac;
-//		using Type = Derived<Fac>;
-//	};
+	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + Base::Unit::Sign(); 	};
 };
 
 template <template <int> class, template<int> class> 
