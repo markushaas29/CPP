@@ -155,7 +155,6 @@ private:
 		constexpr int ex = QR::Exponent - TQR::Exponent;
 		using QR_ = typename QR::PowBy<ex>::Type;
 
-		std::cout<<"Factor\n"<<QR_::Factor<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<std::endl;
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 		{
@@ -168,6 +167,7 @@ private:
 		if constexpr (IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
 
+		std::cout<<"Left\n"<<*this<<"\tright: "<<q<<"\t="<<Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())<<"\n"<<std::endl;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}
 };

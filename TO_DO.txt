@@ -8,7 +8,7 @@ Jahresabrechnung
 	Name sowie ohne stylesheet
 Form Klasse
 	TOHTML in HtmlElement.hpp Funktion um HTML Element zu erstellen
-	tds entfernen
+		typename Transform<U, U2, DividePolicy>::Type
 	Namen/Id und Headers einfügen
 Account
 	Assert
@@ -17,9 +17,12 @@ Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
 Counter
-	Differenz, Avg letzte Zeilen
+	Headers
 Quantity dm^3
 	liter?I
 	Output mit constexpr if????
 	Factor in Quantity testen
-	QRMul
+	BAsis QR
+		typename Transform<U, U2, D::Policy>::Type
+	24km durch 24h teilen => 1km/h Anfang Test
+	365m2 durch 365ds => 1 m3 /ds 

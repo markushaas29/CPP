@@ -121,6 +121,8 @@ int Run()
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
 	auto d1 = Quantity<Time,Days>(1);
+	auto d365 = Quantity<Time,Days>(365);
+	auto v365 = Quantity<Volume>(365);
 	auto kwh = Quantity<Energy,KiloHour>(1);
 	
     assert(d1.PureValue()==86400);
@@ -155,6 +157,10 @@ int Run()
 	assert(m1000.In<Mega>()==0.001);
 	assert(h1.In<Minutes>()==60);
 	assert((km24/h1).Data()=="0.006667kms^-1");
+
+	auto km24Div24h = km24 / h24;
+	auto v365Divd365 = v365 / d365; 
+
     std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<(Quantity<Scalar>{1}/h1.Transform<>()).In<Hours>()<<"\n"<<std::endl;
 	//assert(h1.In<Days>().Equals(0.0416667));
 	//assert(h1.In<S>()==0.0416667);
