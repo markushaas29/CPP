@@ -235,7 +235,7 @@ class Empty: public Element<Empty>
 	friend class Element<Empty>;
 public:
     inline static constexpr const char* Identifier = "Empty";
-	Empty(const std::string& c = Identifier): Base(c){ };
+	Empty(const std::string& c = ""): Base(c){ };
 private:
 	inline static std::string check(const std::string& s) { return s; }
 };

@@ -1,0 +1,381 @@
+<!doctype html>
+<html>
+
+<head>
+	<Link rel="stylesheet" href="style.css" media="all"></Link>
+</head>
+<body class="mainBody">
+	<div class="grid-container" style=" display:grid; padding:50px;">
+		<div class="Div0" style=" margin:50px; background-color:#ffffff; text-align:left;">
+			<table>
+				<tr>
+					<td id="td_Prename" class="PrenameHtmlElement" style=" color:blue;">
+						Anita
+					</td>
+					<td id="td_Name" class="NameHtmlElement" style=" color:blue;">
+						Brustat
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Street" class="StreetHtmlElement" style=" color:black;">
+						Ruchenstrasse
+					</td>
+					<td id="td_Streetnumber" class="StreetnumberHtmlElement" style=" color:black;">
+						14
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Postcode" class="PostcodeHtmlElement" style=" color:black;">
+						76706
+					</td>
+					<td id="td_Town" class="TownHtmlElement" style=" color:black;">
+						Dettenheim
+					</td>
+				</tr>
+			</table>
+		</div>
+		<Style>
+			.border {
+				 padding:14px;
+
+			}
+		</Style>
+		<div class="Div0" style=" text-align:right;">
+			<td id="td_Date" class="DateHtmlElement" style=" color:black;">
+				10.12.2024
+			</td>
+		</div>
+		<div class="Div1" style=" margin:50px; background-color:#f9f9f9;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					Zahlungen
+				</caption>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Miete
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
+						458.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Heiznebenkosten
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
+						135.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Nebenkosten
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
+						67.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Garagenmiete
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:black;">
+						0.00€
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="Div5" style=" margin:50px;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					annualStatementSum
+				</caption>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Heiznebenkosten
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{135.00€ * 12}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
+						1620.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Nebenkosten
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{67.00€ * 12}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
+						804.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Advance
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{135.00€ * 12}+{67.00€ * 12}}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:green;">
+						2424.00€
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="Div1" style=" margin:50px; background-color:#f9f9f9;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					Zahlungen
+				</caption>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Name
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Kosten
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Teiler
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Anteil
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Gesamt
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Berechnung
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Resultat
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Berechnung
+					</td>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Resultat
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Müll
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-334.81€
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						Persons
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						2
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						6
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{2 / 6}
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.333333
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{2 / 6} * -334.81€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-111.60€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Heizung
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-3559.73€
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						Area
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						100
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						270
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{100 / 270}
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.37
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{100 / 270} * -3559.73€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-1318.42€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Gebäudeversicherung
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-2106.86€
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						Anteil
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						1
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						4
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{1 / 4}
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.25
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{1 / 4} * -2106.86€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-526.72€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Reinigung
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-3055.00€
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						Anteil
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						1
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						5
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{1 / 5}
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.2
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{1 / 5} * -3055.00€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-611.00€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Grundsteuer
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-423.00€
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						Area
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						101
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						260
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{101 / 260}
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.388462
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{101 / 260} * -423.00€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-164.32€
+					</td>
+				</tr>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Abwasser
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-932.00€
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						Counter
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.31
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.999588
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{0.31063 / 0.999588}
+					</td>
+					<td id="td_Scalar" class="ScalarHtmlElement" style=" color:black;">
+						0.310758
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{{0.31063 / 0.999588} * -932.00€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-289.63€
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="Div4" style=" margin:50px;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					Summierte Jahresabrechnung
+				</caption>
+				<tr>
+					<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+						Kosten
+					</td>
+					<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+						{-111.60€+-1318.42€+-526.72€+-611.00€+-164.32€+-289.63€}
+					</td>
+					<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+						-3021.68€
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="Div3" style=" margin:50px;">
+			<table>
+				<caption id="caption_Header" class="HeaderHtmlElement" style=" color:blue;">
+					Endsumme
+				</caption>
+				<tr>
+					<td>
+						<td id="td_Header" class="HeaderHtmlElement" style=" color:blue;">
+							Endsumme
+						</td>
+					</td>
+					<td>
+						<td id="td_Entry" class="EntryHtmlElement" style=" color:black;">
+							{-3021.68€ + 2424.00€}
+						</td>
+					</td>
+					<td>
+						<td id="td_Sum" class="SumHtmlElement" style=" color:red;">
+							-597.68€
+						</td>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
