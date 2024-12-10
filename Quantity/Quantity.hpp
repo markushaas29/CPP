@@ -168,7 +168,7 @@ private:
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
 
 		//std::cout<<"Left\n"<<*this<<"\tright: "<<q<<"\t="<<Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())<<"\n"<<std::endl;
-		std::cout<<"Left\n"<<*this<<"\tright: "<<q<<"\t="<<q.Value()<<"\t"<<QRDiv<QR,TQR>::Unit::Sign()<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<(Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(value / q.PureValue())/QRDiv<QR,TQR>::Factor)<<std::endl;
+		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<(Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(value / q.PureValue())/QRDiv<QR,TQR>::Factor)<<"\t"<<QRDiv<QR,TQR>::Unit::Sign()<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<std::endl;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}
 };
