@@ -65,8 +65,8 @@ private:
 		nElements2.insert(nElements2.end(), elements.end()-4, elements.end()-2);
 		nElements2.push_back((*(values.end()-1)).Clone());
 		nElements2.push_back(std::make_unique<Entry>(asString(*(diffs.end()-1))));
-		nElements2.push_back(std::make_unique<Entry>(asString(*(times.end()-1))));
 		nElements2.push_back((*(spans.end()-1)).Clone());
+		nElements2.push_back(std::make_unique<Entry>(asString(*(times.end()-1))));
 		nElements2.push_back((*(avs.end()-1)).Clone());
 		newElements.push_back(nElements2);
 		std::vector<std::shared_ptr<IElement>> nElements;

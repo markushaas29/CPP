@@ -312,17 +312,12 @@ private:
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
-		std::vector<std::vector<std::shared_ptr<IElement>>> costs = 
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> costs = 
 		{
-			{std::make_shared<Header>("total"),std::make_shared<Entry>(this->asString(resultSum)), std::make_shared<Quantity<Sum>>(resultSum)}
-		};
-		
-		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> hcosts = 
-		{
-			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum})}
+			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
 		};
 
-		auto mCostsForm = MatrixFormatter(Init(hcosts)());
+		auto mCostsForm = MatrixFormatter(Init(costs)());
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
 		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("total"))));
