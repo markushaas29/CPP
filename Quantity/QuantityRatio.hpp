@@ -142,7 +142,7 @@ struct QRBase
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	static std::string Sign() {		return Derived::Sign(); 	};
+	inline static std::string Sign = Derived::Sign;
 //	
 //	template<int Fac>
 //	struct PowBy
