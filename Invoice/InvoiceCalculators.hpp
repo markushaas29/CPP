@@ -319,7 +319,7 @@ private:
 		
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> hcosts = 
 		{
-			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),QS{resultSum}.Html()}//  Html<Td>(QS{resultSum})}
+			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum})}
 		};
 
 		auto mCostsForm = MatrixFormatter(Init(hcosts)());

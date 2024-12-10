@@ -218,8 +218,8 @@ struct HtmlElement<T,Quantity<Sum>>: public HtmlElementBase<T,Quantity<Sum>>
 	};
 };
 
-template<typename E, typename T>
-static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { return nullptr, } //{ return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
+template<typename T, typename E>
+static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
 
 template<typename T, typename E>
 HtmlElement(const E&) -> HtmlElement<T,E>;
