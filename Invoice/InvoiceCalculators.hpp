@@ -312,12 +312,16 @@ private:
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
+
+		auto p = Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>());
+		std::cout<<"BOLD:\n"<<p->Data()<<std::endl;
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> costs = 
 		{
 			//{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  HtmlElement<Td,QS>{QS{resultSum}, std::make_unique<Css<Style<FontWeight,Bold>>>()}.Clone() }
 			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
 		};
 
+		std::cout<<"BOLD VEC:\n"<<costs[0][2]->Data()<<std::endl;
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());

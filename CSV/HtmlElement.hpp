@@ -165,7 +165,7 @@ struct Td;
 
 template<typename T, typename E>
 struct HtmlElement: public HtmlElementBase<T,E>{ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>(), const std::string& n="", const std::string& id=""): 
-	HtmlElementBase<T,E>(c, std::move(css)) { if(css) std::cout<<"CTR "<<*css<<std::endl; }; };
+	HtmlElementBase<T,E>(c, std::move(css)) {  }; };
 
 template<typename T>
 class HtmlElement<T, IHtmlElement>: public HtmlBase<T>
