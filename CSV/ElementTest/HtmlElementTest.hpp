@@ -132,7 +132,15 @@ int Run()
 	assert(htmlEabc.Id()=="td_Entry");
 	assert(htmlEabc.Name()=="EntryHtmlElement");
 	
-	auto htmlCssE = HtmlElement<Td, Entry>(Entry("TEST"));
+	auto bold = std::make_unique<Css<Style<FontWeight,Bold>>>();
+	auto htmlCssE = HtmlElement<Td, Entry>(Entry("TEST"), std::move(bold));
+	assert(htmlCssE.Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" font-weight:bold;\">\n\tTEST\n</td>");
+	
+	auto bold2 = std::make_unique<Css<Style<FontWeight,Bold>>>();
+	auto htmlCssE2 = Html<Td>(Entry("TEST"), std::move(bold2));
+	std::cout<<"CSS Move\n" << htmlCssE2->Data() << std::endl;
+	assert(htmlCssE2->Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" font-weight:bold;\">\n\tTEST\n</td>");
+
 	return 0;
 }
 };

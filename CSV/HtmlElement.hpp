@@ -46,7 +46,7 @@ protected:
 	inline const static std::string tag = T::Identifier;
 	inline static const std::string Identifier = T::Identifier;
 	inline const static std::string end =  "</" + tag + ">";	
- 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = "", const std::string& ci = ""): begin(createBegin(css ? (*css)() : "",n,ci)), name{n}, id{ci},css{std::move(css)}, content{""} {}
+ 	HtmlBase(std::unique_ptr<ICss> css = nullptr, const std::string& n = "", const std::string& ci = ""): begin(createBegin(css ? (*css)() : "",n,ci)), name{n}, id{ci},css{std::move(css)}, content{""} {	}
 	HtmlBase(const HtmlBase& html): css(html.css ? html.css->Clone() : nullptr), begin(html.begin), content{html.Out()} { }
 public:
 	const std::string& Tag() const { return tag; }
@@ -147,7 +147,7 @@ class HtmlElementBase: public HtmlBase<T>
 {
 	using Base = HtmlBase<T>;
 protected:
- 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = Identifier, const std::string& i = ClassId): Base{std::move(css),identifierIfEmpty(n), classIdIfEmpty(i)}, element{c} { };
+ 	HtmlElementBase(const E& c, std::unique_ptr<ICss> css = nullptr, const std::string& n = Identifier, const std::string& i = ClassId): Base{std::move(css),identifierIfEmpty(n), classIdIfEmpty(i)}, element{c} {	};
 	HtmlElementBase(const HtmlElementBase& html): Base{html}, element{html.element} { }
 public:
 	inline static const std::string Identifier = std::string(std::remove_reference<E>::type::Identifier) + "HtmlElement";
@@ -165,7 +165,7 @@ struct Td;
 
 template<typename T, typename E>
 struct HtmlElement: public HtmlElementBase<T,E>{ 	HtmlElement(const E& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>(), const std::string& n="", const std::string& id=""): 
-	HtmlElementBase<T,E>(c, std::move(css)) { }; };
+	HtmlElementBase<T,E>(c, std::move(css)) { if(css) std::cout<<"CTR "<<*css<<std::endl; }; };
 
 template<typename T>
 class HtmlElement<T, IHtmlElement>: public HtmlBase<T>
@@ -220,7 +220,9 @@ struct HtmlElement<T,Quantity<Sum>>: public HtmlElementBase<T,Quantity<Sum>>
 };
 
 template<typename T, typename E>
-static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
+static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { 
+	if(css) std::cout<<*css<<std::endl;
+	return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
 
 template<typename T, typename E>
 HtmlElement(const E&) -> HtmlElement<T,E>;
