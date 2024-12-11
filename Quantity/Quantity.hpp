@@ -146,6 +146,13 @@ private:
 	{ 
 		constexpr int ex = QR::Exponent + TQR::Exponent;
 		using QR_ = typename QR::PowBy<ex>::Type;
+		
+		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QRMul<QR,TQR>,T1>(Value() / q.Value())/QRMul<QR,TQR>::Factor);
+		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
+		using ru = typename Transform<qu, typename QRMul<QR,TQR>::Unit, MultiplyPolicy>::Type; 
+		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QRMul<QR,TQR>::Unit::Sign()<<"\t"<<QRMul<QR,TQR>::Factor<<"\n"<<std::endl;
+		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
+		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
 	}
 	

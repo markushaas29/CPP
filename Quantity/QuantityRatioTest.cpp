@@ -33,6 +33,19 @@ int Run()
     assert(M::Exponent==1);
     assert(M::Out()=="m");
 	
+	using D = Dezi;
+    std::cout<<"D: "<<D::Num<<" / "<<D::Denom<<std::endl;
+    assert(D::BaseNum==1);
+    assert(D::BaseDenom==10);
+    assert(D::Exponent==1);
+    assert(D::Out()=="d");
+	
+	using C = Centi;
+    assert(C::BaseNum==1);
+    assert(C::BaseDenom==100);
+    assert(C::Exponent==1);
+    assert(C::Out()=="c");
+	
 	using M2 = Milli::PowBy<2>::Type;
     std::cout<<"M2: "<<M2::Num<<" / "<<M2::Denom<<std::endl;
     assert(M2::BaseNum==1);
