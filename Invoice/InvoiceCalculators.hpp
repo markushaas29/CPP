@@ -313,8 +313,6 @@ private:
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
 
-		auto p = Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>());
-		std::cout<<"BOLD:\n"<<p->Data()<<std::endl;
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> costs = 
 		{
 			//{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  HtmlElement<Td,QS>{QS{resultSum}, std::make_unique<Css<Style<FontWeight,Bold>>>()}.Clone() }
