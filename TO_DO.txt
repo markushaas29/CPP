@@ -3,12 +3,11 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
+	Tst bei HtmlCtr
 Jahresabrechnung
 	Endbetrag bold und Translate -> matrix manuell aufbauen
 	Name sowie ohne stylesheet
 Form Klasse
-	TOHTML in HtmlElement.hpp Funktion um HTML Element zu erstellen
-		typename Transform<U, U2, DividePolicy>::Type
 	Namen/Id und Headers einfügen
 Account
 	Assert
@@ -19,10 +18,9 @@ ConsumptionVisitor
 Counter
 	Headers
 Quantity dm^3
-	liter?I
+	liter als QR
 	Output mit constexpr if????
 	Factor in Quantity testen
-	BAsis QR
-		typename Transform<U, U2, D::Policy>::Type
-	24km durch 24h teilen => 1km/h Anfang Test
-	365m2 durch 365ds => 1 m3 /ds 
+	2kW * 2h = 4kWh
+	mit Unit in QR unit in Quantity ausknipsen
+	und Wert asurechenun mit factor multiplizieren

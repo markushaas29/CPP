@@ -131,6 +131,8 @@ int Run()
 	assert(htmlEabc.Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
 	assert(htmlEabc.Id()=="td_Entry");
 	assert(htmlEabc.Name()=="EntryHtmlElement");
+	
+	auto htmlCssE = HtmlElement<Td, Entry>(Entry("TEST"));
 	return 0;
 }
 };

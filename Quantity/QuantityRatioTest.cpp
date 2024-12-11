@@ -124,6 +124,7 @@ int Run()
 	auto d365 = Quantity<Time,Days>(365);
 	auto v365 = Quantity<Volume>(365);
 	auto kwh = Quantity<Energy,KiloHour>(1);
+	auto kw2 = Quantity<Energy,Kilo>(2);
 	
     assert(d1.PureValue()==86400);
     assert(h1.PureValue()==3600);
@@ -160,8 +161,10 @@ int Run()
 
 	auto km24Div24h = km24 / h24;
 	auto v365Divd365 = v365 / d365; 
+	auto kwh48 = h24 * kw2;
     std::cout<<"Day: \n\t"<<km24Div24h<<"\n"<<std::endl;
     std::cout<<"Day: \n\t"<<v365Divd365<<"\n"<<std::endl;
+    std::cout<<"KWH: \n\t"<<kwh48<<"\n"<<std::endl;
 
 	assert(km24Div24h<0.00028);
 	assert(v365Divd365<0.0001);
