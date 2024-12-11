@@ -3,7 +3,7 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	Tst bei HtmlCtr
+	HtmlBAse::Clone aufrufen in D
 Jahresabrechnung
 	Endbetrag bold und Translate -> matrix manuell aufbauen
 	Name sowie ohne stylesheet

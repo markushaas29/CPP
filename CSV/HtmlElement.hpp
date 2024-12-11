@@ -122,7 +122,7 @@ private:
 	std::unique_ptr<std::vector<std::unique_ptr<ICss>>> cloneElements() const
 	{	
 		auto result = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result->push_back(e->Clone()); });
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) { result->push_back(e->Clone()); });	
 		return result;
 	};	
 };
@@ -152,7 +152,7 @@ protected:
 public:
 	inline static const std::string Identifier = std::string(std::remove_reference<E>::type::Identifier) + "HtmlElement";
 	inline static const std::string ClassId = Base::Identifier + "_" + std::remove_reference<E>::type::Identifier;
-	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element); };
+	std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElement<T,E>>(element, Base::css->Clone()); };
 private:
 	static auto identifierIfEmpty(const std::string& n) { return n == "" ? Identifier : n; }
 	static auto classIdIfEmpty(const std::string& n) { return n == "" ? ClassId : n; }
@@ -220,9 +220,7 @@ struct HtmlElement<T,Quantity<Sum>>: public HtmlElementBase<T,Quantity<Sum>>
 };
 
 template<typename T, typename E>
-static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { 
-	if(css) std::cout<<*css<<std::endl;
-	return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
+static std::unique_ptr<IHtmlElement> Html(const E& element, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") { 	return std::make_unique<HtmlElement<T,E>>(element,std::move(css), n, id); };
 
 template<typename T, typename E>
 HtmlElement(const E&) -> HtmlElement<T,E>;

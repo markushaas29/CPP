@@ -314,8 +314,8 @@ private:
 		auto resultSum = Constant(Quantity<Sum>{sum()}) + Constant(Quantity<Sum>{payment()});
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> costs = 
 		{
-			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  HtmlElement<Td,QS>{QS{resultSum}, std::make_unique<Css<Style<FontWeight,Bold>>>()}.Clone() }
-			//{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
+			//{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  HtmlElement<Td,QS>{QS{resultSum}, std::make_unique<Css<Style<FontWeight,Bold>>>()}.Clone() }
+			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
 		};
 
 		auto mCostsForm = MatrixFormatter(Init(costs)());
