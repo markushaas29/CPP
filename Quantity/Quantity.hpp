@@ -166,9 +166,12 @@ private:
 		
 		if constexpr (IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
-
-		//std::cout<<"Left\n"<<*this<<"\tright: "<<q<<"\t="<<Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())<<"\n"<<std::endl;
-		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<(Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(value / q.PureValue())/QRDiv<QR,TQR>::Factor)<<"\t"<<QRDiv<QR,TQR>::Unit::Sign()<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<std::endl;
+		
+		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(value / q.PureValue())/QRDiv<QR,TQR>::Factor);
+		using qu = typename Transform<U, U2, DividePolicy>::Type; 
+		using ru = typename Transform<qu, typename QRDiv<QR,TQR>::Unit, MultiplyPolicy>::Type; 
+		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QRDiv<QR,TQR>::Unit::Sign()<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<std::endl;
+		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}
 };
