@@ -145,8 +145,18 @@ int Run()
 	auto bold3 = std::make_unique<Css<Style<FontWeight,Bold>>>();
 	bold3->update(*cssGrid);
 	
-	std::cout<<"CSS Update\n" << *bold3 << std::endl;
 	assert((*bold3)()==" style=\" font-weight:bold; display:grid;\"");
+
+	auto cssR = std::make_unique<Css<Style<ColorTag,Red>>>();
+	auto cssG = std::make_unique<Css<Style<ColorTag,Green>>>();
+	cssR->update(*cssG);
+	assert((*cssR)()==" style=\" color:green;\"");
+	
+	auto bold4 = std::make_unique<Css<Style<FontWeight,Bold>, Style<ColorTag,Red>>>();
+	assert((*bold4)()==" style=\" font-weight:bold; color:red;\"");
+	bold4->update(*cssG);
+	assert((*bold4)()==" style=\" font-weight:bold; color:green;\"");
+	std::cout<<"CSS Update\n" << *bold4 << std::endl;
 
 	return 0;
 }

@@ -4,8 +4,9 @@ Tranlator
 	Bhandlung bei Split
 CSS
 	HtmlBAse::Clone aufrufen in D
+	ModifyFunktion ausbauen mit Nahme von UniquePtr<ICss>
 Jahresabrechnung
-	Endbetrag bold und Translate -> matrix manuell aufbauen
+	Endbetrag Zeile BOLD
 	Name sowie ohne stylesheet
 Form Klasse
 	Namen/Id und Headers einfügen
@@ -21,6 +22,7 @@ Quantity dm^3
 	liter als QR
 	Output mit constexpr if????
 	Factor in Quantity testen
-	2kW * 2h = 4kWh
 	mit Unit in QR unit in Quantity ausknipsen
 	und Wert asurechenun mit factor multiplizieren
+	L/R Units teilen wie gemacht und mit Kehrwert ausmultiplizieren Signs ausgeben
+	Watt Einheit
