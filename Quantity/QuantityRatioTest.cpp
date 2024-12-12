@@ -77,7 +77,12 @@ int Run()
 	auto kwh = Quantity<Energy,KiloHour>(1);
 	auto kw2 = Quantity<Energy,Kilo>(2);
 	
-    std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
+    std::cout<<"km24: "<<km24<<std::endl;
+    std::cout<<"h24: "<<h24<<std::endl;
+    std::cout<<"h1: "<<h1<<std::endl;
+    std::cout<<"d1: "<<d1<<std::endl;
+    std::cout<<"kw2: "<<kw2<<std::endl;
+
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
     assert(same);

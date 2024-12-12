@@ -99,13 +99,14 @@ private:
 	T1 value;
 	friend std::ostream& operator<<(std::ostream& out, const Quantity& q)
 	{
+		using RU = typename Transform<U, typename QR::Unit, MultiplyPolicy>::Type;
 		if constexpr (std::is_same_v<U, Sum>)
 		{
 			std::ostringstream oss;
 			oss << std::setprecision(2)<<std::fixed << q.Value();
-			return out<<oss.str()<<QR::Sign<<U::Sign();
+			return out<<oss.str()<<QR::Sign<<RU::Sign();
 		}
-		return out<<q.Value()<<QR::Sign<<U::Sign();
+		return out<<q.Value()<<QR::Sign<<RU::Sign();
 	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
@@ -150,8 +151,8 @@ private:
 		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QRMul<QR,TQR>,T1>(Value() / q.Value())/QRMul<QR,TQR>::Factor);
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QRMul<QR,TQR>::Unit, MultiplyPolicy>::Type; 
-		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QRMul<QR,TQR>::Unit::Sign()<<"\t"<<QRMul<QR,TQR>::Factor<<"\n"<<std::endl;
-		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
+//		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QRMul<QR,TQR>::Unit::Sign()<<"\t"<<QRMul<QR,TQR>::Factor<<"\n"<<std::endl;
+//		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
 	}
