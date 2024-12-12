@@ -10,8 +10,9 @@ public:
 	virtual std::string operator()() const  { return data(); };	
 	virtual std::unique_ptr<ICss> Clone() const  = 0;	
 	virtual std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> Styles() const = 0;
-	//virtual auto Update(auto) const  = 0;	
+	auto Update(std::unique_ptr<ICss> css) const { return update(std::move(css)); }
 private:
+	virtual void update(std::unique_ptr<ICss> css) const  = 0;	
 	friend std::ostream& operator<<(std::ostream& out, const ICss& e) {	return out<<e.data();}
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data(intent, i) + "\n"; };
 	virtual std::string data(const std::string& intent = "", uint i = 0) const  = 0;	
@@ -29,6 +30,20 @@ private:
 template<typename... T>
 class Css: public ICss
 {
+	void update(std::unique_ptr<ICss> css) const
+	{
+		auto cS = css->Styles();
+		std::vector<std::unique_ptr<IStyle>> nStyles;
+		std::for_each(cS->cbegin(), cS->cend(), [&](auto& p)
+				{
+				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
+				 	if(it != styles->end())
+						*it = (p->Clone());
+					else
+						nStyles.push_back(p->Clone());
+				});
+		std::for_each(nStyles.cbegin(), nStyles.cend(), [&](auto& p) { styles->push_back(p->Clone()); } );
+	}
 protected:
 	using Tup = std::tuple<T...>;
 	template<typename...> friend class Css;
@@ -63,20 +78,6 @@ public:
 		auto result = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 		std::for_each(styles->cbegin(), styles->cend(), [&](auto& p) { result->push_back(p->Clone()); });
 		return result;
-	}
-	auto update(std::unique_ptr<ICss> css)
-	{
-		auto cS = css->Styles();
-		std::vector<std::unique_ptr<IStyle>> nStyles;
-		std::for_each(cS->cbegin(), cS->cend(), [&](auto& p)
-				{
-				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
-				 	if(it != styles->end())
-						*it = (p->Clone());
-					else
-						nStyles.push_back(p->Clone());
-				});
-		std::for_each(nStyles.cbegin(), nStyles.cend(), [&](auto& p) { styles->push_back(p->Clone()); } );
 	}
 	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 };
