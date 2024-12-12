@@ -66,6 +66,17 @@ int Run()
     assert(Minutes::Out()=="mins^-1");
     assert(Hours::Out()=="hs^-1");
 
+	auto m1000 = Quantity<Length,Pure, double>(1000);
+	auto mm1000 = Quantity<Length,Milli, double>(1);
+	auto km24 = Quantity<Length,Kilo>(24);
+	auto h24 = Quantity<Time,Hours>(24);
+	auto h1 = Quantity<Time,Hours>(1);
+	auto d1 = Quantity<Time,Days>(1);
+	auto d365 = Quantity<Time,Days>(365);
+	auto v365 = Quantity<Volume>(365);
+	auto kwh = Quantity<Energy,KiloHour>(1);
+	auto kw2 = Quantity<Energy,Kilo>(2);
+	
     std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
@@ -75,8 +86,8 @@ int Run()
 
 	same = std::is_same_v<Unit<0,0,0,-2>,QRMul<Minutes,Hours>::Unit>;
     assert(same);
-    std::cout<<"min/H: "<<QRMul<Minutes,Hours>::Out()<<std::endl;
-    assert((QRMul<Minutes,Hours>::Out()=="minhs^-2"));
+    std::cout<<"min*H: "<<QRMul<Minutes,Hours>::Out()<<std::endl;
+    assert((QRMul<Minutes,Hours>::Out()=="minh^2"));
     //assert((QRMul<K,Hours>::Factor==(1/3.6)));
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
@@ -128,17 +139,6 @@ int Run()
     assert(DEKA::Num==10);
     
     
-	auto m1000 = Quantity<Length,Pure, double>(1000);
-	auto mm1000 = Quantity<Length,Milli, double>(1);
-	auto km24 = Quantity<Length,Kilo>(24);
-	auto h24 = Quantity<Time,Hours>(24);
-	auto h1 = Quantity<Time,Hours>(1);
-	auto d1 = Quantity<Time,Days>(1);
-	auto d365 = Quantity<Time,Days>(365);
-	auto v365 = Quantity<Volume>(365);
-	auto kwh = Quantity<Energy,KiloHour>(1);
-	auto kw2 = Quantity<Energy,Kilo>(2);
-	
     assert(d1.PureValue()==86400);
     assert(h1.PureValue()==3600);
     
