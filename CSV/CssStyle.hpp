@@ -9,6 +9,7 @@ class ICss: public IModel
 public:
 	virtual std::string operator()() const  { return data(); };	
 	virtual std::unique_ptr<ICss> Clone() const  = 0;	
+	virtual std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> Styles() const = 0;
 	//virtual auto Update(auto) const  = 0;	
 private:
 	friend std::ostream& operator<<(std::ostream& out, const ICss& e) {	return out<<e.data();}
@@ -57,6 +58,12 @@ protected:
     }
 public:
  	Css(const std::string& c = ""): styles{create()} { };
+	virtual std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> Styles() const 
+	{
+		auto result = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+		std::for_each(styles->cbegin(), styles->cend(), [&](auto& p) { result->push_back(p->Clone()); });
+		return result;
+	}
 	template<typename... T2>
 	auto update(const Css<T2...>& css)
 	{
