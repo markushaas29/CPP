@@ -4,9 +4,11 @@ Tranlator
 	Bhandlung bei Split
 CSS
 	HtmlBAse::Clone aufrufen in D
+	Apply. neues als basis und bisheriges moven
 Jahresabrechnung
 	Endbetrag Zeile BOLD
 	Name sowie ohne stylesheet
+	Sums-Matrix als Property
 Form Klasse
 	Namen/Id und Headers einfügen
 Account
@@ -25,3 +27,4 @@ Quantity dm^3
 	und Wert asurechenun mit factor multiplizieren
 	L/R Units teilen wie gemacht und mit Kehrwert ausmultiplizieren Signs ausgeben
 	Watt Einheit
+	Base::Unit::Sign entfernen
