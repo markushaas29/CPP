@@ -4,7 +4,6 @@ Tranlator
 	Bhandlung bei Split
 CSS
 	HtmlBAse::Clone aufrufen in D
-	ModifyFunktion ausbauen mit Nahme von UniquePtr<ICss>
 Jahresabrechnung
 	Endbetrag Zeile BOLD
 	Name sowie ohne stylesheet

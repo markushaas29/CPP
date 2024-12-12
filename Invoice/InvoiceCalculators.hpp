@@ -319,7 +319,6 @@ private:
 			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
 		};
 
-		std::cout<<"BOLD VEC:\n"<<costs[0][2]->Data()<<std::endl;
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
