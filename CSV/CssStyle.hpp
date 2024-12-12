@@ -56,17 +56,17 @@ protected:
     }
 public:
  	Css(const std::string& c = ""): styles{create()} { };
-//	template<typename... T2>
-//	auto operator()(const Css<T2...>& css)
-//	{
-//		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
-//				{
-//				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
-//				 	if(it != styles->end())
-//						*it = (p->Clone());
-//				});
-//
-//	}
+	template<typename... T2>
+	auto update(const Css<T2...>& css)
+	{
+		std::for_each(css.styles->cbegin(), css.styles->cend(), [&](auto& p)
+				{
+				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
+				 	if(it != styles->end())
+						*it = (p->Clone());
+				});
+
+	}
 	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 };
 
