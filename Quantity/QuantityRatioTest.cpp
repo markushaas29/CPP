@@ -24,7 +24,7 @@ int Run()
     assert(K2::Num==1000000);
     assert(K2::Denom==1);
     assert(K2::Exponent==2);
-    assert(K2::Out()=="k");
+    assert(K2::Out()=="k^2");
 
 	using M = Milli;
     std::cout<<"M: "<<M::Num<<" / "<<M::Denom<<std::endl;
@@ -51,7 +51,7 @@ int Run()
     assert(M2::BaseNum==1);
     assert(M2::BaseDenom==1000);
     assert(M2::Exponent==2);
-    assert(M2::Out()=="m");
+    assert(M2::Out()=="m^2");
 	
     std::cout<<"Pure: "<<Pure::Num<<" / "<<Pure::Denom<<std::endl;
     assert(Pure::BaseNum==1);
@@ -80,6 +80,7 @@ int Run()
     std::cout<<"km24: "<<km24<<std::endl;
     std::cout<<"h24: "<<h24<<std::endl;
     std::cout<<"h1: "<<h1<<std::endl;
+    std::cout<<"h1*h1: "<<h1*h1<<std::endl;
     std::cout<<"d1: "<<d1<<std::endl;
     std::cout<<"kw2: "<<kw2<<std::endl;
 
