@@ -140,6 +140,13 @@ int Run()
 	auto htmlCssE2 = Html<Td>(Entry("TEST"), std::move(bold2));
 	std::cout<<"CSS Move\n" << htmlCssE2->Data() << std::endl;
 	assert(htmlCssE2->Data()=="<td id=\"td_Entry\" class=\"EntryHtmlElement\" style=\" font-weight:bold;\">\n\tTEST\n</td>");
+	
+	auto cssGrid = std::make_unique<Css<Style<Display,Grid>>>();
+	auto bold3 = std::make_unique<Css<Style<FontWeight,Bold>>>();
+	bold3->update(*cssGrid);
+	
+	std::cout<<"CSS Update\n" << *bold3 << std::endl;
+	assert((*bold3)()==" style=\" font-weight:bold; display:grid;\"");
 
 	return 0;
 }
