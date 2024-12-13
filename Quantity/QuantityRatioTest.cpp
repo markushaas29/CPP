@@ -93,7 +93,7 @@ int Run()
 	same = std::is_same_v<Unit<0,0,0,-2>,QRMul<Minutes,Hours>::Unit>;
     assert(same);
     std::cout<<"min*H: "<<QRMul<Minutes,Hours>::Out()<<std::endl;
-    assert((QRMul<Minutes,Hours>::Out()=="minh^2"));
+    assert((QRMul<Minutes,Hours>::Out()=="minh"));
     //assert((QRMul<K,Hours>::Factor==(1/3.6)));
 	
 	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
