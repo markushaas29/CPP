@@ -77,12 +77,23 @@ int Run()
 	auto kwh = Quantity<Energy,KiloHour>(1);
 	auto kw2 = Quantity<Energy,Kilo>(2);
 	
-    std::cout<<"km24: "<<km24<<std::endl;
-    std::cout<<"h24: "<<h24<<std::endl;
-    std::cout<<"h1: "<<h1<<std::endl;
+    assert(km24.Data()=="24.km");
+    assert(mm1000.Data()=="1.mm");
+    assert(h24.Data()=="24.h");
+    assert(h1.Data()=="1.h");
     std::cout<<"h1*h1: "<<h1*h1<<std::endl;
     std::cout<<"d1: "<<d1<<std::endl;
     std::cout<<"kw2: "<<kw2<<std::endl;
+
+	auto m2_1000 = m1000 * m1000;
+	auto mm2_1000 = mm1000 * mm1000;
+    
+    assert(mm2_1000.Data()=="1.mm^2");
+    assert(m2_1000.Data()=="1000000.m^2");
+	
+	auto mm_1000_D = mm2_1000 / mm1000;
+    std::cout<<"m_1000_D: "<<mm_1000_D.Data()<<std::endl;
+    assert(mm_1000_D.Data()=="1.mm");
 
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
@@ -102,6 +113,8 @@ int Run()
     assert(isSame);
     isSame = IsSameTemplate<Minutes::RatioType,Pure::RatioType>::value;
     assert(!isSame);
+
+	assert(false);
 
 	constexpr bool isSameC = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
 	

@@ -119,9 +119,10 @@ private:
 	
 	static decltype(auto) data(ValueType v) 
 	{ 
+		using RU = typename Transform<U, typename QR::Unit, MultiplyPolicy>::Type;
 		if constexpr (std::is_same_v<T1, double>)
-			return String_::TrimDouble(v)+QR::Sign+U::Sign(); 
-		return std::to_string(v)+QR::Sign+U::Sign(); 
+			return String_::TrimDouble(v)+QR::Sign+RU::Sign(); 
+		return std::to_string(v)+QR::Sign+RU::Sign(); 
 	}
 
 	template<typename V>
