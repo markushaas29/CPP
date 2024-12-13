@@ -5,6 +5,7 @@ Tranlator
 CSS
 	HtmlBAse::Clone aufrufen in D
 	Apply. neues als basis und bisheriges moven
+	an css zuweisen
 Jahresabrechnung
 	Endbetrag Zeile BOLD
 	Name sowie ohne stylesheet
@@ -21,10 +22,9 @@ Counter
 	Headers
 Quantity dm^3
 	liter als QR
-	Output mit constexpr if????
-	Factor in Quantity testen
-	mit Unit in QR unit in Quantity ausknipsen
-	und Wert asurechenun mit factor multiplizieren
-	L/R Units teilen wie gemacht und mit Kehrwert ausmultiplizieren Signs ausgeben
 	Watt Einheit
-	Punkt entfernen
+	min/h^2
+	Value testen
+	1000 statt 1
+	ist es QR Zuweiseung nötig in Divide und Mul?
+	Liter als Quantity mit dezi => using
