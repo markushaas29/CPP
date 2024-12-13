@@ -96,6 +96,15 @@ class TemplatizedAll_Test2023
 			
 			auto propB23 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto costs = propB23.Costs(Year{2023})[0].To<QS>();
+			assert(costs[0]().Equals(Quantity<Sum>{-296.31},0.01));
+			assert(costs[1]().Equals(Quantity<Sum>{-3326.63},0.01));
+			assert(costs[2]().Equals(Quantity<Sum>{-1951.57},0.01));
+			assert(costs[3]().Equals(Quantity<Sum>{-918.91},0.01));
+			assert(costs[4]().Equals(Quantity<Sum>{-423.00},0.01));
+			assert(costs[5]().Equals(Quantity<Sum>{-1061.32},0.01));
+			
+
+
 			auto bV = propB23.Values(Year{2022}, bM).To<Quantity<Sum>>();
 			std::cout<<"Properties.\n"<<propB23.AdvanceItems()<<std::endl;
 			assert(bV[0]().Equals(Quantity<Sum>{-107.33},0.01));
