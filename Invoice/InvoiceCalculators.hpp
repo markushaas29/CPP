@@ -184,6 +184,7 @@ public:
 	auto Properties() { return properties; }
 	auto AdvanceItems() { return properties.Cols(13,14,15); }
 	auto Result(const Year& y) { return this->Value(y) + advancePayment; }
+	auto Costs(const Year& y, const HtmlBuilder<German>& html) const { return (*Base::account)(y, html); }
 private:
 	Matrix<2, MatrixDescriptor<2,typename Base::ElementType>> properties;
 	Quantity<Sum> advancePayment;
@@ -273,7 +274,7 @@ private:
 		div5->Add(annualAdvancePaymentForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatementSum"))));
 		outs->push_back(std::move(div5));
 
-        auto accountM = (*Base::account)(y, html);  
+        auto accountM = Costs(y, html);  
         auto sumMatrix = accountM[0].template To<Quantity<Sum>>();  
         auto names = accountM[1];  
         auto csum = stageMatrix.ColSum()();
