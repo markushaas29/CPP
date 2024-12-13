@@ -120,9 +120,26 @@ private:
 	static decltype(auto) data(ValueType v) 
 	{ 
 		using RU = typename Transform<U, typename QR::Unit, MultiplyPolicy>::Type;
+		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
-			return String_::TrimDouble(v)+QR::Sign+RU::Sign(); 
-		return std::to_string(v)+QR::Sign+RU::Sign(); 
+			 res = String_::TrimDouble(v)+QR::Sign+RU::Sign(); 
+		res = std::to_string(v)+QR::Sign+RU::Sign(); 
+		std::string str(res);
+		std::size_t id = str.find_first_not_of("-+0123456789");
+		
+		auto result = str.substr(0,id);
+		str = str.substr(id,str.size());
+		
+		id = str.find_first_not_of("0.,");
+		
+		id = id > str.size() ? 0 : id;
+		auto ending = str.substr(id,str.size());
+		
+		result += !isdigit(str[0]) ? ending : str;
+
+		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
+
+		return result;
 	}
 
 	template<typename V>

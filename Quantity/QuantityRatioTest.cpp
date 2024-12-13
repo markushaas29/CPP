@@ -68,7 +68,6 @@ int Run()
 
 	auto m1000 = Quantity<Length,Pure, double>(1000);
 	auto mm1000 = Quantity<Length,Milli, double>(1);
-	auto km24 = Quantity<Length,Kilo>(24);
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
 	auto d1 = Quantity<Time,Days>(1);
@@ -76,11 +75,13 @@ int Run()
 	auto v365 = Quantity<Volume>(365);
 	auto kwh = Quantity<Energy,KiloHour>(1);
 	auto kw2 = Quantity<Energy,Kilo>(2);
+	auto km24 = Quantity<Length,Kilo>(24);
 	
-    assert(km24.Data()=="24.km");
-    assert(mm1000.Data()=="1.mm");
-    assert(h24.Data()=="24.h");
-    assert(h1.Data()=="1.h");
+    std::cout<<"h1*h1: "<<km24.Data()<<std::endl;
+    assert(km24.Data()=="24km");
+    assert(mm1000.Data()=="1mm");
+    assert(h24.Data()=="24h");
+    assert(h1.Data()=="1h");
     std::cout<<"h1*h1: "<<h1*h1<<std::endl;
     std::cout<<"d1: "<<d1<<std::endl;
     std::cout<<"kw2: "<<kw2<<std::endl;
@@ -88,12 +89,11 @@ int Run()
 	auto m2_1000 = m1000 * m1000;
 	auto mm2_1000 = mm1000 * mm1000;
     
-    assert(mm2_1000.Data()=="1.mm^2");
-    assert(m2_1000.Data()=="1000000.m^2");
+    assert(mm2_1000.Data()=="1mm^2");
+    assert(m2_1000.Data()=="1000000m^2");
 	
 	auto mm_1000_D = mm2_1000 / mm1000;
-    std::cout<<"m_1000_D: "<<mm_1000_D.Data()<<std::endl;
-    assert(mm_1000_D.Data()=="1.mm");
+    assert(mm_1000_D.Data()=="1mm");
 
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
