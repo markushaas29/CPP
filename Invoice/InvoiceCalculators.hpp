@@ -184,7 +184,7 @@ public:
 	auto Properties() { return properties; }
 	auto AdvanceItems() { return properties.Cols(13,14,15); }
 	auto Result(const Year& y) { return this->Value(y) + advancePayment; }
-	auto Costs(const Year& y, const HtmlBuilder<German>& html) const { return (*Base::account)(y, html); }
+	auto Costs(const Year& y, const HtmlBuilder<German>& html = HtmlBuilder<German>("") ) const { return (*Base::account)(y, html); }
 private:
 	Matrix<2, MatrixDescriptor<2,typename Base::ElementType>> properties;
 	Quantity<Sum> advancePayment;
