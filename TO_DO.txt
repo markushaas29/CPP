@@ -18,7 +18,7 @@ ConsumptionVisitor
 Counter
 	Headers
 Quantity dm^3
-	liter als QR
+	liter als contexpr in data QR mit Unit von Volume und dezi
 	Output mit constexpr if????
 	Factor in Quantity testen
 	mit Unit in QR unit in Quantity ausknipsen
