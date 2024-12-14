@@ -67,7 +67,7 @@ int Run()
     assert(Hours::Out()=="hs^-1");
 
 	auto m1000 = Quantity<Length,Pure, double>(1000);
-	auto mm1000 = Quantity<Length,Milli, double>(1);
+	auto mm1000 = Quantity<Length,Milli, double>(1000);
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
 	auto d1 = Quantity<Time,Days>(1);
@@ -79,7 +79,7 @@ int Run()
 	
     std::cout<<"h1*h1: "<<km24.Data()<<std::endl;
     assert(km24.Data()=="24km");
-    assert(mm1000.Data()=="1mm");
+    assert(mm1000.Data()=="1000mm");
     assert(h24.Data()=="24h");
     assert(h1.Data()=="1h");
     std::cout<<"h1*h1: "<<h1*h1<<std::endl;
@@ -89,11 +89,13 @@ int Run()
 	auto m2_1000 = m1000 * m1000;
 	auto mm2_1000 = mm1000 * mm1000;
     
-    assert(mm2_1000.Data()=="1mm^2");
+    assert(mm2_1000.Data()=="1000000mm^2");
     assert(m2_1000.Data()=="1000000m^2");
 	
 	auto mm_1000_D = mm2_1000 / mm1000;
-    assert(mm_1000_D.Data()=="1mm");
+    assert(mm_1000_D.Data()=="1000mm");
+    
+	std::cout<<"mm1000: "<<mm1000.Data()<<std::endl;
 
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
