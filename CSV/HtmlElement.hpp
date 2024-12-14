@@ -55,8 +55,7 @@ public:
 protected:
 	void apply(std::unique_ptr<ICss> cs) 
 	{ 
-		cs->Update(std::move(css));
-		css = std::move(cs);
+		css->Update(std::move(cs));
 		begin = createBegin(css ? (*css)() : "", name, id);
 	}
 	std::string begin;
