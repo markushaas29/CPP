@@ -16,8 +16,9 @@ int main()
 	QTest sut;
 	QRTest sut2;
 
-	sut.Run();
 	sut2.Run();
+	assert(false);
+	sut.Run();
 
 	return 0;
 }
