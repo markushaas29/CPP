@@ -198,7 +198,8 @@ private:
 		using ru = typename Transform<qu, typename QRDiv<QR,TQR>::Unit, MultiplyPolicy>::Type; 
 		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QRDiv<QR,TQR>::Unit::Sign()<<"\t"<<QRDiv<QR,TQR>::Factor<<"\n"<<std::endl;
 		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
-		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
+		//return Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(result);
+		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(result);
 	}
 };
 

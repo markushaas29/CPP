@@ -96,7 +96,8 @@ int Run()
     assert(mm_1000_D.Data()=="1000mm");
     
 	auto kmh1 = km24 / h24;
-	std::cout<<"mm1000: "<<kmh1<<std::endl;
+	std::cout<<"1 kmh: "<<kmh1<<std::endl;
+    assert(kmh1.Data()=="1kms^-1");
 
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
