@@ -93,6 +93,7 @@ int Run()
     assert(m2_1000.Data()=="1000000m^2");
 	
 	auto mm_1000_D = mm2_1000 / mm1000;
+	std::cout<<"mm_1000_D: "<<mm_1000_D<<std::endl;
     assert(mm_1000_D.Data()=="1000mm");
     
 	auto kmh1 = km24 / h24;
@@ -204,7 +205,7 @@ int Run()
 
 	assert(km24Div24h<0.00028);
 	assert(v365Divd365<0.0001);
-    std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<(Quantity<Scalar>{1}/h1.Transform<>()).In<Hours>()<<"\n"<<std::endl;
+    //std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<(Quantity<Scalar>{1}/h1.Transform<>()).In<Hours>()<<"\n"<<std::endl;
 	//assert(h1.In<Days>().Equals(0.0416667));
 	//assert(h1.In<S>()==0.0416667);
     

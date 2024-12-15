@@ -153,7 +153,7 @@ struct QRBase
 	//typename Unit = L::Unit;
 	using Unit = Transform<typename L::Unit, typename R::Unit, P>::Type;
 	using Derived = D<L,R>;
-//	static constexpr int Exponent = Ex;
+	static constexpr int Exponent = 1;
 //	static constexpr uint BaseNum = N;
 //	static constexpr uint BaseDenom = D;
 //	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
@@ -165,7 +165,7 @@ struct QRBase
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	inline static std::string Sign = Derived::Sign;
+	inline static std::string Sign = "ABC";
 //	
 //	template<int Fac>
 //	struct PowBy
