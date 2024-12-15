@@ -30,3 +30,4 @@ Quantity dm^3
 	Liter als Quantity mit dezi => using
 	bei Teilen QR<Qr,TQR> weiterreichen & reult als Value
 	bisherige QRs an QRDiv weiterreichen?????
+	Quantity statt Unit übergeben
