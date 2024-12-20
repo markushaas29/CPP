@@ -3,11 +3,9 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	HtmlBAse::Clone aufrufen in D
 	Apply. neues als basis und bisheriges moven
 	an css zuweisen
 Jahresabrechnung
-	Endbetrag Zeile BOLD
 	Name sowie ohne stylesheet
 	Sums-Matrix als Property
 Form Klasse
@@ -29,5 +27,4 @@ Quantity dm^3
 	ist es QR Zuweiseung nötig in Divide und Mul?
 	Liter als Quantity mit dezi => using
 	bei Teilen QR<Qr,TQR> weiterreichen & reult als Value
-	bisherige QRs an QRDiv weiterreichen?????
-	Quantity statt Unit übergeben
+
