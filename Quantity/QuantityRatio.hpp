@@ -28,12 +28,12 @@ struct QuantityRatioBase
 	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
 	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
 	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
-	static inline const std::string Sign = Derived<Ex>::Sign;
+	static inline const std::string Sign() { return Derived<Ex>::Sign(); }
 	static inline const std::string Name;
 	static constexpr double Factor = ((double)Num / Denom);	
 	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 	
-	static auto Out() { return Sign  + ((Ex != 0 && Ex != 1) ? ("^" + std::to_string(Ex)) : "") + Unit::Sign(); };
+	static auto Out() { return Sign()  + ((Ex != 0 && Ex != 1) ? ("^" + std::to_string(Ex)) : "") + Unit::Sign(); };
 	
 	template<int Fac>
 	struct PowBy
@@ -46,77 +46,77 @@ struct QuantityRatioBase
 template<int Ex>
 struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase,Unit<0,0,0,-Ex>> 
 {	
-	inline static constexpr const char* Sign = "min"; 
+	static inline const std::string Sign() { return  "min"; } 
 	inline static constexpr const char* Name = "Minuttes"; 
 };
 
 template<int Ex>
 struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase,Unit<0,0,0,-Ex>> 
 {	
-	inline static constexpr const char* Sign = "h"; 
+	static inline const std::string Sign() { return "h"; }
 	inline static constexpr const char* Name = "Hours"; 
 };
 
 template<int Ex>
 struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,-Ex>> 
 {	
-	inline static constexpr const char* Sign = "d"; 
+	static inline const std::string Sign() { return "d"; }
 	inline static constexpr const char* Name = "Days"; 
 };
 
 template<int Ex>
 struct MilliBase: public QuantityRatioBase<1, 1000, Ex, MilliBase> 
 {	
-	inline static constexpr const char* Sign = "m"; 
+	static inline const std::string Sign() { return "m"; }
 	inline static constexpr const char* Name = "Milli"; 
 };
 
 template<int Ex>
 struct CentiBase: public QuantityRatioBase<1, 100, Ex, CentiBase> 
 {	
-	inline static constexpr const char* Sign = "c"; 
+	static inline const std::string Sign() { return "c"; }
 	inline static constexpr const char* Name = "Centi"; 
 };
 
 template<int Ex>
 struct DeziBase: public QuantityRatioBase<1, 10, Ex, DeziBase> 
 {	
-	inline static constexpr const char* Sign = "d"; 
+	static inline const std::string Sign() { return "d"; }
 	inline static constexpr const char* Name = "Dezi"; 
 };
 
 template<int Ex>
 struct PureBase: public QuantityRatioBase<1,1,Ex,PureBase> 
 {	
-	inline static constexpr const char* Sign = ""; 
+	static inline const std::string Sign() { return ""; }
 	inline static constexpr const char* Name = "Pure"; 
 };
 
 template<int Ex>
 struct KiloBase: public QuantityRatioBase<1000, 1, Ex, KiloBase> 
 {	
-	inline static constexpr const char* Sign = "k"; 
+	static inline const std::string Sign() { return "k"; }
 	inline static constexpr const char* Name = "Kilo"; 
 };
 
 template<int Ex>
 struct LiterBase: public QuantityRatioBase<1000, 1, Ex, LiterBase> 
 {	
-	inline static constexpr const char* Sign = "l"; 
+	static inline const std::string Sign() { return "l"; }
 	inline static constexpr const char* Name = "Liter"; 
 };
 
 template<int Ex>
 struct KiloHourBase: public QuantityRatioBase<3600, 1, Ex, KiloBase> 
 {	
-	inline static constexpr const char* Sign = "k"; 
+	static inline const std::string Sign() { return "k"; }
 	inline static constexpr const char* Name = "KiloHour"; 
 };
 
 template<int Ex>
 struct MegaBase: public QuantityRatioBase<1000000, 1, Ex, MegaBase> 
 {	
-	inline static constexpr const char* Sign = "M"; 
+	static inline const std::string Sign() { return "M"; }
 	inline static constexpr const char* Name = "Mega"; 
 };
 
@@ -130,7 +130,7 @@ struct MegaBase: public QuantityRatioBase<1000000, 1, Ex, MegaBase>
 template<int Ex>
 struct DekaBase: public QuantityRatioBase<10,1,Ex,DekaBase> 
 {	
-	inline static constexpr const char* Sign = "da"; 
+	static inline const std::string Sign() { return "da"; }
 	inline static constexpr const char* Name = "Deka"; 
 };
 
@@ -165,7 +165,7 @@ struct QRBase
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	inline static std::string Sign = "ABC";
+	inline static std::string Sign() { return "ABC"; }
 //	
 //	template<int Fac>
 //	struct PowBy

@@ -104,9 +104,9 @@ private:
 		{
 			std::ostringstream oss;
 			oss << std::setprecision(2)<<std::fixed << q.Value();
-			return out<<oss.str()<<QR::Sign<<RU::Sign();
+			return out<<oss.str()<<QR::Sign()<<RU::Sign();
 		}
-		return out<<q.Value()<<QR::Sign<<RU::Sign();
+		return out<<q.Value()<<QR::Sign()<<RU::Sign();
 	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
@@ -122,8 +122,8 @@ private:
 		using RU = typename Transform<U, typename QR::Unit, MultiplyPolicy>::Type;
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
-			 res = String_::TrimDouble(v)+QR::Sign+RU::Sign(); 
-		res = std::to_string(v)+QR::Sign+RU::Sign(); 
+			 res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
+		res = std::to_string(v)+QR::Sign()+RU::Sign(); 
 		std::string str(res);
 		std::size_t id = str.find_first_not_of("-+0123456789");
 		
