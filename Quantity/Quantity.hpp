@@ -170,8 +170,8 @@ private:
 		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(Value() / q.Value())/QR2_::Factor);
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QR2_::Unit, MultiplyPolicy>::Type; 
-		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QR2_::Unit::Sign()<<"\t"<<QR2_::Factor<<"\n"<<std::endl;
-		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
+		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::Unit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
+		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
 	}
@@ -183,6 +183,11 @@ private:
 		//using QR_ = typename QR::PowBy<ex>::Type;
 		using QR_ = QRDiv<Type,Quantity<U2, TQR,T2>>;
 
+		using qu = typename Transform<U, U2, DividePolicy>::Type; 
+		using ru = typename Transform<qu, typename QR_::Unit, MultiplyPolicy>::Type; 
+		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())/QR_::Factor);
+		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<QR_::Unit::Sign()<<"\t Factor"<<QR_::Factor<<"\n";
+		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 		{
@@ -195,11 +200,6 @@ private:
 		if constexpr (IsSameBaseUnit<U,U2>())
 			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
 		
-		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())/QR_::Factor);
-		using qu = typename Transform<U, U2, DividePolicy>::Type; 
-		using ru = typename Transform<qu, typename QR_::Unit, MultiplyPolicy>::Type; 
-		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t"<<QR_::Unit::Sign()<<"\t"<<QR_::Factor<<"\n"<<std::endl;
-		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
 		//return Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(result);
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(result);
 	}
