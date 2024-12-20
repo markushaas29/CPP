@@ -167,7 +167,14 @@ struct QRBase
 	static constexpr double Factor = ((double)L::Factor / R::Factor);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
-	inline static std::string Sign() { return L::QuantityRatioType::Sign() + L::QuantityRatioType::Sign() + "\t RU " + ru().Sign(); }
+	inline static std::string Sign() 
+	{ 
+		using ru = typename Transform<typename L::UnitType, typename R::UnitType, DividePolicy>::Type;
+		std::cout<<"\nQR_RU: "<<ru::Sign()<<std::endl;
+		return L::QuantityRatioType::Sign() + ru().Sign(); }
+
+		//return L::QuantityRatioType::Sign() + L::QuantityRatioType::Sign() + "\t UnitTYpe " + Unit::Sign(); }
+	//inline static std::string Sign() { return L::QuantityRatioType::Sign() + Unit::Sign(); }
 //	
 //	template<int Fac>
 //	struct PowBy
