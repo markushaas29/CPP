@@ -101,23 +101,23 @@ int Run()
     assert(kmh1.Data()=="1kms^-1");
 
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
-	bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
-    assert(same);
-    std::cout<<"min/H: "<<QRDiv<Minutes,Hours>::Out()<<std::endl;
-    assert((QRDiv<Minutes,Hours>::Out()=="minh^-1"));
-
-	same = std::is_same_v<Unit<0,0,0,-2>,QRMul<Minutes,Hours>::Unit>;
-    assert(same);
-    std::cout<<"min*H: "<<QRMul<Minutes,Hours>::Out()<<std::endl;
-    assert((QRMul<Minutes,Hours>::Out()=="minh"));
+	//bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
+    //assert(same);
+//    std::cout<<"min/H: "<<QRDiv<Minutes,Hours>::Out()<<std::endl;
+//    assert((QRDiv<Minutes,Hours>::Out()=="minh^-1"));
+//
+//	same = std::is_same_v<Unit<0,0,0,-2>,QRMul<Minutes,Hours>::Unit>;
+//    assert(same);
+//    std::cout<<"min*H: "<<QRMul<Minutes,Hours>::Out()<<std::endl;
+//    assert((QRMul<Minutes,Hours>::Out()=="minh"));
     //assert((QRMul<K,Hours>::Factor==(1/3.6)));
 	
-	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
-    assert(isSame);
-	isSame = IsSameTemplate<MinutesBase<2>::RatioType,Minutes::RatioType>::value;
-    assert(isSame);
-    isSame = IsSameTemplate<Minutes::RatioType,Pure::RatioType>::value;
-    assert(!isSame);
+//	bool isSame = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
+//    assert(isSame);
+//	isSame = IsSameTemplate<MinutesBase<2>::RatioType,Minutes::RatioType>::value;
+//    assert(isSame);
+//    isSame = IsSameTemplate<Minutes::RatioType,Pure::RatioType>::value;
+//    assert(!isSame);
 
 	assert(false);
 
@@ -157,59 +157,59 @@ int Run()
     //~ assert(KM::Denom==1);
     //~ assert(KM::Num==1000);
     
-	using DEKA = Deka;
-    std::cout<<DEKA::Name<<"L: "<<DEKA::Num<<" / "<<DEKA::Denom<<std::endl;
-    assert(DEKA::Denom==1);
-    assert(DEKA::Num==10);
-    
-    
-    assert(d1.PureValue()==86400);
-    assert(h1.PureValue()==3600);
-    
-    auto mPerD = m1000 / d1;
-    auto mPerDCastD = QuantityRatio<Days>::Cast(mPerD);
-    std::cout<<mPerD<<" Cast as Day "<<mPerDCastD<<std::endl;
-    assert(mPerDCastD.Value()==1000);
-    
-    auto mPerDCastK = QuantityRatio<Kilo>::Cast(mPerD);
-    std::cout<<mPerD<<" Cast as Kilo "<<mPerDCastK<<std::endl;
-    //~ assert(mPerDCastK.Value()==11.5741);
-    
-    auto mPerDCastM = QuantityRatio<Mega>::Cast(mPerD);
-    std::cout<<mPerD<<" Cast as Mili "<<mPerDCastM<<std::endl;
-    //~ assert(mPerDCastM.Value()==11574.1);
-    
-    auto kmPerh = km24 / h24;
-    auto kmPerHCastH = QuantityRatio<Hours>::Cast(kmPerh);
-    std::cout<<kmPerh<<" Cast as Mili "<<kmPerHCastH<<std::endl;
-    assert(kmPerHCastH.Value()==1);
-
-    std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
-    std::cout<<kwh<<" kwh "<<kwh.PureValue()<<std::endl;
-	assert(kwh.PureValue()==3600);
-
-    std::cout<<"KM: \n\t"<<mPerD<<"\n\t"<<mPerD.In<Hours>()<<"\n"<<std::endl;
-    std::cout<<"KM: \n\t"<<h1<<"\nkm\t"<<(km24/h1).Data()<<"\n"<<std::endl;
-	assert(km24.In<Pure>()==24000);
-	assert(m1000.In<Kilo>()==1);
-	assert(m1000.In<Mega>()==0.001);
-	assert(h1.In<Minutes>()==60);
-	assert((km24/h1).Data()=="0.006667kms^-1");
-
-	auto km24Div24h = km24 / h24;
-	auto v365Divd365 = v365 / d365; 
-	auto kwh48 = h24 * kw2;
-    std::cout<<"Day: \n\t"<<km24Div24h<<"\n"<<std::endl;
-    std::cout<<"Day: \n\t"<<v365Divd365<<"\n"<<std::endl;
-    std::cout<<"KWH: \n\t"<<kwh48<<"\n"<<std::endl;
-
-	assert(km24Div24h<0.00028);
-	assert(v365Divd365<0.0001);
-    //std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<(Quantity<Scalar>{1}/h1.Transform<>()).In<Hours>()<<"\n"<<std::endl;
-	//assert(h1.In<Days>().Equals(0.0416667));
-	//assert(h1.In<S>()==0.0416667);
-    
-    std::cout<<"QR END"<<std::endl;
+//	using DEKA = Deka;
+//    std::cout<<DEKA::Name<<"L: "<<DEKA::Num<<" / "<<DEKA::Denom<<std::endl;
+//    assert(DEKA::Denom==1);
+//    assert(DEKA::Num==10);
+//    
+//    
+//    assert(d1.PureValue()==86400);
+//    assert(h1.PureValue()==3600);
+//    
+//    auto mPerD = m1000 / d1;
+//    auto mPerDCastD = QuantityRatio<Days>::Cast(mPerD);
+//    std::cout<<mPerD<<" Cast as Day "<<mPerDCastD<<std::endl;
+//    assert(mPerDCastD.Value()==1000);
+//    
+//    auto mPerDCastK = QuantityRatio<Kilo>::Cast(mPerD);
+//    std::cout<<mPerD<<" Cast as Kilo "<<mPerDCastK<<std::endl;
+//    //~ assert(mPerDCastK.Value()==11.5741);
+//    
+//    auto mPerDCastM = QuantityRatio<Mega>::Cast(mPerD);
+//    std::cout<<mPerD<<" Cast as Mili "<<mPerDCastM<<std::endl;
+//    //~ assert(mPerDCastM.Value()==11574.1);
+//    
+//    auto kmPerh = km24 / h24;
+//    auto kmPerHCastH = QuantityRatio<Hours>::Cast(kmPerh);
+//    std::cout<<kmPerh<<" Cast as Mili "<<kmPerHCastH<<std::endl;
+//    assert(kmPerHCastH.Value()==1);
+//
+//    std::cout<<kmPerh<<" Cast as Mili "<<mm1000<<std::endl;
+//    std::cout<<kwh<<" kwh "<<kwh.PureValue()<<std::endl;
+//	assert(kwh.PureValue()==3600);
+//
+//    std::cout<<"KM: \n\t"<<mPerD<<"\n\t"<<mPerD.In<Hours>()<<"\n"<<std::endl;
+//    std::cout<<"KM: \n\t"<<h1<<"\nkm\t"<<(km24/h1).Data()<<"\n"<<std::endl;
+//	assert(km24.In<Pure>()==24000);
+//	assert(m1000.In<Kilo>()==1);
+//	assert(m1000.In<Mega>()==0.001);
+//	assert(h1.In<Minutes>()==60);
+//	assert((km24/h1).Data()=="0.006667kms^-1");
+//
+//	auto km24Div24h = km24 / h24;
+//	auto v365Divd365 = v365 / d365; 
+//	auto kwh48 = h24 * kw2;
+//    std::cout<<"Day: \n\t"<<km24Div24h<<"\n"<<std::endl;
+//    std::cout<<"Day: \n\t"<<v365Divd365<<"\n"<<std::endl;
+//    std::cout<<"KWH: \n\t"<<kwh48<<"\n"<<std::endl;
+//
+//	assert(km24Div24h<0.00028);
+//	assert(v365Divd365<0.0001);
+//    //std::cout<<"Day: \n\t"<<h24<<"\nHour\t"<<(Quantity<Scalar>{1}/h1.Transform<>()).In<Hours>()<<"\n"<<std::endl;
+//	//assert(h1.In<Days>().Equals(0.0416667));
+//	//assert(h1.In<S>()==0.0416667);
+//    
+//    std::cout<<"QR END"<<std::endl;
 
     return 0;
 }

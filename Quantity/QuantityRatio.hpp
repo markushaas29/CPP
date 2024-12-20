@@ -151,7 +151,7 @@ struct QRBase
 {
 //	template<int T> using RatioType = Derived<T>;
 	//typename Unit = L::Unit;
-	using Unit = Transform<typename L::Unit, typename R::Unit, P>::Type;
+	using Unit = Transform<typename L::UnitType, typename R::UnitType, P>::Type;
 	using Derived = D<L,R>;
 	static constexpr int Exponent = 1;
 //	static constexpr uint BaseNum = N;
@@ -179,7 +179,7 @@ template<typename L, typename R>
 struct QRDiv: public QRBase<L,R, QRDiv, DividePolicy>
 {
 	using Base = QRBase<L,R, QRDiv, DividePolicy>;
-	static constexpr double Factor = ((double)L::Factor / R::Factor);	
+	static constexpr double Factor = ((double)L::QuantityRatioType::Factor / R::QuantityRatioType::Factor);	
 	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + "^-1"+ Base::Unit::Sign(); 	};
 };
 
