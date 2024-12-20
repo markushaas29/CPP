@@ -94,6 +94,7 @@ int Run()
 	
 	auto mm_1000_D = mm2_1000 / mm1000;
 	std::cout<<"mm_1000_D: "<<mm_1000_D<<std::endl;
+	std::cout<<"mm_1000_D: "<<mm_1000_D.Data()<<std::endl;
     assert(mm_1000_D.Data()=="1000mm");
     
 	auto kmh1 = km24 / h24;
