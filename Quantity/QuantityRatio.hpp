@@ -151,7 +151,7 @@ struct QRBase
 {
 //	template<int T> using RatioType = Derived<T>;
 	//typename Unit = L::Unit;
-	using DividerUnit = Transform<typename L::UnitType, typename R::UnitType, P>::Type;
+	using DividerUnit = Transform<typename L::QuantityRatioType::DividerUnit, typename R::QuantityRatioType::DividerUnit, P>::Type;
 	using qu = typename Transform<typename L::UnitType, typename R::UnitType, P>::Type; 
 	using ru = typename Transform<qu,DividerUnit, MultiplyPolicy>::Type;
 	using Derived = D<L,R>;
@@ -171,9 +171,9 @@ struct QRBase
 	{ 
 		using ru = typename Transform<typename L::UnitType, typename R::UnitType, DividePolicy>::Type;
 		if constexpr(std::is_same_v<typename L::QuantityRatioType,typename R::QuantityRatioType>)
-			return L::QuantityRatioType::Sign() + ru().Sign(); 
+			return L::QuantityRatioType::Sign();
 		else
-			return L::QuantityRatioType::Sign() + R::QuantityRatioType::Sign(); }
+			return L::QuantityRatioType::Sign();}// + R::QuantityRatioType::Sign(); }
 	//inline static std::string Sign() { return L::QuantityRatioType::Sign() + Unit::Sign(); }
 //	
 //	template<int Fac>
