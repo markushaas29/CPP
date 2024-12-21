@@ -171,9 +171,9 @@ struct QRBase
 	{ 
 		using ru = typename Transform<typename L::UnitType, typename R::UnitType, DividePolicy>::Type;
 		std::cout<<"\nQR_RU: "<<ru::Sign()<<std::endl;
-		return L::QuantityRatioType::Sign() + ru().Sign(); }
-
-		//return L::QuantityRatioType::Sign() + L::QuantityRatioType::Sign() + "\t UnitTYpe " + Unit::Sign(); }
+		if constexpr(std::is_same_v<typename L::QuantityRatioType,typename R::QuantityRatioType>)
+			return L::QuantityRatioType::Sign() + ru().Sign(); 
+		return "L " + L::QuantityRatioType::Sign() + " R "+ R::QuantityRatioType::Sign() + "\t QRUnitTYpe " + Unit::Sign(); }
 	//inline static std::string Sign() { return L::QuantityRatioType::Sign() + Unit::Sign(); }
 //	
 //	template<int Fac>
