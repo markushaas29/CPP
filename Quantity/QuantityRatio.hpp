@@ -18,7 +18,7 @@ template<uint N, uint D, int Ex, template<int> class Derived, typename U = Scala
 struct QuantityRatioBase
 {
 	using Type = Derived<Ex>;
-	using Unit = U;
+	using DividerUnit = U;
 	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int Exponent = Ex;
@@ -33,7 +33,7 @@ struct QuantityRatioBase
 	static constexpr double Factor = ((double)Num / Denom);	
 	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 	
-	static auto Out() { return Sign()  + ((Ex != 0 && Ex != 1) ? ("^" + std::to_string(Ex)) : "") + Unit::Sign(); };
+	static auto Out() { return Sign()  + ((Ex != 0 && Ex != 1) ? ("^" + std::to_string(Ex)) : "") + DividerUnit::Sign(); };
 	
 	template<int Fac>
 	struct PowBy
@@ -44,21 +44,21 @@ struct QuantityRatioBase
 };
 
 template<int Ex>
-struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase,Unit<0,0,0,-Ex>> 
+struct MinutesBase: public QuantityRatioBase<60, 1, Ex, MinutesBase,Unit<0,0,0,Ex>> 
 {	
 	static inline const std::string Sign() { return  "min"; } 
 	inline static constexpr const char* Name = "Minuttes"; 
 };
 
 template<int Ex>
-struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase,Unit<0,0,0,-Ex>> 
+struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase,Unit<0,0,0,Ex>> 
 {	
 	static inline const std::string Sign() { return "h"; }
 	inline static constexpr const char* Name = "Hours"; 
 };
 
 template<int Ex>
-struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,-Ex>> 
+struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,Ex>> 
 {	
 	static inline const std::string Sign() { return "d"; }
 	inline static constexpr const char* Name = "Days"; 
@@ -151,9 +151,9 @@ struct QRBase
 {
 //	template<int T> using RatioType = Derived<T>;
 	//typename Unit = L::Unit;
-	using Unit = Transform<typename L::UnitType, typename R::UnitType, P>::Type;
+	using DividerUnit = Transform<typename L::UnitType, typename R::UnitType, P>::Type;
 	using qu = typename Transform<typename L::UnitType, typename R::UnitType, P>::Type; 
-	using ru = typename Transform<qu,Unit, MultiplyPolicy>::Type;
+	using ru = typename Transform<qu,DividerUnit, MultiplyPolicy>::Type;
 	using Derived = D<L,R>;
 	static constexpr int Exponent = 1;
 //	static constexpr uint BaseNum = N;
@@ -170,10 +170,10 @@ struct QRBase
 	inline static std::string Sign() 
 	{ 
 		using ru = typename Transform<typename L::UnitType, typename R::UnitType, DividePolicy>::Type;
-		std::cout<<"\nQR_RU: "<<ru::Sign()<<std::endl;
 		if constexpr(std::is_same_v<typename L::QuantityRatioType,typename R::QuantityRatioType>)
 			return L::QuantityRatioType::Sign() + ru().Sign(); 
-		return "L " + L::QuantityRatioType::Sign() + " R "+ R::QuantityRatioType::Sign() + "\t QRUnitTYpe " + Unit::Sign(); }
+		else
+			return L::QuantityRatioType::Sign() + R::QuantityRatioType::Sign(); }
 	//inline static std::string Sign() { return L::QuantityRatioType::Sign() + Unit::Sign(); }
 //	
 //	template<int Fac>

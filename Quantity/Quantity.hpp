@@ -99,7 +99,7 @@ private:
 	T1 value;
 	friend std::ostream& operator<<(std::ostream& out, const Quantity& q)
 	{
-		using RU = typename Transform<U, typename QR::Unit, MultiplyPolicy>::Type;
+		using RU = typename Transform<U, typename QR::DividerUnit, DividePolicy>::Type;
 		if constexpr (std::is_same_v<U, Sum>)
 		{
 			std::ostringstream oss;
@@ -119,7 +119,8 @@ private:
 	
 	static decltype(auto) data(ValueType v) 
 	{ 
-		using RU = typename Transform<U, typename QR::Unit, MultiplyPolicy>::Type;
+		using RU = typename Transform<U, typename QR::DividerUnit, DividePolicy>::Type;
+		std::cout<<"\nU = "<<U::Sign()<<"\tQR\t"<<QR::Sign() <<"\tDiv\t"<<QR::DividerUnit::Sign()<<"\tRU = "<<RU::Sign()<<"\n"<<std::endl;
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			 res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
@@ -169,8 +170,8 @@ private:
 		
 		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(Value() / q.Value())/QR2_::Factor);
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
-		using ru = typename Transform<qu, typename QR2_::Unit, MultiplyPolicy>::Type; 
-		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::Unit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
+		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
+		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
 		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
@@ -184,10 +185,10 @@ private:
 		using QR_ = QRDiv<Type,Quantity<U2, TQR,T2>>;
 
 		using qu = typename Transform<U, U2, DividePolicy>::Type; 
-		using ru = typename Transform<qu, typename QR_::Unit, MultiplyPolicy>::Type; 
+		using ru = typename Transform<qu, typename QR_::DividerUnit, MultiplyPolicy>::Type; 
 		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())/QR_::Factor);
-		std::cout<<"Left\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<QR_::Unit::Sign()<<"\t Factor"<<QR_::Factor<<"\n";
-		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
+		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<QR_::DividerUnit::Sign()<<"\t Factor"<<QR_::Factor<<"\n";
+		std::cout<<"\nResult = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 		{
