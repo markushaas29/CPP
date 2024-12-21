@@ -88,14 +88,18 @@ int Run()
 
 	auto m2_1000 = m1000 * m1000;
 	auto mm2_1000 = mm1000 * mm1000;
+	auto mm3_1000 = mm2_1000 * mm1000;
     
     assert(mm2_1000.Data()=="1000000mm^2");
+    assert(mm3_1000.Data()=="1000000mm^3");
     assert(m2_1000.Data()=="1000000m^2");
 	
 	auto mm_1000_D = mm2_1000 / mm1000;
-	std::cout<<"mm_1000_D: "<<mm_1000_D<<std::endl;
-	std::cout<<"mm_1000_D: "<<mm_1000_D.Data()<<std::endl;
+	auto mm2_1000_D = mm3_1000 / mm1000;
+	std::cout<<"mm_1000_D: "<<mm2_1000_D.Data()<<std::endl;
+	std::cout<<"mm2_1000_D: "<<mm2_1000_D<<std::endl;
     assert(mm_1000_D.Data()=="1000mm");
+    assert(mm2_1000_D.Data()=="1000000mm^2");
     
 	auto kmh1 = km24 / h24;
 	std::cout<<"1 kmh: "<<kmh1<<std::endl;

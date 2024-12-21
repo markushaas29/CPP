@@ -183,8 +183,6 @@ private:
 		//using QR_ = typename QR::PowBy<ex>::Type;
 		using QR_ = QRDiv<Type,Quantity<U2, TQR,T2>>;
 
-		using qu = typename Transform<U, U2, DividePolicy>::Type; 
-		using ru = typename Transform<qu, typename QR_::DividerUnit, MultiplyPolicy>::Type; 
 		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())/QR_::Factor);
 //		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<QR_::DividerUnit::Sign()<<"\t Factor"<<QR_::Factor<<"\n";
 //		std::cout<<"\nResult = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\n"<<std::endl;
