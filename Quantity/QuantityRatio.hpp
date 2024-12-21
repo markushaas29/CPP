@@ -33,7 +33,7 @@ struct QuantityRatioBase
 	static constexpr double Factor = ((double)Num / Denom);	
 	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 	
-	static auto Out() { return Sign()  + ((Ex != 0 && Ex != 1) ? ("^" + std::to_string(Ex)) : "") + DividerUnit::Sign(); };
+	static auto Out() { return Sign()  + ((Ex != 0 && Ex != 1) ? ("^" + std::to_string(Ex)) : ""); };
 	
 	template<int Fac>
 	struct PowBy

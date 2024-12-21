@@ -63,8 +63,8 @@ int Run()
     assert(Minutes::BaseNum==60);
     assert(Minutes::BaseDenom==1);
     assert(Minutes::Exponent==1);
-    assert(Minutes::Out()=="mins");
-    assert(Hours::Out()=="hs");
+    assert(Minutes::Out()=="min");
+    assert(Hours::Out()=="h");
 
 	auto m1000 = Quantity<Length,Pure, double>(1000);
 	auto mm1000 = Quantity<Length,Milli, double>(1000);
