@@ -27,7 +27,5 @@ Quantity dm^3
 	ist es QR Zuweiseung nötig in Divide und Mul?
 	Liter als Quantity mit dezi => using
 	bei Teilen QR<Qr,TQR> weiterreichen & reult als Value
-	if constexpr(std::is_same_<L::QuantityRatioType,R::QuantityRatioType>)
-	Unit = Trasform<Transform<L::QuantityRatioType::Unit,R::QuantityRatioType::Unit,DividePolicy>>
-
-	using RU = typename Transform<U, typename QR::Divider, DividePolicy>::Type;
+	if <L::QuantityRatioType::Sign == R::QuantityRatioType::Sign
+	assert Unit PureValues,Values

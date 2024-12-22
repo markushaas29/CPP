@@ -170,10 +170,10 @@ struct QRBase
 	inline static std::string Sign() 
 	{ 
 		using ru = typename Transform<typename L::UnitType, typename R::UnitType, DividePolicy>::Type;
-		if constexpr(std::is_same_v<typename L::QuantityRatioType,typename R::QuantityRatioType>)
-			return L::QuantityRatioType::Sign();
-		else
-			return L::QuantityRatioType::Sign();}// + R::QuantityRatioType::Sign(); }
+//		if constexpr(std::is_same_v<typename L::QuantityRatioType,typename R::QuantityRatioType>)
+//			return L::QuantityRatioType::Sign();
+//		else
+			return L::QuantityRatioType::Sign() == R::QuantityRatioType::Sign() ? L::QuantityRatioType::Sign() : L::QuantityRatioType::Sign() + R::QuantityRatioType::Sign(); }
 	//inline static std::string Sign() { return L::QuantityRatioType::Sign() + Unit::Sign(); }
 //	
 //	template<int Fac>
