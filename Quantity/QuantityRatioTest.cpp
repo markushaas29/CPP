@@ -90,12 +90,19 @@ int Run()
 	auto mm2_1000 = mm1000 * mm1000;
 	auto mm3_1000 = mm2_1000 * mm1000;
     
-    assert(mm2_1000.Data()=="1000000mm^2");
-    assert(mm3_1000.Data()=="1000000mm^3");
     assert(m2_1000.Data()=="1000000m^2");
-	
-	std::cout<<"m2_1000: "<<m2_1000.Value()<<std::endl;
     assert(m2_1000.Value()==1000000);
+    assert(m2_1000.PureValue()==1000000);
+	
+    assert(mm2_1000.Data()=="1000000mm^2");
+    assert(mm2_1000.Value()==1000000);
+    assert(mm2_1000.PureValue()==1);
+    
+	std::cout<<"m2_1000: "<<mm3_1000.PureValue()<<std::endl;
+	assert(mm3_1000.Data()=="1000000mm^3");
+    assert(mm3_1000.PureValue()==1);
+	
+
     assert(m2_1000.Data()=="1000000m^2");
 	auto mm_1000_D = mm2_1000 / mm1000;
 	auto mm2_1000_D = mm3_1000 / mm1000;
