@@ -118,8 +118,10 @@ int Run()
     //assert(mm2_1000_D.Data()=="1000000mm^2");
     
 	auto kmh1 = km24 / h24;
-	std::cout<<"1 kmh: "<<kmh1<<std::endl;
+	std::cout<<"1 kmh: "<<kmh1.PureValue()<<std::endl;
     assert(kmh1.Data()=="1khm");
+    assert(kmh1.PureValue()<0.28);
+	assert(decltype(kmh1)::UnitType::Sign()=="ms^-1");
 
 	auto m1_2 = m1 * m1;
     std::cout<<"m1_2: "<<m1_2<<std::endl;
