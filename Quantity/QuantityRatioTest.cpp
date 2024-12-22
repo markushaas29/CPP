@@ -71,6 +71,7 @@ int Run()
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
 	auto d1 = Quantity<Time,Days>(1);
+	auto m1 = Quantity<Time,Minutes>(1);
 	auto d365 = Quantity<Time,Days>(365);
 	auto v365 = Quantity<Volume>(365);
 	auto kwh = Quantity<Energy,KiloHour>(1);
@@ -93,28 +94,35 @@ int Run()
     assert(m2_1000.Data()=="1000000m^2");
     assert(m2_1000.Value()==1000000);
     assert(m2_1000.PureValue()==1000000);
+	assert(decltype(m2_1000)::UnitType::Sign()=="m^2");
 	
     assert(mm2_1000.Data()=="1000000mm^2");
     assert(mm2_1000.Value()==1000000);
     assert(mm2_1000.PureValue()==1);
+	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
     
-	std::cout<<"m2_1000: "<<mm3_1000.PureValue()<<std::endl;
+	std::cout<<"m2_1000: "<<decltype(mm3_1000)::UnitType::Sign()<<std::endl;
 	assert(mm3_1000.Data()=="1000000mm^3");
     assert(mm3_1000.PureValue()==1);
+	assert(decltype(mm3_1000)::UnitType::Sign()=="m^3");
 	
 
     assert(m2_1000.Data()=="1000000m^2");
 	auto mm_1000_D = mm2_1000 / mm1000;
 	auto mm2_1000_D = mm3_1000 / mm1000;
 	std::cout<<"mm_1000_D: "<<mm_1000_D.Data()<<std::endl;
-	std::cout<<"mm2_1000_D: "<<mm2_1000_D<<std::endl;
+	std::cout<<"mm2_1000_D: "<<decltype(mm2_1000_D)::UnitType::Sign()<<std::endl;
     assert(mm_1000_D.Data()=="1000mm");
+	assert(decltype(mm_1000_D)::UnitType::Sign()=="m");
+	assert(decltype(mm2_1000_D)::UnitType::Sign()=="m^2");
     //assert(mm2_1000_D.Data()=="1000000mm^2");
     
 	auto kmh1 = km24 / h24;
 	std::cout<<"1 kmh: "<<kmh1<<std::endl;
     assert(kmh1.Data()=="1khm");
 
+	auto m1_2 = m1 * m1;
+    std::cout<<"m1_2: "<<m1_2<<std::endl;
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	//bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
     //assert(same);
