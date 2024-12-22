@@ -120,7 +120,7 @@ private:
 	static decltype(auto) data(ValueType v) 
 	{ 
 		using RU = typename Transform<U, typename QR::DividerUnit, DividePolicy>::Type;
-		std::cout<<"\nThis data UnitSign\t"<<U::Sign()<<"QR "<<QR::Sign()<<"QRDivider "<<QR::DividerUnit::Sign()<<"\t RUnitSign()"<<RU::Sign()<<"\n";
+//		std::cout<<"\nThis data UnitSign\t"<<U::Sign()<<"QR "<<QR::Sign()<<"QRDivider "<<QR::DividerUnit::Sign()<<"\t RUnitSign()"<<RU::Sign()<<"\n";
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			 res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
@@ -186,7 +186,7 @@ private:
 
 		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())/QR_::Factor);
 		using RU = typename Transform<U, U2, DividePolicy>::Type;
-		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<RU::Sign()<<"\n";
+//		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<RU::Sign()<<"\n";
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 		{

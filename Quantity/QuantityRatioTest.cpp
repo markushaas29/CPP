@@ -94,6 +94,9 @@ int Run()
     assert(mm3_1000.Data()=="1000000mm^3");
     assert(m2_1000.Data()=="1000000m^2");
 	
+	std::cout<<"m2_1000: "<<m2_1000.Value()<<std::endl;
+    assert(m2_1000.Value()==1000000);
+    assert(m2_1000.Data()=="1000000m^2");
 	auto mm_1000_D = mm2_1000 / mm1000;
 	auto mm2_1000_D = mm3_1000 / mm1000;
 	std::cout<<"mm_1000_D: "<<mm_1000_D.Data()<<std::endl;
@@ -103,7 +106,7 @@ int Run()
     
 	auto kmh1 = km24 / h24;
 	std::cout<<"1 kmh: "<<kmh1<<std::endl;
-    assert(kmh1.Data()=="1kh");
+    assert(kmh1.Data()=="1khm");
 
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
 	//bool same = std::is_same_v<Scalar,QRDiv<Minutes,Hours>::Unit>;
