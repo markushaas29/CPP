@@ -83,7 +83,7 @@ public:
  	HtmlElements(const std::string& n, const std::string& id = "", std::unique_ptr<ICss> css = nullptr, std::unique_ptr<std::vector<std::unique_ptr<IHtmlElement>>> v = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>()): HtmlElements{std::move(v),std::move(css),n,id}{};
 	HtmlElements(const HtmlElements& html): Base{html}, elements{html.cloneElements()} { }
 	void Add(std::unique_ptr<IHtmlElement> html) { elements->push_back(std::move(html)); }
-	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(cloneElements()); };
+	virtual std::unique_ptr<IHtmlElement> Clone() const { return std::make_unique<HtmlElements>(cloneElements(), Base::css ? Base::css->Clone() : nullptr,Base::name,Base::id); };
 private:
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  
 	{	
