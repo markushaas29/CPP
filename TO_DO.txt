@@ -3,7 +3,6 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	Apply. neues als basis und bisheriges moven
 	an css zuweisen
 Jahresabrechnung
 	Name sowie ohne stylesheet
@@ -28,87 +27,3 @@ Quantity dm^3
 	ist es QR Zuweiseung nötig in Divide und Mul?
 	Liter als Quantity mit dezi => using
 	assert 10mmss
-
-	
-	est.cpp: In member function ‘int QTest::Run()’:
-Test.cpp:114:24: error: static assertion failed: Data structure requires default-constructible elements
-  114 |     static_assert(std::is_same_v<decltype(km12)::QuantityRatioType,KiloBase<2>>,"Data structure requires default-constructible elements");
-      |                   ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-In file included from Test.cpp:3,
-                 from T.cpp:6:
-Quantity.hpp: In instantiation of ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = KiloBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’:
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = KiloBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’
-Test.cpp:128:21:   required from here
-Quantity.hpp:192:66: error: ‘BaseNum’ is not a member of ‘Quantity<Unit<0, 2>, QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                  ^~~~~~~
-Quantity.hpp:192:114: error: ‘BaseDenom’ is not a member of ‘Quantity<Unit<0, 2>, QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                                                                  ^~~~~~~~~
-Quantity.hpp: In instantiation of ‘static constexpr decltype(auto) Quantity<U, QR, T1>::transform(TQuantity) [with TQuantity = Quantity<Unit<0, 1>, KiloBase<1> >; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’:
-Quantity.hpp:201:94:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = KiloBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = KiloBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’
-Test.cpp:128:21:   required from here
-Quantity.hpp:160:23: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’
-  160 |                 using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
-      |                       ^~~
-Quantity.hpp:161:24: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’
-  161 |                 return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
-      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Quantity.hpp: In instantiation of ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = PureBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’:
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = PureBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’
-Test.cpp:134:22:   required from here
-Quantity.hpp:192:66: error: ‘BaseNum’ is not a member of ‘Quantity<Unit<0, 2>, QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                  ^~~~~~~
-Quantity.hpp:192:114: error: ‘BaseDenom’ is not a member of ‘Quantity<Unit<0, 2>, QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                                                                  ^~~~~~~~~
-Quantity.hpp: In instantiation of ‘static constexpr decltype(auto) Quantity<U, QR, T1>::transform(TQuantity) [with TQuantity = Quantity<Unit<0, 1> >; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’:
-Quantity.hpp:201:94:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = PureBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = PureBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >; T1 = double]’
-Test.cpp:134:22:   required from here
-Quantity.hpp:160:23: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’
-  160 |                 using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
-      |                       ^~~
-Quantity.hpp:161:24: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, KiloBase<1> >, Quantity<Unit<0, 1>, KiloBase<1> > >’
-  161 |                 return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
-      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Quantity.hpp: In instantiation of ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’:
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’
-QuantityRatioTest.cpp:136:30:   required from here
-Quantity.hpp:192:66: error: ‘BaseNum’ is not a member of ‘Quantity<Unit<0, 2>, QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                  ^~~~~~~
-Quantity.hpp:192:114: error: ‘BaseDenom’ is not a member of ‘Quantity<Unit<0, 2>, QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                                                                  ^~~~~~~~~
-Quantity.hpp: In instantiation of ‘static constexpr decltype(auto) Quantity<U, QR, T1>::transform(TQuantity) [with TQuantity = Quantity<Unit<0, 1>, MilliBase<1> >; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’:
-Quantity.hpp:201:94:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 2>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’
-QuantityRatioTest.cpp:136:30:   required from here
-Quantity.hpp:160:23: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’
-  160 |                 using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
-      |                       ^~~
-Quantity.hpp:161:24: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’
-  161 |                 return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
-      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Quantity.hpp: In instantiation of ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 3>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’:
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 3>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’
-QuantityRatioTest.cpp:137:31:   required from here
-Quantity.hpp:192:66: error: ‘BaseNum’ is not a member of ‘Quantity<Unit<0, 3>, QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                  ^~~~~~~
-Quantity.hpp:192:114: error: ‘BaseDenom’ is not a member of ‘Quantity<Unit<0, 3>, QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >, double>::QuantityRatioType’ {aka ‘QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’}
-  192 |                 if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-      |                                                                                                                  ^~~~~~~~~
-Quantity.hpp: In instantiation of ‘static constexpr decltype(auto) Quantity<U, QR, T1>::transform(TQuantity) [with TQuantity = Quantity<Unit<0, 1>, MilliBase<1> >; U = Unit<0, 3>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’:
-Quantity.hpp:201:94:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::divide(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 3>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’
-Quantity.hpp:95:89:   required from ‘constexpr decltype(auto) Quantity<U, QR, T1>::operator/(const Quantity<U, QR, T1>&) const [with U2 = Unit<0, 1>; TQR = MilliBase<1>; T2 = double; U = Unit<0, 3>; QR = QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >; T1 = double]’
-QuantityRatioTest.cpp:137:31:   required from here
-Quantity.hpp:160:23: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’
-  160 |                 using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
-      |                       ^~~
-Quantity.hpp:161:24: error: no class template named ‘RatioType’ in ‘struct QRMul<Quantity<Unit<0, 1>, MilliBase<1> >, Quantity<Unit<0, 1>, MilliBase<1> > >’
-  161 |                 return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
-      |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
