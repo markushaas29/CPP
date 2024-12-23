@@ -8,6 +8,7 @@ CSS
 Jahresabrechnung
 	Name sowie ohne stylesheet
 	Sums-Matrix als Property
+	ID an atbellem
 Form Klasse
 	Namen/Id und Headers einfügen
 Account
@@ -26,6 +27,4 @@ Quantity dm^3
 	1000 statt 1
 	ist es QR Zuweiseung nötig in Divide und Mul?
 	Liter als Quantity mit dezi => using
-	bei Teilen QR<Qr,TQR> weiterreichen & reult als Value
-	if <L::QuantityRatioType::Sign == R::QuantityRatioType::Sign
-	assert Unit PureValues,Values
+	assert 10mmss
