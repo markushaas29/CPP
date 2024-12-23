@@ -166,16 +166,17 @@ private:
 	{ 
 		constexpr int ex = QR::Exponent + TQR::Exponent;
 		using QR_ = typename QR::PowBy<ex>::Type;
-		using QR2_ = QRDiv<Type,Quantity<U2, TQR,T2>>;
+		using QR2_ = QRMul<Type,Quantity<U2, TQR,T2>>;
 		
-		std::cout<<"\nLeft\t"<<PureValue()<<"\tright: "<<q.PureValue()<<"\t="<<(PureValue()*q.PureValue())<<"\t Factor"<<QR2_::Factor<<"\n";
-		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(Value() / q.Value())/QR2_::Factor);
+		std::cout<<"\nLeft\t"<<PureValue()<<"\tright: "<<q.PureValue()<<"\t="<<(PureValue()*q.PureValue()/QR2_::Factor)<<"\t Factor"<<QR2_::Factor<<"\n";
+		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(PureValue()*q.PureValue()/QR2_::Factor));
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
 		std::cout<<"Left\t"<<this->Data()<<"\tright: "<<q.Data()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
 //		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
-		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
+		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value()));
+		//return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value())/QR2_::Factor);
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>

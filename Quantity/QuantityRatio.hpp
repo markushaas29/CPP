@@ -189,8 +189,8 @@ struct QRDiv: public QRBase<L,R, QRDiv, DividePolicy>
 template<typename L, typename R>
 struct QRMul: public QRBase<L,R, QRMul, MultiplyPolicy>
 {
-	using Base = QRBase<L,R, QRDiv, MultiplyPolicy>;
-	static constexpr double Factor = ((double)L::Factor * R::Factor);	
+	using Base = QRBase<L,R, QRMul, MultiplyPolicy>;
+	static constexpr double Factor = ((double)L::QuantityRatioType::Factor * R::QuantityRatioType::Factor);	
 	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign); 	};
 };
 
