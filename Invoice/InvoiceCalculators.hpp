@@ -242,7 +242,7 @@ private:
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
-		divA->Add(MatrixFormatter(address).Html());
+		divA->Add(MatrixFormatter(address).Html(std::make_unique<Css<Style<FontWeight,Bold>>>(),"Address"));
 		outs->push_back(std::move(divA));
 
 		auto classCss = std::make_unique<StyleElement>();
