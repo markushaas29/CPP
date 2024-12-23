@@ -89,7 +89,6 @@ int Run()
 
 	auto m2_1000 = m1000 * m1000;
 	auto mm2_1000 = mm1000 * mm1000;
-	auto mm3_1000 = mm2_1000 * mm1000;
     
     assert(m2_1000.Data()=="1000000m^2");
     assert(m2_1000.Value()==1000000);
@@ -100,9 +99,35 @@ int Run()
     assert(mm2_1000.Value()==1000000);
     assert(mm2_1000.PureValue()==1);
 	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
+   
+	auto mm10 = Quantity<Length,Milli, double>(10);
+	auto mm10_2 = mm10 * mm10;
+	auto mm10_3 = mm10_2 * mm10;
     
+	assert(mm10.Data()=="10mm");
+    assert(mm10.Value()==10);
+    assert(mm10.PureValue()==0.01);
+	assert(decltype(mm10)::UnitType::Sign()=="m");
+    
+	assert(mm10_2.Data()=="100mm^2");
+    assert(mm10_2.Value()==100);
+    assert(mm10_2.PureValue()<0.00015);
+	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
+	
+	std::cout<<"mm10_3: "<<mm10_3.Data()<<std::endl;
+//	assert(mm10_3.Data()=="10000mm^3");
+//    assert(mm10_3.Value()==1000);
+//	std::cout<<"m2_1000: "<<mm10_2.PureValue()<<std::endl;
+//    assert(mm10_3.PureValue()==0.000001);
+//	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
+	
+    assert(mm2_1000.Data()=="1000000mm^2");
+    assert(mm2_1000.Value()==1000000);
+    assert(mm2_1000.PureValue()==1);
+
+	auto mm3_1000 = mm2_1000 * mm1000;
 	std::cout<<"m2_1000: "<<decltype(mm3_1000)::UnitType::Sign()<<std::endl;
-	assert(mm3_1000.Data()=="1000000mm^3");
+	assert(mm3_1000.Data()=="1000000000mm^3");
     assert(mm3_1000.PureValue()==1);
 	assert(decltype(mm3_1000)::UnitType::Sign()=="m^3");
 	
