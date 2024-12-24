@@ -249,7 +249,7 @@ private:
 		classCss->Add(std::make_unique<ClassCss<Style<Padding,Px<14>>>>("border"));
 		outs->push_back(std::move(classCss));
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<TextAlign, Right>>>());
-		div0->Add(Date::Today().Html(std::make_unique<Css<Style<FontWeight,Bold>>>(),"Date", "DateId"));
+		div0->Add(Html<Td>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>>>(),"Date", "DateId"));
 		outs->push_back(std::move(div0));
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
