@@ -242,14 +242,14 @@ private:
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
-		divA->Add(MatrixFormatter(address).Html(std::make_unique<Css<Style<FontWeight,Bold>>>(),"Address"));
+		divA->Add(MatrixFormatter(address).Html(std::make_unique<Css<Style<FontWeight,Bold>>>(),"Address", "AddressId"));
 		outs->push_back(std::move(divA));
 
 		auto classCss = std::make_unique<StyleElement>();
 		classCss->Add(std::make_unique<ClassCss<Style<Padding,Px<14>>>>("border"));
 		outs->push_back(std::move(classCss));
 		auto div0 = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<TextAlign, Right>>>());
-		div0->Add(Date::Today().Html());
+		div0->Add(Date::Today().Html(std::make_unique<Css<Style<FontWeight,Bold>>>(),"Date", "DateId"));
 		outs->push_back(std::move(div0));
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
@@ -271,7 +271,7 @@ private:
 
 		auto annualAdvancePaymentForm = MatrixFormatter(Init(annualAdvancePayment)());
 		auto div5 = std::make_unique<HtmlElements<DivTag>>("Div5","",std::make_unique<Css<Style<Margin,Px<50>>>>());
-		div5->Add(annualAdvancePaymentForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatementSum"))));
+		div5->Add(annualAdvancePaymentForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatementSum"),std::make_unique<Css<Style<FontWeight,Bold>>>(),"", "")));
 		outs->push_back(std::move(div5));
 
         auto accountM = Costs(y, html);  
