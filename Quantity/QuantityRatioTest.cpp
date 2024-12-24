@@ -116,14 +116,18 @@ int Run()
     assert(mm10_2.Value()==100);
     assert(mm10_2.PureValue()<0.00015);
 	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
-	
+
+
+	std::cout<<"mm10_2: "<<mm10_2<<std::endl;
+	std::cout<<"mm10_3: "<<mm10_3<<std::endl;
+	std::cout<<"mm10_2: "<<mm10_2.PureValue()<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3.PureValue()<<std::endl;
+	std::cout<<"mm10_2: "<<mm10_2.Value()<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3.Value()<<std::endl;
 //	assert(mm10_3.Data()=="10000mm^3");
     assert(mm10_3.Value()==1000);
-//	std::cout<<"m2_1000: "<<mm10_2.PureValue()<<std::endl;
     assert(mm10_3.PureValue()==0.000001);
-//	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
+	assert(decltype(mm10_3)::UnitType::Sign()=="m^3");
 	
     assert(mm2_1000.Data()=="1000000mm^2");
     assert(mm2_1000.Value()==1000000);

@@ -173,6 +173,7 @@ private:
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
 		std::cout<<"Left\t"<<this->Data()<<"\tright: "<<q.Data()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
+		std::cout<<"LeftU\t"<<UnitType::Sign()<<"\trightS: "<<U2::Sign()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
 //		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value()));
