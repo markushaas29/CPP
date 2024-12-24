@@ -27,3 +27,4 @@ Quantity dm^3
 	ist es QR Zuweiseung nötig in Divide und Mul?
 	Liter als Quantity mit dezi => using
 	assert 10mmss
+	Ausgabe in Data / outstream
