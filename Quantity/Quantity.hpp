@@ -120,7 +120,6 @@ private:
 	static decltype(auto) data(ValueType v) 
 	{ 
 		using RU = typename Transform<U, typename QR::DividerUnit, DividePolicy>::Type;
-//		std::cout<<"\nThis data UnitSign\t"<<U::Sign()<<"QR "<<QR::Sign()<<"QRDivider "<<QR::DividerUnit::Sign()<<"\t RUnitSign()"<<RU::Sign()<<"\n";
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			 res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
@@ -173,11 +172,12 @@ private:
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
 		std::cout<<"Left\t"<<this->Data()<<"\tright: "<<q.Data()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
-		std::cout<<"LeftU\t"<<UnitType::Sign()<<"\trightS: "<<U2::Sign()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
+		std::cout<<"LeftU\t"<<UnitType::Sign()<<"\trightS: "<<U2::Sign()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t2 Factor"<<QR2_::Factor<<"\n";
+		std::cout<<"LeftU\t"<<Value()<<"\trightS: "<<q.Value()<<"\t="<<Value()*q.Value()<<"\t Sign"<<((Value()*q.Value())/QR_::Factor)<<"\t UnitSign()"<<((Value()*q.Value())/QR2_::Factor)<<"\t Factor"<<QR_::Factor<<"\n";
+		std::cout<<"LeftU\t"<<PureValue()<<"\trightS: "<<q.PureValue()<<"\t="<<Value()*q.Value()<<"\t Sign"<<((PureValue()*q.PureValue())/QR_::Factor)<<"\t UnitSign()"<<((Value()*q.Value())/QR2_::Factor)<<"\t Factor"<<QR_::Factor<<"\n";
 //		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value()));
-		//return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value())/QR2_::Factor);
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>

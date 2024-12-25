@@ -120,6 +120,8 @@ int Run()
 
 	std::cout<<"mm10_2: "<<mm10_2<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3<<std::endl;
+	std::cout<<"mm10_2Data: "<<mm10_2.Data()<<std::endl;
+	std::cout<<"mm10_3Data: "<<mm10_3.Data()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.PureValue()<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3.PureValue()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.Value()<<std::endl;
