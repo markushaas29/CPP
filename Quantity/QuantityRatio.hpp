@@ -156,8 +156,8 @@ struct QRBase
 	using ru = typename Transform<qu,DividerUnit, MultiplyPolicy>::Type;
 	using Derived = D<L,R>;
 	static constexpr int Exponent = 1;
-//	static constexpr uint BaseNum = N;
-//	static constexpr uint BaseDenom = D;
+	static constexpr uint BaseNum = 1;
+	static constexpr uint BaseDenom = 1;
 //	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
 //	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
 //	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;

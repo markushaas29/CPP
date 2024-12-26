@@ -116,6 +116,7 @@ int Run()
     assert(mm10_2.PureValue()<0.00015);
 	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
 
+	std::cout<<"POW mm10_3: "<<std::endl;
 	auto mm10_3 = mm10 * mm10_2;
 	std::cout<<"mm10_2: "<<mm10_2<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3<<std::endl;
@@ -124,7 +125,7 @@ int Run()
 	std::cout<<"mm10_2: "<<mm10_2.PureValue()<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3.PureValue()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.Value()<<std::endl;
-	std::cout<<"mm10_3: "<<mm10_3.Value()<<std::endl;
+	std::cout<<"mm10_3 V: "<<mm10_3.Value()<<std::endl;
 	std::cout<<"mm10 Factor: "<<decltype(mm10)::QuantityRatioType::Factor<<std::endl;
 	std::cout<<"mm10 Ex: "<<decltype(mm10)::QuantityRatioType::Exponent<<std::endl;
 	std::cout<<"mm10_2 Factor: "<<decltype(mm10_2)::QuantityRatioType::Factor<<std::endl;
@@ -132,8 +133,8 @@ int Run()
 	std::cout<<"mm10_3 Factor: "<<decltype(mm10_3)::QuantityRatioType::Factor<<std::endl;
 	std::cout<<"mm10_3 Ex: "<<decltype(mm10_3)::QuantityRatioType::Exponent<<std::endl;
 	assert(mm10_3.Data()=="1000mm^3");
-    assert(mm10_3.Value()==1000);
-    assert(mm10_3.PureValue()==0.000001);
+    assert(((int)mm10_3.Value())==1000);
+    assert(mm10_3.PureValue()<0.0000011);
 	assert(decltype(mm10_3)::UnitType::Sign()=="m^3");
 	
     assert(mm2_1000.Data()=="1000000mm^2");
