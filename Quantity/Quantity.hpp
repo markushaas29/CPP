@@ -79,11 +79,8 @@ public:
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
 	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
 	
-	template<typename TQR>
-	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return multiply(transform(q));}
-	
 	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR,T1>(Value() * (T1)q.PureValue());;	}
+	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR,T1>(Value() * (T1)q.Value());;	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<Scalar>(value / q.PureValue());	}
@@ -155,9 +152,10 @@ private:
 	template<typename TQuantity>
 	constexpr static decltype(auto) transform(TQuantity t)
 	{ 
-		using TU = typename TQuantity::UnitType;
-		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
-		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
+//		using TU = typename TQuantity::UnitType;
+//		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
+//		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
+		return t;
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
