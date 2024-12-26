@@ -253,7 +253,7 @@ private:
 		outs->push_back(std::move(div0));
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),std::make_unique<Css<Style<FontWeight,Bold>>>(),"Sums", "Payments"));
+		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums", "Payments"));
 		outs->push_back(std::move(div1));
 
 		auto extraCosts = stageproperties[1].Rows(14,15).template To<Quantity<Sum>>();
@@ -302,13 +302,13 @@ private:
 
 		auto resultMatrix = Init(vp)();
 		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),std::make_unique<Css<Style<Margin,Px<50>>>>(),"Sums","Costs"));
+		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
 		
 		auto sumX = resultMatrix.Col(8).template To<Quantity<Sum>>().ColSum();
 		std::vector<std::vector<std::shared_ptr<IElement>>> addedCosts = {{std::make_shared<Header>("Costs"),std::make_shared<Entry>(this->asString(sumX)), std::make_shared<Quantity<Sum>>(sumX())}	};
 		auto mAddedCosts = MatrixFormatter(Init(addedCosts)());
 		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","");
-		div4->Add(mAddedCosts.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("summedAnnualStatement")),std::make_unique<Css<Style<Margin,Px<50>>>>(),"Sums","Costs2"));
+		div4->Add(mAddedCosts.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("summedAnnualStatement")),nullptr,"Sums","Costs2"));
 
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
@@ -323,7 +323,7 @@ private:
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
 		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
-		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("total")),std::make_unique<Css<Style<Margin,Px<50>>>>(),"Sums","Total"));
+		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("total")),nullptr,"Sums","Total"));
 		outs->push_back(std::move(div2));
 		outs->push_back(std::move(div4));
 		outs->push_back(std::move(div3));
