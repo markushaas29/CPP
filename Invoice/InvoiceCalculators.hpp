@@ -322,7 +322,7 @@ private:
 
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
-		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",nullptr);
 		div3->Add(mCostsForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("total")),nullptr,"Sums","Total"));
 		outs->push_back(std::move(div2));
 		outs->push_back(std::move(div4));
