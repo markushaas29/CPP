@@ -125,6 +125,10 @@ int Run()
 	std::cout<<"mm10_3: "<<mm10_3.PureValue()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.Value()<<std::endl;
 	std::cout<<"mm10_3: "<<mm10_3.Value()<<std::endl;
+	std::cout<<"mm10 Factor: "<<decltype(mm10)::QuantityRatioType::Factor<<std::endl;
+	std::cout<<"mm10 Ex: "<<decltype(mm10)::QuantityRatioType::Exponent<<std::endl;
+	std::cout<<"mm10_2 Factor: "<<decltype(mm10_2)::QuantityRatioType::Factor<<std::endl;
+	std::cout<<"mm10_2 Ex: "<<decltype(mm10_2)::QuantityRatioType::Exponent<<std::endl;
 	std::cout<<"mm10_3 Factor: "<<decltype(mm10_3)::QuantityRatioType::Factor<<std::endl;
 	std::cout<<"mm10_3 Ex: "<<decltype(mm10_3)::QuantityRatioType::Exponent<<std::endl;
 	assert(mm10_3.Data()=="1000mm^3");
