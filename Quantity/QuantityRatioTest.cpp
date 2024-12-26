@@ -136,6 +136,16 @@ int Run()
     assert(((int)mm10_3.Value())==1000);
     assert(mm10_3.PureValue()<0.0000011);
 	assert(decltype(mm10_3)::UnitType::Sign()=="m^3");
+	assert(decltype(mm10_3)::QuantityRatioType::Factor==0.000000001);
+	
+	auto mm10_4 = mm10 * mm10_3;
+	std::cout<<"mm10_4: "<<mm10_4<<std::endl;
+	std::cout<<"mm10_3 Ex: "<<decltype(mm10_4)::QuantityRatioType::Factor<<std::endl;
+	assert(mm10_4.Data()=="10000mm^4");
+    assert(((int)mm10_4.Value())==10000);
+    //assert(mm10_4.PureValue()<0.000000002);
+	assert(decltype(mm10_4)::UnitType::Sign()=="m^4");
+	//assert(decltype(mm10_4)::QuantityRatioType::Factor<0.0000000000002);
 	
     assert(mm2_1000.Data()=="1000000mm^2");
     assert(mm2_1000.Value()==1000000);
