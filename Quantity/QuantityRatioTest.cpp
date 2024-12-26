@@ -195,7 +195,7 @@ int Run()
 //    isSame = IsSameTemplate<Minutes::RatioType,Pure::RatioType>::value;
 //    assert(!isSame);
 
-	assert(false);
+//	assert(false);
 
 	constexpr bool isSameC = IsSameTemplate<Minutes::RatioType,Minutes::RatioType>::value;
 	

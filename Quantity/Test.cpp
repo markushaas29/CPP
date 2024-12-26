@@ -18,7 +18,6 @@ int Run()
 
     std::cout<<"START QTEST"<<std::endl;
 
-	StringTest().Run();
 	
 	//~ Quantity<Mass> q5 = Quantity<Mass>(3);
 	//~ Quantity<Mass> q7 = Quantity<Mass>(13);
@@ -250,6 +249,7 @@ int Run()
     //~ std::cout<<"m11: "<<m22<<"\t"<<m22.PureValue()<<std::endl;
     //~ assert(m22.PureValue()==14400);
     //~ assert(m22.Value()==4);
+	StringTest().Run();
 	
     std::cout<<"END"<<std::endl;
 
