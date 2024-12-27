@@ -11,7 +11,7 @@ Jahresabrechnung
 	Html<> in Element
 	annualPayment
 Form Klasse
-	Namen/Id und Headers einfügen
+ Transform Address	
 Account
 	Assert
 Hallenmiete
@@ -30,3 +30,4 @@ Quantity dm^3
 	Liter als Quantity mit dezi => using
 	assert 10mmss
 	Ausgabe in Data / outstream -> RU->EXP
+	PureValue durch QR-Factor 
