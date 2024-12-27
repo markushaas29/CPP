@@ -163,18 +163,11 @@ private:
 	{ 
 		constexpr int ex = QR::Exponent + TQR::Exponent;
 		using QR_ = typename QR::PowBy<ex>::Type;
-		using QRP = typename QR::PowBy<1>::Type;
 		using QR2_ = QRMul<Type,Quantity<U2, TQR,T2>>;
 		
-		std::cout<<"\nLeft\t"<<PureValue()<<"\tright: "<<q.PureValue()<<"\t="<<(PureValue()*q.PureValue()/QR2_::Factor)<<"\t Factor"<<QR2_::Factor<<"\n";
 		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(PureValue()*q.PureValue()/QR2_::Factor));
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
-		std::cout<<"Left\t"<<this->Data()<<"\tright: "<<q.Data()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t Factor"<<QR2_::Factor<<"\n";
-		std::cout<<"LeftU\t"<<UnitType::Sign()<<"\trightS: "<<U2::Sign()<<"\t="<<result<<"\t Sign"<<QR2_::Sign()<<"\t UnitSign()"<<QR2_::DividerUnit::Sign()<<"\t2 Factor"<<QR2_::Factor<<"\n";
-		std::cout<<"LeftU\t"<<Value()<<"\trightS: "<<q.Value()<<"\t="<<Value()*q.Value()<<"\t Sign"<<((Value()*q.Value())/QR_::Factor)<<"\t UnitSign()"<<((Value()*q.Value())/QR2_::Factor)<<"\t Factor"<<QR_::Factor<<"\n";
-		std::cout<<"LeftU\t"<<PureValue()<<"\trightS: "<<q.PureValue()<<"\t="<<Value()*q.Value()<<"\t Sign"<<((PureValue()*q.PureValue())/QRP::Factor)<<"\t UnitSign()"<<((Value()*q.Value())/QRP::Factor)<<"\t Factor"<<QR_::Factor<<"\n";
-//		std::cout<<"Result = "<<result <<"\tresultUnit\t"<<ru().Sign()<<"\t"<<std::endl;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value()));
 	}
@@ -183,12 +176,9 @@ private:
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T2>& q) const
 	{ 
 		constexpr int ex = QR::Exponent - TQR::Exponent;
-		//using QR_ = typename QR::PowBy<ex>::Type;
 		using QR_ = QRDiv<Type,Quantity<U2, TQR,T2>>;
 
 		auto result = (Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue())/QR_::Factor);
-		using RU = typename Transform<U, U2, DividePolicy>::Type;
-//		std::cout<<"\nLeft\t"<<*this<<"\tright: "<<q<<"\t="<<result<<"\t Sign()"<<QR_::Sign()<<"\t UnitSign()"<<RU::Sign()<<"\n";
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
 		{
