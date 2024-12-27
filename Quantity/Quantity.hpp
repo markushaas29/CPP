@@ -152,8 +152,9 @@ private:
 	template<typename TQuantity>
 	constexpr static decltype(auto) transform(TQuantity t)
 	{ 
-//		using TU = typename TQuantity::UnitType;
-//		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
+		using TU = typename TQuantity::UnitType;
+		int i =  Quantity::QuantityRatioType::Exponent;
+		//using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
 //		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
 		return t;
 	}
