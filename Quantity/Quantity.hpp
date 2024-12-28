@@ -62,7 +62,7 @@ public:
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
 	
 	template<typename TQR = QR>
-	constexpr decltype(auto) operator+(const Quantity<U,TQR,T1>& y) const { return Type(Value() + transform(y).Value()); }
+	constexpr decltype(auto) operator+(const Quantity<U,TQR,T1>& y) const { return Type((value + y.PureValue())/QR::Factor); }
 	
 	// ----------------------------------------SUB-------------------------------------------------------------
 	constexpr  decltype(auto) operator-(const Quantity<U,QR,T1>& y) const { return Type(Value() - y.Value()); }
