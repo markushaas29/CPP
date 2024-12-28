@@ -117,6 +117,9 @@ private:
 	static decltype(auto) data(ValueType v) 
 	{ 
 		using RU = typename Transform<U, typename QR::DividerUnit, DividePolicy>::Type;
+
+		std::cout<<"Value "<<v<<std::endl;
+
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			 res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
