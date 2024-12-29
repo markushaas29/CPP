@@ -123,22 +123,30 @@ private:
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			 res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
-		res = std::to_string(v)+QR::Sign()+RU::Sign(); 
+		else
+			res = std::to_string(v)+QR::Sign()+RU::Sign(); 
+		std::cout<<"Res "<<res<<std::endl;
 		std::string str(res);
 		std::size_t id = str.find_first_not_of("-+0123456789");
 		
 		auto result = str.substr(0,id);
+		std::cout<<"End1 "<<result<<"\t"<<id<<std::endl;
 		str = str.substr(id,str.size());
 		
 		id = str.find_first_not_of("0.,");
 		
 		id = id > str.size() ? 0 : id;
 		auto ending = str.substr(id,str.size());
+		std::cout<<"Ending For"<<ending<<"\t"<<id<<std::endl;
 		
 		result += !isdigit(str[0]) ? ending : str;
+		std::cout<<"End2 "<<result<<"\t"<<id<<std::endl;
 
 		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
+		
+		id = str.find_first_not_of("-+,.123456789");
 
+		std::cout<<"End "<<result<<"\t"<<id<<std::endl;
 		return result;
 	}
 
