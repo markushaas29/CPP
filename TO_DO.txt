@@ -31,3 +31,5 @@ Quantity dm^3
 	assert 10mmss
 	Ausgabe in Data / outstream -> RU->EXP
 	PureValue durch QR-Factor 
+	else Zweig bei constexpr oder 0 entfernen danch
+	qkm1
