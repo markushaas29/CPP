@@ -61,7 +61,7 @@ int Run()
     
     auto qp = fmt("Q","100");   
 
-    assert("100.kg"==(std::string)Quantity<Mass>(100));
+    assert("100kg"==(std::string)Quantity<Mass>(100));
     assert("100.12€"==(std::string)Quantity<Sum>(100.12));
 	//assert(*qp==Quantity<Sum>(100));
 

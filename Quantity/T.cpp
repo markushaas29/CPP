@@ -17,7 +17,6 @@ int main()
 	QRTest sut2;
 
 	sut2.Run();
-	assert(false);
 	sut.Run();
 
 	return 0;
