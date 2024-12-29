@@ -125,19 +125,22 @@ private:
 			res = std::to_string(v)+QR::Sign()+RU::Sign(); 
 		std::string str(res);
 		std::size_t id = str.find_first_not_of("-+0123456789");
-		
+
+		if (id>=str.size())
+			return res;
+
 		auto result = str.substr(0,id);
 		str = str.substr(id,str.size());
 		
 		id = str.find_first_not_of("0.,");
-		
-		id = id > str.size() ? 0 : id;
-		auto ending = str.substr(id,str.size());
-		result += isdigit(str[0]) || (str[0]=='.'||str[0]==',') && (isdigit(str[1])) ? str :ending;
+		if(id < str.size())
+		{
+			id = id > str.size() ? 0 : id;
+			auto ending = str.substr(id,str.size());
+			result += isdigit(str[0]) || (str[0]=='.'||str[0]==',') && (isdigit(str[1])) ? str :ending;
+		}
 
 		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
-		
-		id = str.find_first_not_of("-+,.123456789");
 
 		return result;
 	}
