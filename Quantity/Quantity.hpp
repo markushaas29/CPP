@@ -118,8 +118,6 @@ private:
 	{ 
 		using RU = typename Transform<U, typename QR::DividerUnit, DividePolicy>::Type;
 
-		std::cout<<"Value "<<v<<std::endl;
-
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			res = String_::TrimDouble(v)+QR::Sign()+RU::Sign(); 
@@ -135,15 +133,12 @@ private:
 		
 		id = id > str.size() ? 0 : id;
 		auto ending = str.substr(id,str.size());
-		auto t = (str[0]=='.'||str[0]==',') && (isdigit(str[1])) ? str : ending;
-		std::cout<<"Res "<<result<<"\t"<<str<<"\t"<<t<<std::endl;
 		result += isdigit(str[0]) || (str[0]=='.'||str[0]==',') && (isdigit(str[1])) ? str :ending;
 
 		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
 		
 		id = str.find_first_not_of("-+,.123456789");
 
-		std::cout<<"End "<<result<<"\t"<<id<<std::endl;
 		return result;
 	}
 
