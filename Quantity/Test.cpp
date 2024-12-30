@@ -101,6 +101,8 @@ int Run()
     assert(m1500m.PureValue()==500);
     assert(m1500m.Value()==500);
 	
+    assert(km1.PureValue()==1000);
+    assert(m1000.PureValue()==1000);
 	auto qkm1 = km1 * m1000;
     std::cout<<"qkm1 Data: "<<qkm1.Data()<<std::endl;
     std::cout<<"qkm1 Value: "<<qkm1.Value()<<std::endl;
@@ -137,6 +139,7 @@ int Run()
 
 	auto kmd1m = km12 / m2000;
     std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m<<std::endl;
+    std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m.PureValue()<<std::endl;
     assert(kmd1m.PureValue()==1000);
     //assert(kmd1m.Value()==1);
 //    assert(decltype(kmd1m)::QuantityRatioType::Exponent==1);

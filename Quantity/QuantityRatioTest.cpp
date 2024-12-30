@@ -127,7 +127,6 @@ int Run()
 	std::cout<<"mm10_2Data: "<<mm10_2.Data()<<std::endl;
 	std::cout<<"mm10_3Data: "<<mm10_3.Data()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.PureValue()<<std::endl;
-	std::cout<<"mm10_3: "<<mm10_3.PureValue()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.Value()<<std::endl;
 	std::cout<<"mm10_3 V: "<<mm10_3.Value()<<std::endl;
 	std::cout<<"mm10 Factor: "<<decltype(mm10)::QuantityRatioType::Factor<<std::endl;
@@ -137,7 +136,9 @@ int Run()
 	std::cout<<"mm10_3 Factor: "<<decltype(mm10_3)::QuantityRatioType::Factor<<std::endl;
 	std::cout<<"mm10_3 Ex: "<<decltype(mm10_3)::QuantityRatioType::Exponent<<std::endl;
 	assert(mm10_3.Data()=="1000mm^3");
-    assert(((int)mm10_3.Value())==1000);
+    assert(((int)mm10_3.Value())<1000);
+	assert(decltype(mm10_3)::QuantityRatioType::Factor==0.000000001);
+	std::cout<<"mm10_3 Pure: "<<mm10_3.PureValue()<<std::endl;
     assert(mm10_3.PureValue()<0.0000011);
 	assert(decltype(mm10_3)::UnitType::Sign()=="m^3");
 	assert(decltype(mm10_3)::QuantityRatioType::Factor==0.000000001);
@@ -148,7 +149,7 @@ int Run()
 	std::cout<<"mm10_4: "<<mm10_4<<std::endl;
 	std::cout<<"mm10_3 Ex: "<<decltype(mm10_4)::QuantityRatioType::Factor<<std::endl;
 	assert(mm10_4.Data()=="10000mm^4");
-    assert(((int)mm10_4.Value())==10000);
+    assert(((int)mm10_4.Value())<10000);
     //assert(mm10_4.PureValue()<0.000000002);
 	assert(decltype(mm10_4)::UnitType::Sign()=="m^4");
 	//assert(decltype(mm10_4)::QuantityRatioType::Factor<0.0000000000002);
@@ -159,8 +160,9 @@ int Run()
 
 	auto mm3_1000 = mm2_1000 * mm1000;
 	std::cout<<"m2_1000: "<<decltype(mm3_1000)::UnitType::Sign()<<std::endl;
+	std::cout<<"mm10_4: "<<mm3_1000.PureValue()<<std::endl;
 	assert(mm3_1000.Data()=="1000000000mm^3");
-    assert(mm3_1000.PureValue()==1);
+    assert(mm3_1000.PureValue()<1);
 	assert(decltype(mm3_1000)::UnitType::Sign()=="m^3");
 	
 

@@ -80,7 +80,7 @@ public:
 	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QRMul<Type,Quantity<U2, TQR,T2>>,T1>(Value() * (T1)q.Value());;	}
+	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QRMul<Type,Quantity<U2, TQR,T2>>,T1>(value * (T1)q.PureValue() / QRMul<Type,Quantity<U2, TQR,T2>>::Factor);	}
 	
 	// ----------------------------------------DIVISION-------------------------------------------------------------
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<Scalar>(value / q.PureValue());	}

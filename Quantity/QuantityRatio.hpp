@@ -155,8 +155,15 @@ struct QRBase
 	using qu = typename Transform<typename L::UnitType, typename R::UnitType, P>::Type; 
 	using ru = typename Transform<qu,DividerUnit, MultiplyPolicy>::Type;
 	using Derived = D<L,R>;
+	static constexpr auto calculate()
+	{
+		if constexpr(R::QuantityRatioType::Num == 1 && R::QuantityRatioType::Denom == 1)
+			return (double)Derived::op(L::QuantityRatioType::Factor, L::QuantityRatioType::Factor);
+		return (double)Derived::op(L::QuantityRatioType::Factor, R::QuantityRatioType::Factor);
+	}
 	using RatioType = typename L::QuantityRatioType;
 	static constexpr int Exponent = 1;
+	static constexpr int Ex = Exponent;
 	static constexpr uint BaseNum = 1;
 	static constexpr uint BaseDenom = 1;
 //	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
@@ -166,7 +173,7 @@ struct QRBase
 //	using Ratio = std::ratio_multiply<typename L::QuantityRatioType::Ratio, typename R::QuantityRatioType::Ratio>();
 //	static inline const std::string Sign = Derived<Ex>::Sign;
 //	static inline const std::string Name;
-	static constexpr double Factor = ((double)Num / Denom);	
+	static constexpr double Factor = calculate();	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
 	inline static std::string Sign() {	return L::QuantityRatioType::Sign() == R::QuantityRatioType::Sign() ? L::QuantityRatioType::Sign() : L::QuantityRatioType::Sign() + R::QuantityRatioType::Sign(); }
@@ -177,15 +184,15 @@ template<typename L, typename R>
 struct QRDiv: public QRBase<L,R, QRDiv, DividePolicy>
 {
 	using Base = QRBase<L,R, QRDiv, DividePolicy>;
-	static constexpr double Factor = ((double)L::QuantityRatioType::Factor / R::QuantityRatioType::Factor);	
+	static constexpr auto op(auto l, auto r) { return l / r; }
 	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign) + "^-1"+ Base::Unit::Sign(); 	};
 };
 
 template<typename L, typename R>
 struct QRMul: public QRBase<L,R, QRMul, MultiplyPolicy>
 {
+	static constexpr auto op(auto l, auto r) { return l * r; }
 	using Base = QRBase<L,R, QRMul, MultiplyPolicy>;
-	static constexpr double Factor = ((double)L::QuantityRatioType::Factor * R::QuantityRatioType::Factor);	
 	static std::string Out() {		return std::string(L::Sign) +  std::string(R::Sign); 	};
 };
 
