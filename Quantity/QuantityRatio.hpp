@@ -162,10 +162,11 @@ struct QRBase
 //	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
 	static constexpr uint Num = L::QuantityRatioType::Num * R::QuantityRatioType::Num;
 	static constexpr uint Denom = L::QuantityRatioType::Denom * R::QuantityRatioType::Denom;
+	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
 //	using Ratio = std::ratio_multiply<typename L::QuantityRatioType::Ratio, typename R::QuantityRatioType::Ratio>();
 //	static inline const std::string Sign = Derived<Ex>::Sign;
 //	static inline const std::string Name;
-	static constexpr double Factor = ((double)L::Factor / R::Factor);	
+	static constexpr double Factor = ((double)Num / Denom);	
 //	static constexpr double BaseFactor = ((double)BaseNum / BaseDenom);	
 //	
 	inline static std::string Sign() {	return L::QuantityRatioType::Sign() == R::QuantityRatioType::Sign() ? L::QuantityRatioType::Sign() : L::QuantityRatioType::Sign() + R::QuantityRatioType::Sign(); }
