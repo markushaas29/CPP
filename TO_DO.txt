@@ -26,3 +26,4 @@ Quantity dm^3
 	und Wert asurechenun mit factor multiplizieren
 	L/R Units teilen wie gemacht und mit Kehrwert ausmultiplizieren Signs ausgeben
 	Watt Einheit
+	Divide asserts
