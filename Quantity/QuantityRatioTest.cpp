@@ -108,6 +108,8 @@ int Run()
     assert(mm10.Value()==10);
     assert(mm10.PureValue()==0.01);
 	assert(decltype(mm10)::UnitType::Sign()=="m");
+	assert(decltype(mm10)::QuantityRatioType::Num==1);
+	assert(decltype(mm10)::QuantityRatioType::Denom==1000);
     
 	std::cout<<"mm10_2: "<<mm10_2.PureValue()<<std::endl;
 	std::cout<<"mm10_2: "<<mm10_2.Value()<<std::endl;
@@ -115,6 +117,8 @@ int Run()
     assert(mm10_2.Value()==100);
     assert(mm10_2.PureValue()<0.00015);
 	assert(decltype(mm2_1000)::UnitType::Sign()=="m^2");
+	assert(decltype(mm10_2)::QuantityRatioType::Num==1);
+	assert(decltype(mm10_2)::QuantityRatioType::Denom==1000000);
 
 	std::cout<<"POW mm10_3: "<<std::endl;
 	auto mm10_3 = mm10 * mm10_2;
@@ -137,6 +141,8 @@ int Run()
     assert(mm10_3.PureValue()<0.0000011);
 	assert(decltype(mm10_3)::UnitType::Sign()=="m^3");
 	assert(decltype(mm10_3)::QuantityRatioType::Factor==0.000000001);
+	assert(decltype(mm10_3)::QuantityRatioType::Num==1);
+	assert(decltype(mm10_3)::QuantityRatioType::Denom==1000000000);
 	
 	auto mm10_4 = mm10 * mm10_3;
 	std::cout<<"mm10_4: "<<mm10_4<<std::endl;

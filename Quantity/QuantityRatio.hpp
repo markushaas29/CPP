@@ -160,8 +160,8 @@ struct QRBase
 	static constexpr uint BaseNum = 1;
 	static constexpr uint BaseDenom = 1;
 //	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
-//	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
-//	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
+	static constexpr uint Num = L::QuantityRatioType::Num * R::QuantityRatioType::Num;
+	static constexpr uint Denom = L::QuantityRatioType::Denom * R::QuantityRatioType::Denom;
 //	using Ratio = std::ratio_multiply<typename L::QuantityRatioType::Ratio, typename R::QuantityRatioType::Ratio>();
 //	static inline const std::string Sign = Derived<Ex>::Sign;
 //	static inline const std::string Name;
@@ -170,13 +170,6 @@ struct QRBase
 //	
 	inline static std::string Sign() {	return L::QuantityRatioType::Sign() == R::QuantityRatioType::Sign() ? L::QuantityRatioType::Sign() : L::QuantityRatioType::Sign() + R::QuantityRatioType::Sign(); }
 	//inline static std::string Sign() { return L::QuantityRatioType::Sign() + Unit::Sign(); }
-//	
-	template<int Fac>
-	struct PowBy
-	{
-		//static constexpr int Factor = Fac;
-		using Type = Derived;//<Fac>;
-	};
 };
 
 template<typename L, typename R>
