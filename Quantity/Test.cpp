@@ -138,6 +138,12 @@ int Run()
     assert(decltype(km1d)::QuantityRatioType::Exponent==1);
 
 	auto kmd1m = km12 / m2000;
+    assert(km12.PureValue()==2000000);
+    assert(km12.Value()==2);
+    assert(decltype(km12)::QuantityRatioType::Exponent==2);
+    assert(m2000.PureValue()==2000);
+    assert(m2000.Value()==2000);
+    assert(decltype(m2000)::QuantityRatioType::Exponent==1);
     std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m<<std::endl;
     std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m.PureValue()<<std::endl;
     assert(kmd1m.PureValue()==1000);
