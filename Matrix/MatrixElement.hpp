@@ -41,8 +41,15 @@ public:
 	{
 		if(auto p = std::dynamic_pointer_cast<O>(value))
 			return *p;
-		IsT<Throwing>(Format("INVALID AS CAST!"))(false);
-		throw;
+		else
+		{
+			if constexpr (std::is_same_v<T, std::shared_ptr<IElement>>)
+				return *(std::make_shared<typename std::remove_reference<O>::type>(value->Data()));	
+			else
+			{
+				IsT<Throwing>(Format("INVALID AS CAST!"))(false);
+			throw;}
+		}
 	}
 	template<typename O>
 	decltype(auto) To() const 
