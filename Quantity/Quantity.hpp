@@ -169,12 +169,7 @@ private:
 	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T2>& q) const
 	{ 
 		constexpr int ex = QR::Exponent + TQR::Exponent;
-		using QR_ = typename QR::PowBy<ex>::Type;
 		using QR2_ = QRMul<Type,Quantity<U2, TQR,T2>>;
-		
-		auto result = (Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(PureValue()*q.PureValue()/QR2_::Factor));
-		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
-		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(PureValue()*q.PureValue()/QR2_::Factor);
 	}
