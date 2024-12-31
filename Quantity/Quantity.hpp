@@ -196,7 +196,7 @@ private:
 		}
 		
 		if constexpr (IsSameBaseUnit<U,U2>())
-			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
+			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(value / q.PureValue()/QR_::Factor);
 		
 		//return Quantity<typename Transform<U, U2, DividePolicy>::Type, QRDiv<QR,TQR>,T1>(result);
 		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(result);
