@@ -63,7 +63,6 @@ int Run()
 
     assert("100kg"==(std::string)Quantity<Mass>(100));
     assert("100.12€"==(std::string)Quantity<Sum>(100.12));
-	//assert(*qp==Quantity<Sum>(100));
 
 	ElementRegexTest er;
 	assert(er.Run());

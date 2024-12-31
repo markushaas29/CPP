@@ -3,12 +3,15 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	HtmlBAse::Clone aufrufen in D
+	an css zuweisen
 Jahresabrechnung
-	Endbetrag Zeile BOLD
 	Name sowie ohne stylesheet
+	Sums-Matrix als Property
+	ID an atbellem
+	Html<> in Element
+	annualPayment
 Form Klasse
-	Namen/Id annualStaement
+	Anordunung Element
 Account
 	Assert
 Hallenmiete
@@ -18,12 +21,15 @@ ConsumptionVisitor
 Counter
 	Headers
 Quantity dm^3
-	transform
-	liter als contexpr in data QR mit Unit von Volume und dezi
-	Output mit constexpr if????
-	Factor in Quantity testen
-	mit Unit in QR unit in Quantity ausknipsen
-	und Wert asurechenun mit factor multiplizieren
-	L/R Units teilen wie gemacht und mit Kehrwert ausmultiplizieren Signs ausgeben
+	liter als QR
 	Watt Einheit
-	Divide asserts
+	min/h^2
+	Value testen
+	1000 statt 1
+	ist es QR Zuweiseung nötig in Divide und Mul?
+	Liter als Quantity mit dezi => using
+	assert 10mmss
+	Ausgabe in Data / outstream -> RU->EXP
+	PureValue durch QR-Factor 
+	constexpr LeftType RightType std::ratio== std::ratio<1,1>
+	Ratio ausrechnen

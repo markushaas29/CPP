@@ -99,6 +99,9 @@ int Run()
 	assert(line=="<td style=\" colspan:4;\">");
 
 	auto date = Date::Today().Clone();
+	auto de = Html<Td>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>>>(), "ABC", "DE");
+	std::cout<<"DAte\n" << de->Data() << std::endl;
+
 	std::vector<std::vector<std::shared_ptr<IElement>>> headEls = {{ date->Clone()},{ date->Clone()}};
 	auto m = Init(headEls)();
 	auto mh = MatrixFormatter(m).Html();

@@ -26,13 +26,14 @@ int Run()
     std::cout<<"100m²: "<<m2_100<<std::endl;
     assert(m2_100.Value()==100.0);
     assert(km1_7.PureValue()==1700);
-    std::cout<<"km1,7: "<<km1_7<<std::endl;
-    std::cout<<"km1,7: "<<km177<<std::endl;
-    std::cout<<"km1,7: "<<km1000_7789<<std::endl;
+    std::cout<<"km177: "<<km177<<std::endl;
+    std::cout<<"km1000_7789: "<<km1000_7789<<std::endl;
     assert(km1_7.PureValue()==1700);
     assert(km1_7.Value()==1.7);
-    std::cout<<"km1,7: "<<km1_7.Data()<<std::endl;
+    std::cout<<"km1,7: "<<km1_7<<std::endl;
+    std::cout<<"km1,7 Data: "<<km1_7.Data()<<std::endl;
     assert(km1_7.Data()=="1.7km");
+    std::cout<<"km1000_77: "<<km1000_77.Data()<<std::endl;
     assert(km1000_77.Value()==1000.77);
     assert(km1000_77.Data()=="1000.77km");
     assert(km1000_7789.Value()==1000.7789);
