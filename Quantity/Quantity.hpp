@@ -176,7 +176,7 @@ private:
 		using qu = typename Transform<U, U2, MultiplyPolicy>::Type; 
 		using ru = typename Transform<qu, typename QR2_::DividerUnit, MultiplyPolicy>::Type; 
 		
-		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>((Value() * q.Value()));
+		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR2_,T1>(PureValue()*q.PureValue()/QR2_::Factor);
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
