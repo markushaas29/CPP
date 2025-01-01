@@ -3,13 +3,10 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
-	an css zuweisen
 Jahresabrechnung
-	Name sowie ohne stylesheet
-	Sums-Matrix als Property
-	ID an atbellem
+	Address in CSS
 	Html<> in Element
-	annualPayment
+	Farbe Header
 Form Klasse
 	Anordunung Element
 Account
