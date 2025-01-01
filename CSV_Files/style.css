@@ -41,6 +41,14 @@ table caption {
   font-size: 25px; 
 }
 
+#td_Header {
+  color: #222222;
+  background: #333333; 
+  font-family: Arial, sans-serif; 
+  font-size: 15px; 
+}
+
+
 header {
   padding: 10px 0;
   margin-bottom: 20px;
