@@ -220,11 +220,6 @@ private:
 	
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
         heads->push_back(std::make_unique<LinkElement>());
-                                                                       
-//        auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-//        styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<100>>>>("addressLine"));
-//        styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
-//        heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
         html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
 		
 		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
@@ -316,7 +311,6 @@ private:
 
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> costs = 
 		{
-			//{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  HtmlElement<Td,QS>{QS{resultSum}, std::make_unique<Css<Style<FontWeight,Bold>>>()}.Clone() }
 			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
 		};
 
@@ -330,7 +324,6 @@ private:
 		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container");
 		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid), nullptr,"mainBody");
 		html.Add(std::move(body));
-		//html(grid);
 
         auto v = sumCol.Elements();
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
