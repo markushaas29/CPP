@@ -19,3 +19,7 @@ result;Resultat;-
 annual statement;Jahresabrechnung;annualStatement
 summed annual statement;Summierte Jahresabrechnung;summedAnnualStatement
 total;Endsumme;-
+advance;Vorauszahlung;-
+persons;Personen;-
+area;Fläche;-
+counter;Zähler;-
