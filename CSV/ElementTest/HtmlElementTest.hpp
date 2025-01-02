@@ -36,13 +36,16 @@ int Run()
 	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
 	auto htmlQP2 = htmlQP.Clone();
 	assert(htmlQP.Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
+	auto qs2 = Quantity<Sum>{2};
+	auto psq2 = qs2.HtmlTag<P>();
+	std::cout<<"P OUT: \n"<<psq2->Data()<<std::endl;
+	//assert(psq2->Data()=="<p id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</p>");
 	std::cout<<"P OUT: \n"<<htmlQP2->Data()<<std::endl;
 	assert(htmlQP2->Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:green;\">\n\t2.00€\n</td>");
 	auto htmlQN = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{-2});
 	assert(htmlQN.Data()=="<td id=\"td_Sum\" class=\"SumHtmlElement\" style=\" color:red;\">\n\t-2.00€\n</td>");
 
 	auto nhtml = HtmlElement<Td,HtmlElement<Td, Name>>(htmlN);
-	std::cout<<"P OUT: \n"<<nhtml.Data()<<std::endl;
 	//assert(nhtml.Data()=="<td id=\"td_NameHtmlElement\" class=\"td_HtmlElement\" style=\" color:black;\">\n\t<td id=\"td_NameHtmlElement\" class=\"td_HtmlElement\" style=\" color:blue;\">\n\t\tTEST\n\t</td>\n</td>");
 
 	M2D m33 =
