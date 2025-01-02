@@ -203,7 +203,7 @@ struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename> { 	HtmlElement(
 class Header;
 
 template<typename T>
-struct HtmlElement<T,Header>: public HtmlElementBase<T,Header> { 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(), 
+struct HtmlElement<T,Header>: public HtmlElementBase<T,Header> { 	HtmlElement(const Header& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<FontWeight,Bold>>>(), 
 		const std::string& n=HtmlElementBase<T,Header>::Identifier, const std::string& id=HtmlElementBase<T,Header>::ClassId): HtmlElementBase<T,Header>(c, std::move(css),n,id) { }; };
 
 template<typename T>
