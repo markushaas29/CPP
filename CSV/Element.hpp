@@ -56,6 +56,8 @@ public:
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
+	template<typename T>
+	std::unique_ptr<IHtmlElement> HtmlTag(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  { return std::make_unique<HtmlElement<T,Derived>>(Derived(value));	};	
 	virtual void Accept(BaseVisitor& visitor) {	return AcceptImpl<D>(*dynamic_cast<D*>(this), visitor); }
 	virtual void Accept(BaseVisitor& visitor) const 
 	{
