@@ -31,7 +31,7 @@ int Run()
 	assert(html.Id()=="td_Entry");
 	assert(html.Name()=="EntryHtmlElement");
 	auto htmlN = HtmlElement<Td, Name>(Name("TEST"));
-	assert(htmlN.Data()=="<td id=\"td_Name\" class=\"NameHtmlElement\" style=\" color:blue;\">\n\tTEST\n</td>");
+	assert(htmlN.Data()=="<td id=\"td_Name\" class=\"NameHtmlElement\" style=\" color:black;\">\n\tTEST\n</td>");
 
 	auto htmlQP = HtmlElement<Td, Quantity<Sum>>(Quantity<Sum>{2});
 	auto htmlQP2 = htmlQP.Clone();

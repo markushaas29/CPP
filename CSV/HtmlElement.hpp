@@ -191,13 +191,13 @@ private:
 class Name;
 
 template<typename T>
-struct HtmlElement<T,Name>: public HtmlElementBase<T,Name>{ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(), 
+struct HtmlElement<T,Name>: public HtmlElementBase<T,Name>{ 	HtmlElement(const Name& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>(), 
 		const std::string& n="", const std::string& id=""): HtmlElementBase<T,Name>(c, std::move(css),n,id) { }; };
 
 class Prename;
 
 template<typename T>
-struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename> { 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Blue>>>(),
+struct HtmlElement<T,Prename>: public HtmlElementBase<T,Prename> { 	HtmlElement(const Prename& c, std::unique_ptr<ICss> css = std::make_unique<Css<Style<ColorTag,Black>>>(),
 		const std::string& n="", const std::string& id=""): HtmlElementBase<T,Prename>(c, std::move(css),n,id) { }; };
 
 class Header;
