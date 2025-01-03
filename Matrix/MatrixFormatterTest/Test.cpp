@@ -115,6 +115,8 @@ class MatrixFormatterTest
     		out.close();
 			std::cout<<"Table\n"<<mf1()<<std::endl;
 			std::cout<<"Table\n"<<*(mf1.Lines())<<std::endl;
+			auto mf1E = MatrixFormatter(m1IE);
+			std::cout<<"Table\n"<<*(mf1E.Lines())<<std::endl;
 			
 			std::cout<<"END Formatter"<<std::endl;
 		//   
