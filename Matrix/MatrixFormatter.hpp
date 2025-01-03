@@ -41,6 +41,7 @@ public:
 //	};
 //	virtual std::ostream& operator()(std::ostream& s) {	return s;	}
 	virtual std::unique_ptr<IModel> Model() const { return std::make_unique<MatrixFormatter<M,L>>(matrix); }
+	virtual std::unique_ptr<IHtmlElement> Lines(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return lines(matrix,nullptr,std::move(css), n, id).Clone();	};
     virtual std::string operator()(std::unique_ptr<IHtmlElement> c = nullptr) {	return table(std::move(c));	};
     virtual std::ofstream& operator()(std::ofstream& s) 
 	{	
@@ -97,20 +98,46 @@ private:
 		}
 	};
 	
+	template<typename D>
+    auto line(const Matrix<1,D>& m, HtmlElements<DivTag>& tab,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr) const
+	{ 
+		auto tr = HtmlElements<DivTag>();
+		for(auto i=0; i<m.Rows(); ++i)
+		{
+			std::stringstream is;
+			if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+				tr.Add((*(m.elements->at(i)))->Html());
+			else if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IHtmlElement>>)
+				tr.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>((*(m.elements->at(i)))->Clone()));
+			else
+			{ 
+				is<<(*(m.elements->at(i)));
+				tr.Add(HtmlElement<DivTag,Entry>(is.str()).Clone());
+			}
+		}
+		
+		if constexpr (M::Order==1)
+		{
+			tab.Add(tr.Clone());
+			return tab;
+		}
+		else	
+			return tr;
+	};
 	template<size_t O, typename D>
     auto lines(const Matrix<O,D>& m,std::unique_ptr<IHtmlElement> c = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const
 	{ 
-		auto tab = HtmlElements<DivTag>(n,id,std::move(css));
+		auto divs = HtmlElements<DivTag>(n,id,std::move(css));
 		if(c != nullptr)
-			tab.Add(std::move(c));
+			divs.Add(std::move(c));
 		
 		if constexpr (O==1)
-			return row(m, tab);
+			return line(m, divs);
 		else
 		{
 			for(auto i = 0; i != m.Rows(); ++i)
-				tab.Add(liness(m[i]).Clone());
-			return tab;
+				divs.Add(lines(m[i]).Clone());
+			return divs;
 		}
 	};
 };
