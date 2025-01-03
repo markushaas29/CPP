@@ -50,7 +50,7 @@ table caption {
 
 #Total caption#caption_Header{
   color: green;
-  background: #333333; 
+  background: #FFFFFF; 
   font-family: Arial, sans-serif; 
   font-size: 50px; 
 }
@@ -63,15 +63,7 @@ table caption {
   font-size: 50px; 
 }
 
-
-
-#AddressId td{
-  text-align: left;
-  background: #FFFFFF; 
-}
-
 #AddressId{
-  color: green;
   background: #333333; 
   font-family: Arial, sans-serif; 
   font-size: 25px; 
