@@ -96,6 +96,23 @@ private:
 			return tab;
 		}
 	};
+	
+	template<size_t O, typename D>
+    auto lines(const Matrix<O,D>& m,std::unique_ptr<IHtmlElement> c = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const
+	{ 
+		auto tab = HtmlElements<DivTag>(n,id,std::move(css));
+		if(c != nullptr)
+			tab.Add(std::move(c));
+		
+		if constexpr (O==1)
+			return row(m, tab);
+		else
+		{
+			for(auto i = 0; i != m.Rows(); ++i)
+				tab.Add(liness(m[i]).Clone());
+			return tab;
+		}
+	};
 };
 
 template<typename M>
