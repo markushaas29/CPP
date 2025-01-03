@@ -113,7 +113,8 @@ class MatrixFormatterTest
 			std::ofstream out("/home/markus/Downloads/CSV_TestFiles_2/Mat.html");
     		out << mf1();
     		out.close();
-			std::cout<<"END Formatter"<<mf1()<<std::endl;
+			std::cout<<"Table\n"<<mf1()<<std::endl;
+			std::cout<<"Table\n"<<*(mf1.Lines())<<std::endl;
 			
 			std::cout<<"END Formatter"<<std::endl;
 		//   
