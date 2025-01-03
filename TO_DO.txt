@@ -4,10 +4,13 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-Form Klasse
 	Anordunung Ensumme links
-	Ensumme wei0
-	Überschrift weg
+	Ensumme ohne Färbung
+	Summierte Jahres ohne Färbung
+	Überschrift wenig
+	Zahlungen / Jahreszahlungen neben einander
+Form Klasse
+	Adresse aus Jahresab
 Account
 	Assert
 Hallenmiete
