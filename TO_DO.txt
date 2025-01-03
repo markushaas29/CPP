@@ -6,6 +6,8 @@ CSS
 Jahresabrechnung
 Form Klasse
 	Anordunung Ensumme links
+	Ensumme wei0
+	Überschrift weg
 Account
 	Assert
 Hallenmiete
