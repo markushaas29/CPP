@@ -48,6 +48,11 @@ table caption {
   font-size: 15px; 
 }
 
+#Total td{
+  background: #FFFFFF; 
+}
+
+
 #Total caption#caption_Header{
   background: #FFFFFF; 
   font-family: Arial, sans-serif; 
@@ -57,7 +62,7 @@ table caption {
 #Total td#td_Header{
   color: green;
   text-align: left;
-  background: #333333; 
+  background: #FFFFFF; 
   font-family: Arial, sans-serif; 
   font-size: 50px; 
 }

@@ -303,7 +303,7 @@ private:
 		std::vector<std::vector<std::shared_ptr<IElement>>> addedCosts = {{std::make_shared<Header>("Costs"),std::make_shared<Entry>(this->asString(sumX)), std::make_shared<Quantity<Sum>>(sumX())}	};
 		auto mAddedCosts = MatrixFormatter(Init(addedCosts)());
 		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","");
-		div4->Add(mAddedCosts.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("summedAnnualStatement")),nullptr,"Sums","Costs2"));
+		div4->Add(mAddedCosts.Html(nullptr,"Sums","Costs2"));
 
 		auto sumCol = resultMatrix.Col(8);
 		auto sum = sumCol.template To<Quantity<Sum>>().ColSum();
