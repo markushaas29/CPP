@@ -48,7 +48,7 @@ public:
         elements.push_back(std::make_unique<HtmlElement<Tr, IHtmlElement>>(MatrixFormatter(Init(std::move(adresses))()).Html(), nullptr, "addressLine"));
 
 		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
-		elements.push_back(MatrixFormatter(Init(std::move(dateLine))()).Html());
+		elements.push_back(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		
 		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
 		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
@@ -81,7 +81,7 @@ private:
 			{ std::make_shared<Entry>("Handy"), std::make_shared<Entry>("017684733560")},
 		};
 
-		return MatrixFormatter(Init(a)()).Html();
+		return MatrixFormatter(Init(a)()).Lines();
 	}
 	
 	static auto row(std::unique_ptr<IHtmlElement> html)
