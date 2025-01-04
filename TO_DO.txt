@@ -4,13 +4,13 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	Anordunung Ensumme links
-	Ensumme ohne Färbung
-	Summierte Jahres ohne Färbung
-	Überschrift wenig
-	Zahlungen / Jahreszahlungen neben einander
+	FloatTag StyleValues, Right, Left Styles
+	Anteil
+	beide in Div1
 Form Klasse
 	Adresse aus Jahresab
+	Receiver untereinander mit div einzelen divs
+	std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 Account
 	Assert
 Hallenmiete
