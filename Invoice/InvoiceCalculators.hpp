@@ -247,9 +247,10 @@ private:
 		div0->Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		outs->push_back(std::move(div0));
 		
-		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
-		div1->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums", "ExtraCosts"));
-		outs->push_back(std::move(div1));
+		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",nullptr);
+		auto div11 = std::make_unique<HtmlElements<DivTag>>("Div11","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>, Style<FloatTag,Left>>>());
+		div11->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums", "ExtraCosts"));
+		div1->Add(std::move(div11));
 
 		auto extraCosts = stageproperties[1].Rows(14,15).template To<Quantity<Sum>>();
   		auto yearCosts = (extraCosts) * Quantity<Scalar>{12};
@@ -265,9 +266,10 @@ private:
 		};
 
 		auto annualAdvancePaymentForm = MatrixFormatter(Init(annualAdvancePayment)());
-		auto div5 = std::make_unique<HtmlElements<DivTag>>("Div5","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		auto div5 = std::make_unique<HtmlElements<DivTag>>("Div5","",std::make_unique<Css<Style<Margin,Px<50>>, Style<FloatTag,Right>>>());
 		div5->Add(annualAdvancePaymentForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatement")),nullptr,"Sums", "Payments"));
-		outs->push_back(std::move(div5));
+		div1->Add(std::move(div5));
+		outs->push_back(std::move(div1));
 
         auto accountM = Costs(y, html);  
         auto sumMatrix = accountM[0].template To<Quantity<Sum>>();  

@@ -10,6 +10,7 @@ struct ColSpan		{   inline static constexpr const char* Id = "colspan"; };
 
 struct Display		{   inline static constexpr const char* Id = "display"; };
 
+struct FloatTag		{   inline static constexpr const char* Id = "float"; };
 struct FontSize		{   inline static constexpr const char* Id = "font-size"; };
 struct FontFamily		{   inline static constexpr const char* Id = "font-family"; };
 struct FontWeight		{   inline static constexpr const char* Id = "font-weight"; };
