@@ -4,12 +4,11 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	FloatTag StyleValues, Right, Left Styles
-	Anteil
-	beide in Div1
+	margin und padding entfernen
 Form Klasse
-	
+	diaplay
 Account
+	U2025
 	Assert
 Hallenmiete
 Query
