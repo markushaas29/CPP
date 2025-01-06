@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include <fstream>
 #include <sstream>
 #include <cassert> 
@@ -131,7 +131,7 @@ private:
 				properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
 				properties.push_back((*fA)().Clone());
 				elements.push_back(properties);
-				auto inv = Form<S>(MatrixFormatter(address).Html(),path);
+				auto inv = Form<S>(MatrixFormatter(address).Lines(),path);
 				inv.exec();
 
 				auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
