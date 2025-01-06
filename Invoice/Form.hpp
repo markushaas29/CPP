@@ -25,7 +25,6 @@ public:
 		sender{createSender()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
-		sum{Quantity<Sum>{321}.Html()},
 		content{Entry{"Content"}.Html()},
 		builder{HtmlBuilder<German>("Form.html")} { }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
@@ -57,7 +56,6 @@ public:
 		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
 		html.Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>, Style<FloatTag,Right>>>(),"Date", "DateId"));
 		
-		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
