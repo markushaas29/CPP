@@ -39,7 +39,7 @@ public:
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 
 		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
-		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<100>>>>("addressLine"));
+		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<25>>>>("addressLine"));
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
