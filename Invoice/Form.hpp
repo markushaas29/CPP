@@ -44,14 +44,18 @@ public:
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
-        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), nullptr, "addressLine"));
-        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), nullptr, "addressLine"));
-
-		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
-		html.Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>, Style<FloatTag,Right>>>(),"Date", "DateId"));
+//		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",nullptr);
+//        div1->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "sender"));
+//        div1->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "adress"));
+//		html.Add(std::move(div1));
 		
-		std::vector<std::shared_ptr<IHtmlElement>> sumLines = { empty->Html(), empty->Html(), empty->Html(), std::move(sum)};
-		elements.push_back(MatrixFormatter(Init(std::move(sumLines))()).Html());
+//        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "sender"));
+//        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "adress"));
+
+        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>>>(),  "sender"));
+        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>>>(), "adress"));
+		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
+		html.Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>, Style<FloatTag,Right>>>(),"Date", "DateId"));
 		
 		outs->push_back((MatrixFormatter(Init(std::move(elements))()).Html()));
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
@@ -66,7 +70,6 @@ private:
 	std::unique_ptr<IHtmlElement> sender;
 	std::unique_ptr<IHtmlElement> address;
 	std::unique_ptr<IHtmlElement> date;
-	std::unique_ptr<IHtmlElement> sum;
 	std::unique_ptr<IHtmlElement> content;
 	HtmlBuilder<German> builder;
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
@@ -79,6 +82,9 @@ private:
 			{ std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")},
 			{ std::make_shared<Entry>("Telephone"), std::make_shared<Entry>("07255/725393")},
 			{ std::make_shared<Entry>("Handy"), std::make_shared<Entry>("0176/84733560")},
+			{ std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700")},
+			{ std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001")},
+			{ std::make_shared<Name>("comdirect"), std::make_shared<Empty>("")},
 		};
 
 		return MatrixFormatter(Init(a)()).Lines();
