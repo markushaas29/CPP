@@ -50,11 +50,12 @@ public:
 		
 //        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "sender"));
 //        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "adress"));
-
-        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>>>(),  "sender"));
-        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>>>(), "adress"));
+		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"f9f9f9">>, Style<FloatTag,Right>>>());
+		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "sender"));
+		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
+        html.Add(std::move(r));
+        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<75>>>>(), "adress"));
 		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
-		html.Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>, Style<FloatTag,Right>>>(),"Date", "DateId"));
 		
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
