@@ -303,7 +303,7 @@ private:
 		auto sumX = resultMatrix.Col(8).template To<Quantity<Sum>>().ColSum();
 		std::vector<std::vector<std::shared_ptr<IElement>>> addedCosts = {{std::make_shared<Header>("Costs"),std::make_shared<Entry>(this->asString(sumX)), std::make_shared<Quantity<Sum>>(sumX())}	};
 		auto mAddedCosts = MatrixFormatter(Init(addedCosts)());
-		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","");
+		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","",std::make_unique<Css<Style<Margin,Px<50>>>>());
 		div4->Add(mAddedCosts.Html(nullptr,"Sums","Costs2"));
 
 		auto sumCol = resultMatrix.Col(8);
@@ -317,7 +317,7 @@ private:
 
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
-		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",nullptr);
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
 		div3->Add(mCostsForm.Html(nullptr,"Sums","Total"));
 		outs->push_back(std::move(div2));
 		outs->push_back(std::move(div4));
