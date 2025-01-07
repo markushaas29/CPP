@@ -4,11 +4,13 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	margin und padding entfernen
+	Endsumme schwarz
+	Body mit float left
 Form Klasse
-	diaplay
+	top-margin
+	Bsp Content mit Header
 Account
-	U2025
+	Calc2025
 	Assert
 Hallenmiete
 Query
