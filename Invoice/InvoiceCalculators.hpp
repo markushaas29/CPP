@@ -323,7 +323,7 @@ private:
 		outs->push_back(std::move(div4));
 		outs->push_back(std::move(div3));
 		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container");
-		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid), nullptr,"mainBody");
+		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid),std::make_unique<Css<Style<Margin,Px<50>>, Style<FloatTag,Left>>>(),"mainBody");
 		html.Add(std::move(body));
 
         auto v = sumCol.Elements();
