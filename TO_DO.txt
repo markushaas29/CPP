@@ -7,8 +7,10 @@ Jahresabrechnung
 	Endsumme schwarz
 	Body mit float left
 Form Klasse
-	top-margin
 	Bsp Content mit Header
+	Text für Nebenkosten
+	Bankdaten in eine Zeile unten
+	Unterschrift mit MFG
 Account
 	Calc2025
 	Assert
