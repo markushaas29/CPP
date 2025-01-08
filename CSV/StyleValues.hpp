@@ -25,11 +25,11 @@ struct LineHeight		{   inline static constexpr const char* Id = "line-height"; }
 struct Margin		{   inline static constexpr const char* Id = "margin"; };
 
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
+struct PaddingTop		{   inline static constexpr const char* Id = "padding-top"; };
 
 struct RowSpan		{   inline static constexpr const char* Id = "rowspan"; };
 
 struct TextAlign		{   inline static constexpr const char* Id = "text-align"; };
-struct TopMargin		{   inline static constexpr const char* Id = "top-margin"; };
 
 struct Width		{   inline static constexpr const char* Id = "width"; };
 

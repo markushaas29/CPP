@@ -54,7 +54,7 @@ public:
 		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "sender"));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
         html.Add(std::move(r));
-        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<75>>>>(), "adress"));
+        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<175>>, Style<Margin,Px<75>>>>(), "adress"));
 		std::vector<std::shared_ptr<IHtmlElement>> dateLine = { empty->Html(), empty->Html(), empty->Html(), date->Html(std::make_unique<ClassCss<Style<TextAlign,Right>>>("dateLine")) };
 		
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
