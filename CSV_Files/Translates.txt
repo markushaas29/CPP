@@ -23,3 +23,4 @@ advance;Vorauszahlung;-
 persons;Personen;-
 area;Fläche;-
 counter;Zähler;-
+proportional costs;Anteilige Kosten;-
