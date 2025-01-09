@@ -212,6 +212,8 @@ class TemplatizedAll_Test2023
 		//	assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-2862.40},0.01));
 		//	
 			mTS = propT24(Year{2024}, bM).To<Quantity<Sum>>();
+			mTS = propT24(Year{2025}, bM).To<Quantity<Sum>>();
+			costs = propT24.Costs(Year{2025})[0].To<QS>();
 		//	assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
 		//	assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{12369.76},0.01));
 		//	assert(mTS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
