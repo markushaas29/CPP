@@ -56,6 +56,13 @@ public:
         html.Add(std::move(r));
         html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<200>>, Style<Margin,Px<75>>>>(), "adress"));
 		
+		std::vector<std::shared_ptr<IElement>> a ={
+			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700"),
+			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001"),
+			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
+		};
+
+		html.Add(MatrixFormatter(Init(a)()).Lines());
 		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
