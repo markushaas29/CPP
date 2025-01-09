@@ -51,8 +51,9 @@ public:
 //        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "sender"));
 //        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "adress"));
 		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<FloatTag,Right>>>());
-		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "sender"));
+		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<200>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "sender"));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<25>>, Style<PaddingTop,Px<250>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
+
         html.Add(std::move(r));
 		std::vector<std::shared_ptr<IElement>> send = {
 			std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas"),
@@ -90,14 +91,8 @@ private:
 	static auto createSender()
 	{
 		std::vector<std::vector<std::shared_ptr<IElement>>> a ={
-			{ std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas")},
-			{ std::make_shared<Street>("Ruchenstrasse"), std::make_shared<StreetNumber>("14")},
-			{ std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")},
 			{ std::make_shared<Entry>("Telephone"), std::make_shared<Entry>("07255/725393")},
 			{ std::make_shared<Entry>("Handy"), std::make_shared<Entry>("0176/84733560")},
-			{ std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700")},
-			{ std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001")},
-			{ std::make_shared<Name>("comdirect"), std::make_shared<Empty>("")},
 		};
 
 		return MatrixFormatter(Init(a)()).Lines();
