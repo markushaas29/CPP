@@ -47,7 +47,7 @@ public:
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
 		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<FloatTag,Right>>>());
-		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<200>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "phone"));
+		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "phone"));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<25>>, Style<PaddingTop,Px<250>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 
         html.Add(std::move(r));
