@@ -22,6 +22,7 @@ class Form
 public:
     Form(std::unique_ptr<IHtmlElement> a, const std::string& p): 
 		path{p},
+		phone{createPhone()},
 		sender{createSender()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
@@ -44,24 +45,18 @@ public:
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
 //		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",nullptr);
-//        div1->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "sender"));
+//        div1->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "phone"));
 //        div1->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "adress"));
 //		html.Add(std::move(div1));
 		
-//        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "sender"));
+//        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "phone"));
 //        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(), std::make_unique<Css<Style<FontSize,Px<25>>,Style<FloatTag,Left>>>(), "adress"));
 		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<FloatTag,Right>>>());
-		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(sender->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<200>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "sender"));
+		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<200>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "phone"));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<25>>, Style<PaddingTop,Px<250>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 
         html.Add(std::move(r));
-		std::vector<std::shared_ptr<IElement>> send = {
-			std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas"),
-			std::make_shared<Street>("Ruchenstrasse"), std::make_shared<StreetNumber>("14"),
-			std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")
-		};
-
-		html.Add(MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>, Style<Margin,Px<75>>>>()));
+		html.Add(std::move(sender));
         html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>, Style<Margin,Px<75>>>>(), "adress"));
 		
 		std::vector<std::shared_ptr<IElement>> a ={
@@ -81,6 +76,7 @@ public:
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
 	std::string path;
+	std::unique_ptr<IHtmlElement> phone;
 	std::unique_ptr<IHtmlElement> sender;
 	std::unique_ptr<IHtmlElement> address;
 	std::unique_ptr<IHtmlElement> date;
@@ -89,6 +85,16 @@ private:
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	static auto createSender()
+	{
+		std::vector<std::shared_ptr<IElement>> send = {
+			std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas"),
+			std::make_shared<Street>("Ruchenstrasse"), std::make_shared<StreetNumber>("14"),
+			std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")
+		};
+
+		return MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>, Style<Margin,Px<75>>>>());
+	}
+	static auto createPhone()
 	{
 		std::vector<std::vector<std::shared_ptr<IElement>>> a ={
 			{ std::make_shared<Entry>("Telephone"), std::make_shared<Entry>("07255/725393")},
