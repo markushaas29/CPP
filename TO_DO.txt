@@ -9,10 +9,12 @@ Jahresabrechnung
 Form Klasse
 	Bsp Content mit Header
 	Text für Nebenkosten
-	Bankdaten in eine Zeile unten
+	Trennen von Adresse,Telefon,Bank
+	LeftPadding
 	Unterschrift mit MFG
 Account
-	Calc2025
+	Cleaning Januar 2025
+	CSV2025
 	Assert
 Hallenmiete
 Query

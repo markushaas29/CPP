@@ -75,7 +75,7 @@ public:
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
-		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div), nullptr,"mainBody");
+		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div), std::make_unique<Css<Style<Margin,Px<75>>>>(),"mainBody");
 		html.Add(std::move(body));
 	}
 private:
