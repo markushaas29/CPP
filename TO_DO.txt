@@ -9,9 +9,6 @@ Jahresabrechnung
 Form Klasse
 	Bsp Content mit Header
 	Text für Nebenkosten
-	Trennen von Adresse,Telefon,Bank
-	LeftPadding
-	Unterschrift mit MFG
 Account
 	Cleaning Januar 2025
 	CSV2025
