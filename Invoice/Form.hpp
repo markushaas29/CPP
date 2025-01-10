@@ -24,6 +24,7 @@ public:
 		path{p},
 		phone{createPhone()},
 		sender{createSender()},
+		bank{createBank()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		content{Entry{"Content"}.Html()},
@@ -58,14 +59,7 @@ public:
         html.Add(std::move(r));
 		html.Add(std::move(sender));
         html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>, Style<Margin,Px<75>>>>(), "adress"));
-		
-		std::vector<std::shared_ptr<IElement>> a ={
-			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700"),
-			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001"),
-			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
-		};
-
-		html.Add(MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>, Style<Margin,Px<75>>>>()));
+		html.Add(std::move(bank));
 		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
@@ -78,12 +72,23 @@ private:
 	std::string path;
 	std::unique_ptr<IHtmlElement> phone;
 	std::unique_ptr<IHtmlElement> sender;
+	std::unique_ptr<IHtmlElement> bank;
 	std::unique_ptr<IHtmlElement> address;
 	std::unique_ptr<IHtmlElement> date;
 	std::unique_ptr<IHtmlElement> content;
 	HtmlBuilder<German> builder;
     friend  std::ostream& operator<<(std::ostream& out, const Form& s)   {   return out<<"Result: "<<s.address;   }
     std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	static auto createBank()
+	{
+		std::vector<std::shared_ptr<IElement>> a ={
+			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700"),
+			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001"),
+			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
+		};
+
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>, Style<Margin,Px<75>>>>());
+	}
 	static auto createSender()
 	{
 		std::vector<std::shared_ptr<IElement>> send = {
