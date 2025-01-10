@@ -59,13 +59,15 @@ public:
         html.Add(std::move(r));
 		html.Add(std::move(sender));
         html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>, Style<Margin,Px<75>>>>(), "adress"));
-		html.Add(std::move(bank));
+		
 		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
 		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div), std::make_unique<Css<Style<Margin,Px<75>>>>(),"mainBody");
 		html.Add(std::move(body));
+		
+		html.Add(std::move(bank));
 	}
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
