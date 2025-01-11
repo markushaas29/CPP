@@ -20,8 +20,9 @@ class Form
 {
     using Stage = T;
 public:
-    Form(std::unique_ptr<IHtmlElement> a, const std::string& p): 
+    Form(std::unique_ptr<IHtmlElement> a, const std::string& p, const std::string& n = ""): 
 		path{p},
+		filename{n},
 		phone{createPhone()},
 		sender{createSender()},
 		bank{createBank()},
@@ -32,7 +33,7 @@ public:
 		builder{HtmlBuilder<German>("Form.html")} { }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{
-        auto html = HtmlBuilder("Invoice_.html","/home/markus/Dokumente/cpp/CSV_Files");
+        auto html = HtmlBuilder(filename+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
 		auto elements = std::vector<std::shared_ptr<IHtmlElement>>(); 
 
@@ -67,6 +68,7 @@ public:
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
 	std::string path;
+	std::string filename;
 	std::unique_ptr<IHtmlElement> phone;
 	std::unique_ptr<IHtmlElement> sender;
 	std::unique_ptr<IHtmlElement> bank;
@@ -111,6 +113,7 @@ private:
 		std::vector<std::vector<std::shared_ptr<IElement>>> a ={
 			{ std::make_shared<Entry>("Telephone"), std::make_shared<Entry>("07255/725393")},
 			{ std::make_shared<Entry>("Handy"), std::make_shared<Entry>("0176/84733560")},
+			{ std::make_shared<Entry>("Email"), std::make_shared<Entry>("markushaas1@gmx.de")},
 		};
 
 		return MatrixFormatter(Init(a)()).Lines();

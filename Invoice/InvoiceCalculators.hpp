@@ -130,7 +130,7 @@ private:
 				properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
 				properties.push_back((*fA)().Clone());
 				elements.push_back(properties);
-				auto inv = Form<S>(MatrixFormatter(address).Lines(),path);
+				auto inv = Form<S>(MatrixFormatter(address).Lines(),path, std::string(S::Name));
 				inv.exec();
 
 				auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
