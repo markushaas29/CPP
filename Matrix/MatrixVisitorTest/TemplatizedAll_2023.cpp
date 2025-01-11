@@ -41,13 +41,13 @@ class TemplatizedAll_Test2023
 			auto m22r = MatrixReader(u22);
 			auto m23r = MatrixReader(u23);
 			auto m24r = MatrixReader(u24);
-			//auto m25r = MatrixReader(u25);
+			auto m25r = MatrixReader(u25);
 			auto m22S = m22r.M<2>();
 			auto m23S = m23r.M<2>();
 			auto m24S = m24r.M<2>();
-//			auto m25S = m25r.M<2>();
+			auto m25S = m25r.M<2>();
 			auto t = false;
-			std::vector<MS2> accountFiles{m22S, m23S, m24S};//, m25S};
+			std::vector<MS2> accountFiles{m22S, m23S, m24S, m25S};
 			M3 accountMatrix(accountFiles);
 
             auto tokenFactory = TokenFactoryCreator()();

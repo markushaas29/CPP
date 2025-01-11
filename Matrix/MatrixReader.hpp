@@ -58,7 +58,7 @@ private:
 		std::string line;
 		Type d;
 		std::vector<Type> vec;
-		IsT<Throwing>(Format("File: ", s, "does not exist!"))(std::filesystem::exists(std::filesystem::path(s)));
+		IsT<Throwing>(Format("\n\nFile: ", s, "does not exist!"))(std::filesystem::exists(std::filesystem::path(s)));
 		auto is = std::make_unique<std::ifstream>(s);
 
 		try
