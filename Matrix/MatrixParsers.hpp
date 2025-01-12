@@ -91,7 +91,7 @@ private:
 	const std::string fileName = "SN_Name.csv";
 	M3<std::string> matrix() const
 	{
-        std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv"};
+        std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv","//U_2025.csv"};
         std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
 		for(auto s : paths)
 		{
