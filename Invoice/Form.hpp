@@ -44,6 +44,8 @@ public:
 		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<25>>>>("addressLine"));
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
+		
+		auto body = std::make_unique<HtmlElements<Body>>("mainBody","mainBody",std::make_unique<Css<Style<Margin,Px<75>>>>());
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
@@ -58,8 +60,7 @@ public:
 		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
-		auto div = std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs)));
-		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(div), std::make_unique<Css<Style<Margin,Px<75>>>>(),"mainBody");
+		body->Add(std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs))));
 		html.Add(std::move(body));
 		
 		html.Add(std::move(ending));
