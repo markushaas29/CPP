@@ -23,7 +23,7 @@ public:
     Form(std::unique_ptr<IHtmlElement> a, const std::string& p, const std::string& n = ""): 
 		path{p},
 		filename{n},
-		contact{createPhone()},
+		contact{createContact()},
 		sender{createSender()},
 		bank{createBank()},
 		ending{createEnding()},
@@ -109,7 +109,7 @@ private:
 
 		return MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>>>());
 	}
-	static auto createPhone()
+	static auto createContact()
 	{
 		std::vector<std::vector<std::shared_ptr<IElement>>> a ={
 			{ std::make_shared<Entry>("Telephone"), std::make_shared<Entry>("07255/725393")},
