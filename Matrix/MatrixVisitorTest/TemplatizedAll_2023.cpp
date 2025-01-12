@@ -34,21 +34,6 @@ class TemplatizedAll_Test2023
 		    using MS2 = Matrix<2,MDS2>;
 		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
 			using EVF = Factory<BaseVisitor>;
-			auto u22 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2022.csv" };
-			auto u23 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2023.csv" };
-			auto u24 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2024.csv" };
-			auto u25 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2025.csv" };
-			auto m22r = MatrixReader(u22);
-			auto m23r = MatrixReader(u23);
-			auto m24r = MatrixReader(u24);
-			auto m25r = MatrixReader(u25);
-			auto m22S = m22r.M<2>();
-			auto m23S = m23r.M<2>();
-			auto m24S = m24r.M<2>();
-			auto m25S = m25r.M<2>();
-			auto t = false;
-			std::vector<MS2> accountFiles{m22S, m23S, m24S, m25S};
-			M3 accountMatrix(accountFiles);
 
             auto tokenFactory = TokenFactoryCreator()();
             auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
@@ -58,8 +43,6 @@ class TemplatizedAll_Test2023
 
             auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
             Matcher matcher(std::move(v));
-
-			auto parsedAccountMatrix = accountMatrix.Parse(imatcher, matcher);
 
             auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
             auto typeFactory = std::make_shared<TF>(elementFactory);
