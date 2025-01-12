@@ -53,18 +53,18 @@ public:
 		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "phone"));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<25>>, Style<PaddingTop,Px<250>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 
-        html.Add(std::move(r));
-		html.Add(std::move(sender));
-        html.Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>, Style<MarginLeft,Px<75>>>>(), "adress"));
+        body->Add(std::move(r));
+		body->Add(std::move(sender));
+        body->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>, Style<MarginLeft,Px<75>>>>(), "adress"));
 		
 		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		body->Add(std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs))));
-		html.Add(std::move(body));
 		
-		html.Add(std::move(ending));
-		html.Add(std::move(bank));
+		body->Add(std::move(ending));
+		body->Add(std::move(bank));
+		html.Add(std::move(body));
 	}
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
