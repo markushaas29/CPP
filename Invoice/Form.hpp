@@ -23,7 +23,7 @@ public:
     Form(std::unique_ptr<IHtmlElement> a, const std::string& p, const std::string& n = ""): 
 		path{p},
 		filename{n},
-		phone{createPhone()},
+		contact{createPhone()},
 		sender{createSender()},
 		bank{createBank()},
 		ending{createEnding()},
@@ -45,19 +45,19 @@ public:
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<50>>, Style<FontSize, Px<25>>>>("addressLine"));
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
 		
-		auto body = std::make_unique<HtmlElements<Body>>("mainBody","mainBody",std::make_unique<Css<Style<Margin,Px<75>>>>());
+		auto body = std::make_unique<HtmlElements<Body>>("mainBody","mainBody",std::make_unique<Css<Style<Margin,Px<50>>, Style<Padding,Px<75>>>>());
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
-		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<FloatTag,Right>>>());
-		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(phone->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "phone"));
+		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<Margin,Px<100>>, Style<FloatTag,Right>>>());
+		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(contact->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<25>>, Style<FloatTag,Right>>>(),  "contact"));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<25>>, Style<PaddingTop,Px<250>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 
         body->Add(std::move(r));
 		body->Add(std::move(sender));
-        body->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>, Style<MarginLeft,Px<75>>>>(), "adress"));
+        body->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>>>(), "adress"));
 		
-		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
+		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
 		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
 
 		body->Add(std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs))));
@@ -70,7 +70,7 @@ private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
 	std::string path;
 	std::string filename;
-	std::unique_ptr<IHtmlElement> phone;
+	std::unique_ptr<IHtmlElement> contact;
 	std::unique_ptr<IHtmlElement> sender;
 	std::unique_ptr<IHtmlElement> bank;
 	std::unique_ptr<IHtmlElement> ending;
@@ -87,7 +87,7 @@ private:
 			{std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas")}
 		};
 
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>, Style<MarginLeft,Px<75>>>>());
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>());
 	}
 	static auto createBank()
 	{
@@ -97,7 +97,7 @@ private:
 			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
 		};
 
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>, Style<MarginLeft,Px<75>>>>());
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>>>());
 	}
 	static auto createSender()
 	{
@@ -107,7 +107,7 @@ private:
 			std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")
 		};
 
-		return MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>, Style<MarginLeft,Px<75>>>>());
+		return MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>>>());
 	}
 	static auto createPhone()
 	{
