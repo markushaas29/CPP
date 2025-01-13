@@ -20,7 +20,7 @@ class Form
 {
     using Stage = T;
 public:
-    Form(std::unique_ptr<IHtmlElement> a, const std::string& p, const std::string& n = ""): 
+    Form(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): 
 		path{p},
 		filename{n},
 		contact{createContact()},
@@ -29,7 +29,7 @@ public:
 		ending{createEnding()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
-		content{Entry{"Content"}.Html()},
+		content{std::move(c)},
 		builder{HtmlBuilder<German>("Form.html")} { }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{

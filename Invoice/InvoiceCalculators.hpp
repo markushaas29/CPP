@@ -130,7 +130,7 @@ private:
 				properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
 				properties.push_back((*fA)().Clone());
 				elements.push_back(properties);
-				auto inv = Form<S>(MatrixFormatter(address).Lines(),path, std::string(S::Name));
+				auto inv = Form<S>(MatrixFormatter(address).Lines(),nullptr,path, std::string(S::Name));
 				inv.exec();
 
 				auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
@@ -225,7 +225,7 @@ private:
 	    baseVisitor = stageproperties[1].Accept(std::move(baseVisitor));
 		auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 		auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
-		auto inv = Form<S>(MatrixFormatter(address).Lines(),path, std::to_string(S::Index)+"_Form");
+		auto inv = Form<S>(MatrixFormatter(address).Lines(),nullptr,path, std::to_string(S::Index)+"_Form");
 		inv.exec();
 		
 		std::unique_ptr<BaseVisitor> baseVisitor2 = std::make_unique<ElementCollector<Quantity<Sum>>>();

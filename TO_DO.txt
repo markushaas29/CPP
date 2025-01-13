@@ -4,7 +4,6 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	Endsumme schwarz
 	Body mit float left
 Form Klasse
 	Bsp Content mit Header
