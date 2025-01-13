@@ -57,10 +57,8 @@ public:
 		body->Add(std::move(sender));
         body->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(address->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<20>>>>(), "adress"));
 		
-		content = Html<DivTag>(Header{"Content"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header");
-		outs->push_back(std::make_unique<HtmlElements<Tr>>( row(content->Clone()) ));
-
-		body->Add(std::make_unique<HtmlElement<DivTag,IHtmlElement>>(table(std::move(outs))));
+		if(content)
+			body->Add(std::move(content));
 		
 		body->Add(std::move(ending));
 		body->Add(std::move(bank));
