@@ -130,15 +130,22 @@ private:
 				properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
 				properties.push_back((*fA)().Clone());
 				elements.push_back(properties);
+
 				auto divs = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>>>());
 				divs->Add(Html<DivTag>(Header{"Mietvetrag"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
 			
-
 				std::vector<std::vector<std::shared_ptr<IElement>>> dates ={
 					{std::make_shared<Entry>("Mietstart"),Date::Today().Clone()},
 					{std::make_shared<Prename>("Mietende"), std::make_shared<Empty>("")}
 				};
 				divs->Add(MatrixFormatter(Init(dates)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>()));
+				
+				std::vector<std::vector<std::shared_ptr<IElement>>> areas ={
+					{std::make_shared<Entry>("Area"),Date::Today().Clone()},
+					{std::make_shared<Prename>("€/m²"), std::make_shared<Empty>("")},
+					{std::make_shared<Prename>("Rent"), sum.Clone()}
+				};
+				divs->Add(MatrixFormatter(Init(areas)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>()));
 				
 				auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 				inv.exec();
