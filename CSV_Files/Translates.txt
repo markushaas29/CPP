@@ -24,3 +24,6 @@ persons;Personen;-
 area;Fläche;-
 counter;Zähler;-
 proportional costs;Anteilige Kosten;-
+width;Breite;-
+length;Länge;-
+-;Preis pro Quadratmeter;sumPerArea
