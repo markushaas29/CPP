@@ -6,11 +6,9 @@ CSS
 Jahresabrechnung
 	Body mit float left
 Form Klasse
-	Bsp Content mit Header
-	Abstand KTO Adressen
+	Mietvertrag -> wie Elements
 Account
-	Cleaning Januar 2025
-	AccountParser -> Jahr Lösung?
+	Cleaning Januar 2025 -if (2024) in AccountAccountParser -> Jahr Lösung?
 	Assert
 Hallenmiete
 Query
