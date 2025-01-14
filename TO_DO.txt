@@ -4,13 +4,12 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	Body mit float left
 Form Klasse
-	Mietvertrag -> wie Elements
+	Monatsmeiete
+	als Tabelle
+	Unterschrift unten
 Account
-	Cleaning Januar 2025 -if (2024) in AccountAccountParser -> Jahr Lösung?
 	Assert
-Hallenmiete
 Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
