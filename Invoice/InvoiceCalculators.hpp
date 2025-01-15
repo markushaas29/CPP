@@ -132,12 +132,12 @@ private:
 				
 			    slwVis = m[i].Accept(std::move(slwVis));
 				auto properties = (slwVis->template Cast<ElementCollector<Quantity<SumPerArea>, Quantity<Length>>>())->Elements();
-				properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
-				properties.push_back(q.Clone());
-
 				auto fA = fa->template Cast<FuncVisitor<QL,QL,Mul>>();
 				properties.push_back(std::make_shared<Entry>(this->asString(*fA)));
 				properties.push_back((*fA)().Clone());
+				properties.push_back(std::make_shared<Entry>(this->asString(Mul{Constant{QSC{12}},fC.F()})));
+				properties.push_back(q.Clone());
+
 				elements.push_back(properties);
 
 			
@@ -160,7 +160,7 @@ private:
 //			{std::make_shared<Prename>("€/m²"), std::make_shared<Empty>("")},
 //			{std::make_shared<Prename>("Rent"), sum.Clone()}
 //		};
-		divs->Add(MatrixFormatter(Init(elements)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>()));
+		divs->Add(MatrixFormatter(Init(elements)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>()));
 				
 
 	
