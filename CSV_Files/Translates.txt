@@ -27,3 +27,6 @@ proportional costs;Anteilige Kosten;-
 width;Breite;-
 length;Länge;-
 -;Preis pro Quadratmeter;sumPerArea
+monthly rent;Monatsmiete;-
+annual rent;Jahressmiete;-
+signature; unterschrift;-

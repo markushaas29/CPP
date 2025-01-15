@@ -26,7 +26,7 @@ public:
 		contact{createContact()},
 		sender{createSender()},
 		bank{createBank()},
-		ending{createEnding()},
+		ending{createEnding2()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		content{std::move(c)},
@@ -86,6 +86,14 @@ private:
 		};
 
 		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>());
+	}
+	static auto createEnding2()
+	{
+		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<Padding,Px<100>>, Style<Margin,Px<100>>>>());
+		r->Add(Html<DivTag>(Entry("signature"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<25>>, Style<FloatTag,Left>>>(),  "contact"));
+		r->Add(Html<DivTag>(Entry("signature tenant"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<25>>, Style<FloatTag, Right>>>(),"Date", "DateId"));
+
+		return r;
 	}
 	static auto createBank()
 	{
