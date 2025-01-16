@@ -103,7 +103,7 @@ private:
 		divs->Add(Html<DivTag>(Header{"Mietvetrag"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> dates ={
-			{std::make_shared<Entry>("Mietstart"),Date::Today().Clone()},
+			{std::make_shared<Entry>("Mietstart"),Date{1,1,2025}.Clone()},
 		};
 		divs->Add(MatrixFormatter(Init(dates)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<PaddingBottom,Px<180>>,Style<FontSize,Px<25>>>>()));
 
