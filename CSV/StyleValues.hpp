@@ -28,6 +28,7 @@ struct MarginTop	{   inline static constexpr const char* Id = "margin-top"; };
 
 struct Padding		{   inline static constexpr const char* Id = "padding"; };
 struct PaddingTop		{   inline static constexpr const char* Id = "padding-top"; };
+struct PaddingBottom		{   inline static constexpr const char* Id = "padding-bottom"; };
 
 struct RowSpan		{   inline static constexpr const char* Id = "rowspan"; };
 
