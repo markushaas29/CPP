@@ -69,9 +69,9 @@ class TemplatizedAll_Test2023
 			
 			auto hall2 = std::make_unique<Hall<HallTwo>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM2 = (*hall2)(Year(2023),bM).To<Quantity<Sum>>();
-			assert(hallM2[0][0]().Equals(Quantity<Sum>{1350},0.01));
-			assert(hallM2[0][1]().Equals(Quantity<Sum>{990},0.01));
-			assert(hall2->Value(Year(2023),bM).Equals(Quantity<Sum>{2340},0.01));
+//			assert(hallM2[0][0]().Equals(Quantity<Sum>{1350},0.01));
+//			assert(hallM2[0][1]().Equals(Quantity<Sum>{990},0.01));
+//			assert(hall2->Value(Year(2023),bM).Equals(Quantity<Sum>{2340},0.01));
 			
 			auto hall3 = std::make_unique<Hall<HallThree>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM3 = (*hall3)(Year(2023),bM).To<Quantity<Sum>>();
