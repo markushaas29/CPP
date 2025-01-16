@@ -29,4 +29,6 @@ length;Länge;-
 -;Preis pro Quadratmeter;sumPerArea
 monthly rent;Monatsmiete;-
 annual rent;Jahressmiete;-
-signature; unterschrift;-
+signature;Unterschrift;-
+signature landlord;Unterschrift Vermieter;-
+signature tenant;Unterschrift Mieter;-

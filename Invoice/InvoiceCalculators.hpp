@@ -104,7 +104,6 @@ private:
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> dates ={
 			{std::make_shared<Entry>("Mietstart"),Date::Today().Clone()},
-			{std::make_shared<Prename>("Mietende"), std::make_shared<Empty>("")}
 		};
 		divs->Add(MatrixFormatter(Init(dates)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>()));
 
@@ -160,7 +159,7 @@ private:
 //			{std::make_shared<Prename>("€/m²"), std::make_shared<Empty>("")},
 //			{std::make_shared<Prename>("Rent"), sum.Clone()}
 //		};
-		divs->Add(MatrixFormatter(Init(elements)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<800>>,Style<FontSize,Px<25>>>>()));
+		divs->Add(MatrixFormatter(Init(elements)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<1100>>,Style<FontSize,Px<25>>>>()));
 				
 
 	
