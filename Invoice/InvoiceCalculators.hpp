@@ -105,7 +105,7 @@ private:
 		std::vector<std::vector<std::shared_ptr<IElement>>> dates ={
 			{std::make_shared<Entry>("Mietstart"),Date::Today().Clone()},
 		};
-		divs->Add(MatrixFormatter(Init(dates)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<25>>>>()));
+		divs->Add(MatrixFormatter(Init(dates)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<PaddingBottom,Px<180>>,Style<FontSize,Px<25>>>>()));
 
 		for(auto i = 4; i < m.Rows();++i)
 		{
