@@ -5,13 +5,8 @@ Tranlator
 CSS
 Jahresabrechnung
 Form Klasse
-	Monatsmeiete
-	als Tabelle
-	Elemente umsortierne
-	Unterschrift Vermieter / Vermieter
-	Mietende entfernen
 	..... einbauen
-	Abstand
+	TelNummer ändern
 Account
 	Assert
 Query
