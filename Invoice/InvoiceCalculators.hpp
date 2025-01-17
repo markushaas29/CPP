@@ -100,7 +100,7 @@ private:
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements = {{std::make_shared<Header>("sumPerArea"),std::make_shared<Header>("Width"),std::make_shared<Header>("Length"),std::make_shared<Header>("area"),std::make_shared<Header>("monthly rent"),std::make_shared<Header>("annual rent")}};
 		auto html = HtmlBuilder(std::string(S::Name)+"_Hall.html","/home/markus/Dokumente/cpp/CSV_Files");
 		auto divs = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>>>());
-		divs->Add(Html<DivTag>(Header{"Mietvetrag"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
+		divs->Add(Html<DivTag>(Header{"Mietvetrag"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> dates ={
 			{std::make_shared<Entry>("Mietstart"),Date{1,1,2025}.Clone()},
