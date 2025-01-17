@@ -111,7 +111,7 @@ private:
 			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
 		};
 
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<15>>>>());
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
 	}
 	static auto createSender()
 	{
@@ -121,7 +121,7 @@ private:
 			std::make_shared<Postcode>("76706"), std::make_shared<Town>("Dettenheim")
 		};
 
-		return MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>>>());
+		return MatrixFormatter(Init(send)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<15>>>>());
 	}
 	static auto createContact()
 	{
@@ -131,7 +131,7 @@ private:
 			{ std::make_shared<Entry>("Email"), std::make_shared<Entry>("markushaas1@gmx.de")},
 		};
 
-		return MatrixFormatter(Init(a)()).Lines();
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<FontSize,Px<20>>>>());
 	}
 	
 	static auto row(std::unique_ptr<IHtmlElement> html)
