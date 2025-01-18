@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <sstream>
+#include <regex>
 #include "QuantityRatio.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Logger/Logger.hpp"

@@ -130,7 +130,13 @@ struct Unit
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string SiUnit() { return Mass::Unit() + std::string(Length::Unit()) + std::string(Time::Unit()) + std::string(Current::Unit()) + Temperature::Unit() + AngleType::Unit() + IntensityType::Unit() + Sum::Unit(); };
-	static const std::string Sign() { return UnitSign<Type>::Get(); }; 
+	static const std::string Sign() 
+	{ 
+		std::string s = UnitSign<Type>::Get(); 
+		if(s.find("^2")!=std::string::npos)
+			return s.replace(s.find("^2"),2,"²"); 
+		return s;
+	}; 
 };
 
 template<typename Si1, typename Si2 = Si1>

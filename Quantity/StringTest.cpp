@@ -82,6 +82,14 @@ int Run()
     assert(qs2123456789.Data()=="2123.456789€");
 	auto qs123_5 = To<Quantity<Sum>>("123.5");
 	assert(qs123_5.Value()==123.5);
+	
+	auto m1 = Quantity<Length>(1);
+	auto m2 = Quantity<Length>(2);
+	auto m1_2 = m1 * m2;
+    std::cout<<decltype(m1_2)::UnitType::Sign()<<std::endl;
+    std::cout<<std::regex_replace("m^2", std::regex("m^2"), "²")<<std::endl;
+	std::string m2s = "m^2";
+	std::cout<<m2s.replace(m2s.find("^2"),2,"²")<<std::endl;
 
     std::cout<<"END"<<std::endl;
 
