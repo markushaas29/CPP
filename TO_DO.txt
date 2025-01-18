@@ -16,14 +16,4 @@ Counter
 	Headers
 Quantity dm^3
 	liter als QR
-	Watt Einheit
-	min/h^2
-	Value testen
-	1000 statt 1
-	ist es QR Zuweiseung nötig in Divide und Mul?
-	Liter als Quantity mit dezi => using
-	assert 10mmss
-	Ausgabe in Data / outstream -> RU->EXP
-	PureValue durch QR-Factor 
-	constexpr LeftType RightType std::ratio== std::ratio<1,1>
-	Ratio ausrechnen
+	replace ^2,-2,3-3,4,-4
