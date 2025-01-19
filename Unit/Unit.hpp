@@ -133,6 +133,8 @@ struct Unit
 	static const std::string Sign() 
 	{ 
 		std::string s = UnitSign<Type>::Get(); 
+//		if(s.find("m^-2€")!=std::string::npos)
+//			return s.replace(s.find("m^-2€"),5,"€/m²"); 
 		if(s.find("^2")!=std::string::npos)
 			return s.replace(s.find("^2"),2,"²"); 
 		if(s.find("^3")!=std::string::npos)
