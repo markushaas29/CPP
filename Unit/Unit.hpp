@@ -135,6 +135,8 @@ struct Unit
 		std::string s = UnitSign<Type>::Get(); 
 		if(s.find("^2")!=std::string::npos)
 			return s.replace(s.find("^2"),2,"²"); 
+		if(s.find("^3")!=std::string::npos)
+			return s.replace(s.find("^3"),2,"³"); 
 		return s;
 	}; 
 };

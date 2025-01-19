@@ -86,10 +86,18 @@ int Run()
 	auto m1 = Quantity<Length>(1);
 	auto m2 = Quantity<Length>(2);
 	auto m1_2 = m1 * m2;
-    std::cout<<decltype(m1_2)::UnitType::Sign()<<std::endl;
     std::cout<<std::regex_replace("m^2", std::regex("m^2"), "²")<<std::endl;
 	std::string m2s = "m^2";
-	std::cout<<m2s.replace(m2s.find("^2"),2,"²")<<std::endl;
+
+	std::stringstream is;
+	is<<m1_2;
+	assert(is.str()=="2m²");
+	
+	std::stringstream is3;
+	auto m1_3 = m1_2 * m2;
+	is3<<m1_3;
+	assert(is3.str()=="4m³");
+	std::cout<<is3.str()<<std::endl;
 
     std::cout<<"END"<<std::endl;
 
