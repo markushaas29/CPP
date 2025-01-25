@@ -98,11 +98,10 @@ int Run()
 	is3<<m1_3;
 	assert(is3.str()=="4m³");
 	
-	std::stringstream is4;
 	auto qs1 = Quantity<Sum>(1);
 	auto em_2 = qs1 / m1_2;
-	is4<<em_2;
-	std::cout<<is4.str()<<std::endl;
+	std::cout<<decltype(em_2)::UnitType::Sign()<<std::endl;
+	assert(decltype(em_2)::UnitType::Sign()=="€/m²");
 	//assert(is4.str()=="0.5€/m²");
 
     std::cout<<"END"<<std::endl;

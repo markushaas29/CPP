@@ -17,4 +17,5 @@ Counter
 	Headers
 Quantity dm^3
 	liter als QR
-	replace ^2,-2,3-3,4,-4
+	replace 4,
+	==m°2€ =>  
