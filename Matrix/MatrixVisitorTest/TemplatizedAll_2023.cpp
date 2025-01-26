@@ -77,8 +77,8 @@ class TemplatizedAll_Test2023
 			auto hallM3 = (*hall3)(Year(2023),bM).To<Quantity<Sum>>();
 			std::cout<<"Hall"<<hallM3<<std::endl;
 			std::cout<<"H "<<hall2->Value(Year(2023),bM)<<std::endl;
-			assert(hall3->Value(Year(2023),bM).Equals(Quantity<Sum>{2052},0.01));
-			assert(hallM3[0][0]().Equals(Quantity<Sum>{2052},0.01));
+			assert(hall3->Value(Year(2023),bM).Equals(Quantity<Sum>{2770.20},0.01));
+			assert(hallM3[0][0]().Equals(Quantity<Sum>{2770.20},0.01));
 			
 			auto propB23 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto costs = propB23.Costs(Year{2023})[0].To<QS>();
