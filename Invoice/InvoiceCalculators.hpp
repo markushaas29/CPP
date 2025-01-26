@@ -334,7 +334,7 @@ private:
         auto v = sumCol.Elements();
 		
 		divs->Add(Html<DivTag>(resultSum(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<200>>, Style<FontSize,Px<25>>>>()));
-		auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_Nebenkosten");
+		auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_"+y.ToString()+"_Nebenkosten");
 		inv.exec();
 		
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
