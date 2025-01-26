@@ -216,7 +216,7 @@ private:
     {
         stageMatrix = process<0,Tup>(stageMatrix,tokenFactory,elementFactory,visitorFactory, path, f, y);
 		auto divs = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>>>());
-		divs->Add(Html<DivTag>(Header{"Mietvetrag"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
+		divs->Add(Html<DivTag>(Header{"Nebenkosten"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
         
 		auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
@@ -231,9 +231,6 @@ private:
 		auto addressElements = baseVisitor->template Cast<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 		auto address = Init(addressElements->Elements())().template Transform<2>(3,2);
 	
-		auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_Form");
-		inv.exec();
-		
 		std::unique_ptr<BaseVisitor> baseVisitor2 = std::make_unique<ElementCollector<Quantity<Sum>>>();
 	    baseVisitor2 = stageproperties[1].Accept(std::move(baseVisitor2));
 		auto sumElements = baseVisitor2->template Cast<ElementCollector<Quantity<Sum>>>();
@@ -335,6 +332,11 @@ private:
 		html.Add(std::move(body));
 
         auto v = sumCol.Elements();
+		
+		divs->Add(Html<DivTag>(resultSum(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<200>>, Style<FontSize,Px<25>>>>()));
+		auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_Nebenkosten");
+		inv.exec();
+		
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
     }
 	
