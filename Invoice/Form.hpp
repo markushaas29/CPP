@@ -43,15 +43,15 @@ public:
 
 		auto styleVec = std::make_unique<std::vector<std::unique_ptr<ICss>>>();
 		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1600>>, Style<Margin,Px<5>>, Style<FontSize, Px<25>>>>("addressLine"));
-		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1800>>>>("mainBody"));
+		styleVec->push_back(std::make_unique<ClassCss<Style<Width,Px<1100>>>>("mainBody"));
 		
 		auto body = std::make_unique<HtmlElements<Body>>("mainBody","mainBody",std::make_unique<Css<Style<Margin,Px<5>>, Style<Padding,Px<75>>>>());
 		heads->push_back(std::make_unique<StyleElement>(std::move(styleVec)));
 		html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads))); 
 
 		auto r = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<Margin,Px<100>>, Style<FloatTag,Right>>>());
-		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(contact->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<10>>, Style<Margin,Px<2>>, Style<FloatTag,Right>>>(),  "contact"));
-		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<2>>, Style<PaddingTop,Px<25>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
+		r->Add(std::make_unique<HtmlElement<DivTag, IHtmlElement>>(contact->Clone(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<Margin,Px<2>>, Style<FloatTag,Right>>>(),  "contact"));
+		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<2>>, Style<PaddingTop,Px<300>>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 
         body->Add(std::move(r));
 		body->Add(std::move(sender));

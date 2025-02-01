@@ -4,13 +4,13 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	Nebenkostenabrechnung
-	MfG
 	TextElement
 Form Klasse
+	Basislkasse
+	Kontonummer anpassen
 	Unterschrift Markus Haas
 Account
-	Assert
+	!!!!!Assert 2024
 Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
