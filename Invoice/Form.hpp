@@ -25,7 +25,7 @@ public:
 		filename{n},
 		contact{createContact()},
 		sender{createSender()},
-		bank{createBank()},
+		bank{createBank2()},
 		ending{createEnding2()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
@@ -109,6 +109,16 @@ private:
 			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700"),
 			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001"),
 			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
+		};
+
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
+	}
+	static auto createBank2()
+	{
+		std::vector<std::shared_ptr<IElement>> a ={
+			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE19660623660009232702"),
+			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("GENODE61DET"),
+			 std::make_shared<Name>("RAIFFEISENBANK HARDT-BRUHRAIN"), std::make_shared<Empty>(""),
 		};
 
 		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
