@@ -250,3 +250,14 @@ public:
 private:
 	inline static std::string check(const std::string& s) { return s; }
 };
+
+class Text: public Element<Text>
+{
+	using Base = Element<Text>;
+	friend class Element<Text>;
+public:
+    inline static constexpr const char* Identifier = "Text";
+	Text(const std::string& c = Identifier): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};

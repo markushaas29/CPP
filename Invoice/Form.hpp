@@ -90,8 +90,9 @@ private:
 	static auto createEnding2()
 	{
 		auto r1 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<Padding,Px<10>>>>());
-		r1->Add(Html<DivTag>(Entry("signature landlord"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<FloatTag,Left>>>(),  "contact"));
-		r1->Add(Html<DivTag>(Entry("signature tenant"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<FloatTag, Right>>>(),"Date", "DateId"));
+		r1->Add(Html<DivTag>(Text("Unterschrift Markus Haas"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<FloatTag,Left>>>(),  "contact"));
+		//r1->Add(Html<DivTag>(Entry("signature landlord"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<FloatTag,Left>>>(),  "contact"));
+		//r1->Add(Html<DivTag>(Entry("signature tenant"),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<FloatTag, Right>>>(),"Date", "DateId"));
 		
 		auto r2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>, Style<Padding,Px<10>>>>());
 		r2->Add(Html<DivTag>(Entry("..........."),std::make_unique<Css<Style<FontWeight,Bold>, Style<FontSize,Px<25>>, Style<PaddingTop,Px<100>>, Style<FloatTag,Left>>>(),  "contact"));
