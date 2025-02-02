@@ -240,7 +240,7 @@ private:
 		auto mf = MatrixFormatter(stageQT.Rows({13,16}));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
+		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<Margin,Px<10>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
 		divA->Add(MatrixFormatter(address).Lines(std::make_unique<Css<Style<FontWeight,Bold>>>(),"Address", "AddressId"));
 		outs->push_back(std::move(divA));
 
@@ -252,7 +252,7 @@ private:
 		outs->push_back(std::move(div0));
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",nullptr);
-		auto div11 = std::make_unique<HtmlElements<DivTag>>("Div11","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>, Style<FloatTag,Left>>>());
+		auto div11 = std::make_unique<HtmlElements<DivTag>>("Div11","",std::make_unique<Css<Style<Margin,Px<10>>,Style<BackgroundColor,Hex<"f9f9f9">>, Style<FloatTag,Left>>>());
 		div11->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums", "ExtraCosts"));
 		div1->Add(std::move(div11));
 
@@ -270,7 +270,7 @@ private:
 		};
 
 		auto annualAdvancePaymentForm = MatrixFormatter(Init(annualAdvancePayment)());
-		auto div5 = std::make_unique<HtmlElements<DivTag>>("Div5","",std::make_unique<Css<Style<Margin,Px<50>>, Style<FloatTag,Right>>>());
+		auto div5 = std::make_unique<HtmlElements<DivTag>>("Div5","",std::make_unique<Css<Style<Margin,Px<10>>, Style<FloatTag,Right>>>());
 		div5->Add(annualAdvancePaymentForm.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("annualStatement")),nullptr,"Sums", "Payments"));
 		div1->Add(std::move(div5));
 		outs->push_back(std::move(div1));
@@ -302,13 +302,13 @@ private:
 		}
 
 		auto resultMatrix = Init(vp)();
-		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<50>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
+		auto div2 = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<Margin,Px<10>>,Style<BackgroundColor,Hex<"f9f9f9">>>>());
 		div2->Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result","Calculation","Result"}, vp).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
 		
 		auto sumX = resultMatrix.Col(8).template To<Quantity<Sum>>().ColSum();
 		std::vector<std::vector<std::shared_ptr<IElement>>> addedCosts = {{std::make_shared<Header>("proportional costs"),std::make_shared<Entry>(this->asString(sumX)), std::make_shared<Quantity<Sum>>(sumX())}	};
 		auto mAddedCosts = MatrixFormatter(Init(addedCosts)());
-		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		auto div4 = std::make_unique<HtmlElements<DivTag>>("Div4","",std::make_unique<Css<Style<Margin,Px<10>>>>());
 		div4->Add(mAddedCosts.Html(nullptr,"Sums","Costs2"));
 
 		auto sumCol = resultMatrix.Col(8);
@@ -322,13 +322,13 @@ private:
 
 		auto mCostsForm = MatrixFormatter(Init(costs)());
 
-		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<50>>>>());
+		auto div3 = std::make_unique<HtmlElements<DivTag>>("Div3","",std::make_unique<Css<Style<Margin,Px<10>>>>());
 		div3->Add(mCostsForm.Html(nullptr,"Sums","Total"));
 		outs->push_back(std::move(div2));
 		outs->push_back(std::move(div4));
 		outs->push_back(std::move(div3));
-		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<50>>>>(), "grid-container");
-		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid),std::make_unique<Css<Style<Margin,Px<50>>, Style<FloatTag,Left>>>(),"mainBody");
+		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<10>>>>(), "grid-container");
+		auto body = std::make_unique<HtmlElement<Body,IHtmlElement>>(std::move(grid),std::make_unique<Css<Style<Margin,Px<10>>, Style<FloatTag,Left>>>(),"mainBody");
 		html.Add(std::move(body));
 
         auto v = sumCol.Elements();

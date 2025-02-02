@@ -4,11 +4,10 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	TextElement
 Form Klasse
 	Basislkasse
-	Kontonummer anpassen
-	Unterschrift Markus Haas
+	Bitte überweisen Sie....
+	Konto als Tabelle?
 Account
 	!!!!!Assert 2024
 Query
