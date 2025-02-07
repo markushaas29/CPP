@@ -317,7 +317,9 @@ private:
 
 		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> costs = 
 		{
-			{Header{"total"}.Html(),Entry{this->asString(resultSum)}.Html(),  Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontWeight,Bold>>>())}
+			{Html<Td>(Header{"total"} ,std::make_unique<Css<Style<FontSize,Px<40>>, Style<FontWeight,Bold>>>()),
+			Html<Td>(Entry{this->asString(resultSum)} ,std::make_unique<Css<Style<FontSize,Px<40>>, Style<FontWeight,Bold>>>()),  
+			Html<Td>(QS{resultSum} ,std::make_unique<Css<Style<FontSize,Px<40>>, Style<FontWeight,Bold>>>())}
 		};
 
 		auto mCostsForm = MatrixFormatter(Init(costs)());

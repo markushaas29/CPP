@@ -4,9 +4,9 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
+	underline tag
 Form Klasse
 	Basislkasse
-	Bitte überweisen Sie....
 	Konto als Tabelle?
 Account
 	!!!!!Assert 2024
