@@ -27,16 +27,6 @@ struct Comdirect
 
 		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
 	}
-	static auto Get2()
-	{
-		std::vector<std::shared_ptr<IElement>> a ={
-			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE19660623660009232702"),
-			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("GENODE61DET"),
-			 std::make_shared<Name>("RAIFFEISENBANK HARDT-BRUHRAIN"), std::make_shared<Empty>(""),
-		};
-
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
-	}
 };
 
 struct Raiffeisenbank
@@ -44,16 +34,6 @@ struct Raiffeisenbank
 	static auto Get()
 	{
 		std::vector<std::shared_ptr<IElement>> a ={
-			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700"),
-			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001"),
-			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
-		};
-
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
-	}
-	static auto Get2()
-	{
-		std::vector<std::shared_ptr<IElement>> a ={
 			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE19660623660009232702"),
 			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("GENODE61DET"),
 			 std::make_shared<Name>("RAIFFEISENBANK HARDT-BRUHRAIN"), std::make_shared<Empty>(""),
@@ -63,22 +43,11 @@ struct Raiffeisenbank
 	}
 };
 
-template<typename T>
+template<typename A>
 class Form
 {
-    using Stage = T;
+    using Account = A;
 public:
-    Form(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): 
-		path{p},
-		filename{n},
-		contact{createContact()},
-		sender{createSender()},
-		bank{Comdirect::Get2()},
-		ending{createEnding2()},
-		address{std::move(a)},
-		date{Date::Today().Html()},
-		content{std::move(c)},
-		builder{HtmlBuilder<German>("Form.html")} { }
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{
         auto html = HtmlBuilder(filename+".html","/home/markus/Dokumente/cpp/CSV_Files");
@@ -112,6 +81,18 @@ public:
 		body->Add(std::move(bank));
 		html.Add(std::move(body));
 	}
+protected:
+    Form(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): 
+		path{p},
+		filename{n},
+		contact{createContact()},
+		sender{createSender()},
+		bank{Account::Get()},
+		ending{createEnding2()},
+		address{std::move(a)},
+		date{Date::Today().Html()},
+		content{std::move(c)},
+		builder{HtmlBuilder<German>("Form.html")} { }
 private:
 	inline static std::shared_ptr<IElement> empty = std::make_shared<Empty>("");
 	std::string path;
@@ -204,4 +185,15 @@ private:
 	{
 		return std::make_unique<HtmlElements<Table>>(std::move(html));
 	}
+};
+
+class Contract: public Form<Comdirect> 
+{
+public:
+	Contract(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Comdirect>(std::move(a), std::move(c), p, n){}
+};
+class ExtraCostInvoice: public Form<Raiffeisenbank> 
+{
+public:
+	ExtraCostInvoice(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Raiffeisenbank>(std::move(a), std::move(c), p, n){}
 };

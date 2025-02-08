@@ -148,7 +148,7 @@ private:
 		}
 		divs->Add(MatrixFormatter(Init(elements)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<1100>>,Style<FontSize,Px<25>>>>()));
 
-		auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
+		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 		inv.exec();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
@@ -338,7 +338,7 @@ private:
 		divs->Add(Html<DivTag>(Text{"Die Nebenkostenabrechnung Zeitraum: 01.01.2024 bis 31.12.2024 hat abzüglich Ihrer Vorauszahlungen ein Minus von ergeben."},std::make_unique<Css<Style<FontWeight,Bold>,Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
 		divs->Add(Html<DivTag>(resultSum(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<150>>, Style<FontSize,Px<25>>>>()));
 		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<FontWeight,Bold>,Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>()));
-		auto inv = Form<S>(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_"+y.ToString()+"_Nebenkosten");
+		auto inv = ExtraCostInvoice(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_"+y.ToString()+"_Nebenkosten");
 		inv.exec();
 		
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);

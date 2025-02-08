@@ -58,13 +58,12 @@ class TemplatizedAll_Test2023
 
 			std::cout << "Calculation Time Init :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
 			
-
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			
 			auto hall = std::make_unique<Hall<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM = (*hall)(Year(2023),bM).To<Quantity<Sum>>();
 			assert(hallM[0][0]().Equals(Quantity<Sum>{680.40},0.01));
-			//assert(hallM[0][1]().Equals(Quantity<Sum>{3333.10},0.1));
+			assert(hallM[0][1]().Equals(Quantity<Sum>{2653.2},0.1));
 			//assert(hall->Value(Year(2023),bM).Equals(Quantity<Sum>{4014},0.01));
 			
 			auto hall2 = std::make_unique<Hall<HallTwo>>(tokenFactory,elementFactory,visitorFactory,path);
