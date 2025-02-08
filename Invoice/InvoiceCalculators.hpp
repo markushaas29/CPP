@@ -335,9 +335,9 @@ private:
 
         auto v = sumCol.Elements();
 		
-		divs->Add(Html<DivTag>(Text{"Die Nebenkostenabrechnung Zeitraum: 01.01.2024 bis 31.12.2024 hat abzüglich Ihrer Vorauszahlungen ein Minus von ergeben."},std::make_unique<Css<Style<FontWeight,Bold>,Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
-		divs->Add(Html<DivTag>(resultSum(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<150>>, Style<FontSize,Px<25>>>>()));
-		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<FontWeight,Bold>,Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>()));
+		divs->Add(Html<DivTag>(Text{"Die Nebenkostenabrechnung Zeitraum: 01.01.2024 bis 31.12.2024 hat abzüglich Ihrer Vorauszahlungen ein Minus von ergeben."},std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
+		divs->Add(Html<DivTag>(resultSum(),std::make_unique<Css<Style<FontWeight,Bold>, Style<Margin,Px<150>>, Style<FontSize,Px<40>>>>()));
+		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>()));
 		auto inv = ExtraCostInvoice(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_"+y.ToString()+"_Nebenkosten");
 		inv.exec();
 		
