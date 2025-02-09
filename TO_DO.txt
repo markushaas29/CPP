@@ -4,9 +4,8 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
-	underline tag
 Form Klasse
-	Basislkasse
+	Unterschrit: Markus Haas, Deettneheim den ....
 	Konto als Tabelle?
 Account
 	!!!!!Assert 2024

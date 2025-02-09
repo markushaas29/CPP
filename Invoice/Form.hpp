@@ -43,6 +43,36 @@ struct Raiffeisenbank
 	}
 };
 
+struct Signature
+{
+	static auto Ge()
+	{
+		std::vector<std::shared_ptr<IElement>> a ={
+			 std::make_shared<Entry>("Dettenheim, "), std::make_shared<Date>(Date::Today())
+		};
+
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
+	}
+	static auto Get()
+	{
+		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto r = std::make_unique<HtmlElements<DivTag>>();
+		r->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r));
+		
+		auto r2 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<150>>>>());
+		r2->Add(Html<DivTag>(Entry{"...................................."},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r2));
+		
+		auto r3 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<40>>>>());
+		r3->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r3));
+
+		return std::move(end);
+	}
+};
+
 template<typename A>
 class Form
 {
@@ -88,7 +118,7 @@ protected:
 		contact{createContact()},
 		sender{createSender()},
 		bank{Account::Get()},
-		ending{createEnding2()},
+		ending{Signature::Get()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		content{std::move(c)},
@@ -132,26 +162,6 @@ private:
 //		r->Add(std::move(r2));
 
 		return r;
-	}
-	static auto createBank()
-	{
-		std::vector<std::shared_ptr<IElement>> a ={
-			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE83200411330694752700"),
-			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("COBADEHD001"),
-			 std::make_shared<Name>("comdirect"), std::make_shared<Empty>(""),
-		};
-
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
-	}
-	static auto createBank2()
-	{
-		std::vector<std::shared_ptr<IElement>> a ={
-			 std::make_shared<Entry>("IBAN"), std::make_shared<Entry>("DE19660623660009232702"),
-			 std::make_shared<Entry>("BIC"), std::make_shared<Entry>("GENODE61DET"),
-			 std::make_shared<Name>("RAIFFEISENBANK HARDT-BRUHRAIN"), std::make_shared<Empty>(""),
-		};
-
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
 	}
 	static auto createSender()
 	{
