@@ -5,8 +5,10 @@ Tranlator
 CSS
 Jahresabrechnung
 Form Klasse
-	Unterschrit: Markus Haas, Deettneheim den ....
-	Konto als Tabelle?
+	Zweiter Unterschrift mit PaddingLeft
+	sum statt q.Clone(properties/div0?)
+	ExtraZeile für q
+	Gesamtkosten Halle
 Account
 	!!!!!Assert 2024
 Query

@@ -131,7 +131,7 @@ private:
 				auto fA = fa->template Cast<FuncVisitor<QL,QL,Mul>>();
 				properties.push_back((*fA)().Clone());
 				properties.push_back(std::make_shared<Entry>(this->asString(fC())));
-				properties.push_back(q.Clone());
+				properties.push_back(sum.Clone());
 
 				elements.push_back(properties);
 				
