@@ -73,6 +73,54 @@ struct Signature
 	}
 };
 
+struct Signature2
+{
+	static auto Ge()
+	{
+		std::vector<std::shared_ptr<IElement>> a ={
+			 std::make_shared<Entry>("Dettenheim, "), std::make_shared<Date>(Date::Today())
+		};
+
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
+	}
+	static auto Get()
+	{
+		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<FloatTag,Left>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto r = std::make_unique<HtmlElements<DivTag>>();
+		r->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r));
+		
+		auto r2 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<150>>>>());
+		r2->Add(Html<DivTag>(Entry{"...................................."},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r2));
+		
+		auto r3 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<40>>>>());
+		r3->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r3));
+		
+		auto end2 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto r21 = std::make_unique<HtmlElements<DivTag>>();
+		r21->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r21->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end2->Add(std::move(r21));
+		
+		auto r22 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<150>>>>());
+		r22->Add(Html<DivTag>(Entry{"...................................."},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end2->Add(std::move(r22));
+		
+		auto r32 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<40>>>>());
+		r32->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end2->Add(std::move(r32));
+		
+		auto end3 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		end3->Add(std::move(end));
+		end3->Add(std::move(end2));
+
+		return std::move(end3);
+	}
+};
+
 template<typename A>
 class Form
 {
@@ -118,7 +166,7 @@ protected:
 		contact{createContact()},
 		sender{createSender()},
 		bank{Account::Get()},
-		ending{Signature::Get()},
+		ending{Signature2::Get()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		content{std::move(c)},
