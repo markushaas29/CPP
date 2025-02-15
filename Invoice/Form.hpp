@@ -39,7 +39,7 @@ struct Raiffeisenbank
 			 std::make_shared<Name>("RAIFFEISENBANK HARDT-BRUHRAIN"), std::make_shared<Empty>(""),
 		};
 
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<350>>,Style<FontSize,Px<20>>>>());
 	}
 };
 
@@ -93,16 +93,16 @@ struct Signature2
 		
 		auto end2 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>>>());
 		auto r21 = std::make_unique<HtmlElements<DivTag>>();
-		r21->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
-		r21->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r21->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Right>>>()));
+		r21->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Right>>>()));
 		end2->Add(std::move(r21));
 		
 		auto r22 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<150>>>>());
-		r22->Add(Html<DivTag>(Entry{"...................................."},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r22->Add(Html<DivTag>(Entry{"...................................."},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Right>>>()));
 		end2->Add(std::move(r22));
 		
 		auto r32 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<40>>>>());
-		r32->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r32->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Right>>>()));
 		end2->Add(std::move(r32));
 		
 		auto end3 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<20>>>>());
