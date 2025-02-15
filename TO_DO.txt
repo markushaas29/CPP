@@ -6,7 +6,7 @@ CSS
 Jahresabrechnung
 Form Klasse
 	Zweiter Unterschrift mit PaddingLeft
-	sum statt q.Clone(properties/div0?)
+	Abstände kleiner
 	ExtraZeile für q
 	Gesamtkosten Halle
 Account

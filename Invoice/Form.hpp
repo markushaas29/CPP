@@ -75,14 +75,6 @@ struct Signature
 
 struct Signature2
 {
-	static auto Ge()
-	{
-		std::vector<std::shared_ptr<IElement>> a ={
-			 std::make_shared<Entry>("Dettenheim, "), std::make_shared<Date>(Date::Today())
-		};
-
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
-	}
 	static auto Get()
 	{
 		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<FloatTag,Left>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
@@ -121,10 +113,11 @@ struct Signature2
 	}
 };
 
-template<typename A>
+template<typename A, typename S = Signature>
 class Form
 {
-    using Account = A;
+using Account = A;
+using Signature = S;
 public:
     auto exec()//const HtmlBuilder<German>& f, const Year& y)  
 	{
@@ -166,7 +159,7 @@ protected:
 		contact{createContact()},
 		sender{createSender()},
 		bank{Account::Get()},
-		ending{Signature2::Get()},
+		ending{Signature::Get()},
 		address{std::move(a)},
 		date{Date::Today().Html()},
 		content{std::move(c)},
@@ -245,10 +238,10 @@ private:
 	}
 };
 
-class Contract: public Form<Comdirect> 
+class Contract: public Form<Comdirect, Signature2> 
 {
 public:
-	Contract(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Comdirect>(std::move(a), std::move(c), p, n){}
+	Contract(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Comdirect, Signature2>(std::move(a), std::move(c), p, n){}
 };
 class ExtraCostInvoice: public Form<Raiffeisenbank> 
 {
