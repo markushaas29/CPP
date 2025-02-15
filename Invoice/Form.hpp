@@ -77,7 +77,7 @@ struct Signature2
 {
 	static auto Get()
 	{
-		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<FloatTag,Left>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<FloatTag,Left>>>());
 		auto r = std::make_unique<HtmlElements<DivTag>>();
 		r->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
@@ -91,7 +91,7 @@ struct Signature2
 		r3->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
 		end->Add(std::move(r3));
 		
-		auto end2 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto end2 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>>>());
 		auto r21 = std::make_unique<HtmlElements<DivTag>>();
 		r21->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
 		r21->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
@@ -105,7 +105,7 @@ struct Signature2
 		r32->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
 		end2->Add(std::move(r32));
 		
-		auto end3 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto end3 = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<20>>>>());
 		end3->Add(std::move(end));
 		end3->Add(std::move(end2));
 
