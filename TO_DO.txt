@@ -6,8 +6,9 @@ CSS
 Jahresabrechnung
 Form Klasse
 	Zweiter Unterschrift mit PaddingLeft
-	Abstände kleiner
-	ExtraZeile für q
+	Abstände nach oben
+	Ort,Datu,  und Name rechts
+	ExtraZeile für q als Tabelle
 	Gesamtkosten Halle
 Account
 	!!!!!Assert 2024

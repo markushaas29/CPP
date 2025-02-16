@@ -32,3 +32,4 @@ annual rent;Jahressmiete;-
 signature;Unterschrift;-
 signature landlord;Unterschrift Vermieter;-
 signature tenant;Unterschrift Mieter;-
+date;Datum;-
