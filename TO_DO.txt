@@ -7,8 +7,6 @@ Jahresabrechnung
 Form Klasse
 	Abstände nach oben
 	Berevhung Gesamtkosten
-	Bankdaten bei beiden unten
-	Gesamtkosten Halle
 Account
 	!!!!!Assert 2024
 Query
