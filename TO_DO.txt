@@ -5,10 +5,9 @@ Tranlator
 CSS
 Jahresabrechnung
 Form Klasse
-	Zweiter Unterschrift mit PaddingLeft
 	Abstände nach oben
-	Ort,Datu,  und Name rechts
-	ExtraZeile für q als Tabelle
+	Berevhung Gesamtkosten
+	Bankdaten bei beiden unten
 	Gesamtkosten Halle
 Account
 	!!!!!Assert 2024
