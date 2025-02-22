@@ -148,7 +148,7 @@ private:
 		}
 		divs->Add(MatrixFormatter(Init(elements)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<1100>>,Style<FontSize,Px<25>>>>()));
 		
-		std::vector<std::shared_ptr<IElement>> els = {std::make_shared<Header>("Jahresmiete"), q.Clone()};
+		std::vector<std::shared_ptr<IElement>> els = {std::make_shared<Header>("annual rent"), q.Clone()};
 		divs->Add(MatrixFormatter(Init(els)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<200>>,Style<FontSize,Px<25>>>>()));
 
 		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
