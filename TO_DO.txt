@@ -4,18 +4,13 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Jahresabrechnung
+	Gemsate Monasmiete
 Form Klasse
-	Breite Gesamtkosten
-	Abstände nach oben
-	Berevhung Gesamtkosten
-Account
-	!!!!!Assert 2024
+	Account
 Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
 Counter
 	Headers
 Quantity dm^3
-	liter als QR
-	replace 4,
-	==m°2€ =>  
+	bei if constexpr dezi und Length = Unit<0,3> => Ausgabe als liter
