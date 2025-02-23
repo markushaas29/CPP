@@ -26,6 +26,7 @@
 #include "../Visitor/FuncVisitor.hpp"
 #include "../Invoice/InvoiceCalculatorBase.hpp"
 #include "../Invoice/AccountCalculator.hpp"
+#include "../Invoice/ReadingsCalculator.hpp"
 #include "../Invoice/Form.hpp"
 
 #pragma once
