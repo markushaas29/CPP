@@ -198,18 +198,18 @@ class TemplatizedAll_Test2023
 			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-3420.96},0.01));
 			
 			mTS = propT24(Year{2024}, bM).To<Quantity<Sum>>();
-			mTS = propT24(Year{2025}, bM).To<Quantity<Sum>>();
 			costs = propT24.Costs(Year{2025})[0].To<QS>();
-		//	assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
-		//	assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{12369.76},0.01));
-		//	assert(mTS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
-		//	assert(mTS[0][1]().Equals(Quantity<Sum>{-756.45},0.01));
-		//	assert(mTS[0][2]().Equals(Quantity<Sum>{-1053.43},0.01));
-		//	assert(mTS[0][3]().Equals(Quantity<Sum>{-1675.59},0.01));
-		//	assert(mTS[0][4]().Equals(Quantity<Sum>{-70.77},0.01));
-		//	assert(mTS[0][5]().Equals(Quantity<Sum>{-218.20},0.01));
-		//	assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-3830.24},0.01));
+			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
+			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{11874.37},0.01));
+			assert(mTS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
+			assert(mTS[0][1]().Equals(Quantity<Sum>{-1061.19},0.01));
+			assert(mTS[0][2]().Equals(Quantity<Sum>{-1053.43},0.01));
+			assert(mTS[0][3]().Equals(Quantity<Sum>{-1848.77},0.01));
+			assert(mTS[0][4]().Equals(Quantity<Sum>{-94.36},0.01));
+			assert(mTS[0][5]().Equals(Quantity<Sum>{-212.08},0.01));
+			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-4325.63},0.01));
 
+			mTS = propT24(Year{2025}, bM).To<Quantity<Sum>>();
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
