@@ -1,6 +1,8 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include "../CSV/IHtml.hpp"
+#include "../CSV/HtmlElement.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"    
@@ -13,7 +15,7 @@
 template<std::size_t, typename> class Matrix;
 
 template<typename Q, typename MType>
-class IResult
+class IResult: public IHtml
 {
 public:
 	using QuantityType = Q;
@@ -30,6 +32,8 @@ public:
 	decltype(auto) FuncVec() { return funcs(); }
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
+	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  { return std::make_unique<HtmlElements<DivTag>>("","");	};	
+	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
 	virtual MatrixOne names() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
