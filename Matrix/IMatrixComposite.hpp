@@ -34,7 +34,12 @@ public:
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
 	virtual std::ostream& display(std::ostream& s, size_t i = 0) const = 0;
 private:
-	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  { return std::make_unique<HtmlElements<DivTag>>("","");	};	
+	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
+	{
+//		auto m = (*this)();
+//		m.Html();
+		return std::make_unique<HtmlElements<DivTag>>("","");	
+	};	
 	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
 };
 

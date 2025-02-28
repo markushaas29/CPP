@@ -32,7 +32,11 @@ public:
 	decltype(auto) FuncVec() { return funcs(); }
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
-	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  { return std::make_unique<HtmlElements<DivTag>>("","");	};	
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
+	{ 
+		//return std::make_unique<HtmlElements<DivTag>>("","");	
+		return MatrixFormatter(M()).Html();	
+	};	
 	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
 	virtual MatrixOne names() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
@@ -58,6 +62,11 @@ public:
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
+	{ 
+		//return std::make_unique<HtmlElements<DivTag>>("","");	
+		return MatrixFormatter(M()).Html();	
+	};	
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
 	virtual std::vector<typename Base::FuncType> funcs() const { return {result};};
 	virtual typename Base::MatrixOne names() const 
@@ -126,6 +135,11 @@ private:
 		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
 		return out<<"Value: "<<s.value;	
 	}
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
+	{ 
+		//return std::make_unique<HtmlElements<DivTag>>("","");	
+		return MatrixFormatter(M()).Html();	
+	};	
 	virtual std::vector<std::shared_ptr<IElement>> elements() const
 	{
 		std::vector<std::shared_ptr<IElement>> v;
