@@ -106,7 +106,8 @@ private:
 		auto mf = MatrixFormatter(result->M());  
 		result->Html();
 		auto hb = HtmlBuilder<German>("Account_"+ y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
-        hb(mf());
+		//hb(mf());
+        hb.Add(result->Html());
 		hb();
 
 		auto names = result->Names().Elements();
