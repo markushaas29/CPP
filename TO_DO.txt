@@ -7,8 +7,10 @@ Jahresabrechnung
 	Gemsate Monasmiete
 Form Klasse
 Account
-	PTR verschieben
-	unique_ptr seichern und in Html zurückgeben in MatrixComposition
+	comdirect datei einlesen
+	Regex für comdirect Datei(...|...) Buchungstag";"Wertstellung (Valuta)";"Vorgang";"Buchungstext";"Umsatz in EUR"
+	Entfernung Anführungszeichen in Reader(74), wenn mit "" startet
+	Summe und Name einbauen Html<Div>
 Query
 	mit Factory und Factory Units aus Accountauslagern
 ConsumptionVisitor
