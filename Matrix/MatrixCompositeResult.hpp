@@ -7,6 +7,7 @@
 #include "../String/Literal.hpp"
 #include "../CSV/Elements.hpp"    
 #include "../Matrix/MatrixFormatter.hpp"
+#include "../CSV/NumericStyle.hpp"
 #include "../Functional/Functional.hpp"    
 #include "../HTMLBuilder/HTMLBuilder.hpp"    
 
@@ -60,7 +61,7 @@ public:
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(); };	
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
 	virtual std::vector<typename Base::FuncType> funcs() const { return {result};};
 	virtual typename Base::MatrixOne names() const 
@@ -108,9 +109,10 @@ public:
 		{
 			while(res.size()%5 != 0)
 				res.push_back(std::make_shared<Entry>("-"));
-		Base::htmlPtr = std::move(htmlPtr);
+			Base::htmlPtr = std::move(htmlPtr);
 			return MType(DT({res.size()/ cols,cols}), res);
 		}
+
 		Base::htmlPtr = std::move(htmlPtr);
 
 		return MType();
