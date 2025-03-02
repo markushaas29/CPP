@@ -108,9 +108,9 @@ public:
 		{
 			while(res.size()%5 != 0)
 				res.push_back(std::make_shared<Entry>("-"));
-				return MType(DT({res.size()/ cols,cols}), res);
+		Base::htmlPtr = std::move(htmlPtr);
+			return MType(DT({res.size()/ cols,cols}), res);
 		}
-
 		Base::htmlPtr = std::move(htmlPtr);
 
 		return MType();
@@ -134,11 +134,7 @@ private:
 		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
 		return out<<"Value: "<<s.value;	
 	}
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
-	{ 
-		//return std::make_unique<HtmlElements<DivTag>>("","");	
-		return MatrixFormatter(MType()).Html();	
-	};	
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return Base::htmlPtr->Clone();	};	
 	virtual std::vector<std::shared_ptr<IElement>> elements() const
 	{
 		std::vector<std::shared_ptr<IElement>> v;

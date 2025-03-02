@@ -7,6 +7,7 @@ Jahresabrechnung
 	Gemsate Monasmiete
 Form Klasse
 Account
+	PTR verschieben
 	unique_ptr seichern und in Html zurückgeben in MatrixComposition
 Query
 	mit Factory und Factory Units aus Accountauslagern
