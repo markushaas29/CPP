@@ -192,6 +192,10 @@ public:
   		assert(bi.Match(t));
   		
 		auto si = SumIndexToken();
+		t = "Betrag";
+  		assert(si.Match(t));
+		t = "Umsatz in EUR";
+  		assert(si.Match(t));
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		
 		auto ri = RentIndexToken();
