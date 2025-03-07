@@ -213,10 +213,12 @@ public:
 		auto ui = UseIndexToken();
 		t = "Verwendungszweck";
   		assert(ui.Match(t));
-		t = "Buchungstext";
-  		assert(ui.Match(t));
-		//assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");
+		assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");
 		assert(WasteIndexToken::Identifier=="WasteIndexToken");
+		
+		auto ti = TransferTextIndexToken();
+		t = "Buchungstext";
+  		assert(ti.Match(t));
 		
 		auto e = EmptyToken();
 		t = "";
