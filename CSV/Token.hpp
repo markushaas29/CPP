@@ -127,8 +127,9 @@ struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Postcode>>				
 struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
 struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "(Betrag)|(Umsatz in EUR)";};
-struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
+struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "(Verwendungszweck)|(Buchungstext)";};
 struct ValutaIndexToken: public Token<ValutaIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Valuta";};
+struct ProcessIndexToken: public Token<ProcessIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Vorgang";};
 
 // Fallss Type doppelt vergeben mussd oppelt angegeben werden DA SONST ERROR!!!!:
 

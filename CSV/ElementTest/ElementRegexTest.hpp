@@ -210,7 +210,12 @@ public:
 		assert(WorkToken::Identifier=="WorkToken");
 		assert(VolumeToken::Identifier=="VolumeToken");
 		
-		assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");
+		auto ui = UseIndexToken();
+		t = "Verwendungszweck";
+  		assert(ui.Match(t));
+		t = "Buchungstext";
+  		assert(ui.Match(t));
+		//assert(UseIndexToken::Identifier=="VerwendungszweckIndexToken");
 		assert(WasteIndexToken::Identifier=="WasteIndexToken");
 		
 		auto e = EmptyToken();
