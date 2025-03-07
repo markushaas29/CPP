@@ -126,8 +126,9 @@ struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Postcode>>				
 
 struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
 struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
-struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "Betrag";};
+struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "(Betrag|msatz in EUR)";};
 struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Verwendungszweck";};
+struct ValutaIndexToken: public Token<ValutaIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Valuta";};
 
 // Fallss Type doppelt vergeben mussd oppelt angegeben werden DA SONST ERROR!!!!:
 
@@ -197,4 +198,4 @@ struct WidthIndexToken: public Token<WidthIndexToken, Index<Quantity<Length>>>
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
 
 template<typename I, typename... T>  class FactoryCreator;
-using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken, WidthIndexToken>;
+using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken, WidthIndexToken, ValutaIndexToken>;
