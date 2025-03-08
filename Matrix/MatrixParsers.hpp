@@ -110,6 +110,39 @@ private:
 	}
 };
 
+class AccountParser2: public IMatrixParserBase<3>
+{
+	using Base = IMatrixParserBase;
+public:
+	static auto& Instance(auto... t)
+    {
+        static auto i = AccountParser2(t...);
+        return i;
+    };
+private:
+	AccountParser2(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
+	const std::string fileName = "SN_Name.csv";
+	M3<std::string> matrix() const
+	{
+        std::vector<std::string> paths{"//Comdirect.csv"};
+        std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
+		for(auto s : paths)
+		{
+        	auto r = MatrixReader(path + s);
+			accountFiles.push_back(r.M<2>());
+		}
+
+        return M3(accountFiles);
+	}
+	typename Base::MatrixType exec(bool h = false) const
+	{
+        auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
+        auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+        
+		return matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+	}
+};
+
 template<typename T>
 class CounterParser: public IMatrixParserBase<2>
 {

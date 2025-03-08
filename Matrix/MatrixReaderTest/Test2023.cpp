@@ -52,24 +52,24 @@ class MatrixReaderTest
 			auto m = MatrixReader(c).M<2>();
 			std::cout<<m<<std::endl;
 			auto t = false;
-//			std::vector<MS2> accountFiles{m22S, m23S, m24S};
-//			M3 accountMatrix(accountFiles);
-//
-//            auto tokenFactory = TokenFactoryCreator()();
-//            auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
-//            Matcher smatcher(std::move(stageIndexTokens));
-//
-//            auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
-//            Matcher imatcher(std::move(csvIndexTokens));
-//
-//            auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-//            Matcher matcher(std::move(v));
-//
-//            auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
-//            auto typeFactory = std::make_shared<TF>(elementFactory);
-//
-//			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
-//            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
+
+            auto tokenFactory = TokenFactoryCreator()();
+            auto stageIndexTokens = (*tokenFactory)({{"NameIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"} });
+            Matcher smatcher(std::move(stageIndexTokens));
+
+            auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
+            Matcher imatcher(std::move(csvIndexTokens));
+
+            auto v = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+            Matcher matcher(std::move(v));
+
+            auto elementFactory = Build<IElement,Quantity<Sum>, IBAN, Date, BIC, ID<std::string>, Name, Year, Month,Index<int>, Entry,Empty>();
+            auto typeFactory = std::make_shared<TF>(elementFactory);
+
+			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
+            auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
+			auto cm = AccountParser2::Instance(tokenFactory,"/home/markus/Dokumente/cpp/CSV_Files")();
+			std::cout<<cm<<std::endl;
 //			using AllStages = std::tuple<Bottom, Middle, Top>;
 			std::cout<<"END 2023"<<std::endl;
 		   
