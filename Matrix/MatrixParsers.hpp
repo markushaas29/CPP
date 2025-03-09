@@ -110,18 +110,17 @@ private:
 	}
 };
 
-class AccountParser2: public IMatrixParserBase<3>
+class ComdirectParser: public IMatrixParserBase<3>
 {
 	using Base = IMatrixParserBase;
 public:
 	static auto& Instance(auto... t)
     {
-        static auto i = AccountParser2(t...);
+        static auto i = ComdirectParser(t...);
         return i;
     };
 private:
-	AccountParser2(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
-	const std::string fileName = "SN_Name.csv";
+	ComdirectParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 	M3<std::string> matrix() const
 	{
         std::vector<std::string> paths{"//Comdirect.csv"};

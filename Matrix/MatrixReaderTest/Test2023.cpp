@@ -68,7 +68,7 @@ class MatrixReaderTest
 
 			auto visitorFactory = std::make_shared<Factory<BaseVisitor>>();
             auto reg3 = Registration<Factory<BaseVisitor>,AccumulationVisitor<>,AccumulationVisitor<Quantity<Volume>>,ConsumptionVisitor<Quantity<Volume>>>(&(*visitorFactory));
-			auto cm = AccountParser2::Instance(tokenFactory,"/home/markus/Dokumente/cpp/CSV_Files")();
+			auto cm = ComdirectParser::Instance(tokenFactory,"/home/markus/Dokumente/cpp/CSV_Files")();
 			std::cout<<cm<<std::endl;
 //			using AllStages = std::tuple<Bottom, Middle, Top>;
 			std::cout<<"END 2023"<<std::endl;
