@@ -7,8 +7,6 @@ Jahresabrechnung
 	Gemsate Monasmiete
 Form Klasse
 Account
-	Regex für comdirect Datei(...|...) Buchungstag";"Wertstellung (Valuta)";"Vorgang";"Buchungstext";"Umsatz in EUR"
-	TokensParser und Tokens anlegen
 	Entfernung Anführungszeichen in Reader(74), wenn mit "" startet als Options an Reader
 	Summe und Name einbauen Html<Div> in CompositeResult value in if
 	Summme in farbe
@@ -19,3 +17,4 @@ Counter
 	Headers
 Quantity dm^3
 	bei if constexpr dezi und Length = Unit<0,3> => Ausgabe als liter
+	
