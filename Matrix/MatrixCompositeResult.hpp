@@ -101,6 +101,7 @@ public:
 						v.push_back(std::make_shared<Entry>("-"));
 						v.push_back(std::make_shared<Entry>("-"));
 						v.push_back(i->Value().Clone());
+						htmlPtr->Add(Header(i->Name()).Html());
 						htmlPtr->Add(i->Value().Html());
 						res.insert(res.end(),v.begin(), v.end());
 					}
