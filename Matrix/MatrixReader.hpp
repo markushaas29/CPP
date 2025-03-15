@@ -62,7 +62,8 @@ private:
 				}
 				);
 
-		return res;
+		//return res;
+		return v;
 	}
 	VariantType execute(const std::string& s)
 	{
@@ -152,10 +153,7 @@ private:
 				if constexpr (std::is_same_v<Type,std::string>)
 				{
 					if(String_::Contains(line, std::string(1,CSVSeparator::Value)))
-					{
 						v=preprocess(String_::Split(line,CSVSeparator::Value));
-					}
-
 					else
 						v.push_back(d);
 				}
