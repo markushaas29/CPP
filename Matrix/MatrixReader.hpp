@@ -52,7 +52,18 @@ private:
 	std::unique_ptr<FS::FileInfo> info;
 	template<typename U> using IsT =  Is<U,LiteralType>;
 	friend std::ostream& operator<<(std::ostream& s, const MatrixReader& i) { return s<<"Order: "<<i.order<<"\n"<<i.info->Path();  }
-	
+	std::vector<std::string> preprocess(const std::vector<std::string>& v)
+	{
+		std::vector<std::string> res;
+		std::for_each(v.cbegin(), v.cend(), [&res](const auto& s)
+				{
+					if(s.size() >0 && s[0]=='\"' && s[0] == *(s.cend()-1)) 
+						res.push_back(std::string(s.cbegin()+1, s.cend()-1));
+				}
+				);
+
+		return res;
+	}
 	VariantType execute(const std::string& s)
 	{
 		std::string line;
@@ -72,9 +83,7 @@ private:
 				{
 					if(String_::Contains(d, std::string(1,CSVSeparator::Value)))
 					{
-						auto v = String_::Split(line,CSVSeparator::Value);
-						vec=v;
-						auto m = Init(process2(vec, std::move(is)));
+						auto m = Init(process2(preprocess(String_::Split(line,CSVSeparator::Value)), std::move(is)));
 						return m;
 					}
 					else
@@ -143,7 +152,10 @@ private:
 				if constexpr (std::is_same_v<Type,std::string>)
 				{
 					if(String_::Contains(line, std::string(1,CSVSeparator::Value)))
-						v = String_::Split(line,CSVSeparator::Value);
+					{
+						v=preprocess(String_::Split(line,CSVSeparator::Value));
+					}
+
 					else
 						v.push_back(d);
 				}
