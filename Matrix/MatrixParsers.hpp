@@ -9,6 +9,7 @@
 #include "M3.hpp"
 #include "MatrixStrategy.hpp"
 #include "../Builder/Builder.hpp"
+#include "../Visitor/ElementVisitor.hpp"
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
@@ -133,12 +134,31 @@ private:
 
         return M3(accountFiles);
 	}
+	decltype(auto) matrix2() const
+	{
+        std::vector<std::string> paths{"//Comdirect.csv"};
+        std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
+		for(auto s : paths)
+		{
+        	auto r = MatrixReader(path + s);
+        	return r.M<2>();
+		}
+
+	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
         auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
         
-		return matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
+
+		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+	 	v = m.Collect(std::move(v));
+
+		auto V = v->template Cast<ElementCollector<Date>>();
+		std::cout<<"VIS:\n"<<*V<<std::endl;
+
+		return m;
 	}
 };
 

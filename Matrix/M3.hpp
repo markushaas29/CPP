@@ -53,6 +53,19 @@ public:
 	template<typename TO>
 	decltype(auto) To() const { return apply<TO>([&](auto& mx, const auto& e) { mx.push_back(e.template To<TO>()); }); }
 	template<typename V>
+   	decltype(auto) Collect(std::unique_ptr<V> visitors)
+	{ 
+		size_t cols;
+		std::vector<std::shared_ptr<IElement>> result;
+		std::for_each(elements->begin(), elements->end(), [&](auto& e) 
+				{ 
+					visitors = e.Accept(std::move(visitors));
+				});
+
+		return visitors;
+
+	}
+	template<typename V>
    	decltype(auto) Accept(const V& visitors) const
 	{ 
 		size_t cols;
