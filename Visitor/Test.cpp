@@ -15,6 +15,8 @@
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixDescriptor.hpp"
 #include "../Matrix/MatrixFilter.hpp"
+#include "../Matrix/MatrixInitializer.hpp"
+#include "../Matrix/M3.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../Common/Color.hpp"
 #include "../CSV/Styles.hpp"
@@ -271,6 +273,12 @@ int Run()
 	      {std::make_shared<Postcode>("E"), std::make_shared<Town>("F")},
 	  };
 	
+	std::vector<std::vector<std::vector<std::shared_ptr<IElement>>>> va = {{
+	      {std::make_shared<QA>(24), std::make_shared<Prename>("A")},
+	      {std::make_shared<Street>("C"), std::make_shared<StreetNumber>("B")},
+	      {std::make_shared<Postcode>("E"), std::make_shared<Town>("F")},
+	  }};
+
 	std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
 	ec = address.Accept(std::move(ec));
 
@@ -279,6 +287,11 @@ int Run()
 	assert(EC->Size()==5);
 	std::cout<<"END Visitor"<<*EC<<std::endl;
 	
+	auto m3a = Init(va)();
+	ec = std::make_unique<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
+	ec = m3a.Accept(std::move(ec));
+	//ec = m3a.Collect(std::move(ec));
+	std::cout<<"EC "<<*ec<<std::endl;
 
 	auto pre = std::make_shared<Prename>("A");
 	std::unique_ptr<BaseVisitor> evp = std::make_unique<ElementVisitor<Prename>>();
