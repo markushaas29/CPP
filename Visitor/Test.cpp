@@ -290,9 +290,28 @@ int Run()
 	auto m3a = Init(va)();
 	ec = std::make_unique<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
 	ec = m3a.Accept(std::move(ec));
-	//ec = m3a.Collect(std::move(ec));
 	std::cout<<"EC "<<*ec<<std::endl;
 
+	std::vector<M2E> m2es = { address, address };
+	auto m3as = M3<std::shared_ptr<IElement>, MatrixDescriptor<3,std::shared_ptr<IElement>>>(m2es);
+	std::cout<<"M3 \n"<<m3as<<std::endl;
+	ec = std::make_unique<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
+	ec = m3as.Collect(std::move(ec));
+	EC = ec->template Cast<ElementCollector<Prename, Street, StreetNumber, Postcode, Town>>();
+	assert(EC->Elements().size()==10);
+	std::cout<<"M3 \n"<<*ec<<std::endl;
+	
+	ec = std::make_unique<ElementCollector<Date>>();
+	M2E da {
+	      {std::make_shared<QA>(24), std::make_shared<Date>(30,3,2025)},
+	  };
+	std::cout<<"DA \n"<<da<<std::endl;
+	ec = da.Accept(std::move(ec));
+	
+	auto ECD = ec->template Cast<ElementCollector<Date>>();
+	std::cout<<"ECD "<<*ECD<<std::endl;
+	assert(ECD->Elements().size()==1);
+	
 	auto pre = std::make_shared<Prename>("A");
 	std::unique_ptr<BaseVisitor> evp = std::make_unique<ElementVisitor<Prename>>();
 	pre->Accept(*evp);
