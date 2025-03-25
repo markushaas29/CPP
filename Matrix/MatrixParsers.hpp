@@ -156,7 +156,17 @@ private:
 	 	v = m.Collect(std::move(v));
 
 		auto V = v->template Cast<ElementCollector<Date>>();
-		std::cout<<"VIS:\n"<<*V<<std::endl;
+		auto vec = V->Elements();
+		std::vector<std::shared_ptr<IElement>> uniques;	
+		for(auto e : V->Elements())
+			std::cout<<"VIS: "<<*e<<std::endl;
+
+		auto same_i = [](auto const& v1, auto const& v2) { return v1->Data() == v2->Data(); };
+		vec.erase(unique(vec.begin(), vec.end(), same_i), vec.end());
+
+			std::cout<<"UNIQUE: \n"<<std::endl;
+		for(auto e : vec)
+			std::cout<<"VIS: "<<*e<<std::endl;
 
 		return m;
 	}

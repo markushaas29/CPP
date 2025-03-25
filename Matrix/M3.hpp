@@ -60,6 +60,8 @@ public:
 		std::for_each(elements->begin(), elements->end(), [&](auto& e) 
 				{ 
 					visitors = e.Accept(std::move(visitors));
+					//result.insert(std::end(visitors.Elements()), std::begin(visitors.Elements()), std::end(result));
+					
 				});
 
 		return visitors;
