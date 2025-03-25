@@ -8,12 +8,9 @@ Jahresabrechnung
 Form Klasse
 Account
 	 mit true auskommentierenvon Stash:Entfernung Anführungszeichen in Reader(74), wenn mit "" startet als Options an Reader
-<<<<<<< Updated upstream
-	Alle Name in comdirect parsers auto in M3 entfernen
-=======
-	Alle Name in comdirect parsers sammeln und mit unique mit stash std::unique_ptr<BaseVisitor> ec = std::make_unique<ElementCollector erstellen
->>>>>>> Stashed changes
-	Summe und Name einbauen Html<Div> in CompositeResult value in if
+	Ausfiltern IBAN Raiba
+	VisitorTest mit Matrix IBAN Date NAme Entry ausfiltern Zeilen
+	 Summe und Name einbauen Html<Div> in CompositeResult value in if
 	Summme in farbe
 Query
 	mit Factory und Factory Units aus Accountauslagern
