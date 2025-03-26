@@ -277,26 +277,36 @@ private:
 	template<typename T>
 	decltype(auto) get(const M* m) const 
 	{
-		using MDT = MatrixDescriptor<Order, T>;
+		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::array<size_t,Order> e;
 		std::array<size_t,Order> s;
 		std::copy(m->descriptor.Extents().begin(), m->descriptor.Extents().end(), e.begin());
 		std::vector<typename MDT::DataType> result;
+		int i = 0;
 		if constexpr (PointerConcept<typename M::ElementType>)
-			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e)
+			std::for_each(m->elements->cbegin(), m->elements->cend(), [&](auto e)
 					{
 						if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 						{
 								auto v = EqualVisitor(std::make_unique<Date>(29,9,1986));
 								if((*e)->Is(v))
-									std::cout<<"FOUND!!!!!!!!!!!"<<std::endl;
-							result.push_back(std::make_shared<T>((*e)->template To<T>())); 
+								{
+									auto r = rows<1>({i / m->Cols()},m);
+									auto r2 = row(i / m->Cols(),m);
+									std::cout<<"FOUND!!!!!!!!!!!"<<r<<std::endl;
+
+								//	std::for_each(r2.begin(), r2.end(),[&result](auto re) { result.push_back(re); }); 
+								}
+
+								result.push_back(e); 
+								
 						}
 						else
     						if (auto ptr = std::dynamic_pointer_cast<T>(*e))
 								result.push_back(std::make_shared<T>(*ptr)); 
 							else
 								result.push_back(std::make_shared<T>("")); 
+						++i;
 					});
 		else
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });
