@@ -10,6 +10,8 @@
 #include "../MatrixProjector.hpp"
 #include "../MatrixFilter.hpp"
 #include "../../Common/DateTimes.hpp"
+#include "../../CSV/Styles.hpp"
+#include "../../CSV/HtmlElement.hpp"
 #include "../../CSV/Elements.hpp"
 #include "../../CSV/Matcher.hpp"
 #include "../../Quantity/Quantity.hpp"
