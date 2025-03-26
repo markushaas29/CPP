@@ -10,6 +10,7 @@
 #include "../To/To.hpp"
 #include "../String/Literal.hpp"
 #include "../String/Format.hpp"
+#include "../Visitor/PredicateVisitor.hpp"
 
 #pragma once
 template<std::size_t, typename> class Matrix;
@@ -285,7 +286,12 @@ private:
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e)
 					{
 						if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+						{
+								auto v = EqualVisitor(std::make_unique<Date>(29,9,1986));
+								if((*e)->Is(v))
+									std::cout<<"FOUND!!!!!!!!!!!"<<std::endl;
 							result.push_back(std::make_shared<T>((*e)->template To<T>())); 
+						}
 						else
     						if (auto ptr = std::dynamic_pointer_cast<T>(*e))
 								result.push_back(std::make_shared<T>(*ptr)); 

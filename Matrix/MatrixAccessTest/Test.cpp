@@ -249,6 +249,7 @@ class MatrixAccessTest
 			};	
 
 			auto mA = mEntry.Cols(std::string("B"));
+			auto mD = mEntry.Get<Date>(std::string("29.9.1986"));
 
 			std::cout<<"COL"<<mA<<std::endl;
 
