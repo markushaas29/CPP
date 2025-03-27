@@ -288,7 +288,7 @@ private:
 					{
 						if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 						{
-								auto v = EqualVisitor(std::make_unique<Date>(29,9,1986));
+								auto v = EqualVisitor(std::make_unique<T>(29,9,1986));
 								if((*el)->Is(v))
 								{
 									auto r = rows<1>({i / m->Cols()},m);
