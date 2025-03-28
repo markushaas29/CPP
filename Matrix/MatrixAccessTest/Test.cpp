@@ -256,6 +256,7 @@ class MatrixAccessTest
 			std::cout<<"COL"<<mD[0][1]()->Data()<<std::endl;
 			assert(mD[0][1]()->Data()=="3.5€");
 
+			mD = mEntry.Get<Date>(std::string("29.9.198"));
 			return 0;
 		}
 };

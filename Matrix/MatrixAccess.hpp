@@ -275,7 +275,7 @@ private:
 	}
 	
 	template<typename T>
-	decltype(auto) get(const M* m) const 
+	decltype(auto) get(const M* m, const std::string& data) const 
 	{
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::array<size_t,Order> e;
@@ -288,7 +288,7 @@ private:
 					{
 						if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 						{
-								auto v = EqualVisitor(std::make_unique<T>(29,9,1986));
+								auto v = EqualVisitor(std::make_unique<T>(data));
 								if((*el)->Is(v))
 								{
 									auto r = rows<1>({i / m->Cols()},m);
@@ -306,6 +306,10 @@ private:
 					});
 		else
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&result](auto e){ result.push_back(std::make_shared<T>(static_cast<T>(*e))); });
+
+		if(!found)
+			e[1] = e[0] = 0;
+		
 
 		return Matrix<Order, MDT>(MDT{e}, result);
 	}
