@@ -283,15 +283,15 @@ private:
 		std::vector<typename MDT::DataType> result;
 		int i = 0;
 		size_t found = 0;
+		auto v = EqualVisitor(std::make_unique<T>(data));
 		if constexpr (PointerConcept<typename M::ElementType>)
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&](auto el)
 					{
 						if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
 						{
-								auto v = EqualVisitor(std::make_unique<T>(data));
 								if((*el)->Is(v))
 								{
-									auto r = rows<1>({i / m->Cols()},m);
+									auto r = rows<1>({(size_t)std::floor(i / m->Cols())},m);
 									auto r2 = row(i / m->Cols(),m);
 									std::for_each(r2.begin(), r2.end(),[&result](auto re) { result.push_back(re); }); 
 									e[0] = ++found;
