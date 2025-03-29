@@ -52,8 +52,6 @@ public:
 	decltype(auto) Rows(auto... i) const { return access->rows(std::array<size_t,sizeof...(i)>{size_t(i)...}, this); }
 	decltype(auto) Rows(std::array<size_t,2> span) const { return access->sub(span, std::array<size_t,2>{0, Cols()-1 }, this); }
 	decltype(auto) M(std::array<size_t,2> rowSpan, std::array<size_t,2> colSpan) const { return access->sub(rowSpan,colSpan, this); }
-	template<typename ET = ElementType>
-	decltype(auto) M(const IMatrixQuery<Type, ET>& query) { return query(this); }
 	template<typename Q, typename U>
     decltype(auto) M(const IMatrixStrategy<Type, Q, U>& s) { return s(*this); }
 	decltype(auto) Slices(std::vector<size_t> rows, std::vector<size_t> cols) const { return access->slices(rows,cols, this); }
@@ -118,8 +116,6 @@ private:
 	template<typename> friend class MatrixVisitor;
 	template<typename,typename> friend class MatrixCalculator;
 	template<template<typename, typename> class T, uint, typename, typename> friend class MatrixCalculatorBase;
-	template<typename TT, typename ETQ> friend class MatrixQueryBase;
-	template<typename, typename> friend class MatrixQuery;
 	template<typename, typename, typename> friend class StrategyResult;
 	template<typename, typename> friend class M3;
 	template<typename, typename> friend class MatrixFormatter;
