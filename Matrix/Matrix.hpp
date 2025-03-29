@@ -60,8 +60,8 @@ public:
 	template<typename T>
 	decltype(auto) To() const { return access->template to<T>(this); }
 	decltype(auto) Elements() const { return access->elements(this); }
-	template<typename T>
-	decltype(auto) Get(const std::string& s) const { return access->template get<T>(this, s); }
+	template<typename T, typename... D>
+	decltype(auto) Get(const D... s) const { return access->template get<T>(this, s...); }
 	auto CSV() 	{ return (*io)(std::move(std::make_unique<std::ofstream>("Test.csv")),this); }
 
     decltype(auto) Accept(std::unique_ptr<BaseVisitor> bp) {  return MatrixAcceptor<Type>().accept(this,std::move(bp));   }

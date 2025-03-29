@@ -274,8 +274,8 @@ private:
 		return Matrix<Order, MDT>(MDT{e}, result);
 	}
 	
-	template<typename T>
-	decltype(auto) get(const M* m, const std::string& data) const 
+	template<typename T, typename... D>
+	decltype(auto) get(const M* m, const D... data) const 
 	{
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::array<size_t,Order> e;
@@ -283,7 +283,7 @@ private:
 		std::vector<typename MDT::DataType> result;
 		int i = 0;
 		size_t found = 0;
-		auto v = EqualVisitor(std::make_unique<T>(data));
+		auto v = EqualVisitor(std::make_unique<T>(data...));
 		if constexpr (PointerConcept<typename M::ElementType>)
 			std::for_each(m->elements->cbegin(), m->elements->cend(), [&](auto el)
 					{
