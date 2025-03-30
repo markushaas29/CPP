@@ -275,7 +275,7 @@ private:
 	}
 	
 	template<typename T, typename... D>
-	decltype(auto) get(const M* m, const D... data) const 
+	decltype(auto) get(const M* m, const D&... data) const 
 	{
 		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
 		std::array<size_t,Order> e;
