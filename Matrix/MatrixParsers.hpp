@@ -7,7 +7,6 @@
 #include "MatrixDescriptor.hpp"
 #include "MatrixComposition.hpp"
 #include "M3.hpp"
-#include "MatrixStrategy.hpp"
 #include "../Builder/Builder.hpp"
 #include "../Visitor/ElementVisitor.hpp"
 #include "../ObjectFactory/Factory.hpp"

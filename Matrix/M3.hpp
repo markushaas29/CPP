@@ -107,24 +107,6 @@ public:
 		return MatrixType(typename MatrixType::DescriptorType{{result.size() / elements->at(0).descriptor.Extents()[1], elements->at(0).descriptor.Extents()[1]}}, result); 
 	}
 
-	template<typename Q, typename U>
-	decltype(auto) M(const IMatrixStrategy<MatrixType, Q, U>& s) 
-	{ 
-		std::vector<DataType> result;
-		for(auto el : *elements)
-		{
-			auto m = s(el);
-			auto item = m.Items();
-			for(auto i = 0; i < item.Rows(); ++i)
-			{
-				auto row = item.row(i);
-				std::for_each(row.cbegin(), row.cend(), [&](const auto& v) { result.push_back(v); });
-			}
-		}
-
-		auto resM = MatrixType(typename MatrixType::DescriptorType{{result.size() / elements->at(0).descriptor.Extents()[1], elements->at(0).descriptor.Extents()[1]}}, result); 
-		return typename IMatrixStrategy<MatrixType, Q, U>::ResultType(Quantity<Sum>(resM.ColSum(11)), resM, s.Units(),std::string(s.Name())); 
-	}
 private:
 	std::unique_ptr<std::vector<MatrixType>> elements;
 	size_t cols;
