@@ -11,6 +11,7 @@
 #include "../Styles.hpp"
 #include "../CssStyle.hpp"
 #include "../Style.hpp"
+#include "../../Invoice/Form.hpp"
 #include "../../Common/Color.hpp"
 #include "../../Common/DateTimes.hpp"
 #include "../../ObjectFactory/Factories.hpp"
@@ -90,6 +91,8 @@ int Run()
 	auto ed2 = Entry{"additional heating costs"};
 	assert(ed2==std::string("Heiznebenkosten"));
 
+	auto comdirectE = Entry{"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Internet Ref. GZ22504152445475/2"};
+	comdirectE.GetElements<Comdirect>();
 	HtmlElementTest().Run();
 	StyleTest().Run();
 

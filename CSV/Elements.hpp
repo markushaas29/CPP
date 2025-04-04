@@ -122,6 +122,10 @@ public:
 				return true;
 		return false;
 	};
+	template<typename T>
+	decltype(auto) GetElements()
+	{
+	}
 	inline static std::string check(const std::string& s) { return s; }
 private:
 	std::vector<std::string> split() const
