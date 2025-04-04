@@ -125,6 +125,18 @@ public:
 	template<typename T>
 	decltype(auto) GetElements()
 	{
+		auto s = std::string(Data());
+		std::regex rgx("(\\s+)");
+		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1), end;
+		std::vector<std::string> result;
+		std::for_each(iter,end, [&result](const auto& s) { result.push_back(s);});
+
+		for(auto s : result)
+			std::cout<<"Result: \t"<<s<<std::endl;
+		
+		std::vector<std::unique_ptr<IElement>> res;
+		std::for_each(std::begin(result),std::end(result), [&res](const auto& s) { res.push_back(std::make_unique<Entry>(s));});
+		return result;
 	}
 	inline static std::string check(const std::string& s) { return s; }
 private:

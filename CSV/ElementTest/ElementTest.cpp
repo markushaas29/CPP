@@ -92,7 +92,9 @@ int Run()
 	assert(ed2==std::string("Heiznebenkosten"));
 
 	auto comdirectE = Entry{"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Internet Ref. GZ22504152445475/2"};
-	comdirectE.GetElements<Comdirect>();
+	auto cEls = comdirectE.GetElements<Comdirect>();
+	assert(cEls.size() == 10);
+
 	HtmlElementTest().Run();
 	StyleTest().Run();
 
