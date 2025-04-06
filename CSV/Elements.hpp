@@ -143,7 +143,7 @@ public:
 				{ 
 					if(*(s.cend()-1)==':')
 					{
-						headers.push_back(s);
+						headers.push_back(std::string(s.cbegin(),s.cend()-1));
 						if(temp!="")
 							entries.push_back(temp);
 						temp = "";
