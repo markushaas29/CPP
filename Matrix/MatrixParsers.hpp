@@ -153,14 +153,14 @@ public:
         auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
         
-		std::unique_ptr<BaseVisitor> ve = std::make_unique<ElementCollector<Name>>();
+		std::unique_ptr<BaseVisitor> ve = std::make_unique<ElementCollector<Date>>();
 
 		auto matrix = m().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
 		std::cout<<"E1: \n\t"<<m<<std::endl;
 		std::cout<<"E2: \n\t"<<matrix<<std::endl;
 	 	ve = matrix.Accept(std::move(ve));
 
-		auto Ve = ve->template Cast<ElementCollector<Name>>();
+		auto Ve = ve->template Cast<ElementCollector<Date>>();
 		auto vec = Ve->Elements();
 			std::cout<<"SIZE: "<<vec.size()<<std::endl;
 		for(auto e : vec)
