@@ -11,6 +11,7 @@
 #include "../CSV/Style.hpp"
 #include "../CSV/StyleValues.hpp"
 #include "../CSV/NumericStyle.hpp"
+#include "../Matrix/MatrixParsers.hpp"
 #include "../Functional/Functional.hpp"
 
 #pragma once
@@ -28,41 +29,7 @@ struct Comdirect
 		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
 	}
 	
-	static auto E(const std::string& sp)
-	{
-		auto s = std::string(sp);
-		std::regex rgx("(\\s+)");
-		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1), end;
-		std::vector<std::string> result;
-		std::for_each(iter,end, [&result](const auto& s) { result.push_back(s);});
-		std::vector<std::unique_ptr<IElement>> res;
-		
-		std::vector<std::string> headers;
-		std::vector<std::string> entries;
-		std::string temp = "";
-		std::for_each(std::begin(result),std::end(result), [&](const auto& s) 
-				{ 
-					if(*(s.cend()-1)==':')
-					{
-						headers.push_back(std::string(s.cbegin(),s.cend()-1));
-						if(temp!="")
-							entries.push_back(temp);
-						temp = "";
-					}
-					else
-						temp += (temp=="" ? s : " " + s);
-				});
-		
-		if(temp!="")
-			entries.push_back(temp);
-
-		std::vector<std::vector<std::string>> v = {headers,entries};
-		auto m = Init(v)();
-		std::cout<<"E: \t"<<m<<std::endl;
-		
-		std::for_each(std::begin(result),std::end(result), [&res](const auto& s) { res.push_back(std::make_unique<Entry>(s));});
-		return result;
-	}
+	static auto E(const std::string& sp){	return ComdirectParser::E(sp);	}
 };
 
 struct Raiffeisenbank

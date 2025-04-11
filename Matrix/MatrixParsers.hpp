@@ -119,6 +119,41 @@ public:
         static auto i = ComdirectParser(t...);
         return i;
     };
+	static auto E(const std::string& sp)
+	{
+		auto s = std::string(sp);
+		std::regex rgx("(\\s+)");
+		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1), end;
+		std::vector<std::string> result;
+		std::for_each(iter,end, [&result](const auto& s) { result.push_back(s);});
+		std::vector<std::unique_ptr<IElement>> res;
+		
+		std::vector<std::string> headers;
+		std::vector<std::string> entries;
+		std::string temp = "";
+		std::for_each(std::begin(result),std::end(result), [&](const auto& s) 
+				{ 
+					if(*(s.cend()-1)==':')
+					{
+						headers.push_back(std::string(s.cbegin(),s.cend()-1));
+						if(temp!="")
+							entries.push_back(temp);
+						temp = "";
+					}
+					else
+						temp += (temp=="" ? s : " " + s);
+				});
+		
+		if(temp!="")
+			entries.push_back(temp);
+
+		std::vector<std::vector<std::string>> v = {headers,entries};
+		auto m = Init(v)();
+		std::cout<<"E: \t"<<m<<std::endl;
+		
+		std::for_each(std::begin(result),std::end(result), [&res](const auto& s) { res.push_back(std::make_unique<Entry>(s));});
+		return result;
+	}
 private:
 	ComdirectParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 	M3<std::string> matrix() const

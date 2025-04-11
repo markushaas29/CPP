@@ -17,6 +17,7 @@
 #include "../../ObjectFactory/Factories.hpp"
 #include "../../Matrix/MatrixHeaders.hpp"
 #include "../../Matrix/Matrix.hpp"
+#include "../../Matrix/MatrixParsers.hpp"
 #include "../../Matrix/MatrixDescriptor.hpp"
 #include "../../Matrix/MatrixFormatter.hpp"
 #include "../../Matrix/MatrixFormatter.hpp"
