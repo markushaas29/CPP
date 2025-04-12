@@ -116,7 +116,7 @@ struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inl
 struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
 struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
 
-struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "((\\w)*[Nn]ame(\\w)*|Empfänger)";};
+struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(((\\w)*[Nn]ame(\\w)*)|(Empfänger))";};
 struct PrenameIndexToken: public Token<PrenameIndexToken, Index<Prename>>					{	inline static constexpr const char* Pattern = "Pre"; };
 struct StreetIndexToken: public Token<StreetIndexToken, Index<Street>>						{	inline static constexpr const char* Pattern = "Street"; };
 struct TownIndexToken: public Token<TownIndexToken, Index<Town>>							{	inline static constexpr const char* Pattern = "Town";	};

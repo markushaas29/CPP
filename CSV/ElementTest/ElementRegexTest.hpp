@@ -184,8 +184,8 @@ public:
   		assert(ni.Match(t));
 		t = "Abname";
   		assert(ni.Match(t));
-		t = "ad name";
-  		//assert(ni.Match(t));
+		t = "Empfänger";
+  		assert(ni.Match(t));
 		
 		auto bi = BICIndexToken();
 		t = "BIC (SWIFT-Code) Zahlungsbeteiligter";
