@@ -186,11 +186,19 @@ public:
   		assert(ni.Match(t));
 		t = "Empfänger";
   		assert(ni.Match(t));
+		t = "Auftraggeber";
+  		assert(ni.Match(t));
 		
 		auto bi = BICIndexToken();
 		t = "BIC (SWIFT-Code) Zahlungsbeteiligter";
   		assert(bi.Match(t));
+		t = "BLZ/BIC";
+  		assert(bi.Match(t));
   		
+		auto ti = TextIndexToken();
+		t = "Buchungstext";
+  		assert(ti.Match(t));
+		
 		auto si = SumIndexToken();
 		t = "Betrag";
   		assert(si.Match(t));
@@ -205,6 +213,8 @@ public:
 		assert(rqq==Quantity<Sum>(245));
 		
 		auto ii = IBANIndexToken();
+		t = "HaasKto/IBAN";
+  		assert(ii.Match(t));
 		assert(decltype(si)::Identifier=="SumIndexToken");
 		assert(IBANIndexToken::Identifier=="IBANIndexToken");
 		assert(WorkToken::Identifier=="WorkToken");

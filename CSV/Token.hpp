@@ -116,7 +116,7 @@ struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inl
 struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
 struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
 
-struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(((\\w)*[Nn]ame(\\w)*)|(Empfänger))";};
+struct NameIndexToken: public Token<NameIndexToken, Index<Name>>	{	inline static constexpr const char* Pattern = "(((\\w)*[Nn]ame(\\w)*)|(Empfänger)|(Auftraggeber))";};
 struct PrenameIndexToken: public Token<PrenameIndexToken, Index<Prename>>					{	inline static constexpr const char* Pattern = "Pre"; };
 struct StreetIndexToken: public Token<StreetIndexToken, Index<Street>>						{	inline static constexpr const char* Pattern = "Street"; };
 struct TownIndexToken: public Token<TownIndexToken, Index<Town>>							{	inline static constexpr const char* Pattern = "Town";	};
@@ -124,8 +124,9 @@ struct StreetnumberIndexToken: public Token<StreetnumberIndexToken, Index<Street
 struct PostcodeIndexToken: public Token<PostcodeIndexToken, Index<Postcode>>				{	inline static constexpr const char* Pattern = "Postcode";	};
 //struct _IndexToken: public Token<_IndexToken, Index<_>>	{	inline static constexpr const char* Pattern = "_";};
 
-struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "IBAN Zahlungsbeteiligter";};
-struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "BIC \\(SWIFT-Code\\) Zahlungsbeteiligter"; };
+struct IBANIndexToken: public Token<IBANIndexToken, Index<IBAN>>	{	inline static constexpr const char* Pattern = "((IBAN Zahlungsbeteiligter)|(HaasKto/IBAN))";};
+struct TextIndexToken: public Token<TextIndexToken, Index<Text>>	{	inline static constexpr const char* Pattern = "Buchungstext";};
+struct BICIndexToken: public Token<BICIndexToken, Index<BIC>>	{	inline static constexpr const char* Pattern = "((BIC \\(SWIFT-Code\\) Zahlungsbeteiligter)|(BLZ/BIC))"; };
 struct SumIndexToken: public Token<SumIndexToken, Index<Quantity<Sum>>>	{	inline static constexpr const char* Pattern = "(Betrag)|(Umsatz in EUR)";};
 struct UseIndexToken: public Token<UseIndexToken, Index<Entry>>	
 {	
