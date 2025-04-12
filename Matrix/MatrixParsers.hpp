@@ -150,17 +150,18 @@ public:
 		std::vector<std::vector<std::string>> v = {headers,entries};
 		auto m = Init(v)();
 		auto tokenFactory = TokenFactoryCreator()();
-        auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
+        auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}, {"TextIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
         
-		std::unique_ptr<BaseVisitor> ve = std::make_unique<ElementCollector<Date>>();
+		std::unique_ptr<BaseVisitor> ve = std::make_unique<ElementCollector<Date,Text,Name,IBAN,BIC>>();
 
 		auto matrix = m().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
 		std::cout<<"E1: \n\t"<<m<<std::endl;
 		std::cout<<"E2: \n\t"<<matrix<<std::endl;
+		std::cout<<"E3: \n\t"<<"A:"<<m[0][1]<<std::endl;
 	 	ve = matrix.Accept(std::move(ve));
 
-		auto Ve = ve->template Cast<ElementCollector<Date>>();
+		auto Ve = ve->template Cast<ElementCollector<Date,Text,Name,IBAN,BIC>>();
 		auto vec = Ve->Elements();
 			std::cout<<"SIZE: "<<vec.size()<<std::endl;
 		for(auto e : vec)
