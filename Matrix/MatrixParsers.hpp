@@ -119,7 +119,7 @@ public:
         static auto i = ComdirectParser(t...);
         return i;
     };
-	static auto E(const std::string& sp)
+	static auto Elements(const std::string& sp)
 	{
 		auto s = std::string(sp);
 		std::regex rgx("(\\s+)");
@@ -156,7 +156,6 @@ public:
 		std::unique_ptr<BaseVisitor> ve = std::make_unique<ElementCollector<Date,Text,Name,IBAN,BIC>>();
 
 		auto matrix = m().ParseByMatch(Matcher(std::move(csvIndexTokens)), true);
-		std::cout<<"E2: \n"<<matrix<<std::endl;
 	 	ve = matrix.Accept(std::move(ve));
 
 		return ve->template Cast<ElementCollector<Date,Text,Name,IBAN,BIC>>()->Elements();

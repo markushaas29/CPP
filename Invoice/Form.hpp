@@ -29,7 +29,7 @@ struct Comdirect
 		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<FontSize,Px<20>>>>());
 	}
 	
-	static auto E(const std::string& sp){	return ComdirectParser::E(sp);	}
+	static auto Elements(const std::string& sp){	return ComdirectParser::Elements(sp);	}
 };
 
 struct Raiffeisenbank
