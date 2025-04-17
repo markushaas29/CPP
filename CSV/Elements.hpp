@@ -123,10 +123,7 @@ public:
 		return false;
 	};
 	template<typename T>
-	decltype(auto) GetElements()
-	{
-		return T::E(Data());
-	}
+	decltype(auto) GetElements(){	return T::E(Data());	}
 	inline static std::string check(const std::string& s) { return s; }
 private:
 	std::vector<std::string> split() const
