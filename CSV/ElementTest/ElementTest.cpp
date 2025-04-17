@@ -97,8 +97,7 @@ int Run()
 	assert(cEls.size() == 4);
 	comdirectE = Entry{"Auftraggeber: Bausparkasse Schwäbisch Hall Aktiengesellschaft - Bausparkasse der Vol Buchungstext: 26219070T02 U.A. 02.2025 Ref. 6S2C213N0A823JJ4/70562"};
 	cEls = comdirectE.GetElements<Comdirect>();
-	comdirectE = Entry{"Buchungstag: 29.09.1986 Auftraggeber: Bausparkasse Schwäbisch Hall Aktiengesellschaft - Bausparkasse der Vol Buchungstext: 26219070T02 U.A. 02.2025 Ref. 6S2C213N0A823JJ4/70562"};
-	cEls = comdirectE.GetElements<Comdirect>();
+	assert(cEls.size() == 2);
 
 	HtmlElementTest().Run();
 	StyleTest().Run();

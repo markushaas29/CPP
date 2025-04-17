@@ -156,6 +156,7 @@ public:
 		std::unique_ptr<BaseVisitor> ve = std::make_unique<ElementCollector<Date,Text,Name,IBAN,BIC>>();
 
 		auto matrix = m().ParseByMatch(Matcher(std::move(csvIndexTokens)), true);
+		std::cout<<"UNIQUE: \n"<<matrix<<std::endl;
 	 	ve = matrix.Accept(std::move(ve));
 
 		return ve->template Cast<ElementCollector<Date,Text,Name,IBAN,BIC>>()->Elements();
