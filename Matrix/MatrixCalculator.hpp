@@ -46,8 +46,13 @@ private:
     static decltype(auto) apply(F f, It begin, It end, DescriptorType d)
     {
         auto el = std::vector<typename LeftType::DataType>();
-        std::for_each(begin, end, [&](const auto& e) { el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
-        return LeftType(d,el); 
+        std::for_each(begin, end, [&](const auto& e) { 
+				auto result = f(e);
+				if constexpr (std::is_same_v<std::vector<typename LeftType::ElementType>, decltype(result)>)
+        			std::for_each(result.cbegin(), result.cend(), [&](const auto& d) { el.push_back(std::make_shared<typename LeftType::ElementType>(d)); });
+				else
+					el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
+        return LeftType(DescriptorType({el.size() / d.Cols(),d.Cols()}),el); 
     }
 	template<template<typename> class OpT, typename It >
     static decltype(auto) calc(It begin, It end)

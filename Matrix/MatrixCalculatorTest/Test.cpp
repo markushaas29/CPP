@@ -38,6 +38,8 @@ class MatrixCalculatorTest
 			using M2P = Matrix<2,M2PS>;
 			using M1D = Matrix<1,M1DS>;
 			using QS = Quantity<Scalar,Pure,double>;
+			using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
+    		using M2E = Matrix<2,ME2D>;
 		
 			M1S m1s{
 				{std::string("31.10.1986"),std::string("29.09.1986"),std::string("27.03.1986")}	
@@ -325,10 +327,26 @@ class MatrixCalculatorTest
 			auto m14 = m1.Rows(0,1,2,3);
 			std::cout<<m14.Transform<2>(2,2)<<std::endl;
 
+			M2E m2ce {
+				      {std::make_shared<Date>(31,12,2023), std::make_shared<QS>(7.5)},
+				      {std::make_shared<Date>(30,9,2023), std::make_shared<QS>(7.5)},
+				      {std::make_shared<Date>(4,12,2022), std::make_shared<QS>(5.5)},
+				      {std::make_shared<Date>(4,9,2023), std::make_shared<QS>(4.5)},
+				      {std::make_shared<Date>(3,5,2021), std::make_shared<QS>(3.5)},
+				      {std::make_shared<Date>(3,7,2023), std::make_shared<QS>(3.5)},
+				      {std::make_shared<Date>(4,8,2022), std::make_shared<QS>(1.5)},
+				  };
+			
+
+			auto m2ceA = m2ce.Apply([&](const auto& e1){ 
+					std::vector<std::shared_ptr<IElement>> v = { *e1 };
+					return v;
+					});
+
+			std::cout<<"APPLY"<<m2ceA<<std::endl;
 //			assert((int)m1Div[0]()==16);
 //			assert((int)m1Div[1]()==93);
 			
-//			std::cout<<"END M1 * M1"<<(mf1[0][0].To<int>() * mf1[1][2].To<int>())<<std::endl;
 //			std::cout<<"END M1 * M1"<<(mf1[0][0].Value() * mf1[1][2].Value())<<std::endl;
 		//   
 			return 0;
