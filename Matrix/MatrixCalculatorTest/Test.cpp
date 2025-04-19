@@ -335,10 +335,17 @@ class MatrixCalculatorTest
 				      {std::make_shared<Date>(3,5,2021), std::make_shared<QS>(3.5)},
 				      {std::make_shared<Date>(3,7,2023), std::make_shared<QS>(3.5)},
 				      {std::make_shared<Date>(4,8,2022), std::make_shared<QS>(1.5)},
+				      {std::make_shared<Entry>("A"), std::make_shared<Entry>("A")},
 				  };
 			
 
 			auto m2ceA = m2ce.Apply([&](const auto& e1){ 
+					//if(dynamic_cast<Entry&>(const_cast<IElement&>(**e1)))
+					auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
+					if((*e1)->Is(ev))
+					{
+						std::cout<<"Entry"<<**e1<<std::endl;
+					}
 					std::vector<std::shared_ptr<IElement>> v = { *e1 };
 					return v;
 					});
