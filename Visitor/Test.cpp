@@ -49,6 +49,10 @@ int Run()
 
 	auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
 	assert(ep->Is(ev));
+	auto iev = IsElementVisitor<Entry>();
+	assert(ep->Is(iev));
+	auto idv = IsElementVisitor<Date>();
+	assert(!ep->Is(idv));
 	ev = EqualVisitor(std::make_unique<Entry>(std::string("B")));
 	assert(ep->Is(ev));
 	ev = EqualVisitor(std::make_unique<Entry>(std::string("E")));

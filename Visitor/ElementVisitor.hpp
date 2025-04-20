@@ -1,4 +1,5 @@
  #include "Visitor.hpp"
+ #include "PredicateVisitor.hpp"
  #include "../CSV/Element.hpp"
  #include "../CSV/Elements.hpp"
  #include "../Common/Date.hpp"
@@ -87,4 +88,17 @@ private:
 		std::for_each(t.elements.cbegin(), t.elements.cend(), [&s](const auto& e) { s<<*e<<"\n";});
 		return s;	
 	}
+};
+
+template<typename T>
+class IsElementVisitor: public VariadicVisitor<bool,T>
+{
+	using ReturnType = bool;
+public:
+	virtual ReturnType Visit(T& t) { return true; };
+	virtual std::unique_ptr<BaseVisitor> Copy() { return std::make_unique<IsElementVisitor>(); };
+	IsElementVisitor() = default;
+	inline static const std::string Identifier =  "Visitor";
+private:
+	friend std::ostream& operator<<(std::ostream& s, const IsElementVisitor& t) 	{ return s<<"Value: "<<(*t.value);	}
 };
