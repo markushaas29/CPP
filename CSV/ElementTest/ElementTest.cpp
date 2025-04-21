@@ -113,8 +113,10 @@ int Run()
 			if((*e1)->Is(ev))
 			{
 				std::cout<<"Entry"<<**e1<<std::endl;
-				auto entry = std::dynamic_pointer_cast<Entry>(*e1); 
-				entry->template GetElements<Comdirect>();
+				//auto entry = std::dynamic_pointer_cast<Entry>(*e1); 
+				auto entry = (*e1)->template As<Entry>(); 
+				auto entries = entry.template GetElements<Comdirect>();
+				std::for_each(entries.cbegin(),entries.cend(),[&](const auto& e) { std::cout<<"\tE: "<<*e<<std::endl; });
 			}
 			std::vector<std::shared_ptr<IElement>> v = { *e1 };
 			return v;

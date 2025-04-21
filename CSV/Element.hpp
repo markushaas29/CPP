@@ -3,6 +3,7 @@
 #include "../Common/ArrayHelper.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../To/To.hpp"
+#include "../Is/Is.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include "IModel.hpp"
@@ -34,7 +35,19 @@ public:
 	virtual bool operator==(const IElement& e) const { return Data() == e.Data(); };
 	template<typename T>
     T To() const { return ::To<T>(Data()); }
+	template<typename O>
+	decltype(auto) As() 
+    {
+        if(auto p = dynamic_cast<O*>(this))
+            return *p;
+//        IsT<Throwing>(Format("INVALID AS CAST!"))(false);
+        throw;
+    }
+
 private:
+//	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
+//    inline static constexpr Literal LiteralType{TypeIdentifier};
+//	template<typename U> using IsT =  Is<U,LiteralType>;
 	virtual const std::string& data() const  = 0;	
 	virtual const std::string out() const  = 0;	
 	virtual std::string out(const std::string& intent, uint i = 0) const { return intent + out(); };
