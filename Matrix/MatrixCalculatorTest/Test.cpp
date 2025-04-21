@@ -12,6 +12,7 @@
 #include "../../CSV/CssStyle.hpp"
 #include "../../CSV/Style.hpp"
 #include "../../CSV/Styles.hpp"
+#include "../../Visitor/ElementVisitor.hpp"
 
 class MatrixCalculatorTest
 {
@@ -341,7 +342,7 @@ class MatrixCalculatorTest
 
 			auto m2ceA = m2ce.Apply([&](const auto& e1){ 
 					//if(dynamic_cast<Entry&>(const_cast<IElement&>(**e1)))
-					auto ev = EqualVisitor(std::make_unique<Entry>(std::string("A")));
+					auto ev = IsElementVisitor<Entry>();
 					if((*e1)->Is(ev))
 					{
 						std::cout<<"Entry"<<**e1<<std::endl;

@@ -99,6 +99,28 @@ int Run()
 	cEls = comdirectE.GetElements<Comdirect>();
 	assert(cEls.size() == 2);
 
+	using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
+    using M2E = Matrix<2,ME2D>;
+	M2E m2ce {
+		{std::make_shared<Date>(31,12,2023), std::make_shared<QS>(7.5)},
+		{std::make_shared<Entry>("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Internet Ref. GZ22504152445475/2"), std::make_shared<Entry>("Auftraggeber: Bausparkasse Schwäbisch Hall Aktiengesellschaft - Bausparkasse der Vol Buchungstext: 26219070T02 U.A. 02.2025 Ref. 6S2C213N0A823JJ4/70562")},
+	  };
+			
+
+	auto m2ceA = m2ce.Apply([&](const auto& e1){ 
+			//if(dynamic_cast<Entry&>(const_cast<IElement&>(**e1)))
+			auto ev = IsElementVisitor<Entry>();
+			if((*e1)->Is(ev))
+			{
+				std::cout<<"Entry"<<**e1<<std::endl;
+				auto entry = std::dynamic_pointer_cast<Entry>(*e1); 
+				entry->template GetElements<Comdirect>();
+			}
+			std::vector<std::shared_ptr<IElement>> v = { *e1 };
+			return v;
+			});
+	
+
 	HtmlElementTest().Run();
 	StyleTest().Run();
 
