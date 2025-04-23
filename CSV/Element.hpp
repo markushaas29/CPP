@@ -1,9 +1,10 @@
-#include "../String/String_.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Common/ArrayHelper.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../To/To.hpp"
 #include "../Is/Is.hpp"
+#include "../String/String_.hpp"
+#include "../String/Literal.hpp"
 #include "../Visitor/Visitor.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include "IModel.hpp"
@@ -25,6 +26,9 @@ template<typename,typename> class HtmlElement;
 #pragma once
 class IElement: public BaseVisitable<void>, public BoolVisitable<bool>, public IModel, public IHtml
 {
+	inline static constexpr const char TypeIdentifier[] = "Element";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
+	//template<typename U> using IsT = typename Is<typename U,LiteralType>;
 public:
 	virtual void Accept(BaseVisitor& visitor) = 0;
 	virtual bool Is(BaseVisitor& visitor) = 0;
@@ -40,14 +44,11 @@ public:
     {
         if(auto p = dynamic_cast<O*>(this))
             return *p;
-//        IsT<Throwing>(Format("INVALID AS CAST!"))(false);
+     //   IsT<Throwing>(Format("INVALID AS CAST!"))(false);
         throw;
     }
 
 private:
-//	inline static constexpr const char TypeIdentifier[] = "MatrixElement";
-//    inline static constexpr Literal LiteralType{TypeIdentifier};
-//	template<typename U> using IsT =  Is<U,LiteralType>;
 	virtual const std::string& data() const  = 0;	
 	virtual const std::string out() const  = 0;	
 	virtual std::string out(const std::string& intent, uint i = 0) const { return intent + out(); };

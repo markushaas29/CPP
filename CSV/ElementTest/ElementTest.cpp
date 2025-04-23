@@ -108,20 +108,19 @@ int Run()
 			
 
 	auto m2ceA = m2ce.Apply([&](const auto& e1){ 
-			//if(dynamic_cast<Entry&>(const_cast<IElement&>(**e1)))
 			auto ev = IsElementVisitor<Entry>();
+			std::vector<std::shared_ptr<IElement>> v;
 			if((*e1)->Is(ev))
 			{
-				std::cout<<"Entry"<<**e1<<std::endl;
-				//auto entry = std::dynamic_pointer_cast<Entry>(*e1); 
 				auto entry = (*e1)->template As<Entry>(); 
 				auto entries = entry.template GetElements<Comdirect>();
 				std::for_each(entries.cbegin(),entries.cend(),[&](const auto& e) { std::cout<<"\tE: "<<*e<<std::endl; });
+				v.insert(v.end(),entries.cbegin(), entries.cend());
 			}
-			std::vector<std::shared_ptr<IElement>> v = { *e1 };
 			return v;
 			});
 	
+	std::cout<<"M:\t"<<m2ceA<<std::endl;
 
 	HtmlElementTest().Run();
 	StyleTest().Run();
