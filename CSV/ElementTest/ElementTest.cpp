@@ -114,7 +114,6 @@ int Run()
 			{
 				auto entry = (*e1)->template As<Entry>(); 
 				auto entries = entry.template GetElements<Comdirect>();
-				std::for_each(entries.cbegin(),entries.cend(),[&](const auto& e) { std::cout<<"\tE: "<<*e<<std::endl; });
 				v.insert(v.end(),entries.cbegin(), entries.cend());
 			}
 			return v;
