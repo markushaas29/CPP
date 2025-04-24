@@ -192,7 +192,11 @@ private:
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
         
 		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
-
+		
+		auto m1 = matrix();
+			std::cout<<"EXE: \n"<<std::endl;
+		//auto m2 = matrix2().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+			std::cout<<"EXE: \n"<<std::endl;
 		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
 	 	v = m.Collect(std::move(v));
 

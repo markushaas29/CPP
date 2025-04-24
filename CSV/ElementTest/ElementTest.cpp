@@ -104,6 +104,7 @@ int Run()
 	M2E m2ce {
 		{std::make_shared<Date>(31,12,2023), std::make_shared<QS>(7.5)},
 		{std::make_shared<Entry>("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Internet Ref. GZ22504152445475/2"), std::make_shared<Entry>("Auftraggeber: Bausparkasse Schwäbisch Hall Aktiengesellschaft - Bausparkasse der Vol Buchungstext: 26219070T02 U.A. 02.2025 Ref. 6S2C213N0A823JJ4/70562")},
+		//{std::make_shared<Entry>("Empfänger: Markus HaasKto/IBAN"), std::make_shared<Entry>("Auftraggeber: Bausparkasse Schwäbisch Hall Aktiengesellschaft - Bausparkasse der Vol Buchungstext: 26219070T02 U.A. 02.2025 Ref. 6S2C213N0A823JJ4/70562")},
 	  };
 			
 
@@ -114,6 +115,8 @@ int Run()
 			{
 				auto entry = (*e1)->template As<Entry>(); 
 				auto entries = entry.template GetElements<Comdirect>();
+				while(entries.size()<=3)
+					entries.push_back(std::make_shared<Text>("-"));
 				v.insert(v.end(),entries.cbegin(), entries.cend());
 			}
 			return v;
