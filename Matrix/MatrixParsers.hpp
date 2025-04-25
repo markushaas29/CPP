@@ -170,21 +170,16 @@ private:
 		for(auto s : paths)
 		{
         	auto r = MatrixReader(path + s);
-			accountFiles.push_back(r.M<2>());
+			auto m =r.M<2>().Apply([&](auto& s)
+						{
+							if(s->at(0)=='\"' && s->at(0) == *(s->cend()-1)) 
+								return std::string(s->cbegin()+1, s->cend()-1);
+							return *s;
+						});
+			accountFiles.push_back(m);
 		}
 
         return M3(accountFiles);
-	}
-	decltype(auto) matrix2() const
-	{
-        std::vector<std::string> paths{"//Comdirect.csv"};
-        std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
-		for(auto s : paths)
-		{
-        	auto r = MatrixReader(path + s);
-        	return r.M<2>();
-		}
-
 	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
@@ -193,10 +188,6 @@ private:
         
 		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
 		
-		auto m1 = matrix();
-			std::cout<<"EXE: \n"<<std::endl;
-		//auto m2 = matrix2().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
-			std::cout<<"EXE: \n"<<std::endl;
 		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
 	 	v = m.Collect(std::move(v));
 
