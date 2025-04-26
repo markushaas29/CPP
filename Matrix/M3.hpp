@@ -85,6 +85,8 @@ public:
 
 		return MatrixType(typename MatrixType::DescriptorType{{result.size() / cols, cols}}, result); 
 	}
+	template<typename F>
+	decltype(auto) Apply(F f) const { return apply<std::shared_ptr<IElement>>([&](auto& mx, const auto& e) { mx.push_back(e.Apply(f)); }); } 
 	template<typename V>
    	decltype(auto) operator |(V v) const { return apply2(v); }
 	template<typename V>

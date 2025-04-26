@@ -64,7 +64,7 @@ public:
 	decltype(auto) Parse(const auto&... m) const { return MatrixParser<Type>::parse(this, m...); }
 	decltype(auto) ParseByMatch(const Matcher& m, bool headers = false) const { return MatrixParser<Type>::parseByMatch(this, m, headers); }
 	template<typename F>
-	decltype(auto) Apply(F f) { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
+	decltype(auto) Apply(F f) const { return MC<Type>::apply(f, elements->cbegin(), elements->cend(), descriptor); }
 	template<template<typename> class Op>
 	decltype(auto) Calc() { return MC<Type>::template calc<Op>(elements->cbegin(), elements->cend()); }
 	decltype(auto) ColSum(int i) const { return MC<Type>::colSum(*this,i); }

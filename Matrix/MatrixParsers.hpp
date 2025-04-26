@@ -20,6 +20,8 @@
 
 #pragma once
 
+//class Comdirect;
+
 class IBaseMatrixParser
 {
 public:
@@ -189,6 +191,20 @@ private:
 		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
 		
 		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+//		m = m.Apply([&](const auto& e1){ 
+//			auto ev = IsElementVisitor<Entry>();
+//			std::vector<std::shared_ptr<IElement>> v;
+//			if((*e1)->Is(ev))
+//			{
+//				auto entry = (*e1)->template As<Entry>(); 
+//				auto entries = entry.template GetElements<Comdirect>();
+//				while(entries.size()<=3)
+//					entries.push_back(std::make_shared<Text>("-"));
+//				v.insert(v.end(),entries.cbegin(), entries.cend());
+//			}
+//			return v;
+//			});
+
 	 	v = m.Collect(std::move(v));
 
 		auto V = v->template Cast<ElementCollector<Date>>();
