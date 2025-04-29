@@ -52,7 +52,7 @@ private:
         			std::for_each(result.cbegin(), result.cend(), [&](const auto& d) { el.push_back(std::make_shared<typename LeftType::ElementType>(d)); });
 				else
 					el.push_back(std::make_shared<typename LeftType::ElementType>(f(e))); });
-		IsT<Throwing>("MatrixCalculatorBase Apply")(el.size() % d.Rows() == 0);
+		IsT<Throwing>(Format("\nMatrixCalculatorBase Apply size: ",el.size()," Rows: ",d.Rows()))(el.size() % d.Rows() == 0);
         return LeftType(DescriptorType({d.Rows(), el.size() / d.Rows()}),el); 
     }
 	template<template<typename> class OpT, typename It >
