@@ -200,7 +200,7 @@ private:
 			if((*e1)->Is(ev))
 			{
 				auto entry = (*e1)->template As<Entry>(); 
-				auto entries = entry.template GetElements<Comdirect>();
+				auto entries = entry.template GetElements<ComdirectParser>();
 				v.insert(v.end(),entries.cbegin(), entries.cend());
 			}
 	
