@@ -93,10 +93,10 @@ int Run()
 	assert(ed2==std::string("Heiznebenkosten"));
 
 	auto comdirectE = Entry{"Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Internet Ref. GZ22504152445475/2"};
-	auto cEls = comdirectE.GetElements<Comdirect>();
+	auto cEls = comdirectE.GetElements<ComdirectParser>();
 	assert(cEls.size() == 4);
 	comdirectE = Entry{"Auftraggeber: Bausparkasse Schwäbisch Hall Aktiengesellschaft - Bausparkasse der Vol Buchungstext: 26219070T02 U.A. 02.2025 Ref. 6S2C213N0A823JJ4/70562"};
-	cEls = comdirectE.GetElements<Comdirect>();
+	cEls = comdirectE.GetElements<ComdirectParser>();
 	assert(cEls.size() == 2);
 
 	using ME2D = MatrixDescriptor<2,std::shared_ptr<IElement>>;
@@ -114,7 +114,7 @@ int Run()
 			if((*e1)->Is(ev))
 			{
 				auto entry = (*e1)->template As<Entry>(); 
-				auto entries = entry.template GetElements<Comdirect>();
+				auto entries = entry.template GetElements<ComdirectParser>();
 				while(entries.size()<=3)
 					entries.push_back(std::make_shared<Text>("-"));
 				v.insert(v.end(),entries.cbegin(), entries.cend());
