@@ -9,7 +9,7 @@ Form Klasse
 Account
 	 mit true auskommentierenvon Stash:Entfernung Anführungszeichen in Reader(74), wenn mit "" startet als Options an Reader
 	rekusive FKT über Template Parameter mit tuple
-	Prüdung Anzahöl ELemenente nach insert
+	else Zweig mit anderen Elementen
 	Vector vorbefüllen
 	QS ausfiltern in exec
 	 Summe und Name einbauen Html<Div> in CompositeResult value in if

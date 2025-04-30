@@ -203,10 +203,12 @@ private:
 				auto entries = entry.template GetElements<ComdirectParser>();
 				v.insert(v.end(),entries.cbegin(), entries.cend());
 			}
+			else
+				v.push_back(*e1);
 	
-			if(v.size()!=0 || v.size() != 3)
+			if(v.size()!=1 || v.size() != 3)
 				while(v.size()<=3)
-					v.push_back(std::make_shared<Text>("-"));
+					v.push_back(std::make_shared<Text>(""));
 			std::cout<<**e1<<" SIZE "<<v.size()<<std::endl;
 			return v;
 			});
@@ -217,15 +219,15 @@ private:
 		auto V = v->template Cast<ElementCollector<Date>>();
 		auto vec = V->Elements();
 		std::vector<std::shared_ptr<IElement>> uniques;	
-		for(auto e : V->Elements())
-			std::cout<<"VIS: "<<*e<<std::endl;
+//		for(auto e : V->Elements())
+//			std::cout<<"VIS: "<<*e<<std::endl;
 
 		auto same_i = [](auto const& v1, auto const& v2) { return v1->Data() == v2->Data(); };
 		vec.erase(unique(vec.begin(), vec.end(), same_i), vec.end());
 
-			std::cout<<"UNIQUE: \n"<<std::endl;
-		for(auto e : vec)
-			std::cout<<"VIS: "<<*e<<std::endl;
+//			std::cout<<"UNIQUE: \n"<<std::endl;
+//		for(auto e : vec)
+//			std::cout<<"VIS: "<<*e<<std::endl;
 
 		return m;
 	}
