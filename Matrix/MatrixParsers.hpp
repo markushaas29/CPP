@@ -206,7 +206,7 @@ private:
 			else
 				v.push_back(*e1);
 	
-			if(v.size()!=1 || v.size() != 3)
+			if(v.size()>1 || v.size() != 3)
 				while(v.size()<=3)
 					v.push_back(std::make_shared<Text>(""));
 			std::cout<<**e1<<" SIZE "<<v.size()<<std::endl;
