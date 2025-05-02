@@ -79,7 +79,10 @@ private:
 		newElements.push_back(nElements);
 		auto modell = Init(newElements)();
 		auto mf1 = MatrixFormatter(modell);
-        HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path())(mf1());
+        auto html = HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path());
+
+		html.Add(mf1.Html());
+		
 		return dm;
 	}
 	virtual std::ostream& display(std::ostream& out) const { 	return out;	}

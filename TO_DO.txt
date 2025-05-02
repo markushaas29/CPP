@@ -3,6 +3,8 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
+Counter
+	Style 181 Extra in Counter
 Jahresabrechnung
 	Gemsate Monasmiete
 Form Klasse
