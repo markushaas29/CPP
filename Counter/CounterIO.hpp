@@ -81,11 +81,27 @@ private:
 		auto mf1 = MatrixFormatter(modell);
         auto html = HtmlBuilder(DescriptorType::Identifier +".html",descriptor.Path());
 
-		html.Add(mf1.Html());
+		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
+        heads->push_back(std::make_unique<LinkElement>());
+        html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
+		html.Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result"}, newElements).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
 		
 		return dm;
 	}
 	virtual std::ostream& display(std::ostream& out) const { 	return out;	}
+
+auto appendHeaders(const std::vector<std::string>& headers, const auto& vp) const
+	{
+		std::vector<std::shared_ptr<IElement>> first;
+		for(size_t i = 0; i < headers.size(); ++i)
+			first.push_back(std::make_shared<Header>(headers[i]));
+
+		std::vector<std::vector<std::shared_ptr<IElement>>> vph = { first };
+
+		vph.insert(vph.end(), vp.begin(), vp.end());
+		return MatrixFormatter(Init(vph)());
+	}
+	
 
 	auto asString(const auto& val) const
 	{
