@@ -4,7 +4,7 @@ Tranlator
 	Bhandlung bei Split
 CSS
 Counter
-	Style 181 Extra in Counter
+	Header anpassen und Daten als Header
 Jahresabrechnung
 	Gemsate Monasmiete
 Form Klasse
