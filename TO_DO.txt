@@ -3,6 +3,9 @@ Tranlator
 	Fehlerbehandlung bei zu wenig werten => abfragen des vectors.size
 	Bhandlung bei Split
 CSS
+ConsumptionVisitor
+	if(std::find(v.begin(), v.end(), x) != v.end()) {
+	ptrdiff_t pos = find(Names.begin(), Names.end(), old_name_) - Names.begin();
 Counter
 	Header anpassen und Daten als Header
 Jahresabrechnung

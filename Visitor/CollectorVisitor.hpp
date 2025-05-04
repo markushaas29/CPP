@@ -146,9 +146,11 @@ public:
 	{
 		auto fs = Base::func();
 		auto f = Base::Result().Values();
-		std::for_each(f.cbegin(), f.cend(),[&](const auto& i) { 
-				if(i == T{0})
-					std::cout<<"I "<<i<<std::endl; });
+		auto pos = std::find(f.begin(), f.end(), T{0});
+		if(pos != f.end()) 
+		{
+			std::cout<<"I0 "<<(pos-f.begin())<<std::endl;
+		}
 		std::vector<T> result;
 		std::for_each(fs.cbegin(), fs.cend(),[&](const auto& i) { 
 				result.push_back(i()); });
