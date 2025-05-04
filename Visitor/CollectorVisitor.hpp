@@ -149,7 +149,7 @@ public:
 		auto pos = std::find(f.begin(), f.end(), T{0});
 		if(pos != f.end()) 
 		{
-			std::cout<<"I0 "<<(pos-f.begin())<<std::endl;
+			//std::cout<<"I0 "<<(pos-f.begin())<<std::endl;
 		}
 		std::vector<T> result;
 		std::for_each(fs.cbegin(), fs.cend(),[&](const auto& i) { 
