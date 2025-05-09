@@ -74,7 +74,7 @@ public:
 		return false;
 	};
 	auto operator==(const Date& date) const	{	return day==date.day && month==date.month && year==date.year; };
-	constexpr auto operator<=>( const Date& d) noexcept { return YMD(std::chrono::year(year),std::chrono::month(month),std::chrono::day(day)) <=> YMD(std::chrono::year(d.year),std::chrono::month(d.month),std::chrono::day(d.day)); }		
+//	constexpr auto operator<=>( const Date& d) noexcept { return YMD(std::chrono::year(year),std::chrono::month(month),std::chrono::day(day)) <=> YMD(std::chrono::year(d.year),std::chrono::month(d.month),std::chrono::day(d.day)); }		
 private:
 	bool valid = false;
 	Day day;

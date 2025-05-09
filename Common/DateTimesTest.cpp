@@ -2,6 +2,8 @@
 #include <chrono>
 #include <vector>
 #include <sstream>
+#include "../CSV/HtmlElement.hpp"
+#include "../CSV/Styles.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Quantity/ToQuantity.hpp"
 #include "DateTimes.hpp"
