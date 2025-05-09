@@ -147,9 +147,15 @@ public:
 		auto fs = Base::func();
 		auto f = Base::Result().Values();
 		auto pos = std::find(f.begin(), f.end(), T{0});
-		if(pos != f.end()) 
+		if(pos != f.end() && (pos-f.begin()) != 0 && (pos-f.begin()) != (f.size()-1)) 
 		{
-			//std::cout<<"I0 "<<(pos-f.begin())<<std::endl;
+			size_t  p  = (pos-f.begin());
+			std::cout<<"PVal "<<f[p]<<std::endl;
+			if (std::is_sorted(f.begin(), f.begin()+p))
+			{
+				std::cout<<"SORTED "<<std::endl;
+			}
+
 		}
 		std::vector<T> result;
 		std::for_each(fs.cbegin(), fs.cend(),[&](const auto& i) { 
