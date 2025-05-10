@@ -144,17 +144,32 @@ public:
 	auto Diffs() { return Base::func(); }
 	auto Values()
 	{
+		auto sd = Date(27,12,2019);
+		auto ed = Date(15,12,2022);
 		auto fs = Base::func();
 		auto f = Base::Result().Values();
 		auto pos = std::find(f.begin(), f.end(), T{0});
 		if(pos != f.end() && (pos-f.begin()) != 0 && (pos-f.begin()) != (f.size()-1)) 
 		{
+		for(auto e : elements)
+			std::cout<<"Date: "<<e.date<<"Q: "<<e.quantity<<std::endl;
 			size_t  p  = (pos-f.begin());
 			std::cout<<"PVal "<<f[p]<<std::endl;
-			if (std::is_sorted(f.begin(), f.begin()+p))
+			if (std::is_sorted(f.end(), f.end()+p))
 			{
 				std::cout<<"SORTED "<<std::endl;
 			}
+			if (std::is_sorted(f.end()+p+1,f.begin()))
+			{
+				std::cout<<"SORTED 2"<<std::endl;
+			}
+			
+			auto it = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == sd; } );
+			if(it != elements.end())
+				std::cout<<"SDate "<<it->quantity<<std::endl;
+			auto it2 = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == ed; } );
+			if(it2 != elements.end())
+				std::cout<<"SDate "<<it2->quantity<<std::endl;
 
 		}
 		std::vector<T> result;
