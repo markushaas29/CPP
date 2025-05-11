@@ -1,5 +1,6 @@
 #include "Visitor.hpp"
 #include <numeric>
+#include <cmath>
 #include "../CSV/Element.hpp"
 #include "../CSV/Elements.hpp"
 #include "../Functional/Functional.hpp"
@@ -171,6 +172,14 @@ public:
 			if(it2 != elements.end())
 				std::cout<<"SDate "<<it2->quantity<<std::endl;
 
+
+			size_t pStart  = (it-elements.begin());
+			size_t pEnd  = (it2-elements.begin());
+			std::cout<<"SDate "<<elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
+			std::cout<<"SDate "<<elements[p-1].quantity-elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
+
+			auto val = (elements[p-1].quantity-elements[pStart].quantity) + elements[pEnd].quantity;
+			std::cout<<"SDate "<<val<<std::endl;
 		}
 		std::vector<T> result;
 		std::for_each(fs.cbegin(), fs.cend(),[&](const auto& i) { 
