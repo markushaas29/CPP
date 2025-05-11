@@ -148,17 +148,17 @@ public:
 		auto ed = Date(15,12,2022);
 		auto fs = Base::func();
 		auto f = Base::Result().Values();
-		auto pos = std::find(f.begin(), f.end(), T{0});
-		if(pos != f.end() && (pos-f.begin()) != 0 && (pos-f.begin()) != (f.size()-1)) 
+		auto pos = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.quantity == T{0}; } );
+		if(pos != elements.end() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
 		{
 		for(auto e : elements)
 			std::cout<<"Date: "<<e.date<<"Q: "<<e.quantity<<std::endl;
-			size_t  p  = (pos-f.begin());
+			size_t  p  = (pos-elements.begin());
 			std::cout<<"PVal "<<f[p]<<std::endl;
-			if (std::is_sorted(f.end(), f.end()+p))
-			{
-				std::cout<<"SORTED "<<std::endl;
-			}
+//			if (std::is_sorted(elements.end(), elements.end()+p))
+//			{
+//				std::cout<<"SORTED "<<std::endl;
+//			}
 			if (std::is_sorted(f.end()+p+1,f.begin()))
 			{
 				std::cout<<"SORTED 2"<<std::endl;
