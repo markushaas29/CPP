@@ -39,6 +39,12 @@ class CounterTest
 			auto cV = b("/home/markus/Downloads/CSV_TestFiles_2", tf);
 			std::cout<<"cv"<<cV->size()<<std::endl;
 			std::for_each(cV->begin(), cV->end(), [&](const auto& i){ std::cout<<*i<<std::endl;  });
+			std::for_each(cV->begin(), cV->end(), [&](const auto& i)
+					{
+			civ = i->Accept(std::move(civ));
+            auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
+			std::cout<<"Counter\n"<<*(consV())<<std::endl;
+				  });
 			std::cout<<"END"<<std::endl;
 		   
 			return 0;
