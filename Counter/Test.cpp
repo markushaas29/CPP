@@ -41,9 +41,9 @@ class CounterTest
 			std::for_each(cV->begin(), cV->end(), [&](const auto& i){ std::cout<<*i<<std::endl;  });
 			std::for_each(cV->begin(), cV->end(), [&](const auto& i)
 					{
-			civ = i->Accept(std::move(civ));
-            auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
-			std::cout<<"Counter\n"<<*(consV())<<std::endl;
+						civ = i->Accept(std::move(civ));
+			            auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
+						std::cout<<"Counter\n"<<*(consV(Year{2023}))<<std::endl;
 				  });
 			std::cout<<"END"<<std::endl;
 		   

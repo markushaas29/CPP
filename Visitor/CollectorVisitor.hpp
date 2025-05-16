@@ -123,41 +123,35 @@ public:
 			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) { return d.date == (days < Quantity<Time,Days,uint>{365} ? y : y.Prev()); 	});
 	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
 			
-			auto sd = Date(27,12,2019);
-			auto ed = Date(15,12,2022);
 			auto fs = Base::func();
 			auto f = Base::Result().Values();
+			auto b = elements.end() - 1;
 			auto pos = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.quantity == T{0}; } );
-			if(pos != elements.end() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
+			std::cout<<"B "<<b->date<<" "<<(pos != (elements.end() - 1))<<std::endl;
+			if(pos != elements.end() && pos != (elements.end() - 1) && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
 			{
-			for(auto e : elements)
-				std::cout<<"Date: "<<e.date<<"Q: "<<e.quantity<<std::endl;
+				std::cout<<pos->date<<std::endl;
 				size_t  p  = (pos-elements.begin());
-				std::cout<<"PVal "<<f[p]<<std::endl;
-	//			if (std::is_sorted(elements.end(), elements.end()+p))
-	//			{
-	//				std::cout<<"SORTED "<<std::endl;
-	//			}
 				if (std::is_sorted(f.end()+p+1,f.begin()))
 				{
 					std::cout<<"SORTED 2"<<std::endl;
 				}
 				
-				auto it = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == sd; } );
-				if(it != elements.end())
-					std::cout<<"SDate "<<it->quantity<<std::endl;
-				auto it2 = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == ed; } );
+				auto it1 = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == it->date; } );
+				if(it1 != elements.end())
+					std::cout<<"SDate 1: "<<it1->quantity<<std::endl;
+				auto it2 = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == itp->date; } );
 				if(it2 != elements.end())
-					std::cout<<"SDate "<<it2->quantity<<std::endl;
+					std::cout<<"SDate 2: "<<it2->quantity<<std::endl;
 	
 	
 				size_t pStart  = (it-elements.begin());
 				size_t pEnd  = (it2-elements.begin());
-				std::cout<<"SDate "<<elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
-				std::cout<<"SDate "<<elements[p-1].quantity-elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
+				std::cout<<"Date "<<elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
+				std::cout<<"Date "<<elements[p-1].quantity-elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
 	
 				auto val = (elements[p-1].quantity-elements[pStart].quantity) + elements[pEnd].quantity;
-				std::cout<<"SDate "<<val<<std::endl;
+				std::cout<<"Value "<<val<<std::endl;
 			}
 
 			return std::make_shared<T>(it->quantity-itp->quantity);
