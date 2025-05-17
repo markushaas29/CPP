@@ -127,10 +127,10 @@ public:
 			auto f = Base::Result().Values();
 			auto b = elements.end() - 1;
 			auto pos = find_if(elements.begin(), elements.end() - 1, [&] (auto s) { return s.quantity == T{0}; } );
-			std::cout<<"B "<<pos->date<<" "<<(elements.end() - 1)->quantity<<std::endl;
 			if(pos != elements.end() && T{0} != (elements.end() - 1)->quantity && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
 			{
-				std::cout<<pos->date<<std::endl;
+				std::cout<<"POS"<<pos->date<<"\t"<<(elements.end() - 1)->quantity<<std::endl;
+				std::for_each(elements.begin(), elements.end() - 1, [&] (auto s) { std::cout<<s.date<<".\t "<<s.quantity<<std::endl; } );
 				size_t  p  = (pos-elements.begin());
 				if (std::is_sorted(f.end()+p+1,f.begin()))
 				{
@@ -147,11 +147,8 @@ public:
 	
 				size_t pStart  = (it-elements.begin());
 				size_t pEnd  = (it2-elements.begin());
-				std::cout<<"Date "<<elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
-				std::cout<<"Date "<<elements[p-1].quantity-elements[pStart].quantity<<"SDate "<<elements[pEnd].quantity<<std::endl;
 	
 				auto val = (elements[p-1].quantity-elements[pStart].quantity) + elements[pEnd].quantity;
-				std::cout<<"Value "<<val<<std::endl;
 			}
 
 			return std::make_shared<T>(it->quantity-itp->quantity);
