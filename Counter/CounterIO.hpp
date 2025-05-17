@@ -84,6 +84,7 @@ private:
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
         heads->push_back(std::make_unique<LinkElement>());
         html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
+		html.Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		html.Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result"}, newElements).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
 		
 		return dm;
