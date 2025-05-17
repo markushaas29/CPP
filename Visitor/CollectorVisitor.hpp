@@ -126,8 +126,8 @@ public:
 			auto fs = Base::func();
 			auto f = Base::Result().Values();
 			auto b = elements.end() - 1;
-			auto pos = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.quantity == T{0}; } );
-			std::cout<<"B "<<b->date<<" "<<(elements.end() - 1)->quantity<<std::endl;
+			auto pos = find_if(elements.begin(), elements.end() - 1, [&] (auto s) { return s.quantity == T{0}; } );
+			std::cout<<"B "<<pos->date<<" "<<(elements.end() - 1)->quantity<<std::endl;
 			if(pos != elements.end() && T{0} != (elements.end() - 1)->quantity && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
 			{
 				std::cout<<pos->date<<std::endl;
