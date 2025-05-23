@@ -150,7 +150,7 @@ public:
 					std::cout<<"SDate 2: "<<it2->quantity<<std::endl;
 	
 				std::vector<Data> pY;std::cout<<"DATE: "<<it->date<<".\t "<<itp->date<<std::endl;
-				std::copy_if(elements.begin(), elements.end(), std::back_inserter(pY), [&](auto& d) { return it->date > d.date && itp->date < d.date ; 	});
+				std::copy_if(elements.begin(), elements.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
 				std::for_each(pY.begin(), pY.end(), [&] (auto s) { std::cout<<"COPY"<<s.date<<".\t "<<s.quantity<<std::endl; } );
 	
 				size_t pStart  = (it-elements.begin());
