@@ -84,9 +84,9 @@ private:
         html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
 		html.Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		
-		std::vector<std::shared_ptr<IElement>> desc = { std::make_shared<Entry>("Number"), std::make_shared<Number<int>>(DescriptorType::Number) };
-		//std::vector<std::shared_ptr<IElement>> desc = { std::make_shared<Number>(DescriptorType::Number), std::make_shared<Number>(DescriptorType::Number) };
-		std::vector<std::vector<std::shared_ptr<IElement>>> descV = { desc };
+		std::vector<std::shared_ptr<IElement>> desc2 = { std::make_shared<Entry>("Number"), std::make_shared<Number<int>>(DescriptorType::Number) };
+		std::vector<std::shared_ptr<IHtmlElement>> desc = { Number<int>(DescriptorType::Number).Html(), Number<int>(DescriptorType::Number).Html() };
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> descV = { desc };
 		auto modell = Init(descV)();
 		auto mf1 = MatrixFormatter(modell);
 		html.Add(Html<P>(Number(DescriptorType::Number),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));

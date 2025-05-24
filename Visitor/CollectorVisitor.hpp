@@ -131,32 +131,12 @@ public:
 			//auto pos = find_if(it, itp, [&] (auto s) { return s.quantity == T{0}; } );
 //			if(pos != elements.end() ) 
 //				{ std::cout<<"IT: "<<pos->date<<".\t "<<pos->quantity<<std::endl; }
-			auto pos = find_if(elements.begin(), elements.end() - 1, [&] (auto s) { return s.quantity == T{0}; } );
-			if(pos != elements.end() && T{0} != (elements.end() - 1)->quantity && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
-			{
-				std::cout<<"POS"<<pos->date<<"\t"<<(elements.end() - 1)->quantity<<std::endl;
-				std::for_each(elements.begin(), elements.end() - 1, [&] (auto s) { std::cout<<s.date<<".\t "<<s.quantity<<std::endl; } );
-				size_t  p  = (pos-elements.begin());
-				if (std::is_sorted(f.end()+p+1,f.begin()))
-				{
-					std::cout<<"SORTED 2"<<std::endl;
-				}
-				
-				auto it1 = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == it->date; } );
-				if(it1 != elements.end())
-					std::cout<<"SDate 1: "<<it1->quantity<<std::endl;
-				auto it2 = find_if(elements.begin(), elements.end(), [&] (auto s) { return s.date == itp->date; } );
-				if(it2 != elements.end())
-					std::cout<<"SDate 2: "<<it2->quantity<<std::endl;
-	
 				std::vector<Data> pY;std::cout<<"DATE: "<<it->date<<".\t "<<itp->date<<std::endl;
 				std::copy_if(elements.begin(), elements.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
 				std::for_each(pY.begin(), pY.end(), [&] (auto s) { std::cout<<"COPY"<<s.date<<".\t "<<s.quantity<<std::endl; } );
-	
-				size_t pStart  = (it-elements.begin());
-				size_t pEnd  = (it2-elements.begin());
-	
-				auto val = (elements[p-1].quantity-elements[pStart].quantity) + elements[pEnd].quantity;
+			auto pos = find_if(pY.begin(), pY.end(), [&] (auto s) { return s.quantity == T{0}; } );
+			if(pos != elements.end() && T{0} != (elements.end() - 1)->quantity && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
+			{
 			}
 
 			return std::make_shared<T>(it->quantity-itp->quantity);
