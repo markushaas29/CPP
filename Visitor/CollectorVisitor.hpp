@@ -126,19 +126,14 @@ public:
 			auto fs = Base::func();
 			auto f = Base::Result().Values();
 			auto b = elements.end() - 1;
-//			if(itp!=elements.end())
-//				std::for_each(it, itp, [&] (auto s) { std::cout<<s.date<<".\t "<<s.quantity<<std::endl; } );
-			//auto pos = find_if(it, itp, [&] (auto s) { return s.quantity == T{0}; } );
-//			if(pos != elements.end() ) 
-//				{ std::cout<<"IT: "<<pos->date<<".\t "<<pos->quantity<<std::endl; }
-				std::vector<Data> pY;
-				std::copy_if(elements.begin(), elements.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
-				std::for_each(pY.begin(), pY.end(), [&] (auto s) { std::cout<<"COPY"<<s.date<<".\t "<<s.quantity<<std::endl; } );
+			std::vector<Data> pY;
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
+			std::for_each(pY.begin(), pY.end(), [&] (auto s) { std::cout<<"COPY"<<s.date<<".\t "<<s.quantity<<std::endl; } );
 			auto pos = find_if(pY.begin(), pY.end(), [&] (auto s) { return s.quantity == T{0}; } );
 			if(pos != elements.end() && T{0} != (elements.end() - 1)->quantity && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
 			{
 				std::vector<Data> pZero;
-				std::copy_if(pY.begin(), pY.end(), std::back_inserter(pZero), [](auto s) { return s.quantity == T{0}; });
+				std::copy(pY.begin(), pos, std::back_inserter(pZero));
 				std::for_each(pZero.begin(), pZero.end(), [&] (auto s) { std::cout<<"COPY_Zero"<<s.date<<".\t "<<s.quantity<<std::endl; } );
 			}
 
