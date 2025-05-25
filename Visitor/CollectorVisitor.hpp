@@ -133,7 +133,8 @@ public:
 			if(pos != elements.end() && T{0} != (elements.end() - 1)->quantity && pos != elements.begin() && (pos-elements.begin()) != 0 && (pos-elements.begin()) != (elements.size()-1)) 
 			{
 				std::vector<Data> pZero;
-				std::copy(pY.begin(), pos, std::back_inserter(pZero));
+				std::copy_if(pY.begin(), pY.end(), std::back_inserter(pZero), [&](auto& d) { return d.date < pos->date; 	});
+				if(pZero.size()>0) 
 				std::for_each(pZero.begin(), pZero.end(), [&] (auto s) { std::cout<<"COPY_Zero"<<s.date<<".\t "<<s.quantity<<std::endl; } );
 			}
 
