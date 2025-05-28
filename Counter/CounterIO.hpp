@@ -82,15 +82,15 @@ private:
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
         heads->push_back(std::make_unique<LinkElement>());
         html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
-		html.Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		
-		std::vector<std::shared_ptr<IElement>> desc2 = { std::make_shared<Entry>("Number"), std::make_shared<Number<int>>(DescriptorType::Number) };
-		std::vector<std::shared_ptr<IHtmlElement>> desc = { Number<int>(DescriptorType::Number).Html(), Number<int>(DescriptorType::Number).Html() };
-		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> descV = { desc };
+		std::vector<std::shared_ptr<IHtmlElement>> descN = { Header("Number").Html(), Number<int>(DescriptorType::Number).Html() };
+		std::vector<std::shared_ptr<IHtmlElement>> descE = { Header("Entity").Html(), Entry(DescriptorType::Entity).Html() };
+		std::vector<std::shared_ptr<IHtmlElement>> descS = { Header("Stage").Html(), Entry(DescriptorType::Stage).Html() };
+		std::vector<std::vector<std::shared_ptr<IHtmlElement>>> descV = { descN, descE, descS };
 		auto modell = Init(descV)();
 		auto mf1 = MatrixFormatter(modell);
-		html.Add(Html<P>(Number(DescriptorType::Number),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		html.Add(mf1.Html());
+		html.Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
 		html.Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result"}, newElements).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
 		
 		return dm;
