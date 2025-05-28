@@ -134,7 +134,12 @@ public:
 				std::vector<Data> pZero;
 				std::copy_if(pY.begin(), pY.end(), std::back_inserter(pZero), [&](auto& d) { return d.date < pos->date; 	});
 				if(pZero.size()>0) 
+				{
 					std::for_each(pZero.begin(), pZero.end(), [&] (auto s) { std::cout<<"COPY_Zero"<<s.date<<".\t "<<s.quantity<<std::endl; } );
+					auto diff = pZero.begin()->quantity - (pZero.end()-1)->quantity;
+					std::cout<<"DIFF "<<diff<<std::endl;
+				}
+
 			}
 
 			return std::make_shared<T>(it->quantity-itp->quantity);
