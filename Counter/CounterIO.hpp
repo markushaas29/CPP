@@ -90,7 +90,7 @@ private:
 		auto modell = Init(descV)();
 		auto mf1 = MatrixFormatter(modell);
 		html.Add(mf1.Html());
-		html.Add(Html<P>(Date::Today(),std::make_unique<Css<Style<FontWeight,Bold>,Style<FontSize,Px<25>>>>(),"Date", "DateId"));
+		html.Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Right>>>()));
 		html.Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result"}, newElements).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
 		
 		return dm;
