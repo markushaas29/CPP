@@ -91,7 +91,7 @@ private:
 		auto mf1 = MatrixFormatter(modell);
 		html.Add(mf1.Html());
 		html.Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Right>>>()));
-		html.Add(appendHeaders({"Name","Costs","Divider","Proportion","Whole","Calculation","Result"}, newElements).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums","Costs"));
+		html.Add(appendHeaders({"Date","Reading","Addition","Calculation","Days","Calculation","Average"}, newElements).Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Readings")),nullptr,"Sums","Costs"));
 		
 		return dm;
 	}
