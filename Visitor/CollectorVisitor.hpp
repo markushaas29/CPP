@@ -137,7 +137,7 @@ public:
 				{
 					std::for_each(pZero.begin(), pZero.end(), [&] (auto s) { std::cout<<"COPY_Zero"<<s.date<<".\t "<<s.quantity<<std::endl; } );
 					auto diff = pZero.begin()->quantity - (pZero.end()-1)->quantity;
-					std::cout<<"DIFF "<<diff<<it->quantity<<" "<<(it->date-pos->date)<<std::endl;
+					std::cout<<"DIFF "<<*(std::make_shared<T>(it->quantity+diff))<<it->quantity<<" "<<(it->date-pos->date)<<std::endl;
 					return std::make_shared<T>(it->quantity+diff);
 				}
 			
