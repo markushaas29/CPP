@@ -156,9 +156,11 @@ public:
 					std::cout<<"MIN "<<std::endl;
 		if(it!=elements.end())
 					std::cout<<"MIN "<<it->date<<std::endl;
-//		{
-//			std::vector<Data> preYear;
-//			std::copy_if(elements.begin(), elements.end(), std::back_inserter(preYear), [&](auto& d) { return d.date == (days < Quantity<Time,Days,uint>{365} ? y : y.Prev()); 	});
+		{
+			std::vector<Data> values;
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { std::cout<<"Diff "<<(d - e.date)<<std::endl;; return d - e.date > Quantity<Time,Days,uint>{0} && d > e.date; 	});
+			for(auto e : values)
+					std::cout<<"VAL "<<e.date<<std::endl;
 //	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
 //			
 //			auto fs = Base::func();
@@ -182,7 +184,7 @@ public:
 //			}
 //
 //			return std::make_shared<T>(it->quantity-itp->quantity);
-//		}
+		}
 
 		return (*this)();
 	};
