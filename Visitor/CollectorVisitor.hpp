@@ -155,19 +155,20 @@ public:
 
 					std::cout<<"MIN "<<std::endl;
 		if(it!=elements.end())
-					std::cout<<"MIN "<<it->date<<std::endl;
 		{
 			std::vector<Data> values;
-			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { std::cout<<"Diff "<<(d - e.date)<<std::endl;; return d - e.date > Quantity<Time,Days,uint>{0} && d > e.date; 	});
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { return d - e.date > Quantity<Time,Days,uint>{0} && d > e.date; 	});
 			for(auto e : values)
 					std::cout<<"VAL "<<e.date<<std::endl;
-//	    	auto itp = std::min_element(preYear.begin(), preYear.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
-//			
-//			auto fs = Base::func();
-//			auto f = Base::Result().Values();
-//			auto b = elements.end() - 1;
-//			std::vector<Data> pY;
-//			std::copy_if(elements.begin(), elements.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
+	    	auto itp = std::min_element(values.begin(), values.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
+			if(itp!=values.end())
+					std::cout<<"VALUES "<<itp->date<<std::endl;
+			
+			auto fs = Base::func();
+			auto f = Base::Result().Values();
+			auto b = elements.end() - 1;
+			std::vector<Data> pY;
+			std::copy_if(values.begin(), values.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
 //			auto pos = find_if(pY.begin(), pY.end(), [&] (auto s) { return s.quantity == T{0}; } );
 //			if(pos != pY.end() &&  (it->date-pos->date) < Quantity<Time,Days,uint>{365}) 
 //			{
