@@ -238,12 +238,13 @@ int Run()
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(10,10,2023));
-	std::cout<<"Consumption Visitor F \n"<<*qv<<std::endl;
 	assert(*qv==QV(1));
-	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2023), Quantity<Time,Days,uint>{180});
+	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2023), Quantity<Time,Days,uint>{220});
+	std::cout<<"Consumption Visitor F \n"<<*qv<<std::endl;
 	//assert(*qv==QV(1.5));
 	
-	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2022), Quantity<Time,Days,uint>{180});
+	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2022), Quantity<Time,Days,uint>{220});
+	assert(*qv==QV(1));
 	  
 	M2E ma {
 	      {std::make_shared<QA>(24), std::make_shared<QS>(45)},
