@@ -231,13 +231,14 @@ int Run()
 	//assert((vs[1]==QV{2}));
 	auto ts = consumpt.Times();
 	//for(auto d : avs)
-		std::cout<<"Consumption Visitor F \n"<<consumpt.FuncValues()[0]<<std::endl;
+	std::cout<<"Consumption Visitor F \n"<<consumpt.FuncValues()[0]<<std::endl;
 	assert((ts()[0]()==Quantity<Time,Days,uint>{92}));
 	assert((ts()[5]()==Quantity<Time,Days,uint>{365}));
 
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(10,10,2023));
+	std::cout<<"Consumption Visitor F \n"<<*qv<<std::endl;
 	assert(*qv==QV(1));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2023), Quantity<Time,Days,uint>{180});
 	//assert(*qv==QV(1.5));

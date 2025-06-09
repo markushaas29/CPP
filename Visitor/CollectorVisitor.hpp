@@ -153,38 +153,34 @@ public:
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
 		auto it = std::min_element(elements.begin(), elements.end(), [d] (auto a, auto b) {  return std::abs((int)(d-a.date)) < std::abs((int)(d-b.date)); });
 
-					std::cout<<"MIN "<<std::endl;
 		if(it!=elements.end())
 		{
 			std::vector<Data> values;
-			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { return d - e.date > Quantity<Time,Days,uint>{0} && d > e.date; 	});
+			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { return (d - e.date) < days && d > e.date && it->date > e.date; 	});
 			for(auto e : values)
-					std::cout<<"VAL "<<e.date<<std::endl;
+					std::cout<<"VAL "<<(d-e.date)<<" "<<e.date<<std::endl;
 	    	auto itp = std::min_element(values.begin(), values.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
 			if(itp!=values.end())
-					std::cout<<"VALUES "<<itp->date<<std::endl;
-			
-			auto fs = Base::func();
-			auto f = Base::Result().Values();
-			auto b = elements.end() - 1;
-			std::vector<Data> pY;
-			std::copy_if(values.begin(), values.end(), std::back_inserter(pY), [&](auto& d) { return d.date < it->date && (it->date-d.date)<days; 	});
-//			auto pos = find_if(pY.begin(), pY.end(), [&] (auto s) { return s.quantity == T{0}; } );
-//			if(pos != pY.end() &&  (it->date-pos->date) < Quantity<Time,Days,uint>{365}) 
-//			{
-//				std::vector<Data> pZero;
-//				std::copy_if(pY.begin(), pY.end(), std::back_inserter(pZero), [&](auto& d) { return d.date < pos->date; 	});
-//				if(pZero.size()>0) 
-//				{
-//					std::for_each(pZero.begin(), pZero.end(), [&] (auto s) { std::cout<<"COPY_Zero"<<s.date<<".\t "<<s.quantity<<std::endl; } );
-//					auto diff = pZero.begin()->quantity - (pZero.end()-1)->quantity;
-//					std::cout<<"DIFF "<<*(std::make_shared<T>(it->quantity+diff))<<it->quantity<<" "<<(it->date-pos->date)<<std::endl;
-//					return std::make_shared<T>(it->quantity+diff);
-//				}
-//			
-//			}
-//
-//			return std::make_shared<T>(it->quantity-itp->quantity);
+			{
+				auto pos = find_if(values.begin(), values.end(), [&] (auto s) { return s.quantity == T{0}; } );
+				if(pos != values.end() &&  (it->date-pos->date) < days) 
+				{
+					std::vector<Data> pZero;
+					std::copy_if(values.begin(), values.end(), std::back_inserter(pZero), [&](auto& d) { return d.date < pos->date; 	});
+					if(pZero.size()>0) 
+					{
+						std::for_each(pZero.begin(), pZero.end(), [&] (auto s) { std::cout<<"COPY_Zero"<<s.date<<".\t "<<s.quantity<<std::endl; } );
+						auto diff = pZero.begin()->quantity - (pZero.end()-1)->quantity;
+						std::cout<<"DIFF "<<*(std::make_shared<T>(it->quantity+diff))<<it->quantity<<" "<<(it->date-pos->date)<<std::endl;
+						return std::make_shared<T>(it->quantity+diff);
+					}
+				
+				}
+
+				return std::make_shared<T>(it->quantity-itp->quantity);
+			}
+			else
+				return std::make_shared<T>(it->quantity-T{0});
 		}
 
 		return (*this)();
