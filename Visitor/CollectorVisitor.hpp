@@ -151,6 +151,8 @@ public:
 	virtual std::shared_ptr<IElement> operator()(const Date& d, Quantity<Time,Days,uint> days = Quantity<Time,Days,uint>{365}) 
 	{ 
 		std::sort (elements.begin(), elements.end(), [](const auto& l, const auto& r) { return l.date > r.date; });
+		for(auto e : elements)
+				std::cout<<"VALUES "<<(e.date)<<" "<<e.quantity<<std::endl;
 		auto it = std::min_element(elements.begin(), elements.end(), [d] (auto a, auto b) {  return std::abs((int)(d-a.date)) < std::abs((int)(d-b.date)); });
 
 		if(it!=elements.end())
@@ -160,6 +162,7 @@ public:
 			for(auto e : values)
 					std::cout<<"VAL "<<(d-e.date)<<" "<<e.date<<std::endl;
 	    	auto itp = std::min_element(values.begin(), values.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
+			std::cout<<"id "<<(itp->date)<<" "<<(it->date)<<std::endl;
 			if(itp!=values.end())
 			{
 				auto pos = find_if(values.begin(), values.end(), [&] (auto s) { return s.quantity == T{0}; } );
