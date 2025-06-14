@@ -160,8 +160,8 @@ public:
 			std::vector<Data> values;
 			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { return (d - e.date) < days && d > e.date && it->date > e.date; 	});
 			for(auto e : values)
-					std::cout<<"VAL "<<(d-e.date)<<" "<<e.date<<std::endl;
-	    	auto itp = std::min_element(values.begin(), values.end(), [it,days] (auto a, auto b) {  return std::abs((int)((it->date-a.date)-days)) < std::abs((int)((it->date-b.date)-days)); });
+					std::cout<<"VAL "<<std::abs((int)(std::abs((int)(it->date-e.date))-days))<<" "<<std::abs((int)(it->date-e.date))<<" "<<e.date<<std::endl;
+	    	auto itp = std::min_element(values.begin(), values.end(), [it,days] (auto a, auto b) {  return std::abs((int)(std::abs((int)(it->date-a.date))-days)) < std::abs((int)(std::abs((int)(it->date-b.date))-days)); });
 			std::cout<<"id "<<(itp->date)<<" "<<(it->date)<<std::endl;
 			if(itp!=values.end())
 			{

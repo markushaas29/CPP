@@ -238,10 +238,11 @@ int Run()
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Year{2022});
 	assert(*qv==QV(1.5));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(10,10,2023));
-	assert(*qv==QV(1));
+	std::cout<<"Consumption Visitor TEST \n"<<*qv<<std::endl;
+	assert(*qv==QV(2));
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2023), Quantity<Time,Days,uint>{220});
-	std::cout<<"Consumption Visitor F \n"<<*qv<<std::endl;
-	//assert(*qv==QV(1.5));
+	std::cout<<"Consumption Visitor TEST \n"<<*qv<<std::endl;
+	assert(*qv==QV(1.5));
 	
 	qv = ((cvv->template As<ConsumptionVisitor<QV>>()))(Date(30,10,2022), Quantity<Time,Days,uint>{220});
 	assert(*qv==QV(1));

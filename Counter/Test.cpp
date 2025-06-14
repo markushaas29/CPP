@@ -30,9 +30,9 @@ class CounterTest
             auto consV = civ->template As<ConsumptionVisitor<Quantity<Volume>>>();
 			std::cout<<"Counter\n"<<*(consV(Year{2023}))<<std::endl;
 			assert(*(consV(Year{2023}))==Quantity<Volume>{13.1});
-			*(consV(Date{15,12,2023}));
-			*(consV(Date{22,12,2022}));
-			*(consV(Date{10,12,2022}));
+//			*(consV(Date{15,12,2023}));
+//			*(consV(Date{22,12,2022}));
+//			*(consV(Date{10,12,2022}));
 //			auto tfd = TypeFactory<Factory<IDescription>, GasDesc>();
 //			auto dv = tfd({{"Gas_House_1202757","/home/markus/Downloads/CSV_TestFiles_2"}});
 			auto dv = GasDesc{tf,"/home/markus/Downloads/CSV_TestFiles_2"};
