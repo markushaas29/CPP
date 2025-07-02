@@ -329,6 +329,20 @@ int Run()
 	std::unique_ptr<BaseVisitor> evp = std::make_unique<ElementVisitor<Prename>>();
 	pre->Accept(*evp);
    
+	std::unique_ptr<BaseVisitor> cvv2 = std::make_unique<ConsumptionVisitor<QV>>();
+	  M2E mvE {
+	      {std::make_shared<Date>(29,11,2024), std::make_shared<QV>(101.883)},
+	      {std::make_shared<Date>(13,12,2023), std::make_shared<QV>(165.975)},
+	      {std::make_shared<Date>(15,12,2022), std::make_shared<QV>(150.761)},
+	      {std::make_shared<Date>(20,12,2021), std::make_shared<QV>(135.514)},
+	      {std::make_shared<Date>(20,12,2020), std::make_shared<QV>(116.839)},
+	      {std::make_shared<Date>(27,12,2019), std::make_shared<QV>(56.94)},
+	      {std::make_shared<Date>(20,12,2018), std::make_shared<QV>(51.3)},
+	  };
+	cvv2 = mvE.Accept(std::move(cvv2));
+
+	//auto qv2 = ((cvv2->template As<ConsumptionVisitor<QV>>()))(Date(31,12,2023),Quantity<Time,Days,uint>(365));
+	
 	return 0;
 }
 };
