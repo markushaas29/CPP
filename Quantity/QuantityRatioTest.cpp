@@ -71,6 +71,12 @@ int Run()
     assert(Inch::BaseDenom==10000);
     assert(Inch::Exponent==1);
     assert(Inch::Out()=="\"");
+	
+	std::cout<<"Liter: "<<Liter::Num<<" / "<<Liter::Out()<<std::endl;
+    assert(Liter::BaseNum==1);
+    assert(Liter::BaseDenom==1000);
+    assert(Liter::Exponent==1);
+    assert(Liter::Out()=="l");
 
     std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
@@ -154,7 +160,7 @@ int Run()
     assert(im5.Value()==5);
     assert(im5.PureValue()==0.127);
     
-	std::cout<<"Liter "<<lm.PureValue()<<std::endl;
+	std::cout<<"Liter "<<lm.Out()<<std::endl;
     assert(lm.Value()==1);
     assert(lm.PureValue()==0.001);
 
