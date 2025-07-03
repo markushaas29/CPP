@@ -156,7 +156,7 @@ int Run()
     
 	std::cout<<"Liter "<<lm.PureValue()<<std::endl;
     assert(lm.Value()==1);
-    assert(lm.PureValue()==1000);
+    assert(lm.PureValue()==0.001);
 
     assert(d1.PureValue()==86400);
     assert(h1.PureValue()==3600);

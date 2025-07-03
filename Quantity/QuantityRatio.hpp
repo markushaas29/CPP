@@ -107,7 +107,7 @@ struct KiloBase: public QuantityRatioBase<1000, 1, Ex, KiloBase>
 };
 
 template<int Ex>
-struct LiterBase: public QuantityRatioBase<1000, 1, Ex, LiterBase> 
+struct LiterBase: public QuantityRatioBase<1, 1000, Ex, LiterBase> 
 {	
 	inline static constexpr const char* Sign = "l"; 
 	inline static constexpr const char* Name = "Liter"; 
