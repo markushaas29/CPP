@@ -148,6 +148,7 @@ using Inch = InchBase<1>;
 using Milli = MilliBase<1>;
 using Centi = CentiBase<1>;
 using Dezi = DeziBase<1>;
+using Liter = LiterBase<1>;
 using Kilo = KiloBase<1>;
 using KiloHour = KiloHourBase<1>;
 using Mega = MegaBase<1>;
