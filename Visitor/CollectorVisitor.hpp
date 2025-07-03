@@ -159,6 +159,10 @@ public:
 		{
 			std::vector<Data> values;
 			std::copy_if(elements.begin(), elements.end(), std::back_inserter(values), [&](auto& e) { return (d - e.date) < days && d > e.date && it->date > e.date; 	});
+			
+			if(values.size() == 0)
+				return std::make_shared<T>(it->quantity-T{0});
+			
 			for(auto e : values)
 					std::cout<<"VAL "<<std::abs((int)(std::abs((int)(it->date-e.date))-days))<<" "<<std::abs((int)(it->date-e.date))<<" "<<e.date<<std::endl;
 	    	auto itp = std::min_element(values.begin(), values.end(), [it,days] (auto a, auto b) {  return std::abs((int)(std::abs((int)(it->date-a.date))-days)) < std::abs((int)(std::abs((int)(it->date-b.date))-days)); });
@@ -186,7 +190,7 @@ public:
 				return std::make_shared<T>(it->quantity-T{0});
 		}
 
-		return (*this)();
+		return std::make_shared<T>(it->quantity-T{0});
 	};
 	auto Times()
 	{

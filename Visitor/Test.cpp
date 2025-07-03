@@ -341,7 +341,7 @@ int Run()
 	  };
 	cvv2 = mvE.Accept(std::move(cvv2));
 
-	//auto qv2 = ((cvv2->template As<ConsumptionVisitor<QV>>()))(Date(31,12,2023),Quantity<Time,Days,uint>(365));
+	auto qv2 = ((cvv2->template As<ConsumptionVisitor<QV>>()))(Date(31,12,2023),Quantity<Time,Days,uint>(365));
 	
 	return 0;
 }
