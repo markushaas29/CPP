@@ -65,10 +65,17 @@ struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,-Ex>>
 };
 
 template<int Ex>
+struct InchBase: public QuantityRatioBase<254, 10000, Ex, InchBase> 
+{	
+inline static constexpr const char* Sign = "\""; 
+inline static constexpr const char* Name = "Inch"; 
+};
+
+template<int Ex>
 struct MilliBase: public QuantityRatioBase<1, 1000, Ex, MilliBase> 
 {	
-	inline static constexpr const char* Sign = "m"; 
-	inline static constexpr const char* Name = "Milli"; 
+inline static constexpr const char* Sign = "m"; 
+inline static constexpr const char* Name = "Milli"; 
 };
 
 template<int Ex>
@@ -137,6 +144,7 @@ struct DekaBase: public QuantityRatioBase<10,1,Ex,DekaBase>
 using Minutes = MinutesBase<1>;
 using Hours = HoursBase<1>;
 using Days = DaysBase<1>;
+using Inch = InchBase<1>;
 using Milli = MilliBase<1>;
 using Centi = CentiBase<1>;
 using Dezi = DeziBase<1>;

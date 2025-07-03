@@ -65,6 +65,12 @@ int Run()
     assert(Minutes::Exponent==1);
     assert(Minutes::Out()=="mins^-1");
     assert(Hours::Out()=="hs^-1");
+    
+	std::cout<<"Inch: "<<Inch::Num<<" / "<<Inch::Out()<<std::endl;
+    assert(Inch::BaseNum==254);
+    assert(Inch::BaseDenom==10000);
+    assert(Inch::Exponent==1);
+    assert(Inch::Out()=="\"");
 
     std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
     std::cout<<"K/h: "<<Hours::Out()<<std::endl;
