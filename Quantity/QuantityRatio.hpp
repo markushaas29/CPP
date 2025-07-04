@@ -63,7 +63,7 @@ struct HoursBase: public QuantityRatioBase<3600, 1,Ex, HoursBase,Unit<0,0,0,-Ex>
 template<int Ex>
 struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,-Ex>> 
 {	
-	inline static constexpr const char* Sign = "d"; 
+	inline static constexpr const char* Sign = "ds"; 
 	inline static constexpr const char* Name = "Days"; 
 };
 
