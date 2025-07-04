@@ -154,7 +154,7 @@ int Run()
 	auto mi1 = Quantity<Length,Mile>(1);
 	auto mi1000 = Quantity<Length,Mile>(1000);
 	auto im5 = Quantity<Length,Inch>(5);
-	auto lm = Quantity<Length,Liter>(1);
+	auto lm = Quantity<Volume,Liter>(1);
 	auto km24 = Quantity<Length,Kilo>(24);
 	auto h24 = Quantity<Time,Hours>(24);
 	auto h1 = Quantity<Time,Hours>(1);
@@ -170,15 +170,16 @@ int Run()
     assert(mi1000.Value()==1000);
     assert(mi1000.PureValue()==0.621371);
 	
-    std::cout<<"Inch "<<im.PureValue()<<std::endl;
+    std::cout<<"Inch "<<im.Out()<<im.PureValue()<<std::endl;
     assert(im.Value()==1);
     assert(im.PureValue()==0.0254);
     assert(im5.Value()==5);
     assert(im5.PureValue()==0.127);
     
-	std::cout<<"Liter "<<lm.Out()<<Liter::TransformUnit<Volume>()<<std::endl;
+	std::cout<<"Liter "<<lm.Out()<<"\t"<<Liter::TransformUnit<Volume>()<<std::endl;
     assert(lm.Value()==1);
     assert(lm.PureValue()==0.001);
+    assert(lm.Out()=="1l");
 	assert(Liter::TransformUnit<Volume>()=="l");
 
     assert(d1.PureValue()==86400);
