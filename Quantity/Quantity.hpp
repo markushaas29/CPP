@@ -121,10 +121,10 @@ private:
 	{ 
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
-			res = String_::TrimDouble(v)+QR::Sign+U::Sign(); 
+			res = String_::TrimDouble(v)+QR::template TransformUnit<U>(); 
 		else
 			res = std::to_string(v)+QR::template TransformUnit<U>(); 
-		std::cout<<"RES: \t"<<res<<std::endl;
+		//std::cout<<"RES: \t"<<res<<std::endl;
 		std::string str(res);
 		std::size_t id = str.find_first_not_of("-+0123456789");
 
