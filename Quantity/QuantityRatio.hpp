@@ -35,6 +35,9 @@ struct QuantityRatioBase
 	
 	static auto Out() { return Sign + Unit::Sign(); };
 	
+	template<typename U2>
+	static auto TransformUnit() { return Sign + Transform<Unit, U2, MultiplyPolicy>::Type::Sign(); };
+	
 	template<int Fac>
 	struct PowBy
 	{
@@ -107,7 +110,7 @@ struct KiloBase: public QuantityRatioBase<1000, 1, Ex, KiloBase>
 };
 
 template<int Ex>
-struct LiterBase: public QuantityRatioBase<1, 1000, Ex, LiterBase> 
+struct LiterBase: public QuantityRatioBase<1, 1000, Ex, LiterBase, Unit<0,-(3*Ex)>> 
 {	
 	inline static constexpr const char* Sign = "l"; 
 	inline static constexpr const char* Name = "Liter"; 
