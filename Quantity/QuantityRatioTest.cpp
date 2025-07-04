@@ -70,7 +70,8 @@ int Run()
     assert(Inch::BaseNum==254);
     assert(Inch::BaseDenom==10000);
     assert(Inch::Exponent==1);
-    assert(Inch::Out()=="\"");
+    assert(Inch::Out()=="\"m^-1");
+    assert(Inch::TransformUnit<Length>()=="\"");
 	
 	std::cout<<"Liter: "<<Liter::Num<<" / "<<Liter::Out()<<std::endl;
     assert(Liter::BaseNum==1);
@@ -159,7 +160,7 @@ int Run()
     assert(im.PureValue()==0.0254);
     assert(im5.Value()==5);
     assert(im5.PureValue()==0.127);
-    Liter::TransformUnit<Volume>();
+    
 	std::cout<<"Liter "<<lm.Out()<<Liter::TransformUnit<Volume>()<<std::endl;
     assert(lm.Value()==1);
     assert(lm.PureValue()==0.001);

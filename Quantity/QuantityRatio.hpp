@@ -68,7 +68,7 @@ struct DaysBase: public QuantityRatioBase<86400, 1, Ex,DaysBase,Unit<0,0,0,-Ex>>
 };
 
 template<int Ex>
-struct InchBase: public QuantityRatioBase<254, 10000, Ex, InchBase> 
+struct InchBase: public QuantityRatioBase<254, 10000, Ex, InchBase, Unit<0,-Ex>> 
 {	
 inline static constexpr const char* Sign = "\""; 
 inline static constexpr const char* Name = "Inch"; 

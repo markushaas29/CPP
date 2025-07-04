@@ -124,7 +124,7 @@ private:
 			res = String_::TrimDouble(v)+QR::Sign+U::Sign(); 
 		else
 			res = std::to_string(v)+QR::Sign+U::Sign(); 
-		std::cout<<"RES: \t"<<res<<std::endl;
+		//std::cout<<"RES: \t"<<res<<std::endl;
 		std::string str(res);
 		std::size_t id = str.find_first_not_of("-+0123456789");
 
