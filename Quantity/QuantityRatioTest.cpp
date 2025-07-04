@@ -72,6 +72,13 @@ int Run()
     assert(Inch::Exponent==1);
     assert(Inch::Out()=="\"m^-1");
     assert(Inch::TransformUnit<Length>()=="\"");
+
+	std::cout<<"Mile: "<<Mile::Num<<" / "<<Mile::Out()<<std::endl;
+    assert(Mile::BaseNum==621371);
+    assert(Mile::BaseDenom==1000000000);
+    assert(Mile::Exponent==1);
+    assert(Mile::Out()=="mim^-1");
+    assert(Mile::TransformUnit<Length>()=="mi");
 	
 	std::cout<<"Liter: "<<Liter::Num<<" / "<<Liter::Out()<<std::endl;
     assert(Liter::BaseNum==1);
@@ -144,6 +151,8 @@ int Run()
 	auto m1000 = Quantity<Length,Pure, double>(1000);
 	auto mm1000 = Quantity<Length,Milli, double>(1);
 	auto im = Quantity<Length,Inch>(1);
+	auto mi1 = Quantity<Length,Mile>(1);
+	auto mi1000 = Quantity<Length,Mile>(1000);
 	auto im5 = Quantity<Length,Inch>(5);
 	auto lm = Quantity<Length,Liter>(1);
 	auto km24 = Quantity<Length,Kilo>(24);
@@ -154,6 +163,12 @@ int Run()
 	auto v365 = Quantity<Volume>(365);
 	auto kwh = Quantity<Energy,KiloHour>(1);
 	auto kw2 = Quantity<Energy,Kilo>(2);
+    
+	std::cout<<"Mile "<<mi1.PureValue()<<std::endl;
+    assert(mi1.Value()==1);
+    assert(mi1.PureValue()==0.000621371);
+    assert(mi1000.Value()==1000);
+    assert(mi1000.PureValue()==0.621371);
 	
     std::cout<<"Inch "<<im.PureValue()<<std::endl;
     assert(im.Value()==1);

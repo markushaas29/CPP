@@ -75,6 +75,13 @@ inline static constexpr const char* Name = "Inch";
 };
 
 template<int Ex>
+struct MileBase: public QuantityRatioBase<621371, 1000000000, Ex, MileBase, Unit<0,-Ex>> 
+{	
+inline static constexpr const char* Sign = "mi"; 
+inline static constexpr const char* Name = "Mile"; 
+};
+
+template<int Ex>
 struct MilliBase: public QuantityRatioBase<1, 1000, Ex, MilliBase> 
 {	
 inline static constexpr const char* Sign = "m"; 
@@ -148,6 +155,7 @@ using Minutes = MinutesBase<1>;
 using Hours = HoursBase<1>;
 using Days = DaysBase<1>;
 using Inch = InchBase<1>;
+using Mile = MileBase<1>;
 using Milli = MilliBase<1>;
 using Centi = CentiBase<1>;
 using Dezi = DeziBase<1>;
