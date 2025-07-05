@@ -73,6 +73,10 @@ int Run()
     
 	auto ur1 = UnitRatio<1,-2>();
 	auto ur2 = UnitRatio<2,-1>();
+ 	auto ur12 = TransformRatio<UnitRatio<1,-2>, UnitRatio<2,-1>, MultiplyPolicy>::Type();
+	std::cout<<"Ratio: "<<decltype(ur12)::Min::N<<std::endl;
+	assert(decltype(ur12)::Min::N==3);
+	assert(decltype(ur12)::Hours::N==-3);
 	
 	std::cout<<"END"<<std::endl;
     return 0;

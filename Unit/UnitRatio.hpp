@@ -42,7 +42,7 @@ struct TransformRatio
 	using InchT = typename InchBase<TransformPolicy<typename U1::Inch,typename U2::Inch>::N>::Type;
 	using MilesT = typename MileBase<TransformPolicy<typename U1::Miles,typename U2::Miles>::N>::Type;
 	
-	using Type = typename Unit<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N>::Type;
+	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N>::Type;
 };
 //
 //template<class D1, class D2>
