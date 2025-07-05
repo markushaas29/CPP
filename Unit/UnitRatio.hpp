@@ -11,18 +11,15 @@
 typedef int dimension[8];
 
 
-template<int SumN = 0, int LengthN = 0, int MassN = 0, int TimeN = 0, int CurrentN = 0, int TemperatureN = 0, int AngleN = 0, int IntensityTypeN = 0>
+template<int minN = 0, int hourN = 0, int dayN = 0, int inchN = 0, int mileN = 0,int TemperatureN = 0, int AngleN = 0, int IntensityTypeN = 0>
 struct UnitRatio
 {
-	using Mass = typename MassType<MassN>::Type;
-	using Length = typename LengthType<LengthN>::Type;
-	using Time = typename TimeType<TimeN>::Type;
-	using Current = typename CurrentType<CurrentN>::Type;
-	using Temperature = typename TemperatureType<TemperatureN>::Type;
-	using AngleType = typename AngleType<AngleN>::Type;
-	using IntensityType = typename IntensityType<IntensityTypeN>::Type;
-	using Sum = typename SumType<SumN>::Type;
-	using Type = UnitRatio<SumN, LengthN, MassN, TimeN, CurrentN, TemperatureN, AngleN, IntensityTypeN>;
+	using Min = typename MinutesBase<minN>::Type;
+	using Hours = typename HoursBase<hourN>::Type;
+	using Days = typename DaysBase<dayN>::Type;
+	using Inch = typename InchBase<inchN>::Type;
+	using Miles = typename MileBase<mileN>::Type;
+	using Type = UnitRatio<minN, hourN, dayN, inchN, mileN, TemperatureN, AngleN, IntensityTypeN>;
 	
 	static UnitRatio& Instance()
 	{
@@ -33,7 +30,7 @@ struct UnitRatio
 	
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
-	static const std::string SiUnitRatio() { return Mass::UnitRatio() + std::string(Length::UnitRatio()) + std::string(Time::UnitRatio()) + std::string(Current::UnitRatio()) + Temperature::UnitRatio() + AngleType::UnitRatio() + IntensityType::UnitRatio() + Sum::UnitRatio(); };
+	static const std::string SiUnitRatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio(); };
 };
 
 //template<class U1, class U2, template<typename, typename> class TransformPolicy>
