@@ -72,7 +72,7 @@ int Run()
 
     assert(km1<km2);
     assert(km1.Value()==1);
-    assert(decltype(km1)::QuantityRatioType::Exponent==1);
+    assert(decltype(km1)::QuantityRatioType::N==1);
 	
 	auto km15 = km1 + m500;
     std::cout<<km1<<" + "<<m500<<" = "<<km15<<std::endl;
@@ -110,56 +110,56 @@ int Run()
     std::cout<<"km12: "<<km12<<std::endl;
     assert(km12.PureValue()==2000000);
     assert(km12.Value()==2);
-    assert(decltype(km12)::QuantityRatioType::Exponent==2);
+    assert(decltype(km12)::QuantityRatioType::N==2);
     static_assert(std::is_same_v<decltype(km12)::QuantityRatioType,KiloBase<2>>,"Data structure requires default-constructible elements");
 	
 	auto s1 = km2 / km2;
     std::cout<<km2<<" / "<<km2<<" = "<<s1<<std::endl;
     assert(s1.PureValue()==1);
     assert(s1.Value()==1);
-    assert(decltype(s1)::QuantityRatioType::Exponent==1);
+    assert(decltype(s1)::QuantityRatioType::N==1);
 	
 	auto sm1 = km2 / m1000;
     std::cout<<km2<<" / "<<m1000<<" = "<<sm1<<std::endl;
     assert(sm1.PureValue()==2);
     assert(sm1.Value()==2);
-    assert(decltype(sm1)::QuantityRatioType::Exponent==1);
+    assert(decltype(sm1)::QuantityRatioType::N==1);
 	
 	auto km1d = km12 / km2;
     std::cout<<km12<<" / "<<km2<<" = "<<km1d<<std::endl;
     assert(km1d.PureValue()==1000);
     assert(km1d.Value()==1);
-    assert(decltype(km1d)::QuantityRatioType::Exponent==1);
+    assert(decltype(km1d)::QuantityRatioType::N==1);
 
 	auto kmd1m = km12 / m2000;
     std::cout<<km12<<" / "<<m2000<<" = "<<kmd1m<<std::endl;
     assert(kmd1m.PureValue()==1000);
     assert(kmd1m.Value()==1);
-    assert(decltype(kmd1m)::QuantityRatioType::Exponent==1);
+    assert(decltype(kmd1m)::QuantityRatioType::N==1);
 
 	auto kg1dkm1 = kg1 / km1;
     std::cout<<kg1<<" / "<<km1<<" = "<<kg1dkm1<<std::endl;
     assert(kg1dkm1.PureValue()==1);
     assert(kg1dkm1.Value()==1);
-    assert(decltype(kg1dkm1)::QuantityRatioType::Exponent==0);
+    assert(decltype(kg1dkm1)::QuantityRatioType::N==0);
 	
 	auto kg1mkm1 = kg1 * km1;
     std::cout<<kg1<<" * "<<km1<<" = "<<kg1mkm1<<std::endl;
     assert(kg1mkm1.PureValue()==1000000);
     assert(kg1mkm1.Value()==1000);
-    assert(decltype(kg1mkm1)::QuantityRatioType::Exponent==1);
+    assert(decltype(kg1mkm1)::QuantityRatioType::N==1);
 	
 	auto km1p2 = km1 + km2;
     std::cout<<"km12: "<<km1p2<<std::endl;
     assert(km1p2.PureValue()==3000);
     assert(km1p2.Value()==3);
-    assert(decltype(km1p2)::QuantityRatioType::Exponent==1);
+    assert(decltype(km1p2)::QuantityRatioType::N==1);
 	
 	auto km2m1 = km2 - km1;
     std::cout<<"km2m1: "<<km2m1<<std::endl;
     assert(km2m1.PureValue()==1000);
     assert(km2m1.Value()==1);
-    assert(decltype(km2m1)::QuantityRatioType::Exponent==1);
+    assert(decltype(km2m1)::QuantityRatioType::N==1);
 	
 	auto be = km2 == km1;
 	auto bue = km2 != km1;
@@ -235,14 +235,14 @@ int Run()
     //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Name<<std::endl;
     //~ assert(m11.PureValue()==3600);
     //~ assert(m11.Value()==1);
-    //~ assert(decltype(m11)::QuantityRatioType::Exponent==2);
+    //~ assert(decltype(m11)::QuantityRatioType::N==2);
 	
 	//~ auto m111 = m11 * m1;
     //~ std::cout<<"m11: "<<m111<<"\t"<<m111.PureValue()<<std::endl;
     //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Num<<std::endl;
     //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
     //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
-    //~ assert(decltype(m111)::QuantityRatioType::Exponent==3);
+    //~ assert(decltype(m111)::QuantityRatioType::N==3);
     //~ assert(m111.PureValue()==216000);
     //~ assert(m111.Value()==1);
 	

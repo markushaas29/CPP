@@ -161,14 +161,14 @@ private:
 	constexpr static decltype(auto) transform(TQuantity t)
 	{ 
 		using TU = typename TQuantity::UnitType;
-		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::Exponent>;
+		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::N>;
 		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T2>& q) const
 	{ 
-		constexpr int ex = QR::Exponent + TQR::Exponent;
+		constexpr int ex = QR::N + TQR::N;
 		using QR_ = typename QR::PowBy<ex>::Type;
 		
 		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
@@ -177,7 +177,7 @@ private:
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T2>& q) const
 	{ 
-		constexpr int ex = QR::Exponent - TQR::Exponent;
+		constexpr int ex = QR::N - TQR::N;
 		using QR_ = typename QR::PowBy<ex>::Type;
 
 		

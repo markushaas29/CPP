@@ -16,74 +16,74 @@ int Run()
     std::cout<<"L: "<<K::Num<<" / "<<K::Denom<<std::endl;
     assert(K::Num==1000);
     assert(K::Denom==1);
-    assert(K::Exponent==1);
+    assert(K::N==1);
     assert(K::Out()=="k");
     
 	using K2 = Kilo::PowBy<2>::Type;
     std::cout<<"L: "<<K2::Num<<" / "<<K2::Denom<<std::endl;
     assert(K2::Num==1000000);
     assert(K2::Denom==1);
-    assert(K2::Exponent==2);
+    assert(K2::N==2);
     assert(K2::Out()=="k");
 
 	using M = Milli;
     std::cout<<"M: "<<M::Num<<" / "<<M::Denom<<std::endl;
     assert(M::BaseNum==1);
     assert(M::BaseDenom==1000);
-    assert(M::Exponent==1);
+    assert(M::N==1);
     assert(M::Out()=="m");
 	
 	using D = Dezi;
     std::cout<<"D: "<<D::Num<<" / "<<D::Denom<<std::endl;
     assert(D::BaseNum==1);
     assert(D::BaseDenom==10);
-    assert(D::Exponent==1);
+    assert(D::N==1);
     assert(D::Out()=="d");
 	
 	using C = Centi;
     assert(C::BaseNum==1);
     assert(C::BaseDenom==100);
-    assert(C::Exponent==1);
+    assert(C::N==1);
     assert(C::Out()=="c");
 	
 	using M2 = Milli::PowBy<2>::Type;
     std::cout<<"M2: "<<M2::Num<<" / "<<M2::Denom<<std::endl;
     assert(M2::BaseNum==1);
     assert(M2::BaseDenom==1000);
-    assert(M2::Exponent==2);
+    assert(M2::N==2);
     assert(M2::Out()=="m");
 	
     std::cout<<"Pure: "<<Pure::Num<<" / "<<Pure::Denom<<std::endl;
     assert(Pure::BaseNum==1);
     assert(Pure::BaseDenom==1);
-    assert(Pure::Exponent==1);
+    assert(Pure::N==1);
     assert(Pure::Out()=="");
 	
     std::cout<<"Minutes: "<<Minutes::Num<<" / "<<Minutes::Out()<<std::endl;
     assert(Minutes::BaseNum==60);
     assert(Minutes::BaseDenom==1);
-    assert(Minutes::Exponent==1);
+    assert(Minutes::N==1);
     assert(Minutes::Out()=="mins^-1");
     assert(Hours::Out()=="hs^-1");
     
 	std::cout<<"Inch: "<<Inch::Num<<" / "<<Inch::Out()<<std::endl;
     assert(Inch::BaseNum==254);
     assert(Inch::BaseDenom==10000);
-    assert(Inch::Exponent==1);
+    assert(Inch::N==1);
     assert(Inch::Out()=="\"m^-1");
     assert(Inch::TransformUnit<Length>()=="\"");
 
 	std::cout<<"Mile: "<<Mile::Num<<" / "<<Mile::Out()<<std::endl;
     assert(Mile::BaseNum==621371);
     assert(Mile::BaseDenom==1000000000);
-    assert(Mile::Exponent==1);
+    assert(Mile::N==1);
     assert(Mile::Out()=="mim^-1");
     assert(Mile::TransformUnit<Length>()=="mi");
 	
 	std::cout<<"Liter: "<<Liter::Num<<" / "<<Liter::Out()<<std::endl;
     assert(Liter::BaseNum==1);
     assert(Liter::BaseDenom==1000);
-    assert(Liter::Exponent==1);
+    assert(Liter::N==1);
     assert(Liter::Out()=="lm^-3");
 
     std::cout<<"K/h: "<<Minutes::Out()<<std::endl;
@@ -123,14 +123,14 @@ int Run()
     //~ std::cout<<"M2: "<<M2::Name<<std::endl;
     //~ assert(M2::Num==3600);
     //~ assert(M2::Denom==1);
-    //~ assert(M2::Exponent==2);
+    //~ assert(M2::N==2);
     
     //~ using C = Minutes<1>::Creator<2>;
     //~ std::cout<<"C: "<<C::Num<<" / "<<C::Denom<<std::endl;
     //~ std::cout<<"C: "<<C::Name<<std::endl;
     //~ assert(C::Num==3600);
     //~ assert(C::Denom==1);
-    //~ assert(C::Exponent==2);
+    //~ assert(C::N==2);
 	
 	//~ using PL = Pure<Length>;
     //~ std::cout<<PL::Name<<"L: "<<PL::Num<<" / "<<PL::Denom<<std::endl;
