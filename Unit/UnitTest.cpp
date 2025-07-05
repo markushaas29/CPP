@@ -1,9 +1,11 @@
 #include <cassert>
 #include <iostream>
 #include "Unit.hpp"
-#include "SIPrefix.hpp"
-
-int main()
+#include "UnitRatio.hpp"
+//#include "SIPrefix.hpp"
+struct UnitTest
+{
+int Run()
 { 
     std::cout<<"START"<<std::endl;
     std::cout<<Mass::Mass::Name<<" "<<Mass::Mass::Sign<<" "<<Mass::Mass::N<<" "<<std::endl;
@@ -33,28 +35,6 @@ int main()
 	std::cout<<"Volume"<<std::endl;
 	std::cout<<Volume::Sign()<<std::endl;
 	std::cout<<Volume::SiUnit()<<std::endl;
-	
-	std::cout<<"Kilo "<<Milli::Name<<std::endl;
-    std::cout<<"Milli "<<Milli::Sign<<std::endl;
-    std::cout<<"Milli "<<Milli::Factor<<std::endl;
-
-	std::cout<<"H "<<Hours::Name<<std::endl;
-    std::cout<<"H "<<Hours::Sign<<std::endl;
-    std::cout<<"H "<<Hours::Factor<<std::endl;
-	
-	std::cout<<"D "<<Days::Name<<std::endl;
-    std::cout<<"D "<<Days::Sign<<std::endl;
-    std::cout<<"D "<<Days::Factor<<std::endl;
-	
-	std::cout<<"Kilo "<<Kilo::Name<<std::endl;
-    std::cout<<"Kilo "<<Kilo::Sign<<std::endl;
-    std::cout<<"Kilo "<<Kilo::Factor<<std::endl;
-	
-	std::cout<<"Hekto "<<Hekto::Name<<std::endl;
-    std::cout<<"Hekto "<<Hekto::Sign<<std::endl;
-	
-	std::cout<<"Deka "<<Deka::Name<<std::endl;
-    std::cout<<"Deka "<<Deka::Sign<<std::endl;
 	
 	std::cout<<"decltype(u2)::Time"<<decltype(u2)::Time::N<<std::endl;
 	auto f1 = CalculateFactor<decltype(u2)::Time,decltype(u2)::Time>();
@@ -91,6 +71,10 @@ int main()
     auto nb = IsSameBaseUnit<decltype(n1), decltype(n2)>();
 	assert(nb);
     
+	auto ur1 = UnitRatio<1,-2>();
+	auto ur2 = UnitRatio<2,-1>();
+	
 	std::cout<<"END"<<std::endl;
     return 0;
 }
+};
