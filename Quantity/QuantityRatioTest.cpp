@@ -157,6 +157,7 @@ int Run()
 	auto lm = Quantity<Volume,Liter>(1);
 	auto km24 = Quantity<Length,Kilo>(24);
 	auto h24 = Quantity<Time,Hours>(24);
+	auto m24 = Quantity<Time,Minute>(24);
 	auto h1 = Quantity<Time,Hours>(1);
 	auto d1 = Quantity<Time,Days>(1);
 	auto d365 = Quantity<Time,Days>(365);
@@ -173,6 +174,7 @@ int Run()
     std::cout<<"Inch "<<im.Out()<<im.PureValue()<<std::endl;
     assert(im.Value()==1);
     assert(im.PureValue()==0.0254);
+    assert(im.Out()==1");
     assert(im5.Value()==5);
     assert(im5.PureValue()==0.127);
     
