@@ -16,8 +16,8 @@ int main()
 	UnitTest u;
 	QRTest sut2;
 
-	u.Run();
 	sut2.Run();
+	u.Run();
 
 	return 0;
 }

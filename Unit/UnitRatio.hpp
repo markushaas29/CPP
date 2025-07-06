@@ -1,5 +1,6 @@
 #include <string>
 #include <array>
+#include <tuple>
 #include <iostream>
 #include "Unit.hpp" 
 #include "../CSV/TokenLiterals.hpp" 
@@ -24,13 +25,12 @@ struct UnitRatio
 	static UnitRatio& Instance()
 	{
 		static UnitRatio instance;
-		SiUnitRatio();
 		return instance;
 	}
 	
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
-	static const std::string SiUnitRatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio(); };
+	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio(); };
 };
 
 template<class U1, class U2, template<typename, typename> class TransformPolicy>
@@ -43,6 +43,17 @@ struct TransformRatio
 	using MilesT = typename MileBase<TransformPolicy<typename U1::Miles,typename U2::Miles>::N>::Type;
 	
 	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N>::Type;
+	using Types = std::tuple<MinT,HoursT,DaysT,InchT,MilesT>;
+
+	template<uint I>
+	constexpr decltype(auto) Unit() const
+	{
+		if constexpr(I ==std::tuple_size_v<Types>)    
+			return;
+		else 
+			return Unit<I + 1>();
+	}
+	
 };
 //
 //template<class D1, class D2>

@@ -81,6 +81,8 @@ int Run()
 	assert(decltype(ur12)::Hours::Num==0);
 	assert(decltype(ur12)::Hours::Denom==1);
 	
+	std::cout<<"Ratio Sign: "<<decltype(ur12)::URatio()<<std::endl;
+	
 	std::cout<<"END"<<std::endl;
     return 0;
 }

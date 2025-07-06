@@ -44,6 +44,19 @@ struct QuantityRatioBase
 		static constexpr int Factor = Fac;
 		using Type = Derived<Fac>;
 	};
+
+	static std::string UnitRatio() 
+	{ 
+		if constexpr (N == 0) 
+			return "";
+		if constexpr (N == 1) 
+			return std::string(Type::Sign);
+		if constexpr (N == 2) 
+			return std::string(Type::Sign)+ "²";
+		if constexpr (N == 3) 
+			return std::string(Type::Sign)+ "³";
+		return std::string(Type::Sign) + "^" + std::to_string(N); 
+	};
 };
 
 template<int Ex>
