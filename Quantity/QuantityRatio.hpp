@@ -14,11 +14,25 @@ struct QuantityRatio
 	static decltype(auto) Cast(const Quantity<U,QR,T1> q){ return Quantity<U,Type,T1>{q.PureValue() * Type::Factor};}
 };
 
+template<int I, typename T>
+struct PowUnit
+{
+	using Type = typename Transform<T, typename PowUnit<I-1,T>::Type, MultiplyPolicy>::Type;
+};
+
+template<typename T>
+struct PowUnit<1,T>
+{
+	using Type = T;
+};
+
 template<uint Nom, uint D, int Ex, template<int> class Derived, typename U = Scalar>
 struct QuantityRatioBase
 {
 	using Type = Derived<Ex>;
+	
 	using Unit = U;
+	//using Unit = PowUnit<Ex,U>::Type;
 	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int N = Ex;
