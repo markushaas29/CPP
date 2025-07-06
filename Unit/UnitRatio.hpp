@@ -12,7 +12,7 @@
 typedef int dimension[8];
 
 
-template<int minN = 0, int hourN = 0, int dayN = 0, int inchN = 0, int mileN = 0,int TemperatureN = 0, int AngleN = 0, int IntensityTypeN = 0>
+template<int minN = 0, int hourN = 0, int dayN = 0, int inchN = 0, int mileN = 0,int literN = 0, int AngleN = 0, int IntensityTypeN = 0>
 struct UnitRatio
 {
 	using Min = typename MinutesBase<minN>::Type;
@@ -20,7 +20,8 @@ struct UnitRatio
 	using Days = typename DaysBase<dayN>::Type;
 	using Inch = typename InchBase<inchN>::Type;
 	using Miles = typename MileBase<mileN>::Type;
-	using Type = UnitRatio<minN, hourN, dayN, inchN, mileN, TemperatureN, AngleN, IntensityTypeN>;
+	using Liter = typename MileBase<literN>::Type;
+	using Type = UnitRatio<minN, hourN, dayN, inchN, mileN, literN, AngleN, IntensityTypeN>;
 	
 	static UnitRatio& Instance()
 	{
@@ -30,7 +31,7 @@ struct UnitRatio
 	
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
-	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio(); };
+	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
 };
 
 template<uint I, typename T>
@@ -53,9 +54,10 @@ struct TransformRatio
 	using DaysT = typename DaysBase<TransformPolicy<typename U1::Days,typename U2::Days>::N>::Type;
 	using InchT = typename InchBase<TransformPolicy<typename U1::Inch,typename U2::Inch>::N>::Type;
 	using MilesT = typename MileBase<TransformPolicy<typename U1::Miles,typename U2::Miles>::N>::Type;
+	using LiterT = typename LiterBase<TransformPolicy<typename U1::Liter,typename U2::Liter>::N>::Type;
 	
-	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N>::Type;
-	using Types = std::tuple<typename MinT::Unit,typename HoursT::Unit,typename DaysT::Unit,typename InchT::Unit,typename MilesT::Unit>;
+	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N, LiterT::N>::Type;
+	using Types = std::tuple<typename MinT::Unit,typename HoursT::Unit,typename DaysT::Unit,typename InchT::Unit,typename MilesT::Unit,typename LiterT::Unit>;
 	inline static constexpr uint Size = std::tuple_size_v<Types>;
 	using R = RUnit<Size-1, Types>::Type;
 	
