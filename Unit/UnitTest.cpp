@@ -94,6 +94,8 @@ int Run()
 	assert(decltype(urL)::Hours::Num==12960000);
 	
 	auto urL2 = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::Type();
+	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit()<<std::endl;
+	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit())=="m^5s^-4");
 	
 	std::cout<<"END"<<std::endl;
     return 0;
