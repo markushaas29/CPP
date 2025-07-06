@@ -73,17 +73,18 @@ int Run()
     
 	auto ur1 = UnitRatio<1,-2>();
 	auto ur2 = UnitRatio<2,-1>();
- 	auto ur12 = TransformRatio<UnitRatio<1,-2>, UnitRatio<2,-1>, MultiplyPolicy>::Type();
-	std::cout<<"Ratio: "<<decltype(ur12)::Hours::Denom<<std::endl;
-	std::cout<<"Ratio Factor: "<<decltype(ur12)::Hours::Factor<<std::endl;
+ 	auto ur12 = TransformRatio<UnitRatio<1,-1>, UnitRatio<2,-1>, MultiplyPolicy>::Type();
+	std::cout<<"Ratio: "<<decltype(ur12)::Hours::BaseNum<<"Ratio: "<<decltype(ur12)::Hours::BaseDenom<<std::endl;
+	std::cout<<"Ratio Factor: "<<decltype(ur12)::Hours::Denom<<"\t"<<Math::Pow<3600,3>::Result<<std::endl;
+	std::cout<<"Ratio Factor: "<<(3600 > 1 ? (-2 > 0 ? Math::Pow<3600,-2>::Result : Math::Pow<2,-(-2)>::Result) : 1)<<std::endl;
 	assert(decltype(ur12)::Min::N==3);
-	assert(decltype(ur12)::Hours::N==-3);
+	assert(decltype(ur12)::Hours::N==-2);
 	assert(decltype(ur12)::Min::Num==216000);
-	assert(decltype(ur12)::Hours::Num==0);
-	assert(decltype(ur12)::Hours::Denom==1);
+	assert(decltype(ur12)::Hours::Num==1);
+	assert(decltype(ur12)::Hours::Denom==12960000);
 	
 	std::cout<<"Ratio Sign: "<<TransformRatio<UnitRatio<1,-2>, UnitRatio<2,-1>, MultiplyPolicy>::R::SiUnit()<<std::endl;
-	assert(decltype(ur12)::URatio()=="min³h^-3");
+	assert(decltype(ur12)::URatio()=="min³h^-2");
  	
 	auto urL = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::Type();
 	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::R::SiUnit()<<std::endl;

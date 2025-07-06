@@ -39,8 +39,8 @@ struct QuantityRatioBase
 	static constexpr uint BaseNum = Nom;
 	static constexpr uint BaseDenom = D;
 	static constexpr std::ratio<BaseNum, BaseDenom> RatioBase = std::ratio<BaseNum, BaseDenom>();
-	static constexpr uint Num = BaseNum > 1 ? Math::Pow<BaseNum,Ex>::Result : 1;;
-	static constexpr uint Denom = BaseDenom > 1 ? Math::Pow<BaseDenom,Ex>::Result : 1;;
+	static constexpr long Num = BaseNum >= 1 ? (Ex > 0 ? Math::Pow<BaseNum,Ex>::Result : Math::Pow<BaseDenom,-Ex>::Result) : 1;
+	static constexpr long Denom = BaseDenom >= 1 ? (Ex > 0 ? Math::Pow<BaseDenom,Ex>::Result : Math::Pow<BaseNum,-Ex>::Result) : 1;
 	static constexpr std::ratio<Num, Denom> Ratio = std::ratio<Num, Denom>();
 	static inline const std::string Sign = Derived<Ex>::Sign;
 	static inline const std::string Name;
