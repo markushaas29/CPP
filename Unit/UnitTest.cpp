@@ -81,7 +81,7 @@ int Run()
 	assert(decltype(ur12)::Hours::Num==0);
 	assert(decltype(ur12)::Hours::Denom==1);
 	
-	std::cout<<"Ratio Sign: "<<decltype(ur12)::URatio()<<std::endl;
+	std::cout<<"Ratio Sign: "<<TransformRatio<UnitRatio<1,-2>, UnitRatio<2,-1>, MultiplyPolicy>::R::SiUnit()<<std::endl;
 	assert(decltype(ur12)::URatio()=="min³h^-3");
 	
 	std::cout<<"END"<<std::endl;

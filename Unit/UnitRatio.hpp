@@ -33,6 +33,18 @@ struct UnitRatio
 	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio(); };
 };
 
+template<uint I, typename T>
+struct RUnit
+{
+	using Type = typename Transform<typename std::tuple_element<I, T>::type, typename RUnit<I-1,T>::Type, MultiplyPolicy>::Type;
+};
+
+template<typename T>
+struct RUnit<0,T>
+{
+	using Type = typename Transform<typename std::tuple_element<0, T>::type, typename std::tuple_element<1, T>::type, MultiplyPolicy>::Type;
+};
+
 template<class U1, class U2, template<typename, typename> class TransformPolicy>
 struct TransformRatio
 {
@@ -43,16 +55,9 @@ struct TransformRatio
 	using MilesT = typename MileBase<TransformPolicy<typename U1::Miles,typename U2::Miles>::N>::Type;
 	
 	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N>::Type;
-	using Types = std::tuple<MinT,HoursT,DaysT,InchT,MilesT>;
-
-	template<uint I>
-	constexpr decltype(auto) Unit() const
-	{
-		if constexpr(I ==std::tuple_size_v<Types>)    
-			return;
-		else 
-			return Unit<I + 1>();
-	}
+	using Types = std::tuple<typename MinT::Unit,typename HoursT::Unit,typename DaysT::Unit,typename InchT::Unit,typename MilesT::Unit>;
+	inline static constexpr uint Size = std::tuple_size_v<Types>;
+	using R = RUnit<Size-1, Types>::Type;
 	
 };
 //
