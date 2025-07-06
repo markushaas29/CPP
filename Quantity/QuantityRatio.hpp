@@ -109,6 +109,13 @@ inline static constexpr const char* Name = "Mile";
 };
 
 template<int Ex>
+struct PoundBase: public QuantityRatioBase<453592, 10000000, Ex, PoundBase, Unit<0,-Ex>> 
+{	
+inline static constexpr const char* Sign = "lbs"; 
+inline static constexpr const char* Name = "Pound"; 
+};
+
+template<int Ex>
 struct MilliBase: public QuantityRatioBase<1, 1000, Ex, MilliBase> 
 {	
 inline static constexpr const char* Sign = "m"; 
@@ -183,6 +190,7 @@ using Hours = HoursBase<1>;
 using Days = DaysBase<1>;
 using Inch = InchBase<1>;
 using Mile = MileBase<1>;
+using Pound = PoundBase<1>;
 using Milli = MilliBase<1>;
 using Centi = CentiBase<1>;
 using Dezi = DeziBase<1>;
