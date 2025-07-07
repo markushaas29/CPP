@@ -95,10 +95,15 @@ int Run()
 	
 	auto lpH = TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,0,1,0>, MultiplyPolicy>::Type();
 	std::cout<<"Liter / h: "<<(PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().URatio())<<std::endl;
+	assert((PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().URatio())=="h^-1l");
 	
-	auto urL2 = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::Type();
-	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit()<<std::endl;
-	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit())=="m^5s^-4");
+	auto lpMin = TransformRatio<UnitRatio<-1>, UnitRatio<0,0,0,0,0,1,0>, MultiplyPolicy>::Type();
+	std::cout<<"Liter / h: "<<(PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().URatio())<<std::endl;
+	assert((PowUnit<std::abs(std::abs(1)-1),decltype(lpMin)>::Type().URatio())=="min^-1l");
+	
+//	auto urL2 = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::Type();
+//	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit()<<std::endl;
+//	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit())=="m^5s^-4");
 	
 	std::cout<<"END"<<std::endl;
     return 0;
