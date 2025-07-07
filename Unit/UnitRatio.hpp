@@ -31,19 +31,16 @@ public:
 		return instance;
 	}
 private:
-	template<size_t N>
-	static constexpr double factor(double value = 0.0)
+	inline static constexpr double factor()
 	{
-		if constexpr (std::tuple_size<Ratios>()==N)
-	        return value;
-	    else
-	    {
-	        using Type = std::tuple_element_t<N,Ratios>;
-	        return factor<N+1>(value * (Type::Factor > 0 ? Type::Factor : 1));
-	    }
+		double result = 1;
+		auto tup = Ratios();
+		std::apply([&result](auto... args) {(( result *= decltype(args)::Factor), ...);}, Ratios());
+		return result;
+			
 	}
 public:
-	static constexpr double Factor = factor<0>();
+	static constexpr double Factor = factor();
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
