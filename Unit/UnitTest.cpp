@@ -87,6 +87,7 @@ int Run()
 	assert(decltype(ur12)::URatio()=="min³h^-2");
  	
 	auto urL = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::Type();
+	std::cout<<"Factor: "<<decltype(urL)::Factor<<std::endl;
 	assert((PowUnit<std::abs(std::abs(1)-1),decltype(urL)>::Type().URatio())=="h²\"l");
 	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::R::SiUnit())=="m^-4s^-8");
 	assert(decltype(urL)::Hours::N==2);

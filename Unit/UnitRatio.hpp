@@ -15,12 +15,14 @@ typedef int dimension[8];
 template<int minN = 0, int hourN = 0, int dayN = 0, int inchN = 0, int mileN = 0,int literN = 0, int AngleN = 0, int IntensityTypeN = 0>
 struct UnitRatio
 {
+public:
 	using Min = typename MinutesBase<minN>::Type;
 	using Hours = typename HoursBase<hourN>::Type;
 	using Days = typename DaysBase<dayN>::Type;
 	using Inch = typename InchBase<inchN>::Type;
 	using Miles = typename MileBase<mileN>::Type;
 	using Liter = typename LiterBase<literN>::Type;
+	using Ratios = std::tuple<Min,Hours,Days,Inch,Miles,Liter>;
 	using Type = UnitRatio<minN, hourN, dayN, inchN, mileN, literN, AngleN, IntensityTypeN>;
 	
 	static UnitRatio& Instance()
@@ -28,7 +30,20 @@ struct UnitRatio
 		static UnitRatio instance;
 		return instance;
 	}
-	
+private:
+	template<size_t N>
+	static constexpr double factor(double value = 0.0)
+	{
+		if constexpr (std::tuple_size<Ratios>()==N)
+	        return value;
+	    else
+	    {
+	        using Type = std::tuple_element_t<N,Ratios>;
+	        return factor<N+1>(value * (Type::Factor > 0 ? Type::Factor : 1));
+	    }
+	}
+public:
+	static constexpr double Factor = factor<0>();
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
@@ -62,16 +77,3 @@ struct TransformRatio
 	using R = RUnit<Size-1, Types>::Type;
 	
 };
-//
-//template<class D1, class D2>
-//struct MultiplyPolicy
-//{
-//	static constexpr int N = D1::N + D2::N;
-//};
-//
-//template<class D1, class D2>
-//struct DividePolicy
-//{
-//	static constexpr int N = D1::N - D2::N;
-//};
-
