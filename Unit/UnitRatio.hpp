@@ -20,7 +20,7 @@ struct UnitRatio
 	using Days = typename DaysBase<dayN>::Type;
 	using Inch = typename InchBase<inchN>::Type;
 	using Miles = typename MileBase<mileN>::Type;
-	using Liter = typename MileBase<literN>::Type;
+	using Liter = typename LiterBase<literN>::Type;
 	using Type = UnitRatio<minN, hourN, dayN, inchN, mileN, literN, AngleN, IntensityTypeN>;
 	
 	static UnitRatio& Instance()

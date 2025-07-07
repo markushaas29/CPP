@@ -21,7 +21,7 @@ struct PowUnit
 };
 
 template<typename T>
-struct PowUnit<1,T>
+struct PowUnit<0,T>
 {
 	using Type = T;
 };
@@ -31,8 +31,8 @@ struct QuantityRatioBase
 {
 	using Type = Derived<Ex>;
 	
-	using Unit = U;
-	//using Unit = PowUnit<Ex,U>::Type;
+	//using Unit = U;
+	using Unit = PowUnit<std::abs(std::abs(Ex)-1),U>::Type;
 	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int N = Ex;
