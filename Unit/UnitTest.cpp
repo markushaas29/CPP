@@ -123,6 +123,17 @@ int Run()
 	std::cout<<"mi/h: "<<scalar::SiUnit()<<std::endl;
 	assert(scalar::SiUnit()=="");
 	
+	auto m3ps = Transform<Unit<0,3>, Unit<0,0,0,-1>, MultiplyPolicy>::Type();
+	assert(decltype(m3ps)::SiUnit()=="m^3s^-1");
+	auto lpmin = TransformRatio<UnitRatio<-1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::Type();
+	assert(decltype(lpmin)::Unit()=="min^-1l");
+	using ru2 = TransformRatio<UnitRatio<-1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::ResultingUnit;
+	std::cout<<"m/s: "<<ru2::SiUnit()<<std::endl;
+	assert(ru2::SiUnit()=="m^-3s");
+	using scalar = Transform<ru2, decltype(m3ps), MultiplyPolicy>::Type;
+	std::cout<<"mi/h: "<<scalar::SiUnit()<<std::endl;
+	assert(scalar::SiUnit()=="");
+	
 	std::cout<<"END"<<std::endl;
     return 0;
 }
