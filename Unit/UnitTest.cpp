@@ -112,6 +112,11 @@ int Run()
 //	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit()<<std::endl;
 //	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit())=="m^5s^-4");
 	
+	auto mps = Transform<Unit<0,1>, Unit<0,0,0,-1>, MultiplyPolicy>::Type();
+	std::cout<<"m/s: "<<decltype(mps)::SiUnit()<<std::endl;
+	auto mph = TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::Type();
+	std::cout<<"m/s: "<<decltype(mph)::URatio()<<std::endl;
+	
 	std::cout<<"END"<<std::endl;
     return 0;
 }
