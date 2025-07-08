@@ -117,8 +117,11 @@ int Run()
 	std::cout<<"m/s: "<<decltype(mps)::SiUnit()<<std::endl;
 	auto mph = TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::Type();
 	assert(decltype(mph)::Unit()=="h^-1mi");
-	std::cout<<"mi/h: "<<decltype(mph)::Unit()<<std::endl;
-	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::ResultingUnit::SiUnit()<<std::endl;
+	using ru = TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::ResultingUnit;
+	assert(ru::SiUnit()=="m^-1s");
+	using scalar = Transform<ru, decltype(mps), MultiplyPolicy>::Type;
+	std::cout<<"mi/h: "<<scalar::SiUnit()<<std::endl;
+	assert(scalar::SiUnit()=="");
 	
 	std::cout<<"END"<<std::endl;
     return 0;
