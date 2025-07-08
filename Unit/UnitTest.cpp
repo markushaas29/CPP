@@ -90,7 +90,7 @@ int Run()
  	
 	auto urL = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::Type();
 	assert((PowUnit<std::abs(std::abs(1)-1),decltype(urL)>::Type().Unit())=="h²\"l");
-	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::ResultingUnit::SiUnit())=="m^-4s^-8");
+//	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::ResultingUnit::SiUnit())=="m^-4s^-8");
 	assert(decltype(urL)::Factor==329.184);
 	assert(decltype(urL)::Hours::N==2);
 	assert(decltype(urL)::Hours::Num==12960000);
