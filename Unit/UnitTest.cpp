@@ -85,12 +85,12 @@ int Run()
 	assert(decltype(ur12)::Hours::Denom==12960000);
 	assert(decltype(ur12)::Hours::Factor==(1.0/12960000));
 	
-	std::cout<<"Ratio Sign: "<<TransformRatio<UnitRatio<1,-2>, UnitRatio<2,-1>, MultiplyPolicy>::R::SiUnit()<<std::endl;
-	assert(decltype(ur12)::URatio()=="min³h^-2");
+	std::cout<<"Ratio Sign: "<<TransformRatio<UnitRatio<1,-2>, UnitRatio<2,-1>, MultiplyPolicy>::ResultingUnit::SiUnit()<<std::endl;
+	assert(decltype(ur12)::Unit()=="min³h^-2");
  	
 	auto urL = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::Type();
-	assert((PowUnit<std::abs(std::abs(1)-1),decltype(urL)>::Type().URatio())=="h²\"l");
-	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::R::SiUnit())=="m^-4s^-8");
+	assert((PowUnit<std::abs(std::abs(1)-1),decltype(urL)>::Type().Unit())=="h²\"l");
+	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,1>, MultiplyPolicy>::ResultingUnit::SiUnit())=="m^-4s^-8");
 	assert(decltype(urL)::Factor==329.184);
 	assert(decltype(urL)::Hours::N==2);
 	assert(decltype(urL)::Hours::Num==12960000);
@@ -101,24 +101,24 @@ int Run()
 	assert(decltype(urL)::Inch::Denom==10000);
 	
 	auto lpH = TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,0,1,0>, MultiplyPolicy>::Type();
-	std::cout<<"Liter / h: "<<(PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().URatio())<<std::endl;
-	assert((PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().URatio())=="h^-1l");
+	std::cout<<"Liter / h: "<<(PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().Unit())<<std::endl;
+	assert((PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().Unit())=="h^-1l");
 	
 	auto lpMin = TransformRatio<UnitRatio<-1>, UnitRatio<0,0,0,0,0,1,0>, MultiplyPolicy>::Type();
-	std::cout<<"Liter / h: "<<(PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().URatio())<<std::endl;
-	assert((PowUnit<std::abs(std::abs(1)-1),decltype(lpMin)>::Type().URatio())=="min^-1l");
+	std::cout<<"Liter / h: "<<(PowUnit<std::abs(std::abs(1)-1),decltype(lpH)>::Type().Unit())<<std::endl;
+	assert((PowUnit<std::abs(std::abs(1)-1),decltype(lpMin)>::Type().Unit())=="min^-1l");
 	
 //	auto urL2 = TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::Type();
-//	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit()<<std::endl;
+//	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::ResultingUnit::SiUnit()<<std::endl;
 //	assert((TransformRatio<UnitRatio<0,2,0,1>, UnitRatio<0,0,0,0,0,-2>, MultiplyPolicy>::R::SiUnit())=="m^5s^-4");
 	
 	auto mps = Transform<Unit<0,1>, Unit<0,0,0,-1>, MultiplyPolicy>::Type();
 	assert(decltype(mps)::SiUnit()=="ms^-1");
 	std::cout<<"m/s: "<<decltype(mps)::SiUnit()<<std::endl;
 	auto mph = TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::Type();
-	assert(decltype(mph)::URatio()=="h^-1mi");
-	std::cout<<"mi/h: "<<decltype(mph)::URatio()<<std::endl;
-	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::R::SiUnit()<<std::endl;
+	assert(decltype(mph)::Unit()=="h^-1mi");
+	std::cout<<"mi/h: "<<decltype(mph)::Unit()<<std::endl;
+	std::cout<<"Ratio: "<<TransformRatio<UnitRatio<0,-1>, UnitRatio<0,0,0,0,1>, MultiplyPolicy>::ResultingUnit::SiUnit()<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
     return 0;

@@ -37,23 +37,22 @@ private:
 		auto tup = Ratios();
 		std::apply([&result](auto... args) {(( result *= decltype(args)::Factor), ...);}, Ratios());
 		return result;
-			
 	}
 public:
 	static constexpr double Factor = factor();
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
-	static const std::string URatio() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
+	static const std::string Unit() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
 };
 
 template<uint I, typename T>
-struct RUnit
+struct TransformUnit
 {
-	using Type = typename Transform<typename std::tuple_element<I, T>::type, typename RUnit<I-1,T>::Type, MultiplyPolicy>::Type;
+	using Type = typename Transform<typename std::tuple_element<I, T>::type, typename TransformUnit<I-1,T>::Type, MultiplyPolicy>::Type;
 };
 
 template<typename T>
-struct RUnit<0,T>
+struct TransformUnit<0,T>
 {
 	using Type = typename Transform<typename std::tuple_element<0, T>::type, typename std::tuple_element<1, T>::type, MultiplyPolicy>::Type;
 };
@@ -71,6 +70,5 @@ struct TransformRatio
 	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N, LiterT::N>::Type;
 	using Types = std::tuple<typename MinT::Unit,typename HoursT::Unit,typename DaysT::Unit,typename InchT::Unit,typename MilesT::Unit,typename LiterT::Unit>;
 	inline static constexpr uint Size = std::tuple_size_v<Types>;
-	using R = RUnit<Size-1, Types>::Type;
-	
+	using ResultingUnit = TransformUnit<Size-1, Types>::Type;
 };
