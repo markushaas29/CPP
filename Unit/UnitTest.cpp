@@ -142,9 +142,6 @@ int Run()
 	std::cout<<"24h: "<<h24<<std::endl;
 	assert((TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit::Sign()=="s^-1"));
 	using ru3 = Transform<Time, TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit, MultiplyPolicy>::Type;
-	std::cout<<"24h: "<<ru3::Sign<<std::endl;
-	std::cout<<"24h: "<<UnitRatio<0,1>::ResultingUnit::SiUnit()<<std::endl;
-	std::cout<<"24h: "<<UnitRatio<0,1>::ResultingUnit::Time::N<<std::endl;
 	assert((UnitRatio<0,1>::ResultingUnit::Mass::N==0));
 	assert((UnitRatio<0,1>::ResultingUnit::Length::N==0));
 	assert((UnitRatio<0,1>::ResultingUnit::Time::N==-1));
@@ -154,6 +151,8 @@ int Run()
 	
 	assert((UnitRatio<0,1>::TransformUnit<Time>()=="h"));
 	std::cout<<"24h: "<<UnitRatio<0,1>::TransformUnit<Time>()<<std::endl;
+	std::cout<<"24h: "<<h24.Data()<<std::endl;
+	assert((h24.Data()=="24h"));
 	
 	std::cout<<"END"<<std::endl;
     return 0;
