@@ -43,6 +43,9 @@ public:
 	static const char* Name;
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string Unit() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
+
+	template<typename U2>
+	static auto TransformUnit() { return ""; };
 };
 
 template<uint I, typename T>

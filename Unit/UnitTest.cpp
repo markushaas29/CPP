@@ -2,7 +2,9 @@
 #include <iostream>
 #include "Unit.hpp"
 #include "UnitRatio.hpp"
-//#include "SIPrefix.hpp"
+#include "../CSV/Element.hpp"
+#include "../Quantity/Quantity.hpp"
+#include "../Quantity/QuantityRatio.hpp"
 struct UnitTest
 {
 int Run()
@@ -133,6 +135,9 @@ int Run()
 	using scalar = Transform<ru2, decltype(m3ps), MultiplyPolicy>::Type;
 	std::cout<<"mi/h: "<<scalar::SiUnit()<<std::endl;
 	assert(scalar::SiUnit()=="");
+	
+	Quantity<Length,Kilo>(1.001);
+	Quantity<Time,UnitRatio<0,1>,double>();
 	
 	std::cout<<"END"<<std::endl;
     return 0;
