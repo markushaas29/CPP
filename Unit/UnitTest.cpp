@@ -140,8 +140,9 @@ int Run()
 	auto h24 = Quantity<Time,UnitRatio<0,1>,double>(24);
 	assert((UnitRatio<0,1>::Sign=="h"));
 	std::cout<<"24h: "<<h24<<std::endl;
-	std::cout<<"24h: "<<TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit::Sign()<<std::endl;
 	assert((TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit::Sign()=="s^-1"));
+	using ru3 = Transform<Time, TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit, MultiplyPolicy>::Type;
+	std::cout<<"24h: "<<ru3::Sign<<std::endl;
 	std::cout<<"END"<<std::endl;
     return 0;
 }
