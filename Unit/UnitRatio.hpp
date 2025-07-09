@@ -41,6 +41,7 @@ private:
 public:
 	static constexpr double Factor = factor();
 	static const char* Name;
+	static inline const std::string Sign = Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio();
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string Unit() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
 

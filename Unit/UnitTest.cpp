@@ -137,7 +137,11 @@ int Run()
 	assert(scalar::SiUnit()=="");
 	
 	Quantity<Length,Kilo>(1.001);
-	Quantity<Time,UnitRatio<0,1>,double>();
+	auto h24 = Quantity<Time,UnitRatio<0,1>,double>(24);
+	std::cout<<"24h: "<<UnitRatio<0,1>::Sign<<std::endl;
+	assert((UnitRatio<0,1>::Sign=="h"));
+	std::cout<<"24h: "<<h24<<std::endl;
+	std::cout<<"24h: "<<h24.Data()<<std::endl;
 	
 	std::cout<<"END"<<std::endl;
     return 0;
