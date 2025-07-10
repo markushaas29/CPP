@@ -5,6 +5,7 @@
 #include "ToQuantity.hpp"
 #include "StringTest.cpp"
 #include "../Common/Color.hpp"
+#include "../Unit/UnitRatio.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/HtmlElement.hpp"
 #include "../CSV/CssStyle.hpp"
@@ -223,12 +224,16 @@ int Run()
 	auto st = StringTest();
 	st.Run();
 
+	auto mi5 = Quantity<Length,Mile>(5);
+    std::cout<<"5l: "<<mi5<<"\t"<<mi5.PureValue()<<std::endl;
+    assert(mi5.Data()=="5mi");
+    //assert(mi5.PureValue()==8046.72);
+    assert(mi5.Value()==5);
 	
-	auto l5 = Quantity<Volume,Liter>(5);
+	auto l5 = Quantity<Volume,UnitRatio<0,0,0,0,0,1>>(5);
     assert(l5.Data()=="5l");
     assert(l5.PureValue()==0.005);
     assert(l5.Value()==5);
-    std::cout<<"5l: "<<l5<<"\t"<<l5.PureValue()<<std::endl;
 	
     std::cout<<"END"<<std::endl;
 
