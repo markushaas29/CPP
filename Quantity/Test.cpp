@@ -224,32 +224,11 @@ int Run()
 	st.Run();
 
 	
-    //~ assert(dhm.PureValue()==(86400+3600+60));
-	//~ dhm = dhm - m1;
-    //~ assert(dhm.PureValue()==(86400+3600));
-	
-	//~ auto m11 = m1 * m1;
-    //~ std::cout<<"m11: "<<m11<<"\t"<<m11.PureValue()<<std::endl;
-    //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Num<<std::endl;
-    //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Name<<std::endl;
-    //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Name<<std::endl;
-    //~ assert(m11.PureValue()==3600);
-    //~ assert(m11.Value()==1);
-    //~ assert(decltype(m11)::QuantityRatioType::N==2);
-	
-	//~ auto m111 = m11 * m1;
-    //~ std::cout<<"m11: "<<m111<<"\t"<<m111.PureValue()<<std::endl;
-    //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Num<<std::endl;
-    //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
-    //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
-    //~ assert(decltype(m111)::QuantityRatioType::N==3);
-    //~ assert(m111.PureValue()==216000);
-    //~ assert(m111.Value()==1);
-	
-	//~ auto m22 = m2 * m2;
-    //~ std::cout<<"m11: "<<m22<<"\t"<<m22.PureValue()<<std::endl;
-    //~ assert(m22.PureValue()==14400);
-    //~ assert(m22.Value()==4);
+	auto l5 = Quantity<Volume,Liter>(5);
+    assert(l5.Data()=="5l");
+    assert(l5.PureValue()==0.005);
+    assert(l5.Value()==5);
+    std::cout<<"5l: "<<l5<<"\t"<<l5.PureValue()<<std::endl;
 	
     std::cout<<"END"<<std::endl;
 
