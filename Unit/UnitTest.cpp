@@ -73,6 +73,12 @@ int Run()
     auto nb = IsSameBaseUnit<decltype(n1), decltype(n2)>();
 	assert(nb);
     
+	auto mi = UnitRatio<0,0,0,0,1>();
+	assert(decltype(mi)::Miles::Num==621371);
+	assert(decltype(mi)::Miles::Denom==1000000000);
+	assert(decltype(mi)::Miles::Factor==0.000621371);
+	assert(decltype(mi)::Factor==0.000621371);
+	
 	auto ur1 = UnitRatio<1,-2>();
 	auto ur2 = UnitRatio<2,-1>();
  	auto ur12 = TransformRatio<UnitRatio<1,-1>, UnitRatio<2,-1>, MultiplyPolicy>::Type();

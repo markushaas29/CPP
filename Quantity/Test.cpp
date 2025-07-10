@@ -231,7 +231,9 @@ int Run()
     assert(lb5.Value()==5);
 	
 	auto mi5 = Quantity<Length,UnitRatio<0,0,0,1>>(5);
-    std::cout<<"5l: "<<mi5<<"\t"<<mi5.PureValue()<<std::endl;
+    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::Factor<<"\t"<<mi5.PureValue()<<std::endl;
+    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::Sign<<"\t"<<mi5.PureValue()<<std::endl;
+    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::ResultingUnit::SiUnit()<<"\t"<<mi5.PureValue()<<std::endl;
     assert(mi5.Data()=="5\"");
     //assert(mi5.PureValue()==8046.72);
     assert(mi5.Value()==5);
