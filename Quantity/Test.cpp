@@ -224,6 +224,12 @@ int Run()
 	auto st = StringTest();
 	st.Run();
 
+	auto lb5 = Quantity<Length,UnitRatio<0,0,0,1>>(5);
+    std::cout<<"5l: "<<lb5<<"\t"<<lb5.PureValue()<<std::endl;
+    assert(lb5.Data()=="5\"");
+    //assert(lb5.PureValue()==8046.72);
+    assert(lb5.Value()==5);
+	
 	auto mi5 = Quantity<Length,UnitRatio<0,0,0,1>>(5);
     std::cout<<"5l: "<<mi5<<"\t"<<mi5.PureValue()<<std::endl;
     assert(mi5.Data()=="5\"");
