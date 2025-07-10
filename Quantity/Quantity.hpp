@@ -106,7 +106,7 @@ private:
 			oss << std::setprecision(2)<<std::fixed << q.Value();
 			return out<<oss.str()<<QR::Sign<<U::Sign();
 		}
-		return out<<q.Value()<<QR::Sign<<U::Sign();
+		return out<<q.Value()<<QR::template TransformUnit<U>();
 	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
