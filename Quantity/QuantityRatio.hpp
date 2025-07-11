@@ -164,6 +164,13 @@ struct KiloHourBase: public QuantityRatioBase<3600, 1, Ex, KiloBase>
 	inline static constexpr const char* Name = "KiloHour"; 
 };
 
+//template<int Ex>
+//struct PsHourBase: public QuantityRatioBase<135962, 10000, Ex, Unit<-Ex,(-2*Ex), (-2*Ex)>> 
+//{	
+//	inline static constexpr const char* Sign = "ps"; 
+//	inline static constexpr const char* Name = "PS"; 
+//};
+
 template<int Ex>
 struct MegaBase: public QuantityRatioBase<1000000, 1, Ex, MegaBase> 
 {	

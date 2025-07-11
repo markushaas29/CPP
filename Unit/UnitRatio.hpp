@@ -33,7 +33,7 @@ struct UnitRatio
 	using Miles = typename MileBase<mileN>::Type;
 	using Liter = typename LiterBase<literN>::Type;
 	using Ratios = std::tuple<Min,Hours,Days,Inch,Miles,Liter>;
-	using Type = UnitRatio<minN, hourN, dayN, inchN, mileN, literN, AngleN, IntensityTypeN>;
+	using UnitRatioType = UnitRatio<minN, hourN, dayN, inchN, mileN, literN, AngleN, IntensityTypeN>;
 	
 	static UnitRatio& Instance()
 	{
@@ -59,19 +59,27 @@ private:
 		using MilesT = typename MileBase<TransformPolicy<typename U1::Miles,typename U2::Miles>::N>::Type;
 		using LiterT = typename LiterBase<TransformPolicy<typename U1::Liter,typename U2::Liter>::N>::Type;
 		
-		using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N, LiterT::N>::Type;
+		using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N, LiterT::N>::UnitRatioType;
 		using Types = std::tuple<typename MinT::Unit,typename HoursT::Unit,typename DaysT::Unit,typename InchT::Unit,typename MilesT::Unit,typename LiterT::Unit>;
 		inline static constexpr uint Size = std::tuple_size_v<Types>;
 		using ResultingUnit = TransformUnit<Size-1, Types>::Type;
 	};
 public:
-	using ResultingUnit = TransformRatio<Type,UnitRatio<0>,MultiplyPolicy>::ResultingUnit;
+	using ResultingUnit = TransformRatio<UnitRatioType,UnitRatio<0>,MultiplyPolicy>::ResultingUnit;
 	static constexpr double Factor = factor();
+	inline static constexpr int N = 1;
 	static const char* Name;
 	static inline const std::string Sign = Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio();
 	inline static const std::string TokenName = std::string(Name) + TokenIdentifier::TypeIdentifier;
 	static const std::string Unit() { return Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio(); };
 
+	template<int Fac>
+	struct PowBy
+	{
+		static constexpr int Factor = Fac;
+		using Type = UnitRatioType;
+	};
+	
 	template<typename U2>
 	static auto TransformUnit() { return Sign + Transform<ResultingUnit, U2, MultiplyPolicy>::Type::Sign();; };
 };
@@ -86,7 +94,7 @@ struct TransformRatio
 	using MilesT = typename MileBase<TransformPolicy<typename U1::Miles,typename U2::Miles>::N>::Type;
 	using LiterT = typename LiterBase<TransformPolicy<typename U1::Liter,typename U2::Liter>::N>::Type;
 	
-	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N, LiterT::N>::Type;
+	using Type = typename UnitRatio<MinT::N, HoursT::N, DaysT::N, InchT::N, MilesT::N, LiterT::N>::UnitRatioType;
 	using Types = std::tuple<typename MinT::Unit,typename HoursT::Unit,typename DaysT::Unit,typename InchT::Unit,typename MilesT::Unit,typename LiterT::Unit>;
 	inline static constexpr uint Size = std::tuple_size_v<Types>;
 	using ResultingUnit = TransformUnit<Size-1, Types>::Type;

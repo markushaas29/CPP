@@ -238,7 +238,6 @@ int Run()
 	
 	auto mi7 = mi5 + mi2;
     assert(mi7.Data()=="7mi");
-    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::ResultingUnit::SiUnit()<<"\t"<<mi7.PureValue()<<std::endl;
     assert(mi7.PureValue()>=11265.3 && mi7.PureValue()<=11265.6);
     assert(mi7.Value()==7);
 	
@@ -257,6 +256,12 @@ int Run()
     assert(l8.Data()=="8l");
     assert(l8.PureValue()==0.008);
     assert(l8.Value()==8);
+	
+	auto l20 = l10 * l2;
+    std::cout<<"20l: "<<l20<<std::endl;
+    std::cout<<"20l: "<<l20.PureValue()<<std::endl;
+	//auto l2_ = l20 / l10;
+    //assert(l20.Data()=="8l");
 
     std::cout<<"END"<<std::endl;
 
