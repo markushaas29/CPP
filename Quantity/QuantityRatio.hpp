@@ -102,7 +102,7 @@ inline static constexpr const char* Name = "Inch";
 };
 
 template<int Ex>
-struct MileBase: public QuantityRatioBase<621371, 1000000000, Ex, MileBase, Unit<0,-Ex>> 
+struct MileBase: public QuantityRatioBase<160934, 100, Ex, MileBase, Unit<0,-Ex>> 
 {	
 inline static constexpr const char* Sign = "mi"; 
 inline static constexpr const char* Name = "Mile"; 

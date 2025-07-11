@@ -74,10 +74,10 @@ int Run()
 	assert(nb);
     
 	auto mi = UnitRatio<0,0,0,0,1>();
-	assert(decltype(mi)::Miles::Num==621371);
-	assert(decltype(mi)::Miles::Denom==1000000000);
-	assert(decltype(mi)::Miles::Factor==0.000621371);
-	assert(decltype(mi)::Factor==0.000621371);
+	assert(decltype(mi)::Miles::Num==160934);
+	assert(decltype(mi)::Miles::Denom==100);
+	assert(decltype(mi)::Miles::Factor==1609.34);
+	assert(decltype(mi)::Factor==1609.34);
 	
 	auto ur1 = UnitRatio<1,-2>();
 	auto ur2 = UnitRatio<2,-1>();
