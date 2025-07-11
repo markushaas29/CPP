@@ -261,7 +261,9 @@ int Run()
     std::cout<<"20l: "<<l20<<std::endl;
     std::cout<<"20l: "<<l20.PureValue()<<std::endl;
 	//auto l2_ = l20 / l10;
-    //assert(l20.Data()=="8l");
+    assert(l20.Data()=="20lm³");
+    assert(l20.Value()==20);
+    assert(l20.PureValue()==0.02);
 
     std::cout<<"END"<<std::endl;
 
