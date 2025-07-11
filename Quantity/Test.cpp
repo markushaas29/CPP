@@ -242,7 +242,14 @@ int Run()
     assert(l5.Data()=="5l");
     assert(l5.PureValue()==0.005);
     assert(l5.Value()==5);
+
+	auto l10 = l5 + l5;
+    assert(l10.Data()=="10l");
+    assert(l10.PureValue()==0.010);
+    assert(l10.Value()==10);
 	
+	auto l2 = Quantity<Volume,UnitRatio<0,0,0,0,0,1>>(2);
+
     std::cout<<"END"<<std::endl;
 
     return 0;
