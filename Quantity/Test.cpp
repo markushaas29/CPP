@@ -231,12 +231,16 @@ int Run()
     assert(lb5.Value()==5);
 	
 	auto mi5 = Quantity<Length,UnitRatio<0,0,0,0,1>>(5);
-    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::Factor<<"\t"<<mi5.PureValue()<<std::endl;
-    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::Sign<<"\t"<<mi5.PureValue()<<std::endl;
-    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::ResultingUnit::SiUnit()<<"\t"<<mi5.PureValue()<<std::endl;
+	auto mi2 = Quantity<Length,UnitRatio<0,0,0,0,1>>(2);
     assert(mi5.Data()=="5mi");
-    //assert(mi5.PureValue()==8046.72);
+    assert(mi5.PureValue()==8046.7);
     assert(mi5.Value()==5);
+	
+	auto mi7 = mi5 + mi2;
+    assert(mi7.Data()=="7mi");
+    std::cout<<"5l: "<<decltype(mi5)::QuantityRatioType::ResultingUnit::SiUnit()<<"\t"<<mi7.PureValue()<<std::endl;
+    assert(mi7.PureValue()>=11265.3 && mi7.PureValue()<=11265.6);
+    assert(mi7.Value()==7);
 	
 	auto l5 = Quantity<Volume,UnitRatio<0,0,0,0,0,1>>(5);
     assert(l5.Data()=="5l");
@@ -249,6 +253,10 @@ int Run()
     assert(l10.Value()==10);
 	
 	auto l2 = Quantity<Volume,UnitRatio<0,0,0,0,0,1>>(2);
+	auto l8 = l10 - l2;
+    assert(l8.Data()=="8l");
+    assert(l8.PureValue()==0.008);
+    assert(l8.Value()==8);
 
     std::cout<<"END"<<std::endl;
 
