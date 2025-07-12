@@ -264,6 +264,12 @@ int Run()
     assert(l20.Data()=="20lm³");
     assert(l20.Value()==20);
     assert(l20.PureValue()==0.02);
+	
+	auto mi10 = mi5 * mi2;
+    std::cout<<"10mi: "<<mi10.Data()<<std::endl;
+    assert(mi10.Data()=="10mim");
+    assert(mi10.PureValue()>=16093.4);
+    assert(mi10.Value()==10);
 
     std::cout<<"END"<<std::endl;
 
