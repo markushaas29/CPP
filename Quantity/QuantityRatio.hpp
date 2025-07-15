@@ -33,6 +33,7 @@ struct QuantityRatioBase
 	
 	using Unit = U;
 //	using Unit = PowUnit<std::abs(std::abs(Ex)-1),U>::Type;
+	using ResultingUnit = U;
 	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int N = Ex;
@@ -51,6 +52,14 @@ struct QuantityRatioBase
 	
 	template<typename U2>
 	static auto TransformUnit() { return Sign + Transform<Unit, U2, MultiplyPolicy>::Type::Sign(); };
+
+	template<typename UR>
+	struct Divider 
+	{ 
+		static constexpr int e = N + UR::N;
+		using Result = Derived<e>; 
+	};
+	
 	
 	template<int Fac>
 	struct PowBy

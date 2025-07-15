@@ -81,7 +81,13 @@ public:
 	};
 	
 	template<typename U2>
-	static auto TransformUnit() { return Sign + Transform<ResultingUnit, U2, MultiplyPolicy>::Type::Sign();; };
+	static auto TransformUnit() { return Sign + Transform<ResultingUnit, U2, MultiplyPolicy>::Type::Sign(); };
+	
+	template<typename UR>
+	struct Divider 
+	{ 
+		using Result = TransformRatio<UnitRatioType, UR, MultiplyPolicy>::Type; 
+	};
 };
 
 template<class U1, class U2, template<typename, typename> class TransformPolicy>

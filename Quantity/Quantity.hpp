@@ -5,6 +5,7 @@
 #include <regex>
 #include "QuantityRatio.hpp"
 #include "../Unit/Unit.hpp"
+#include "../Unit/UnitRatio.hpp"
 #include "../Logger/Logger.hpp"
 #include "../String/StringParser.hpp"
 #include "../Common/Make/Make.hpp"
@@ -166,13 +167,7 @@ private:
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T2>& q) const
-	{ 
-		constexpr int ex = QR::N + TQR::N;
-		using QR_ = typename QR::PowBy<ex>::Type;
-		
-		return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR_,T1>(Value() * q.Value());
-	}
+	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T2>& q) const	{ 	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, typename QR::Divider<TQR>::Result,T1>(Value() * q.Value());	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T2>& q) const
