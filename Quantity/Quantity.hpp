@@ -173,7 +173,7 @@ private:
 	constexpr decltype(auto) divide(const Quantity<U2, TQR,T2>& q) const
 	{ 
 		constexpr int ex = QR::N - TQR::N;
-		using QR_ = typename QR::PowBy<ex>::Type;
+		using QR_ = typename QR::Divider2<TQR>::Result;
 
 		
 		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )

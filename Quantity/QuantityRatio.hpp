@@ -60,6 +60,13 @@ struct QuantityRatioBase
 		using Result = Derived<e>; 
 	};
 	
+	template<typename UR>
+	struct Divider2 
+	{ 
+		static constexpr int e = N - UR::N;
+		using Result = Derived<e>; 
+	};
+	
 	
 	template<int Fac>
 	struct PowBy

@@ -34,6 +34,7 @@ struct UnitRatio
 	using Liter = typename LiterBase<literN>::Type;
 	using Ratios = std::tuple<Min,Hours,Days,Inch,Miles,Liter>;
 	using UnitRatioType = UnitRatio<minN, hourN, dayN, inchN, mileN, literN, AngleN, IntensityTypeN>;
+	template<int> using RatioType = UnitRatioType;
 	
 	static UnitRatio& Instance()
 	{
@@ -67,6 +68,8 @@ private:
 public:
 	using ResultingUnit = TransformRatio<UnitRatioType,UnitRatio<0>,MultiplyPolicy>::ResultingUnit;
 	static constexpr double Factor = factor();
+	static constexpr int BaseNum = 1;
+	static constexpr int BaseDenom = 1;
 	inline static constexpr int N = 1;
 	static const char* Name;
 	static inline const std::string Sign = Min::UnitRatio() + std::string(Hours::UnitRatio()) + std::string(Days::UnitRatio()) + std::string(Inch::UnitRatio()) + Miles::UnitRatio() + Liter::UnitRatio();
@@ -85,6 +88,12 @@ public:
 	
 	template<typename UR>
 	struct Divider 
+	{ 
+		using Result = TransformRatio<UnitRatioType, UR, MultiplyPolicy>::Type; 
+	};
+	
+	template<typename UR>
+	struct Divider2 
 	{ 
 		using Result = TransformRatio<UnitRatioType, UR, MultiplyPolicy>::Type; 
 	};

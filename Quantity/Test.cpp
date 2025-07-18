@@ -136,6 +136,11 @@ int Run()
     std::cout<<"2l: "<<l2.PureValue()<<std::endl;
     assert(l2.PureValue()==0.002);
     assert(l8.Value()==8);
+
+	auto ld4 = l8 / l2;
+    assert(ld4.PureValue()==4);
+    assert(ld4.Value()==4);
+    assert(ld4.Data()=="4");
 	
 	auto l20_2 = l10 * l2;
     std::cout<<"20l: "<<l20_2.PureValue()<<std::endl;
@@ -145,6 +150,13 @@ int Run()
     assert(l20_2.Value()==20);
     assert(l20_2.PureValue()>1e-05);
     assert(l20_2.PureValue()<3e-05);
+	
+	auto l4 = l20_2 / l5;
+    std::cout<<"4l: "<<l4.PureValue()<<std::endl;
+    std::cout<<"4l: "<<l4.Data()<<std::endl;
+    assert(l4.PureValue()==4e-09);
+    assert(l4.Value()==4);
+    //assert(l4.Data()=="4");
 	
 	auto mi10 = mi5 * mi2;
     std::cout<<"10mi: "<<mi10.Data()<<std::endl;
@@ -178,6 +190,8 @@ int Run()
 	
 	auto km1d = km12 / km2;
     std::cout<<km12<<" / "<<km2<<" = "<<km1d<<std::endl;
+    std::cout<<km12<<" / "<<km2<<" = "<<km1d.PureValue()<<std::endl;
+    std::cout<<km12<<" / "<<km2<<" = "<<km1d.Value()<<std::endl;
     assert(km1d.PureValue()==1000);
     assert(km1d.Value()==1);
     assert(decltype(km1d)::QuantityRatioType::N==1);
