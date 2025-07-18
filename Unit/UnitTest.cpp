@@ -73,6 +73,12 @@ int Run()
     auto nb = IsSameBaseUnit<decltype(n1), decltype(n2)>();
 	assert(nb);
     
+	auto mi = UnitRatio<0,0,0,0,1>();
+	assert(decltype(mi)::Miles::Num==160934);
+	assert(decltype(mi)::Miles::Denom==100);
+	assert(decltype(mi)::Miles::Factor==1609.34);
+	assert(decltype(mi)::Factor==1609.34);
+	
 	auto ur1 = UnitRatio<1,-2>();
 	auto ur2 = UnitRatio<2,-1>();
  	auto ur12 = TransformRatio<UnitRatio<1,-1>, UnitRatio<2,-1>, MultiplyPolicy>::Type();
@@ -138,10 +144,21 @@ int Run()
 	
 	Quantity<Length,Kilo>(1.001);
 	auto h24 = Quantity<Time,UnitRatio<0,1>,double>(24);
-	std::cout<<"24h: "<<UnitRatio<0,1>::Sign<<std::endl;
 	assert((UnitRatio<0,1>::Sign=="h"));
 	std::cout<<"24h: "<<h24<<std::endl;
+	assert((TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit::Sign()=="s^-1"));
+	using ru3 = Transform<Time, TransformRatio<UnitRatio<0,1>, UnitRatio<0>, MultiplyPolicy>::ResultingUnit, MultiplyPolicy>::Type;
+	assert((UnitRatio<0,1>::ResultingUnit::Mass::N==0));
+	assert((UnitRatio<0,1>::ResultingUnit::Length::N==0));
+	assert((UnitRatio<0,1>::ResultingUnit::Time::N==-1));
+	assert((UnitRatio<0,1>::ResultingUnit::Current::N==0));
+	assert((UnitRatio<0,1>::ResultingUnit::Temperature::N==0));
+	assert((UnitRatio<0,1>::ResultingUnit::Sum::N==0));
+	
+	assert((UnitRatio<0,1>::TransformUnit<Time>()=="h"));
+	std::cout<<"24h: "<<UnitRatio<0,1>::TransformUnit<Time>()<<std::endl;
 	std::cout<<"24h: "<<h24.Data()<<std::endl;
+	assert((h24.Data()=="24h"));
 	
 	std::cout<<"END"<<std::endl;
     return 0;

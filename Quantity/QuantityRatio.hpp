@@ -33,6 +33,7 @@ struct QuantityRatioBase
 	
 	using Unit = U;
 //	using Unit = PowUnit<std::abs(std::abs(Ex)-1),U>::Type;
+	using ResultingUnit = U;
 	template<int T> using RatioType = Derived<T>;
 	
 	static constexpr int N = Ex;
@@ -51,6 +52,21 @@ struct QuantityRatioBase
 	
 	template<typename U2>
 	static auto TransformUnit() { return Sign + Transform<Unit, U2, MultiplyPolicy>::Type::Sign(); };
+
+	template<typename UR>
+	struct Divider 
+	{ 
+		static constexpr int e = N + UR::N;
+		using Result = Derived<e>; 
+	};
+	
+	template<typename UR>
+	struct Divider2 
+	{ 
+		static constexpr int e = N - UR::N;
+		using Result = Derived<e>; 
+	};
+	
 	
 	template<int Fac>
 	struct PowBy
@@ -102,7 +118,7 @@ inline static constexpr const char* Name = "Inch";
 };
 
 template<int Ex>
-struct MileBase: public QuantityRatioBase<621371, 1000000000, Ex, MileBase, Unit<0,-Ex>> 
+struct MileBase: public QuantityRatioBase<160934, 100, Ex, MileBase, Unit<0,-Ex>> 
 {	
 inline static constexpr const char* Sign = "mi"; 
 inline static constexpr const char* Name = "Mile"; 
@@ -162,6 +178,13 @@ struct KiloHourBase: public QuantityRatioBase<3600, 1, Ex, KiloBase>
 {	
 	inline static constexpr const char* Sign = "k"; 
 	inline static constexpr const char* Name = "KiloHour"; 
+};
+
+template<int Ex>
+struct PsBase: public QuantityRatioBase<135962, 10000, Ex, PsBase, Unit<-Ex,(-2*Ex), (-2*Ex)>> 
+{	
+	inline static constexpr const char* Sign = "ps"; 
+	inline static constexpr const char* Name = "PS"; 
 };
 
 template<int Ex>

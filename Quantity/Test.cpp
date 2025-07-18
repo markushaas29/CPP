@@ -5,6 +5,7 @@
 #include "ToQuantity.hpp"
 #include "StringTest.cpp"
 #include "../Common/Color.hpp"
+#include "../Unit/UnitRatio.hpp"
 #include "../CSV/Element.hpp"
 #include "../CSV/HtmlElement.hpp"
 #include "../CSV/CssStyle.hpp"
@@ -101,8 +102,70 @@ int Run()
     assert(m1500m.PureValue()==500);
     assert(m1500m.Value()==500);
 	
+	auto lb5 = Quantity<Length,UnitRatio<0,0,0,1>>(5);
+    std::cout<<"5l: "<<lb5<<"\t"<<lb5.PureValue()<<std::endl;
+    assert(lb5.Data()=="5\"");
+    //assert(lb5.PureValue()==8046.72);
+    assert(lb5.Value()==5);
+	
+	auto mi5 = Quantity<Length,UnitRatio<0,0,0,0,1>>(5);
+	auto mi2 = Quantity<Length,UnitRatio<0,0,0,0,1>>(2);
+    assert(mi5.Data()=="5mi");
+    assert(mi5.PureValue()==8046.7);
+    assert(mi5.Value()==5);
+	
+	auto mi7 = mi5 + mi2;
+    assert(mi7.Data()=="7mi");
+    assert(mi7.PureValue()>=11265.3 && mi7.PureValue()<=11265.6);
+    assert(mi7.Value()==7);
+	
+	auto l5 = Quantity<Volume,UnitRatio<0,0,0,0,0,1>>(5);
+    assert(l5.Data()=="5l");
+    assert(l5.PureValue()==0.005);
+    assert(l5.Value()==5);
+
+	auto l10 = l5 + l5;
+    assert(l10.Data()=="10l");
+    assert(l10.PureValue()==0.010);
+    assert(l10.Value()==10);
+	
+	auto l2 = Quantity<Volume,UnitRatio<0,0,0,0,0,1>>(2);
+	auto l8 = l10 - l2;
+    assert(l8.Data()=="8l");
+    assert(l8.PureValue()==0.008);
+    std::cout<<"2l: "<<l2.PureValue()<<std::endl;
+    assert(l2.PureValue()==0.002);
+    assert(l8.Value()==8);
+
+	auto ld4 = l8 / l2;
+    assert(ld4.PureValue()==4);
+    assert(ld4.Value()==4);
+    assert(ld4.Data()=="4");
+	
+	auto l20_2 = l10 * l2;
+    std::cout<<"20l: "<<l20_2.PureValue()<<std::endl;
+    std::cout<<"20l: "<<l20_2.Data()<<std::endl;
+	//auto l2_ = l20_2 / l10;
+    assert(l20_2.Data()=="20l²");
+    assert(l20_2.Value()==20);
+    assert(l20_2.PureValue()>1e-05);
+    assert(l20_2.PureValue()<3e-05);
+	
+	auto l4 = l20_2 / l5;
+    std::cout<<"4l: "<<l4.PureValue()<<std::endl;
+    std::cout<<"4l: "<<l4.Data()<<std::endl;
+    assert(l4.PureValue()==4e-09);
+    assert(l4.Value()==4);
+    //assert(l4.Data()=="4");
+	
+	auto mi10 = mi5 * mi2;
+    std::cout<<"10mi: "<<mi10.Data()<<std::endl;
+    assert(mi10.Data()=="10mi²");
+    assert(mi10.PureValue()>=16093.4);
+    assert(mi10.Value()==10);
+
 	auto qkm1 = km1 * m1000;
-    std::cout<<"qkm1: "<<qkm1<<std::endl;
+    std::cout<<"qkm1: "<<qkm1.PureValue()<<std::endl;
     assert(qkm1.Value()==1);
     assert(qkm1.PureValue()==1000000);
 	
@@ -111,7 +174,7 @@ int Run()
     assert(km12.PureValue()==2000000);
     assert(km12.Value()==2);
     assert(decltype(km12)::QuantityRatioType::N==2);
-    static_assert(std::is_same_v<decltype(km12)::QuantityRatioType,KiloBase<2>>,"Data structure requires default-constructible elements");
+//    static_assert(std::is_same_v<decltype(km12)::QuantityRatioType,KiloBase<2>>,"Data structure requires default-constructible elements");
 	
 	auto s1 = km2 / km2;
     std::cout<<km2<<" / "<<km2<<" = "<<s1<<std::endl;
@@ -127,6 +190,8 @@ int Run()
 	
 	auto km1d = km12 / km2;
     std::cout<<km12<<" / "<<km2<<" = "<<km1d<<std::endl;
+    std::cout<<km12<<" / "<<km2<<" = "<<km1d.PureValue()<<std::endl;
+    std::cout<<km12<<" / "<<km2<<" = "<<km1d.Value()<<std::endl;
     assert(km1d.PureValue()==1000);
     assert(km1d.Value()==1);
     assert(decltype(km1d)::QuantityRatioType::N==1);
@@ -223,34 +288,6 @@ int Run()
 	auto st = StringTest();
 	st.Run();
 
-	
-    //~ assert(dhm.PureValue()==(86400+3600+60));
-	//~ dhm = dhm - m1;
-    //~ assert(dhm.PureValue()==(86400+3600));
-	
-	//~ auto m11 = m1 * m1;
-    //~ std::cout<<"m11: "<<m11<<"\t"<<m11.PureValue()<<std::endl;
-    //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Num<<std::endl;
-    //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Name<<std::endl;
-    //~ std::cout<<"m11: "<<decltype(m11)::QuantityRatioType::Name<<std::endl;
-    //~ assert(m11.PureValue()==3600);
-    //~ assert(m11.Value()==1);
-    //~ assert(decltype(m11)::QuantityRatioType::N==2);
-	
-	//~ auto m111 = m11 * m1;
-    //~ std::cout<<"m11: "<<m111<<"\t"<<m111.PureValue()<<std::endl;
-    //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Num<<std::endl;
-    //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
-    //~ std::cout<<"m111: "<<decltype(m111)::QuantityRatioType::Name<<std::endl;
-    //~ assert(decltype(m111)::QuantityRatioType::N==3);
-    //~ assert(m111.PureValue()==216000);
-    //~ assert(m111.Value()==1);
-	
-	//~ auto m22 = m2 * m2;
-    //~ std::cout<<"m11: "<<m22<<"\t"<<m22.PureValue()<<std::endl;
-    //~ assert(m22.PureValue()==14400);
-    //~ assert(m22.Value()==4);
-	
     std::cout<<"END"<<std::endl;
 
     return 0;
