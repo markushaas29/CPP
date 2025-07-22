@@ -133,7 +133,6 @@ int Run()
 	auto l8 = l10 - l2;
     assert(l8.Data()=="8l");
     assert(l8.PureValue()==0.008);
-    std::cout<<"2l: "<<l2.PureValue()<<std::endl;
     assert(l2.PureValue()==0.002);
     assert(l8.Value()==8);
 
@@ -141,6 +140,14 @@ int Run()
     assert(ld4.PureValue()==4);
     assert(ld4.Value()==4);
     assert(ld4.Data()=="4");
+
+	auto m_3 = Quantity<Volume>(1);
+    assert(m_3.Value()==1);
+    assert(m_3.PureValue()==1);
+    assert(m_3.Data()=="1m³");
+	auto s500 = m_3 / l2;
+    std::cout<<"2l: "<<s500<<std::endl;
+    assert(s500.Value()==500);
 	
 	auto l20_2 = l10 * l2;
     std::cout<<"20l: "<<l20_2.PureValue()<<std::endl;
