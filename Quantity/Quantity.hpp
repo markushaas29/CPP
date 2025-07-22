@@ -105,7 +105,7 @@ private:
 		{
 			std::ostringstream oss;
 			oss << std::setprecision(2)<<std::fixed << q.Value();
-			return out<<oss.str()<<QR::Sign<<U::Sign();
+			return out<<oss.str()<<QR::template TransformUnit<U>();
 		}
 		return out<<q.Value()<<QR::template TransformUnit<U>();
 	}

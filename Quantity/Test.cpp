@@ -133,7 +133,6 @@ int Run()
 	auto l8 = l10 - l2;
     assert(l8.Data()=="8l");
     assert(l8.PureValue()==0.008);
-    std::cout<<"2l: "<<l2.PureValue()<<std::endl;
     assert(l2.PureValue()==0.002);
     assert(l8.Value()==8);
 
@@ -141,6 +140,13 @@ int Run()
     assert(ld4.PureValue()==4);
     assert(ld4.Value()==4);
     assert(ld4.Data()=="4");
+
+	auto m_3 = Quantity<Volume>(1);
+    assert(m_3.Value()==1);
+    assert(m_3.PureValue()==1);
+    assert(m_3.Data()=="1m³");
+	auto s500 = m_3 / l2;
+    assert(s500.Value()==500);
 	
 	auto l20_2 = l10 * l2;
     std::cout<<"20l: "<<l20_2.PureValue()<<std::endl;
@@ -163,6 +169,12 @@ int Run()
     assert(mi10.Data()=="10mi²");
     assert(mi10.PureValue()>=16093.4);
     assert(mi10.Value()==10);
+
+	auto km_2_3_21 = km1 * mi2;
+    std::cout<<"10mi: "<<km_2_3_21.PureValue()<<std::endl;
+    assert(km_2_3_21.Data()=="3.21868km²");
+    assert(km_2_3_21.Value()==3.21868);
+    assert(km_2_3_21.PureValue()==3.21868e+06);
 
 	auto qkm1 = km1 * m1000;
     std::cout<<"qkm1: "<<qkm1.PureValue()<<std::endl;
