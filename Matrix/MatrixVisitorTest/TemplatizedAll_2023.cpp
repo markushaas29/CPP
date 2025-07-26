@@ -209,6 +209,8 @@ class TemplatizedAll_Test2023
 			assert(mTS[0][5]().Equals(Quantity<Sum>{-212.35},0.01));
 			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-4325.90},0.01));
 
+			mTS = propB24(Year{2025}, bM).To<Quantity<Sum>>();
+			mTS = propM24(Year{2025}, bM).To<Quantity<Sum>>();
 			mTS = propT24(Year{2025}, bM).To<Quantity<Sum>>();
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
