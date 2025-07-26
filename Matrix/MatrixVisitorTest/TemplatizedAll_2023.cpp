@@ -177,37 +177,37 @@ class TemplatizedAll_Test2023
 			assert(costs[4]().Equals(Quantity<Sum>{-423.00},0.01));
 			assert(costs[5]().Equals(Quantity<Sum>{-932.00},0.01));
 			
-			assert(propB24.Result(Year{2024}).Equals(Quantity<Sum>{-800.50},0.01));
+			assert(propB24.Result(Year{2024}).Equals(Quantity<Sum>{-800.42},0.01));
 			assert(bMS[0][0]().Equals(Quantity<Sum>{-111.60},0.01));
 			assert(bMS[0][1]().Equals(Quantity<Sum>{-1515.98},0.01));
 			assert(bMS[0][2]().Equals(Quantity<Sum>{-526.72},0.01));
 			assert(bMS[0][3]().Equals(Quantity<Sum>{-616.26},0.01));
 			assert(bMS[0][4]().Equals(Quantity<Sum>{-164.32},0.01));
-			assert(bMS[0][5]().Equals(Quantity<Sum>{-289.63},0.01));
-			assert(propB24.Value(Year{2024}).Equals(Quantity<Sum>{-3224.50},0.01));
+			assert(bMS[0][5]().Equals(Quantity<Sum>{-289.54},0.01));
+			assert(propB24.Value(Year{2024}).Equals(Quantity<Sum>{-3224.42},0.01));
 			
 			mMS = propM23(Year{2024}, bM).To<Quantity<Sum>>();
 			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
-			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-900.96},0.01));
+			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-900.79},0.01));
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-167.40},0.01));
 			assert(mMS[0][1]().Equals(Quantity<Sum>{-1515.98},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-526.72},0.01));
 			assert(mMS[0][3]().Equals(Quantity<Sum>{-616.26},0.01));
 			assert(mMS[0][4]().Equals(Quantity<Sum>{-164.32},0.01));
-			assert(mMS[0][5]().Equals(Quantity<Sum>{-430.29},0.01));
-			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-3420.96},0.01));
+			assert(mMS[0][5]().Equals(Quantity<Sum>{-430.11},0.01));
+			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-3420.79},0.01));
 			
 			mTS = propT24(Year{2024}, bM).To<Quantity<Sum>>();
 			costs = propT24.Costs(Year{2025})[0].To<QS>();
 			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
-			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{11874.37},0.01));
+			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{11874.10},0.01));
 			assert(mTS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
 			assert(mTS[0][1]().Equals(Quantity<Sum>{-1061.19},0.01));
 			assert(mTS[0][2]().Equals(Quantity<Sum>{-1053.43},0.01));
 			assert(mTS[0][3]().Equals(Quantity<Sum>{-1848.77},0.01));
 			assert(mTS[0][4]().Equals(Quantity<Sum>{-94.36},0.01));
-			assert(mTS[0][5]().Equals(Quantity<Sum>{-212.08},0.01));
-			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-4325.63},0.01));
+			assert(mTS[0][5]().Equals(Quantity<Sum>{-212.35},0.01));
+			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-4325.90},0.01));
 
 			mTS = propT24(Year{2025}, bM).To<Quantity<Sum>>();
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();

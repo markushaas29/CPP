@@ -103,9 +103,16 @@ namespace String_
 
 		std::string result;
 		if (auto it = std::find_if(begin(s), end(s), [](char c){ return c == '.'; }); it != std::end(s))
-			if (auto itp = std::find_if(it, end(s), [](char c){ return c == '0'; }); it != std::end(s))
-				std::for_each(s.begin(),itp, [&](auto c) {	result += c; });
-		return result;
+		{
+               result = std::string(it, end(s));
+               while(*(end(result)-1) == '0')
+                       result = result.substr(0, result.size()-1);
+       
+               return std::string(begin(s),it)+result;
+       }
+    
+       return s;
+	   
 	}
 		
 	template<typename From, typename To>

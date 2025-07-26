@@ -107,7 +107,7 @@ private:
 			oss << std::setprecision(2)<<std::fixed << q.Value();
 			return out<<oss.str()<<QR::template TransformUnit<U>();
 		}
-		return out<<q.Value()<<QR::template TransformUnit<U>();
+		return out<<q.Data();
 	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
@@ -125,7 +125,6 @@ private:
 			res = String_::TrimDouble(v)+QR::template TransformUnit<U>(); 
 		else
 			res = std::to_string(v)+QR::template TransformUnit<U>(); 
-		//std::cout<<"RES: \t"<<res<<std::endl;
 		std::string str(res);
 		std::size_t id = str.find_first_not_of("-+0123456789");
 

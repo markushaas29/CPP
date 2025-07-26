@@ -300,6 +300,14 @@ int Run()
 	auto st = StringTest();
 	st.Run();
 
+ 	auto qv = Quantity<Volume>{100.303};
+    std::cout<<qv<<std::endl;
+ 	assert(qv.Value()==100.303);
+ 	assert(qv.Data()=="100.303m³");
+    auto htmlQP = Html<Td>(Quantity<Volume>{100.303});   
+    std::cout<<*htmlQP<<std::endl;
+
+
     std::cout<<"END"<<std::endl;
 
     return 0;
