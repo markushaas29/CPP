@@ -152,7 +152,7 @@ class TemplatizedAll_Test2023
 			auto mTS = propT23(Year{2023}, bM).To<Quantity<Sum>>();
 			auto propT = propT23.AdvanceItems()[1];
 			assert(propT23.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
-			assert(propT23.Result(Year{2023}).Equals(Quantity<Sum>{13559.89},0.01));
+			assert(propT23.Result(Year{2023}).Equals(Quantity<Sum>{13559.91},0.01));
 			assert(propT()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
 	        assert(propT()[1].As<Quantity<Sum>>()==Quantity<Sum>{1000});
           	assert(propT()[2].As<Quantity<Sum>>()==Quantity<Sum>{350});
@@ -162,7 +162,7 @@ class TemplatizedAll_Test2023
 			assert(mTS[0][3]().Equals(Quantity<Sum>{-409.64},0.01));
 			assert(mTS[0][4]().Equals(Quantity<Sum>{-94.36},0.01));
 			assert(mTS[0][5]().Equals(Quantity<Sum>{-248.47},0.01));
-			assert(propT23.Value(Year{2023}).Equals(Quantity<Sum>{-2640.11},0.01));
+			assert(propT23.Value(Year{2023}).Equals(Quantity<Sum>{-2640.09},0.01));
 			
 			auto propB24 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto propM24 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
@@ -188,14 +188,14 @@ class TemplatizedAll_Test2023
 			
 			mMS = propM23(Year{2024}, bM).To<Quantity<Sum>>();
 			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
-			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-900.79},0.01));
+			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-900.80},0.01));
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-167.40},0.01));
 			assert(mMS[0][1]().Equals(Quantity<Sum>{-1515.98},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-526.72},0.01));
 			assert(mMS[0][3]().Equals(Quantity<Sum>{-616.26},0.01));
 			assert(mMS[0][4]().Equals(Quantity<Sum>{-164.32},0.01));
 			assert(mMS[0][5]().Equals(Quantity<Sum>{-430.11},0.01));
-			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-3420.79},0.01));
+			assert(propM24.Value(Year{2024}).Equals(Quantity<Sum>{-3420.80},0.01));
 			
 			mTS = propT24(Year{2024}, bM).To<Quantity<Sum>>();
 			costs = propT24.Costs(Year{2025})[0].To<QS>();

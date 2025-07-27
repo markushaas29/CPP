@@ -253,7 +253,7 @@ class MatrixAccessTest
 
 			assert(mD.Rows()==1);
 			assert(mD[0][0]()->Data()=="29.9.1986");
-			assert(mD[0][1]()->Data()=="3.5€");
+			assert(mD[0][1]()->Data()=="3.50€");
 
 			auto mD2 = mEntry.Get<Date>(29,9,1986);
 

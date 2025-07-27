@@ -69,7 +69,7 @@ int Run()
 	auto qs2_123_456 = Quantity<Sum>("2.123,456");
 	assert(qs2_123_456.Value()==2123.456);
     std::cout<<"km1,7: "<<qs2_123_456.Data()<<std::endl;
-    assert(qs2_123_456.Data()=="2123.456€");
+    assert(qs2_123_456.Data()=="2123.46€");
 	auto qs123456789 = Quantity<Sum>("123.456789");
 	assert(qs123456789.Value()==123.456789);
 	
@@ -79,7 +79,8 @@ int Run()
 	assert(qs2_123_456789.Value()==2123.456789);
 	auto qs2123456789 = Quantity<Sum>("2123,456789");
 	assert(qs2123456789.Value()==2123.456789);
-    assert(qs2123456789.Data()=="2123.456789€");
+    std::cout<<"km1,7: "<<qs2123456789.Data()<<std::endl;
+    assert(qs2123456789.Data()=="2123.46€");
 	auto qs123_5 = To<Quantity<Sum>>("123.5");
 	assert(qs123_5.Value()==123.5);
 	

@@ -101,12 +101,6 @@ private:
 	T1 value;
 	friend std::ostream& operator<<(std::ostream& out, const Quantity& q)
 	{
-		if constexpr (std::is_same_v<U, Sum>)
-		{
-			std::ostringstream oss;
-			oss << std::setprecision(2)<<std::fixed << q.Value();
-			return out<<oss.str()<<QR::template TransformUnit<U>();
-		}
 		return out<<q.Data();
 	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
@@ -120,6 +114,13 @@ private:
 	
 	static decltype(auto) data(ValueType v) 
 	{ 
+		if constexpr (std::is_same_v<U, Sum>)
+		{
+			std::ostringstream oss;
+			oss<<std::setprecision(2)<<std::fixed<<v;
+			return oss.str()+QR::template TransformUnit<U>();
+		}
+		
 		std::string res;
 		if constexpr (std::is_same_v<T1, double>)
 			res = String_::TrimDouble(v)+QR::template TransformUnit<U>(); 
