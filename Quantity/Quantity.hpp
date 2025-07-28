@@ -99,10 +99,7 @@ private:
 	friend class Element<Quantity<U,QR,T1>>;
 	inline static std::string check(const std::string& iban) { return iban ; }
 	T1 value;
-	friend std::ostream& operator<<(std::ostream& out, const Quantity& q)
-	{
-		return out<<q.Data();
-	}
+	friend std::ostream& operator<<(std::ostream& out, const Quantity& q)	{	return out<<q.Data();	}
 	friend std::istream& operator>>(std::istream& s, Quantity& q) 
 	{
 		std::string str;

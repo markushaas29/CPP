@@ -53,13 +53,22 @@ int Run()
 	auto qs954_0 = Quantity<Sum>("954,0");
 	auto qs9540 = Quantity<Sum>("954.0");
 	auto qs1000_3 = Quantity<Sum>("1.000,3");
+	auto qs1000_309 = Quantity<Sum>("1.000,309");
+	auto qs1000_301 = Quantity<Sum>("1.000,301");
 	auto qs10003 = Quantity<Sum>("1000.3");
 	std::cout<<q1239<<std::endl;
 	std::cout<<q1239.Value()<<std::endl;
 	assert(qs954_0.Value()==954.0);
 	assert(qs9540.Value()==954.0);
 	assert(qs1000_3.Value()==1000.3);
-	assert(qs10003.Value()==1000.3);
+	assert(qs1000_3.Value()==1000.3);
+	std::cout<<qs1000_309.Value()<<std::endl;
+	assert(qs10003.Data()=="1000.30€");
+	assert(qs1000_3.Data()=="1000.30€");
+	assert(qs1000_301.Data()=="1000.30€");
+	assert(qs1000_301.Value()==1000.301);
+	assert(qs1000_309.Data()=="1000.31€");
+	assert(qs1000_309.Value()==1000.309);
 	
 	auto qs123_456 = Quantity<Sum>("123,456");
 	assert(qs123_456.Value()==123.456);
