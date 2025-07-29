@@ -3,6 +3,7 @@
 #include <cmath>
 #include <sstream>
 #include <regex>
+#include "IQuantity.hpp"
 #include "QuantityRatio.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Unit/UnitRatio.hpp"
@@ -18,7 +19,7 @@
 template<typename> class Element; 
 
 template<typename U, typename QR = Pure,typename T1 = double>
-class Quantity: public Element<Quantity<U,QR,T1>>
+class Quantity: public Element<Quantity<U,QR,T1>>, public IQuantity<T1>
 {
 public:
 	using Type = Quantity<U,QR,T1>;	
