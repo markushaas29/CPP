@@ -307,6 +307,10 @@ int Run()
     auto htmlQP = Html<Td>(Quantity<Volume>{100.303});   
     std::cout<<*htmlQP<<std::endl;
 
+	auto qv_2 = qv.Pow(2);
+ 	assert(qv_2.Value()==10060.691809);
+ 	assert(qv_2.Data()=="10060.691809m^6");
+    std::cout<<qv_2<<std::endl;
 
     std::cout<<"END"<<std::endl;
 

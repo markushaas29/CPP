@@ -61,6 +61,9 @@ public:
 		is>>val;
 		return Type{val};
 	}
+
+	constexpr decltype(auto) Pow(const int i) const { return *this * (*this);}
+	
 	// ----------------------------------------ADD-------------------------------------------------------------
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
 	
