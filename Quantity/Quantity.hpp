@@ -5,6 +5,7 @@
 #include <regex>
 #include "IQuantity.hpp"
 #include "QuantityRatio.hpp"
+#include "QuantityCalculator.hpp"
 #include "../Unit/Unit.hpp"
 #include "../Unit/UnitRatio.hpp"
 #include "../Logger/Logger.hpp"
@@ -15,8 +16,6 @@
 
 #ifndef QUANTITY_H
 #define QUANTITY_H
-
-template<typename> class Element; 
 
 template<typename U, typename QR = Pure,typename T1 = double>
 class Quantity: public Element<Quantity<U,QR,T1>>, public IQuantity<T1>
