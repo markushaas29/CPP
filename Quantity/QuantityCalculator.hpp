@@ -86,7 +86,7 @@ private:
 	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr static decltype(auto) multiply(const auto& q1,const Quantity<U2, TQR,T2>& q)	{ 	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, typename QR::Divider<TQR>::Result,T1>(q1.VValue() * q.Value());	}
+	constexpr static decltype(auto) multiply(const auto& q1,const Quantity<U2, TQR,T2>& q)	{ 	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, typename QR::Divider<TQR>::Result,T1>(q1.Value() * q.Value());	}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr static decltype(auto) divide(const auto& q1, const Quantity<U2, TQR,T2>& q) 

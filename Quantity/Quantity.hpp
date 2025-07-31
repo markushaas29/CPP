@@ -22,6 +22,7 @@ class Quantity: public Element<Quantity<U,QR,T1>>, public IQuantity<T1>
 {
 public:
 	using Type = Quantity<U,QR,T1>;	
+	using Calculator = QuantityCalculator<U,QR,T1>;	
 	using ValueType = T1;
 	using UnitType = U;
 	using QuantityRatioType = QR;
@@ -32,9 +33,9 @@ public:
 	const std::string SiUnit() const { return UnitType::SiUnit(); }
     inline static const std::string Identifier = U::Name;
     
-	Quantity(): Base(data(0)), value(0 * QR::Factor) {	}
-	explicit constexpr Quantity(const T1& v): Base(data(v)), value(v * QR::Factor) {	}
-	explicit Quantity(const std::string& s): Base(data(stringTo<ValueType>(s))), value{(stringTo<ValueType>(s)) * (ValueType)QR::Factor} { 	}
+	Quantity(): Base(Calculator::data(0)), value(0 * QR::Factor) {	}
+	explicit constexpr Quantity(const T1& v): Base(Calculator::data(v)), value(v * QR::Factor) {	}
+	explicit Quantity(const std::string& s): Base(Calculator::data(Calculator::template stringTo<ValueType>(s))), value{(Calculator::template stringTo<ValueType>(s)) * (ValueType)QR::Factor} { 	}
 	
 	constexpr T1 Value() const { return value / QR::Factor;}
 	constexpr T1 PureValue() const { return value;}
@@ -44,7 +45,7 @@ public:
 	Quantity(Quantity<U2,SiPrefix2,T2> q ): Base(q.Data()),value(q.Value()){ Logger::Log()<<"CopyValue: "<<value<<std::endl;	}
 	
 	template<typename U2 = U, typename SiPrefix2 = QR, typename T2 = T1>
-	auto Transform() { return transform(*this);	}
+	auto Transform() { return Calculator::transform(*this);	}
 	
 	template<typename SiPrefix = QR>
 	auto In(){ return Quantity<U,SiPrefix,T1>(value / SiPrefix::Factor);	}
@@ -67,25 +68,25 @@ public:
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
 	
 	template<typename TQR = QR>
-	constexpr decltype(auto) operator+(const Quantity<U,TQR,T1>& y) const { return Type(Value() + transform(y).Value()); }
+	constexpr decltype(auto) operator+(const Quantity<U,TQR,T1>& y) const { return Type(Value() + Calculator::transform(y).Value()); }
 	
 	// ----------------------------------------SUB-------------------------------------------------------------
 	constexpr  decltype(auto) operator-(const Quantity<U,QR,T1>& y) const { return Type(Value() - y.Value()); }
 	
 	template<typename TQR = QR>
-	constexpr decltype(auto) operator-(const Quantity<U,TQR,T1>& y) const { return Type(Value() - transform(y).Value()); }
+	constexpr decltype(auto) operator-(const Quantity<U,TQR,T1>& y) const { return Type(Value() - Calculator::transform(y).Value()); }
 	
 	// ----------------------------------------MOD-------------------------------------------------------------
 	constexpr decltype(auto) operator%(const Quantity<U,QR,T1>& y) const { return Type(Value() % y.Value()); }
 	
 	template<typename TQR = QR>
-	constexpr decltype(auto) operator%(const Quantity<U,TQR,T1>& y) const { return Type(Value() % transform(y).Value()); }
+	constexpr decltype(auto) operator%(const Quantity<U,TQR,T1>& y) const { return Type(Value() % Calculator::transform(y).Value()); }
 	
 	// ----------------------------------------MULTIPLY-------------------------------------------------------------
-	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return multiply(q);}
+	constexpr decltype(auto) operator*(const Quantity<U,QR,T1>& q ) const { return Calculator::multiply(*this,q);}
 	
 	template<typename TQR>
-	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return multiply(transform(q));}
+	constexpr decltype(auto) operator*(const Quantity<U,TQR,T1>& q ) const { return Calculator::multiply(*this,Calculator::transform(q));}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
 	constexpr decltype(auto) operator*(const Quantity<U2, TQR,T2>& q ) const {	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, QR,T1>(Value() * (T1)q.PureValue());;	}
@@ -94,10 +95,10 @@ public:
 	constexpr decltype(auto) operator/(const Quantity<U,QR,T1>& q ) const { return Quantity<Scalar>(value / q.PureValue());	}
 
 	template<typename TQR>
-	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return Quantity<Scalar>( value / transform(q).PureValue());}
+	constexpr decltype(auto) operator/(const Quantity<U,TQR,T1>& q ) const { return Quantity<Scalar>( value / Calculator::transform(q).PureValue());}
 	
 	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T2>& q ) const {	return divide(q);	}
+	constexpr decltype(auto) operator/(const Quantity<U2,TQR,T2>& q ) const {	return Calculator::divide(*this,q);	}
 private:
 	friend class Element<Quantity<U,QR,T1>>;
 	inline static std::string check(const std::string& iban) { return iban ; }
@@ -111,42 +112,6 @@ private:
 		q = Quantity{v};
 		return s; 
 	}
-	
-	static decltype(auto) data(ValueType v) 
-	{ 
-		if constexpr (std::is_same_v<U, Sum>)
-		{
-			std::ostringstream oss;
-			oss<<std::setprecision(2)<<std::fixed<<v;
-			return oss.str()+QR::template TransformUnit<U>();
-		}
-		
-		std::string res;
-		if constexpr (std::is_same_v<T1, double>)
-			res = String_::TrimDouble(v)+QR::template TransformUnit<U>(); 
-		else
-			res = std::to_string(v)+QR::template TransformUnit<U>(); 
-		std::string str(res);
-		std::size_t id = str.find_first_not_of("-+0123456789");
-
-		if (id>=str.size())
-			return res;
-
-		auto result = str.substr(0,id);
-		str = str.substr(id,str.size());
-		
-		id = str.find_first_not_of("0.,");
-		if(id < str.size())
-		{
-			id = id > str.size() ? 0 : id;
-			auto ending = str.substr(id,str.size());
-			result += isdigit(str[0]) || (str[0]=='.'||str[0]==',') && (isdigit(str[1])) ? str :ending;
-		}
-
-		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
-
-		return result;
-	}
 
 	template<typename V>
 	static decltype(auto) stringTo(const std::string& s)
@@ -156,38 +121,6 @@ private:
 		str = str.substr(0,id);
 		str.erase(remove_if(str.begin(), str.end(), [&](auto c){ return !isdigit(c) && c != '.'  && c != ',' && c != '-'; }), str.end());
 		return To<ValueType>(str);
-	}
-	
-	template<typename TQuantity>
-	constexpr static decltype(auto) transform(TQuantity t)
-	{ 
-		using TU = typename TQuantity::UnitType;
-		using TQR = typename QR::RatioType<TQuantity::QuantityRatioType::N>;
-		return Quantity<TU,TQR>(t.PureValue() / TQR::Factor);
-	}
-	
-	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) multiply(const Quantity<U2, TQR,T2>& q) const	{ 	return Quantity<typename Transform<U, U2, MultiplyPolicy>::Type, typename QR::Divider<TQR>::Result,T1>(Value() * q.Value());	}
-	
-	template<typename U2 = U, typename TQR = QR, typename T2>
-	constexpr decltype(auto) divide(const Quantity<U2, TQR,T2>& q) const
-	{ 
-		constexpr int ex = QR::N - TQR::N;
-		using QR_ = typename QR::Divider2<TQR>::Result;
-
-		
-		if constexpr (TQR::BaseNum == QuantityRatioType::BaseNum && TQR::BaseDenom == QuantityRatioType::BaseDenom )
-		{
-			if constexpr (IsSameBaseUnit<U,U2>())
-				return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
-			
-			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.Value());
-		}
-		
-		if constexpr (IsSameBaseUnit<U,U2>())
-			return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / transform(q).Value());
-		
-		return Quantity<typename Transform<U, U2, DividePolicy>::Type, QR_,T1>(Value() / q.PureValue());
 	}
 };
 
