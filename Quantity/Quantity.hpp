@@ -62,7 +62,8 @@ public:
 		return Type{val};
 	}
 
-	constexpr decltype(auto) Pow(const int i) const { return *this * (*this);}
+	template<int N>
+	constexpr decltype(auto) Pow() const { return Quantity<typename Pow<U,N>::Type>(std::pow(value,N)); }
 	
 	// ----------------------------------------ADD-------------------------------------------------------------
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }

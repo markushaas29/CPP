@@ -211,16 +211,31 @@ template<> struct UnitSign<Energy> {	static constexpr const char* Get(){ return 
 template<class U1, class U2, template<typename, typename> class TransformPolicy>
 struct Transform
 {
-	using MassT = typename MassType<TransformPolicy<typename U1::Mass, typename U2::Mass>::N>::Type;
-	using LengthT = typename LengthType<TransformPolicy<typename U1::Length,typename U2::Length>::N>::Type;
-	using TimeT = typename TimeType<TransformPolicy<typename U1::Time,typename U2::Time>::N>::Type;
-	using CurrentT = typename CurrentType<TransformPolicy<typename U1::Current,typename U2::Current>::N>::Type;
-	using TempT = typename TemperatureType<TransformPolicy<typename U1::Temperature,typename U2::Temperature>::N>::Type;
-	using AngleT = typename AngleType<TransformPolicy<typename U1::AngleType,typename U2::AngleType>::N>::Type;
-	using IntensityT = typename IntensityType<TransformPolicy<typename U1::IntensityType,typename U2::IntensityType>::N>::Type;
-	using SumT = typename SumType<TransformPolicy<typename U1::Sum,typename U2::Sum>::N>::Type;
-	
-	using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, AngleT::N>::Type;
+using MassT = typename MassType<TransformPolicy<typename U1::Mass, typename U2::Mass>::N>::Type;
+using LengthT = typename LengthType<TransformPolicy<typename U1::Length,typename U2::Length>::N>::Type;
+using TimeT = typename TimeType<TransformPolicy<typename U1::Time,typename U2::Time>::N>::Type;
+using CurrentT = typename CurrentType<TransformPolicy<typename U1::Current,typename U2::Current>::N>::Type;
+using TempT = typename TemperatureType<TransformPolicy<typename U1::Temperature,typename U2::Temperature>::N>::Type;
+using AngleT = typename AngleType<TransformPolicy<typename U1::AngleType,typename U2::AngleType>::N>::Type;
+using IntensityT = typename IntensityType<TransformPolicy<typename U1::IntensityType,typename U2::IntensityType>::N>::Type;
+using SumT = typename SumType<TransformPolicy<typename U1::Sum,typename U2::Sum>::N>::Type;
+
+using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, AngleT::N>::Type;
+};
+
+template<class U1, int N>
+struct Pow
+{
+using MassT = typename MassType<U1::Mass::N*N>::Type;
+using LengthT = typename LengthType<U1::Length::N*N>::Type;
+using TimeT = typename TimeType<U1::Time::N*N>::Type;
+using CurrentT = typename CurrentType<U1::Current::N*N>::Type;
+using TempT = typename TemperatureType<U1::Temperature::N*N>::Type;
+using AngleT = typename AngleType<U1::AngleType::N*N>::Type;
+using IntensityT = typename IntensityType<U1::IntensityType::N*N>::Type;
+using SumT = typename SumType<U1::Sum::N*N>::Type;
+
+using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, AngleT::N>::Type;
 };
 
 template<class D1, class D2>
