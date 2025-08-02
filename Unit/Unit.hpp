@@ -223,17 +223,17 @@ using SumT = typename SumType<TransformPolicy<typename U1::Sum,typename U2::Sum>
 using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, AngleT::N>::Type;
 };
 
-template<class U1, int N>
+template<class U1, int N, template<typename, int> class TransformPolicy>
 struct Pow
 {
-using MassT = typename MassType<U1::Mass::N*N>::Type;
-using LengthT = typename LengthType<U1::Length::N*N>::Type;
-using TimeT = typename TimeType<U1::Time::N*N>::Type;
-using CurrentT = typename CurrentType<U1::Current::N*N>::Type;
-using TempT = typename TemperatureType<U1::Temperature::N*N>::Type;
-using AngleT = typename AngleType<U1::AngleType::N*N>::Type;
-using IntensityT = typename IntensityType<U1::IntensityType::N*N>::Type;
-using SumT = typename SumType<U1::Sum::N*N>::Type;
+using MassT = typename MassType<TransformPolicy<typename U1::Mass,N>::N>::Type;
+using LengthT = typename LengthType<TransformPolicy<typename U1::Length,N>::N>::Type;
+using TimeT = typename TimeType<TransformPolicy<typename U1::Time,N>::N>::Type;
+using CurrentT = typename CurrentType<TransformPolicy<typename U1::Current,N>::N>::Type;
+using TempT = typename TemperatureType<TransformPolicy<typename U1::Temperature,N>::N>::Type;
+using AngleT = typename AngleType<TransformPolicy<typename U1::AngleType,N>::N>::Type;
+using IntensityT = typename IntensityType<TransformPolicy<typename U1::IntensityType,N>::N>::Type;
+using SumT = typename SumType<TransformPolicy<typename U1::Sum,N>::N>::Type;
 
 using Type = typename Unit<SumT::N, LengthT::N, MassT::N, TimeT::N, CurrentT::N, TempT::N, AngleT::N>::Type;
 };
@@ -248,5 +248,11 @@ template<class D1, class D2>
 struct DividePolicy
 {
 	static constexpr int N = D1::N - D2::N;
+};
+
+template<class D1, int Ex>
+struct PowPolicy
+{
+	static constexpr int N = D1::N * Ex;
 };
 
