@@ -65,6 +65,9 @@ public:
 	template<int N>
 	constexpr decltype(auto) Pow() const { return Quantity<typename Pow<U,N,PowPolicy>::Type>(std::pow(value,N)); }
 	
+	template<int N>
+	constexpr decltype(auto) Sqrt() const { return Quantity<typename Pow<U,N,RootPolicy>::Type>(std::sqrt(value)); }
+	
 	// ----------------------------------------ADD-------------------------------------------------------------
 	constexpr decltype(auto) operator+(const Quantity<U,QR,T1>& y) const { return Type(Value() +y.Value()); }
 	

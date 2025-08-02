@@ -256,3 +256,9 @@ struct PowPolicy
 	static constexpr int N = D1::N * Ex;
 };
 
+template<class D1, int Ex>
+struct RootPolicy
+{
+	static constexpr int N = D1::N / Ex;
+};
+

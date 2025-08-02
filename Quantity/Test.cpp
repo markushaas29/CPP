@@ -313,11 +313,20 @@ int Run()
 	
  	auto ql = Quantity<Length>{2};
 	auto ql_3 = ql.Pow<3>();
-    std::cout<<ql_3<<std::endl;
  	assert(ql_3.Value()==8);
  	assert(ql_3.Data()=="8m³");
 
-    std::cout<<"END"<<std::endl;
+	auto ql_4 = ql.Pow<4>();
+    std::cout<<ql_4<<std::endl;
+ 	assert(ql_4.Value()==16);
+ 	assert(ql_4.Data()=="16m^4");
+	
+	auto ql_2 = ql_4.Sqrt<2>();
+    std::cout<<ql_2<<std::endl;
+ 	assert(ql_2.Value()==4);
+ 	assert(ql_2.Data()=="4m²");
+    
+	std::cout<<"END"<<std::endl;
 
     return 0;
 }
