@@ -69,6 +69,7 @@ class MatrixInitializerTest
 			auto path = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/D.mat" };
 			auto tpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/T.mat" };
 			auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_2022.csv" };
+			auto u25 = std::string{ "/home/markus/Downloads/U_2025.csv" };
 			auto sem = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Sem.mat" };
 			auto spath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/S.csv" };
 			auto ipath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/I.mat" };
@@ -76,6 +77,7 @@ class MatrixInitializerTest
 			auto rpath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Energy.ctrv" };
 			auto Apath = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/Messung_2.csv" };
 			auto m22r = MatrixReader(u22);
+			auto m25r = MatrixReader(u25);
 			auto msr = MatrixReader(path);
 			auto mtr = MatrixReader(tpath);
 			auto mssr = MatrixReader(spath);
@@ -209,6 +211,9 @@ class MatrixInitializerTest
 			auto mbm2 = mb2.Add(1.3).Add('c').Add("abc")();
 			std::cout<<"Mbm "<<mbm2<<std::endl;
 			assert(mbm2.Rows()==2);
+
+			auto m25 = m25r.M<2>();
+
 			std::cout<<"END "<<decltype(mi3)::Order<<std::endl;
 
 			return 0;
