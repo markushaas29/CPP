@@ -23,6 +23,8 @@ int Run()
 	assert(Trim(s) == "123");
 	s = "     123 456 ";
 	assert(Trim(s) == "123 456");
+	s = "ABC\r\n";
+	assert(Contains(s,"\r\n"));
 
 	std::cout<<"Size2: "<<d<<std::endl;
     
