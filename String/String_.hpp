@@ -5,6 +5,7 @@
 #include <typeinfo>
 #include <locale>
 #include <codecvt>
+#include <regex>
 #include "../Wrapper/Wrapper.hpp"
 #include "../Logger/Logger.hpp"
 #include "../Traits/Traits.hpp"
@@ -114,16 +115,16 @@ namespace String_
        return s;
 	   
 	}
-
-	bool replace(std::string& str, const std::string& from, const std::string& to) 
+	
+	auto ReplaceAll(const std::string& s1, const std::string& chars) 
 	{
-    	size_t start_pos = str.find(from);
-    	if(start_pos == std::string::npos)
-    	    return false;
-    	str.replace(start_pos, from.length(), to);
-    	return true;
+		auto s = s1;
+	    s.erase(remove_if(s.begin(), s.end(), [&chars](const char& c) {
+	        return chars.find(c) != std::string::npos;
+	    }), s.end());
+	    return s;
 	}
-		
+	
 	template<typename From, typename To>
 	struct Replace
 	{
