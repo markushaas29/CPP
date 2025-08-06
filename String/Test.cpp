@@ -25,7 +25,7 @@ int Run()
 	assert(Trim(s) == "123 456");
 	s = "A\r\nBC\r\n";
 	assert(Contains(s,"\r\n"));
-	std::string s2 = ReplaceAll(s,"\r");
+	std::string s2 = RemoveAll(s,"\r");
 	assert(s2=="A\nBC\n");
 	assert(!Contains(s2,"\r"));
 

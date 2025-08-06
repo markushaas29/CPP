@@ -116,12 +116,13 @@ namespace String_
 	   
 	}
 	
-	auto ReplaceAll(const std::string& s1, const std::string& chars) 
+	auto RemoveAll(const std::string& s1, const std::string& chars) 
 	{
 		auto s = s1;
 	    s.erase(remove_if(s.begin(), s.end(), [&chars](const char& c) {
 	        return chars.find(c) != std::string::npos;
 	    }), s.end());
+
 	    return s;
 	}
 	
