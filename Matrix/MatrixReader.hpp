@@ -9,6 +9,7 @@
 #include "../String/String_.hpp" 
 #include "../Wrapper/Wrapper.hpp" 
 #include "../Is/Is.hpp"
+#include "../String/String_.hpp" 
 #include "../String/Literal.hpp" 
 #include "../String/Format.hpp"
 
@@ -76,6 +77,7 @@ private:
 		try
 		{
 			getline (*is,line); 
+			assert(!String_::Contains(s,"\r\n"));
 			std::istringstream iss{line};
 			while(iss)
 			{
