@@ -105,10 +105,18 @@ private:
 	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
+        
+		std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv","//U_2025.csv"};
+        std::vector<Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> accountFiles;
+		for(auto s : paths)
+		{
         auto csvIndexTokens = (*tokenFactory)({{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
+        	auto r = MatrixReader(path + s);
+			accountFiles.push_back(r.M<2>().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens))));
+		}
         
-		return matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+		return typename Base::MatrixType(accountFiles);
 	}
 };
 
