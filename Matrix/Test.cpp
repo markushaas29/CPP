@@ -10,6 +10,7 @@
 #include "MatrixInitializerTest/Test.cpp"
 #include "MatrixCalculatorTest/Test.cpp"
 #include "MatrixElementTest/Test.cpp"
+#include "MatrixReaderTest/Test2023.cpp"
 #include "MatrixDescriptorTest/Test.cpp"
 #include "MatrixSliceAccessTest/Test.cpp"
 //#include "MatrixQueryTest/Test.cpp"
@@ -185,6 +186,7 @@ int Run()
     MatrixAccessTest access2;     
 //    MatrixQueryTest q;     
     MatrixParserTest p;     
+    MatrixReaderTest r;     
     MatrixVisitorTest v;     
     //MatrixAnalyzerTest a;     
     M3Test m3t;     
@@ -199,6 +201,7 @@ int Run()
     access2.Run();
 	p.Run();
 	v.Run();
+	r.Run();
 
 	std::cout<<"M1 \n"<<m1<<std::endl;
 	std::cout<<"M2 \n"<<m2<<std::endl;

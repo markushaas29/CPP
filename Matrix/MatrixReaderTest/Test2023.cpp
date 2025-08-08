@@ -72,7 +72,6 @@ class MatrixReaderTest
 			
 			auto u25 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_2025.csv" };
 			auto m25 = MatrixReader(u25).M<2>();
-			std::cout<<"Matrix:\n"<<m25<<std::endl;
 			std::cout<<"END 2023"<<std::endl;
 		   
 			return 0;
