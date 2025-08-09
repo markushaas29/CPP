@@ -137,12 +137,30 @@ public:
 		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1), end;
 		std::vector<std::string> result;
 		std::for_each(iter,end, [&result](const auto& s) { result.push_back(s);});
+		std::cout<<"TEXT: \n"<<sp<<std::endl;
+		std::regex rgx2("(\\w+) *:(?:)?");
+		std::sregex_token_iterator iter2(s.begin(),s.end(),rgx2,-1), end2;
+		std::vector<std::string> result2;
+		if(iter2 != end2)
+			std::for_each(iter2,end2, [&result2](const auto& s) { std::cout<<"RGX:\t"<<s<<std::endl; result2.push_back(s);});
+		std::smatch res2;
+    	std::string str = sp;
+    
+		std::vector<std::string> result3;
+	    std::string::const_iterator searchStart( str.cbegin() );
+	    while ( regex_search( searchStart, str.cend(), res2, rgx2 ) )
+	    {
+			std::cout<<"Match:\t" << ( searchStart == str.cbegin() ? "" : " " ) << res2[0]<<std::endl;  
+			result3.push_back(res2[0]);
+	        searchStart = res2.suffix().first;
+	    }
+		for(int i = 0; i < result2.size(); ++i)
+			//std::cout<<"Res: " << result2[i] <<" "<< result3[i]<<std::endl;  
 		std::vector<std::unique_ptr<IElement>> res;
 		
 		std::vector<std::string> headers;
 		std::vector<std::string> entries;
 		std::string temp = "";
-		std::cout<<"TEXT: \n"<<sp<<std::endl;
 		std::for_each(std::begin(result),std::end(result), [&](const auto& s) 
 				{ 
 					if(*(s.cend()-1)==':')
