@@ -137,12 +137,17 @@ public:
 		std::sregex_token_iterator iter(s.begin(),s.end(),rgx,-1), end;
 		std::vector<std::string> result;
 		std::for_each(iter,end, [&result](const auto& s) { result.push_back(s);});
-		std::cout<<"TEXT: \n"<<sp<<std::endl;
+		std::cout<<"TEXT: \t"<<sp<<std::endl;
 		std::regex rgx2("(\\w+) *:(?:)?");
 		std::sregex_token_iterator iter2(s.begin(),s.end(),rgx2,-1), end2;
 		std::vector<std::string> result2;
+		std::vector<std::shared_ptr<IElement>> elements;
 		if(iter2 != end2)
-			std::for_each(iter2,end2, [&result2](const auto& s) { std::cout<<"RGX:\t"<<s<<std::endl; result2.push_back(s);});
+			std::for_each(iter2,end2, [&](const auto& s) { 
+					//std::cout<<"RGX:\t"<<s<<std::endl; result2.push_back(s); 
+					if(elements.size()<3)
+						elements.push_back(std::make_shared<Text>(s)); 
+					});
 		std::smatch res2;
     	std::string str = sp;
     
@@ -152,10 +157,16 @@ public:
 	    {
 			std::cout<<"Match:\t" << ( searchStart == str.cbegin() ? "" : " " ) << res2[0]<<std::endl;  
 			result3.push_back(res2[0]);
+			//elements.push_back(std::make_shared<Text>(res2[0]));
 	        searchStart = res2.suffix().first;
 	    }
-		for(int i = 0; i < result2.size(); ++i)
+		//for(int i = 0; i < result2.size(); ++i)
 			//std::cout<<"Res: " << result2[i] <<" "<< result3[i]<<std::endl;  
+		while(elements.size()<=3)
+			elements.push_back(std::make_shared<Text>(""));
+		//std::for_each(std::begin(elements),std::end(elements), [&](const auto& s) { std::cout<<*s<<std::endl; });
+		return elements;
+
 		std::vector<std::unique_ptr<IElement>> res;
 		
 		std::vector<std::string> headers;
@@ -222,6 +233,7 @@ private:
 		m = m.Apply([&](const auto& e1){ 
 			auto ev = IsElementVisitor<Entry>();
 			std::vector<std::shared_ptr<IElement>> v;
+				try{
 			if((*e1)->Is(ev))
 			{
 				auto entry = (*e1)->template As<Entry>(); 
@@ -230,15 +242,20 @@ private:
 			}
 			else
 				v.push_back(*e1);
+				}
+				catch(...)
+				{
+			std::cout<<" ERROR "<<std::endl;
+				}
 	
 			if(v.size()>1 || v.size() != 3)
 				while(v.size()<=3)
 					v.push_back(std::make_shared<Text>(""));
-			std::cout<<**e1<<" SIZE "<<v.size()<<std::endl;
+			std::cout<<std::endl;
 			return v;
 			});
 
-		std::cout<<"Size COllect: \t"<<std::endl;
+		//std::cout<<"Size COllect: \t"<<std::endl;
 	 	v = m.Collect(std::move(v));
 
 		auto V = v->template Cast<ElementCollector<Date>>();
