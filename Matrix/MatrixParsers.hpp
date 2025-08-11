@@ -227,20 +227,24 @@ private:
         auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
 
-        std::vector<std::string> paths{"//Comdirect.csv"};
-        std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
-		for(auto s : paths)
-		{
-        	auto r = MatrixReader(path + s);
-			auto m =r.M<2>().Apply([&](auto& s)
-						{
-							if(s->at(0)=='\"' && s->at(0) == *(s->cend()-1)) 
-								return std::string(s->cbegin()+1, s->cend()-1);
-							return *s;
-						});
-			accountFiles.push_back(m);
-		}
-		auto elements = accountFiles[0].Elements();
+		auto m0 = matrix()[0];
+		auto elements = m0.Elements();
+		using MT = decltype(m0);
+		std::vector<std::string> newVec;
+		std::for_each(std::begin(elements),std::end(elements), [&](const auto& s) 
+				{
+					newVec.push_back(s);
+					if(s.starts_with("Auftraggeber"))
+						newVec.push_back("A");
+					if(s.starts_with("Empf"))
+						newVec.push_back("B");
+					if(s.starts_with("Buchungstext"))
+						newVec.push_back("C");
+					if(s.starts_with(" Buchungstext"))
+						newVec.push_back("D");
+				});
+		auto ms = MT(MT::DescriptorType({m0.Rows(),newVec.size() / m0.Rows()}),newVec);
+		std::cout<<"Size COllect: \n"<<ms<<std::endl;
 
 		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
 		
@@ -270,7 +274,6 @@ private:
 //			return v;
 //			});
 
-		//std::cout<<"Size COllect: \t"<<std::endl;
 	 	v = m.Collect(std::move(v));
 
 		auto V = v->template Cast<ElementCollector<Date>>();
