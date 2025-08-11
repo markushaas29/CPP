@@ -226,7 +226,22 @@ private:
 	{
         auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
-        
+
+        std::vector<std::string> paths{"//Comdirect.csv"};
+        std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
+		for(auto s : paths)
+		{
+        	auto r = MatrixReader(path + s);
+			auto m =r.M<2>().Apply([&](auto& s)
+						{
+							if(s->at(0)=='\"' && s->at(0) == *(s->cend()-1)) 
+								return std::string(s->cbegin()+1, s->cend()-1);
+							return *s;
+						});
+			accountFiles.push_back(m);
+		}
+		auto elements = accountFiles[0].Elements();
+
 		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
 		
 		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));

@@ -38,12 +38,12 @@ private:
     }
 	decltype(auto) elements(const M* m) const
     {
+		std::vector<typename M::ElementType> v;
 		if constexpr(std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-		{
-			std::vector<typename M::ElementType> v;
 			std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back((*i)->Clone()); } );
-			return v; 
-		}
+		else
+			std::for_each(m->elements->begin(), m->elements->end(),[&v](const auto& i) { v.push_back(*i); } );
+		return v; 
     }
 	decltype(auto) exec(M* m)
     {
