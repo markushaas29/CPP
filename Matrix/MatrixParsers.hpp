@@ -237,7 +237,13 @@ private:
 					if(s.starts_with("Auftraggeber"))
 						newVec.push_back("A");
 					if(s.starts_with("Empf"))
-						newVec.push_back("B");
+					{
+						std::size_t found = s.find("IBAN");
+  						if (found!=std::string::npos)
+							newVec.push_back(std::string(s.begin()+found,s.begin()+found+4));
+						else	
+							newVec.push_back("B");
+					}
 					if(s.starts_with("Buchungstext"))
 						newVec.push_back("C");
 					if(s.starts_with(" Buchungstext"))
