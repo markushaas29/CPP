@@ -6,7 +6,10 @@
 class ElementParserTest{
 public:
 int Run()
-{     
+{
+	ElementParser p;
+
+	p("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET_ Buchungstext: Leana Ref. JM22503421509571/2");
 
 	return 0;
 }
