@@ -2,6 +2,7 @@
 #include <regex>
 #include <cassert>
 #include "ElementRegexTest.hpp"
+#include "ElementParserTest.hpp"
 #include "HtmlElementTest.hpp"
 #include "StyleTest.hpp"
 #include "../Element.hpp"
@@ -126,6 +127,7 @@ int Run()
 
 	HtmlElementTest().Run();
 	StyleTest().Run();
+	ElementParserTest().Run();
 
 	return 0;
 }
