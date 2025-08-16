@@ -72,6 +72,7 @@ public:
 	inline static constexpr uint Length = 22;
 	inline static constexpr const char* Default = "XX00000000000000000000";
 	inline static constexpr const char* Identifier = "IBAN";
+    inline static constexpr const char* Pattern = "Kto/IBAN";
 	explicit IBAN(const std::string& c = Default): Base(c)
 	{
 		if(!isValid(c))
@@ -102,6 +103,7 @@ class BIC: public Element<BIC>
 	friend class Element<BIC>;
 public:
 	inline static constexpr const char* Identifier = "BIC";
+    inline static constexpr const char* Pattern = "BLZ/BIC";
 	BIC(const std::string& c=Identifier): Base(c){ };
 private:
 	inline static std::string check(const std::string& s) { return s; }
@@ -264,12 +266,38 @@ private:
 	inline static std::string check(const std::string& s) { return s; }
 };
 
+class Client: public Element<Client>
+{
+	using Base = Element<Client>;
+	friend class Element<Client>;
+public:
+    inline static constexpr const char* Identifier = "Client";
+    inline static constexpr const char* Pattern = "Auftraggeber";
+	Client(const std::string& c = Identifier): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};
+
+
+class Receiver: public Element<Receiver>
+{
+	using Base = Element<Receiver>;
+	friend class Element<Receiver>;
+public:
+    inline static constexpr const char* Identifier = "Receiver";
+    inline static constexpr const char* Pattern = "Empfänger";
+	Receiver(const std::string& c = Identifier): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};
+
 class BookingText: public Element<BookingText>
 {
 	using Base = Element<BookingText>;
 	friend class Element<BookingText>;
 public:
-    inline static constexpr const char* Identifier = "Buchungstext";
+    inline static constexpr const char* Identifier = "BookingText";
+    inline static constexpr const char* Pattern = "Buchungstext";
 	BookingText(const std::string& c = Identifier): Base(c){ };
 private:
 	inline static std::string check(const std::string& s) { return s; }
