@@ -263,3 +263,14 @@ public:
 private:
 	inline static std::string check(const std::string& s) { return s; }
 };
+
+class BookingText: public Element<BookingText>
+{
+	using Base = Element<BookingText>;
+	friend class Element<BookingText>;
+public:
+    inline static constexpr const char* Identifier = "Buchungstext";
+	BookingText(const std::string& c = Identifier): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};
