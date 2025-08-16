@@ -6,6 +6,15 @@ class ElementParser
 {
 	inline static constexpr const char TypeIdentifier[] = "Element";
     inline static constexpr Literal LiteralType{TypeIdentifier};
+	template<typename>
+	static auto extract(const std::string& s, std::size_t& i)
+	{
+		auto end = i;
+		i = s.find("Buchungstext");
+	  	if (i!=std::string::npos)
+			std::cout<<(std::string(s.begin()+i,s.begin()+end))<<std::endl;;
+			//return(std::string(s.begin()+i,s.begin()+end));
+	}
 public:
 	auto operator()(const std::string& s)
 	{
@@ -33,6 +42,8 @@ public:
 //		newVec.push_back("D");
 		for(auto t : v)
 			std::cout<<t<<std::endl;
+		auto i = s.size();
+		extract<int>(s,i);
 	}
 private:
 	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
