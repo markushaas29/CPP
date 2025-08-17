@@ -77,7 +77,9 @@ public:
 			std::getline(ss, substr, ':');
 	        v.push_back(String_::Trim(substr));
 		}
-		return Make(v[1]);	}
+		
+		return Make(v.size() > 0 ? v[1] : "");	
+	}
 	explicit operator std::string() const  {	return value; };	
 	constexpr decltype(auto) Size() { return size; }
 
