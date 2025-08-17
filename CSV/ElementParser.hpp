@@ -16,7 +16,7 @@ class ElementParser
 		auto end = i;
 		i = s.find(T::Pattern);
 	  	if (i!=std::string::npos)
-			return std::make_unique<T>(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
+			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
 		return nullptr;
 	}
 public:
