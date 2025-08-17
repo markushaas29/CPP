@@ -19,6 +19,20 @@ class ElementParser
 			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
 		return nullptr;
 	}
+	template<size_t N>
+	static void reg()
+	{
+		if constexpr (std::tuple_size<Elements>()==N)
+			return;
+		else
+		{
+			using Type = std::tuple_element_t<N,Elements>;
+			std::cout<<Type::Identifier<<std::endl;
+			//interface->Register(Type::Identifier,&Type::Make);
+			reg<N+1>();
+		}
+	}
+	
 public:
 	auto operator()(const std::string& s)
 	{
@@ -29,7 +43,8 @@ public:
 		v.push_back(extract<BIC>(s,i));
 		v.push_back(extract<IBAN>(s,i));
 		v.push_back(extract<Receiver>(s,i));
-
+		
+		reg<0>();
 		for(const auto& i : v)
 			std::cout<<*i<<std::endl;
 
