@@ -11,6 +11,7 @@
 #include "../Logger/Logger.hpp"
 #include "../String/StringParser.hpp"
 #include "../Common/Make/Make.hpp"
+#include "../Common/Date.hpp"
 #include "../String/String_.hpp"
 #include "../To/To.hpp"
 
@@ -61,6 +62,9 @@ public:
 //	constexpr decltype(auto) operator-(const PaymentCategory<U,TQR,T1>& y) const { return Type(Current() - Calculator::transform(y).Current()); }
 private:
 	Quantity<Sum> value;
+	Quantity<Scalar> proportion;
+	Month month{1};
+	std::string name;
 	std::unique_ptr<std::vector<std::unique_ptr<PaymeentlItem>>> items;
 	Quantity<Sum> calculate() const	
 	{
@@ -71,6 +75,6 @@ private:
 	friend std::ostream& operator<<(std::ostream& out, const PaymentCategory& q)	
 	{
 		std::for_each(q.items->cbegin(),q.items->cend(),[&out](auto& v) { out<<*v<<"\n"; });
-		return out<<q.value;	
+		return out<<q.calculate();	
 	}
 };
