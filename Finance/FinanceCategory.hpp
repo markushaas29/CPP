@@ -3,6 +3,7 @@
 #include <cmath>
 #include <sstream>
 #include <regex>
+#include <memory>
 #include "../Unit/Unit.hpp"
 #include "../CSV/Element.hpp"
 #include "../Quantity/Quantity.hpp"
@@ -14,6 +15,17 @@
 #include "../To/To.hpp"
 
 #pragma once
+
+class FinancialItem
+{
+public:
+	FinancialItem(Quantity<Sum> q = Quantity<Sum>{0}): value{q} {}
+	auto Value() { return value; }
+private:
+	friend std::ostream& operator<<(std::ostream& out, const FinancialItem& q)	{	return out<<q.value;	}
+	Quantity<Sum> value;
+	
+};
 
 class FinanceCategory
 {
