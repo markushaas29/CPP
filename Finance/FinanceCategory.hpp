@@ -19,6 +19,7 @@
 class FinancialItem
 {
 public:
+	FinancialItem(double d): FinancialItem{Quantity<Sum>{d}} {}
 	FinancialItem(Quantity<Sum> q = Quantity<Sum>{0}): value{q} {}
 	auto Value() { return value; }
 private:
@@ -31,7 +32,11 @@ class FinanceCategory
 {
 public:
     
-	FinanceCategory() {	}
+	FinanceCategory() 
+	{
+		items = std::make_unique<std::vector<std::unique_ptr<FinancialItem>>>();
+		items->push_back(std::make_unique<FinancialItem>(250.0));
+	}
 //	explicit constexpr FinanceCategory(const T1& v): Base(Calculator::data(v)), value(v * QR::Factor) {	}
 //	explicit FinanceCategory(const std::string& s): Base(Calculator::data(Calculator::template stringTo<CurrentType>(s))), value{(Calculator::template stringTo<CurrentType>(s)) * (CurrentType)QR::Factor} { 	}
 	
@@ -55,5 +60,10 @@ public:
 //	constexpr decltype(auto) operator-(const FinanceCategory<U,TQR,T1>& y) const { return Type(Current() - Calculator::transform(y).Current()); }
 private:
 	Quantity<Sum> value;
-	friend std::ostream& operator<<(std::ostream& out, const FinanceCategory& q)	{	return out<<q.value;	}
+	std::unique_ptr<std::vector<std::unique_ptr<FinancialItem>>> items;
+	friend std::ostream& operator<<(std::ostream& out, const FinanceCategory& q)	
+	{
+		std::for_each(q.items->cbegin(),q.items->cend(),[&out](auto& v) { out<<*v<<"\n"; });
+		return out<<q.value;	
+	}
 };
