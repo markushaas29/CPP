@@ -16,7 +16,7 @@ int Run()
 
     std::cout<<"START FinanceTest"<<std::endl;
 
-	FinanceCategory f;
+	PaymentCategory f;
 	std::cout<<f<<std::endl;
     
 	std::cout<<"END"<<std::endl;
