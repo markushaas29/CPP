@@ -18,7 +18,8 @@ int Run()
 
 	PaymentCategory f;
 	std::cout<<f<<std::endl;
-    
+    assert(f.Current()==Quantity<Sum>{100});
+
 	std::cout<<"END"<<std::endl;
 
     return 0;

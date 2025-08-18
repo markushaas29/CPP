@@ -17,6 +17,7 @@
 #include "Counter/Test.cpp"
 //#include "Decorator/Test.cpp"
 #include "Repository/Test.cpp"
+#include "Finance/Test.cpp"
 #include "HTMLBuilder/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
@@ -69,6 +70,9 @@ int main()
 	
 	CounterTest c;
 	c.Run();
+	
+	FinanceTest f;
+	f.Run();
 	std::cout<<"END"<<std::endl;
 	return 0;
 }
