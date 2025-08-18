@@ -6,6 +6,8 @@
 #include "Functional.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/HtmlElement.hpp"
+#include "../CSV/Styles.hpp"
 #include "../Quantity/Quantity.hpp"
 
 class FunctionalTest

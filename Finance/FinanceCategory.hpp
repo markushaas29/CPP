@@ -5,6 +5,7 @@
 #include <regex>
 #include <memory>
 #include "../Unit/Unit.hpp"
+#include "../Functional/Functional.hpp"
 #include "../CSV/Element.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Unit/UnitRatio.hpp"
@@ -31,6 +32,12 @@ private:
 
 class PaymentCategory
 {
+	auto calculate() const	
+	{
+		std::vector<Quantity<Sum>> qs;
+		std::for_each(items->cbegin(),items->cend(),[&qs](auto& v) { qs.push_back(v->Value()); });
+		return Acc{qs};	
+	}
 public:
     
 	PaymentCategory() 
@@ -38,11 +45,13 @@ public:
 		items = std::make_unique<std::vector<std::unique_ptr<PaymeentlItem>>>();
 		items->push_back(std::make_unique<PaymeentlItem>(250.0));
 		items->push_back(std::make_unique<PaymeentlItem>(-150.0));
+		items->push_back(std::make_unique<PaymeentlItem>(150.0));
+		items->push_back(std::make_unique<PaymeentlItem>(-150.0));
 	}
 //	explicit constexpr PaymentCategory(const T1& v): Base(Calculator::data(v)), value(v * QR::Factor) {	}
 //	explicit PaymentCategory(const std::string& s): Base(Calculator::data(Calculator::template stringTo<CurrentType>(s))), value{(Calculator::template stringTo<CurrentType>(s)) * (CurrentType)QR::Factor} { 	}
 	
-	auto Current() const { return calculate();}
+	Quantity<Sum> Current() const { return calculate();}
 	
 //	constexpr bool Equals(const PaymentCategory<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Current()-y.Current()) <= epsilon; }
 //	constexpr decltype(auto) operator<=>(const PaymentCategory<U,QR,T1>& y) const { return value <=> y.value; }
@@ -66,14 +75,11 @@ private:
 	Month month{1};
 	std::string name;
 	std::unique_ptr<std::vector<std::unique_ptr<PaymeentlItem>>> items;
-	Quantity<Sum> calculate() const	
-	{
-		Quantity<Sum> q;
-		std::for_each(items->cbegin(),items->cend(),[&q](auto& v) { q = q + v->Value(); });
-		return q;	
-	}
 	friend std::ostream& operator<<(std::ostream& out, const PaymentCategory& q)	
 	{
+			
+		Quantity<Sum> qs{0};
+		auto cs = Constant(qs);
 		std::for_each(q.items->cbegin(),q.items->cend(),[&out](auto& v) { out<<*v<<"\n"; });
 		return out<<q.calculate();	
 	}
