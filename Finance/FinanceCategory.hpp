@@ -48,10 +48,14 @@ public:
 		items->push_back(std::make_unique<PaymeentlItem>(150.0));
 		items->push_back(std::make_unique<PaymeentlItem>(-150.0));
 	}
+	auto operator()(Quantity<Sum> q = Quantity<Sum>{0}) 
+	{
+	}
 //	explicit constexpr PaymentCategory(const T1& v): Base(Calculator::data(v)), value(v * QR::Factor) {	}
 //	explicit PaymentCategory(const std::string& s): Base(Calculator::data(Calculator::template stringTo<CurrentType>(s))), value{(Calculator::template stringTo<CurrentType>(s)) * (CurrentType)QR::Factor} { 	}
 	
 	Quantity<Sum> Current() const { return calculate();}
+	Quantity<Sum> Available() const { return available;}
 	
 //	constexpr bool Equals(const PaymentCategory<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Current()-y.Current()) <= epsilon; }
 //	constexpr decltype(auto) operator<=>(const PaymentCategory<U,QR,T1>& y) const { return value <=> y.value; }
@@ -71,6 +75,7 @@ public:
 //	constexpr decltype(auto) operator-(const PaymentCategory<U,TQR,T1>& y) const { return Type(Current() - Calculator::transform(y).Current()); }
 private:
 	Quantity<Sum> value;
+	Quantity<Sum> available;
 	Quantity<Scalar> proportion;
 	Month month{1};
 	std::string name;
