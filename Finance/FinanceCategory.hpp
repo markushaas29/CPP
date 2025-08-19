@@ -39,8 +39,7 @@ class PaymentCategory
 		return Acc{qs};	
 	}
 public:
-    
-	PaymentCategory() 
+	PaymentCategory(Quantity<Scalar> p = Quantity<Scalar>{1}): proportion{p} 
 	{
 		items = std::make_unique<std::vector<std::unique_ptr<PaymeentlItem>>>();
 		items->push_back(std::make_unique<PaymeentlItem>(250.0));
@@ -50,12 +49,16 @@ public:
 	}
 	auto operator()(Quantity<Sum> q = Quantity<Sum>{0}) 
 	{
+		auto s = Mul(Constant{proportion}, Constant{q});
+		std::cout<<"C\t"<<s<<std::endl;
+		available = s();
 	}
 //	explicit constexpr PaymentCategory(const T1& v): Base(Calculator::data(v)), value(v * QR::Factor) {	}
 //	explicit PaymentCategory(const std::string& s): Base(Calculator::data(Calculator::template stringTo<CurrentType>(s))), value{(Calculator::template stringTo<CurrentType>(s)) * (CurrentType)QR::Factor} { 	}
 	
 	Quantity<Sum> Current() const { return calculate();}
-	Quantity<Sum> Available() const { return available;}
+	auto Available() const { return available;}
+	auto Proportion() const { return proportion;}
 	
 //	constexpr bool Equals(const PaymentCategory<U,QR,T1>& y, double epsilon = 0.001) const 	{	return std::fabs(Current()-y.Current()) <= epsilon; }
 //	constexpr decltype(auto) operator<=>(const PaymentCategory<U,QR,T1>& y) const { return value <=> y.value; }
@@ -82,7 +85,6 @@ private:
 	std::unique_ptr<std::vector<std::unique_ptr<PaymeentlItem>>> items;
 	friend std::ostream& operator<<(std::ostream& out, const PaymentCategory& q)	
 	{
-			
 		Quantity<Sum> qs{0};
 		auto cs = Constant(qs);
 		std::for_each(q.items->cbegin(),q.items->cend(),[&out](auto& v) { out<<*v<<"\n"; });
