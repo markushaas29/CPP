@@ -5,7 +5,15 @@
 #include <regex>
 #include <memory>
 #include "../Unit/Unit.hpp"
+#include "../Matrix/Matrix.hpp"
+#include "../Matrix/MatrixReader.hpp"
+#include "../Matrix/MatrixDescriptor.hpp"
+#include "../Matrix/MatrixComposition.hpp"
+#include "../Matrix/M3.hpp"
+#include "../Matrix/MatrixParsers.hpp"
+#include "../Matrix/MatrixFormatter.hpp"
 #include "../Functional/Functional.hpp"
+#include "../CSV/IHtml.hpp"
 #include "../CSV/Element.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Unit/UnitRatio.hpp"
@@ -18,16 +26,29 @@
 
 #pragma once
 
-class PaymeentlItem
+class PaymeentlItem: IHtml
 {
 public:
 	PaymeentlItem(double d): PaymeentlItem{Quantity<Sum>{d}} {}
 	PaymeentlItem(Quantity<Sum> q = Quantity<Sum>{0}): value{q} {}
 	auto Value() { return value; }
+	std::vector<std::unique_ptr<IElement>> Elements() 
+	{
+		std::vector<std::unique_ptr<IElement>> v;
+		v.push_back(value.Clone());
+		return v; 
+	} 
+	std::vector<std::shared_ptr<IElement>> Elements2() 
+	{
+		std::vector<std::shared_ptr<IElement>> v;
+		v.push_back(value.Clone());
+		return v; 
+	} 
 private:
-	friend std::ostream& operator<<(std::ostream& out, const PaymeentlItem& q)	{	return out<<q.value;	}
 	Quantity<Sum> value;
-	
+	friend std::ostream& operator<<(std::ostream& out, const PaymeentlItem& q)	{	return out<<q.value;	}
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return nullptr; };
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return nullptr; };
 };
 
 class PaymentCategory
@@ -50,8 +71,15 @@ public:
 	auto operator()(Quantity<Sum> q = Quantity<Sum>{0}) 
 	{
 		auto s = Mul(Constant{proportion}, Constant{q});
-		std::cout<<"C\t"<<s<<std::endl;
 		available = s();
+
+		std::vector<std::vector<std::shared_ptr<IElement>>> v;
+		std::for_each(items->cbegin(),items->cend(),[&v](auto& p) { v.push_back(p->Elements2()); });
+
+		std::cout<<"INIT\n"<<MatrixFormatter(Init(std::move(v))()).Html()<<std::endl;
+		auto mf = MatrixFormatter(Init(std::move(v))());
+
+		return mf;
 	}
 //	explicit constexpr PaymentCategory(const T1& v): Base(Calculator::data(v)), value(v * QR::Factor) {	}
 //	explicit PaymentCategory(const std::string& s): Base(Calculator::data(Calculator::template stringTo<CurrentType>(s))), value{(Calculator::template stringTo<CurrentType>(s)) * (CurrentType)QR::Factor} { 	}
@@ -81,6 +109,7 @@ private:
 	Quantity<Sum> available;
 	Quantity<Scalar> proportion;
 	Month month{1};
+	Year year{2025};
 	std::string name;
 	std::unique_ptr<std::vector<std::unique_ptr<PaymeentlItem>>> items;
 	friend std::ostream& operator<<(std::ostream& out, const PaymentCategory& q)	
@@ -90,4 +119,8 @@ private:
 		std::for_each(q.items->cbegin(),q.items->cend(),[&out](auto& v) { out<<*v<<"\n"; });
 		return out<<q.calculate();	
 	}
+
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return nullptr; };
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const { return nullptr; };
+	
 };
