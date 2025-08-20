@@ -27,6 +27,7 @@ int Run()
     assert(f.Available()==Quantity<Sum>{500});
 
 	PaymentController pc;
+	pc();
 
 	std::cout<<"END"<<std::endl;
 

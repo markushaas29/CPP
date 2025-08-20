@@ -38,9 +38,9 @@ private:
 
 //		auto stageproperties = (*Base::parser)(true).Rows(0,S::Index);
 //	
-//		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
-//        heads->push_back(std::make_unique<LinkElement>());
-//        html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
+		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
+        heads->push_back(std::make_unique<LinkElement>());
+        html.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
 //		
 //		std::unique_ptr<BaseVisitor> baseVisitor = std::make_unique<ElementCollector<Prename, Name, Street, StreetNumber, Postcode, Town>>();
 //	    baseVisitor = stageproperties[1].Accept(std::move(baseVisitor));
@@ -158,6 +158,7 @@ private:
 //		inv.exec();
 //		
 //        return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
+		html();
     }
 	
 //	auto appendHeaders(const std::vector<std::string>& headers, const auto& vp) const
