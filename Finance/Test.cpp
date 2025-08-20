@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "PaymentCategory.hpp"
+#include "PaymentController.hpp"
 #include "../Common/Color.hpp"
 #include "../Unit/UnitRatio.hpp"
 #include "../CSV/Element.hpp"
@@ -24,6 +25,8 @@ int Run()
     
 	f(Quantity<Sum>{1000});//==Quantity<Sum>{100});
     assert(f.Available()==Quantity<Sum>{500});
+
+	PaymentController pc;
 
 	std::cout<<"END"<<std::endl;
 
