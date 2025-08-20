@@ -76,7 +76,6 @@ public:
 		std::vector<std::vector<std::shared_ptr<IElement>>> v;
 		std::for_each(items->cbegin(),items->cend(),[&v](auto& p) { v.push_back(p->Elements2()); });
 
-		std::cout<<"INIT\n"<<MatrixFormatter(Init(std::move(v))()).Html()<<std::endl;
 		auto mf = MatrixFormatter(Init(std::move(v))());
 
 		return mf;
