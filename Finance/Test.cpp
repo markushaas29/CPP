@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cassert>
-#include "FinanceCategory.hpp"
+#include "PaymentCategory.hpp"
 #include "../Common/Color.hpp"
 #include "../Unit/UnitRatio.hpp"
 #include "../CSV/Element.hpp"
