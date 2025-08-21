@@ -23,8 +23,18 @@
 
 class PaymentController
 {
+	static auto createCategories()
+    {
+		std::unique_ptr<std::vector<std::unique_ptr<PaymentCategory>>> res = std::make_unique<std::vector<std::unique_ptr<PaymentCategory>>>();
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.1}));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.1}));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.125}));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.55}));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.125}));
+		return res;
+	}
 public:
-	PaymentController(){} 
+	PaymentController(): minus{createCategories()}{} 
 	auto operator()() { execute(); }
 private:
 	Quantity<Sum> advancePayment;
