@@ -29,6 +29,7 @@ public:
 private:
 	Quantity<Sum> advancePayment;
 	std::unique_ptr<PaymentCategory> plus = std::make_unique<PaymentCategory>();
+	std::unique_ptr<std::vector<std::unique_ptr<PaymentCategory>>> minus = std::make_unique<std::vector<std::unique_ptr<PaymentCategory>>>();
     
 	void execute()
     {
