@@ -60,7 +60,7 @@ class PaymentCategory
 		return Acc{qs};	
 	}
 public:
-	PaymentCategory(Quantity<Scalar> p = Quantity<Scalar>{1}): proportion{p} 
+	PaymentCategory(Quantity<Scalar> p = Quantity<Scalar>{1}, const	std::string& n = "", const Month& m = Month{1}, const Year& y = Year{2025}): proportion{p}, name{n}, month{m}, year{y} 
 	{
 		items = std::make_unique<std::vector<std::unique_ptr<PaymeentlItem>>>();
 		items->push_back(std::make_unique<PaymeentlItem>(250.0));
@@ -107,9 +107,9 @@ private:
 	Quantity<Sum> value;
 	Quantity<Sum> available;
 	Quantity<Scalar> proportion;
+	std::string name;
 	Month month{1};
 	Year year{2025};
-	std::string name;
 	std::unique_ptr<std::vector<std::unique_ptr<PaymeentlItem>>> items;
 	friend std::ostream& operator<<(std::ostream& out, const PaymentCategory& q)	
 	{
