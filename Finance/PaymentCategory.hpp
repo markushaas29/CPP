@@ -61,7 +61,7 @@ class PaymentCategory
 		return Acc{qs};	
 	}
 public:
-	PaymentCategory(Quantity<Scalar> p = Quantity<Scalar>{1}, const	std::string& n = "", const Month& m = Month{1}, const Year& y = Year{2025}): proportion{p}, name{n}, month{m}, year{y} 
+	PaymentCategory(Quantity<Scalar> p = Quantity<Scalar>{1}, const	std::string& n = "", const Month& m = Month{1}, const Year& y = Year{2025}): proportion{p}, name{Name{n}}, month{m}, year{y} 
 	{
 		items = std::make_unique<std::vector<std::unique_ptr<PaymeentlItem>>>();
 		items->push_back(std::make_unique<PaymeentlItem>(250.0));
@@ -74,11 +74,15 @@ public:
 		auto s = Mul(Constant{proportion}, Constant{q});
 		available = s();
 
-		std::vector<std::vector<std::shared_ptr<IElement>>> v;
-		std::for_each(items->cbegin(),items->cend(),[&v](auto& p) 
-				{ 
-					v.push_back(p->Elements2()); 
-				});
+		std::vector<std::vector<std::shared_ptr<IElement>>> v = 
+		{
+			{std::make_unique<Name>("Name"), name.Clone()},
+			{std::make_unique<Name>("Month"), month.Clone()},
+			{std::make_unique<Name>("Year"), year.Clone()},
+			{std::make_unique<Name>("Proportion"), proportion.Clone()},
+			{std::make_unique<Name>("Available"), available.Clone()},
+		};
+		std::for_each(items->cbegin(),items->cend(),[&v](auto& p) 	{	v.push_back(p->Elements2()); 	});
 
 		auto mf = MatrixFormatter(Init(std::move(v))());
 
@@ -111,7 +115,7 @@ private:
 	Quantity<Sum> value;
 	Quantity<Sum> available;
 	Quantity<Scalar> proportion;
-	std::string name;
+	Name name;
 	Month month{1};
 	Year year{2025};
 	std::unique_ptr<std::vector<std::unique_ptr<PaymeentlItem>>> items;
