@@ -42,6 +42,7 @@ public:
 	{
 		std::vector<std::shared_ptr<IElement>> v;
 		v.push_back(value.Clone());
+		v.push_back(value.Clone());
 		return v; 
 	} 
 private:
@@ -74,7 +75,10 @@ public:
 		available = s();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> v;
-		std::for_each(items->cbegin(),items->cend(),[&v](auto& p) { v.push_back(p->Elements2()); });
+		std::for_each(items->cbegin(),items->cend(),[&v](auto& p) 
+				{ 
+					v.push_back(p->Elements2()); 
+				});
 
 		auto mf = MatrixFormatter(Init(std::move(v))());
 
@@ -115,6 +119,7 @@ private:
 	{
 		Quantity<Sum> qs{0};
 		auto cs = Constant(qs);
+		out<<q.name<<":\t"<<q.month<<"/"<<q.year<<"\n";
 		std::for_each(q.items->cbegin(),q.items->cend(),[&out](auto& v) { out<<*v<<"\n"; });
 		return out<<q.calculate();	
 	}

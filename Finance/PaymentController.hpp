@@ -26,11 +26,11 @@ class PaymentController
 	static auto createCategories()
     {
 		std::unique_ptr<std::vector<std::unique_ptr<PaymentCategory>>> res = std::make_unique<std::vector<std::unique_ptr<PaymentCategory>>>();
-		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.1}));
-		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.1}));
-		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.125}));
-		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.55}));
-		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.125}));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.1}, "Retirement Provision"));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.1}, "Long term"));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.125}, "Donation"));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.55}, "Livelihood"));
+		res->push_back(std::make_unique<PaymentCategory>(Quantity<Scalar>{0.125}, "Miscellaneous"));
 		return res;
 	}
 public:
@@ -38,7 +38,7 @@ public:
 	auto operator()() { execute(); }
 private:
 	Quantity<Sum> advancePayment;
-	std::unique_ptr<PaymentCategory> plus = std::make_unique<PaymentCategory>();
+	std::unique_ptr<PaymentCategory> plus = std::make_unique<PaymentCategory>(Quantity<Scalar>{1}, "Plus");
 	std::unique_ptr<std::vector<std::unique_ptr<PaymentCategory>>> minus = std::make_unique<std::vector<std::unique_ptr<PaymentCategory>>>();
     
 	void execute()
