@@ -70,6 +70,8 @@ private:
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto divA = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<Css<Style<Margin,Px<10>>,Style<BackgroundColor,Hex<"ffffff">>,Style<TextAlign, Left>>>());
 		divA->Add((*plus)().Html());
+		auto av = plus->Current();
+		std::cout<<"AV "<<av<<std::endl;
 		std::for_each(minus->cbegin(),minus->cend(),[&divA](auto& p) 	{	divA->Add((*p)().Html()); 	});
 		outs->push_back(std::move(divA));
 		auto grid = std::make_unique<HtmlElements<DivTag>>(std::move(outs),std::make_unique<Css<Style<Display,Grid>, Style<Padding,Px<10>>>>(), "grid-container");

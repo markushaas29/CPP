@@ -72,6 +72,7 @@ public:
 	auto operator()(Quantity<Sum> q = Quantity<Sum>{0}) 
 	{
 		auto s = Mul(Constant{proportion}, Constant{q});
+		current = calculate();
 		available = s();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> v = 
@@ -114,6 +115,7 @@ public:
 private:
 	Quantity<Sum> value;
 	Quantity<Sum> available;
+	Quantity<Sum> current;
 	Quantity<Scalar> proportion;
 	Name name;
 	Month month{1};
