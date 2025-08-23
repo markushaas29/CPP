@@ -7,14 +7,13 @@
 
 class ElementParser
 {
-	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
-	inline static constexpr const char TypeIdentifier[] = "Element";
-    inline static constexpr Literal LiteralType{TypeIdentifier};
+protected:
 	template<typename T>
 	static std::unique_ptr<IElement> extract(const std::string& s, std::size_t& i)
 	{
 		auto end = i;
 		i = s.find(T::Pattern);
+		std::cout<<"FOUND: "<<i<<std::endl;
 	  	if (i!=std::string::npos)
 			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
 		return nullptr;
@@ -34,7 +33,10 @@ class ElementParser
 	}
 	
 public:
-	auto operator()(const std::string& s)
+	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
+	inline static constexpr const char TypeIdentifier[] = "Element";
+    inline static constexpr Literal LiteralType{TypeIdentifier};
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s)
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
@@ -54,3 +56,20 @@ private:
 	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
 };
 
+class ClientParser: public ElementParser
+{
+public:
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s)
+	{
+		std::vector<std::unique_ptr<IElement>> v;
+		
+		auto i = s.size();
+		v.push_back(extract<Client>(s,i));
+		
+		//reg<0>();
+		for(const auto& i : v)
+			std::cout<<*i<<std::endl;
+
+		return v;
+	}
+};
