@@ -67,14 +67,14 @@ public:
 	virtual std::unique_ptr<IElement> Clone() const  { return std::make_unique<Derived>(value); };	
 	virtual std::unique_ptr<IElement> Create(const std::string& s) const  { return std::make_unique<Derived>(s); };	
 	static std::unique_ptr<IElement> Make(const std::string& s) { return std::make_unique<Derived>(s);	}
-	static auto Extract(const std::string& s) 	
+	static auto Extract(const std::string& s,char splitter =':') 	
 	{ 	
 		std::stringstream ss(s);
 		std::vector<std::string> v;
 		
 	    while (ss.good()) {
 			std::string substr;
-			std::getline(ss, substr, ':');
+			std::getline(ss, substr, splitter);
 	        v.push_back(String_::Trim(substr));
 		}
 		

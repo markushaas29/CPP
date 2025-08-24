@@ -291,6 +291,18 @@ private:
 	inline static std::string check(const std::string& s) { return s; }
 };
 
+class Ref: public Element<Ref>
+{
+	using Base = Element<Ref>;
+	friend class Element<Ref>;
+public:
+    inline static constexpr const char* Identifier = "Ref";
+    inline static constexpr const char* Pattern = "Ref";
+	Ref(const std::string& c = Identifier): Base(c){ };
+private:
+	inline static std::string check(const std::string& s) { return s; }
+};
+
 class BookingText: public Element<BookingText>
 {
 	using Base = Element<BookingText>;

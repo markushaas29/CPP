@@ -9,7 +9,7 @@ class ElementParser
 {
 protected:
 	template<typename T>
-	static std::unique_ptr<IElement> extract(const std::string& s, std::size_t& i)
+	static std::unique_ptr<IElement> extract(const std::string& s, std::size_t& i, char splitter = ':')
 	{
 		auto end = i;
 		i = s.find(T::Pattern);
@@ -64,6 +64,7 @@ public:
 		std::vector<std::unique_ptr<IElement>> v;
 		
 		auto i = s.size();
+		//v.push_back(extract<Ref>(s,i,'.'));
 		v.push_back(extract<Client>(s,i));
 		
 		//reg<0>();
