@@ -299,6 +299,19 @@ public:
     inline static constexpr const char* Identifier = "Ref";
     inline static constexpr const char* Pattern = "Ref";
 	Ref(const std::string& c = Identifier): Base(c){ };
+	static auto Extract(const std::string& s,char splitter ='.') 	
+	{ 	
+		std::stringstream ss(s);
+		std::vector<std::string> v;
+		
+	    while (ss.good()) {
+			std::string substr;
+			std::getline(ss, substr, splitter);
+	        v.push_back(String_::Trim(substr));
+		}
+		
+		return Make(v.size() > 0 ? v[1] : "");	
+	}
 private:
 	inline static std::string check(const std::string& s) { return s; }
 };

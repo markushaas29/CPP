@@ -13,7 +13,6 @@ protected:
 	{
 		auto end = i;
 		i = s.find(T::Pattern);
-		std::cout<<"FOUND: "<<i<<std::endl;
 	  	if (i!=std::string::npos)
 			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
 		return nullptr;
@@ -64,7 +63,7 @@ public:
 		std::vector<std::unique_ptr<IElement>> v;
 		
 		auto i = s.size();
-		//v.push_back(extract<Ref>(s,i,'.'));
+		v.push_back(extract<Ref>(s,i,'.'));
 		v.push_back(extract<Client>(s,i));
 		
 		//reg<0>();
