@@ -35,7 +35,15 @@ public:
 	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
 	inline static constexpr const char TypeIdentifier[] = "Element";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s)
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const = 0;
+private:
+	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
+};
+
+class ReceiverParser: public ElementParser
+{
+public:
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
@@ -51,14 +59,12 @@ public:
 
 		return v;
 	}
-private:
-	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
 };
 
 class ClientParser: public ElementParser
 {
 public:
-	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s)
+	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
