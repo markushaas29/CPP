@@ -79,6 +79,9 @@ private:
 		
 		auto i = s.size();
 		v.push_back(extract<Ref>(s,i));
+		v.push_back(extract<BookingText>(s,i));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(extract<Client>(s,i));
 		
 		//reg<0>();
