@@ -5,7 +5,16 @@
 
 #pragma once
 
-class ElementParser
+class IElementParser
+{
+public:
+	auto operator()(const std::string& s) const { return handle(s); };
+private:
+	friend std::ostream& operator<<(std::ostream& out, const IElementParser& e) {	return out<<e;}
+	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const = 0;
+};
+
+class ElementParser: public IElementParser
 {
 protected:
 	template<typename T>
@@ -35,19 +44,19 @@ public:
 	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
 	inline static constexpr const char TypeIdentifier[] = "Element";
     inline static constexpr Literal LiteralType{TypeIdentifier};
-	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const = 0;
 private:
 	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
 };
 
 class ReceiverParser: public ElementParser
 {
-public:
-	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const
+private:
+	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
 		auto i = s.size();
+		v.push_back(extract<Ref>(s,i));
 		v.push_back(extract<BookingText>(s,i));
 		v.push_back(extract<BIC>(s,i));
 		v.push_back(extract<IBAN>(s,i));
@@ -63,13 +72,13 @@ public:
 
 class ClientParser: public ElementParser
 {
-public:
-	virtual std::vector<std::unique_ptr<IElement>> operator()(const std::string& s) const
+private:
+	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
 		auto i = s.size();
-		v.push_back(extract<Ref>(s,i,'.'));
+		v.push_back(extract<Ref>(s,i));
 		v.push_back(extract<Client>(s,i));
 		
 		//reg<0>();
