@@ -9,11 +9,14 @@ class IElementParser
 {
 public:
 	auto operator()(const std::string& s) const { return handle(s); };
+	auto Is(const std::string& s) const { return handles(s); };
 private:
 	friend std::ostream& operator<<(std::ostream& out, const IElementParser& e) {	return out<<e;}
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const = 0;
+	virtual bool handles(const std::string& s) const = 0;
 };
 
+template<typename D>
 class ElementParser: public IElementParser
 {
 protected:
@@ -39,18 +42,20 @@ protected:
 			reg<N+1>();
 		}
 	}
-	
 public:
 	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
 	inline static constexpr const char TypeIdentifier[] = "Element";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 private:
+	std::string token = "";
 	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
+	virtual bool handles(const std::string& s) const { return token == s; };
 };
 
-class ReceiverParser: public ElementParser
+
+class ReceiverParser: public ElementParser<ReceiverParser>
 {
-private:
+	inline static constexpr char* Token = "Receiver";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
@@ -70,9 +75,9 @@ private:
 	}
 };
 
-class ClientParser: public ElementParser
+class ClientParser: public ElementParser<ClientParser>
 {
-private:
+	inline static constexpr char* Token = "Receiver";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
