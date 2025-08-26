@@ -228,9 +228,23 @@ private:
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
 
 		auto m0 = matrix()[0];
+		std::size_t cols = m0.Cols();
+		std::size_t rows = m0.Rows();
 		auto elements = m0.Elements();
 		using MT = decltype(m0);
 		std::vector<std::string> newVec;
+		
+		std::cout<<"\n\n"<<rows<<std::endl;
+
+		for(std::size_t i = 0; i < rows; ++i)
+		{
+			auto m = m0[i];
+			auto el = m.Elements();
+			std::cout<<" "<<i<<"\t"<<el.size()<<": \t"<<std::endl;
+		}
+		
+		std::cout<<"\n\n"<<rows<<std::endl;
+
 		std::for_each(std::begin(elements),std::end(elements), [&](const auto& s) 
 				{
 					newVec.push_back(s);
