@@ -55,7 +55,7 @@ private:
 
 class ReceiverParser: public ElementParser<ReceiverParser>
 {
-	inline static constexpr char* Token = "Receiver";
+	inline static constexpr const char* Token = "Empfänger";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
@@ -77,7 +77,7 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 
 class ClientParser: public ElementParser<ClientParser>
 {
-	inline static constexpr char* Token = "Receiver";
+	inline static constexpr const char* Token = "Auftraggeber";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
