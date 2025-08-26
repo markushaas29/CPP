@@ -49,7 +49,7 @@ public:
 private:
 	std::string token = "";
 	friend std::ostream& operator<<(std::ostream& out, const ElementParser& e) {	return out<<e;}
-	virtual bool handles(const std::string& s) const { return token == s; };
+	virtual bool handles(const std::string& s) const { return s.starts_with(token); };
 };
 
 
