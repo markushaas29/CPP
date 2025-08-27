@@ -230,84 +230,32 @@ private:
 		auto m0 = matrix()[0];
 		std::size_t cols = m0.Cols();
 		std::size_t rows = m0.Rows();
-		auto elements = m0.Elements();
-		using MT = decltype(m0);
-		std::vector<std::string> newVec;
-		
-		std::cout<<"\n\n"<<rows<<std::endl;
 
-		for(std::size_t i = 0; i < rows; ++i)
-		{
-			auto m = m0[i];
-			auto el = m.Elements();
-			std::cout<<" "<<i<<"\t"<<el.size()<<": \t"<<std::endl;
-		}
+		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+		using MT = decltype(m);
+		std::vector<std::shared_ptr<IElement>> newVec;
 		
-		std::cout<<"\n\n"<<rows<<std::endl;
-
-		std::for_each(std::begin(elements),std::end(elements), [&](const auto& s) 
+		//auto ms = MT(MT::DescriptorType({m.Rows(),newVec.size() / m.Rows()}),newVec);
+		auto elements = m[0].Elements();
+		std::for_each(std::begin(elements),std::end(elements), [&](const auto& sp) 
 				{
-					newVec.push_back(s);
+					newVec.push_back(sp);
+					auto s = sp->Data();
 					if(s.starts_with("Auftraggeber"))
-						newVec.push_back("A");
+						newVec.push_back(std::make_shared<Text>("A"));
 					if(s.starts_with("Empf"))
 					{
 						std::size_t found = s.find("IBAN");
   						if (found!=std::string::npos)
-							newVec.push_back(std::string(s.begin()+found,s.begin()+found+4));
+							newVec.push_back(std::make_shared<Text>(std::string(s.begin()+found,s.begin()+found+4)));
 						else	
-							newVec.push_back("B");
+							newVec.push_back(std::make_shared<Text>("B"));
 					}
 					if(s.starts_with("Buchungstext"))
-						newVec.push_back("C");
+						newVec.push_back(std::make_shared<Text>("C"));
 					if(s.starts_with(" Buchungstext"))
-						newVec.push_back("D");
+						newVec.push_back(std::make_shared<Text>("D"));
 				});
-		auto ms = MT(MT::DescriptorType({m0.Rows(),newVec.size() / m0.Rows()}),newVec);
-		std::cout<<"Size COllect: \n"<<ms<<std::endl;
-
-		std::unique_ptr<BaseVisitor> v = std::make_unique<ElementCollector<Date>>();
-		
-		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
-//		m = m.Apply([&](const auto& e1){ 
-//			auto ev = IsElementVisitor<Entry>();
-//			std::vector<std::shared_ptr<IElement>> v;
-//				try{
-//			if((*e1)->Is(ev))
-//			{
-//				auto entry = (*e1)->template As<Entry>(); 
-//				auto entries = entry.template GetElements<ComdirectParser>();
-//				v.insert(v.end(),entries.cbegin(), entries.cend());
-//			}
-//			else
-//				v.push_back(*e1);
-//				}
-//				catch(...)
-//				{
-//			std::cout<<" ERROR "<<std::endl;
-//				}
-//	
-//			if(v.size()>1 || v.size() != 3)
-//				while(v.size()<=3)
-//					v.push_back(std::make_shared<Text>(""));
-//			std::cout<<std::endl;
-//			return v;
-//			});
-
-	 	v = m.Collect(std::move(v));
-
-		auto V = v->template Cast<ElementCollector<Date>>();
-		auto vec = V->Elements();
-		std::vector<std::shared_ptr<IElement>> uniques;	
-//		for(auto e : V->Elements())
-//			std::cout<<"VIS: "<<*e<<std::endl;
-
-		auto same_i = [](auto const& v1, auto const& v2) { return v1->Data() == v2->Data(); };
-		vec.erase(unique(vec.begin(), vec.end(), same_i), vec.end());
-
-//			std::cout<<"UNIQUE: \n"<<std::endl;
-//		for(auto e : vec)
-//			std::cout<<"VIS: "<<*e<<std::endl;
 
 		return m;
 	}
