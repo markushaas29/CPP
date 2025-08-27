@@ -227,16 +227,15 @@ private:
         auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
 
-		auto m0 = matrix()[0];
-		std::size_t cols = m0.Cols();
-		std::size_t rows = m0.Rows();
+		auto m0 = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
+		auto m = m0[0];
+		std::size_t cols = m.Cols();
+		std::size_t rows = m.Rows();
 
-		auto m = matrix().Parse(Matcher(std::move(csvIndexTokens)), Matcher(std::move(elementIndexTokens)));
 		using MT = decltype(m);
 		std::vector<std::shared_ptr<IElement>> newVec;
 		
-		//auto ms = MT(MT::DescriptorType({m.Rows(),newVec.size() / m.Rows()}),newVec);
-		auto elements = m[0].Elements();
+		auto elements = m.Elements();
 		std::for_each(std::begin(elements),std::end(elements), [&](const auto& sp) 
 				{
 					newVec.push_back(sp);
@@ -257,7 +256,11 @@ private:
 						newVec.push_back(std::make_shared<Text>("D"));
 				});
 
-		return m;
+		auto ms = MT(MT::DescriptorType({m.Rows(),newVec.size() / m.Rows()}),newVec);
+		
+		std::cout<<"UNIQUE: \n"<<ms<<std::endl;
+		
+		return m0;
 	}
 };
 
