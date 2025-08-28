@@ -12,6 +12,7 @@
 #include "../ObjectFactory/Factory.hpp"
 #include "../Common/DateTimes.hpp"
 #include "../CSV/Elements.hpp"
+#include "../CSV/ElementParser.hpp"
 #include "../CSV/Matcher.hpp"
 #include "../Quantity/Quantity.hpp"
 #include "../Functional/Functional.hpp"
@@ -203,6 +204,7 @@ public:
 		return ve->template Cast<ElementCollector<Date,Text,Name,IBAN,BIC>>()->Elements();
 	}
 private:
+	std::vector<std::unique_ptr<IElementParser>> parsers;
 	ComdirectParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 	M3<std::string> matrix() const
 	{
