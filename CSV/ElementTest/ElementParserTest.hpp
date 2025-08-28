@@ -18,7 +18,7 @@ int Run()
 	ClientParser c;
 	v = c("Auftraggeber: Ballreich, Klaus Buchungstext: Miete Werkstatt Januar Ref. JF225031C0758672/75032");
 	assert(c.Is("Auftraggeber: Ballreich, Klaus Buchungstext: Miete Werkstatt Januar Ref. JF225031C0758672/75032"));
-	assert(c.Is("-1.000,00"));
+	assert(!c.Is("-1.000,00"));
 	assert(v.size()==5);
 
 	std::unique_ptr<IElementParser> p = std::make_unique<ReceiverParser>();

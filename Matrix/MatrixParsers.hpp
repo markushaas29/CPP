@@ -254,8 +254,6 @@ private:
 							{
 								if(ep->Is(s))
 									std::cout<<"IS "<<s<<std::endl;
-								else
-									std::cout<<"NOT "<<s<<std::endl;
 							}); 
 					if(s.starts_with("Auftraggeber"))
 						newVec.push_back(std::make_shared<Text>("A"));

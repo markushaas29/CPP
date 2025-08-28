@@ -43,6 +43,7 @@ protected:
 		}
 	}
 public:
+	ElementParser(): token{D::Token} {}
 	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
 	inline static constexpr const char TypeIdentifier[] = "Element";
     inline static constexpr Literal LiteralType{TypeIdentifier};
@@ -55,6 +56,7 @@ private:
 
 class ReceiverParser: public ElementParser<ReceiverParser>
 {
+	friend class ElementParser<ReceiverParser>;
 	inline static constexpr const char* Token = "Empfänger";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
@@ -77,6 +79,7 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 
 class ClientParser: public ElementParser<ClientParser>
 {
+	friend class ElementParser<ClientParser>;
 	inline static constexpr const char* Token = "Auftraggeber";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
