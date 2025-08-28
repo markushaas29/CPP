@@ -123,6 +123,14 @@ private:
 class ComdirectParser: public IMatrixParserBase<3>
 {
 	using Base = IMatrixParserBase;
+	static auto init()
+	{
+		auto p = std::make_unique<std::vector<std::unique_ptr<IElementParser>>>();
+		p->push_back(std::make_unique<ClientParser>());
+		p->push_back(std::make_unique<ReceiverParser>());
+
+		return p;
+	}
 public:
 	static auto& Instance(auto... t)
     {
@@ -204,8 +212,8 @@ public:
 		return ve->template Cast<ElementCollector<Date,Text,Name,IBAN,BIC>>()->Elements();
 	}
 private:
-	std::vector<std::unique_ptr<IElementParser>> parsers;
-	ComdirectParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
+	std::unique_ptr<std::vector<std::unique_ptr<IElementParser>>> parsers;
+	ComdirectParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p}, parsers{init()} {};
 	M3<std::string> matrix() const
 	{
         std::vector<std::string> paths{"//Comdirect.csv"};
@@ -242,6 +250,13 @@ private:
 				{
 					newVec.push_back(sp);
 					auto s = sp->Data();
+					std::for_each(parsers->cbegin(), parsers->cend(), [&](const auto& ep)
+							{
+								if(ep->Is(s))
+									std::cout<<"IS "<<s<<std::endl;
+								else
+									std::cout<<"NOT "<<s<<std::endl;
+							}); 
 					if(s.starts_with("Auftraggeber"))
 						newVec.push_back(std::make_shared<Text>("A"));
 					if(s.starts_with("Empf"))
