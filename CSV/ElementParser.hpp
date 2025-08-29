@@ -99,3 +99,26 @@ class ClientParser: public ElementParser<ClientParser>
 		return v;
 	}
 };
+
+class BookingTextParser: public ElementParser<BookingTextParser>
+{
+	friend class ElementParser<BookingTextParser>;
+	inline static constexpr const char* Token = " Buchungstext";
+	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
+	{
+		std::vector<std::unique_ptr<IElement>> v;
+		
+		auto i = s.size();
+		v.push_back(extract<Ref>(s,i));
+		v.push_back(extract<BookingText>(s,i));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		
+		reg<0>();
+		for(const auto& i : v)
+			std::cout<<*i<<std::endl;
+
+		return v;
+	}
+};

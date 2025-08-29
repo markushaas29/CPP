@@ -128,6 +128,7 @@ class ComdirectParser: public IMatrixParserBase<3>
 		auto p = std::make_unique<std::vector<std::unique_ptr<IElementParser>>>();
 		p->push_back(std::make_unique<ClientParser>());
 		p->push_back(std::make_unique<ReceiverParser>());
+		p->push_back(std::make_unique<BookingTextParser>());
 
 		return p;
 	}

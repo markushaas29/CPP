@@ -14,6 +14,12 @@ int Run()
 	assert(r.Is("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET Buchungstext: Leana Ref. JM22503421509571/2"));
 	assert(v.size()==5);
 	
+	BookingTextParser b;
+	v = b(" Buchungstext: Entgelt Visa-Kreditkarte Zeitraum: 01.01.2025 bis 31.01.2025 Ref. AB2C215N3OLPIN1H/583968");
+	assert(b.Is(" Buchungstext: Entgelt Visa-Kreditkarte Zeitraum: 01.01.2025 bis 31.01.2025 Ref. AB2C215N3OLPIN1H/583968"));
+	assert(!b.Is("Buchungstext"));
+	assert(v.size()==5);
+	
 	std::cout<<"\nCLIENT\n"<<std::endl;
 	ClientParser c;
 	v = c("Auftraggeber: Ballreich, Klaus Buchungstext: Miete Werkstatt Januar Ref. JF225031C0758672/75032");
