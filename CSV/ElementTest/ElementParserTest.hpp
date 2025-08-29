@@ -20,6 +20,12 @@ int Run()
 	assert(!b.Is("Buchungstext"));
 	assert(v.size()==5);
 	
+	HeaderParser h;
+	v = h("Buchungstext");
+	assert(!h.Is(" Buchungstext: Entgelt Visa-Kreditkarte Zeitraum: 01.01.2025 bis 31.01.2025 Ref. AB2C215N3OLPIN1H/583968"));
+	assert(h.Is("Buchungstext"));
+	assert(v.size()==5);
+	
 	std::cout<<"\nCLIENT\n"<<std::endl;
 	ClientParser c;
 	v = c("Auftraggeber: Ballreich, Klaus Buchungstext: Miete Werkstatt Januar Ref. JF225031C0758672/75032");

@@ -122,3 +122,21 @@ class BookingTextParser: public ElementParser<BookingTextParser>
 		return v;
 	}
 };
+
+class HeaderParser: public ElementParser<HeaderParser>
+{
+	friend class ElementParser<HeaderParser>;
+	inline static constexpr const char* Token = "Buchungstext";
+	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
+	{
+		std::vector<std::unique_ptr<IElement>> v;
+		
+		v.push_back(std::make_unique<Header>(s));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		
+		return v;
+	}
+};
