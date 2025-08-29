@@ -13,6 +13,7 @@ int Run()
 	auto v = r("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET Buchungstext: Leana Ref. JM22503421509571/2");
 	assert(r.Is("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET Buchungstext: Leana Ref. JM22503421509571/2"));
 	assert(v.size()==5);
+	v = r("Empf�nger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Leana Ref. JM22503421509571/2");
 	
 	BookingTextParser b;
 	v = b(" Buchungstext: Entgelt Visa-Kreditkarte Zeitraum: 01.01.2025 bis 31.01.2025 Ref. AB2C215N3OLPIN1H/583968");

@@ -129,6 +129,7 @@ class ComdirectParser: public IMatrixParserBase<3>
 		p->push_back(std::make_unique<ClientParser>());
 		p->push_back(std::make_unique<ReceiverParser>());
 		p->push_back(std::make_unique<BookingTextParser>());
+		p->push_back(std::make_unique<HeaderParser>());
 
 		return p;
 	}
@@ -245,16 +246,26 @@ private:
 
 		using MT = decltype(m);
 		std::vector<std::shared_ptr<IElement>> newVec;
+		std::vector<std::shared_ptr<IElement>> newVec2;
 		
 		auto elements = m.Elements();
 		std::for_each(std::begin(elements),std::end(elements), [&](const auto& sp) 
 				{
 					newVec.push_back(sp);
+					newVec2.push_back(sp);
 					auto s = sp->Data();
 					std::for_each(parsers->cbegin(), parsers->cend(), [&](const auto& ep)
 							{
 								if(ep->Is(s))
-									std::cout<<"IS "<<s<<std::endl;
+								{
+													std::cout<<"E: "<<s<<std::endl;
+									//auto el = (*ep)(s);
+//									if(el.size() > 0)
+//										std::for_each(el.begin(), el.end(), [&](auto& e)
+//												{ 
+//													std::cout<<"E: "<<*e<<std::endl;
+//													newVec2.push_back(e->Clone()); });
+								}
 							}); 
 					if(s.starts_with("Auftraggeber"))
 						newVec.push_back(std::make_shared<Text>("A"));
