@@ -13,7 +13,10 @@ int Run()
 	auto v = r("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET Buchungstext: Leana Ref. JM22503421509571/2");
 	assert(r.Is("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET Buchungstext: Leana Ref. JM22503421509571/2"));
 	assert(v.size()==5);
+	//v = r("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Leana Ref. JM22503421509571/2");
 	v = r("Empf�nger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET  Buchungstext: Leana Ref. JM22503421509571/2");
+	for(auto& i : v)
+		std::cout<<*i<<std::endl;
 	
 	BookingTextParser b;
 	v = b(" Buchungstext: Entgelt Visa-Kreditkarte Zeitraum: 01.01.2025 bis 31.01.2025 Ref. AB2C215N3OLPIN1H/583968");
@@ -33,6 +36,8 @@ int Run()
 	assert(c.Is("Auftraggeber: Ballreich, Klaus Buchungstext: Miete Werkstatt Januar Ref. JF225031C0758672/75032"));
 	assert(!c.Is("-1.000,00"));
 	assert(v.size()==5);
+	
+	v = c("Auftraggeber: Frontiers Deutschland e.V. (FROG e.V.) Ref. 5V2C213M0BRQHDA8/99816");
 
 	std::unique_ptr<IElementParser> p = std::make_unique<ReceiverParser>();
 	(*p)("Empfänger: Markus HaasKto/IBAN: DE05660623660009331409 BLZ/BIC: GENODE61DET Buchungstext: Leana Ref. JM22503421509571/2");

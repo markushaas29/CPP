@@ -27,7 +27,7 @@ protected:
 		i = s.find(T::Pattern);
 	  	if (i!=std::string::npos)
 			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
-		return nullptr;
+		return T::Make(s);
 	}
 	template<size_t N>
 	static void reg()
@@ -37,8 +37,6 @@ protected:
 		else
 		{
 			using Type = std::tuple_element_t<N,Elements>;
-			std::cout<<Type::Identifier<<std::endl;
-			//interface->Register(Type::Identifier,&Type::Make);
 			reg<N+1>();
 		}
 	}
@@ -68,10 +66,7 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 		v.push_back(extract<BIC>(s,i));
 		v.push_back(extract<IBAN>(s,i));
 		v.push_back(extract<Receiver>(s,i));
-		
 		reg<0>();
-		for(const auto& i : v)
-			std::cout<<*i<<std::endl;
 
 		return v;
 	}
@@ -87,14 +82,12 @@ class ClientParser: public ElementParser<ClientParser>
 		
 		auto i = s.size();
 		v.push_back(extract<Ref>(s,i));
-		v.push_back(extract<BookingText>(s,i));
+		//v.push_back(extract<BookingText>(s,i));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(extract<Client>(s,i));
-		
-		//reg<0>();
-		for(const auto& i : v)
-			std::cout<<*i<<std::endl;
+		reg<0>();
 
 		return v;
 	}
@@ -114,10 +107,7 @@ class BookingTextParser: public ElementParser<BookingTextParser>
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		
 		reg<0>();
-		for(const auto& i : v)
-			std::cout<<*i<<std::endl;
 
 		return v;
 	}
