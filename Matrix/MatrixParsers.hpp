@@ -245,14 +245,12 @@ private:
 		std::size_t rows = m.Rows();
 
 		using MT = decltype(m);
-		std::vector<std::shared_ptr<IElement>> newVec;
-		std::vector<std::shared_ptr<IElement>> newVec2;
+		std::vector<std::shared_ptr<IElement>> parsedElements;
 		
 		auto elements = m.Elements();
 		std::for_each(std::begin(elements),std::end(elements), [&](const auto& sp) 
 				{
-					newVec.push_back(sp);
-					newVec2.push_back(sp);
+					parsedElements.push_back(sp);
 					auto s = sp->Data();
 					std::for_each(parsers->cbegin(), parsers->cend(), [&](const auto& ep)
 							{
@@ -260,26 +258,12 @@ private:
 								{
 									auto el = (*ep)(s);
 									if(el.size() > 0)
-										std::for_each(el.begin(), el.end(), [&](auto& e) {	newVec2.push_back(e->Clone()); });	
+										std::for_each(el.begin(), el.end(), [&](auto& e) {	parsedElements.push_back(e->Clone()); });	
 								}
 							}); 
-					if(s.starts_with("Auftraggeber"))
-						newVec.push_back(std::make_shared<Text>("A"));
-					if(s.starts_with("Empf"))
-					{
-						std::size_t found = s.find("IBAN");
-  						if (found!=std::string::npos)
-							newVec.push_back(std::make_shared<Text>(std::string(s.begin()+found,s.begin()+found+4)));
-						else	
-							newVec.push_back(std::make_shared<Text>("B"));
-					}
-					if(s.starts_with("Buchungstext"))
-						newVec.push_back(std::make_shared<Text>("C"));
-					if(s.starts_with(" Buchungstext"))
-						newVec.push_back(std::make_shared<Text>("D"));
 				});
 
-		auto ms = MT(MT::DescriptorType({m.Rows(),newVec2.size() / m.Rows()}),newVec2);
+		auto ms = MT(MT::DescriptorType({m.Rows(),parsedElements.size() / m.Rows()}),parsedElements);
 		
 		std::cout<<"UNIQUE: \n"<<ms<<std::endl;
 		
