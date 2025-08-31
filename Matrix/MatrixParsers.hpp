@@ -279,7 +279,7 @@ private:
 						newVec.push_back(std::make_shared<Text>("D"));
 				});
 
-		auto ms = MT(MT::DescriptorType({m.Rows(),newVec.size() / m.Rows()}),newVec);
+		auto ms = MT(MT::DescriptorType({m.Rows(),newVec2.size() / m.Rows()}),newVec2);
 		
 		std::cout<<"UNIQUE: \n"<<ms<<std::endl;
 		
