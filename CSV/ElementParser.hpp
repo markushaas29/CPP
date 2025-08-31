@@ -74,12 +74,30 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 
 class ClientParser: public ElementParser<ClientParser>
 {
+	using Elements = std::tuple<Ref,BookingText,Client>;
+	static inline constexpr size_t Num = std::tuple_size<Elements>();
+	template<size_t N>
+	static void extractN(const std::string& s)
+	{
+		if constexpr (0==N)
+			return;
+		else
+		{
+			using Type = std::tuple_element_t<N-1,Elements>;
+			auto i = s.find(Type::Pattern);
+	  		if (i!=std::string::npos)
+				std::cout<<"FOUND "<<Type::Pattern<<" "<<s<<std::endl;
+			else
+				std::cout<<"NOT FOUND "<<Type::Pattern<<" "<<s<<std::endl;
+			extractN<N-1>(s);
+		}
+	}
 	friend class ElementParser<ClientParser>;
 	inline static constexpr const char* Token = "Auftraggeber";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
-		
+		extractN<Num>(s);
 		auto i = s.size();
 		v.push_back(extract<Ref>(s,i));
 		//v.push_back(extract<BookingText>(s,i));
