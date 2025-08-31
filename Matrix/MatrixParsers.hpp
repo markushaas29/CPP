@@ -258,13 +258,9 @@ private:
 							{
 								if(ep->Is(s))
 								{
-													std::cout<<"E: "<<s<<std::endl;
 									auto el = (*ep)(s);
-									if(el.size() > -1)
-										std::for_each(el.begin(), el.end(), [&](auto& e)
-												{ 
-													std::cout<<"E: "<<*e<<std::endl;
-													newVec2.push_back(e->Clone()); });
+									if(el.size() > 0)
+										std::for_each(el.begin(), el.end(), [&](auto& e) {	newVec2.push_back(e->Clone()); });	
 								}
 							}); 
 					if(s.starts_with("Auftraggeber"))
