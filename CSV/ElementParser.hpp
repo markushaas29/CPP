@@ -25,6 +25,7 @@ protected:
 	{
 		auto end = i;
 		i = s.find(T::Pattern);
+				std::cout<<"FOUND "<<T::Pattern<<" "<<String_::Trim(std::string(s.begin()+i,s.begin()+end))<<std::endl;
 	  	if (i!=std::string::npos)
 			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
 		return T::Make(s);
@@ -74,10 +75,10 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 
 class ClientParser: public ElementParser<ClientParser>
 {
-	using Elements = std::tuple<Ref,BookingText,Client>;
+	using Elements = std::tuple<Client,BookingText,Ref>;
 	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	template<size_t N>
-	static void extractN(const std::string& s)
+	static void extractN(const std::string& s, std::size_t& is)
 	{
 		if constexpr (0==N)
 			return;
@@ -86,10 +87,12 @@ class ClientParser: public ElementParser<ClientParser>
 			using Type = std::tuple_element_t<N-1,Elements>;
 			auto i = s.find(Type::Pattern);
 	  		if (i!=std::string::npos)
-				std::cout<<"FOUND "<<Type::Pattern<<" "<<s<<std::endl;
+			{
+				extract<Type>(s,is);
+			}
 			else
 				std::cout<<"NOT FOUND "<<Type::Pattern<<" "<<s<<std::endl;
-			extractN<N-1>(s);
+			extractN<N-1>(s,is);
 		}
 	}
 	friend class ElementParser<ClientParser>;
@@ -97,7 +100,8 @@ class ClientParser: public ElementParser<ClientParser>
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
-		extractN<Num>(s);
+		auto i2 = s.size();
+		extractN<Num>(s,i2);
 		auto i = s.size();
 		v.push_back(extract<Ref>(s,i));
 		//v.push_back(extract<BookingText>(s,i));
