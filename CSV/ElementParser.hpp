@@ -78,7 +78,7 @@ class ClientParser: public ElementParser<ClientParser>
 	using Elements = std::tuple<Client,BookingText,Ref>;
 	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	template<size_t N>
-	static void extractN(const std::string& s, std::size_t& is)
+	static void extractN(const std::string& s, std::size_t& is, std::vector<std::unique_ptr<IElement>>& v)
 	{
 		if constexpr (0==N)
 			return;
@@ -87,12 +87,10 @@ class ClientParser: public ElementParser<ClientParser>
 			using Type = std::tuple_element_t<N-1,Elements>;
 			auto i = s.find(Type::Pattern);
 	  		if (i!=std::string::npos)
-			{
-				extract<Type>(s,is);
-			}
+				v.push_back(extract<Type>(s,is));
 			else
-				std::cout<<"NOT FOUND "<<Type::Pattern<<" "<<s<<std::endl;
-			extractN<N-1>(s,is);
+				v.push_back(std::make_unique<BIC>("GENODE61DET"));
+			extractN<N-1>(s,is,v);
 		}
 	}
 	friend class ElementParser<ClientParser>;
@@ -101,13 +99,10 @@ class ClientParser: public ElementParser<ClientParser>
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		auto i2 = s.size();
-		extractN<Num>(s,i2);
+		extractN<Num>(s,i2,v);
 		auto i = s.size();
 		v.push_back(extract<Ref>(s,i));
 		//v.push_back(extract<BookingText>(s,i));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(extract<Client>(s,i));
 		reg<0>();
 
