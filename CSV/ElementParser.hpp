@@ -78,7 +78,7 @@ class ClientParser: public ElementParser<ClientParser>
 	using Elements = std::tuple<Client,BookingText,Ref>;
 	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	template<size_t N>
-	static void extractN(const std::string& s, std::size_t& is, std::vector<std::unique_ptr<IElement>>& v)
+	static void extractN(const std::string& s, std::size_t is, std::vector<std::unique_ptr<IElement>>& v)
 	{
 		if constexpr (0==N)
 			return;
@@ -98,12 +98,9 @@ class ClientParser: public ElementParser<ClientParser>
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
-		auto i2 = s.size();
-		extractN<Num>(s,i2,v);
-		auto i = s.size();
-		v.push_back(extract<Ref>(s,i));
-		//v.push_back(extract<BookingText>(s,i));
-		v.push_back(extract<Client>(s,i));
+		extractN<Num>(s,s.size(),v);
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		reg<0>();
 
 		return v;
