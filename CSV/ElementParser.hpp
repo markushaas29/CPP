@@ -25,7 +25,6 @@ protected:
 	{
 		auto end = i;
 		i = s.find(T::Pattern);
-				std::cout<<"FOUND "<<T::Pattern<<" "<<String_::Trim(std::string(s.begin()+i,s.begin()+end))<<std::endl;
 	  	if (i!=std::string::npos)
 			return T::Extract(String_::Trim(std::string(s.begin()+i,s.begin()+end)));
 		return T::Make(s);
