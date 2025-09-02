@@ -72,9 +72,8 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 	}
 };
 
-class ClientParser: public ElementParser<ClientParser>
+class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 {
-	using Elements = std::tuple<Client,BookingText,Ref>;
 	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	template<size_t N>
 	static void extractN(const std::string& s, std::size_t is, std::vector<std::unique_ptr<IElement>>& v)
@@ -92,7 +91,7 @@ class ClientParser: public ElementParser<ClientParser>
 			extractN<N-1>(s,is,v);
 		}
 	}
-	friend class ElementParser<ClientParser>;
+	friend class ElementParser<ClientParser,Client,BookingText,Ref>;
 	inline static constexpr const char* Token = "Auftraggeber";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
