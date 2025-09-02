@@ -23,7 +23,7 @@ protected:
 	using Elements = std::tuple<TP...>;
 	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	template<typename T>
-	static std::unique_ptr<IElement> extract(const std::string& s, std::size_t& i, char splitter = ':')
+	static std::unique_ptr<IElement> extractElement(const std::string& s, std::size_t& i, char splitter = ':')
 	{
 		auto end = i;
 		i = s.find(T::Pattern);
@@ -32,7 +32,7 @@ protected:
 		return T::Make(s);
 	}
 	template<size_t N>
-	static void extractN(const std::string& s, std::size_t is, std::vector<std::unique_ptr<IElement>>& v)
+	static void extractElements(const std::string& s, std::size_t is, std::vector<std::unique_ptr<IElement>>& v)
 	{
 		if constexpr (0==N)
 			return;
@@ -41,21 +41,10 @@ protected:
 			using Type = std::tuple_element_t<N-1,Elements>;
 			auto i = s.find(Type::Pattern);
 	  		if (i!=std::string::npos)
-				v.push_back(extract<Type>(s,is));
+				v.push_back(extractElement<Type>(s,is));
 			else
 				v.push_back(std::make_unique<BIC>("GENODE61DET"));
-			extractN<N-1>(s,is,v);
-		}
-	}
-	template<size_t N>
-	static void reg()
-	{
-		if constexpr (std::tuple_size<Elements>()==N)
-			return;
-		else
-		{
-			using Type = std::tuple_element_t<N,Elements>;
-			reg<N+1>();
+			extractElements<N-1>(s,is,v);
 		}
 	}
 public:
@@ -69,24 +58,14 @@ private:
 };
 
 
-class ReceiverParser: public ElementParser<ReceiverParser,IBAN, BIC, BookingText, Ref>
+class ReceiverParser: public ElementParser<ReceiverParser,Receiver,IBAN, BIC, BookingText, Ref>
 {
-	friend class ElementParser<ReceiverParser,IBAN, BIC, BookingText, Ref>;
+	friend class ElementParser<ReceiverParser,Receiver,IBAN, BIC, BookingText, Ref>;
 	inline static constexpr const char* Token = "Empf";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
-		
-		auto i = s.size();
-		v.push_back(extract<Ref>(s,i));
-		v.push_back(extract<BookingText>(s,i));
-		v.push_back(extract<BIC>(s,i));
-		v.push_back(extract<IBAN>(s,i));
-		v.push_back(extract<Receiver>(s,i));
-		reg<0>();
-		
-//		extractN<Num>(s,s.size(),v);
-
+		extractElements<Num>(s,s.size(),v);
 		return v;
 	}
 };
@@ -98,10 +77,9 @@ class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
-		extractN<Num>(s,s.size(),v);
+		extractElements<Num>(s,s.size(),v);
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		reg<0>();
 
 		return v;
 	}
@@ -115,11 +93,10 @@ class BookingTextParser: public ElementParser<BookingTextParser,BookingText, Ref
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
-		extractN<Num>(s,s.size(),v);
+		extractElements<Num>(s,s.size(),v);
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		reg<0>();
 
 		return v;
 	}
