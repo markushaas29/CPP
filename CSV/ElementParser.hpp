@@ -21,6 +21,7 @@ class ElementParser: public IElementParser
 {
 protected:
 	using Elements = std::tuple<TP...>;
+	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	template<typename T>
 	static std::unique_ptr<IElement> extract(const std::string& s, std::size_t& i, char splitter = ':')
 	{
@@ -68,9 +69,9 @@ private:
 };
 
 
-class ReceiverParser: public ElementParser<ReceiverParser,Ref, BookingText, BIC, IBAN>
+class ReceiverParser: public ElementParser<ReceiverParser,IBAN, BIC, BookingText, Ref>
 {
-	friend class ElementParser<ReceiverParser,Ref, BookingText, BIC, IBAN>;
+	friend class ElementParser<ReceiverParser,IBAN, BIC, BookingText, Ref>;
 	inline static constexpr const char* Token = "Empf";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
@@ -83,6 +84,8 @@ class ReceiverParser: public ElementParser<ReceiverParser,Ref, BookingText, BIC,
 		v.push_back(extract<IBAN>(s,i));
 		v.push_back(extract<Receiver>(s,i));
 		reg<0>();
+		
+//		extractN<Num>(s,s.size(),v);
 
 		return v;
 	}
@@ -90,7 +93,6 @@ class ReceiverParser: public ElementParser<ReceiverParser,Ref, BookingText, BIC,
 
 class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 {
-	static inline constexpr size_t Num = std::tuple_size<Elements>();
 	friend class ElementParser<ClientParser,Client,BookingText,Ref>;
 	inline static constexpr const char* Token = "Auftraggeber";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
@@ -105,17 +107,15 @@ class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 	}
 };
 
-class BookingTextParser: public ElementParser<BookingTextParser,Ref, BookingText>
+class BookingTextParser: public ElementParser<BookingTextParser,BookingText, Ref>
 {
-	friend class ElementParser<BookingTextParser,Ref, BookingText>;
+	friend class ElementParser<BookingTextParser,BookingText, Ref>;
 	inline static constexpr const char* Token = " Buchungstext";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
-		auto i = s.size();
-		v.push_back(extract<Ref>(s,i));
-		v.push_back(extract<BookingText>(s,i));
+		extractN<Num>(s,s.size(),v);
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
 		v.push_back(std::make_unique<BIC>("GENODE61DET"));
