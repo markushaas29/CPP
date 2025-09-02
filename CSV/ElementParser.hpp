@@ -16,10 +16,11 @@ private:
 	virtual bool handles(const std::string& s) const = 0;
 };
 
-template<typename D>
+template<typename D, typename... TP>
 class ElementParser: public IElementParser
 {
 protected:
+	using Elements = std::tuple<TP...>;
 	template<typename T>
 	static std::unique_ptr<IElement> extract(const std::string& s, std::size_t& i, char splitter = ':')
 	{
@@ -42,7 +43,6 @@ protected:
 	}
 public:
 	ElementParser(): token{D::Token} {}
-	using Elements = std::tuple<BookingText,BIC,IBAN,Receiver>;
 	inline static constexpr const char TypeIdentifier[] = "Element";
     inline static constexpr Literal LiteralType{TypeIdentifier};
 private:
