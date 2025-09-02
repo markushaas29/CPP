@@ -31,6 +31,22 @@ protected:
 		return T::Make(s);
 	}
 	template<size_t N>
+	static void extractN(const std::string& s, std::size_t is, std::vector<std::unique_ptr<IElement>>& v)
+	{
+		if constexpr (0==N)
+			return;
+		else
+		{
+			using Type = std::tuple_element_t<N-1,Elements>;
+			auto i = s.find(Type::Pattern);
+	  		if (i!=std::string::npos)
+				v.push_back(extract<Type>(s,is));
+			else
+				v.push_back(std::make_unique<BIC>("GENODE61DET"));
+			extractN<N-1>(s,is,v);
+		}
+	}
+	template<size_t N>
 	static void reg()
 	{
 		if constexpr (std::tuple_size<Elements>()==N)
@@ -52,9 +68,9 @@ private:
 };
 
 
-class ReceiverParser: public ElementParser<ReceiverParser>
+class ReceiverParser: public ElementParser<ReceiverParser,Ref, BookingText, BIC, IBAN>
 {
-	friend class ElementParser<ReceiverParser>;
+	friend class ElementParser<ReceiverParser,Ref, BookingText, BIC, IBAN>;
 	inline static constexpr const char* Token = "Empf";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
@@ -75,22 +91,6 @@ class ReceiverParser: public ElementParser<ReceiverParser>
 class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 {
 	static inline constexpr size_t Num = std::tuple_size<Elements>();
-	template<size_t N>
-	static void extractN(const std::string& s, std::size_t is, std::vector<std::unique_ptr<IElement>>& v)
-	{
-		if constexpr (0==N)
-			return;
-		else
-		{
-			using Type = std::tuple_element_t<N-1,Elements>;
-			auto i = s.find(Type::Pattern);
-	  		if (i!=std::string::npos)
-				v.push_back(extract<Type>(s,is));
-			else
-				v.push_back(std::make_unique<BIC>("GENODE61DET"));
-			extractN<N-1>(s,is,v);
-		}
-	}
 	friend class ElementParser<ClientParser,Client,BookingText,Ref>;
 	inline static constexpr const char* Token = "Auftraggeber";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
@@ -105,9 +105,9 @@ class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 	}
 };
 
-class BookingTextParser: public ElementParser<BookingTextParser>
+class BookingTextParser: public ElementParser<BookingTextParser,Ref, BookingText>
 {
-	friend class ElementParser<BookingTextParser>;
+	friend class ElementParser<BookingTextParser,Ref, BookingText>;
 	inline static constexpr const char* Token = " Buchungstext";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
@@ -125,9 +125,9 @@ class BookingTextParser: public ElementParser<BookingTextParser>
 	}
 };
 
-class HeaderParser: public ElementParser<HeaderParser>
+class HeaderParser: public ElementParser<HeaderParser, Header>
 {
-	friend class ElementParser<HeaderParser>;
+	friend class ElementParser<HeaderParser, Header>;
 	inline static constexpr const char* Token = "Buchungstext";
 	virtual std::vector<std::unique_ptr<IElement>> handle(const std::string& s) const
 	{
