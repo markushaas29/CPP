@@ -250,17 +250,19 @@ private:
 		auto elements = m.Elements();
 		std::for_each(std::begin(elements),std::end(elements), [&](const auto& sp) 
 				{
-					parsedElements.push_back(sp);
+					bool handeld = false;
 					auto s = sp->Data();
 					std::for_each(parsers->cbegin(), parsers->cend(), [&](const auto& ep)
 							{
 								if(ep->Is(s))
-								{
+								{	handeld = true;
 									auto el = (*ep)(s);
 									if(el.size() > 0)
 										std::for_each(el.begin(), el.end(), [&](auto& e) {	parsedElements.push_back(e->Clone()); });	
 								}
 							}); 
+					if(!handeld)
+						parsedElements.push_back(sp);
 				});
 
 		auto ms = MT(MT::DescriptorType({m.Rows(),parsedElements.size() / m.Rows()}),parsedElements);
