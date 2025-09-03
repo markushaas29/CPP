@@ -43,7 +43,7 @@ protected:
 	  		if (i!=std::string::npos)
 				v.push_back(extractElement<Type>(s,is));
 			else
-				v.push_back(std::make_unique<BIC>("GENODE61DET"));
+				v.push_back(std::make_unique<Empty>("--"));
 			extractElements<N-1>(s,is,v);
 		}
 	}
@@ -78,8 +78,8 @@ class ClientParser: public ElementParser<ClientParser,Client,BookingText,Ref>
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		extractElements<Num>(s,s.size(),v);
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Empty>("--"));
 
 		return v;
 	}
@@ -94,9 +94,9 @@ class BookingTextParser: public ElementParser<BookingTextParser,BookingText, Ref
 		std::vector<std::unique_ptr<IElement>> v;
 		
 		extractElements<Num>(s,s.size(),v);
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Empty>("--"));
 
 		return v;
 	}
@@ -111,10 +111,10 @@ class HeaderParser: public ElementParser<HeaderParser, Header>
 		std::vector<std::unique_ptr<IElement>> v;
 		
 		v.push_back(std::make_unique<Header>(s));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
-		v.push_back(std::make_unique<BIC>("GENODE61DET"));
+		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Empty>("--"));
 		
 		return v;
 	}
