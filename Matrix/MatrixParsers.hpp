@@ -250,18 +250,18 @@ private:
 		auto elements = m.Elements();
 		std::for_each(std::begin(elements),std::end(elements), [&](const auto& sp) 
 				{
-					bool handeld = false;
+					bool handled = false;
 					auto s = sp->Data();
 					std::for_each(parsers->cbegin(), parsers->cend(), [&](const auto& ep)
 							{
 								if(ep->Is(s))
-								{	handeld = true;
+								{	handled = true;
 									auto el = (*ep)(s);
 									if(el.size() > 0)
 										std::for_each(el.begin(), el.end(), [&](auto& e) {	parsedElements.push_back(e->Clone()); });	
 								}
 							}); 
-					if(!handeld)
+					if(!handled)
 						parsedElements.push_back(sp);
 				});
 
