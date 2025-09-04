@@ -104,9 +104,7 @@ private:
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
 		auto mf = MatrixFormatter(result->M());  
-		result->Html();
 		auto hb = HtmlBuilder<German>("Account_"+ y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
-		//hb(mf());
         hb.Add(result->Html());
 		hb();
 
