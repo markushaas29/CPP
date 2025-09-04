@@ -110,11 +110,11 @@ class HeaderParser: public ElementParser<HeaderParser, Header>
 	{
 		std::vector<std::unique_ptr<IElement>> v;
 		
-		v.push_back(std::make_unique<Header>(s));
-		v.push_back(std::make_unique<Empty>("--"));
-		v.push_back(std::make_unique<Empty>("--"));
-		v.push_back(std::make_unique<Empty>("--"));
-		v.push_back(std::make_unique<Empty>("--"));
+		v.push_back(std::make_unique<Header>(Name::Identifier));
+		v.push_back(std::make_unique<Header>(IBAN::Identifier));
+		v.push_back(std::make_unique<Header>(BIC::Identifier));
+		v.push_back(std::make_unique<Header>(BookingText::Identifier));
+		v.push_back(std::make_unique<Header>(Ref::Identifier));
 		
 		return v;
 	}
