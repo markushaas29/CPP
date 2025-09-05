@@ -101,8 +101,8 @@ public:
 						v.push_back(std::make_shared<Entry>("-"));
 						v.push_back(std::make_shared<Entry>("-"));
 						v.push_back(i->Value().Clone());
-						htmlPtr->Add(Header(i->Name()).Html());
-						htmlPtr->Add(i->Value().Html());
+						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
+						htmlPtr->Add(MatrixFormatter(Init(result)()).Html());
 						res.insert(res.end(),v.begin(), v.end());
 					}
 					});
