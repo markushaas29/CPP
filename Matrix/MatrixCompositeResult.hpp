@@ -1,6 +1,7 @@
 #include <memory>
 #include <tuple>
 #include <vector>
+#include <sstream>
 #include "../CSV/IHtml.hpp"
 #include "../CSV/HtmlElement.hpp"
 #include "../Is/Is.hpp"
@@ -101,8 +102,10 @@ public:
 						v.push_back(std::make_shared<Entry>("-"));
 						v.push_back(std::make_shared<Entry>("-"));
 						v.push_back(i->Value().Clone());
+						std::ostringstream oss;
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 						htmlPtr->Add(MatrixFormatter(Init(result)()).Html());
+						htmlPtr->Add(MatrixFormatter(i->Funcs()).Html());
 						res.insert(res.end(),v.begin(), v.end());
 					}
 					});
