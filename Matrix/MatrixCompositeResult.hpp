@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include "../CSV/IHtml.hpp"
+#include "../CSV/IModel.hpp"
 #include "../CSV/HtmlElement.hpp"
 #include "../Is/Is.hpp"
 #include "../String/Literal.hpp"
@@ -17,7 +18,7 @@
 template<std::size_t, typename> class Matrix;
 
 template<typename Q, typename MType>
-class IResult: public IHtml
+class IResult: public IHtml, public IModel
 {
 public:
 	using QuantityType = Q;
@@ -42,6 +43,8 @@ private:
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
 	virtual std::ostream& display(std::ostream& out)	const = 0;
+	virtual std::string out(const std::string& intent, uint i = 0) const  { return showContent(intent,++i); };
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;
 };
 
 template<typename Q, typename MType>
@@ -70,6 +73,7 @@ private:
 		std::vector<std::shared_ptr<IElement>> res = { std::make_shared<Header>(name) };
 		return Init(res)();
 	};
+	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return intent; };
 	typename Base::QuantityType value;
 	MType item;
 	std::string name;
@@ -164,6 +168,7 @@ private:
 		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) {	res.push_back(std::make_shared<Header>(i->Name()));		});
 		return Init(res)();
 	};
+	virtual std::string showContent(const std::string& intent, uint i = 0) const { return intent; };
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
 	std::unique_ptr<std::vector<std::unique_ptr<Base>>> items;
