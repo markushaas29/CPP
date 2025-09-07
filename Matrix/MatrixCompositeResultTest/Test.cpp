@@ -30,6 +30,7 @@ class MatrixResultTypeTest
 	std::cout<<"Acc"<<acc<<std::endl;
 
 	Result<QS,Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> res{QS{5}};
+	std::cout<<"Res"<<res<<std::endl;
 
 	std::cout<<"END"<<std::endl;
 //
