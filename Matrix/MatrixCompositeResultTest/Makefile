@@ -21,6 +21,12 @@ NDebug: $(OBJECTS)
 %.o: %.cpp %.h %.hpp
 	$(CXX) $(NFLAGS) $<
 
+T: 	T.cpp
+	g++ -std=c++2a -o T T.cpp
+
+A: 	All.cpp
+	g++ -std=c++2a -o A All.cpp
+
 clean:
 	rm *.o test
 

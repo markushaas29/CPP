@@ -2,6 +2,7 @@
 #include <tuple>
 #include <vector>
 #include <sstream>
+#include "MatrixInitializer.hpp"
 #include "../CSV/IHtml.hpp"
 #include "../CSV/IModel.hpp"
 #include "../CSV/HtmlElement.hpp"

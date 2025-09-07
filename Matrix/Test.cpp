@@ -13,7 +13,7 @@
 #include "MatrixReaderTest/Test2023.cpp"
 #include "MatrixDescriptorTest/Test.cpp"
 #include "MatrixSliceAccessTest/Test.cpp"
-//#include "MatrixQueryTest/Test.cpp"
+#include "MatrixCompositeResultTest/Test.cpp"
 //#include "MatrixAnalyzerTest/Test.cpp"
 #include "MatrixParserTest/Test.cpp"
 #include "MatrixVisitorTest/Test.cpp"
@@ -184,7 +184,7 @@ int Run()
     MatrixInitializerTest init;     
     MatrixColAccessTest access;     
     MatrixAccessTest access2;     
-//    MatrixQueryTest q;     
+    MatrixResultTypeTest q;    
     MatrixParserTest p;     
     MatrixReaderTest r;     
     MatrixVisitorTest v;     
@@ -195,7 +195,7 @@ int Run()
     projector.Run();
 	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	//a.Run();
-//	q.Run();
+	q.Run();
 	std::cout<<"\n\n-------------------------------------------------------Matrix COL\n\n--------------------------------------------------\n\n"<<m3<<"\n";
 	m3t.Run();
     access2.Run();
