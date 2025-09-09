@@ -25,7 +25,7 @@ class Style: public IStyle
 	template<uint N>
 	inline static auto create(auto&& v)
 	{
-		if constexpr (N == 50) 
+		if constexpr (N == 200) 
 			return v;
 			v->push_back(std::make_unique<Style<TEl,TVal>>());
 			create<N+1>(std::move(v));
@@ -33,6 +33,7 @@ class Style: public IStyle
 public:
  	Style(): element{TEl::Id}, value{TVal::Id} { };
 	auto operator[](uint n) { return get(n); }
+	static auto Get(uint n) { return get(n); }
 	virtual std::string Element() const { return element; };	
 	virtual std::string Value() const  { return value; };	
 	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<Style>(); };	
@@ -41,5 +42,5 @@ private:
 	std::string	value;
 	inline static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles = create<0>(std::make_unique<std::vector<std::unique_ptr<IStyle>>>());
 	virtual std::string data() const  { return " " + element + ":" + value + ";"; };	
-	std::unique_ptr<IStyle> get(uint n) const { return styles->at(n)->Clone(); };	
+	inline static std::unique_ptr<IStyle> get(uint n) { return styles->at(n)->Clone(); };	
 };

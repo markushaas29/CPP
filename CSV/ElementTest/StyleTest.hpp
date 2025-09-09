@@ -85,6 +85,8 @@ int Run()
 	assert(hex1=="#ff6348");
 	hex1 = Hex<"FF6348">::Id;
 	assert(hex1=="#FF6348");
+	
+	//auto px100 = Style<Padding,Px<14>>::Get(10);
 
 	return 0;
 }
