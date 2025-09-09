@@ -21,6 +21,17 @@ private:
 template<typename TEl, typename TVal>
 class Style: public IStyle
 {
+	template<uint N>
+	inline static auto create(auto&& v)
+	{
+		if constexpr (N == 1500) 
+			return v;
+		else
+		{
+			v.push_back(std::make_unique<Style<TEl,TVal>>());
+			create<N+1>(v);
+		}
+	}
 public:
  	Style(): element{TEl::Id}, value{TVal::Id} { };
 	virtual std::string Element() const { return element; };	
@@ -29,16 +40,6 @@ public:
 private:
 	std::string element;
 	std::string	value;
-	inline static std::vector<std::unique_ptr<IStyle>> styles;
-	template<uint N>
-	inline static auto create(auto&& v)
-	{
-		if constexpr (N == 1500) 
-			return v;
-		else
-		{
-			create<N+1>(v);
-		}
-	}
+	inline static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles = create<0>(std::make_unique<std::vector<std::unique_ptr<IStyle>>>());
 	virtual std::string data() const  { return " " + element + ":" + value + ";"; };	
 };
