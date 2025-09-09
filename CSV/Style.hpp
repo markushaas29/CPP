@@ -15,6 +15,7 @@ private:
 	friend std::ostream& operator<<(std::ostream& out, const IStyle& e) {	return out<<e.data();}
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data(); }
 	virtual std::string data() const  = 0;	
+	//virtual std::unique_ptr<IStyle> get(uint n) const  = 0;	
 };
 ////--------------------------------Style------------------------------------------------
 
@@ -24,16 +25,14 @@ class Style: public IStyle
 	template<uint N>
 	inline static auto create(auto&& v)
 	{
-		if constexpr (N == 1500) 
+		if constexpr (N == 50) 
 			return v;
-		else
-		{
-			v.push_back(std::make_unique<Style<TEl,TVal>>());
-			create<N+1>(v);
-		}
+			v->push_back(std::make_unique<Style<TEl,TVal>>());
+			create<N+1>(std::move(v));
 	}
 public:
  	Style(): element{TEl::Id}, value{TVal::Id} { };
+	auto operator[](uint n) { return get(n); }
 	virtual std::string Element() const { return element; };	
 	virtual std::string Value() const  { return value; };	
 	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<Style>(); };	
@@ -42,4 +41,5 @@ private:
 	std::string	value;
 	inline static std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles = create<0>(std::make_unique<std::vector<std::unique_ptr<IStyle>>>());
 	virtual std::string data() const  { return " " + element + ":" + value + ";"; };	
+	std::unique_ptr<IStyle> get(uint n) const { return styles->at(n)->Clone(); };	
 };
