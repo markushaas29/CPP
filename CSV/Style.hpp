@@ -1,3 +1,5 @@
+#include <vector>
+#include <memory>
 #include "IModel.hpp"
 
 #pragma once
@@ -27,5 +29,16 @@ public:
 private:
 	std::string element;
 	std::string	value;
+	inline static std::vector<std::unique_ptr<IStyle>> styles;
+	template<uint N>
+	inline static auto create(auto&& v)
+	{
+		if constexpr (N == 1500) 
+			return v;
+		else
+		{
+			create<N+1>(v);
+		}
+	}
 	virtual std::string data() const  { return " " + element + ":" + value + ";"; };	
 };
