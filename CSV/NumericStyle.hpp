@@ -66,6 +66,16 @@ public:
 template<int... N>
 struct Px: public NumericStyleExpander<Px, N...>				{	inline static std::string Name = "px";  };
 
+class DynamicPx: public INumericStyle				
+{
+public:
+	DynamicPx(int v): value{v} { }
+	inline static std::string Name = "px";  
+private:
+	int value;
+	virtual std::string data() const  { return std::to_string(value) + Name; };	
+};
+
 template<int... N>
 struct AreaNum: public NumericStyleExpander<AreaNum, N...>				{	inline static std::string Name = "";  };
 

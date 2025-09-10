@@ -24,6 +24,7 @@ int Run()
 {     
 	std::string line;
 	assert(Px<14>::Id=="14px");
+	assert(DynamicPx(14).Out(0)=="14px");
 	auto css14 = Css<Style<Padding,Px<14>>>();
 	
 	auto span = Css<Style<ColSpan,StyleNumber<4>>>();
