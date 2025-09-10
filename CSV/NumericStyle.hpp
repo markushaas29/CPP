@@ -16,15 +16,15 @@ private:
 };
 
 template<int N, template<int> class D>//, Literal L>
-class NumericStyle
+class NumericStyle: INumericStyle
 {
     //inline static constexpr Literal TypeId{TypeIdentifier};
     //template<typename U> using IsT =  Is<U,TypeId>;
 	//Literal<L.Size> literal;
 	static constexpr int Num = N;
-	friend std::ostream& operator<<(std::ostream& s, const NumericStyle& i) { return s<<NumericStyle::Id;  }
 public:
 	inline static const std::string Id = std::to_string(N) + D<N>::Name;
+	virtual std::string data() const  { return NumericStyle::Id; };	
 };
 
 template<template<int> class D, int ...>  
