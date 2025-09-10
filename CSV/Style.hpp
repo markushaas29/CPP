@@ -1,6 +1,7 @@
 #include <vector>
 #include <memory>
 #include "IModel.hpp"
+#include "NumericStyle.hpp"
 
 #pragma once
 
@@ -33,15 +34,17 @@ private:
 };
 
 template<typename TEl>
-class DynStyle: public IStyle
+class DynamicStyle: public IStyle
 {
 public:
- 	DynStyle(): element{TEl::Id}, value{""} { };
+ 	DynamicStyle(std::unique_ptr<INumericStyle> n): element{TEl::Id}, value{n->Out(0)}, ptr{std::move(n)} { };
+ 	DynamicStyle(): element{TEl::Id}, value{"0"}, ptr{nullptr} { };
 	virtual std::string Element() const { return element; };	
 	virtual std::string Value() const  { return value; };	
-	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<DynStyle>(); };	
+	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<DynamicStyle>(); };	
 private:
 	std::string element;
 	std::string	value;
+	std::unique_ptr<INumericStyle> ptr;
 	virtual std::string data() const  { return " " + element + ":" + value + ";"; };	
 };

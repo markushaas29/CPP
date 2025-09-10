@@ -86,6 +86,9 @@ int Run()
 	assert(hex1=="#ff6348");
 	hex1 = Hex<"FF6348">::Id;
 	assert(hex1=="#FF6348");
+
+	std::cout<<"DynStyle:"<<DynamicStyle<Padding>(std::make_unique<DynamicPx>(14)).Out(0)<<std::endl;
+	assert(DynamicStyle<Padding>(std::make_unique<DynamicPx>(14)).Out(0)==" padding:14px;");
 	
 	//auto px100 = Style<Padding,Px<14>>::Get(10);
 
