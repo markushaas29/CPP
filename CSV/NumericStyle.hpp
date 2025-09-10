@@ -1,9 +1,19 @@
- #include <string>
- #include "../String/Literal.hpp"
+#include <string>
+#include "IModel.hpp"
+#include "../String/Literal.hpp"
 
 #pragma once
  
 
+class INumericStyle: public IModel
+{
+public:
+	auto operator()() { return data(); }
+private:
+	friend std::ostream& operator<<(std::ostream& out, const INumericStyle& e) {	return out<<e.data();}
+	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data(); }
+	virtual std::string data() const  = 0;	
+};
 
 template<int N, template<int> class D>//, Literal L>
 class NumericStyle
