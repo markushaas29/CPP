@@ -82,6 +82,43 @@ public:
 	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<Css>(); };	
 };
 
+
+class DynamicCss: public ICss
+{
+	void update(std::unique_ptr<ICss> css) const
+	{
+		auto cS = css->Styles();
+		std::vector<std::unique_ptr<IStyle>> nStyles;
+		std::for_each(cS->cbegin(), cS->cend(), [&](auto& p)
+				{
+				 	auto it = std::find_if(styles->begin(), styles->end(), [&] (auto& p2) { return p->Element() == p2->Element(); } );
+				 	if(it != styles->end())
+						*it = (p->Clone());
+					else
+						nStyles.push_back(p->Clone());
+				});
+		std::for_each(nStyles.cbegin(), nStyles.cend(), [&](auto& p) { styles->push_back(p->Clone()); } );
+	}
+protected:
+	template<typename...> friend class Css;
+	std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> styles;
+	virtual std::string data(const std::string& intent = "", uint i = 0) const
+	{	
+		std::string res = " style=\"";
+		std::for_each(styles->cbegin(), styles->cend(), [&](const auto& s) { res += (*s)(); });
+		return res + "\"";
+	};	
+public:
+	DynamicCss(std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> s,const std::string& c = ""): styles{std::move(s)} { };
+	virtual std::unique_ptr<std::vector<std::unique_ptr<IStyle>>> Styles() const 
+	{
+		auto result = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+		std::for_each(styles->cbegin(), styles->cend(), [&](auto& p) { result->push_back(p->Clone()); });
+		return result;
+	}
+	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<DynamicCss>(nullptr); };	
+};
+
 template<typename... T>
 class ClassCss: public Css<T...>, virtual public IClassCss
 {
