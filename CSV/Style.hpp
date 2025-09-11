@@ -38,10 +38,9 @@ class DynamicStyle: public IStyle
 {
 public:
  	DynamicStyle(std::unique_ptr<INumericStyle> n): element{TEl::Id}, value{n->Out(0)}, ptr{std::move(n)} { };
- 	DynamicStyle(): element{TEl::Id}, value{"0"}, ptr{nullptr} { };
 	virtual std::string Element() const { return element; };	
 	virtual std::string Value() const  { return value; };	
-	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<DynamicStyle>(); };	
+	virtual std::unique_ptr<IStyle> Clone() const  { return std::make_unique<DynamicStyle>(ptr->Clone()); };	
 private:
 	std::string element;
 	std::string	value;

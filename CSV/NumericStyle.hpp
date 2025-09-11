@@ -9,10 +9,12 @@ class INumericStyle: public IModel
 {
 public:
 	auto operator()() { return data(); }
+	auto Clone() const  { return clone(); };
 private:
 	friend std::ostream& operator<<(std::ostream& out, const INumericStyle& e) {	return out<<e.data();}
 	virtual std::string out(const std::string& intent, uint i = 0) const  {	return intent + data(); }
 	virtual std::string data() const  = 0;	
+	virtual std::unique_ptr<INumericStyle> clone() const  = 0;
 };
 
 template<int N, template<int> class D>//, Literal L>
@@ -25,6 +27,7 @@ class NumericStyle: INumericStyle
 public:
 	inline static const std::string Id = std::to_string(N) + D<N>::Name;
 	virtual std::string data() const  { return NumericStyle::Id; };	
+	virtual std::unique_ptr<INumericStyle> clone() const  { return std::make_unique<NumericStyle<N,D>>(); };
 };
 
 template<template<int> class D, int ...>  
@@ -74,6 +77,7 @@ public:
 private:
 	int value;
 	virtual std::string data() const  { return std::to_string(value) + Name; };	
+	virtual std::unique_ptr<INumericStyle> clone() const  { return std::make_unique<DynamicPx>(value); };
 };
 
 template<int... N>
