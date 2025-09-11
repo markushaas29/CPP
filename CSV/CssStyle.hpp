@@ -116,7 +116,7 @@ public:
 		std::for_each(styles->cbegin(), styles->cend(), [&](auto& p) { result->push_back(p->Clone()); });
 		return result;
 	}
-	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<DynamicCss>(nullptr); };	
+	virtual std::unique_ptr<ICss> Clone() const  { return std::make_unique<DynamicCss>(Styles()); };	
 };
 
 template<typename... T>

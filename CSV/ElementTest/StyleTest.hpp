@@ -87,9 +87,18 @@ int Run()
 	hex1 = Hex<"FF6348">::Id;
 	assert(hex1=="#FF6348");
 
-	std::cout<<"DynStyle:"<<DynamicStyle<Padding>(std::make_unique<DynamicPx>(14)).Out(0)<<std::endl;
 	assert(DynamicStyle<Padding>(std::make_unique<DynamicPx>(14)).Out(0)==" padding:14px;");
 	
+	auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+	styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
+	styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
+	auto dynCss = DynamicCss(std::move(styles));
+	std::cout<<"DynStyle:"<<dynCss.Out(0)<<"1"<<std::endl;
+	assert(dynCss.Out(0)==" style=\" padding:14px; margin:14px;\"\n");
+	auto dynCss2 = dynCss.Clone();
+	assert(dynCss2->Out(0)==" style=\" padding:14px; margin:14px;\"\n");
+	
+
 	//auto px100 = Style<Padding,Px<14>>::Get(10);
 
 	return 0;
