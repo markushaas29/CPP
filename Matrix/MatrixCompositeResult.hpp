@@ -98,7 +98,11 @@ public:
 		std::for_each(items->cbegin(), items->cend(), [&](const auto& i) 
 				{
 					auto m = i->M();
-					htmlPtr->Add(i->Html());
+					auto styles2 = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+					styles2->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
+					styles2->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
+					std::unique_ptr<ICss> dynCss2 = std::make_unique<DynamicCss>(std::move(styles2));
+					htmlPtr->Add(i->Html(std::move(dynCss2)));
 					auto v = m.Elements();
 					if(v.size()!=0)
 					{
@@ -109,7 +113,11 @@ public:
 						v.push_back(i->Value().Clone());
 						std::ostringstream oss;
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
-						htmlPtr->Add(MatrixFormatter(Init(result)()).Html());
+						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+						styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
+						styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
+						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
+						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
 						htmlPtr->Add(MatrixFormatter(i->Funcs()).Html());
 						res.insert(res.end(),v.begin(), v.end());
 					}
