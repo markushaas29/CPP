@@ -106,12 +106,6 @@ public:
 					auto v = m.Elements();
 					if(v.size()!=0)
 					{
-						v.push_back(std::make_shared<Entry>(i->Name()));
-						v.push_back(std::make_shared<Entry>("-"));
-						v.push_back(std::make_shared<Entry>("-"));
-						v.push_back(std::make_shared<Entry>("-"));
-						v.push_back(i->Value().Clone());
-						std::ostringstream oss;
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 						styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
@@ -119,7 +113,6 @@ public:
 						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
 						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
 						htmlPtr->Add(MatrixFormatter(i->Funcs()).Html());
-						res.insert(res.end(),v.begin(), v.end());
 					}
 					});
 		size_t cols = 5;
