@@ -106,12 +106,21 @@ public:
 					if(v.size()!=0)
 					{
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
+				
+						auto funcs = i->FuncVec();
+						std::for_each(funcs.cbegin(),funcs.cend(), [&result](const auto& f) 
+								{
+									std::ostringstream os;
+									os<<f;
+									result.push_back(std::make_shared<Entry>(os.str()));
+								});
+					
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-						styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
-						styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
+						styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(5)));
+						styles->push_back(std::make_unique<Style<FontWeight,Bold>>());
 						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
+						
 						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
-						htmlPtr->Add(MatrixFormatter(i->Funcs()).Html());
 					}
 					});
 
