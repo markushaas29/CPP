@@ -94,7 +94,6 @@ public:
 	{ 
 		using DT = MType::DescriptorType;
 		auto htmlPtr = std::make_unique<HtmlElements<DivTag>>("","");	
-		std::vector<std::shared_ptr<IElement>> res;
 		std::for_each(items->cbegin(), items->cend(), [&](const auto& i) 
 				{
 					auto m = i->M();
@@ -115,14 +114,6 @@ public:
 						htmlPtr->Add(MatrixFormatter(i->Funcs()).Html());
 					}
 					});
-		size_t cols = 5;
-		if(res.size()!=0)
-		{
-			while(res.size()%5 != 0)
-				res.push_back(std::make_shared<Entry>("-"));
-			Base::htmlPtr = std::move(htmlPtr);
-			return MType(DT({res.size()/ cols,cols}), res);
-		}
 
 		Base::htmlPtr = std::move(htmlPtr);
 
