@@ -56,7 +56,7 @@ public:
 	Result(const typename Base::FuncType&& q, const MType&& m = MType(), const std::string& n =""): value{q()}, item(m), name{n}, result{q} {};
 	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
 	virtual Q Value() const { return Q{result()}; }
-	virtual MType M() { return item; };
+	virtual MType M() { return MType(); };
 	virtual const std::string& Name() const { return name; };
 	virtual std::ofstream& operator()(std::ofstream& s) const 
 	{ 
@@ -103,7 +103,7 @@ public:
 					std::unique_ptr<ICss> dynCss2 = std::make_unique<DynamicCss>(std::move(styles2));
 					htmlPtr->Add(i->Html(std::move(dynCss2)));
 					auto v = m.Elements();
-					if(v.size()!=0)
+					if(i->Value() != Q{0})
 					{
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 				
