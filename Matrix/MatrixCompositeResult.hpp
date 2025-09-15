@@ -27,19 +27,16 @@ public:
 	using MatrixType = MType;
 	using MatrixOne =  Matrix<1, MatrixDescriptor<1,std::shared_ptr<IElement>>>;
 	virtual Q Value() const = 0;
-	virtual MType M() = 0;
 	auto Names() const { return names(); };
 	virtual const std::string& Name() const = 0;
 	virtual std::ofstream& operator()(std::ofstream& s) const = 0;
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FuncVec() { return funcs(); }
-protected:
-	std::unique_ptr<IHtmlElement> htmlPtr;
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  { 	return htmlPtr->Clone();	};	
-	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
+	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {  return nullptr;        };
 	virtual MatrixOne names() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
@@ -90,19 +87,37 @@ public:
 	CompositeResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{*q}, items{std::move(v)},name{n} {};
 	virtual Q Value() const { return value; }
 	virtual const std::string& Name() const { return name; };
-	virtual MType M() 
+	decltype(auto) Elements() const 
+	{
+		std::vector<std::shared_ptr<IElement>> v;
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
+		auto m = Init(v);
+		return m(); 
+	};
+	virtual std::ofstream& operator()(std::ofstream& s) const 
+	{	
+		std::for_each(items->cbegin(), items->cend(), [&s](const auto& i) {	(*i)(s);	});
+		return s;	
+	}
+private:
+	friend 	std::ostream& operator<<(std::ostream& out, const CompositeResult& s)	
+	{	
+		out<<"Name: "<<s.name<<"\n";	
+		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
+		return out<<"Value: "<<s.value;	
+	}
+	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
+	std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  	
 	{ 
 		using DT = MType::DescriptorType;
 		auto htmlPtr = std::make_unique<HtmlElements<DivTag>>("","");	
 		std::for_each(items->cbegin(), items->cend(), [&](const auto& i) 
 				{
-					auto m = i->M();
 					auto styles2 = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 					styles2->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
 					styles2->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
 					std::unique_ptr<ICss> dynCss2 = std::make_unique<DynamicCss>(std::move(styles2));
 					htmlPtr->Add(i->Html(std::move(dynCss2)));
-					auto v = m.Elements();
 					if(i->Value() != Q{0})
 					{
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
@@ -124,30 +139,8 @@ public:
 					}
 					});
 
-		Base::htmlPtr = std::move(htmlPtr);
-
-		return MType();
+		return htmlPtr;
 	};
-	decltype(auto) Elements() const 
-	{
-		std::vector<std::shared_ptr<IElement>> v;
-		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
-		auto m = Init(v);
-		return m(); 
-	};
-	virtual std::ofstream& operator()(std::ofstream& s) const 
-	{	
-		std::for_each(items->cbegin(), items->cend(), [&s](const auto& i) {	(*i)(s);	});
-		return s;	
-	}
-private:
-	friend 	std::ostream& operator<<(std::ostream& out, const CompositeResult& s)	
-	{	
-		out<<"Name: "<<s.name<<"\n";	
-		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
-		return out<<"Value: "<<s.value;	
-	}
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return Base::htmlPtr->Clone();	};	
 	virtual std::vector<std::shared_ptr<IElement>> elements() const
 	{
 		std::vector<std::shared_ptr<IElement>> v;
