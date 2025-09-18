@@ -46,11 +46,14 @@ private:
 	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{
 		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-		styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
-		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
-		auto dynCss = DynamicCss(std::move(styles));
+		styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(10*intent)));
 
-		return print(std::move(v),std::move(css),n,id);
+		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
+
+		auto inner = print(std::move(v),std::move(css),n,id);
+
+		return inner;
 	}
 	virtual std::unique_ptr<IHtmlElement> print(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  = 0;
 };
