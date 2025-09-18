@@ -36,7 +36,7 @@ public:
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
-	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {  return printContent(0,std::move(v),std::move(css),n,id);  };
+	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {  return printContent(1,std::move(v),std::move(css),n,id);  };
 	virtual MatrixOne names() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
@@ -46,14 +46,15 @@ private:
 	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{
 		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-		styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(10*intent)));
+		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(10*intent)));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
 
 		auto inner = print(std::move(v),std::move(css),n,id);
+		div->Add(std::move(inner));
 
-		return inner;
+		return div;
 	}
 	virtual std::unique_ptr<IHtmlElement> print(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  = 0;
 };
