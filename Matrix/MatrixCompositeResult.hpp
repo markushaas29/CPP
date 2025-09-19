@@ -33,6 +33,21 @@ public:
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FuncVec() { return funcs(); }
+	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  = 0;
+	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
+	{
+		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(10*intent)));
+
+		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
+		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
+
+		std::cout<<"In: "<<intent<<std::endl;
+		auto inner = print(++intent,std::move(v),std::move(css),n,id);
+		div->Add(std::move(inner));
+
+		return div;
+	}
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
@@ -43,20 +58,6 @@ private:
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return showContent(intent,++i); };
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;
-	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
-	{
-		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(20*intent)));
-
-		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
-
-		auto inner = print(std::move(v),std::move(css),n,id);
-		div->Add(std::move(inner));
-
-		return div;
-	}
-	virtual std::unique_ptr<IHtmlElement> print(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  = 0;
 };
 
 template<typename Q, typename MType>
@@ -74,6 +75,7 @@ public:
 		auto mf = MatrixFormatter(item);  
 		return HtmlBuilder()(s,mf());
 	};
+	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
@@ -85,7 +87,6 @@ private:
 		return Init(res)();
 	};
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return intent; };
-	virtual std::unique_ptr<IHtmlElement> print(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
 	typename Base::QuantityType value;
 	MType item;
 	std::string name;
@@ -113,6 +114,43 @@ public:
 		std::for_each(items->cbegin(), items->cend(), [&s](const auto& i) {	(*i)(s);	});
 		return s;	
 	}
+	virtual std::unique_ptr<IHtmlElement> print(int in,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
+	{ 
+		using DT = MType::DescriptorType;
+		auto htmlPtr = std::make_unique<HtmlElements<DivTag>>("","");	
+		std::for_each(items->cbegin(), items->cend(), [&](const auto& i) 
+				{
+					auto styles2 = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+					styles2->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
+					styles2->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
+					std::unique_ptr<ICss> dynCss2 = std::make_unique<DynamicCss>(std::move(styles2));
+					if(i->Value() != Q{0})
+					{
+						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
+						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
+						styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(5)));
+						styles->push_back(std::make_unique<Style<FontWeight,Bold>>());
+						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
+						
+						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
+				
+						std::vector<std::shared_ptr<IElement>> resultf ;
+						auto funcs = i->FuncVec();
+						std::for_each(funcs.cbegin(),funcs.cend(), [&resultf](const auto& f) 
+								{
+									std::ostringstream os;
+									os<<f;
+									resultf.push_back(std::make_shared<Entry>(os.str()));
+								});
+					
+						resultf.push_back(i->Value().Clone());
+						htmlPtr->Add(i->printContent(++in,nullptr,std::move(dynCss2)));
+						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html());
+					}
+					});
+
+		return htmlPtr;
+	};
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const CompositeResult& s)	
 	{	
@@ -143,43 +181,6 @@ private:
 		return Init(res)();
 	};
 	virtual std::string showContent(const std::string& intent, uint i = 0) const { return intent; };
-	virtual std::unique_ptr<IHtmlElement> print(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
-	{ 
-		using DT = MType::DescriptorType;
-		auto htmlPtr = std::make_unique<HtmlElements<DivTag>>("","");	
-		std::for_each(items->cbegin(), items->cend(), [&](const auto& i) 
-				{
-					auto styles2 = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-					styles2->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
-					styles2->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
-					std::unique_ptr<ICss> dynCss2 = std::make_unique<DynamicCss>(std::move(styles2));
-					if(i->Value() != Q{0})
-					{
-						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
-						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-						styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(5)));
-						styles->push_back(std::make_unique<Style<FontWeight,Bold>>());
-						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
-						
-						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
-				
-						std::vector<std::shared_ptr<IElement>> resultf ;
-						auto funcs = i->FuncVec();
-						std::for_each(funcs.cbegin(),funcs.cend(), [&resultf](const auto& f) 
-								{
-									std::ostringstream os;
-									os<<f;
-									resultf.push_back(std::make_shared<Entry>(os.str()));
-								});
-					
-						resultf.push_back(i->Value().Clone());
-					htmlPtr->Add(i->Html(std::move(dynCss2)));
-						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html());
-					}
-					});
-
-		return htmlPtr;
-	};
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	typename Base::QuantityType value;
 	std::unique_ptr<std::vector<std::unique_ptr<Base>>> items;
