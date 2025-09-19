@@ -46,7 +46,7 @@ private:
 	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{
 		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(10*intent)));
+		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(20*intent)));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
