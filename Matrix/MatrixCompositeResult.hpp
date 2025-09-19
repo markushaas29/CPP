@@ -33,7 +33,6 @@ public:
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FuncVec() { return funcs(); }
-	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  = 0;
 	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{
 		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
@@ -42,7 +41,6 @@ public:
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
 
-		std::cout<<"In: "<<intent<<std::endl;
 		auto inner = print(++intent,std::move(v),std::move(css),n,id);
 		div->Add(std::move(inner));
 
@@ -58,6 +56,7 @@ private:
 	virtual std::ostream& display(std::ostream& out)	const = 0;
 	virtual std::string out(const std::string& intent, uint i = 0) const  { return showContent(intent,++i); };
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  = 0;
+	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  = 0;
 };
 
 template<typename Q, typename MType>
@@ -75,7 +74,6 @@ public:
 		auto mf = MatrixFormatter(item);  
 		return HtmlBuilder()(s,mf());
 	};
-	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
@@ -91,6 +89,7 @@ private:
 	MType item;
 	std::string name;
 	typename Base::FuncType result;
+	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
 };
 
 template<typename Q, typename MType>
@@ -114,6 +113,35 @@ public:
 		std::for_each(items->cbegin(), items->cend(), [&s](const auto& i) {	(*i)(s);	});
 		return s;	
 	}
+private:
+	friend 	std::ostream& operator<<(std::ostream& out, const CompositeResult& s)	
+	{	
+		out<<"Name: "<<s.name<<"\n";	
+		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
+		return out<<"Value: "<<s.value;	
+	}
+	virtual std::vector<std::shared_ptr<IElement>> elements() const
+	{
+		std::vector<std::shared_ptr<IElement>> v;
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
+		return v; 
+	};
+	virtual std::vector<typename Base::FuncType> funcs() const
+	{
+		std::vector<typename Base::FuncType> v;
+		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) 
+				{
+					auto fs = i->FuncVec();
+					v.insert(v.end(), fs.begin(),fs.end());
+				});
+		return v; 
+	};
+	virtual typename Base::MatrixOne names() const 
+	{
+		std::vector<std::shared_ptr<IElement>> res;
+		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) {	res.push_back(std::make_shared<Header>(i->Name()));		});
+		return Init(res)();
+	};
 	virtual std::unique_ptr<IHtmlElement> print(int in,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{ 
 		using DT = MType::DescriptorType;
@@ -150,35 +178,6 @@ public:
 					});
 
 		return htmlPtr;
-	};
-private:
-	friend 	std::ostream& operator<<(std::ostream& out, const CompositeResult& s)	
-	{	
-		out<<"Name: "<<s.name<<"\n";	
-		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
-		return out<<"Value: "<<s.value;	
-	}
-	virtual std::vector<std::shared_ptr<IElement>> elements() const
-	{
-		std::vector<std::shared_ptr<IElement>> v;
-		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) { v.push_back(std::make_shared<Q>(i->Value())); });
-		return v; 
-	};
-	virtual std::vector<typename Base::FuncType> funcs() const
-	{
-		std::vector<typename Base::FuncType> v;
-		std::for_each(items->cbegin(), items->cend(), [&v](const auto& i) 
-				{
-					auto fs = i->FuncVec();
-					v.insert(v.end(), fs.begin(),fs.end());
-				});
-		return v; 
-	};
-	virtual typename Base::MatrixOne names() const 
-	{
-		std::vector<std::shared_ptr<IElement>> res;
-		std::for_each(items->cbegin(), items->cend(), [&res](const auto& i) {	res.push_back(std::make_shared<Header>(i->Name()));		});
-		return Init(res)();
 	};
 	virtual std::string showContent(const std::string& intent, uint i = 0) const { return intent; };
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
