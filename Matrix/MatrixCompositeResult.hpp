@@ -172,7 +172,7 @@ private:
 								});
 					
 						resultf.push_back(i->Value().Clone());
-						htmlPtr->Add(i->printContent(++in,nullptr,std::move(dynCss2)));
+						htmlPtr->Add(i->printContent(in+2,nullptr,std::move(dynCss2)));
 						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html());
 					}
 					});
