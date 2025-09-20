@@ -36,7 +36,7 @@ public:
 	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{
 		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-		styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(10*intent)));
+		styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(10*intent)));
 
 		auto outs = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		auto div = std::make_unique<HtmlElements<DivTag>>("Div0","",std::make_unique<DynamicCss>(std::move(styles)));
@@ -148,15 +148,11 @@ private:
 		auto htmlPtr = std::make_unique<HtmlElements<DivTag>>("","");	
 		std::for_each(items->cbegin(), items->cend(), [&](const auto& i) 
 				{
-					auto styles2 = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-					styles2->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(14)));
-					styles2->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(14)));
-					std::unique_ptr<ICss> dynCss2 = std::make_unique<DynamicCss>(std::move(styles2));
 					if(i->Value() != Q{0})
 					{
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
-						styles->push_back(std::make_unique<DynamicStyle<Margin>>(std::make_unique<DynamicPx>(5)));
+						styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(5)));
 						styles->push_back(std::make_unique<Style<FontWeight,Bold>>());
 						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
 						
@@ -172,7 +168,7 @@ private:
 								});
 					
 						resultf.push_back(i->Value().Clone());
-						htmlPtr->Add(i->printContent(in+2,nullptr,std::move(dynCss2)));
+						htmlPtr->Add(i->printContent(in+2));
 						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html());
 					}
 					});
