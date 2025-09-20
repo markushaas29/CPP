@@ -153,9 +153,11 @@ private:
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 						styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(5)));
+						styles->push_back(std::make_unique<DynamicStyle<FontSize>>(std::make_unique<DynamicPx>(40-5*in)));
 						styles->push_back(std::make_unique<Style<FontWeight,Bold>>());
 						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
-						
+
+						auto dynCss2 = dynCss->Clone();
 						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
 				
 						std::vector<std::shared_ptr<IElement>> resultf ;
@@ -169,7 +171,7 @@ private:
 					
 						resultf.push_back(i->Value().Clone());
 						htmlPtr->Add(i->printContent(in+2));
-						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html());
+						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html(std::move(dynCss2)));
 					}
 					});
 
