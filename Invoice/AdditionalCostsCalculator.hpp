@@ -38,7 +38,7 @@ class AdditionalCosts: public CalculatorBase<Quantity<Sum>, AdditionalCosts<S>>
 public:
 	auto M() const { return parser->M().Rows(0, 1); }
 	AdditionalCosts(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): 
-		Base{fE,fB}, path{p}, tokenFactory{fT},parser{std::make_unique<StageParser>(tokenFactory,path)} {};
+		Base{fE,fB}, path{p}, tokenFactory{fT},parser{std::make_unique<AdditionalCostsParser>(tokenFactory,path)} {};
 	const std::string path;
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	std::unique_ptr<IMatrixParser<2>> parser;

@@ -304,6 +304,22 @@ private:
 	}
 };
 
+class AdditionalCostsParser: public IMatrixParserBase<2>
+{
+	using Base = IMatrixParserBase;
+public:
+	AdditionalCostsParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
+private:
+	const std::string fileName = "SN_Name.csv";
+	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
+	typename Base::MatrixType exec(bool h = false) const
+	{
+		//auto stageIndexTokens = (*tokenFactory)({ {"PrenameIndexToken"},{"NameIndexToken"}, {"StageIndexToken"},{"RentIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
+		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
+		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
+	}
+};
+
 class HallParser: public IMatrixParserBase<2>
 {
 	using Base = IMatrixParserBase;

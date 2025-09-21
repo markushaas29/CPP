@@ -18,6 +18,7 @@
 //#include "Decorator/Test.cpp"
 #include "Repository/Test.cpp"
 #include "Finance/Test.cpp"
+#include "Invoice/Test.cpp"
 #include "HTMLBuilder/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
@@ -73,6 +74,10 @@ int main()
 	
 	FinanceTest f;
 	f.Run();
+	
+	InvoiceTest i;
+	i.Run();
+	
 	std::cout<<"END"<<std::endl;
 	return 0;
 }
