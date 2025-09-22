@@ -61,7 +61,6 @@ class InvoiceTest
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			
 			auto hall = std::make_unique<AdditionalCosts<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
-			auto hallM = (*hall)(Year(2023),bM).To<Quantity<Sum>>();
 			
 			std::cout<<"END 2023"<<std::endl;
 		   
