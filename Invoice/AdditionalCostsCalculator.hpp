@@ -114,7 +114,5 @@ private:
 //		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 //		inv.exec();
 
-		std::vector<std::shared_ptr<IElement>> s1; 
-		std::vector<std::vector<std::shared_ptr<IElement>>> s = { s1 };
-		return Init(s)();	}
+		return m;	}
 };

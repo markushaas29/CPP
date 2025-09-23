@@ -137,7 +137,7 @@ struct ValutaIndexToken: public Token<ValutaIndexToken, Index<Entry>>	{	inline s
 struct ProcessIndexToken: public Token<ProcessIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Vorgang";};
 
 // Fallss Type doppelt vergeben mussd oppelt angegeben werden DA SONST ERROR!!!!:
-struct ProportionIndexToken: public Token<ProportionIndexToken, Index<Quantity<Scalar, Pure, int>>>	
+struct ProportionIndexToken: public Token<ProportionIndexToken, Index<Quantity<Scalar, Pure, double>>>	
 {	
 	inline static constexpr const char* Pattern = "Proportion"; 
 	inline static constexpr const char* Identifier = "ProportionIndexToken"; 
