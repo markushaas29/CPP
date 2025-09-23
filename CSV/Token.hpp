@@ -112,6 +112,7 @@ struct EmptyToken: public Token<EmptyToken, Empty>			{	inline static constexpr c
 struct QuantityToken: public Token<QuantityToken, Quantity<Scalar>>	{	inline static constexpr const char* Pattern = ""; };
 
 struct DateIndexToken: public Token<DateIndexToken, Index<Date>>	{	inline static constexpr const char* Pattern = "Buchungstag";};
+struct ProportionIndexToken: public Token<ProportionIndexToken, Quantity<Scalar>>	{	inline static constexpr const char* Pattern = "Proportion";};
 struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inline static constexpr const char* Pattern = "Area";};
 struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
 struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
@@ -204,4 +205,4 @@ struct WidthIndexToken: public Token<WidthIndexToken, Index<Quantity<Length>>>
 struct KeyValueToken: public Token<KeyValueToken, Entry>	{ 	inline static constexpr const char* Pattern = "([a-zA-z])+\\s?:\\s?([\\w\\d]+)";};
 
 template<typename I, typename... T>  class FactoryCreator;
-using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken, WidthIndexToken, ValutaIndexToken, ProcessIndexToken, TextIndexToken>;
+using TokenFactoryCreator = FactoryCreator<IToken, WorkToken, VolumeToken, WordToken, SumToken, IBANToken, DateToken, BICToken, EmptyToken, IDToken, ValueToken, QuantityToken, WordToken,IBANIndexToken, BICIndexToken, NameIndexToken, SumIndexToken, UseIndexToken, DateIndexToken, StageIndexToken, WasteIndexToken, HeatingIndexToken, CleaningIndexToken, SewageIndexToken, PropertyTaxIndexToken, InsuranceIndexToken, RentIndexToken, HeatExtraCostIndexToken, ExtraCostIndexToken, GarageRentIndexToken, LengthIndexToken, SumPerAreaIndexToken, AreaIndexToken, StreetIndexToken, TownIndexToken, StreetnumberIndexToken,PostcodeIndexToken, PrenameIndexToken, WidthIndexToken, ValutaIndexToken, ProcessIndexToken, ProportionIndexToken, TextIndexToken>;
