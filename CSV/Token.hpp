@@ -112,7 +112,6 @@ struct EmptyToken: public Token<EmptyToken, Empty>			{	inline static constexpr c
 struct QuantityToken: public Token<QuantityToken, Quantity<Scalar>>	{	inline static constexpr const char* Pattern = ""; };
 
 struct DateIndexToken: public Token<DateIndexToken, Index<Date>>	{	inline static constexpr const char* Pattern = "Buchungstag";};
-struct ProportionIndexToken: public Token<ProportionIndexToken, Quantity<Scalar>>	{	inline static constexpr const char* Pattern = "Proportion";};
 struct AreaIndexToken: public Token<AreaIndexToken, Index<Quantity<Area>>>	{	inline static constexpr const char* Pattern = "Area";};
 struct LengthIndexToken: public Token<LengthIndexToken, Index<Quantity<Length>>>	{	inline static constexpr const char* Pattern = "Length";};
 struct SumPerAreaIndexToken: public Token<SumPerAreaIndexToken, Index<Quantity<SumPerArea>>>	{	inline static constexpr const char* Pattern = "SumPerArea";};
@@ -138,6 +137,11 @@ struct ValutaIndexToken: public Token<ValutaIndexToken, Index<Entry>>	{	inline s
 struct ProcessIndexToken: public Token<ProcessIndexToken, Index<Entry>>	{	inline static constexpr const char* Pattern = "Vorgang";};
 
 // Fallss Type doppelt vergeben mussd oppelt angegeben werden DA SONST ERROR!!!!:
+struct ProportionIndexToken: public Token<ProportionIndexToken, Index<Quantity<Scalar, Pure, int>>>	
+{	
+	inline static constexpr const char* Pattern = "Proportion"; 
+	inline static constexpr const char* Identifier = "ProportionIndexToken"; 
+};
 
 struct WasteIndexToken: public Token<WasteIndexToken, Index<Quantity<Scalar, Pure, int>>>	
 {	
