@@ -1,2 +1,2 @@
-Stage;Pre;Name;Street;Proportion;Town;Postcode;IBAN;Waste;Heating;Insurance;Cleaning;PropertyTax;Sewage;Rent;HeatExtraCosts;ExtraCosts;GarageRent;SumPerArea;Width;Length
-Bottom;Anita;Brustat;Ruchenstrasse;0.5;Dettenheim;76706;DE83660623660009262008;2;100;1;1;101;1;458;135;67;0;100;1;458
+Proportion;Proportion;Proportion;Betrag
+0.25;0.25;0.5;125
