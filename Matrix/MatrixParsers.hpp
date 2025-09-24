@@ -315,7 +315,7 @@ private:
 	typename Base::MatrixType exec(bool h = false) const
 	{
 		//auto stageIndexTokens = (*tokenFactory)({ {"PrenameIndexToken"},{"NameIndexToken"}, {"StageIndexToken"},{"RentIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
-		auto stageIndexTokens = (*tokenFactory)({{"ProportionIndexToken"},{"SumIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
+		auto stageIndexTokens = (*tokenFactory)({{"ProportionIndexToken"},{"SumIndexToken"},{"NameIndexToken"},{"DateIndexToken"},{"WidthIndexToken"} });
 		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
 	}
 };
