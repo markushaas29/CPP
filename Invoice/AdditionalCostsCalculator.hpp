@@ -115,9 +115,9 @@ private:
 //		inv.exec();
 
 		Quantity<Scalar> value{0};
-		auto scalars = m.Cols(0,1,2)[1].To<Quantity<Scalar>>().Elements();
+		auto scalars = m.Cols(0,1,2,3,4,5)[1].To<Quantity<Scalar>>().Elements();
 		std::for_each(scalars.cbegin(),scalars.cend(), [&value](const auto& i) { value = value + i; });
 		std::cout<<m.Cols(0,1,2)[1].To<Quantity<Scalar>>();//.Apply();
-		std::cout<<"\t"<<"\t"<<value;//.Apply();
+		std::cout<<"\n"<<S::Index<<"\n"<<value<<std::endl;//.Apply();
 		return m;	}
 };
