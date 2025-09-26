@@ -117,12 +117,11 @@ private:
 		Quantity<Scalar> value{0};
 		auto scalars = m.Cols(0,1,2,3,4,5)[1].To<Quantity<Scalar>>().Elements();
 		std::for_each(scalars.cbegin(),scalars.cend(), [&value](const auto& i) { value = value + i; });
-		std::for_each(scalars.cbegin(),scalars.cend(), [&value](const auto& i) { std::cout<<"\t"<<value<<"\t"<<i<<std::endl;; });
 		
 		auto proportion = std::make_shared<Quantity<Scalar>>(scalars[S::Index] / value);
 		auto sum = std::make_shared<Quantity<Sum>>(*proportion * (*m[1][9]()).To<Quantity<Sum>>());
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements = { {m[1][9], proportion, sum} };
 		auto result = Init(elements)();
-		std::cout<<S::Index<<"\n"<<value<<"\n"<<result<<std::endl;//.Apply();
+
 		return result;	}
 };
