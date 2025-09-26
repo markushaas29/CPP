@@ -60,7 +60,7 @@ class InvoiceTest
 			
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			
-			auto hall = std::make_unique<AdditionalCosts<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
+			auto hall = std::make_unique<AdditionalCosts<Middle>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto m = (*hall)(Year{2025});
 			std::cout<<"matrix\n"<<m<<std::endl;
 			
