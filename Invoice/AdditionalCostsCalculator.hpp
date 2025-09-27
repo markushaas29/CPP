@@ -114,6 +114,7 @@ private:
 //		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 //		inv.exec();
 		std::vector<std::vector<std::shared_ptr<IElement>>> elements;
+		Quantity<Sum> all;
 		for(int i = 1; i < m.Rows(); ++i)
 		{
 			Quantity<Scalar> value{0};
@@ -122,9 +123,11 @@ private:
 			
 			auto proportion = std::make_shared<Quantity<Scalar>>(scalars[S::Index] / value);
 			auto sum = std::make_shared<Quantity<Sum>>(*proportion * (*m[i][9]()).To<Quantity<Sum>>());
+			all = all + *sum;
 			elements.push_back({ m[i][9], proportion, sum}) ;
 		}
 		
+		elements.push_back({ std::make_shared<Quantity<Sum>>(all), std::make_shared<Empty>(), std::make_shared<Empty>()}) ;
 		auto result = Init(elements)();
 
 		return result;	}
