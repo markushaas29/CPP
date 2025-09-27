@@ -121,7 +121,7 @@ private:
 			std::for_each(scalars.cbegin(),scalars.cend(), [&value](const auto& i) { value = value + i; });
 			
 			auto proportion = std::make_shared<Quantity<Scalar>>(scalars[S::Index] / value);
-			auto sum = std::make_shared<Quantity<Sum>>(*proportion * (*m[1][9]()).To<Quantity<Sum>>());
+			auto sum = std::make_shared<Quantity<Sum>>(*proportion * (*m[i][9]()).To<Quantity<Sum>>());
 			elements.push_back({ m[i][9], proportion, sum}) ;
 		}
 		
