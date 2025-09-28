@@ -126,7 +126,8 @@ private:
 			all = all + *sum;
 			elements.push_back({ m[i][9], proportion, sum}) ;
 		}
-		
+	
+		assert(all==Quantity<Sum>{69.50});
 		elements.push_back({ std::make_shared<Quantity<Sum>>(all), std::make_shared<Empty>(), std::make_shared<Empty>()}) ;
 		auto result = Init(elements)();
 
