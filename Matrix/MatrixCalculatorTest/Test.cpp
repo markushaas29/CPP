@@ -213,6 +213,8 @@ class MatrixCalculatorTest
 			assert(m1dq.Value()==1.1);
 			auto m2SA = a5 - m44 + d2 ;
 			assert((int)m2SA[0][3]==7);
+
+			//auto m1dT = m1d^1;
 			
 			M2D m2d {
 				{1.1, 2.2, 3.3, 4.4},
