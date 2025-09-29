@@ -235,7 +235,10 @@ class MatrixCalculatorTest
 				},
 			};
 
-			//auto m1T = m1b^1;
+			std::cout<<"Trans 1D\n"<<m1b<<std::endl;
+			auto m1T = m1b^1;
+			std::cout<<"Trans 1D\n"<<m1T<<std::endl;
+
 			auto m33T = m33^1;
 			assert(m33T[2][0]()==m33[0][2]());
 			assert(m33T[1][1]()==m33[1][1]());

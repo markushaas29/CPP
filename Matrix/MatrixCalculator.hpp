@@ -69,6 +69,13 @@ private:
     }
     static decltype(auto) transform(const LeftType& m)
     {
+		if constexpr (LeftType::Order==1)
+		{
+			using DescriptorType = MatrixDescriptor<2, typename LeftType::ElementType>;
+			auto v = std::vector<typename LeftType::ElementType>(m.elements->size());
+			using ResultType = Matrix<LeftType::Order, DescriptorType>;
+	        return ResultType(DescriptorType({m.descriptor.Cols(), m.descriptor.Rows()}),v); 
+		}
 		if constexpr (LeftType::Order==2)
 		{
 			auto v = std::vector<typename LeftType::ElementType>(m.elements->size());
