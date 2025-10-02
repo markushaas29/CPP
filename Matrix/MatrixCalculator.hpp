@@ -74,8 +74,8 @@ private:
 			using DescriptorType = MatrixDescriptor<2, typename LeftType::ElementType>;
 			auto v = std::vector<typename LeftType::ElementType>();
 			std::for_each(m.elements->cbegin(), m.elements->cend(), [&v](const auto& e){ v.push_back(*e); });
-			using ResultType = Matrix<LeftType::Order, DescriptorType>;
-	        return ResultType(DescriptorType({1,v.size()}),v); 
+			using ResultType = Matrix<2, DescriptorType>;
+	        return ResultType(DescriptorType({v.size(),1}),v); 
 		}
 		if constexpr (LeftType::Order==2)
 		{
