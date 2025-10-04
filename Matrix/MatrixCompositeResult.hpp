@@ -171,7 +171,7 @@ private:
 					
 						resultf.push_back(i->Value().Clone());
 						htmlPtr->Add(i->printContent(in+2));
-						htmlPtr->Add(MatrixFormatter(Init(resultf)()).Html(std::move(dynCss2)));
+						htmlPtr->Add(MatrixFormatter((Init(resultf)())^1).Html(std::move(dynCss2)));
 					}
 					});
 
