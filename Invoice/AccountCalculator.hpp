@@ -64,6 +64,7 @@ private:
             {"Cleaning",{
                     {"Alles Proper",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE05100110012620778704"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}},
                     {"Jansen",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE08548500101700257437"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}},
+                    {"Pfälzer Immobilien Betreuungs GmbH",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE92120300001058229483"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}},
                     {"Rastaetter",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE79660623660000101303"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}},
                 }
             },
