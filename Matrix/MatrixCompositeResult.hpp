@@ -164,9 +164,12 @@ private:
 						auto funcs = i->FuncVec();
 						std::for_each(funcs.cbegin(),funcs.cend(), [&resultf](const auto& f) 
 								{
-									std::ostringstream os;
-									os<<f;
-									resultf.push_back(std::make_shared<Entry>(os.str()));
+									if(f.Size()!=0)
+									{
+										std::ostringstream os;
+										os<<f;
+										resultf.push_back(std::make_shared<Entry>(os.str()));
+									}
 								});
 					
 						resultf.push_back(i->Value().Clone());

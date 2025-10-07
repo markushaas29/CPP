@@ -22,9 +22,9 @@ public:
 	using ValueType = V;
 	using VecType = std::vector<VEC>;
 	decltype(auto) Push(const V& v) { value.push_back(v); }
-	decltype(auto) Size() { return value.size(); }
-	decltype(auto) Begin() { return value.begin(); }
-	decltype(auto) End() { return value.end(); }
+	decltype(auto) Size() const { return value.size(); }
+	decltype(auto) Begin() const { return value.begin(); }
+	decltype(auto) End() const { return value.end(); }
 	decltype(auto) Values() { return value; }
 	decltype(auto) operator()(const auto& v) const { return cast().op(value,v); }
 	decltype(auto) operator()() const 	{	return cast().op(value); }
