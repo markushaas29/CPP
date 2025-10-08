@@ -153,6 +153,7 @@ private:
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 						styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(5)));
+						styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(20)));
 						styles->push_back(std::make_unique<DynamicStyle<FontSize>>(std::make_unique<DynamicPx>(40-5*in)));
 						styles->push_back(std::make_unique<Style<FontWeight,Bold>>());
 						std::unique_ptr<ICss> dynCss = std::make_unique<DynamicCss>(std::move(styles));
