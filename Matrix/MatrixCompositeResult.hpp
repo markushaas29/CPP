@@ -161,21 +161,26 @@ private:
 						auto dynCss2 = dynCss->Clone();
 						htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
 				
-						std::vector<std::shared_ptr<IElement>> resultf ;
+						std::vector<std::vector<std::shared_ptr<IElement>>> resultFuncs ;
 						auto funcs = i->FuncVec();
-						std::for_each(funcs.cbegin(),funcs.cend(), [&resultf](const auto& f) 
+						std::for_each(funcs.cbegin(),funcs.cend(), [&resultFuncs,&i](const auto& f) 
 								{
 									if(f.Size()!=0)
 									{
+										std::vector<std::shared_ptr<IElement>> resultf ;
 										std::ostringstream os;
 										os<<f;
 										resultf.push_back(std::make_shared<Entry>(os.str()));
+										std::ostringstream os2;
+										os2<<f();
+										resultf.push_back(std::make_shared<Entry>(os2.str()));
+						resultf.push_back(i->Value().Clone());
+										resultFuncs.push_back(resultf);
 									}
 								});
 					
-						resultf.push_back(i->Value().Clone());
 						htmlPtr->Add(i->printContent(in+2));
-						htmlPtr->Add(MatrixFormatter((Init(resultf)())^1).Html(std::move(dynCss2)));
+						htmlPtr->Add(MatrixFormatter((Init(resultFuncs)())^1).Html(std::move(dynCss2)));
 					}
 					});
 
