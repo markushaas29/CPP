@@ -4,6 +4,7 @@
 #include "../String/Literal.hpp" 
 #include "../Is/Is.hpp" 
 #include "../Quantity/QuantityConcept.hpp" 
+#include "../Common/DateConcept.hpp" 
 
 #pragma once
 
@@ -43,8 +44,8 @@ private:
 	{
 		s<<"{";
 		for(size_t i= 0;i < c.value.size(); ++i)
-			if constexpr (QuantityConcept<V>)
-				s<<c.value[i]<<(i < (c.value.size()-1) ? (c.value[i] < 0 ? "" : Derived::sign) : "");
+			if constexpr (DateConcept<V>)
+				s<<c.value[i]<<(i < (c.value.size()-1) ? (c.value[i].Value() < 0 ? "" : Derived::sign) : "");
 			else	
 				s<<c.value[i]<<(i < (c.value.size()-1) ? (c.value[i] < 0 ? "" : Derived::sign) : "");
 		return s<<"}";  
