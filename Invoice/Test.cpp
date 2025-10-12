@@ -63,6 +63,21 @@ class InvoiceTest
 			auto hall = std::make_unique<AdditionalCosts<Middle>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto m = (*hall)(Year{2025});
 			std::cout<<"matrix\n"<<m<<std::endl;
+
+			std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> fUnits = 
+	        {
+	            {"Waste",
+	                {
+	                
+	                    {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}}, {EqualVisitor::Identifier, { Year::Identifier, Year{2025}.ToString()}}}} // Waste
+	                }
+	            }, 
+	        };
+			
+
+			auto m25 = account->Get(Year{2025}, bM,fUnits);
+			std::cout<<"2025\n"<<m25<<std::endl;
+			
 			
 			std::cout<<"END 2023"<<std::endl;
 		   

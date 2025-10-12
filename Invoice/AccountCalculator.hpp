@@ -33,6 +33,10 @@ class AccountCalculator: public CalculatorBase<Quantity<Sum>, AccountCalculator>
 	using Base = CalculatorBase<Quantity<Sum>, AccountCalculator>;
 public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokens{fT}, path{p} {};
+	auto Get(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits) 
+	{
+		return exec(y,f,allFactoryUnits);
+	}
 private:
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokens;
