@@ -211,20 +211,6 @@ class MatrixReaderTest
 
 			mTS = propT24(Year{2025}, bM).To<Quantity<Sum>>();
 
-			std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> fUnits = 
-	        {
-	            {"Waste",
-	                {
-	                
-	                    {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE44600501010008017284"}}, {EqualVisitor::Identifier, { Year::Identifier, Year{2025}.ToString()}}}} // Waste
-	                }
-	            }, 
-	        };
-			
-
-			auto m25 = account->Get(Year{2025}, bM,fUnits);
-			std::cout<<"2025\n"<<m25<<std::endl;
-
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
 		   
