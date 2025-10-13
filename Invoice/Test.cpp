@@ -75,8 +75,8 @@ class InvoiceTest
 	        };
 			
 
-//			auto m25 = account->Get(Year{2025}, bM,fUnits);
-//			std::cout<<"2025\n"<<m25<<std::endl;
+			auto m25 = account->Get(Year{2025}, bM,fUnits);
+			std::cout<<"2025\n"<<m25<<std::endl;
 			
 			
 			std::cout<<"END 2023"<<std::endl;
