@@ -76,7 +76,9 @@ class InvoiceTest
 			
 
 			auto m25 = account->Get(Year{2025}, bM,fUnits);
-			std::cout<<"2025\n"<<m25<<std::endl;
+			std::cout<<"2025\n"<<m25[0].To<Quantity<Sum>>()() * Quantity<Scalar>{1}<<std::endl;
+			std::cout<<"2025\n"<<m25[0].To<Quantity<Sum>>()() * Quantity<Scalar>{1.0/3}<<std::endl;
+			std::cout<<"2025\n"<<(m25[0].To<Quantity<Sum>>()() * Quantity<Scalar>{1.0/3})()<<std::endl;
 			
 			
 			std::cout<<"END 2023"<<std::endl;
