@@ -38,8 +38,7 @@ public:
 		return exec(y,f,allFactoryUnits,n);
 	}
 protected:
-	using MatrixType = typename Base::MatrixType;
-	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits, const std::string& n) 
+	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits, const std::string& n) const
 	{
 		using MDS2 = MatrixDescriptor<2,std::string>;
         using MS2 = Matrix<2,MDS2>;
@@ -76,7 +75,8 @@ private:
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokens;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
-//	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) const = 0;
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const = 0;
+	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) { return getTokens(y,f); };
 };
 
 class AccountCalculator: public AccountCalculatorBase
@@ -85,7 +85,7 @@ class AccountCalculator: public AccountCalculatorBase
 public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
 private:
-	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
         {
