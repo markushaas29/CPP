@@ -28,20 +28,64 @@
 
 #pragma once
 
-class AccountCalculator: public CalculatorBase<Quantity<Sum>, AccountCalculator>
+class AccountCalculatorBase: public CalculatorBase<Quantity<Sum>, AccountCalculatorBase>
 {
-	using Base = CalculatorBase<Quantity<Sum>, AccountCalculator>;
+	using Base = CalculatorBase<Quantity<Sum>, AccountCalculatorBase>;
 public:
-	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokens{fT}, path{p} {};
+	AccountCalculatorBase(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fE,fB}, tokens{fT}, path{p} {};
 	auto Get(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits, const std::string& n = "Test_") 
 	{
 		return exec(y,f,allFactoryUnits,n);
+	}
+protected:
+	using MatrixType = typename Base::MatrixType;
+	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits, const std::string& n) 
+	{
+		using MDS2 = MatrixDescriptor<2,std::string>;
+        using MS2 = Matrix<2,MDS2>;
+		
+		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
+		auto typeFactory = std::make_shared<TF>(elementFactory);
+		
+		auto parsedAccountMatrix = AccountParser::Instance(tokens,path)();
+
+		auto fu = std::make_shared<std::ofstream>("/home/markus/Downloads/CSV_TestFiles_2/FactoryUnits.txt");
+		for(auto u : allFactoryUnits)
+			(*fu)<<u;
+		fu->close();
+
+		auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");
+
+        std::vector<FactoryUnit<std::string, std::string>> fv{{"AccumulationSum"}};
+        for(uint i = 0; i < allFactoryUnits.size(); ++i)
+                 all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
+        std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
+
+		result->Html();  
+		auto hb = HtmlBuilder<German>(n + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
+        hb.Add(result->Html());
+		hb();
+
+		auto names = result->Names().Elements();
+		auto elements = result->Elements().Elements();
+		elements.insert(std::end(elements), std::begin(names), std::end(names));
+
+		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({2,names.size()}), elements);
 	}
 private:
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokens;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
-	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
+//	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) const = 0;
+};
+
+class AccountCalculator: public AccountCalculatorBase
+{
+	using Base = AccountCalculatorBase;
+public:
+	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
+private:
+	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
         {
@@ -85,40 +129,6 @@ private:
             }
         };
 		
-		return exec(y,f,allFactoryUnits,"Account_");
-	}
-
-	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f, const std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>>& allFactoryUnits, const std::string& n) 
-	{
-		using MDS2 = MatrixDescriptor<2,std::string>;
-        using MS2 = Matrix<2,MDS2>;
-		
-		using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
-		auto typeFactory = std::make_shared<TF>(elementFactory);
-		
-		auto parsedAccountMatrix = AccountParser::Instance(tokens,path)();
-
-		auto fu = std::make_shared<std::ofstream>("/home/markus/Downloads/CSV_TestFiles_2/FactoryUnits.txt");
-		for(auto u : allFactoryUnits)
-			(*fu)<<u;
-		fu->close();
-
-		auto all = std::make_unique<MatrixComposite<decltype(parsedAccountMatrix)>>("All");
-
-        std::vector<FactoryUnit<std::string, std::string>> fv{{"AccumulationSum"}};
-        for(uint i = 0; i < allFactoryUnits.size(); ++i)
-                 all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
-        std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
-
-		result->Html();  
-		auto hb = HtmlBuilder<German>(n + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
-        hb.Add(result->Html());
-		hb();
-
-		auto names = result->Names().Elements();
-		auto elements = result->Elements().Elements();
-		elements.insert(std::end(elements), std::begin(names), std::end(names));
-
-		return Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>(MatrixDescriptor<2,std::shared_ptr<IElement>>({2,names.size()}), elements);
+		return Base::exec(y,f,allFactoryUnits,"Account_");
 	}
 };
