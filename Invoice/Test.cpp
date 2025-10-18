@@ -80,6 +80,8 @@ class InvoiceTest
 			std::cout<<"2025\n"<<m25[0].To<Quantity<Sum>>()() * Quantity<Scalar>{1.0/3}<<std::endl;
 			std::cout<<"2025\n"<<(m25[0].To<Quantity<Sum>>()() * Quantity<Scalar>{1.0/3})()<<std::endl;
 			
+			auto hallCurrent = std::make_unique<HallCurrenTCalculator>(tokenFactory,elementFactory,visitorFactory,path);
+			(*hallCurrent)(Year{2025},bM),
 			
 			std::cout<<"END 2023"<<std::endl;
 		   

@@ -132,3 +132,25 @@ private:
 		return Base::exec(y,f,allFactoryUnits,"Account_");
 	}
 };
+
+class HallCurrenTCalculator: public AccountCalculatorBase
+{
+	using Base = AccountCalculatorBase;
+public:
+	HallCurrenTCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
+private:
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const
+	{
+		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> fUnits = 
+	    {
+	        {"Energy",
+	            {
+	            
+	                {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE56600501017402051588"}},{EqualVisitor::Identifier, { Entry::Identifier, "701033135722"}}, {EqualVisitor::Identifier, { Year::Identifier, Year{2025}.ToString()}}}} // Waste
+	            }
+	        }, 
+	    };
+				
+		return Base::exec(y,f,fUnits,"HallCurrent_");
+	}
+};
