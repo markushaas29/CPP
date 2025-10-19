@@ -111,6 +111,9 @@ private:
 		std::vector<std::shared_ptr<IElement>> els = {std::make_shared<Header>("annual rent"), q.Clone()};
 		divs->Add(MatrixFormatter(Init(els)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<200>>,Style<FontSize,Px<25>>>>()));
 
+		auto hallCurrent = std::make_unique<HallCurrentCalculator>(tokenFactory,Base::elementFactory,Base::visitorFactory,path);
+		(*hallCurrent)(Year{2025},f);
+
 		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 		inv.exec();
 

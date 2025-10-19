@@ -133,11 +133,11 @@ private:
 	}
 };
 
-class HallCurrenTCalculator: public AccountCalculatorBase
+class HallCurrentCalculator: public AccountCalculatorBase
 {
 	using Base = AccountCalculatorBase;
 public:
-	HallCurrenTCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
+	HallCurrentCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
 private:
 	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const
 	{
