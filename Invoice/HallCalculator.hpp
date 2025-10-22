@@ -112,12 +112,12 @@ private:
 		divs->Add(MatrixFormatter(Init(els)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<200>>,Style<FontSize,Px<25>>>>()));
 
 		auto hallCurrent = std::make_unique<HallCurrentCalculator>(tokenFactory,Base::elementFactory,Base::visitorFactory,path);
-		(*hallCurrent)(Year{2025},f);
+		auto hc = (*hallCurrent)(Year{2025},f);
 
 		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 		inv.exec();
 		
-		auto inv2 = ExtraCostInvoice(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name)+"_"+std::string(Year{2025}));
+		auto inv2 = ExtraCostInvoice(MatrixFormatter(address).Lines(),MatrixFormatter(hc).Html(),path, std::string(S::Name)+"_"+std::string(Year{2025}));
 		inv2.exec();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
