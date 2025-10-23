@@ -112,7 +112,13 @@ private:
 		divs->Add(MatrixFormatter(Init(els)()).Html(std::make_unique<Css<Style<PaddingTop,Px<180>>,Style<Width,Px<200>>,Style<FontSize,Px<25>>>>()));
 
 		auto hallCurrent = std::make_unique<HallCurrentCalculator>(tokenFactory,Base::elementFactory,Base::visitorFactory,path);
-		auto hc = (*hallCurrent)(Year{2025},f);
+
+		std::vector<std::vector<std::shared_ptr<IElement>>> currents ={
+			{ std::make_shared<Header>("Gesamt"), hallCurrent->Value(y).Clone()},
+			{ std::make_shared<Header>("Gesamt"), std::make_shared<Quantity<Sum>>(Quantity<Scalar>{1. / 3} * hallCurrent->Value(y))}
+		};
+		auto hc = Init(currents)();
+		(*hallCurrent)(y,f);
 
 		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 		inv.exec();
