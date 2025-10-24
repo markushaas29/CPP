@@ -123,7 +123,7 @@ private:
 		auto inv = Contract(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name));
 		inv.exec();
 		
-		auto inv2 = ExtraCostInvoice(MatrixFormatter(address).Lines(),MatrixFormatter(hc).Html(),path, std::string(S::Name)+"_"+std::string(Year{2025}));
+		auto inv2 = Invoice(MatrixFormatter(address).Lines(),MatrixFormatter(hc).Html(),path, std::string(S::Name)+"_"+std::string(Year{2025}));
 		inv2.exec();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};

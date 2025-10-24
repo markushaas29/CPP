@@ -44,6 +44,24 @@ struct Raiffeisenbank
 	}
 };
 
+struct NoSignature
+{
+	static auto Get()
+	{
+		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto r = std::make_unique<HtmlElements<DivTag>>();
+		r->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
+		end->Add(std::move(r));
+		
+		auto r3 = std::make_unique<HtmlElements<DivTag>>("Ending2","",std::make_unique<Css<Style<PaddingTop,Px<40>>>>());
+		r3->Add(Html<DivTag>(Name{"Markus Haas"},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>,Style<PaddingTop,Px<20>>>>()));
+		end->Add(std::move(r3));
+
+		return std::move(end);
+	}
+};
+
 struct Signature
 {
 	static auto Get()
@@ -236,8 +254,15 @@ class Contract: public Form<Comdirect, Signature2>
 public:
 	Contract(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Comdirect, Signature2>(std::move(a), std::move(c), p, n){}
 };
+
 class ExtraCostInvoice: public Form<Raiffeisenbank> 
 {
 public:
 	ExtraCostInvoice(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Raiffeisenbank>(std::move(a), std::move(c), p, n){}
+};
+
+class Invoice: public Form<Raiffeisenbank, NoSignature> 
+{
+public:
+	Invoice(std::unique_ptr<IHtmlElement> a,std::unique_ptr<IHtmlElement> c, const std::string& p, const std::string& n = ""): Form<Raiffeisenbank, NoSignature>(std::move(a), std::move(c), p, n){}
 };
