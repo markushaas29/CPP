@@ -126,7 +126,8 @@ private:
 		divs = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>>>());
 		divs->Add(Html<Header>(Header{"Invoice"},std::make_unique<Css<Style<MarginTop,Px<250>>, Style<FontWeight,Bold>, Style<FontSize,Px<30>>>>()));
 		divs->Add(Html<DivTag>(Text{"Die Nebenkostenabrechnung Zeitraum: 01.01.2024 bis 31.12.2024 hat abzüglich Ihrer Vorauszahlungen ein Minus von ergeben."},std::make_unique<Css<Style<MarginTop,Px<50>>, Style<FontSize,Px<25>>>>()));
-		divs->Add(MatrixFormatter(hc).Html(std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
+		divs->Add((Quantity<Scalar>{1. / 3} * hallCurrent->Value(y)).template HtmlTag<DivTag>(nullptr, std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
+		divs->Add(Html<DivTag>(Text((Quantity<Scalar>{1. / 3} * hallCurrent->Value(y)).Data()),std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
 		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
 		auto inv2 = Invoice(MatrixFormatter(address).Lines(),std::move(divs),path, std::string(S::Name)+"_"+std::string(Year{2025}));
 		inv2.exec();
