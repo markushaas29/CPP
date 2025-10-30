@@ -124,6 +124,15 @@ private:
 		auto inv3 = Invoice(MatrixFormatter(address).Lines(), s1,path, std::string(S::Name)+"_"+std::string(Year{2025}));
 		inv3.exec();
 
+		std::vector<std::vector<std::shared_ptr<IElement>>> rents ={
+			{ std::make_shared<Date>("1.11.2024"), std::make_shared<Quantity<SumPerArea>>(540. / (6*4)), std::make_shared<Quantity<Length>>(6) , std::make_shared<Quantity<Length>>(4)},
+			{ std::make_shared<Date>("1.11.2024"), std::make_shared<Quantity<SumPerArea>>(810. / (12*3)), std::make_shared<Quantity<Length>>(6) , std::make_shared<Quantity<Length>>(4)},
+			{ std::make_shared<Date>("1.11.2024"), std::make_shared<Quantity<SumPerArea>>(540 * 3. / (6*12)), std::make_shared<Quantity<Length>>(6) , std::make_shared<Quantity<Length>>(12)},
+			{ std::make_shared<Date>("1.11.2024"), std::make_shared<Quantity<SumPerArea>>((3.35 / (4./3))), std::make_shared<Quantity<Length>>(6) , std::make_shared<Quantity<Length>>(12)}
+		};
+
+		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
+
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
 		return Init(s)();	}
 };
