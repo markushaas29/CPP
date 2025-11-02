@@ -48,7 +48,7 @@ struct NoSignature
 {
 	static auto Get()
 	{
-		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<150>>, Style<Padding,Px<100>>>>());
+		auto end = std::make_unique<HtmlElements<DivTag>>("Ending","",std::make_unique<Css<Style<Margin,Px<5>>, Style<PaddingTop,Px<250>>, Style<Padding,Px<50>>>>());
 		auto r = std::make_unique<HtmlElements<DivTag>>();
 		r->Add(Html<DivTag>(Entry{"Dettenheim, "},std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
 		r->Add(Html<DivTag>(Date::Today(),std::make_unique<Css<Style<FontSize,Px<25>>, Style<FloatTag,Left>>>()));
@@ -215,7 +215,7 @@ private:
 
 		return r;
 	}
-	static auto createSender()
+static auto createSender()
 	{
 		std::vector<std::shared_ptr<IElement>> send = {
 			std::make_shared<Prename>("Markus"), std::make_shared<Name>("Haas"),
@@ -266,8 +266,8 @@ class Invoice: public Form<Raiffeisenbank, NoSignature>
 	static auto createContent(const Quantity<Sum>& s)
 	{
 		auto divs = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>>>());
-		divs->Add(Html<Header>(Header{"Invoice"},std::make_unique<Css<Style<MarginTop,Px<250>>, Style<FontWeight,Bold>, Style<FontSize,Px<30>>>>()));
-		divs->Add(Html<DivTag>(Text{"Die Nebenkostenabrechnung Zeitraum: 01.01.2024 bis 31.12.2024 hat abzüglich Ihrer Vorauszahlungen ein Minus von ergeben."},std::make_unique<Css<Style<MarginTop,Px<50>>, Style<FontSize,Px<25>>>>()));
+		divs->Add(Html<Header>(Header{"Invoice"+std::string(" _")},std::make_unique<Css<Style<MarginTop,Px<250>>, Style<FontWeight,Bold>, Style<FontSize,Px<30>>>>()));
+		divs->Add(Html<DivTag>(Text{"Die Nebenkostenabrechnung Zeitraum: 01.01.2024 bis 31.12.2024 hat abzüglich Ihrer Vorauszahlungen ein Minus von ergeben."},std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 		//divs->Add((Quantity<Scalar>{1. / 3} * hallCurrent->Value(y)).template HtmlTag<DivTag>(nullptr, std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
 		divs->Add(Html<DivTag>(Text(s.Data()),std::make_unique<Css<Style<MarginLeft,Px<350>>, Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
