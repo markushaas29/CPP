@@ -121,7 +121,7 @@ private:
 		(*hallCurrent)(y,f);
 
 		auto s1 = (Quantity<Scalar>{1. / 3} * hallCurrent->Value(y));
-		auto inv3 = Invoice(MatrixFormatter(address).Lines(), s1,path, std::string(S::Name)+"_"+std::string(Year{2025}));
+		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Invoice"}, s1, path, std::string(S::Name)+"_"+std::string(Year{2025}));
 		inv3.exec();
 
 		auto oldLength =  std::make_shared<Quantity<Length>>(3.5);
