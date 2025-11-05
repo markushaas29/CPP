@@ -170,10 +170,10 @@ private:
 										std::vector<std::shared_ptr<IElement>> resultf ;
 										std::ostringstream os;
 										os<<f;
-										resultf.push_back(std::make_shared<Entry>(os.str()));
+										resultf.push_back(std::make_shared<Entry>("Berechnung: "+os.str()));
 										std::ostringstream os2;
 										os2<<f();
-										resultf.push_back(std::make_shared<Entry>(os2.str()));
+										resultf.push_back(std::make_shared<Entry>("Resultat: "+os2.str()));
 						resultf.push_back(i->Value().Clone());
 										resultFuncs.push_back(resultf);
 									}
