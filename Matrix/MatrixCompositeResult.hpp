@@ -163,22 +163,23 @@ private:
 				
 						std::vector<std::vector<std::shared_ptr<IElement>>> resultFuncs ;
 						auto funcs = i->FuncVec();
-						std::for_each(funcs.cbegin(),funcs.cend(), [&resultFuncs,&i](const auto& f) 
+						std::for_each(funcs.cbegin(),funcs.cend(), [&](const auto& f) 
 								{
 									if(f.Size()!=0)
 									{
 										std::vector<std::shared_ptr<IElement>> resultf ;
 										std::ostringstream os;
 										os<<f;
-										resultf.push_back(std::make_shared<Entry>("Berechnung: "+os.str()));
+										resultf.push_back(std::make_shared<Entry>(i->Name()+std::string(" Berechnung: ")+os.str()));
 										std::ostringstream os2;
 										os2<<f();
-										resultf.push_back(std::make_shared<Entry>("Resultat: "+os2.str()));
-						resultf.push_back(i->Value().Clone());
+										resultf.push_back(std::make_shared<Entry>(i->Name()+std::string(" Resultat: ")+os2.str()));
 										resultFuncs.push_back(resultf);
+										std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 									}
 								});
 					
+						//htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
 						htmlPtr->Add(i->printContent(in+2));
 						htmlPtr->Add(MatrixFormatter((Init(resultFuncs)())^1).Html(std::move(dynCss2)));
 					}
