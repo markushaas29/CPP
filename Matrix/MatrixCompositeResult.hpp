@@ -171,6 +171,7 @@ private:
 										std::ostringstream os;
 										os<<f;
 										resultf.push_back(std::make_shared<Entry>(i->Name()+std::string(" Berechnung: ")+os.str()));
+										htmlPtr->Add(Entry{i->Name()+std::string(" Berechnung: ")+os.str()}.Html());
 										std::ostringstream os2;
 										os2<<f();
 										resultf.push_back(std::make_shared<Entry>(i->Name()+std::string(" Resultat: ")+os2.str()));
@@ -181,7 +182,7 @@ private:
 					
 						//htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
 						htmlPtr->Add(i->printContent(in+2));
-						htmlPtr->Add(MatrixFormatter((Init(resultFuncs)())^1).Html(std::move(dynCss2)));
+						//htmlPtr->Add(MatrixFormatter((Init(resultFuncs)())^1).Html(std::move(dynCss2)));
 					}
 					});
 
