@@ -170,19 +170,17 @@ private:
 										std::vector<std::shared_ptr<IElement>> resultf ;
 										std::ostringstream os;
 										os<<f;
-										resultf.push_back(std::make_shared<Entry>(i->Name()+std::string(" Berechnung: ")+os.str()));
-										htmlPtr->Add(Entry{i->Name()+std::string(" Berechnung: ")+os.str()}.Html());
-										std::ostringstream os2;
-										os2<<f();
-										resultf.push_back(std::make_shared<Entry>(i->Name()+std::string(" Resultat: ")+os2.str()));
+										resultf.push_back(std::make_shared<Header>(i->Name()));
+										os<<" = "<<f();
+										resultf.push_back(std::make_shared<Entry>(os.str()));
 										resultFuncs.push_back(resultf);
 										std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 									}
 								});
 					
 						//htmlPtr->Add(MatrixFormatter(Init(result)()).Html(std::move(dynCss)));
+						htmlPtr->Add(MatrixFormatter((Init(resultFuncs)())).Html(std::move(dynCss2)));
 						htmlPtr->Add(i->printContent(in+2));
-						//htmlPtr->Add(MatrixFormatter((Init(resultFuncs)())^1).Html(std::move(dynCss2)));
 					}
 					});
 
