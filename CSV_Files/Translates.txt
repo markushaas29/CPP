@@ -34,3 +34,4 @@ signature landlord;Unterschrift Vermieter;-
 signature tenant;Unterschrift Mieter;-
 date;Datum;-
 deduction;Abschlag;-
+maintenance;Wartung;-

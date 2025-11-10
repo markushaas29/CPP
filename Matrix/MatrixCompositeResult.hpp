@@ -171,8 +171,9 @@ private:
 										std::ostringstream os;
 										os<<f;
 										resultf.push_back(std::make_shared<Header>(i->Name()));
-										os<<" = "<<f();
+										os<<" = ";
 										resultf.push_back(std::make_shared<Entry>(os.str()));
+										resultf.push_back(std::make_shared<Q>(f()));
 										resultFuncs.push_back(resultf);
 										std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
 									}
