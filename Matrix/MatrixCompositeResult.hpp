@@ -33,6 +33,7 @@ public:
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FuncVec() { return funcs(); }
+	decltype(auto) Info() { return info(); }
 	virtual std::unique_ptr<IHtmlElement> printContent(int intent, std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  
 	{
 		auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
@@ -51,6 +52,7 @@ private:
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
 	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {  return printContent(1,std::move(v),std::move(css),n,id);  };
 	virtual MatrixOne names() const = 0;
+	virtual const std::string& info() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
 	virtual std::ostream& display(std::ostream& out)	const = 0;
@@ -75,6 +77,10 @@ public:
 		return HtmlBuilder()(s,mf());
 	};
 private:
+	typename Base::QuantityType value;
+	MType item;
+	std::string name;
+	std::string infos;
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
@@ -85,11 +91,9 @@ private:
 		return Init(res)();
 	};
 	virtual std::string showContent(const std::string& intent, uint i = 0) const  { return intent; };
-	typename Base::QuantityType value;
-	MType item;
-	std::string name;
 	typename Base::FuncType result;
 	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
+	virtual const std::string& info() const { return infos; };
 };
 
 template<typename Q, typename MType>
@@ -188,7 +192,9 @@ private:
 	};
 	virtual std::string showContent(const std::string& intent, uint i = 0) const { return intent; };
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	virtual const std::string& info() const { return infos; };
 	typename Base::QuantityType value;
 	std::unique_ptr<std::vector<std::unique_ptr<Base>>> items;
 	std::string name;
+	std::string infos;
 };
