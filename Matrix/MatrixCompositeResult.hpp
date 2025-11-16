@@ -66,8 +66,8 @@ class Result: public IResult<Q,MType>
 {
 	using Base = IResult<Q,MType>;
 public:
-	Result(const typename Base::FuncType&& q, const MType&& m = MType(), const std::string& n =""): value{q()}, item(m), name{n}, result{q} {};
-	Result(const Q&& q, const MType&& m = MType(), const std::string& n =""): value{q}, item(m), name{n} {};
+	Result(const typename Base::FuncType&& q, const MType&& m = MType(), const std::string& n ="", const std::string& i =""): value{q()}, item(m), name{n}, infos{i}, result{q} {};
+	Result(const Q&& q, const MType&& m = MType(), const std::string& n ="", const std::string& i =""): value{q}, item(m), name{n}, infos{i} {};
 	virtual Q Value() const { return Q{result()}; }
 	virtual MType M() { return MType(); };
 	virtual const std::string& Name() const { return name; };
@@ -101,8 +101,8 @@ class CompositeResult: public IResult<Q,MType>
 {
 	using Base = IResult<Q,MType>;
 public:
-	CompositeResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{q}, items{std::move(v)},name{n} {};
-	CompositeResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n =""): value{*q}, items{std::move(v)},name{n} {};
+	CompositeResult(const Q&& q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n ="", const std::string& i =""): value{q}, items{std::move(v)},name{n}, infos{i} {};
+	CompositeResult(std::shared_ptr<IElement> q, std::unique_ptr<std::vector<std::unique_ptr<Base>>>&& v, const std::string& n ="", const std::string& i =""): value{*q}, items{std::move(v)},name{n}, infos{i} {};
 	virtual Q Value() const { return value; }
 	virtual const std::string& Name() const { return name; };
 	decltype(auto) Elements() const 

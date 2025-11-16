@@ -31,7 +31,7 @@ public:
 			auto mr = m |  (predicates->at(0)->Clone());
 			std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& i) { mr = mr | (i->Clone()); });
 			auto cv =mr.Accept(visitors->at(0)->Copy());
-			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(cv->template As<AccumulationVisitor<>>().Result(), std::move(mr), Base::name);
+			return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(cv->template As<AccumulationVisitor<>>().Result(), std::move(mr), Base::name, Base::name);
 		}
 		return std::make_unique<Result<Q, typename Base::ResultMatrixType>>(Q{0}, typename Base::ResultMatrixType(), Base::name);
 	}
@@ -56,7 +56,6 @@ private:
 	{ 
 		Base::in(s,i+1)<<"Name: "<<Name()<<std::endl;
 		std::for_each(predicates->cbegin(), predicates->cend(), [&](const auto& p) { Base::in(s,i+1)<<*p<<"\n"; });
-		//std::for_each(m.visitors->cbegin(), m.visitors->cend(), [&s](const auto& i) { s<<*i<<"\n"; });
 		return s;  
 	}
 };
@@ -83,7 +82,7 @@ public:
 					value = value + mc->Value();
 					result->push_back(std::move(mc));	
 				}); 
-		return std::make_unique<CompositeResult<Q, typename Base::ResultMatrixType>>(std::move(value), std::move(result), Base::name);
+		return std::make_unique<CompositeResult<Q, typename Base::ResultMatrixType>>(std::move(value), std::move(result), Base::name, Base::name);
 	}
 	virtual DataType Clone() const 
 	{ 
@@ -113,6 +112,7 @@ private:
 					c->display(s,i);
 					s<<"\n"; 
 					}); 
+
 		return s;  
 	}
 	friend std::ostream& operator<<(std::ostream& s, const MatrixComposite& m) { return m.display(s,0); }
