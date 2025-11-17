@@ -154,7 +154,7 @@ private:
 				{
 					if(i->Value() != Q{0})
 					{
-						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
+						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()+"_"+i->Info()),i->Value().Clone() };
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 						styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(5)));
 						styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(20)));
