@@ -179,7 +179,7 @@ private:
 										resultf.push_back(std::make_shared<Header>("="));
 										resultf.push_back(std::make_shared<Q>(f()));
 										resultFuncs.push_back(resultf);
-										std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()),i->Value().Clone() };
+										std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()+"_"+i->Info()),i->Value().Clone() };
 									}
 								});
 					
