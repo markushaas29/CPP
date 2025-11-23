@@ -29,6 +29,7 @@ public:
 	using ResultType = std::unique_ptr<IResult<QuantityType,ResultMatrixType>>;
 	virtual ResultType operator()(T& m) const = 0;
 	virtual std::string_view Name() const = 0;
+	auto Info() const { return info(); }
 	virtual size_t Size() const = 0;
 	virtual std::unique_ptr<IMatrixComposite<T,Q>> Clone() const = 0;
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixComposite& m) { return m.display(s); }
@@ -41,6 +42,7 @@ private:
 		return std::make_unique<HtmlElements<DivTag>>("","");	
 	};	
 	std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
+	virtual std::string_view info() const = 0;
 };
 
 
@@ -58,14 +60,16 @@ public:
 	inline static constexpr const char TypeIdentifier[] = "MatrixComposition";
     inline static constexpr Literal TypeId{TypeIdentifier};
 
-	MatrixCompositeBase(const std::string& n):  name{n} {}
+	MatrixCompositeBase(const std::string& n, const std::string& i = ""):  name{n}, infos{i} {}
 	virtual std::string_view Name() const { return name; };
 private:
 	std::string name;
+	std::string infos;
 	static std::ostream& in(std::ostream& s, size_t add) 
 	{
 		for(auto i=0; i<add; ++i)
 			s<<"  ";
 		return s;
 	}
+	virtual std::string_view info() const { return infos; };
 };
