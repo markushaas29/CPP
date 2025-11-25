@@ -121,7 +121,7 @@ private:
 		(*hallCurrent)(y,f);
 
 		auto s1 = (Quantity<Scalar>{1. / 3} * hallCurrent->Value(y));
-		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Stromnebenkosten"}, Text{"Die Stromnebenkosten im Zeitraum vom 1.1.2025 bis zum 31.12.2025 betragen"}, s1, path, std::string(S::Name)+"_"+std::string(Year{2025}));
+		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, s1, path, std::string(S::Name)+"_"+std::string(y));
 		inv3.exec();
 
 		auto oldLength =  std::make_shared<Quantity<Length>>(3.5);
