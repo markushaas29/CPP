@@ -149,8 +149,12 @@ private:
 		auto diffSumPerArea2 = std::make_shared<Quantity<SumPerArea>>(*newSumPerArea2 - *oldSumPerArea2);
 		auto diffRent1 = std::make_shared<Quantity<Sum>>(*newArea * *diffSumPerArea1);
 		auto diffRent2 = std::make_shared<Quantity<Sum>>(*area2 * *diffSumPerArea2);
+		auto diffRent = std::make_shared<Quantity<Sum>>((*area2 * *diffSumPerArea2)+(*newArea * *diffSumPerArea1));
+		auto diffRentN = std::make_shared<Quantity<Sum>>(((*area2 * *diffSumPerArea2)+(*newArea * *diffSumPerArea1))/2);
 		auto diffRent1Y = std::make_shared<Quantity<Sum>>(*newArea * *diffSumPerArea1 * 12);
 		auto diffRent2Y = std::make_shared<Quantity<Sum>>(*area2 * *diffSumPerArea2 * 12);
+		auto diffRentY = std::make_shared<Quantity<Sum>>((*area2 * *diffSumPerArea2 * 12)+(*newArea * *diffSumPerArea1 * 12));
+		auto diffRentYN = std::make_shared<Quantity<Sum>>(((*area2 * *diffSumPerArea2 * 12)+(*newArea * *diffSumPerArea1 * 12))/2);
 		
 		std::vector<std::vector<std::shared_ptr<IElement>>> rents ={
 			{ std::make_shared<Text>("Until"),std::make_shared<Date>("1.11.2024"), oldRent,std::make_shared<Quantity<SumPerArea>>(540. / (6*4)), oldLength, width},
@@ -158,7 +162,9 @@ private:
 			{ std::make_shared<Text>("Since"),std::make_shared<Date>("1.11.2024"), newRent,std::make_shared<Quantity<SumPerArea>>(540 * 3. / (6*12)), newLength, width},
 			{ std::make_shared<Text>(""),std::make_shared<Date>("1.11.2024"), newRent2,std::make_shared<Quantity<SumPerArea>>((3.35 / (4./3))), std::make_shared<Quantity<Length>>(6) , std::make_shared<Quantity<Length>>(12)},
 			{ std::make_shared<Text>("Since"),std::make_shared<Date>("1.11.2024"), diffRent1, diffRent1Y, diffSumPerArea1, width},
-			{ std::make_shared<Text>(""),std::make_shared<Date>("1.11.2024"),  diffRent2, diffRent2Y, diffSumPerArea2 , std::make_shared<Quantity<Length>>(12)}
+			{ std::make_shared<Text>(""),std::make_shared<Date>("1.11.2024"),  diffRent2, diffRent2Y, diffSumPerArea2 , std::make_shared<Quantity<Length>>(12)},
+			{ std::make_shared<Text>("Year"),std::make_shared<Date>("1.11.2024"),  diffRent, diffRentY, diffSumPerArea2 , std::make_shared<Quantity<Length>>(12)},
+			{ std::make_shared<Text>("Year Nicolai"),std::make_shared<Date>("1.11.2024"),  diffRentN, diffRentYN, diffSumPerArea2 , std::make_shared<Quantity<Length>>(12)}
 		};
 
 		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
