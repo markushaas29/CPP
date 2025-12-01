@@ -46,7 +46,6 @@ private:
 	const std::string fileName = "Hall.csv";
 	typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) 
 	{ 
-		std::cout<<"Year "<<y<<std::endl;
 		auto m = (*parser)(true);
 		auto names = m.Col(2).Rows({4,8}).Elements();
 		std::vector<std::string> name;
@@ -119,7 +118,8 @@ private:
 			{ std::make_shared<Header>("Gesamt"), std::make_shared<Quantity<Sum>>(Quantity<Scalar>{1. / 3} * hallCurrent->Value(y))}
 		};
 		auto hc = Init(currents)();
-		(*hallCurrent)(y,f);
+		std::cout<<"HAll YEAR "<<y<<std::endl;
+		(*hallCurrent)(Year{2025},f);
 
 		auto s1 = (Quantity<Scalar>{1. / 3} * hallCurrent->Value(y));
 		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, s1, path, std::string(S::Name)+"_"+std::string(y));
