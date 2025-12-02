@@ -118,7 +118,6 @@ private:
 			{ std::make_shared<Header>("Gesamt"), std::make_shared<Quantity<Sum>>(Quantity<Scalar>{1. / 3} * hallCurrent->Value(y))}
 		};
 		auto hc = Init(currents)();
-		std::cout<<"HAll YEAR "<<y<<std::endl;
 		(*hallCurrent)(Year{2025},f);
 
 		auto s1 = (Quantity<Scalar>{1. / 3} * hallCurrent->Value(y));
