@@ -166,7 +166,10 @@ private:
 			{ std::make_shared<Text>("Year"),std::make_shared<Date>("1.11.2024"),  diffRent, diffRentY, diffSumPerArea2 , std::make_shared<Quantity<Length>>(12)},
 			{ std::make_shared<Text>("Year Nicolai"),std::make_shared<Date>("1.11.2024"),  diffRentN, diffRentYN, diffSumPerArea2 , std::make_shared<Quantity<Length>>(12)}
 		};
-
+		
+		auto hb = HtmlBuilder<German>("Weil_Steuer_" + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
+//		hb.Add(Init(rents)());
+//		hb();
 		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
