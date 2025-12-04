@@ -168,8 +168,8 @@ private:
 		};
 		
 		auto hb = HtmlBuilder<German>("Weil_Steuer_" + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
-//		hb.Add(Init(rents)());
-//		hb();
+		hb.Add(MatrixFormatter(Init(rents)()).Html());
+		hb();
 		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
