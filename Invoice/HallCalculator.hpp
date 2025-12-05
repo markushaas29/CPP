@@ -121,7 +121,7 @@ private:
 		(*hallCurrent)(Year{2025},f);
 
 		auto s1 = (Quantity<Scalar>{1. / 3} * hallCurrent->Value(y));
-		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, s1, path, std::string(S::Name)+"_"+std::string(y));
+		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Nebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, s1, path, std::string(S::Name)+"_"+std::string(y));
 		inv3.exec();
 
 		auto oldLength =  std::make_shared<Quantity<Length>>(3.5);
@@ -171,6 +171,8 @@ private:
 		hb.Add(MatrixFormatter(Init(rents)()).Html());
 		hb();
 		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
+		auto inv4 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, *diffRentYN, path, "WeilSteuer_"+std::string(y));
+		inv4.exec();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
 		return Init(s)();	}
