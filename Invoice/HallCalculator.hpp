@@ -171,7 +171,7 @@ private:
 		hb.Add(MatrixFormatter(Init(rents)()).Html());
 		hb();
 		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
-		auto inv4 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, *diffRentYN, path, "WeilSteuer_"+std::string(y));
+		auto inv4 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, *diffRentYN, path, "WeilSteuer_"+std::string(y),MatrixFormatter(Init(rents)()).Html());
 		inv4.exec();
 
 		std::vector<std::vector<std::shared_ptr<IElement>>> s = {sums, sums};
