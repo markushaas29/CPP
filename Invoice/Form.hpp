@@ -269,8 +269,7 @@ class Invoice: public Form<Raiffeisenbank, NoSignature>
 		divs->Add(Html<Header>(h,std::make_unique<Css<Style<MarginTop,Px<250>>, Style<FontWeight,Bold>, Style<FontSize,Px<30>>>>()));
 		divs->Add(Html<DivTag>(t,std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 		if(additional!=nullptr)
-			std::cout<<"ABC"<<std::endl;
-		//divs->Add((Quantity<Scalar>{1. / 3} * hallCurrent->Value(y)).template HtmlTag<DivTag>(nullptr, std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
+			divs->Add(std::move(additional));
 		divs->Add(Html<DivTag>(Text(s.Data()),std::make_unique<Css<Style<MarginLeft,Px<350>>, Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 
