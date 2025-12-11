@@ -210,12 +210,19 @@ class TemplatizedAll_Test2023
 			assert(propT24.Value(Year{2024}).Equals(Quantity<Sum>{-4325.90},0.01));
 
 			auto mB2025 = propB24(Year{2025}, bM).To<Quantity<Sum>>();
-			std::cout<<"mB "<<mB2025[0][0]<<std::endl;
+			std::cout<<"mB "<<mB2025<<std::endl;
 			assert(mB2025[0][0]().Equals(Quantity<Sum>{-115.45},0.01));
 			auto mM2025 = propM24(Year{2025}, bM).To<Quantity<Sum>>();
+			assert(mM2025[0][0]().Equals(Quantity<Sum>{-173.18},0.01));
 			auto mT2025 = propT24(Year{2025}, bM).To<Quantity<Sum>>();
+			assert(mT2025[0][0]().Equals(Quantity<Sum>{-57.73},0.01));
 			
 			auto hC = std::make_unique<HallCurrentCalculator>(tokenFactory,elementFactory,visitorFactory,path);
+			
+			auto hC23 = (*hC)(Year(2023),bM).To<Quantity<Sum>>();
+			std::cout<<"HC "<<hC23[0][0]<<std::endl;
+			assert(hC23[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
+			
 			auto hC25 = (*hC)(Year(2025),bM).To<Quantity<Sum>>();
 			std::cout<<"HC "<<hC25[0][0]<<std::endl;
 			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
