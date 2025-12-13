@@ -219,16 +219,13 @@ class TemplatizedAll_Test2023
 			
 			auto hC = std::make_unique<HallCurrentCalculator>(tokenFactory,elementFactory,visitorFactory,path);
 			
-//			auto hC23 = (*hC)(Year(2023),bM).To<Quantity<Sum>>();
-//			std::cout<<"HC 23"<<hC->Value(Year{2023})<<std::endl;
-//			assert(hC->Value(Year{2023}).Equals(Quantity<Sum>{-227.73},0.01));
-//			
-//			auto hC24 = (*hC)(Year(2024),bM).To<Quantity<Sum>>();
-//			std::cout<<"HC 24"<<hC24[0][0]<<std::endl;
-//			assert(hC24[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
+			auto hC23 = (*hC)(Year(2023),bM).To<Quantity<Sum>>();
+			assert(hC->Value(Year{2023}).Equals(Quantity<Sum>{-124.31},0.01));
+			
+			auto hC24 = (*hC)(Year(2024),bM).To<Quantity<Sum>>();
+			assert(hC24[0][0]().Equals(Quantity<Sum>{-202.01},0.01));
 			
 			auto hC25 = (*hC)(Year(2025),bM).To<Quantity<Sum>>();
-			std::cout<<"HC 25"<<hC25[0][0]<<std::endl;
 			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			std::cout<<"END 2023"<<std::endl;
