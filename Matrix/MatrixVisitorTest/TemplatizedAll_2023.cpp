@@ -67,6 +67,7 @@ class TemplatizedAll_Test2023
 			assert(hall->Value(Year(2025),bM).Equals(Quantity<Sum>{3333.6},0.01));
 			
 			auto hall2 = std::make_unique<Hall<HallTwo>>(tokenFactory,elementFactory,visitorFactory,path);
+			(*hall2)(Year(2024),bM).To<Quantity<Sum>>();
 			auto hallM2 = (*hall2)(Year(2025),bM).To<Quantity<Sum>>();
 //			assert(hallM2[0][0]().Equals(Quantity<Sum>{1350},0.01));
 //			assert(hallM2[0][1]().Equals(Quantity<Sum>{990},0.01));
