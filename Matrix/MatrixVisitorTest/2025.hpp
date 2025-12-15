@@ -3,7 +3,6 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
-#include "2025.hpp"
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
@@ -24,12 +23,12 @@
 #include "../../Invoice/Invoice.hpp"
 #include "../../TypeCounter/TypeCounter.hpp"
 
-class TemplatizedAll_Test2023
+class Invoice_2025
 {
 	public:
 		int Run()
 		{
-			std::cout<<"START TemplatizedAll_ 2023"<<std::endl;
+			std::cout<<"START 2025"<<std::endl;
 			auto b1 = std::chrono::steady_clock::now();
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MS2 = Matrix<2,MDS2>;
@@ -231,9 +230,7 @@ class TemplatizedAll_Test2023
 			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			
-			Invoice_2025().Run();
-
-			std::cout<<"END 2023"<<std::endl;
+			std::cout<<"END 2025"<<std::endl;
 		   
 			return 0;
 		}
