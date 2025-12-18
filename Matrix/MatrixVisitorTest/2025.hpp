@@ -23,6 +23,8 @@
 #include "../../Invoice/Invoice.hpp"
 #include "../../TypeCounter/TypeCounter.hpp"
 
+#pragma once
+
 class Invoice_2025
 {
 	public:

@@ -170,7 +170,7 @@ private:
 		auto hb = HtmlBuilder<German>("Weil_Steuer_" + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
 		hb.Add(MatrixFormatter(Init(rents)()).Html());
 		hb();
-		std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
+		//std::cout<<"Hall\n"<<Init(rents)()<<std::endl;
 		auto inv4 = Invoice(MatrixFormatter(address).Lines(), Header{"Nnebenkosten " + y.Data()}, Text{"Die Stromnebenkosten im Jahr " + y.Data() + " betragen"}, *diffRentYN, path, "WeilSteuer_"+std::string(y),MatrixFormatter(Init(rents)()).Html());
 		inv4.exec();
 
