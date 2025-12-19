@@ -85,39 +85,22 @@ class Invoice_2025
 			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
 			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
-//			auto propM23 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
-//			auto mV = propM23.Values(Year{2022}, bM);
-//			assert(mV[0]().Equals(Quantity<Sum>{-161.00},0.01));
-//			assert(mV[1]().Equals(Quantity<Sum>{-758.60},0.01));
-//			assert(mV[2]().Equals(Quantity<Sum>{-417.83},0.01));
-//			//assert(mV[3]().Equals(Quantity<Sum>{-90.00},0.01));
-//			assert(mV[4]().Equals(Quantity<Sum>{-164.32},0.01));
-//			assert(mV[5]().Equals(Quantity<Sum>{-352.51},0.01));
-//			
-//			auto mMS = propM23(Year{2023}, bM).To<Quantity<Sum>>();
-//			auto propM = propM23.AdvanceItems()[1];
-//			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
-//			//assert(propM23.Result(Year{2023}).Equals(Quantity<Sum>{-158.42},0.01));
-//			assert(propM()[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
-//	        assert(propM()[1].As<Quantity<Sum>>()==Quantity<Sum>{0});
-//          	assert(propM()[2].As<Quantity<Sum>>()==Quantity<Sum>{210});
-//			assert(mMS[0][0]().Equals(Quantity<Sum>{-148.16},0.01));
-//			assert(mMS[0][1]().Equals(Quantity<Sum>{-1232.09},0.01));
-//			assert(mMS[0][2]().Equals(Quantity<Sum>{-487.89},0.01));
-//			//assert(mMS[0][3]().Equals(Quantity<Sum>{-183.78},0.01));
-//			assert(mMS[0][4]().Equals(Quantity<Sum>{-164.32},0.01));
-//			assert(mMS[0][5]().Equals(Quantity<Sum>{-462.19},0.01));
-//			//assert(propM23.Value(Year{2023}).Equals(Quantity<Sum>{-2678.42},0.01));
-//			
-//
-//			auto propT23 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
-//			auto mT22 = propT23.Values(Year{2022}, bM).To<Quantity<Sum>>();
-//			assert(mT22[0]().Equals(Quantity<Sum>{-53.67},0.01));
-//			assert(mT22[1]().Equals(Quantity<Sum>{-531.02},0.01));
-//			assert(mT22[2]().Equals(Quantity<Sum>{-835.65},0.01));
-//			//assert(mT22[3]().Equals(Quantity<Sum>{-270.22},0.01));
-//			assert(mT22[4]().Equals(Quantity<Sum>{-94.36},0.01));
-//			assert(mT22[5]().Equals(Quantity<Sum>{-292.31},0.01));
+			auto propB24 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propM24 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
+			auto propT24 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
+
+			auto mB2025 = propB24(Year{2025}, bM).To<Quantity<Sum>>();
+			std::cout<<"mB "<<mB2025[0][4]<<std::endl;
+			assert(mB2025[0][0]().Equals(Quantity<Sum>{-115.45},0.01));
+			assert(mB2025[0][3]().Equals(Quantity<Sum>{-629.76},0.01));
+			auto mM2025 = propM24(Year{2025}, bM).To<Quantity<Sum>>();
+			assert(mM2025[0][0]().Equals(Quantity<Sum>{-173.18},0.01));
+			assert(mM2025[0][3]().Equals(Quantity<Sum>{-629.76},0.01));
+			auto mT2025 = propT24(Year{2025}, bM).To<Quantity<Sum>>();
+			std::cout<<"mB "<<mT2025<<std::endl;
+			assert(mT2025[0][0]().Equals(Quantity<Sum>{-57.73},0.01));
+			assert(mT2025[0][3]().Equals(Quantity<Sum>{-1889.28},0.01));
+			
 			
 			auto hC = std::make_unique<HallCurrentCalculator>(tokenFactory,elementFactory,visitorFactory,path);
 			
