@@ -92,14 +92,31 @@ class Invoice_2025
 			auto mB2025 = propB24(Year{2025}, bM).To<Quantity<Sum>>();
 			std::cout<<"mB "<<mB2025[0][4]<<std::endl;
 			assert(mB2025[0][0]().Equals(Quantity<Sum>{-115.45},0.01));
+//			assert(mB2025[0][1]().Equals(Quantity<Sum>{-115.45},0.01));
+//			assert(mB2025[0][2]().Equals(Quantity<Sum>{-115.45},0.01));
 			assert(mB2025[0][3]().Equals(Quantity<Sum>{-629.76},0.01));
+			assert(mB2025[0][4]().Equals(Quantity<Sum>{-252.59},0.01));
+			//assert(mB2025[0][5]().Equals(Quantity<Sum>{-252.59},0.01));
+//			assert(mB2025[0][6]().Equals(Quantity<Sum>{-115.45},0.01));
+//
 			auto mM2025 = propM24(Year{2025}, bM).To<Quantity<Sum>>();
 			assert(mM2025[0][0]().Equals(Quantity<Sum>{-173.18},0.01));
+//			assert(mM2025[0][1]().Equals(Quantity<Sum>{-173.18},0.01));
+//			assert(mM2025[0][2]().Equals(Quantity<Sum>{-173.18},0.01));
 			assert(mM2025[0][3]().Equals(Quantity<Sum>{-629.76},0.01));
+			assert(mM2025[0][4]().Equals(Quantity<Sum>{-252.59},0.01));
+//			assert(mM2025[0][5]().Equals(Quantity<Sum>{-252,59.18},0.01));
+//			assert(mM2025[0][6]().Equals(Quantity<Sum>{-629.76},0.01));
+//
 			auto mT2025 = propT24(Year{2025}, bM).To<Quantity<Sum>>();
 			std::cout<<"mB "<<mT2025<<std::endl;
 			assert(mT2025[0][0]().Equals(Quantity<Sum>{-57.73},0.01));
+//			assert(mT2025[0][1]().Equals(Quantity<Sum>{-57.73},0.01));
+//			assert(mT2025[0][2]().Equals(Quantity<Sum>{-57.73},0.01));
 			assert(mT2025[0][3]().Equals(Quantity<Sum>{-1889.28},0.01));
+			assert(mT2025[0][4]().Equals(Quantity<Sum>{-145.05},0.01));
+//			assert(mT2025[0][5]().Equals(Quantity<Sum>{-57.73},0.01));
+//			assert(mT2025[0][6]().Equals(Quantity<Sum>{-1889.28},0.01));
 			
 			
 			auto hC = std::make_unique<HallCurrentCalculator>(tokenFactory,elementFactory,visitorFactory,path);
