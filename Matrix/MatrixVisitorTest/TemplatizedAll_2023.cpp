@@ -29,6 +29,7 @@
 class TemplatizedAll_Test2023
 {
 	public:
+		//int Run(const auto& tokenFactory, const auto& elementFactory,const auto& visitorFactory,const auto& path)
 		int Run()
 		{
 			std::cout<<"START TemplatizedAll_ 2023"<<std::endl;

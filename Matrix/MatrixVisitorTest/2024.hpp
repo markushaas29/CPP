@@ -26,9 +26,10 @@
 class Invoice_2024
 {
 	public:
+		//int Run(const auto& tokenFactory, const auto& elementFactory,const auto& visitorFactory,const auto& path)
 		int Run()
 		{
-			std::cout<<"START 2024"<<std::endl;
+			std::cout<<"\nSTART 2024\n"<<std::endl;
 			auto b1 = std::chrono::steady_clock::now();
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MS2 = Matrix<2,MDS2>;
@@ -130,8 +131,11 @@ class Invoice_2024
 			assert(hC24[0][0]().Equals(Quantity<Sum>{-202.01},0.01));
 			
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
+			
+			auto e2 = std::chrono::steady_clock::now();
+			std::cout << "2024 Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
-			std::cout<<"END 2024"<<std::endl;
+			std::cout<<"\nEND 2024\n"<<std::endl;
 		   
 			return 0;
 		}

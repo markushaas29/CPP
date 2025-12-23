@@ -32,10 +32,6 @@ class Invoice_2025
 		{
 			std::cout<<"\nSTART 2025"<<std::endl;
 			auto b1 = std::chrono::steady_clock::now();
-		    using MDS2 = MatrixDescriptor<2,std::string>;
-		    using MS2 = Matrix<2,MDS2>;
-		    using TF = TypeFactory<CompositeFactory<IPredicateVisitor, Factory<IElement>>, EqualVisitor, LessVisitor>;
-			using EVF = Factory<BaseVisitor>;
 
 			auto account = std::make_shared<AccountCalculator>(tokenFactory,elementFactory,visitorFactory, path);
 			std::chrono::steady_clock::time_point e1 = std::chrono::steady_clock::now();
