@@ -235,7 +235,7 @@ class TemplatizedAll_Test2023
 			
 			Invoice_2023().Run();
 			Invoice_2024().Run();
-			Invoice_2025().Run();
+			Invoice_2025().Run(tokenFactory,elementFactory,visitorFactory,path);
 
 			std::cout<<"END 2023"<<std::endl;
 		   
