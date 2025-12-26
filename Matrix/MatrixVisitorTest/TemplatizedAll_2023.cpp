@@ -235,7 +235,7 @@ class TemplatizedAll_Test2023
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			
 			Invoice_2023().Run();
-			Invoice_2024().Run();
+			Invoice_2024().Run(tokenFactory,elementFactory,visitorFactory,path);
 			Invoice_2025().Run(tokenFactory,elementFactory,visitorFactory,path);
 
 			std::cout<<"END 2023"<<std::endl;
