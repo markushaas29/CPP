@@ -74,9 +74,9 @@ class Invoice_2023
 			std::cout<<"Properties.\n"<<propB23.Value(Year{2023})<<std::endl;
 			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
 			assert(propB23.Result(Year{2023}).Equals(Quantity<Sum>{-46.28},0.01));
-			assert(propB()[0].As<Quantity<Sum>>()==Quantity<Sum>{458});
-	        assert(propB()[1].As<Quantity<Sum>>()==Quantity<Sum>{135});
-          	assert(propB()[2].As<Quantity<Sum>>()==Quantity<Sum>{67});
+			assert(propB()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{458});
+	        assert(propB()[1]. template As<Quantity<Sum>>()==Quantity<Sum>{135});
+          	assert(propB()[2]. template As<Quantity<Sum>>()==Quantity<Sum>{67});
 			assert(bMS[0][0]().Equals(Quantity<Sum>{-98.77},0.01));
 			assert(bMS[0][1]().Equals(Quantity<Sum>{-1232.09},0.01));
 			assert(bMS[0][2]().Equals(Quantity<Sum>{-487.89},0.01));
@@ -94,9 +94,9 @@ class Invoice_2023
 			auto propM = propM23.AdvanceItems()[1];
 			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
 			//assert(propM23.Result(Year{2023}).Equals(Quantity<Sum>{-158.42},0.01));
-			assert(propM()[0].As<Quantity<Sum>>()==Quantity<Sum>{525});
-	        assert(propM()[1].As<Quantity<Sum>>()==Quantity<Sum>{0});
-          	assert(propM()[2].As<Quantity<Sum>>()==Quantity<Sum>{210});
+			assert(propM()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{525});
+	        assert(propM()[1]. template As<Quantity<Sum>>()==Quantity<Sum>{0});
+          	assert(propM()[2]. template As<Quantity<Sum>>()==Quantity<Sum>{210});
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-148.16},0.01));
 			assert(mMS[0][1]().Equals(Quantity<Sum>{-1232.09},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-487.89},0.01));
@@ -110,9 +110,9 @@ class Invoice_2023
 			auto propT = propT23.AdvanceItems()[1];
 			assert(propT23.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
 			assert(propT23.Result(Year{2023}).Equals(Quantity<Sum>{13559.91},0.01));
-			assert(propT()[0].As<Quantity<Sum>>()==Quantity<Sum>{1});
-	        assert(propT()[1].As<Quantity<Sum>>()==Quantity<Sum>{1000});
-          	assert(propT()[2].As<Quantity<Sum>>()==Quantity<Sum>{350});
+			assert(propT()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{1});
+	        assert(propT()[1]. template As<Quantity<Sum>>()==Quantity<Sum>{1000});
+          	assert(propT()[2]. template As<Quantity<Sum>>()==Quantity<Sum>{350});
 			assert(mTS[0][0]().Equals(Quantity<Sum>{-49.38},0.01));
 			assert(mTS[0][1]().Equals(Quantity<Sum>{-862.46},0.01));
 			assert(mTS[0][2]().Equals(Quantity<Sum>{-975.78},0.01));
