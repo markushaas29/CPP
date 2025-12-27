@@ -234,7 +234,7 @@ class TemplatizedAll_Test2023
 			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			
-			Invoice_2023().Run();
+			Invoice_2023().Run(tokenFactory,elementFactory,visitorFactory,path);
 			Invoice_2024().Run(tokenFactory,elementFactory,visitorFactory,path);
 			Invoice_2025().Run(tokenFactory,elementFactory,visitorFactory,path);
 
