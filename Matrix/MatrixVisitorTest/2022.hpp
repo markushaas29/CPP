@@ -55,6 +55,9 @@ class Invoice_2022
 			//assert(mT22[3]().Equals(Quantity<Sum>{-270.22},0.01));
 			assert(mT22[4]().Equals(Quantity<Sum>{-94.36},0.01));
 			assert(mT22[5]().Equals(Quantity<Sum>{-292.31},0.01));
+			
+			e1 = std::chrono::steady_clock::now();
+			std::cout << "Calculation Time Bottom :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
 
 			std::cout<<"END 2022"<<std::endl;
 		   
