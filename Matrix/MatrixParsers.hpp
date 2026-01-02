@@ -106,7 +106,7 @@ private:
 	}
 	typename Base::MatrixType exec(bool h = false) const
 	{
-		std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv","//U_2025.csv"};
+		std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv","//U_2025.csv","//U_2026.csv"};
         std::vector<Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> accountFiles;
 		for(auto s : paths)
 		{
