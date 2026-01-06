@@ -1,28 +1,3 @@
-#include <iostream>
-#include <cassert> 
-#include <vector> 
-#include <tuple> 
-#include <memory> 
-#include "../Matrix.hpp"
-#include "../MatrixReader.hpp"
-#include "../MatrixDescriptor.hpp"
-#include "../MatrixProjector.hpp"
-#include "../MatrixFilter.hpp"
-#include "../MatrixComposition.hpp"
-#include "../MatrixElement.hpp"
-#include "../M3.hpp"
-#include "../../ObjectFactory/Factory.hpp"
-#include "../../Common/DateTimes.hpp"
-#include "../../CSV/Elements.hpp"
-#include "../../CSV/Element.hpp"
-#include "../../CSV/Matcher.hpp"
-#include "../../Quantity/Quantity.hpp"
-#include "../../Functional/Functional.hpp"
-#include "../../Common/DateTimes.hpp"
-#include "../../Visitor/CollectorVisitor.hpp"
-#include "../../Invoice/Invoice.hpp"
-#include "../../TypeCounter/TypeCounter.hpp"
-
 class Invoice_2022
 {
 	public:
