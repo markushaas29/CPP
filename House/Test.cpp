@@ -28,7 +28,7 @@
 #include "2025.hpp"
 #include "2026.hpp"
 
-class TemplatizedAll_Test2023
+class HouseTest
 {
 	public:
 		//int Run(const auto& tokenFactory, const auto& elementFactory,const auto& visitorFactory,const auto& path)

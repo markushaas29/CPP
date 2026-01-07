@@ -9,7 +9,7 @@
 int main()
 {
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-	MatrixVisitorTest analyzer;
+	HouseTest analyzer;
 
 	analyzer.Run();
 	std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
