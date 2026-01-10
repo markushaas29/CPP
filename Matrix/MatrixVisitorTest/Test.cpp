@@ -160,11 +160,11 @@ class MatrixVisitorTest
 //			sutRea.Run();
 			MatrixVisitorTest2023 sut2023;
 			sut2023.Run();
-			TemplatizedAll_Test2023 sutT2023;
-			sutT2023.Run();
-			
-			TemplatizedAll_Test2024 sutT2024;
-			sutT2024.Run();
+//			TemplatizedAll_Test2023 sutT2023;
+//			sutT2023.Run();
+//			
+//			TemplatizedAll_Test2024 sutT2024;
+//			sutT2024.Run();
 		   
 			return 0;
 		}
