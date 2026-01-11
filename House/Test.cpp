@@ -34,7 +34,7 @@ class HouseTest
 		//int Run(const auto& tokenFactory, const auto& elementFactory,const auto& visitorFactory,const auto& path)
 		int Run()
 		{
-			std::cout<<"START TemplatizedAll_ 2023"<<std::endl;
+			std::cout<<"START HOUSE"<<std::endl;
 			auto b1 = std::chrono::steady_clock::now();
 		    using MDS2 = MatrixDescriptor<2,std::string>;
 		    using MS2 = Matrix<2,MDS2>;
@@ -84,7 +84,7 @@ class HouseTest
 			Invoice_2025().Run(tokenFactory,elementFactory,visitorFactory,path);
 			Invoice_2026().Run(tokenFactory,elementFactory,visitorFactory,path);
 
-			std::cout<<"END 2023"<<std::endl;
+			std::cout<<"END HOUSE"<<std::endl;
 		   
 			return 0;
 		}

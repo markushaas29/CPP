@@ -3,11 +3,11 @@
 #include <vector> 
 #include <tuple> 
 #include <memory> 
-#include "2022.hpp"
-#include "2023.hpp"
-#include "2024.hpp"
-#include "2025.hpp"
-#include "2026.hpp"
+//#include "2022.hpp"
+//#include "2023.hpp"
+//#include "2024.hpp"
+//#include "2025.hpp"
+//#include "2026.hpp"
 #include "../Matrix.hpp"
 #include "../MatrixReader.hpp"
 #include "../MatrixDescriptor.hpp"
@@ -78,11 +78,11 @@ class TemplatizedAll_Test2023
 			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			
-			Invoice_2022().Run(tokenFactory,elementFactory,visitorFactory,path);
-			Invoice_2023().Run(tokenFactory,elementFactory,visitorFactory,path);
-			Invoice_2024().Run(tokenFactory,elementFactory,visitorFactory,path);
-			Invoice_2025().Run(tokenFactory,elementFactory,visitorFactory,path);
-			Invoice_2026().Run(tokenFactory,elementFactory,visitorFactory,path);
+//			Invoice_2022().Run(tokenFactory,elementFactory,visitorFactory,path);
+//			Invoice_2023().Run(tokenFactory,elementFactory,visitorFactory,path);
+//			Invoice_2024().Run(tokenFactory,elementFactory,visitorFactory,path);
+//			Invoice_2025().Run(tokenFactory,elementFactory,visitorFactory,path);
+//			Invoice_2026().Run(tokenFactory,elementFactory,visitorFactory,path);
 
 			std::cout<<"END 2023"<<std::endl;
 		   

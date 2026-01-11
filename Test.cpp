@@ -19,6 +19,7 @@
 #include "Repository/Test.cpp"
 #include "Finance/Test.cpp"
 #include "Invoice/Test.cpp"
+#include "House/Test.cpp"
 #include "HTMLBuilder/Test.cpp"
 #include "CSV/ElementTest/ElementTest.cpp"
 
@@ -77,6 +78,9 @@ int main()
 	
 	InvoiceTest i;
 	i.Run();
+	
+	HouseTest h;
+	h.Run();
 	
 	std::cout<<"END"<<std::endl;
 	return 0;

@@ -1,3 +1,5 @@
+#pragma once
+
 class Invoice_2024
 {
 	public:
