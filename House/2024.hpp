@@ -9,10 +9,6 @@ class Invoice_2024
 			auto b1 = std::chrono::steady_clock::now();
         
 			auto account = std::make_shared<AccountCalculator>(tokenFactory,elementFactory,visitorFactory, path);
-			std::chrono::steady_clock::time_point e1 = std::chrono::steady_clock::now();
-
-			std::cout << "Calculation Time Init :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
-			
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			
 			auto hall = std::make_unique<Hall<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
@@ -87,7 +83,7 @@ class Invoice_2024
 			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 			
 			auto e2 = std::chrono::steady_clock::now();
-			std::cout << "2024 Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
+			std::cout << "2024 Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - b1).count() << "[ms]" << std::endl;
 
 			std::cout<<"\nEND 2024\n"<<std::endl;
 		   

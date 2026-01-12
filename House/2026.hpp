@@ -5,14 +5,10 @@ class Invoice_2026
 	public:
 		int Run(const auto& tokenFactory, const auto& elementFactory,const auto& visitorFactory,const auto& path)
 		{
-			std::cout<<"\nSTART 2026"<<std::endl;
+			std::cout<<"\nSTART 2026\n"<<std::endl;
 			auto b1 = std::chrono::steady_clock::now();
 
 			auto account = std::make_shared<AccountCalculator>(tokenFactory,elementFactory,visitorFactory, path);
-			std::chrono::steady_clock::time_point e1 = std::chrono::steady_clock::now();
-
-			std::cout << "Calculation Time Init :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e1 - b1).count() << "[ms]" << std::endl;
-			
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
 			
 //			auto hall = std::make_unique<Hall<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
@@ -34,9 +30,6 @@ class Invoice_2026
 //			std::cout<<"H "<<hall2->Value(Year(2026),bM)<<std::endl;
 //			assert(hall3->Value(Year(2026),bM).Equals(Quantity<Sum>{2770.20},0.01));
 //			assert(hallM3[0][0]().Equals(Quantity<Sum>{2770.20},0.01));
-			
-			std::chrono::steady_clock::time_point e2 = std::chrono::steady_clock::now();
-			std::cout << "Calculation Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 
 			auto propB24 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto propM24 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
@@ -80,8 +73,8 @@ class Invoice_2026
 //			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
 //			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 		
-			e2 = std::chrono::steady_clock::now();
-			std::cout << "2026 Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
+			auto e2 = std::chrono::steady_clock::now();
+			std::cout << "2026 Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - b1).count() << "[ms]" << std::endl;
 			
 			std::cout<<"\nEND 2026"<<std::endl;
 		   

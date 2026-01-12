@@ -93,19 +93,13 @@ class Invoice_2026
 //	  		assert(mT2026[0][4]().Equals(Quantity<Sum>{-145.05},0.01));
 //				assert(mT2026[0][5]().Equals(Quantity<Sum>{-57.73},0.01));
 //			
-//			auto hC = std::make_unique<HallCurrentCalculator>(tokenFactory,elementFactory,visitorFactory,path);
-//			
-//			auto hC23 = (*hC)(Year(2023),bM). template To<Quantity<Sum>>();
-//			assert(hC->Value(Year{2023}).Equals(Quantity<Sum>{-124.31},0.01));
-//			
-//			auto hC24 = (*hC)(Year(2024),bM). template To<Quantity<Sum>>();
-//			assert(hC24[0][0]().Equals(Quantity<Sum>{-202.01},0.01));
-//			
-//			auto hC25 = (*hC)(Year(2026),bM). template To<Quantity<Sum>>();
+			auto hC = std::make_unique<HallCurrentCalculator>(tokenFactory,elementFactory,visitorFactory,path);
+
+			auto hC25 = (*hC)(Year(2026),bM). template To<Quantity<Sum>>();
 //			assert(hC25[0][0]().Equals(Quantity<Sum>{-227.73},0.01));
 //			TypeCounts<Date,IBAN,BIC,Year,Quantity<Sum>, Quantity<Volume>>::Exec<0>();
 		
-			e2 = std::chrono::steady_clock::now();
+			auto e2 = std::chrono::steady_clock::now();
 			std::cout << "2026 Time Bottom  :"<< std::chrono::duration_cast<std::chrono::milliseconds> (e2 - e1).count() << "[ms]" << std::endl;
 			
 			std::cout<<"\nEND 2026"<<std::endl;
