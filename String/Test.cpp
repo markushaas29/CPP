@@ -1,5 +1,6 @@
 #include <iostream>
 #include "String_.hpp"
+#include "Format.hpp"
 #include <typeinfo>
 #include <typeindex>
 using namespace String_;
@@ -29,7 +30,7 @@ int Run()
 	assert(s2=="A\nBC\n");
 	assert(!Contains(s2,"\r"));
 
-	std::cout<<"Size2: "<<d<<std::endl;
+	std::cout<<"Size2: "<<d<<NL(4)<<std::endl;
     
     return 0;
 }

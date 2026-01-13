@@ -34,3 +34,20 @@ private:
 		return s.str();
 	}
 };
+
+class NL
+{	
+	static auto exec(uint n) 
+	{
+		std::string s;
+		for(uint i = 0;i < n; ++i)
+			s += "\n";
+		return s;
+	}
+public:
+	NL(uint n): value{exec(n)} {}
+	operator std::string() const { return value; }
+private:
+	friend  std::ostream& operator<<(std::ostream& out, const NL& f) { return out<<f.value; }
+	std::string value;
+};
