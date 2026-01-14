@@ -65,7 +65,7 @@ class Invoice_2023
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-148.16},0.01));
 			assert(mMS[0][1]().Equals(Quantity<Sum>{-1232.09},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-487.89},0.01));
-			//assert(mMS[0][3]().Equals(Quantity<Sum>{-183.78},0.01));
+			assert(mMS[0][3]().Equals(Quantity<Sum>{-136.55},0.01));
 			assert(mMS[0][4]().Equals(Quantity<Sum>{-164.32},0.01));
 			assert(mMS[0][5]().Equals(Quantity<Sum>{-462.19},0.01));
 			//assert(propM23.Value(Year{2023}).Equals(Quantity<Sum>{-2678.42},0.01));
