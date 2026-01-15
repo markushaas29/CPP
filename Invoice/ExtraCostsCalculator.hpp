@@ -129,6 +129,7 @@ private:
 		
 		auto div1 = std::make_unique<HtmlElements<DivTag>>("Div1","",nullptr);
 		auto div11 = std::make_unique<HtmlElements<DivTag>>("Div11","",std::make_unique<Css<Style<Margin,Px<10>>,Style<BackgroundColor,Hex<"f9f9f9">>, Style<FloatTag,Left>>>());
+		div1->Add(Html<Header>(Header{y.Data()},std::make_unique<Css<Style<MarginTop,Px<25>>, Style<FontWeight,Bold>, Style<FontSize,Px<30>>>>()));
 		div11->Add(mf.Html(std::make_unique<HtmlElement<Caption, Header>>(Header("Payments")),nullptr,"Sums", "ExtraCosts"));
 		div1->Add(std::move(div11));
 
