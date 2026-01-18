@@ -118,11 +118,7 @@ public:
 	Entry(const std::string& c = Identifier): Base(c){  };
 	virtual bool operator==(const Entry& e) const 
 	{
-		auto vals = split();
-		for(auto v : vals)
-			if(e.Data() == v)
-				return true;
-		return false;
+		return std::string(Data()).find(e.Data()) != std::string::npos;
 	};
 	template<typename T>
 	decltype(auto) GetElements(){	return T::Elements(Data());	}
