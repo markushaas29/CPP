@@ -155,6 +155,7 @@ private:
 					if(i->Value() != Q{0})
 					{
 						std::vector<std::shared_ptr<IElement>> result = { std::make_shared<Header>(i->Name()+"_"+i->Info()),i->Value().Clone() };
+						htmlPtr->Add(Html<Header>(Header{i->Name()},std::make_unique<Css<Style<MarginTop,Px<50>>, Style<MarginBottom,Px<100>>, Style<FontWeight,Bold>, Style<FontSize,Px<60>>>>()));
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 						styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(5)));
 						styles->push_back(std::make_unique<DynamicStyle<Padding>>(std::make_unique<DynamicPx>(20)));
