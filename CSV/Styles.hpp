@@ -15,6 +15,7 @@ public:
 };
 
 struct B: public TagDecorator				{	virtual std::string decorate() const { return "b"; } };
+struct U: public TagDecorator				{	inline static constexpr const char* Identifier= "u"; };
 struct P: public TagDecorator				{	inline static constexpr const char* Identifier= "p";  };
 struct Td: public TagDecorator				{	inline static constexpr const char* Identifier= "td"; };
 struct Tr: public TagDecorator				{	inline static constexpr const char* Identifier= "tr"; };
