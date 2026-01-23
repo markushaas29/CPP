@@ -160,7 +160,6 @@ private:
 						stylesH->push_back(std::make_unique<Style<FontWeight,Bold>>());
 						std::unique_ptr<ICss> dynCssH = std::make_unique<DynamicCss>(std::move(stylesH));
 
-						//htmlPtr->Add(Html<U>(Header{i->Name()},std::make_unique<Css<Style<MarginTop,Px<50>>, Style<MarginBottom,Px<100>>, Style<FontWeight,Bold>, Style<FontSize,Px<60>>>>()));
 						htmlPtr->Add(Html<U>(Header{i->Name()},std::move(dynCssH)));
 						auto styles = std::make_unique<std::vector<std::unique_ptr<IStyle>>>();
 						styles->push_back(std::make_unique<DynamicStyle<MarginLeft>>(std::make_unique<DynamicPx>(5)));
