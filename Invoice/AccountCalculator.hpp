@@ -60,7 +60,6 @@ protected:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-		result->Html();  
 		auto hb = HtmlBuilder<German>(n + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		heads->push_back(std::make_unique<LinkElement>());
