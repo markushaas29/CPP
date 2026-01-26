@@ -62,7 +62,7 @@ protected:
 
 		auto hb = HtmlBuilder<German>(n + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
-		heads->push_back(std::make_unique<LinkElement>());
+		heads->push_back(std::make_unique<LinkElement>("AccountStyle"));
 		hb.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
         hb.Add(result->Html());
 		hb();
