@@ -10,95 +10,95 @@
   clear: both;
 }
 
-.td_HtmlElement {
-  content: "";
-  font-size: 40px; 
-  display: table;
-  clear: both;
-}
 
 a {
   color: #0087C3;
   text-decoration: none;
 }
 
-body {
-  position: relative;
-  width: 21cm;  
-  height: 29.7cm; 
-  margin: 0 auto; 
-  color: #555555;
-  background: #FFFFFF; 
-  font-family: Arial, sans-serif; 
-  font-size: 14px; 
-  font-family: SourceSansPro;
-}
-
-table caption {
-  color: #555555;
-  background: #FFFFFF; 
-  font-family: Arial, sans-serif; 
-  font-size: 25px; 
-}
-
-#td_Header {
-  color: white;
-  background: #333333; 
-  font-family: Arial, sans-serif; 
-  font-size: 15px; 
-}
-
-#Total td{
-  background: #FFFFFF; 
-}
-
-
-#Total caption#caption_Header{
-  background: #FFFFFF; 
-  font-family: Arial, sans-serif; 
-  font-size: 50px; 
-}
-
-#Total td#td_Header{
-  color: black;
-  text-align: left;
-  background: #FFFFFF; 
-  font-family: Arial, sans-serif; 
-  font-size: 50px; 
-}
-
-#AddressId{
-  background: #FFFFFF; 
-  font-family: Arial, sans-serif; 
-  font-size: 25px; 
-}
-
-header {
-  padding: 10px 0;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #AAAAAA;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-spacing: 0;
-  margin-bottom: 20px;
-}
-
-table th,
-table td {
-  padding: 20px;
-  background: #EEEEEE;
-  text-align: center;
-  border-bottom: 1px solid #FFFFFF;
-}
-
-table th {
-  white-space: nowrap;        
-  font-weight: normal;
-}
-
-table td {
-  text-align: right;
-}
+#body {
+#  position: relative;
+#  width: 21cm;  
+#  height: 29.7cm; 
+#  margin: 0 auto; 
+#  color: #555555;
+#  background: #FFFFFF; 
+#  font-family: Arial, sans-serif; 
+#  font-size: 14px; 
+#  font-family: SourceSansPro;
+#}
+#
+#table caption {
+#  color: #555555;
+#  background: #FFFFFF; 
+#  font-family: Arial, sans-serif; 
+#  font-size: 25px; 
+#}
+#
+##td_Header {
+#  color: white;
+#  background: #333333; 
+#  font-family: Arial, sans-serif; 
+#  font-size: 15px; 
+#}
+#
+##Total td{
+#  background: #FFFFFF; 
+#}
+#
+#
+##Total caption#caption_Header{
+#  background: #FFFFFF; 
+#  font-family: Arial, sans-serif; 
+#  font-size: 50px; 
+#}
+#
+##Total td#td_Header{
+#  color: black;
+#  text-align: left;
+#  background: #FFFFFF; 
+#  font-family: Arial, sans-serif; 
+#  font-size: 50px; 
+#}
+#
+##AddressId{
+#  background: #FFFFFF; 
+#  font-family: Arial, sans-serif; 
+#  font-size: 25px; 
+#}
+#
+#header {
+#  padding: 10px 0;
+#  margin-bottom: 20px;
+#  border-bottom: 1px solid #AAAAAA;
+#}
+#
+#table {
+#  width: 100%;
+#  border-collapse: collapse;
+#  border-spacing: 0;
+#  margin-bottom: 20px;
+#}
+#
+#table th,
+#table td {
+#  padding: 20px;
+#  background: #EEEEEE;
+#  text-align: center;
+#  border-bottom: 1px solid #FFFFFF;
+#}
+#
+#table th {
+#  white-space: nowrap;        
+#  font-weight: normal;
+#}
+#
+#table td {
+#  text-align: right;
+#}
+#.td_HtmlElement {
+#  content: "";
+#  font-size: 40px; 
+#  display: table;
+#  clear: both;
+#}
