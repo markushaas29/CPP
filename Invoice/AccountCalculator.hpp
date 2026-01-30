@@ -128,7 +128,8 @@ private:
             {"Sewage",{
                     {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE12660623660000005703"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}, {EqualVisitor::Identifier, { Entry::Identifier, "588880002829/Schmutzwasser"}}}}, //Abwasser
                     {"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE12660623660000005703"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}, {EqualVisitor::Identifier, { Entry::Identifier, "Abschlag/Abwasser"}}}}, //Abwasser
-                    {"Invoice",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE12660623660000005703"}}, {EqualVisitor::Identifier, { Year::Identifier, y.Next().ToString()}}, {EqualVisitor::Identifier, { Entry::Identifier, "Rechnung/Abwasser"}}}} //Abwasser
+                    {"Invoice",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE12660623660000005703"}}, {EqualVisitor::Identifier, { Year::Identifier, y.Next().ToString()}}, {EqualVisitor::Identifier, { Entry::Identifier, "Rechnung/Abwasser"}}}}, //Abwasser
+                    {"Invoice",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE12660623660000005703"}}, {EqualVisitor::Identifier, { Year::Identifier, y.Next().ToString()}}, {EqualVisitor::Identifier, { Entry::Identifier, "588880002829/Schmutzwasse Rechnung 2025"}}}} //Abwasser
                 }
             }
         };
