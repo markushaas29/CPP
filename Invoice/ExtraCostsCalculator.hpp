@@ -217,6 +217,8 @@ private:
 		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<100>>, Style<FontSize,Px<25>>>>()));
 		auto inv = ExtraCostInvoice(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_"+y.ToString()+"_Nebenkosten");
 		inv.exec();
+		auto inv2 = ExtraCostInvoice(MatrixFormatter(address).Lines(),std::move(divs),path, std::to_string(S::Index)+"_"+"Mietvertrag");
+		inv2.exec();
 		
         return Matrix<Base::Order,typename Base::DescriptorType>(typename Base::DescriptorType({1,v.size()}),v);
     }
