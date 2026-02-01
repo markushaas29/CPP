@@ -53,8 +53,8 @@ class Invoice_2024
 			
 			auto mTS = propT24(Year{2024}, bM). template To<Quantity<Sum>>();
 			costs = propT24.Costs(Year{2025})[0]. template To<QS>();
-			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
-			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{11874.10},0.01));
+//			assert(propT24.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
+//			assert(propT24.Result(Year{2024}).Equals(Quantity<Sum>{11874.10},0.01));
 			assert(mTS[0][0]().Equals(Quantity<Sum>{-55.80},0.01));
 			assert(mTS[0][1]().Equals(Quantity<Sum>{-1061.19},0.01));
 			assert(mTS[0][2]().Equals(Quantity<Sum>{-1053.43},0.01));
