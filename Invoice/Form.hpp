@@ -280,6 +280,23 @@ public:
 	Invoice(std::unique_ptr<IHtmlElement> a, const Header& h, const Text& t, const Quantity<Sum>& s,const std::string& p, const std::string& n = "", std::unique_ptr<IHtmlElement> additional = nullptr): Form<Raiffeisenbank, NoSignature>(std::move(a), std::move(createContent(h,t,s,std::move(additional))), p, n){}
 };
 
+class Message: public Form<Raiffeisenbank, NoSignature> 
+{
+	static auto createContent(const Header& h, const Text& t, std::unique_ptr<IHtmlElement> additional = nullptr)
+	{
+		auto divs = std::make_unique<HtmlElements<DivTag>>("Div1","",std::make_unique<Css<Style<BackgroundColor,Hex<"ffffff">>>>());
+		divs->Add(Html<Header>(h,std::make_unique<Css<Style<MarginTop,Px<250>>, Style<FontWeight,Bold>, Style<FontSize,Px<30>>>>()));
+		divs->Add(Html<DivTag>(t,std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
+		if(additional!=nullptr)
+			divs->Add(std::move(additional));
+		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
+
+		return divs;
+	}
+public:
+	Message(std::unique_ptr<IHtmlElement> a, const Header& h, const Text& t, const std::string& p, const std::string& n = "", std::unique_ptr<IHtmlElement> additional = nullptr): Form<Raiffeisenbank, NoSignature>(std::move(a), std::move(createContent(h,t,std::move(additional))), p, n){}
+};
+
 class RentContract: public Form<Raiffeisenbank, Signature2> 
 {
 	static auto createContent(const Header& h, const Text& t, const Quantity<Sum>& s, std::unique_ptr<IHtmlElement> additional = nullptr)
