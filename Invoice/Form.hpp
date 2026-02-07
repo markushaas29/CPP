@@ -294,7 +294,7 @@ class Message: public Form<Raiffeisenbank, NoSignature>
 		return divs;
 	}
 public:
-	Message(std::unique_ptr<IHtmlElement> a, const Header& h, const Text& t, const std::string& p, const std::string& n = "", std::unique_ptr<IHtmlElement> additional = nullptr): Form<Raiffeisenbank, NoSignature>(std::move(a), std::move(createContent(h,t,std::move(additional))), p, n){}
+	Message(std::unique_ptr<IHtmlElement> a, const Header& h = Header{"Header"}, const Text& t = Text{"Text"}, const std::string& p = "//home//markus//Dokumente//cpp/CSV_Files//", const std::string& n = "Message", std::unique_ptr<IHtmlElement> additional = nullptr): Form<Raiffeisenbank, NoSignature>(std::move(a), std::move(createContent(h,t,std::move(additional))), p, n){}
 };
 
 class RentContract: public Form<Raiffeisenbank, Signature2> 
