@@ -219,7 +219,7 @@ private:
 		inv.exec();
 		auto inv2 = RentContract(MatrixFormatter(address).Lines(), Header{"Mietvertrag"}, Text{"ABC"}, Quantity<Sum>{500}, path, std::to_string(S::Index)+"_"+"Mietvertrag");
 		inv2.exec();
-		auto m = Message(MatrixFormatter(address).Lines());
+		auto m = Message(MatrixFormatter(address).Lines(), Header{"Header"}, Text{"Text"},"//home//markus//Dokumente//cpp/CSV_Files//Templates");
 		m.exec();
 //		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Widerruf"}, Text{"Hiermit lege ich Widerruf auf ihr Schreiben vom 4.1.2026 ein"}, Quantity<Sum>{500}, path, "Widerruf_");
 //		inv3.exec();
