@@ -289,7 +289,6 @@ class Message: public Form<Raiffeisenbank, NoSignature>
 		divs->Add(Html<DivTag>(t,std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 		if(additional!=nullptr)
 			divs->Add(std::move(additional));
-		divs->Add(Html<DivTag>(Text{"Bitte überweisen Sie den Betrag auf das unten genannte Konto."},std::make_unique<Css<Style<MarginTop,Px<150>>, Style<FontSize,Px<25>>>>()));
 
 		return divs;
 	}
