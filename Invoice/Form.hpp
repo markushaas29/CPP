@@ -40,7 +40,7 @@ struct Raiffeisenbank
 			 std::make_shared<Name>("RAIFFEISENBANK HARDT-BRUHRAIN"), std::make_shared<Empty>(""),
 		};
 
-		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<350>>,Style<FontSize,Px<20>>>>());
+		return MatrixFormatter(Init(a)()).Lines(std::make_unique<Css<Style<PaddingTop,Px<300>>,Style<FontSize,Px<20>>>>());
 	}
 };
 
