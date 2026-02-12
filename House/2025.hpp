@@ -23,10 +23,18 @@ class Invoice_2025
 //			assert(hallM2[0][0]().Equals(Quantity<Sum>{1350},0.01));
 //			assert(hallM2[0][1]().Equals(Quantity<Sum>{990},0.01));
 //			assert(hall2->Value(Year(2023),bM).Equals(Quantity<Sum>{2340},0.01));
-			
+
+			auto costs = (*account)(Year{2025}, bM)[0].template To<Quantity<Sum>>();;
+			std::cout<<"Costs "<<costs<<std::endl;
+			assert(costs[0]().Equals(Quantity<Sum>{-346.35},0.01));
+			//assert(costs[1]().Equals(Quantity<Sum>{-346.35},0.01));
+			assert(costs[2]().Equals(Quantity<Sum>{-2159.03},0.01));
+			//assert(costs[3]().Equals(Quantity<Sum>{-650.24},0.01));
+			assert(costs[4]().Equals(Quantity<Sum>{-650.24},0.01));
+			assert(costs[5]().Equals(Quantity<Sum>{-1010.17},0.01));
+
 			auto hall3 = std::make_unique<Hall<HallThree>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM3 = (*hall3)(Year(2025),bM). template To<Quantity<Sum>>();
-			std::cout<<"Hall"<<hallM3<<std::endl;
 			std::cout<<"H "<<hall2->Value(Year(2025),bM)<<std::endl;
 			assert(hall3->Value(Year(2025),bM).Equals(Quantity<Sum>{2770.20},0.01));
 			assert(hallM3[0][0]().Equals(Quantity<Sum>{2770.20},0.01));
