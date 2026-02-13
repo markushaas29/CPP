@@ -21,6 +21,7 @@
 #include "../Common/DateTimes.hpp"
 #include "../Visitor/CollectorVisitor.hpp"
 #include "../Invoice/Invoice.hpp"
+#include "../Invoice/IAccountQuery.hpp"
 #include "../TypeCounter/TypeCounter.hpp"
 #include "2022.hpp"
 #include "2023.hpp"
