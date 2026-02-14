@@ -27,9 +27,9 @@ class Invoice_2025
 			auto costs = (*account)(Year{2025}, bM)[0].template To<Quantity<Sum>>();;
 			std::cout<<"Costs "<<costs<<std::endl;
 			assert(costs[0]().Equals(Quantity<Sum>{-346.35},0.01));
-			//assert(costs[1]().Equals(Quantity<Sum>{-346.35},0.01));
+			assert(costs[1]().Equals(Quantity<Sum>{-4263.38},0.01));
 			assert(costs[2]().Equals(Quantity<Sum>{-2159.03},0.01));
-			//assert(costs[3]().Equals(Quantity<Sum>{-650.24},0.01));
+			assert(costs[3]().Equals(Quantity<Sum>{-3148.80},0.01));
 			assert(costs[4]().Equals(Quantity<Sum>{-650.24},0.01));
 			assert(costs[5]().Equals(Quantity<Sum>{-1010.17},0.01));
 

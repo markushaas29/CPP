@@ -4,6 +4,7 @@
 #include <cassert> 
 #include <vector> 
 #include <memory> 
+#include "IAccountQuery.hpp"
 #include "../Matrix/Matrix.hpp"
 #include "../Matrix/MatrixReader.hpp"
 #include "../Matrix/MatrixDescriptor.hpp"
@@ -77,7 +78,7 @@ private:
 	std::string path;
 	std::shared_ptr<Factory<IToken>> tokens;
 	std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result;
-	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const = 0;
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> = std::make_unique<ExtraCostQuery>()) const = 0;
 	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) { return getTokens(y,f); };
 };
 
@@ -87,7 +88,7 @@ class AccountCalculator: public AccountCalculatorBase
 public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
 private:
-	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> = std::make_unique<ExtraCostQuery>()) const
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
         {
@@ -146,7 +147,7 @@ class HallCurrentCalculator: public AccountCalculatorBase
 public:
 	HallCurrentCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
 private:
-	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f) const
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> = std::make_unique<ExtraCostQuery>()) const
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> fUnits = 
 	    {
