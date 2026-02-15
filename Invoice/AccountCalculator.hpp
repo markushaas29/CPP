@@ -86,7 +86,7 @@ private:
 class IAccount
 {
 public:
-	auto Get(const Year& y, const HtmlBuilder<German>& f) const { get(y,f); }
+	auto GetT(const Year& y, const HtmlBuilder<German>& f) const { get(y,f); }
 private:
 	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> get(const Year& y, const HtmlBuilder<German>& f) const = 0;
 };
