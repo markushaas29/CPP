@@ -82,12 +82,22 @@ private:
 	virtual typename Base::MatrixType exec(const Year& y, const HtmlBuilder<German>& f) { return getTokens(y,f); };
 };
 
-class AccountCalculator: public AccountCalculatorBase
+
+class IAccount
+{
+public:
+	auto Get(const Year& y, const HtmlBuilder<German>& f) const { get(y,f); }
+private:
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> get(const Year& y, const HtmlBuilder<German>& f) const = 0;
+};
+
+class AccountCalculator: public AccountCalculatorBase, public IAccount
 {
 	using Base = AccountCalculatorBase;
 public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
 private:
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> get(const Year& y, const HtmlBuilder<German>& f) const { return getTokens(y,f); };
 	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> = std::make_unique<ExtraCostQuery>()) const
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
