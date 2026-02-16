@@ -18,27 +18,20 @@ class Invoice_2024
 //			assert(hallM2[0][1]().Equals(Quantity<Sum>{990},0.01));
 //			assert(hall2->Value(Year(2023),bM).Equals(Quantity<Sum>{2340},0.01));
 //
-			auto cost = (*account)(Year{2024}, bM)[0].template To<Quantity<Sum>>();;
-//			assert(cost[0]().Equals(Quantity<Sum>{-346.35},0.01));
-//			assert(cost[1]().Equals(Quantity<Sum>{-4263.38},0.01));
-//			assert(cost[2]().Equals(Quantity<Sum>{-2159.03},0.01));
-//			assert(cost[3]().Equals(Quantity<Sum>{-3148.80},0.01));
-//			assert(cost[4]().Equals(Quantity<Sum>{-650.24},0.01));
-//			assert(cost[5]().Equals(Quantity<Sum>{-1010.17},0.01));
+			auto costs = (*account)(Year{2024}, bM)[0].template To<Quantity<Sum>>();;
+			assert(costs[0]().Equals(Quantity<Sum>{-334.81},0.01));
+			assert(costs[1]().Equals(Quantity<Sum>{-4093.15},0.01));
+			assert(costs[2]().Equals(Quantity<Sum>{-2106.86},0.01));
+			assert(costs[3]().Equals(Quantity<Sum>{-3081.28},0.01));
+			assert(costs[4]().Equals(Quantity<Sum>{-423.01},0.01));
+			assert(costs[5]().Equals(Quantity<Sum>{-932.00},0.01));
+			assert(account->Value(Year{2024}).Equals(Quantity<Sum>{-10971.11},0.01));
 			
 			auto propB24 = ExtraCostsCalculator<Bottom>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto propM24 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto propT24 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			
 		    auto bMS = propB24(Year{2024}, bM). template To<Quantity<Sum>>();
-			auto costs = propB24.Costs(Year{2024})[0]. template To<QS>();
-			assert(costs[0]().Equals(Quantity<Sum>{-334.81},0.01));
-			assert(costs[1]().Equals(Quantity<Sum>{-4093.15},0.01));
-			assert(costs[2]().Equals(Quantity<Sum>{-2106.86},0.01));
-			assert(costs[3]().Equals(Quantity<Sum>{-3081.28},0.01));
-			assert(costs[4]().Equals(Quantity<Sum>{-423.00},0.01));
-			assert(costs[5]().Equals(Quantity<Sum>{-932.00},0.01));
-			
 			assert(propB24.Result(Year{2024}).Equals(Quantity<Sum>{-800.42},0.01));
 			assert(bMS[0][0]().Equals(Quantity<Sum>{-111.60},0.01));
 			assert(bMS[0][1]().Equals(Quantity<Sum>{-1515.98},0.01));
