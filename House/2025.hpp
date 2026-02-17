@@ -33,6 +33,7 @@ class Invoice_2025
 			assert(costs[4]().Equals(Quantity<Sum>{-650.24},0.01));
 			assert(costs[5]().Equals(Quantity<Sum>{-1010.17},0.01));
 			assert(account->Value(Year{2025}).Equals(Quantity<Sum>{-11577.97},0.01));
+			account->GetT(std::make_unique<CostQuery>(),HtmlBuilder<German>("Bausparen.html"));
 
 			auto hall3 = std::make_unique<Hall<HallThree>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM3 = (*hall3)(Year(2025),bM). template To<Quantity<Sum>>();
