@@ -31,7 +31,7 @@
 class IAccountQuery
 {
 public:
-	auto operator()(const Year& y) const { get(y); }
+	auto operator()(const Year& y) const { return get(y); }
 	auto Name(const Year& y) const { return name(y); };
 private:
 	virtual std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> get(const Year& y) const =0;

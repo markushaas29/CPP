@@ -61,7 +61,7 @@ protected:
                  all->Add(MatrixComposite<decltype(parsedAccountMatrix)>::Create(typeFactory,visitorFactory,std::move(allFactoryUnits[i].Name()), allFactoryUnits[i].Units(),fv));
         std::unique_ptr<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2,std::shared_ptr<IElement>>>>, std::default_delete<IResult<Quantity<Unit<1>>, Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>>>> result = (*all)(parsedAccountMatrix);
 
-		auto hb = HtmlBuilder<German>(n + y.ToString() +".html", "/home/markus/Dokumente/cpp/CSV_Files");
+		auto hb = HtmlBuilder<German>(n +".html", "/home/markus/Dokumente/cpp/CSV_Files");
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		heads->push_back(std::make_unique<LinkElement>("AccountStyle"));
 		hb.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
@@ -98,7 +98,7 @@ public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
 private:
 	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> get(std::unique_ptr<IAccountQuery> q, const HtmlBuilder<German>& f) const { return getTokens(Year{2025},f,std::move(q)); };
-	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> = std::make_unique<ExtraCostQuery>()) const
+	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> q = std::make_unique<ExtraCostQuery>()) const
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
         {
@@ -147,7 +147,7 @@ private:
             }
         };
 		
-		return Base::exec(y,f,allFactoryUnits,"Account_");
+		return Base::exec(y,f, (*q)(y),q->Name(y));
 	}
 };
 
