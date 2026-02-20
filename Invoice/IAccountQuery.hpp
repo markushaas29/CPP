@@ -45,10 +45,22 @@ private:
 	{
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 		{
-			{"Waste",
+			{"Schwäbisch Hall",
 				{
 				
 					{"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE96500604000000011404"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}} // Waste
+				}
+			}, 
+			{"Teilzahlung Darlehen",
+				{
+				
+					{"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE56660623663409331423"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}} // Waste
+				}
+			}, 
+			{"Teilzahlung Darlehen",
+				{
+				
+					{"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE78660623663409331415"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}} // Waste
 				}
 			}, 
 		};
