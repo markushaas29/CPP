@@ -125,6 +125,29 @@ private:
 	}
 	virtual std::string name(const Year& y) const { return "Account_" + y.Data(); };
 };
+class AllQuery: public IAccountQuery
+{
+private:
+	virtual std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> get(const Year& y) const
+	{
+		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits;
+
+		for(int i=0; i < 5; ++i)
+		{
+			allFactoryUnits.push_back(
+			{"Schwäbisch Hall",
+				{
+				
+					{"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, "DE96500604000000011404"}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}} // Waste
+				}
+			});
+		};
+		
+		return allFactoryUnits;
+	}
+	virtual std::string name(const Year& y) const { return "All_" + y.Data(); };
+};
+
 //
 //class HallCurrentCalculator: public AccountCalculatorBase
 //{
