@@ -44,7 +44,7 @@ public:
 
         std::cout<<"UNI: "<<ue<<std::endl;
 
-		std::vector<std::vector<std::string>> vec;
+		std::vector<std::string> vec;
 
 		std::vector<typename MatrixInitializer<2,std::string>::MatrixType> mx;
 
@@ -55,25 +55,22 @@ public:
 			if(iban.Valid())
 			{
 				v.push_back(i);
-				auto r = filter(7,[&](const auto& s) { return false;});
-				mx.push_back(r);
-				auto sl = r.Cols(4,6,11,10);
-				v.push_back(sl[0][1]);
-				v.push_back(form(r.ColSum(11)));
-				vec.push_back(v);
+				vec.push_back(i);
 			}
 		}
 
-		M3 m3(mx);
+		for(auto v : vec)
+				std::cout<<"Iban: "<<v<<std::endl;
+
+//		M3 m3(mx);
 		
-		auto r2 = filter(4,[&](const auto& s) { return !Date(s).Valid();});
-		auto rd = filter(4,[&](const auto& s) { return Date(s).M() == 1;});
+//		auto r2 = filter(4,[&](const auto& s) { return !Date(s).Valid();});
+//		auto rd = filter(4,[&](const auto& s) { return Date(s).M() == 1;});
+//
+//		auto mi = Init(vec);
+//		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());
 
-		auto mi = Init(vec);
-		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());
-		std::cout<<"Umsatz: \n"<<mp<<std::endl;
-
-		return mS22;
+		return vec;
 	}
 private:
 	MatrixFilter<MatrixType> filter;

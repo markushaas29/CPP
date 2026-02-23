@@ -44,12 +44,11 @@ class CostQuery: public IAccountQuery
 private:
 	virtual std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> get(const Year& y) const
 	{
-		//auto u22 = std::string{ "/home/markus/Downloads/CSV_TestFiles_2/U_" + y.Data() + ".csv" };
 		auto u22 = std::string{ "/home/markus/Dokumente/cpp/CSV_Files/U_" + y.Data() + ".csv" };
 		auto m22r = MatrixReader(u22);
 		auto m22 = m22r.M<2>();
 		auto a22 = MatrixAnalyzer<decltype(m22)>(m22);
-//		a22();
+		a22();
 		
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 		{
