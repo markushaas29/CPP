@@ -48,7 +48,7 @@ private:
 		auto m22r = MatrixReader(u22);
 		auto m22 = m22r.M<2>();
 		auto a22 = MatrixAnalyzer<decltype(m22)>(m22);
-		a22();
+		auto ibans = a22();
 		
 		std::vector<FactoryUnitContainer<FactoryUnitContainer<FactoryUnit<std::string,FactoryUnit<std::string, std::string>>>>> allFactoryUnits = 
 		{
@@ -71,6 +71,17 @@ private:
 				}
 			}, 
 		};
+
+		for(auto i : ibans)
+			allFactoryUnits.push_back(
+			{"Schwäbisch Hall",
+				{
+				
+					{"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, i}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}} // Waste
+				}
+			} 
+
+					);
 		
 		return allFactoryUnits;
 	}
