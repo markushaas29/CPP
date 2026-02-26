@@ -265,6 +265,8 @@ class MatrixAccessTest
 			mD = mEntry.Get<QS>(3.5);
 			assert(mD.Rows()==2);
 			assert(mD[1][0]()->Data()=="29.9.1986");
+
+			assert(ms22["2"]=="2");
 			
 			std::cout<<"COL"<<mD<<std::endl;
 			return 0;
