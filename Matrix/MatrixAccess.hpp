@@ -245,18 +245,24 @@ private:
 		else
 			return Matrix<Order-1, MDT>(MDT{e}, row);
 	}
-	decltype(auto) matrix(const std::string& i, const M* m) const 
+	decltype(auto) matrix(const std::string& str, const M* m) const 
 	{
 		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;
 		std::array<size_t,Order-1> e;
 		std::array<size_t,Order-1> s;
 		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
-		//auto row = m->row(i);
+		for(int i = 0; i < m->Rows(); ++i)
+		{
+			auto row = m->row(i);
+			auto match = std::find_if(row.begin(), row.end(), [&str] (const auto& v) { return *v ==  str; });
+			if(match != row.end())
+				return "2";
+		}
 //		if constexpr (Order-1==0)
 //			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 //		else
 //			return Matrix<Order-1, MDT>(MDT{e}, row);
-		return i;
+		return "A";
 	}
 	template<typename T>
 	decltype(auto) to(const M* m) const 
