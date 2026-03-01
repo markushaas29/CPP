@@ -247,36 +247,38 @@ private:
 	}
 	decltype(auto) matrix(const std::string& str, const M* m) const 
 	{
-		using MDT = MatrixDescriptor<Order-1, typename M::ElementType>;
-		std::array<size_t,Order-1> e;
-		std::array<size_t,Order-1> s;
+		using MDT = MatrixDescriptor<Order, typename M::ElementType>;
+		std::array<size_t,Order> e;
+		std::array<size_t,Order> s;
 		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
 		int rows = 0;
 		std::vector<typename M::ElementType> vec;
-//		for(int i = 0; i < m->Rows(); ++i)
-//		{
-//			auto row = m->row(i);
-//			auto match = std::find_if(row.begin(), row.end(), [&str] (const auto& v) { return *v ==  str; });
-//			if(match != row.end())
-//			{
-//				++rows;
-//				std::for_each(row.cbegin(), row.cend(), [&vec](auto e)
-//						{
-////							if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
-////								vec.push_back(std::make_shared<T>((*e)->template To<T>())); 
-////							else
-////    							if (auto ptr = std::dynamic_pointer_cast<T>(*e))
-////									vec.push_back(std::make_shared<T>(*ptr)); 
-////								else
-//		std::cout<<"\n\n"<<*e<<"\n\n"<<std::endl;
-//									vec.push_back(*e); 
-//						});
-//
-//			}
-//		}
-//	std::cout<<"\n\n"<<rows<<"\n\n"<<std::endl;
-//		e[1] = rows;
-		//std::cout<<"\n\n"<<Matrix<Order, MDT>(MDT{e}, vec)<<"\n\n"<<std::endl;
+		std::cout<<"\n\nE 0 "<<e[0]<<"\n\n"<<std::endl;
+		std::cout<<"\n\nE 1 "<<e[1]<<"\n\n"<<std::endl;
+		for(int i = 0; i < m->Rows(); ++i)
+		{
+			auto row = m->row(i);
+			auto match = std::find_if(row.begin(), row.end(), [&str] (const auto& v) { return *v ==  str; });
+			if(match != row.end())
+			{
+				++rows;
+				std::for_each(row.cbegin(), row.cend(), [&vec](auto e)
+						{
+//							if constexpr (std::is_same_v<typename M::ElementType, std::shared_ptr<IElement>>)
+//								vec.push_back(std::make_shared<T>((*e)->template To<T>())); 
+//							else
+//    							if (auto ptr = std::dynamic_pointer_cast<T>(*e))
+//									vec.push_back(std::make_shared<T>(*ptr)); 
+//								else
+		std::cout<<"\n\n"<<*e<<"\n\n"<<std::endl;
+									vec.push_back(*e); 
+						});
+
+			}
+		}
+	std::cout<<"\n\nR "<<rows<<"\n\n"<<std::endl;
+		e[1] = rows;
+		std::cout<<"\n\n"<<Matrix<Order, MDT>(MDT{e}, vec)<<"\n\n"<<std::endl;
 //		if constexpr (Order-1==0)
 //			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 //		else

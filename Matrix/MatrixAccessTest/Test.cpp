@@ -64,6 +64,12 @@ class MatrixAccessTest
 				{3, 4}
 		    };
 			
+			MI2 m32 {
+		        {1, 2},
+				{3, 4},
+		        {1, 2}
+		    };
+			
 			MD2 md2 {
 		        {2020, 12, 24, 5123.9},
 		        {2019, 11, 23, 5024.9}
@@ -72,6 +78,12 @@ class MatrixAccessTest
 			MS2 ms22{
 				{std::string("1"),std::string("2")} ,
 				{std::string("5"),std::string("6")} 
+		    };
+			
+			MS2 ms32{
+				{std::string("1"),std::string("2")} ,
+				{std::string("5"),std::string("6")} ,
+				{std::string("5"),std::string("2")} 
 		    };
 			
 			assert((int)m33[0][1]==4);
@@ -266,7 +278,7 @@ class MatrixAccessTest
 			assert(mD.Rows()==2);
 			assert(mD[1][0]()->Data()=="29.9.1986");
 
-			assert(ms22["2"]=="2");
+			assert(ms32["2"]=="2");
 			
 			std::cout<<"COL"<<mD<<std::endl;
 			return 0;
