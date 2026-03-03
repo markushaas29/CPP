@@ -43,6 +43,7 @@ public:
 
 	decltype(auto) operator[] (size_t i) const { return access->matrix(i,this); }
 	decltype(auto) operator[] (const std::string& s) const { return access->matrix(s,this); }
+	decltype(auto) operator[] (std::shared_ptr<IElement> i) const { return (*this[i->Data()]); }
 	decltype(auto) Set(ElementType e, auto... i) { return access->set(this,e,i...); }
 	decltype(auto) AddRow(const std::vector<ElementType>& v) { access->addRow(v,this); }
 	decltype(auto) Col(size_t i) const { return access->colAt(i, this); }

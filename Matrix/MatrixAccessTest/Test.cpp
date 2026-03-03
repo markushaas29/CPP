@@ -82,8 +82,8 @@ class MatrixAccessTest
 			
 			MS2 ms32{
 				{std::string("1"),std::string("2")} ,
-				{std::string("5"),std::string("6")} ,
-				{std::string("5"),std::string("2")} 
+				{std::string("3"),std::string("6")} ,
+				{std::string("4"),std::string("2")} 
 		    };
 			
 			assert((int)m33[0][1]==4);
@@ -278,7 +278,7 @@ class MatrixAccessTest
 			assert(mD.Rows()==2);
 			assert(mD[1][0]()->Data()=="29.9.1986");
 
-			assert(ms32["2"]=="2");
+			assert(ms32["2"][0][0]()=="1");
 			
 			std::cout<<"COL"<<mD<<std::endl;
 			return 0;

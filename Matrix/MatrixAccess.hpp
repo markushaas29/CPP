@@ -253,8 +253,6 @@ private:
 		std::copy(m->descriptor.Extents().begin()+1, m->descriptor.Extents().end(), e.begin());
 		int rows = 0;
 		std::vector<typename M::ElementType> vec;
-		std::cout<<"\n\nE 0 "<<e[0]<<"\n\n"<<std::endl;
-		std::cout<<"\n\nE 1 "<<e[1]<<"\n\n"<<std::endl;
 		for(int i = 0; i < m->Rows(); ++i)
 		{
 			auto row = m->row(i);
@@ -270,20 +268,17 @@ private:
 //    							if (auto ptr = std::dynamic_pointer_cast<T>(*e))
 //									vec.push_back(std::make_shared<T>(*ptr)); 
 //								else
-		std::cout<<"\n\n"<<*e<<"\n\n"<<std::endl;
 									vec.push_back(*e); 
 						});
 
 			}
 		}
-	std::cout<<"\n\nR "<<rows<<"\n\n"<<std::endl;
 		e[1] = rows;
-		std::cout<<"\n\n"<<Matrix<Order, MDT>(MDT{e}, vec)<<"\n\n"<<std::endl;
 //		if constexpr (Order-1==0)
 //			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 //		else
 //			return Matrix<Order-1, MDT>(MDT{e}, row);
-		return "2";
+		return Matrix<Order, MDT>(MDT{e}, vec);
 	}
 	template<typename T>
 	decltype(auto) to(const M* m) const 
