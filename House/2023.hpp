@@ -57,11 +57,11 @@ class Invoice_2023
 			
 			auto mMS = propM23(Year{2023}, bM). template To<Quantity<Sum>>();
 			auto propM = propM23.AdvanceItems()[1];
-			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
-			//assert(propM23.Result(Year{2023}).Equals(Quantity<Sum>{-158.42},0.01));
+			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{3720},0.01));
+			assert(propM23.Result(Year{2023}).Equals(Quantity<Sum>{1088.80},0.01));
 			assert(propM()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{525});
 	        assert(propM()[1]. template As<Quantity<Sum>>()==Quantity<Sum>{0});
-          	assert(propM()[2]. template As<Quantity<Sum>>()==Quantity<Sum>{210});
+          	assert(propM()[2]. template As<Quantity<Sum>>()==Quantity<Sum>{310});
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-148.16},0.01));
 			assert(mMS[0][1]().Equals(Quantity<Sum>{-1232.09},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-487.89},0.01));
