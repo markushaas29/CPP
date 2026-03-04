@@ -221,6 +221,8 @@ private:
 		inv2.exec();
 		auto m = Message(MatrixFormatter(address).Lines(), Header{"Header"}, Text{"Text"},"//home//markus//Dokumente//cpp/CSV_Files//Templates");
 		m.exec();
+		auto r = Reminder(MatrixFormatter(address).Lines(), Header{"Mahnung"}, Text{"Text"},"//home//markus//Dokumente//cpp/CSV_Files//Templates");
+		r.exec();
 //		auto inv3 = Invoice(MatrixFormatter(address).Lines(), Header{"Widerruf"}, Text{"Hiermit lege ich Widerruf auf ihr Schreiben vom 4.1.2026 ein"}, Quantity<Sum>{500}, path, "Widerruf_");
 //		inv3.exec();
 		
