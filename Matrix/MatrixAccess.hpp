@@ -274,6 +274,7 @@ private:
 			}
 		}
 		e[1] = rows;
+		//if(vec.size())
 //		if constexpr (Order-1==0)
 //			return MatrixElement<typename M::ElementType>(*(m->elements->at(i)));
 //		else
