@@ -279,9 +279,9 @@ class MatrixAccessTest
 			assert(mD[1][0]()->Data()=="29.9.1986");
 
 			assert(ms32["2"][0][0]()=="1");
-		//	ms32["9"];
+			auto m9 = ms32["9"];
 			
-			std::cout<<"COL"<<mD<<std::endl;
+			std::cout<<"COL"<<m9<<std::endl;
 			return 0;
 		}
 };
