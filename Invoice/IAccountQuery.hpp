@@ -73,6 +73,8 @@ private:
 		};
 
 		for(auto i : ibans)
+		{
+			std::cout<<m22[i]<<std::endl;
 			allFactoryUnits.push_back(
 			{"Schwäbisch Hall",
 				{
@@ -82,7 +84,7 @@ private:
 			} 
 
 					);
-		
+		}
 		return allFactoryUnits;
 	}
 	virtual std::string name(const Year& y) const { return "Cost_" + y.Data(); };
