@@ -74,9 +74,9 @@ private:
 
 		for(auto i : ibans)
 		{
-			std::cout<<m22[i]<<std::endl;
+			std::cout<<m22[i][3][0]()<<std::endl;
 			allFactoryUnits.push_back(
-			{"Schwäbisch Hall",
+			{m22[i][3][0](),
 				{
 				
 					{"Deduction",{{EqualVisitor::Identifier, { IBAN::Identifier, i}}, {EqualVisitor::Identifier, { Year::Identifier, y.ToString()}}}} // Waste
