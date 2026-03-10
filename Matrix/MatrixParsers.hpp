@@ -40,10 +40,10 @@ public:
 	using Base = IBaseMatrixParser;
 	using MatrixType = Matrix<N, MatrixDescriptor<N, Base::ElementType>>;
 	using StringMatrix = Matrix<N, MatrixDescriptor<N, std::string>>;
-	MatrixType operator()(bool h = false) const { return exec(h); };
+	MatrixType operator()(bool h = false, const Year& y = Year{2025}) const { return exec(h); };
 	StringMatrix M() const { return matrix(); };
 private:
-	virtual MatrixType exec(bool h = false) const = 0;
+	virtual MatrixType exec(bool h = false, const Year& y = Year{2025}) const = 0;
 	virtual StringMatrix matrix() const = 0;
 };
 
@@ -57,7 +57,7 @@ public:
 	MatrixType operator()(bool h = false) const { return exec(h); };
 	M3<std::string> M() const { return matrix(); };
 private:
-	virtual MatrixType exec(bool h = false) const = 0;
+	virtual MatrixType exec(bool h = false, const Year& y = Year{2025}) const = 0;
 	virtual M3<std::string> matrix() const = 0;
 };
 
@@ -75,7 +75,7 @@ protected:
 	std::shared_ptr<Factory<IToken>> tokenFactory;
 	const std::string path;
 private:
-	virtual typename Base::MatrixType exec(bool h = false) const = 0;
+	virtual typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const = 0;
 	virtual std::ostream& display(std::ostream& os) const { return os;};
 	friend std::ostream& operator<<(std::ostream& s, const IMatrixParserBase& m) { return s; }
 };
@@ -104,7 +104,7 @@ private:
 
         return M3(accountFiles);
 	}
-	typename Base::MatrixType exec(bool h = false) const
+	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv","//U_2025.csv","//U_2026.csv"};
         std::vector<Matrix<2, MatrixDescriptor<2, std::shared_ptr<IElement>>>> accountFiles;
@@ -234,7 +234,7 @@ private:
 
         return M3(accountFiles);
 	}
-	typename Base::MatrixType exec(bool h = false) const
+	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
         auto csvIndexTokens = (*tokenFactory)({{"VorgangIndexToken"},{"SumIndexToken"},{"IBANIndexToken"},{"DateIndexToken"},{"BICIndexToken"},{"NameIndexToken"}, {"VerwendungszweckIndexToken"}});
         auto elementIndexTokens = (*tokenFactory)({{"SumToken"},{"IBANToken"},{"DateToken"},{"EmptyToken"},{"ValueToken"},{"EntryToken"},{"ScalarToken"}});
@@ -282,7 +282,7 @@ public:
 	CounterParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path).template M<2>();	}
-	typename Base::MatrixType exec(bool h = false) const
+	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
         auto elementTokens = (*tokenFactory)({{"DateToken"},{ Type::Unit::TokenName }});
         return matrix().Parse(Matcher(std::move(elementTokens)));
@@ -297,7 +297,7 @@ public:
 private:
 	const std::string fileName = "SN_Name.csv";
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
-	typename Base::MatrixType exec(bool h = false) const
+	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
 		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
@@ -312,7 +312,7 @@ public:
 private:
 	const std::string fileName = "AdditionalCosts.csv";
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
-	typename Base::MatrixType exec(bool h = false) const
+	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		//auto stageIndexTokens = (*tokenFactory)({ {"PrenameIndexToken"},{"NameIndexToken"}, {"StageIndexToken"},{"RentIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
 		auto stageIndexTokens = (*tokenFactory)({{"ProportionIndexToken"},{"SumIndexToken"},{"NameIndexToken"},{"DateIndexToken"},{"TextIndexToken"} });
@@ -328,7 +328,7 @@ public:
 private:
 	const std::string fileName = "Hall.csv";
 	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
-	typename Base::MatrixType exec(bool h = false) const
+	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"RentIndexToken"},{"AreaIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
 		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
