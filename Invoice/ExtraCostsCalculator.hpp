@@ -96,7 +96,7 @@ private:
         
 		auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
 
-		auto stageproperties = (*Base::parser)(true).Rows(0,S::Index);
+		auto stageproperties = (*Base::parser)(true, y).Rows(0,S::Index);
 	
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
         heads->push_back(std::make_unique<LinkElement>());

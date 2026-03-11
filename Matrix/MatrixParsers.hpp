@@ -44,7 +44,7 @@ public:
 	StringMatrix M() const { return matrix(); };
 private:
 	virtual MatrixType exec(bool h = false, const Year& y = Year{2025}) const = 0;
-	virtual StringMatrix matrix() const = 0;
+	virtual StringMatrix matrix(const Year& y = Year{2025}) const = 0;
 };
 
 template<>
@@ -58,7 +58,7 @@ public:
 	M3<std::string> M() const { return matrix(); };
 private:
 	virtual MatrixType exec(bool h = false, const Year& y = Year{2025}) const = 0;
-	virtual M3<std::string> matrix() const = 0;
+	virtual M3<std::string> matrix(const Year& y = Year{2025}) const = 0;
 };
 
 template<size_t N>
@@ -92,7 +92,7 @@ public:
 private:
 	AccountParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 	const std::string fileName = "SN_Name.csv";
-	M3<std::string> matrix() const
+	M3<std::string> matrix(const Year& y = Year{2025}) const
 	{
         std::vector<std::string> paths{"//U_2022.csv", "//U_2023.csv","//U_2024.csv","//U_2025.csv"};
         std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
@@ -216,7 +216,7 @@ public:
 private:
 	std::unique_ptr<std::vector<std::unique_ptr<IElementParser>>> parsers;
 	ComdirectParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p}, parsers{init()} {};
-	M3<std::string> matrix() const
+	M3<std::string> matrix(const Year& y = Year{2025}) const
 	{
         std::vector<std::string> paths{"//Comdirect.csv"};
         std::vector<Matrix<2, MatrixDescriptor<2, std::string>>> accountFiles;
@@ -281,7 +281,7 @@ class CounterParser: public IMatrixParserBase<2>
 public:
 	CounterParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
-	typename Base::StringMatrix matrix() const	{  return MatrixReader(path).template M<2>();	}
+	typename Base::StringMatrix matrix(const Year& y = Year{2025}) const	{  return MatrixReader(path).template M<2>();	}
 	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
         auto elementTokens = (*tokenFactory)({{"DateToken"},{ Type::Unit::TokenName }});
@@ -296,7 +296,7 @@ public:
 	StageParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "SN_Name.csv";
-	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
+	typename Base::StringMatrix matrix(const Year& y = Year{2025}) const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
 	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
@@ -311,7 +311,7 @@ public:
 	AdditionalCostsParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "AdditionalCosts.csv";
-	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
+	typename Base::StringMatrix matrix(const Year& y = Year{2025}) const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
 	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		//auto stageIndexTokens = (*tokenFactory)({ {"PrenameIndexToken"},{"NameIndexToken"}, {"StageIndexToken"},{"RentIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
@@ -327,7 +327,7 @@ public:
 	HallParser(std::shared_ptr<Factory<IToken>> fT, const std::string& p): IMatrixParserBase{fT, p} {};
 private:
 	const std::string fileName = "Hall.csv";
-	typename Base::StringMatrix matrix() const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
+	typename Base::StringMatrix matrix(const Year& y = Year{2025}) const	{  return MatrixReader(path + "//" + fileName).M<2>();	}
 	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"RentIndexToken"},{"AreaIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
