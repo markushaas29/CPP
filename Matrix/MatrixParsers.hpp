@@ -300,7 +300,7 @@ private:
 	typename Base::MatrixType exec(bool h = false, const Year& y = Year{2025}) const
 	{
 		auto stageIndexTokens = (*tokenFactory)({{"PrenameIndexToken"},{"NameIndexToken"},{"StreetIndexToken"},{"StreetnumberIndexToken"},{"TownIndexToken"},{"PostcodeIndexToken"},{"StageIndexToken"},{"WasteIndexToken"},{"HeatingIndexToken"},{"CleaningIndexToken"},{"SewageIndexToken"},{"PropertyTaxIndexToken"},{"InsuranceIndexToken"},{"RentIndexToken"},{"ExtraCostsIndexToken"},{"HeatExtraCostsIndexToken"}, {"GarageRentIndexToken"},{"SumPerAreaIndexToken"},{"LengthIndexToken"},{"WidthIndexToken"} });
-		return matrix().ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
+		return matrix(y).ParseByMatch(Matcher(std::move(stageIndexTokens)), h);
 	}
 };
 
