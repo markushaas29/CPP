@@ -40,7 +40,7 @@ public:
 	using Base = IBaseMatrixParser;
 	using MatrixType = Matrix<N, MatrixDescriptor<N, Base::ElementType>>;
 	using StringMatrix = Matrix<N, MatrixDescriptor<N, std::string>>;
-	MatrixType operator()(bool h = false, const Year& y = Year{2025}) const { return exec(h); };
+	MatrixType operator()(bool h = false, const Year& y = Year{2025}) const { return exec(h,y); };
 	StringMatrix M() const { return matrix(); };
 private:
 	virtual MatrixType exec(bool h = false, const Year& y = Year{2025}) const = 0;

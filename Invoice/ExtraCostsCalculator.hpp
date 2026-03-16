@@ -95,7 +95,7 @@ private:
 		divs->Add(Html<DivTag>(Header{"Nebenkosten"},std::make_unique<Css<Style<FontWeight,Bold>, Style<MarginTop,Px<200>>, Style<FontSize,Px<25>>>>(),"Header", "Header"));
         
 		auto html = HtmlBuilder(std::to_string(S::Index)+"_"+y.ToString()+".html","/home/markus/Dokumente/cpp/CSV_Files");
-
+	
 		auto stageproperties = (*Base::parser)(true, y).Rows(0,S::Index);
 	
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>(); 
