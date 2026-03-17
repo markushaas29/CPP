@@ -59,7 +59,7 @@ public:
 		Base{acc, fT,fE,fB, p}, properties((*Base::parser)(true).Rows(0,S::Index)), advancePayment{(properties[1][14].template As<Quantity<Sum>>()+properties[1][15].template As<Quantity<Sum>>()) * Quantity<Scalar>{12}} {};
 	auto AdvancePayment() { return advancePayment; }
 	auto Properties() { return properties; }
-	auto AdvanceItems() { return properties.Cols(13,14,15); }
+	auto AdvanceItems(const Year& y = Year{2025}) { return (*Base::parser)(true).Rows(0,S::Index).Cols(13,14,15); }
 	auto Result(const Year& y) { return this->Value(y) + advancePayment; }
 	auto Costs(const Year& y, const HtmlBuilder<German>& html = HtmlBuilder<German>("") ) const { return (*Base::account)(y, html); }
 private:

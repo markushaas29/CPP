@@ -44,7 +44,7 @@ class Invoice_2026
 //	  		//assert(mB2026[0][5]().Equals(Quantity<Sum>{-252.59},0.01));
 	
 	  		auto mM2026 = propM24(Year{2026}, bM). template To<Quantity<Sum>>();
-			auto costs = propM24.AdvanceItems()[1];
+			auto costs = propM24.AdvanceItems(Year{2026})[1];
 			std::cout<<"mB "<<costs<<std::endl;
 //	  		assert(mM2026[0][0]().Equals(Quantity<Sum>{-173.18},0.01));
 //				assert(mM2026[0][1]().Equals(Quantity<Sum>{-173.18},0.01));
