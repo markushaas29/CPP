@@ -39,7 +39,7 @@ class Invoice_2023
 			assert(costs[5]().Equals(Quantity<Sum>{-1061.32},0.01));
 			
 			auto bMS = propB23(Year{2023}, bM). template To<Quantity<Sum>>();
-			auto propB = propB23.AdvanceItems()[1];
+			auto propB = propB23.AdvancedItems()[1];
 			assert(propB23.AdvancePayment().Equals(Quantity<Sum>{2424},0.01));
 			assert(propB23.Result(Year{2023}).Equals(Quantity<Sum>{-46.28},0.01));
 			assert(propB()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{458});
@@ -56,7 +56,7 @@ class Invoice_2023
 			auto propM23 = ExtraCostsCalculator<Middle>(account, tokenFactory,elementFactory,visitorFactory,path);
 			
 			auto mMS = propM23(Year{2023}, bM). template To<Quantity<Sum>>();
-			auto propM = propM23.AdvanceItems()[1];
+			auto propM = propM23.AdvancedItems()[1];
 			assert(propM23.AdvancePayment().Equals(Quantity<Sum>{3720},0.01));
 			assert(propM23.Result(Year{2023}).Equals(Quantity<Sum>{1088.80},0.01));
 			assert(propM()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{525});
@@ -72,7 +72,7 @@ class Invoice_2023
 
 			auto propT23 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			auto mTS = propT23(Year{2023}, bM). template To<Quantity<Sum>>();
-			auto propT = propT23.AdvanceItems()[1];
+			auto propT = propT23.AdvancedItems()[1];
 //			assert(propT23.AdvancePayment().Equals(Quantity<Sum>{16200},0.01));
 //			assert(propT23.Result(Year{2023}).Equals(Quantity<Sum>{13559.91},0.01));
 			assert(propT()[0]. template As<Quantity<Sum>>()==Quantity<Sum>{1});

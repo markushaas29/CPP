@@ -34,15 +34,11 @@ public:
 	decltype(auto) operator()() const
 	{
 		auto mS22 = filter().Cols(4,6,7,11);
-        std::cout<<"MS 22"<<mS22<<std::endl;
-
         auto ms22F = MatrixFilter<decltype(mS22)>(mS22);
         UniqueElements<decltype(mS22)> ue;
         auto uni = ms22F(2,[&](const auto& s) { return ue(s);});
 
 		auto ibans = ue();
-
-        std::cout<<"UNI: "<<ue<<std::endl;
 
 		std::vector<std::string> vec;
 
@@ -58,14 +54,6 @@ public:
 				vec.push_back(i);
 			}
 		}
-
-//		M3 m3(mx);
-		
-//		auto r2 = filter(4,[&](const auto& s) { return !Date(s).Valid();});
-//		auto rd = filter(4,[&](const auto& s) { return Date(s).M() == 1;});
-//
-//		auto mi = Init(vec);
-//		auto mp = MatrixProjector<decltype(mi()),TupleType>(mi());
 
 		return vec;
 	}

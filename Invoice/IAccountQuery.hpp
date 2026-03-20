@@ -74,7 +74,6 @@ private:
 
 		for(auto i : ibans)
 		{
-			std::cout<<m22[i][3][0]()<<std::endl;
 			allFactoryUnits.push_back(
 			{m22[i][3][0](),
 				{
