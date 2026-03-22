@@ -1,5 +1,5 @@
 Stage;Pre;Name;Street;Streetnumber;Town;Postcode;IBAN;Waste;Heating;Insurance;Cleaning;PropertyTax;Sewage;Rent;HeatExtraCosts;ExtraCosts;GarageRent;SumPerArea;Width;Length
-Bottom;Familie;Brustat;Ruchenstrasse;14;Dettenheim;76706;DE83660623660009262008;2;100;1;1;101;1;458;135;67;0;100;1;458
+Bottom;Familie;Brustat;Ruchenstrasse;14;Dettenheim;76706;DE83660623660009262008;2;100;1;1;101;1;500;135;67;0;100;1;458
 Middle;Jaqueline;Zeiher;Ruchenstrasse;14;Dettenheim;76706;DE10660501011022126625;3;100;1;1;101;1;600;0;310;40;100;1;500
 Top;Markus;Haas;Ruchenstrasse;14;Dettenheim;76706;DE05660623660009331409;1;70;2;3;58;1;1;150;350;1;70;3;1000
 Hall;Nikolai;Weil;Hinterstrasse;1i;Dettenheim;76706;DE05660623660009331409;0;0;0;0;0;0;0;1000;350;0;1.35;3.5;12
