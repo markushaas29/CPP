@@ -46,7 +46,15 @@ class Invoice_2025
 			auto calculatorT = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 
 			auto mB2025 = calculatorB(Year{2025}, bM). template To<Quantity<Sum>>();
-			std::cout<<"mB "<<calculatorB.Value(Year{2025})<<std::endl;
+			auto aB26 = calculatorB.AdvancedItems(Year{2025});
+			std::cout<<"mB "<<aB26<<std::endl;
+			assert(aB26[0][0]()->Data()=="Miete");
+			assert(aB26[0][1]()->Data()=="Heiznebenkosten");
+			assert(aB26[0][2]()->Data()=="Nebenkosten");
+			assert(*aB26[1][0]()==Quantity<Sum>{458});
+			assert(*aB26[1][1]()==Quantity<Sum>{135});
+			assert(*aB26[1][2]()==Quantity<Sum>{67});
+			
 			assert(mB2025[0][0]().Equals(Quantity<Sum>{-115.45},0.01));
 			assert(mB2025[0][1]().Equals(Quantity<Sum>{-1579.03},0.01));
 			assert(mB2025[0][2]().Equals(Quantity<Sum>{-539.76},0.01));
