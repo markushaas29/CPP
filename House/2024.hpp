@@ -32,6 +32,17 @@ class Invoice_2024
 			auto propT24 = ExtraCostsCalculator<Top>(account, tokenFactory,elementFactory,visitorFactory,path);
 			
 		    auto bMS = propB24(Year{2024}, bM). template To<Quantity<Sum>>();
+
+			auto aB26 = propB24.AdvancedItems(Year{2024});
+			std::cout<<"mB "<<aB26<<std::endl;
+			assert(aB26[0][0]()->Data()=="Miete");
+			assert(aB26[0][1]()->Data()=="Heiznebenkosten");
+			assert(aB26[0][2]()->Data()=="Nebenkosten");
+			assert(*aB26[1][0]()==Quantity<Sum>{458});
+			assert(*aB26[1][1]()==Quantity<Sum>{135});
+			assert(*aB26[1][2]()==Quantity<Sum>{67});
+			
+
 			assert(propB24.Result(Year{2024}).Equals(Quantity<Sum>{-800.42},0.01));
 			assert(bMS[0][0]().Equals(Quantity<Sum>{-111.60},0.01));
 			assert(bMS[0][1]().Equals(Quantity<Sum>{-1515.98},0.01));
@@ -42,6 +53,14 @@ class Invoice_2024
 			assert(propB24.Value(Year{2024}).Equals(Quantity<Sum>{-3224.42},0.01));
 			
 			auto mMS = propM24(Year{2024}, bM). template To<Quantity<Sum>>();
+			auto aM26 = propM24.AdvancedItems(Year{2025});
+			assert(aM26[0][0]()->Data()=="Miete");
+			assert(aM26[0][1]()->Data()=="Heiznebenkosten");
+			assert(aM26[0][2]()->Data()=="Nebenkosten");
+			assert(*aM26[1][0]()==Quantity<Sum>{525});
+			assert(*aM26[1][1]()==Quantity<Sum>{0});
+			assert(*aM26[1][2]()==Quantity<Sum>{310});
+			
 			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{3720},0.01));
 			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{299.20},0.01));
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-167.40},0.01));

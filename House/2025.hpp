@@ -47,7 +47,6 @@ class Invoice_2025
 
 			auto mB2025 = calculatorB(Year{2025}, bM). template To<Quantity<Sum>>();
 			auto aB26 = calculatorB.AdvancedItems(Year{2025});
-			std::cout<<"mB "<<aB26<<std::endl;
 			assert(aB26[0][0]()->Data()=="Miete");
 			assert(aB26[0][1]()->Data()=="Heiznebenkosten");
 			assert(aB26[0][2]()->Data()=="Nebenkosten");
@@ -65,7 +64,6 @@ class Invoice_2025
 		
 			auto mM2025 = calculatorM(Year{2025}, bM). template To<Quantity<Sum>>();
 			auto aM26 = calculatorM.AdvancedItems(Year{2025});
-			std::cout<<"mB "<<aM26<<std::endl;
 			assert(aM26[0][0]()->Data()=="Miete");
 			assert(aM26[0][1]()->Data()=="Heiznebenkosten");
 			assert(aM26[0][2]()->Data()=="Nebenkosten");
