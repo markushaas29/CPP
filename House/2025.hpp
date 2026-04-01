@@ -69,7 +69,7 @@ class Invoice_2025
 			assert(aM26[0][2]()->Data()=="Nebenkosten");
 			assert(*aM26[1][0]()==Quantity<Sum>{525});
 			assert(*aM26[1][1]()==Quantity<Sum>{0});
-			assert(*aM26[1][2]()==Quantity<Sum>{310});
+			assert(*aM26[1][2]()==Quantity<Sum>{210});
 			assert(mM2025[0][0]().Equals(Quantity<Sum>{-173.18},0.01));
 			assert(mM2025[0][1]().Equals(Quantity<Sum>{-1579.03},0.01));
 			assert(mM2025[0][2]().Equals(Quantity<Sum>{-539.76},0.01));

@@ -59,10 +59,10 @@ class Invoice_2024
 			assert(aM26[0][2]()->Data()=="Nebenkosten");
 			assert(*aM26[1][0]()==Quantity<Sum>{525});
 			assert(*aM26[1][1]()==Quantity<Sum>{0});
-			assert(*aM26[1][2]()==Quantity<Sum>{310});
+			assert(*aM26[1][2]()==Quantity<Sum>{210});
 			
-			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{3720},0.01));
-			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{299.20},0.01));
+			assert(propM24.AdvancePayment().Equals(Quantity<Sum>{2520},0.01));
+			assert(propM24.Result(Year{2024}).Equals(Quantity<Sum>{-900.80},0.01));
 			assert(mMS[0][0]().Equals(Quantity<Sum>{-167.40},0.01));
 			assert(mMS[0][1]().Equals(Quantity<Sum>{-1515.98},0.01));
 			assert(mMS[0][2]().Equals(Quantity<Sum>{-526.72},0.01));
