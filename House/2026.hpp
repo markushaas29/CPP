@@ -43,6 +43,8 @@ class Invoice_2026
 			assert(*aB26[1][1]()==Quantity<Sum>{135});
 			assert(*aB26[1][2]()==Quantity<Sum>{67});
 			auto mB2026 = calculatorB(Year{2026}, bM). template To<Quantity<Sum>>();
+			auto costs = calculatorB.Costs(Year{2026}, bM);//. template To<Quantity<Sum>>();
+	  		std::cout<<"Costs \n"<<costs<<std::endl;
 //			assert(mB2026[0][0]().Equals(Quantity<Sum>{-115.45},0.01));
 //			assert(mB2026[0][1]().Equals(Quantity<Sum>{-115.45},0.01));
 //	  		assert(mB2026[0][2]().Equals(Quantity<Sum>{-539.76},0.01));
@@ -58,7 +60,7 @@ class Invoice_2026
 			assert(*aM26[1][1]()==Quantity<Sum>{0});
 			assert(*aM26[1][2]()==Quantity<Sum>{310});
 	  		auto mM2026 = calculatorM(Year{2026}, bM). template To<Quantity<Sum>>();
-			auto costs = calculatorM.AdvancedItems(Year{2026})[1];
+			auto advanced = calculatorM.AdvancedItems(Year{2026})[1];
 //	  		assert(mM2026[0][0]().Equals(Quantity<Sum>{-173.18},0.01));
 //				assert(mM2026[0][1]().Equals(Quantity<Sum>{-173.18},0.01));
 //	  		assert(mM2026[0][2]().Equals(Quantity<Sum>{-539.76},0.01));
@@ -67,7 +69,6 @@ class Invoice_2026
 //				assert(mM2026[0][5]().Equals(Quantity<Sum>{-252,59.18},0.01));
 	
 	  		auto mT2026 = calculatorT(Year{2026}, bM). template To<Quantity<Sum>>();
-	  		std::cout<<"mB "<<mT2026<<std::endl;
 //	  		assert(mT2026[0][0]().Equals(Quantity<Sum>{-57.73},0.01));
 //				assert(mT2026[0][1]().Equals(Quantity<Sum>{-57.73},0.01));
 //	  		assert(mT2026[0][2]().Equals(Quantity<Sum>{-1079.52},0.01));
