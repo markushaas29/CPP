@@ -30,6 +30,7 @@ public:
 	auto Names() const { return names(); };
 	virtual const std::string& Name() const = 0;
 	virtual std::ofstream& operator()(std::ofstream& s) const = 0;
+	decltype(auto) Items() const { return itemsM(); };
 	decltype(auto) Elements() {	return Init(elements())(); 	};
 	decltype(auto) Funcs()	{	return Init(funcs())(); };
 	decltype(auto) FuncVec() { return funcs(); }
@@ -49,6 +50,7 @@ public:
 	}
 private:
 	friend 	std::ostream& operator<<(std::ostream& out, const IResult& s) {	return s.display(out);	}
+	virtual MType& itemsM() const = 0;
 	virtual std::unique_ptr<IHtmlElement> cssHtml(std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const {	return html(nullptr, nullptr,n,id);	};
 	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {  return printContent(1,std::move(v),std::move(css),n,id);  };
 	virtual MatrixOne names() const = 0;
@@ -83,6 +85,7 @@ private:
 	std::string infos;
 	friend 	std::ostream& operator<<(std::ostream& out, const Result& s)	{	return out<<"Name: "<<s.name<<"\n"<<s.item<<"\nValue: "<<s.value<<s.result;	}
 	std::ostream& display(std::ostream& out) const { return out<<(*this); }
+	virtual MType& itemsM() const { MType m; return m; };
 	virtual std::vector<std::shared_ptr<IElement>> elements() const	{	return std::vector<std::shared_ptr<IElement>>{ std::make_shared<Q>(result()) };	};
 	virtual std::vector<typename Base::FuncType> funcs() const { return {result};};
 	virtual typename Base::MatrixOne names() const 
@@ -124,6 +127,7 @@ private:
 		std::for_each(s.items->cbegin(), s.items->cend(), [&out](const auto& i) { out<<*i<<"\n"; });
 		return out<<"Value: "<<s.value;	
 	}
+	virtual MType& itemsM() const { MType m; return m; };
 	virtual std::vector<std::shared_ptr<IElement>> elements() const
 	{
 		std::vector<std::shared_ptr<IElement>> v;
