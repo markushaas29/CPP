@@ -65,7 +65,7 @@ protected:
 		auto heads = std::make_unique<std::vector<std::unique_ptr<IHtmlElement>>>();
 		heads->push_back(std::make_unique<LinkElement>("AccountStyle"));
 		hb.Add(std::make_unique<HtmlElements<Head>>(std::move(heads)));
-		//std::cout<<"RESULT:\n\n"<<*result<<std::endl;
+		(*result)["ABC"];
         hb.Add(result->Html());
 		hb();
 
