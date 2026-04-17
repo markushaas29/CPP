@@ -259,7 +259,7 @@ private:
 			auto match = std::find_if(row.begin(), row.end(), [&str] (const auto& v) { return *v ==  str; });
 			if(match != row.end())
 			{
-				std::cout<<"Found: "<<str<<std::endl;
+				//std::cout<<"Found: "<<str<<std::endl;
 				++rows;
 				std::for_each(row.cbegin(), row.cend(), [&vec](auto e)
 						{
