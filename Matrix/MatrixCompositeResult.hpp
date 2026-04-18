@@ -29,6 +29,7 @@ public:
 	virtual Q Value() const = 0;
 	auto Names() const { return names(); };
 	auto Count() const { return count(); };
+	auto operator[](size_t i) const { return get(i); };
 	virtual const std::string& Name() const = 0;
 	virtual std::ofstream& operator()(std::ofstream& s) const = 0;
 	decltype(auto) operator[](const std::string& s) const { return itemsM(s); };
@@ -56,6 +57,7 @@ private:
 	virtual std::unique_ptr<IHtmlElement> html(std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {  return printContent(1,std::move(v),std::move(css),n,id);  };
 	virtual MatrixOne names() const = 0;
 	virtual size_t count() const = 0;
+	virtual Q get(size_t i) const = 0;
 	virtual const std::string& info() const = 0;
 	virtual std::vector<std::shared_ptr<IElement>> elements() const = 0;
 	virtual std::vector<FuncType> funcs() const = 0;
@@ -103,6 +105,7 @@ private:
 	virtual std::unique_ptr<IHtmlElement> print(int i,std::unique_ptr<IHtmlElement> v = nullptr, std::unique_ptr<ICss> css = nullptr, const std::string& n="", const std::string& id="") const  {	return MatrixFormatter(item).Html(std::make_unique<Css<Style<Margin,Px<50>>>>()); };	
 	virtual const std::string& info() const { return infos; };
 	virtual size_t count() const { return 1; };
+	virtual Q get(size_t i) const { return Q{0}; };
 };
 
 template<typename Q, typename MType>
@@ -158,6 +161,7 @@ private:
 		return v; 
 	};
 	virtual size_t count() const { return 1; };
+	virtual Q get(size_t i) const { return Q{0}; };
 	virtual typename Base::MatrixOne names() const 
 	{
 		std::vector<std::shared_ptr<IElement>> res;
