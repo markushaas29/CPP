@@ -97,6 +97,7 @@ class AccountCalculator: public AccountCalculatorBase, public IAccount
 	using Base = AccountCalculatorBase;
 public:
 	AccountCalculator(std::shared_ptr<Factory<IToken>> fT,std::shared_ptr<Factory<IElement>> fE,std::shared_ptr<Factory<BaseVisitor>> fB, const std::string& p): Base{fT,fE,fB,p} {};
+	auto GetYear(const Year& y, const HtmlBuilder<German>& f) const { return getTokens(y,f); }
 private:
 	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> get(std::unique_ptr<IAccountQuery> q, const HtmlBuilder<German>& f) const { return getTokens(Year{2025},f,std::move(q)); };
 	virtual Matrix<2,MatrixDescriptor<2,std::shared_ptr<IElement>>> getTokens(const Year& y, const HtmlBuilder<German>& f, std::unique_ptr<IAccountQuery> q = std::make_unique<ExtraCostQuery>()) const
