@@ -11,8 +11,8 @@ class Invoice_2026
 
 			auto account = std::make_shared<AccountCalculator>(tokenFactory,elementFactory,visitorFactory, path);
 			auto bM = HtmlBuilder<German>("Middle_T_2003.html");
-			auto aq = account->GetYear(y,bM);
-			std::cout<<"\nAQ 2026\n"<<aq<<std::endl;
+			auto aq = account->Result(y,bM);
+			std::cout<<"\nAQ 2026\n"<<*aq<<std::endl;
 			
 			auto hall = std::make_unique<Hall<HallOne>>(tokenFactory,elementFactory,visitorFactory,path);
 			auto hallM = (*hall)(Year(2026),bM). template To<Quantity<Sum>>();
