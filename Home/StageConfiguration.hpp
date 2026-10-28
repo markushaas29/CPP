@@ -9,8 +9,6 @@
 #include "Parser.hpp"
 #include "CounterContainer.hpp"
 #include "StageQuantities.hpp"
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/vector.hpp>
 #include <map>
 #include <chrono>
 #include <ctime>

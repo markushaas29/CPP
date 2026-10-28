@@ -1,4 +1,4 @@
-			#include <algorithm>
+#include <algorithm>
 #include <functional>
 #include <iostream>
 #include <fstream>
@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <map>
 #include "../Logger/Logger.hpp"
-#include "../File/Account.hpp"
+//#include "../File/Account.hpp"
 #include "../File/Repository.hpp"
 #include "../File/FileSystem.hpp"
 namespace fs = std::filesystem;
@@ -63,7 +63,7 @@ bool Directory_exists(const fs::path& p, fs::file_status s = fs::file_status{})
 std::string GetTarget()
 {
     const std::string usb ="/media/markus/BACKUP/";
- 	const std::string seagate ="/media/markus/Seagate/";
+ 	const std::string seagate ="/run/media/markus/Seagate/";
 	const std::string usb128 ="/media/markus/539512b8-9fc1-41a3-b359-2be6c2eecdcc/";
 	
 	if(Directory_exists(usb)) 

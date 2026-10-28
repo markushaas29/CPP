@@ -11,8 +11,6 @@
 #include "CounterConfiguration.hpp"
 #include "StageQuantities.hpp"
 #include "StageConfiguration.hpp"
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/vector.hpp>
 #include <map>
 #include <tuple>
 #include <chrono>
